@@ -4,7 +4,7 @@ You are building `videos/<slug>-v2.mp4`: replacing off-format board spans in a s
 lesson video with legs built from CURRENT page captures, using the app's highlight
 system. HARD RULES: never modify the shipped `videos/<slug>.mp4`; never run git
 commands; narration/audio is untouchable (stream-copied). The house highlight system
-is thin purple rings + tinted label chips popping at narration onsets — NEVER
+uses outline rings popping at narration onsets, with no shaded text or heading fills — NEVER
 reproduce the engine's yellow washes, marker circles, underlines, orange arrows or
 corner brackets in any form.
 
@@ -13,6 +13,21 @@ command because that breaks the relative `.video-venv/...` paths. Python:
 `.video-venv/bin/python` (has cv2, faster_whisper, imageio_ffmpeg). ffmpeg:
 `bash scripts/video/ffmpeg.sh ...`.
 Shell is zsh: `for x in "a b"` does NOT word-split; write args explicitly.
+
+## Preserve useful Notebook visuals (owner clarification, 2026-09-09)
+
+Keep the original Notebook opening, illustrations, and motion graphics wherever
+they support the narration accurately. A board repair should replace the actual
+board walkthrough, not expand that board over the whole topic. Use original
+visuals for the setup and transitions, then the current course board when its
+rows or examples are being taught. A useful visual from a cut passage may be
+reused under matching retained narration without restoring the removed audio.
+
+Use outlines only for video highlights (owner correction, 2026-09-09). Do not add
+shading, tinted fills, or chips behind column titles, card headings, labels, or
+other text. Preserve the board’s existing colors and backgrounds. The outline
+alone identifies the active item, including on the final board. This supersedes
+the earlier heading-fill instruction.
 
 ## Canonical content-board walk (mandatory)
 
@@ -67,16 +82,12 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
   rects.json band), adjust find strings; WRAP_UP=N env walks N ancestors up.
 - STATES.json: `{"states":[{}, {"panels":[{"label":"...","ring":"#hex"}]},
   {"elements":[{"text":"...","ring":"#hex"}]}, ...]}`. Element entries accept
-  `"row": true` (ring a bullet row incl. its dot) and `"mark": true` (tinted
-  sentence-highlight inside a paragraph). Accent-colored cards ring in their OWN
+  `"row": true` (ring a bullet row incl. its dot) and `"mark": true` (sentence target inside a paragraph, outlined without fill). Accent-colored cards ring in their OWN
   accent color, not purple. One ring per point the narration makes.
-- Verify every state PNG visually (sips -Z 1100 + Read). If a chip highlight SHIFTS
-  a centered heading or reflows anything (compare state-N vs state-0), fall back to
-  post-compositing: keep state-0, draw the 12px (3px CSS) rounded ring +
-  `#6e51ff` 13%-alpha chip pill behind the label text with cv2 at 4x (measure text
-  extent from dark pixels in the label strip; rects.json gives label rects — harvest
-  element rects with a dummy element state if needed). States must be pixel-identical
-  outside the highlight.
+- Verify every state PNG visually. Preserve the clean board pixels and composite
+  only the outline at a constant 5-pixel weight on the 1280×720 delivery frame.
+  Text and its background must remain unchanged; no label chips or shaded fills.
+  States must be pixel-identical outside the outline.
 - Match highlight granularity to the narration. Ring the whole board or card while the
   narration addresses it as a whole; move to an item or row ring when the narration
   names that part. If the narration walks several sections, the ring walks them too.
@@ -90,8 +101,7 @@ node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
 - Resolve every highlight color in the repair manifest before capture. A target inside
   an Editorial Explainer card or flow step inherits that component's stored locked
   accent: green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`, editorial purple
-  `#4f2fc4`, amber `#a9760c`, or red `#c41f28`. Use the exact same token for the ring
-  and any title chip. Never infer color from column position, sample the illustration,
+  `#4f2fc4`, amber `#a9760c`, or red `#c41f28`. Use the exact same token for the ring. Never infer color from column position, sample the illustration,
   or default an accented component to purple. A neutral title or board-wide target may
   use standard video purple `#6e51ff`. Write both `highlight_color` and
   `highlight_source` in the board sync manifest; acceptable sources are
@@ -147,7 +157,7 @@ drops a frame).
    approved shot; no frame from an old graphic may survive. Never approve a seam
    from Whisper or second-based timing alone.
 5. Junction smoothness inside legs: state-pop junctions should diff <12 (motion
-   continuous, only the ring/chip changes).
+   continuous, only the ring changes).
 6. Save review frames to /tmp/retrofit-review/<slug>/: for each replaced span, the
    original frame and the -v2 frame at span start+1s and span midpoint, full res.
 7. Eyeball (Read) each leg's dive/hold framing: text legible, nothing sliced, ring on

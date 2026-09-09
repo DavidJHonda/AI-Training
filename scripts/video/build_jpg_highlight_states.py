@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build stable ring-and-chip highlight states from a flat 16:9 board JPG.
+"""Build stable outline-only highlight states from a flat 16:9 board JPG.
 
 The JSON plan supplies absolute narration junction frames and rectangles in the
 source image's pixel coordinates.  Every state is composited from the same base
@@ -40,18 +40,8 @@ def rounded_ring(image, rect, color, radius=24, thickness=6):
 
 
 def tint_chip(image, rect, color, alpha=0.13, radius=14):
-    x1, y1, x2, y2 = rect
-    overlay = image.copy()
-    cv2.rectangle(overlay, (x1 + radius, y1), (x2 - radius, y2), color, -1)
-    cv2.rectangle(overlay, (x1, y1 + radius), (x2, y2 - radius), color, -1)
-    for center, start, end in (
-        ((x1 + radius, y1 + radius), 180, 270),
-        ((x2 - radius, y1 + radius), 270, 360),
-        ((x2 - radius, y2 - radius), 0, 90),
-        ((x1 + radius, y2 - radius), 90, 180),
-    ):
-        cv2.ellipse(overlay, center, (radius, radius), 0, start, end, color, -1)
-    cv2.addWeighted(overlay, alpha, image, 1.0 - alpha, 0, image)
+    """Legacy compatibility: heading/text fills are disabled by owner rule."""
+    return None
 
 
 def main():
@@ -104,14 +94,7 @@ def main():
 
         state = base.copy()
         color = bgr(item.get("color", "#6e51ff"))
-        if item.get("chip"):
-            tint_chip(
-                state,
-                item["chip"],
-                color,
-                float(item.get("chip_alpha", 0.13)),
-                int(item.get("chip_radius", 14)),
-            )
+        # Legacy chip fields are ignored; highlights add outlines only.
         if item.get("ring"):
             rounded_ring(
                 state,

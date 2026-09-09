@@ -1,0 +1,41 @@
+[0:00.00–0:06.13] 6.1 seconds
+When we use AI, the exact same prompt can often produce completely different answers.
+
+[0:06.13–0:16.70] 10.6 seconds
+Today, we are going to look at why that happens, what controls the predictability of those answers, and exactly how much math is required to generate a single response. To start, let's look at a simple prompt.
+
+[0:16.70–0:23.27] 6.6 seconds
+To start, let's look at a simple prompt. Imagine you ask an AI, what should I name my new dog? When the model reaches the point in its output to actually generate the name, it pauses.
+
+[0:23.27–0:34.47] 11.2 seconds
+When the model reaches the point in its output to actually generate the name, it pauses. It calculates a specific probability for every single word in its vocabulary to decide what comes next.
+
+[0:34.47–0:58.53] 24.1 seconds
+This table shows the AI's internal probability calculation. Spot is the top choice here, holding a 22% probability. It's tempting to assume the AI automatically picks this highest-ranked word every time, but that ranking is not a guarantee. It strictly means that if the odds stay the same, the AI picks Spot about 22 times out of 100 tries. To see this in practice, look at the right side.
+
+[0:58.70–1:38.47] 39.8 seconds
+To see this in practice, look at the right side. Here are five completely isolated tries, where the starting probabilities remain unchanged. The outcomes vary. Max, Spot, Buddy, Rex, and Max again. These aren't five words in a sequence, forming a sentence. They are separate, parallel outcomes occurring at the exact same point. The system operates this way for a reason. If the AI locked into the most likely word every time, its writing would become highly repetitive. Giving slightly less likely words a chance adds necessary variety. Because each chosen word permanently alters the context, one tiny variation here sends the generated text in a completely different direction. Behind the scenes, the application uses a setting called temperature
+
+[1:38.47–1:46.57] 8.1 seconds
+Behind the scenes, the application uses a setting called temperature to reshape those raw probabilities before the model ever selects a word.
+
+[1:51.30–2:09.37] 18.1 seconds
+Low temperature concentrates existing probability. For example, the likelihood of choosing Spot jumps from 22 up to 36%. By pulling points away from less likely options, low temperature forces the AI into a highly predictable state. Based on what you just saw, take a moment to predict how a high temperature setting
+
+[2:09.37–2:41.93] 32.6 seconds
+Based on what you just saw, take a moment to predict how a high temperature setting will affect the least likely choices here. A high temperature setting achieves the exact opposite effect. It takes the probability and spreads it out much more evenly across all available options. Look at the shift at the bottom. While the favorite drops, the combined other categories surges from 32 to 39%, giving unlikely words a massive boost. Adjusting this strictly reshaped selection math at the end, it does not alter the internal weights the model established during training.
+
+[2:41.93–2:51.07] 9.1 seconds
+Temperature operates as a direct control dial, allowing you to balance safe, highly predictable text against varied, unpredictable phrasing. Now let us step away from how words are chosen,
+
+[2:51.07–3:11.33] 20.3 seconds
+Now let us step away from how words are chosen, and look at the sheer scale of the calculations required to make a single choice. During training, the model establishes fixed numbers called weights. To predict a single new word, or token, the system must actively run these fixed weights through a massive set of calculations. This graphic breaks down the volume of that math.
+
+[3:11.33–3:34.33] 23.0 seconds
+This graphic breaks down the volume of that math. Imagine a hypothetical model containing one trillion weights. At an average of two operations per weight, it takes roughly two trillion calculations to output one single token. Two trillion calculations is the hidden computational cost required to produce just one word. When we scale this to everyday usage, the numbers grow rapidly.
+
+[3:34.67–3:44.70] 10.0 seconds
+When we scale this to everyday usage, the numbers grow rapidly. A basic 100-token short answer demands 200 trillion calculations. If you engage in a longer back-and-forth conversation requiring 1000 tokens,
+
+[3:44.70–3:54.20] 9.5 seconds
+If you engage in a longer back-and-forth conversation requiring 1000 tokens, the math skyrockets to two quadrillion calculations. These numbers strictly apply to the brand new tokens the AI is actively writing.

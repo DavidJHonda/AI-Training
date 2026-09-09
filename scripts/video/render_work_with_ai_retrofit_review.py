@@ -284,7 +284,20 @@ def render_strength(number: int, title: str, mechanism: str, examples: list[str]
     draw_board_title(draw, title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
     draw.rounded_rectangle((84, 166, 704, 781), radius=18, fill=mix(accent, .08), outline=mix(accent, .22), width=2)
-    art_img = base.art_panel((560, 315), accent, art)
+    art_size = (560, 315)
+    project_art = ROOT / "scripts/video/assets/work-with-ai/card-illustrations" / f"{art}.png"
+    if project_art.exists():
+        source = Image.open(project_art).convert("RGB")
+        scale = max(art_size[0] / source.width, art_size[1] / source.height)
+        resized = source.resize(
+            (round(source.width * scale), round(source.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
+        left = (resized.width - art_size[0]) // 2
+        top = (resized.height - art_size[1]) // 2
+        art_img = resized.crop((left, top, left + art_size[0], top + art_size[1]))
+    else:
+        art_img = base.art_panel(art_size, accent, art)
     canvas.paste(art_img, (114, 198), rounded_mask((560, 315), 14))
     draw.rounded_rectangle((114, 548, 360, 602), radius=27, fill=accent)
     draw.text((237, 575), f"STRENGTH {number} OF 4", font=face("bold", 20), fill=WHITE, anchor="mm")
@@ -415,7 +428,9 @@ def render_all() -> None:
     which_app = generated_asset(generated / "exec-93a9ae25-30a4-48c8-b4f7-c647d8d8469d.png", "which-app-titleless.png")
     context_close = generated_asset(generated / "exec-1decf9f6-18dc-4750-ae21-2673aedbaf8e.png", "context-choice-titleless.png")
     evaluate = generated_asset(generated / "exec-f4e796ef-7c20-41e7-85ea-4bdfc79c2c5e.png", "evaluate-titleless.png")
-    where = generated_asset(generated / "exec-e2e6fb11-c324-4396-9cc2-58c1d34be0fb.png", "where-ai-works-best-titleless.png")
+    # Approved current Nate-and-Luke identities live in a project-owned source,
+    # so this board remains reproducible without a Codex generated-image path.
+    where = ROOT / "scripts/video/assets/work-with-ai/where-ai-works-best-titleless-v2.png"
     rules = generated_asset(generated / "exec-3b0a1ac8-d9d3-4a92-abe7-3734f52e0293.png", "rules-patterns-titleless.png")
 
     # Work With AI opener
@@ -450,7 +465,7 @@ def render_all() -> None:
     ], "Trained behavior is harder to predict, inspect, and lock down.", board_path("ai-is-different", "06-ai-kryptonite.jpg"))
 
     # Where AI Works Best
-    render_teaching_board("Code A+. Lesson Draft C-.", where, board_path("where-ai-works-best", "01-code-a-lesson-c.jpg"), "AI is strongest when the work follows patterns.")
+    render_teaching_board("AI Helped Us Build This Course", where, board_path("where-ai-works-best", "01-code-a-lesson-c.jpg"), "AI is strongest when the work follows patterns.")
     render_strength(1, "Patterned Transformation", "AI learns patterns, so it can recast your input into something clearer, cleaner, or better structured. The meaning stays; the shape changes.", ["Coding help", "Reformatting messy data", "Translating between languages", "Turning an outline into prose"], BLUE, "transform", "Patterns make the transformation repeatable.", "Use AI when the meaning stays and the shape changes.", board_path("where-ai-works-best", "02-patterned-transformation.jpg"))
     render_strength(2, "Generative Variation", "There are usually many likely answers. AI can generate several useful versions at once so you have options to react to.", ["Brainstorming angles", "Generating ten variations", "Rewriting in a new tone", "First drafts of common documents"], AMBER, "variation", "Many possible answers can all be useful.", "Use AI when several possible answers are useful.", board_path("where-ai-works-best", "03-generative-variation.jpg"))
     render_strength(3, "Semantic Compression and Retrieval", "AI can read past the words to what they mean, then shrink long material or surface the one part you need.", ["Summarizing a chapter", "Extracting key points", "Finding one relevant section", "Answering from supplied material"], PURPLE, "books", "Meaning links related ideas across the material.", "Use AI to find the meaning inside a lot of material.", board_path("where-ai-works-best", "04-compression-retrieval.jpg"))

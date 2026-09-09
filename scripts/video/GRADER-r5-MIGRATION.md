@@ -46,7 +46,7 @@ This checklist proves that r5 is a consolidation, not a clean-slate rewrite.
 | Dense-board dive and pan treatment | Retained and fully defined | Board Walk gate |
 | Never crop inside a board card | Retained | Board Walk gate |
 | Notebook highlighting forbidden | Retained | No Notebook Highlight gate |
-| Native ring-and-chip highlighting | Retained | No Notebook Highlight gate |
+| Native outline-only highlighting | Retained | No Notebook Highlight gate |
 | Standard close uses exact app render | Retained | Standard Close gate |
 | Standard close fixed endpoint and final size | Retained | Standard Close gate |
 | Longer close narration adds hold, not zoom | Retained | Standard Close gate |

@@ -4,19 +4,7 @@
 
 When you type 2 + 2 on the calculator on your phone, you always get 4. Same input, same answer, every time. AI doesn’t work that way. Consider the following: identical questions, asked to AI by two different people.
 
-**What car should I buy after I graduate from college?**
-
-#### 👦🏻 Luke’s AI
-
-**ChatGPT Answers**
-
-Great question, Luke. I definitely recommend a **Jeep Cherokee**.
-
-#### 👱‍♂️ Nate’s AI
-
-**ChatGPT Answers**
-
-I’m happy you asked this question, Nate. At this point in your life, I recommend the **Ford Raptor**.
+![Same Question. Different Answers. Luke and Nate ask what car they should buy after college. Luke’s AI recommends a versatile Jeep Cherokee because he has not shared a strong vehicle preference. Nate’s AI recommends a Ford Raptor because he previously said he loves pickup trucks. Same question. Different context. Different answer.](context-window-same-question-v2.jpg)
 
 Wait a second. In the last lab, you changed the answer by changing the prompt. But this time, Luke and Nate typed the exact same prompt into the same app, and still got different answers!
 
@@ -32,25 +20,7 @@ What do you call everything the model can see when it answers your question? The
 
 That’s what gets in. Here’s what doesn’t.
 
-Outside the window
-
-## Older chats
-
-What you said in a different conversation. A new chat starts cold, unless the app saved a note about it.
-
-## Web pages you didn’t send
-
-The model isn’t browsing. Search works because the app fetches a page and drops its text into the window.
-
-## Files on your computer
-
-Nothing on your device is visible. Uploading works by copying the file’s text into the window.
-
-## Other apps and tabs
-
-Whatever you have open next door is invisible. Different app, different window.
-
-If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.
+![Outside the Window. Four cards show information the model cannot see: older chats, unsent web pages, files on your computer, and other apps and tabs. If it isn’t in the context window, the model can’t see it.](context-window-outside-v2.jpg)
 
 ## Personalization and Saved Memory
 

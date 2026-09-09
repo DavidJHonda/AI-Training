@@ -6,6 +6,65 @@ here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
 how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
+## Source and editing workflow (owner observations, 2026-09-08)
+
+Apply these observations when rebuilding lesson video prompts and preparing new rolls:
+
+**Evaluate narration first.** The primary acceptance test for a new Notebook roll is
+whether its narration teaches the approved content accurately, clearly, and completely.
+Choose the strongest teaching, and list replaceable visual defects as editing work.
+Visual polish must not outweigh narration quality when selecting a roll. The finished
+edit still receives the complete visual, pacing, and shipping checks in the grader.
+
+1. **Upload Markdown and boards.** Lesson PDFs are not uploaded to Gemini Notebook
+   and are not needed for the video workflow. Do not require PDF regeneration or
+   treat old PDFs in `lessons/` as video source authority. Use the approved current
+   lesson text and boards.
+2. **Give ideas a beat between them.** During editing, add a one-second narration
+   pause at transitions between distinct ideas. Hold the relevant visual during the
+   pause so students can absorb the idea. This is an audio pause, not just a visual
+   hold; follow the measured-pause and matched-room-tone rules below. Judge idea
+   boundaries, rather than inserting a pause after every sentence.
+3. **Capture enough teaching to edit.** It is easier to delete content than to add
+   missing narration. Prompts should secure complete coverage of the approved
+   teaching points. Do not omit an essential explanation to meet a requested runtime.
+4. **Replace weak visuals in post.** Custom graphics and canonical lesson boards
+   can replace poor Gemini Notebook visuals. Good narration with a bad visual is
+   useful source material; the visual alone need not force a new roll.
+5. **Treat requested runtime as a weak guide.** Suggested durations have little
+   reliable effect on Notebook output. Prioritize coverage and a teachable sequence;
+   establish the final length and pacing during editing.
+6. **Prepare illustration-free source boards when needed.** If Notebook rejects
+   boards containing Nate and Luke, supply versions without the character
+   illustration that preserve the title, teaching content, and takeaway. Getting
+   the board taught is the priority. Use the approved illustrated course board in
+   the finished edit; rejection of its illustration should not remove its lesson
+   content from the narration.
+
+### Markdown, prompt TXT, and board responsibilities
+
+The lesson Markdown is the complete teaching source. For every board, include its
+title, exact image filename, and its teaching content as ordinary Markdown beneath
+the image reference. Include the comparisons, definitions, steps, and numerical
+tables needed to explain it. Image alt text alone is not sufficient. Keep these
+explanations beside the board in lesson order and keep the closing message explicit.
+
+The prompt TXT directs presentation: narration coverage, tone, transitions, use of
+the supplied boards, and ending. It names the Markdown source, but does not maintain
+a second lesson outline, board inventory, or copy of the examples and numbers.
+When a lesson changes, update its Markdown and affected boards together. Update the
+prompt only when presentation requirements or its source filename change.
+
+Upload the Markdown as the text source and supply its referenced boards separately.
+A local Markdown image link identifies a board; it is not proof that Notebook has
+received that image. If a board needs an illustration-free source variant, retain
+the same teaching content and record its correspondence to the approved board.
+
+Understand AI uses this structure in all ten sources, from
+`lessons/Opener-Understand.md` through `lessons/one-more-thing.md`, with matching
+`Prompts/*-video-prompt.txt` files. The opener prompt is
+`Prompts/opener-understand-video-prompt.txt`.
+
 ## Evaluation
 
 `scripts/video/GRADER-r5.md` is the single grading authority.
@@ -39,10 +98,14 @@ Every teaching board uses the exact current lesson capture and one of two treatm
    the next complete area as the narration moves. Never crop inside a card. Pull back
    when timing permits.
 
+**Outline-only highlighting (owner correction, 2026-09-09):** never shade column
+titles, card headings, labels, or other text. Add only the outline; preserve the
+board’s existing text and background styling. This supersedes older chip/fill recipes.
+
 Highlights replace one another unless the narration explicitly combines points. Use
 the board item's own accent color when it has one; otherwise use the course purple.
 **Gemini Notebook's native highlighting is forbidden on every course board.** All
-highlight states must use the course ring-and-chip treatment, whether they are captured
+highlight states must use the course outline-only treatment, whether they are captured
 from DOM states or composited in post. A board discussed only as a whole gets the
 unmarked restrained push, not an arbitrary highlight.
 
@@ -62,8 +125,7 @@ but it is not an evaluation defect and never justifies a re-roll by itself.
 For the Editorial Explainer board family, the highlight color is inherited, never
 chosen during the edit. Each card or step stores one locked accent: green `#0f7a4a`,
 teal `#0e8f86`, blue `#1652f0`, editorial purple `#4f2fc4`, amber `#a9760c`, or red
-`#c41f28`. When narration names that card, step, title, or item, its ring and any
-associated chip use that exact token. Do not sample a color from the illustration and
+`#c41f28`. When narration names that card, step, title, or item, its ring uses that exact token. Do not sample a color from the illustration and
 do not substitute standard purple. Neutral board titles and truly board-wide concepts
 may use the standard video purple `#6e51ff` when no local accent applies. Record the
 target, token, and source (`card_locked_accent` or `neutral_video_purple`) in the board
@@ -387,8 +449,7 @@ the source is.
 **HIGHLIGHT-STATE VARIANT — N items on one board, each lighting up as it is
 named** (first shipped: welcome five-step path, 2026-08-02). Capture the SAME
 board N+1 times via CDP at deviceScaleFactor 4 (compose on a fixed wrapper,
-inject per-state styles: 3px primary ring on the card + `#6e51ff22` chip behind
-the label; export card rects for camera targets). Then run ken_burns_path ONCE
+inject per-state outline styles only; export card rects for camera targets). Then run ken_burns_path ONCE
 PER STATE, threading the camera across runs — each run's first beat carries an
 explicit "from" equal to the previous run's final "to" — and concat the FFV1
 legs with the concat demuxer (`-c copy`). Junction frames share the exact same
@@ -405,7 +466,7 @@ Two extensions (what-is-ai, 2026-08-02):
   arbitrary sub-elements (chips, bubbles, list rows, single lines) per state:
   `{"states":[{"panels":["Label"],"elements":["exact textContent"]},...]}`.
   Elements get a 2.5px purple ring via box-shadow (zero layout shift, so pops
-  are seam-free — junction diffs land 1-5), panels keep the card ring + chip.
+  are seam-free — junction diffs land 1-5), panels keep the card outline only.
   rects.json gains an "elements" map for camera targeting. One camera glide +
   many quick element states reads as the board lighting up as it is spoken.
   **Granularity rule (owner, 2026-08-02): one ring per point being made.** Use
@@ -435,24 +496,11 @@ Two extensions (what-is-ai, 2026-08-02):
   card carries its own color (top border, colored label), pass panels as
   `{"label": "...", "ring": "#accent"}` in the states JSON — a purple ring on a
   green ChatGPT card was rejected. Element entries already took `ring`; panel
-  entries now do too. Chips self-adopt the leaf's inline color as before.
-- **Subgrid boards: capture ONE clean state, composite the rings in post**
-  (which-app 2026-08-03). Cards that share row heights (`subgrid`) re-flow
-  EVERY card when a chip pads one label, and the flex-centered band re-centers
-  on top — a board-wide 2-3px text shift at every panel junction (read by the
-  owner as "the image redraws / line wrap changes"). The chip now carries
-  negative-margin compensation, but Chrome still drifts ~1px between repeated
-  screenshots of a session, so DOM states can never be trusted pixel-stable:
-  screenshot state-0 once, harvest rects (labels via a dummy element state),
-  and draw card rings, element rings, and label-chip tints in post (cv2
-  rounded rects at 4x). States are then identical-outside-the-highlight by
-  construction — junction diffs land 1-3. Same idea as hallucination's
-  rings-on-JPG composite.
-- **Element rings are outline+offset, panel pills carry zIndex** (both in
-  capture_board_states.js, owner-flagged 2026-08-02): a box-shadow element
-  ring hugs the text box so glyphs touch the line, and a white panel pill can
-  be painted over by the next sibling's background. Both fixed in the script —
-  if a highlight ever renders crowded or half-hidden again, look there first.
+  entries now do too. Heading and label fills are prohibited.
+- **Subgrid boards: capture ONE clean state, composite outlines in post.**
+  Preserve all label styling, spacing, and background pixels. Capture state-0 once,
+  harvest card and element rectangles, and draw only outlines. This prevents text
+  reflow and screenshot drift. Never add label-chip tints or shaded heading fills.
 - **Bullet-row rings enclose the dot (owner rule, evaluate-the-results
   2026-08-03): ring the ROW, not the inner text span.** When a list row is
   `[• span][content span]`, matching the content span's text rings the text

@@ -46,9 +46,9 @@ Open-Ended
 
 It leaves room for an answer you didn’t expect.
 
-## Then Add Three Moves
+## Then Add Four Moves
 
-Packaging your question for AI comes down to three moves. There are entire classes on writing prompts, and here’s the secret: you don’t need one. You’re not training to be a prompt engineer. You’re learning to **Be Smarter Than the Tool**.
+Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here’s the secret: you don’t need one. You’re not training to be a prompt engineer. You’re learning to **Be Smarter Than the Tool**.
 
 ## Move 1
 
@@ -62,17 +62,35 @@ A person already knows this. AI only has what you hand over.
 
 •What you’re working on and why
 
-•The material itself: your draft, the assignment, the numbers
-
 ## Bad
 
 Is my intro good?
 
 ## Better
 
-I’m writing my Common App essay about how fixing cars with my dad taught me patience. Here’s my opening paragraph: [paragraph]. Does the hook grab attention?
+I’m a high school senior writing my Common App essay about how fixing cars with my dad taught me patience. What should the opening help the reader understand about me?
 
 ## Move 2
+
+📥
+
+Give it the material
+
+AI cannot inspect work you only describe. Give it the actual material it needs to use.
+
+•Your draft, notes, assignment, or rubric
+
+•The numbers, source, or example it should use
+
+## Bad
+
+Help me improve my essay intro.
+
+## Better
+
+Here is my opening paragraph: [paragraph]. Here is the essay prompt: [prompt]. What is unclear or generic?
+
+## Move 3
 
 📝
 
@@ -96,7 +114,7 @@ Write a caption for our lacrosse championship photo.
 
 Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags, no emojis, nothing corporate. Sound like a senior wrote it, not the school account.
 
-## Move 3
+## Move 4
 
 ✅
 
@@ -114,7 +132,7 @@ Step 1: Help me shape a strong thesis for a 5-page paper on how the space race r
 
 ## You don't need all of these every time
 
-How much packaging does a prompt need? A quick factual question: none, just ask. A focused task, like improving one paragraph: share your situation and describe the answer you want. A multi-step project, like developing a full essay: add steps. The more the result matters, the more you bring.
+How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation, give AI the material, and describe the answer you want. A big project: work one job at a time. The more the result matters, the more you bring.
 
 A prompt is a briefing, not magic words.
 

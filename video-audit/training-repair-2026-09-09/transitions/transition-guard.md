@@ -1,0 +1,52 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/videos/training-v2.mp4`
+- Decoded frames: 8249
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f848 `Numerical adjustments; hard-drive aside removed` — [`boundary-000848-Numerical-adjustments-hard-drive-aside-removed.jpg`](boundary-000848-Numerical-adjustments-hard-drive-aside-removed.jpg)
+- PASS — f1082 `Pause before setup` — [`boundary-001082-Pause-before-setup.jpg`](boundary-001082-Pause-before-setup.jpg)
+- PASS — f1112 `setup-establish` — [`boundary-001112-setup-establish.jpg`](boundary-001112-setup-establish.jpg)
+- PASS — f1310 `system-starting-values` — [`boundary-001310-system-starting-values.jpg`](boundary-001310-system-starting-values.jpg)
+- PASS — f1450 `gather-data` — [`boundary-001450-gather-data.jpg`](boundary-001450-gather-data.jpg)
+- PASS — f1644 `setup-settle` — [`boundary-001644-setup-settle.jpg`](boundary-001644-setup-settle.jpg)
+- PASS — f1664 `Pause before training example` — [`boundary-001664-Pause-before-training-example.jpg`](boundary-001664-Pause-before-training-example.jpg)
+- PASS — f1694 `loop-establish` — [`boundary-001694-loop-establish.jpg`](boundary-001694-loop-establish.jpg)
+- PASS — f1786 `peanut-butter-example` — [`boundary-001786-peanut-butter-example.jpg`](boundary-001786-peanut-butter-example.jpg)
+- PASS — f1890 `guess-cloud` — [`boundary-001890-guess-cloud.jpg`](boundary-001890-guess-cloud.jpg)
+- PASS — f2006 `check-jelly` — [`boundary-002006-check-jelly.jpg`](boundary-002006-check-jelly.jpg)
+- PASS — f2172 `adjust-numbers` — [`boundary-002172-adjust-numbers.jpg`](boundary-002172-adjust-numbers.jpg)
+- PASS — f2417 `repeat-builds-patterns` — [`boundary-002417-repeat-builds-patterns.jpg`](boundary-002417-repeat-builds-patterns.jpg)
+- PASS — f2542 `Pause before three phases` — [`boundary-002542-Pause-before-three-phases.jpg`](boundary-002542-Pause-before-three-phases.jpg)
+- PASS — f2572 `three-phases-overview` — [`boundary-002572-three-phases-overview.jpg`](boundary-002572-three-phases-overview.jpg)
+- PASS — f2762 `same-basketball-question` — [`boundary-002762-same-basketball-question.jpg`](boundary-002762-same-basketball-question.jpg)
+- PASS — f2937 `overview-settle` — [`boundary-002937-overview-settle.jpg`](boundary-002937-overview-settle.jpg)
+- PASS — f2956 `Pause before pretraining` — [`boundary-002956-Pause-before-pretraining.jpg`](boundary-002956-Pause-before-pretraining.jpg)
+- PASS — f2986 `pretraining-establish` — [`boundary-002986-pretraining-establish.jpg`](boundary-002986-pretraining-establish.jpg)
+- PASS — f3081 `pretraining-learns-patterns` — [`boundary-003081-pretraining-learns-patterns.jpg`](boundary-003081-pretraining-learns-patterns.jpg)
+- PASS — f3469 `pretraining-answer-example` — [`boundary-003469-pretraining-answer-example.jpg`](boundary-003469-pretraining-answer-example.jpg)
+- PASS — f3908 `pretraining-limitation` — [`boundary-003908-pretraining-limitation.jpg`](boundary-003908-pretraining-limitation.jpg)
+- PASS — f4234 `Pause before instruction tuning` — [`boundary-004234-Pause-before-instruction-tuning.jpg`](boundary-004234-Pause-before-instruction-tuning.jpg)
+- PASS — f4264 `instruction-establish` — [`boundary-004264-instruction-establish.jpg`](boundary-004264-instruction-establish.jpg)
+- PASS — f4405 `instruction-example-pairs` — [`boundary-004405-instruction-example-pairs.jpg`](boundary-004405-instruction-example-pairs.jpg)
+- PASS — f4738 `instruction-answer-example` — [`boundary-004738-instruction-answer-example.jpg`](boundary-004738-instruction-answer-example.jpg)
+- PASS — f5177 `instruction-limitation` — [`boundary-005177-instruction-limitation.jpg`](boundary-005177-instruction-limitation.jpg)
+- PASS — f5477 `Pause before preference tuning; reflection question removed` — [`boundary-005477-Pause-before-preference-tuning-reflection-question-removed.jpg`](boundary-005477-Pause-before-preference-tuning-reflection-question-removed.jpg)
+- PASS — f5507 `preference-establish` — [`boundary-005507-preference-establish.jpg`](boundary-005507-preference-establish.jpg)
+- PASS — f5632 `preference-feedback` — [`boundary-005632-preference-feedback.jpg`](boundary-005632-preference-feedback.jpg)
+- PASS — f6009 `Brief natural join after weights` — [`boundary-006009-Brief-natural-join-after-weights.jpg`](boundary-006009-Brief-natural-join-after-weights.jpg)
+- PASS — f6014 `Preferred answers and remaining risk` — [`boundary-006014-Preferred-answers-and-remaining-risk.jpg`](boundary-006014-Preferred-answers-and-remaining-risk.jpg)
+- PASS — f6174 `preference-answer-example` — [`boundary-006174-preference-answer-example.jpg`](boundary-006174-preference-answer-example.jpg)
+- PASS — f6672 `preference-limitation` — [`boundary-006672-preference-limitation.jpg`](boundary-006672-preference-limitation.jpg)
+- PASS — f7025 `Pause after remaining-risk explanation` — [`boundary-007025-Pause-after-remaining-risk-explanation.jpg`](boundary-007025-Pause-after-remaining-risk-explanation.jpg)
+- PASS — f7055 `Training ends and the model is ready` — [`boundary-007055-Training-ends-and-the-model-is-ready.jpg`](boundary-007055-Training-ends-and-the-model-is-ready.jpg)
+- PASS — f7059 `notebook-training-complete-and-normal-chat` — [`boundary-007059-notebook-training-complete-and-normal-chat.jpg`](boundary-007059-notebook-training-complete-and-normal-chat.jpg)
+- PASS — f7297 `Pause before normal-chat distinction` — [`boundary-007297-Pause-before-normal-chat-distinction.jpg`](boundary-007297-Pause-before-normal-chat-distinction.jpg)
+- PASS — f7327 `New information can be used without changing weights` — [`boundary-007327-New-information-can-be-used-without-changing-weights.jpg`](boundary-007327-New-information-can-be-used-without-changing-weights.jpg)
+- PASS — f7979 `Pause before closing message` — [`boundary-007979-Pause-before-closing-message.jpg`](boundary-007979-Pause-before-closing-message.jpg)
+- PASS — f8009 `Exact approved closing narration` — [`boundary-008009-Exact-approved-closing-narration.jpg`](boundary-008009-Exact-approved-closing-narration.jpg)
+- PASS — f8185 `Settled closing hold` — [`boundary-008185-Settled-closing-hold.jpg`](boundary-008185-Settled-closing-hold.jpg)

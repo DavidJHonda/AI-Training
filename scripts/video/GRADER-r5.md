@@ -7,6 +7,33 @@ summary, not a second source of rules.
 The course is for 16-year-olds. The video's primary job is to replace the lesson
 reading without losing essential understanding.
 
+## Primary evaluation rule (owner clarification, 2026-09-08)
+
+**For a new Notebook roll, the first and most important question is whether the
+narration teaches the approved lesson content accurately, clearly, and completely.**
+Evaluate the spoken explanations, examples, distinctions, connections, and board
+teaching against the current lesson before judging visual polish. A beautiful roll
+with missing teaching is weaker source material than complete narration with poor
+visuals that can be replaced.
+
+Separate two decisions:
+
+- **Narration intake:** keep, repair, or regenerate the narration. Compare candidates
+  primarily on what their narration teaches. Report missing or faulty teaching with
+  timestamps. Read the full transcript and check audio where wording is uncertain.
+  This initial pass may precede visual review; it is not a complete ship grade.
+- **Finished-video review:** verify the narration together with the corrected boards,
+  visual timing, pacing, and all ship gates. The complete evidence requirements and
+  six-dimension scoring below apply to this review.
+
+For raw-roll selection, log replaceable visual problems as editing work. Do not let
+cleanliness scores or a combined teaching-and-visual total reject otherwise strong
+narration or favor weaker teaching. Missing Nate-and-Luke illustrations, bad generated
+graphics, and incorrect board styling can be repaired with course assets. Missing
+spoken explanation cannot be repaired by merely putting the correct board on screen.
+Pauses between ideas and removable excess narration are also editing opportunities.
+State a narration verdict separately from the visual repair list.
+
 ## 1. Required inputs
 
 Your assignment names the lesson slug, lesson source, and grading bundle.
@@ -202,11 +229,12 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
   evaluation criterion. Gemini Notebook's temporary highlighting is expected raw
   material and must never lower a new roll's score or drive a re-roll decision; log
   its spans only so the repair pass can replace them. For a repaired or shipping
-  candidate, all teaching-board emphasis uses the course-native ring-and-chip
-  treatment and no Notebook highlighting may remain. Highlights replace one another
+  candidate, all teaching-board emphasis uses the course-native outline-only
+  treatment and no Notebook highlighting may remain. Do not add shaded heading,
+  label, or text fills; preserve the original text and background pixels. Highlights replace one another
   unless narration explicitly combines points. Use the item's
   accent color when available, otherwise course purple. For Editorial Explainer
-  cards and flow steps, the ring and chip must match the component's explicitly
+  cards and flow steps, the ring must match the component's explicitly
   stored locked accent token. Do not sample the illustration, infer color from card
   position, or substitute generic purple. The board sync manifest must record the
   exact `highlight_color` and whether it came from `card_locked_accent`,

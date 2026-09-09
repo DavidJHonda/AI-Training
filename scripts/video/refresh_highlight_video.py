@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild canonical highlighted board walks and splice them into one video.
 
-Each highlight plan is rendered with the established ring-and-chip treatment and
+Each highlight plan is rendered with the established outline-only treatment and
 a restrained whole-board push. Source audio is stream-copied. The output must
 decode to the exact source frame count and carry an identical audio MD5.
 """

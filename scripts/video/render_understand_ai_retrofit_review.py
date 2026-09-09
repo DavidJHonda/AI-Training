@@ -987,7 +987,7 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
     """Follow IT through five visible layer states using the approved type floor."""
     title = "How AI Connects ‘IT’ to ‘CAT’"
     stage_top = 127
-    stage_bottom = 885
+    stage_bottom = 795
     height = stage_bottom + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
@@ -1050,9 +1050,9 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
             sx += draw.textlength(text_value, font=font)
 
     card_top = 330
-    card_bottom = 830
-    card_w = 250
-    card_lefts = (80, 377, 674, 971, 1268)
+    card_bottom = 752
+    card_w = 272
+    card_lefts = (80, 372, 664, 956, 1248)
     card_titles = ("START", "LAYER 1", "LAYER 2", "REPEAT", "RESULT")
     for index, (left, label) in enumerate(zip(card_lefts, card_titles)):
         fill_opacity = 0.095 if index == 4 else 0.055
@@ -1068,34 +1068,32 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
 
     # Start: IT is numeric but its referent is unresolved.
     start_center = card_lefts[0] + card_w // 2
-    it_pill(start_center, 449)
-    draw.rounded_rectangle((card_lefts[0] + 22, 510, card_lefts[0] + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
-    draw.text((start_center, 542), "[.12, −.34, …]", font=face("heavy", 29), fill=INK, anchor="mm")
-    explanation(start_center, 623, ("IT", " could refer to"))
-    explanation(start_center, 663, ("different things.",))
-    explanation(start_center, 713, ("The starting",))
-    explanation(start_center, 753, ("numbers don’t",))
-    explanation(start_center, 793, ("tell us which one.",))
+    draw.rounded_rectangle((card_lefts[0] + 22, 420, card_lefts[0] + card_w - 22, 484), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+    draw.text((start_center, 452), "[.12, −.34, …]", font=face("heavy", 29), fill=INK, anchor="mm")
+    explanation(start_center, 533, ("IT", " could refer to"))
+    explanation(start_center, 575, ("different things.",))
+    explanation(start_center, 617, ("The starting",))
+    explanation(start_center, 659, ("numbers don’t",))
+    explanation(start_center, 701, ("tell us which one.",))
 
     def layer_card(left: int, vector_text: str, note_lines: tuple[tuple[str, ...], ...]) -> None:
         center = left + card_w // 2
-        it_pill(center, 449)
-        draw.rounded_rectangle((left + 20, 510, left + card_w - 20, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
-        draw.text((center, 542), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
-        note_y = 653 if len(note_lines) == 1 else 633
+        draw.rounded_rectangle((left + 20, 420, left + card_w - 20, 484), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+        draw.text((center, 452), vector_text, font=face("heavy", 29), fill=INK, anchor="mm")
+        note_y = 533
+        note_spacing = 42
         for line in note_lines:
             explanation(center, note_y, line)
-            note_y += 50
+            note_y += note_spacing
 
-    layer_card(card_lefts[1], "[.18, −.22, …]", (("The numbers",), ("begin shifting",), ("toward ", "CAT", ".")))
-    layer_card(card_lefts[2], "[.25, −.09, …]", (("Closer to ", "CAT"), ("than to MAT.",)))
+    layer_card(card_lefts[1], "[.18, −.22, …]", (("The numbers",), ("begin to capture",), ("IT", "’s connection"), ("to ", "CAT", ".")))
+    layer_card(card_lefts[2], "[.25, −.09, …]", (("The updated",), ("numbers carry",), ("more information",), ("about that",), ("connection.",)))
 
     # Repetition is a visible phase, not an ellipsis squeezed between cards.
     repeat_left = card_lefts[3]
     repeat_center = repeat_left + card_w // 2
-    it_pill(repeat_center, 449)
-    for i in range(6):
-        y = 496 + i * 17
+    for i in range(3):
+        y = 430 + i * 17
         accent = PURPLE
         draw.rounded_rectangle(
             (repeat_left + 25, y, repeat_left + card_w - 25, y + 11),
@@ -1104,29 +1102,26 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
             outline=mix(accent, 0.20),
             width=1,
         )
-    explanation(repeat_center, 628, ("The numbers",))
-    explanation(repeat_center, 668, ("keep shifting",))
-    explanation(repeat_center, 708, ("toward ", "CAT", "."))
+    explanation(repeat_center, 533, ("Each layer builds",))
+    explanation(repeat_center, 575, ("on the previous",))
+    explanation(repeat_center, 617, ("layer’s numbers.",))
 
-    # Result: the horizontal connector is intentionally level.
+    # Result: the final numbers and explanation complete the connection.
     result_left = card_lefts[4]
     result_center = result_left + card_w // 2
-    cat_circle(result_left + 71, 447)
-    draw.line((result_left + 108, 447, result_left + 144, 447), fill=PURPLE, width=5)
-    it_pill(result_left + 179, 447)
-    draw.rounded_rectangle((result_left + 22, 510, result_left + card_w - 22, 574), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
-    draw.text((result_center, 542), "[.41, .06, …]", font=face("heavy", 29), fill=INK, anchor="mm")
-    explanation(result_center, 623, ("AI works out",))
-    explanation(result_center, 663, ("that ", "IT", " refers"))
-    explanation(result_center, 713, ("to ", "CAT", "."))
+    draw.rounded_rectangle((result_left + 22, 420, result_left + card_w - 22, 484), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
+    draw.text((result_center, 452), "[.41, .06, …]", font=face("heavy", 29), fill=INK, anchor="mm")
+    explanation(result_center, 533, ("AI works out",))
+    explanation(result_center, 575, ("that ", "IT", " refers"))
+    explanation(result_center, 617, ("to ", "CAT", "."))
 
     # Directional chevrons echo the reference while leaving every panel readable.
     connector_color = mix(PURPLE, 0.42)
-    connector_y = 515
+    connector_y = 452
     for left, next_left in zip(card_lefts, card_lefts[1:]):
         cx = (left + card_w + next_left) // 2
-        draw.line((cx - 7, connector_y - 12, cx + 4, connector_y), fill=connector_color, width=4)
-        draw.line((cx + 4, connector_y, cx - 7, connector_y + 12), fill=connector_color, width=4)
+        draw.line((cx - 3, connector_y - 9, cx + 3, connector_y), fill=connector_color, width=4)
+        draw.line((cx + 3, connector_y, cx - 3, connector_y + 9), fill=connector_color, width=4)
 
     save(canvas, out_path)
 

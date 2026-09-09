@@ -6,9 +6,12 @@ from shutil import copy2
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from editorial_typography import draw_board_title, draw_inner_title, face
+from editorial_takeaway import draw_takeaway_band
+
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H = 1600, 900
+W, H = 1600, 910
 
 LAVENDER = "#eae7fd"
 WHITE = "#ffffff"
@@ -16,12 +19,11 @@ INK = "#0e0a1f"
 BODY = "#3a3550"
 MUTED = "#716b84"
 PURPLE = "#6e51ff"
-PURPLE_DARK = "#5432c7"
+PURPLE_DARK = "#4f2fc4"
 PURPLE_PALE = "#f3f0ff"
 PURPLE_MID = "#d9d0fb"
 PURPLE_LIGHT = "#e8e2fb"
 RULE = "#d9d3eb"
-GOLD = "#ffdf88"
 
 FONT_PATH = ROOT / "scripts/video/assets/fonts/PlusJakartaSans-wght.ttf"
 
@@ -45,18 +47,6 @@ def draw_arrow(draw: ImageDraw.ImageDraw, x0: int, y: int, x1: int):
     draw.polygon([(x1 - 16, y - 12), (x1, y), (x1 - 16, y + 12)], fill=PURPLE_MID)
 
 
-def draw_ticket(draw: ImageDraw.ImageDraw, box, label: str, rotation=0):
-    x0, y0, x1, y1 = box
-    ticket = Image.new("RGBA", (x1 - x0, y1 - y0), (0, 0, 0, 0))
-    td = ImageDraw.Draw(ticket)
-    td.rounded_rectangle((1, 1, x1 - x0 - 2, y1 - y0 - 2), radius=8, fill=WHITE, outline=PURPLE, width=3)
-    td.line((24, 5, 24, y1 - y0 - 6), fill=PURPLE_MID, width=2)
-    td.text(((x1 - x0 + 24) / 2, (y1 - y0) / 2), label, font=font(22, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    if rotation:
-        ticket = ticket.rotate(rotation, resample=Image.Resampling.BICUBIC, expand=True)
-    draw._image.alpha_composite(ticket, (int((x0 + x1 - ticket.width) / 2), int((y0 + y1 - ticket.height) / 2)))
-
-
 def draw_striped_bar(draw: ImageDraw.ImageDraw, box):
     x0, y0, x1, y1 = box
     width, height = x1 - x0, y1 - y0
@@ -75,7 +65,7 @@ def render() -> None:
     image = Image.new("RGBA", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
 
-    draw.text((40, 28), "Same Odds, Five Draws", font=font(56, "Bold"), fill=INK)
+    draw_board_title(draw, "Same Probabilities, Different Choices")
 
     stage = (40, 118, 1560, 742)
     draw.rounded_rectangle(stage, radius=22, fill=WHITE)
@@ -91,9 +81,9 @@ def render() -> None:
     draw.rounded_rectangle((phrase_x + 20, 170, phrase_x + 172, 218), radius=9, fill=WHITE, outline=PURPLE_MID, width=2)
     draw.text((phrase_x + 96, 191), "?", font=font(32, "Bold"), fill=PURPLE, anchor="mm")
 
-    # Left: the same weighted list is used for every draw.
-    draw.text((96, 274), "The Odds", font=font(40, "Bold"), fill=PURPLE_DARK)
-    draw.text((96, 323), "Same 100 tickets every time", font=font(26, "Medium"), fill=MUTED)
+    # Left: probabilities stay unchanged across separate tries.
+    draw_inner_title(draw, (96, 274), "The Probabilities", fill=PURPLE_DARK)
+    draw.text((96, 323), "Unchanged across all five tries", font=font(26, "Medium"), fill=MUTED)
 
     rows = [
         ("Spot", 22, False, True),
@@ -119,7 +109,11 @@ def render() -> None:
             outline=PURPLE if top else RULE,
             width=2,
         )
-        draw.text((116, y_mid), label, font=label_face, fill=PURPLE_DARK if top else INK, anchor="lm")
+        if label == "Other":
+            draw.text((116, y_mid - 9), label, font=label_face, fill=INK, anchor="lm")
+            draw.text((116, y_mid + 14), "(combined)", font=font(16, "Medium"), fill=MUTED, anchor="lm")
+        else:
+            draw.text((116, y_mid), label, font=label_face, fill=PURPLE_DARK if top else INK, anchor="lm")
         draw.rounded_rectangle((track_x0, y_mid - 8, track_x1, y_mid + 8), radius=8, fill="#efedf8")
         bar_x1 = track_x0 + int(track_w * value / max_value)
         if striped:
@@ -127,19 +121,13 @@ def render() -> None:
         else:
             bar_fill = PURPLE if top else PURPLE_LIGHT
             draw.rounded_rectangle((track_x0, y_mid - 8, bar_x1, y_mid + 8), radius=8, fill=bar_fill)
-        draw.text((630, y_mid), f"{value} tickets", font=value_face, fill=PURPLE_DARK if top else BODY, anchor="rm")
+        draw.text((630, y_mid), f"{value}%", font=value_face, fill=PURPLE_DARK if top else BODY, anchor="rm")
 
-    # Center: one unchanged drawing process, repeated five times.
-    draw_arrow(draw, 681, 482, 716)
-    draw.ellipse((716, 403, 874, 561), fill=PURPLE_PALE, outline=PURPLE_MID, width=3)
-    draw_ticket(draw, (748, 429, 842, 477), "Spot", rotation=-7)
-    draw_ticket(draw, (748, 467, 842, 515), "Max", rotation=6)
-    draw.text((795, 595), "DRAW FIVE", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    draw.text((795, 623), "TIMES", font=font(21, "Bold"), fill=PURPLE_DARK, anchor="mm")
-    draw_arrow(draw, 874, 482, 929)
+    # Connect the probabilities to example outcomes.
+    draw_arrow(draw, 701, 482, 904)
 
     # Right: five outcomes from that same list.
-    draw.text((956, 274), "Five Draws", font=font(40, "Bold"), fill=PURPLE_DARK)
+    draw_inner_title(draw, (956, 274), "Five Separate Tries", fill=PURPLE_DARK)
     draw.text((956, 323), "One possible set", font=font(26, "Medium"), fill=MUTED)
     draws = ["Max", "Spot", "Buddy", "Rex", "Max"]
     for i, name in enumerate(draws, start=1):
@@ -151,18 +139,10 @@ def render() -> None:
         draw.text((1038, y0 + 26), name, font=font(29, "Bold"), fill=INK, anchor="lm")
 
     # Standard takeaway band.
-    banner = (40, 770, 1560, 864)
-    draw.rounded_rectangle(banner, radius=18, fill=GOLD)
-    takeaway = "The best chance is not a guarantee."
-    takeaway_face = font(34, "Bold")
-    takeaway_box = draw.textbbox((0, 0), takeaway, font=takeaway_face)
-    takeaway_w = takeaway_box[2] - takeaway_box[0]
-    group_w = 50 + 48 + takeaway_w
-    icon_x, icon_y = int((W - group_w) / 2 + 25), 817
-    draw.ellipse((icon_x - 25, icon_y - 25, icon_x + 25, icon_y + 25), fill=PURPLE)
-    draw.line((icon_x - 11, icon_y, icon_x - 2, icon_y + 9), fill=WHITE, width=5)
-    draw.line((icon_x - 2, icon_y + 9, icon_x + 14, icon_y - 11), fill=WHITE, width=5)
-    draw.text((icon_x + 48, icon_y), takeaway, font=takeaway_face, fill=INK, anchor="lm")
+    draw_takeaway_band(
+        image, top=782, left=40, right=1560,
+        text="The best chance is not a guarantee.", font=face("medium", 32),
+    )
 
     page_path = ROOT / "illustrations/one-more-thing-same-odds-v2.jpg"
     video_path = ROOT / "lessons/one-more-thing-1-draws.jpg"

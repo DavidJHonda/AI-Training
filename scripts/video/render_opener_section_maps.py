@@ -87,7 +87,7 @@ BOARDS = (
             Row("Why Probability Matters", "How the information AI has changes what is likely to come next."),
             Row("How Words Become Numbers", "How text becomes tokens, and tokens get numbers that represent meaning."),
             Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
-            Row("How AI Builds an Answer", "How AI chooses each next token, why answers vary, and what keeps a conversation going."),
+            Row("How AI Builds an Answer", "How AI builds an answer, why answers vary, and how much math it takes."),
         ),
         page_output="illustrations/opener-understand-section-map.jpg",
         prep_output="lessons/opener-understand-2-map.jpg",

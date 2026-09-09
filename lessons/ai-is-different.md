@@ -10,35 +10,13 @@ Consider how normal (non-AI) software is created, like the calculator app on you
 
 The core of normal software is something called **Rules**. The best way to understand them is the most common kind: **IF-THEN-ELSE** statements. Here’s what that looks like.
 
-**IF** the password matches
-
-**THEN** open the app
-
-**ELSE** show message “Password doesn’t match. Please try again.”
+![Rules Look Like This. A user enters a password. If the password matches, the app opens. Otherwise, the app shows Password doesn’t match. Please try again. Written rules return the same result every time.](ai-is-different-rules.jpg)
 
 ## AI IS Based On Patterns
 
 As you learned earlier, AI is based on patterns, not rules.
 
-## Learn once
-
-🌱 Training
-
-↓
-
-🍀 Patterns
-
-→
-
-patterns power every answer
-
-Answer· every word
-
-🎲 Probability
-
-↓
-
-✍️ Prediction
+![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
 
 Wrapping your head around this is important, so here’s a cooking analogy.
 
@@ -50,39 +28,7 @@ That difference shows up everywhere: how each one solves a problem, how it reach
 
 Watch what each one does with the same question.
 
-Fixed Rules vs. Built From Patterns
-
-THE QUESTION
-
-“What’s the best game for my new PS5?”
-
-💻
-
-#### Normal Software
-
-Follows Fixed Rules
-
-Returns the same preset list, no matter who asks or why.
-
-Ask again → same list, every time.
-
-🧠
-
-#### AI Software
-
-Built From Patterns
-
-## First ask
-
-Marvel’s Spider-Man 2 is a great pick. The open-world web-swinging across New York City feels incredible on the PS5, and you can switch between Peter Parker and Miles Morales mid-mission. It’s polished, fun, and easy to jump into.
-
-## Ask again
-
-NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.
-
-## Ask again
-
-God of War Ragnarok is a strong choice. It’s a cinematic action game with great combat, a serious story about Kratos and his son Atreus, and stunning visuals across the Nine Realms of Norse mythology. Expect 30+ hours of content.
+![Fixed Rules vs. Built From Patterns. Nate and Luke ask what the best game is for a new PS5. Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.](ai-is-different-fixed-vs-patterns.jpg)
 
 That’s the split. Normal software follows fixed rules, so it hands back the same preset list no matter who asks or why. AI is built from patterns, so it does the opposite: it builds a fresh answer every time, shaped to your exact question.
 
@@ -94,75 +40,7 @@ A good example is how we wrote this lesson. We sketched out messy notes on a leg
 
 But AI is different. It read our messy notes and turned them into whatever we asked for.
 
-Normal Software vs. AI Software, side by side
-
-💻
-
-## Normal Software
-
-#### Built from rules a person wrote
-
-## What it needs
-
-Clean, structured input: rows, fields, and labels, all defined ahead of time.
-
-Name | Score | Grade --------|-------|------ Alex | 82 | B Jordan | 91 | A Sam | 78 | C+
-
-## So how it acts
-
-**Ask it twice**: the same answer every time.
-
-**When it’s wrong**: a bug on one line you can find and fix.
-
-⚡
-
-## Superpower
-
-**Rock-solid consistency.** Same input, same output, every single time, and you can always trace exactly why.
-
-🤖
-
-## AI Software
-
-#### Built from patterns in data
-
-## What it needs
-
-Messy human input: conversations, photos, audio, and half-formed questions, with no neat fields required.
-
-💬
-
-Text
-
-🖼️
-
-Images
-
-🎤
-
-Audio
-
-🎥
-
-Video
-
-📄
-
-Documents
-
-## So how it acts
-
-**Ask it twice**: the answer will likely change.
-
-**When it’s wrong**: confidently wrong, with no line to point to.
-
-⚡
-
-## Superpower
-
-**Handles the unfamiliar.** It takes on problems no one wrote a rule for.
-
-**Makes sense of mess.** Plain language, a photo, a half-formed question, all turned into something usable.
+![Normal Software vs. AI Software. Nate and Luke compare normal software built from rules with AI built from patterns. Normal software needs clean structured input, returns the same output, and lets people trace errors to a line. AI handles messy human input, may change its answer, and can be confidently wrong without one line to point to. Rules deliver consistency. Patterns handle the mess.](ai-is-different-normal-vs-ai.jpg)
 
 ## THE RIGHT TOOL FOR THE JOB
 
@@ -178,25 +56,7 @@ AI has its own Kryptonite. It’s not fatal, but you need to be aware of it.
 
 Because AI runs on learned patterns and not rules, it’s harder to control. **Trained behavior is harder to predict, inspect, and lock down than written rules.** And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do.
 
-You’ll see stories like this
-
-💸
-
-Scams that scale
-
-AI generates code, convincing messages, and fake identities in seconds.
-
-🎭
-
-Deepfakes of real people
-
-Convincing fakes can target and humiliate anyone, including students.
-
-🩺
-
-Confident but wrong
-
-Medical and safety answers can sound correct even when they are flat wrong.
+![AI’s Kryptonite. Scams That Scale: AI generates code, convincing messages, and fake identities in seconds. Deepfakes: convincing fakes can target and humiliate anyone, including students. Confident but Wrong: medical and safety answers can sound correct even when they are flat wrong. Trained behavior is harder to predict, inspect, and lock down.](ai-is-different-kryptonite-v2.jpg)
 
 When you hear stories like these, remember the mechanism: AI is being steered, not authored. What’s inside isn’t rules, or even readable patterns; it’s millions of learned numbers, which is exactly why you can’t open it up and read it.
 

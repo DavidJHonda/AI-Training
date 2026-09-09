@@ -6,9 +6,12 @@ from shutil import copy2
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from editorial_typography import draw_board_title, draw_inner_title, face
+from editorial_takeaway import draw_takeaway_band
+
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H = 1600, 900
+W, H = 1600, 910
 
 FRAME = "#eae7fd"
 WHITE = "#ffffff"
@@ -16,12 +19,11 @@ INK = "#0e0a1f"
 BODY = "#3a3550"
 MUTED = "#716b84"
 PURPLE = "#6e51ff"
-PURPLE_DARK = "#5432c7"
-BLUE = "#315fbd"
+PURPLE_DARK = "#4f2fc4"
+BLUE = "#1652f0"
 BLUE_ART = "#dce9ff"
 PURPLE_ART = "#e8e1fb"
-GREEN = "#239660"
-GOLD = "#ffdf88"
+GREEN = "#0f7a4a"
 RULE = "#d9d3eb"
 
 FONT_PATH = ROOT / "scripts/video/assets/fonts/PlusJakartaSans-wght.ttf"
@@ -142,7 +144,7 @@ def ai_art() -> Image.Image:
 def render() -> None:
     image = Image.new("RGBA", (W, H), FRAME)
     draw = ImageDraw.Draw(image)
-    draw.text((40, 28), "You Remember. AI Reads.", font=font(56, "Bold"), fill=INK)
+    draw_board_title(draw, "You Remember. AI Reads.")
 
     cards = [
         ((40, 118, 784, 742), BLUE, human_art(), "You Remember", "You remember choosing a dog and why. When you ask for a name, you draw on memory and experience."),
@@ -156,21 +158,14 @@ def render() -> None:
         paste_top_rounded(image, art, (x0, y0), radius=14)
         draw = ImageDraw.Draw(image)
         draw.line((x0, y0 + 339, x1, y0 + 339), fill=accent, width=2)
-        draw.text((x0 + 34, y0 + 378), title, font=font(40, "Bold"), fill=accent)
+        draw_inner_title(draw, (x0 + 34, y0 + 378), title, fill=accent)
         draw_wrapped(draw, (x0 + 34, y0 + 440), body, font(29, "Regular"), BODY, 676, 41)
         draw.rounded_rectangle(box, radius=14, outline=accent, width=2)
 
-    banner = (40, 770, 1560, 864)
-    draw.rounded_rectangle(banner, radius=18, fill=GOLD)
-    takeaway = "You remember the conversation. AI reads it again."
-    takeaway_face = font(34, "Bold")
-    takeaway_w = draw.textbbox((0, 0), takeaway, font=takeaway_face)[2]
-    group_w = 50 + 48 + takeaway_w
-    icon_x, icon_y = int((W - group_w) / 2 + 25), 817
-    draw.ellipse((icon_x - 25, icon_y - 25, icon_x + 25, icon_y + 25), fill=PURPLE)
-    draw.line((icon_x - 11, icon_y, icon_x - 2, icon_y + 9), fill=WHITE, width=5)
-    draw.line((icon_x - 2, icon_y + 9, icon_x + 14, icon_y - 11), fill=WHITE, width=5)
-    draw.text((icon_x + 48, icon_y), takeaway, font=takeaway_face, fill=INK, anchor="lm")
+    draw_takeaway_band(
+        image, top=782, left=40, right=1560,
+        text="You remember the conversation. AI reads it again.", font=face("medium", 32),
+    )
 
     page_path = ROOT / "illustrations/one-more-thing-memory-v2.jpg"
     video_path = ROOT / "lessons/one-more-thing-2-two-sides.jpg"

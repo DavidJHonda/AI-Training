@@ -27,10 +27,13 @@ for every state:
 | --- | --- |
 | `spoken_onset` | Frame or timecode when the target becomes active. |
 | `highlight_target` | Exact card, step, title, row, or element being discussed. |
-| `highlight_mode` | `none`, `ring`, `chip`, or `ring_and_chip`. |
+| `highlight_mode` | `none` or `ring`. |
 | `highlight_color` | Exact hex token, or `none`. |
 | `highlight_source` | `card_locked_accent`, `neutral_video_purple`, or `none`. |
 | `camera_state` | Full board or the complete active card/section. Never crop inside it. |
+
+Highlighting adds outlines only. No heading fills, shaded text, or label chips.
+Preserve the original board styling inside each outline.
 
 ## Color inheritance
 
@@ -82,7 +85,7 @@ components, return to the complete unmarked board.
     {
       "spoken_onset": "01:16.100",
       "highlight_target": "Blue card",
-      "highlight_mode": "ring_and_chip",
+      "highlight_mode": "ring",
       "highlight_color": "#1652f0",
       "highlight_source": "card_locked_accent",
       "camera_state": "complete Blue card"

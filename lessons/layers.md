@@ -4,7 +4,19 @@
 
 Have you ever read a passage in English class that only made sense after a few reads? Try the sentence below. You might need to read it more than once before the meaning clicks.
 
-![“The Horse Raced Past the Barn Fell”. First read: it does not make sense and may seem to be missing a word. More reads test whether the barn fell or whether the horse raced past it afterward. Then the meaning clicks: Someone raced a horse past a barn. Then the horse fell. Each read updates the meaning until it clicks.](layers-horse-three-reads-editorial.jpg)
+### Board 1: “The Horse Raced Past the Barn Fell”
+
+**Image file:** `layers-horse-three-reads-editorial.jpg`
+
+![“The Horse Raced Past the Barn Fell”](layers-horse-three-reads-editorial.jpg)
+
+**Teaching content:**
+
+1. **First Read:** The sentence does not seem to make sense. Is a word missing?
+2. **More Reads:** You try possible interpretations. Did the barn fall? Did the horse race past it afterward?
+3. **Meaning Clicks:** Someone raced a horse past a barn. Then the horse fell.
+
+**Takeaway:** Each read updates the meaning until it clicks.
 
 ## AI Does Something Similar
 
@@ -12,13 +24,50 @@ AI doesn’t read your message the way you do. It processes your text through a 
 
 The whole stack of layers is called a **neural network**.
 
-![How Layers Update the Numbers. Starting numbers pass through many layers. At each layer, attention and transformation work together to update the numbers. Each row contains many numbers; two are shown changing from the starting numbers to the final numbers.](layers-inside-layer-editorial.jpg)
+### Board 2: How Layers Update the Numbers
+
+**Image file:** `layers-inside-layer-editorial.jpg`
+
+![How Layers Update the Numbers](layers-inside-layer-editorial.jpg)
+
+**Teaching content:**
+
+The starting row of numbers passes through many layers. Each layer uses attention and transformation, then passes its updated numbers onward.
+
+Two values from the much longer row are shown at four points:
+
+| Stage | Numbers |
+| --- | --- |
+| Starting Numbers | [0.42, −1.15, …] |
+| After One Layer | [0.51, −0.87, …] |
+| After Many Layers | [0.27, −1.21, …] |
+| Final Numbers | [0.19, −1.12, …] |
+
+**Takeaway:** Attention and transformation update the numbers at each layer.
 
 ## Following One Word Through the Layers
 
 Now follow one word, **IT**, as its numbers change from layer to layer.
 
-![How AI Connects ‘IT’ to ‘CAT’. The same blue IT pill appears in the sentence and every step. Matching teal CAT circles appear in the sentence and result. Smaller matching labels highlight IT and CAT in the explanations. IT could refer to different things. The starting numbers don’t tell us which one. In Layer 1, the numbers begin shifting toward CAT. They keep changing through Layer 2 and more layers. AI works out that IT refers to CAT.](layers-3-resolves-it.jpg)
+### Board 3: How AI Connects ‘IT’ to ‘CAT’
+
+**Image file:** `layers-3-resolves-it.jpg`
+
+![How AI Connects ‘IT’ to ‘CAT’](layers-3-resolves-it.jpg)
+
+**Teaching content:**
+
+**The sentence:** “The **CAT** sat on the mat during the May rainstorm because **IT** was tired.”
+
+Follow IT through the five stages:
+
+| Stage | Numbers shown | What changes |
+| --- | --- | --- |
+| Start | [0.12, −0.34, …] | IT could refer to different things. The starting numbers don’t tell us which one. |
+| Layer 1 | [0.18, −0.22, …] | The numbers begin to capture IT’s connection to CAT. |
+| Layer 2 | [0.25, −0.09, …] | The updated numbers carry more information about that connection. |
+| Repeat | The row continues through more layers. | Each layer builds on the previous layer’s numbers. |
+| Result | [0.41, 0.06, …] | AI works out that IT refers to CAT. |
 
 ## How Many Layers Are There?
 
@@ -28,6 +77,8 @@ The horse sentence took a few reads to untangle. Sarcasm, story twists, and comp
 
 Why not keep adding layers? More layers require more computing power and time. The extra benefit has to be worth the cost.
 
+## Closing Message
+
 Meaning builds up, layer by layer.
 
-Attention, then transformation. Dozens of times.
+Attention and transformation. Dozens of times.

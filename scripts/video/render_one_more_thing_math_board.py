@@ -161,9 +161,9 @@ def render() -> None:
     tracked_text(draw, (40, 31), "The Math Adds Up Fast", 56, INK, -0.03)
 
     card_specs = [
-        ((40, 118, 525, 722), BLUE, BLUE_ART, "One Token", "One trip through our estimated trillion weights", "≈ 2 trillion calculations", one_token_art(485)),
+        ((40, 118, 525, 722), BLUE, BLUE_ART, "One Token", "One trip through our example model’s trillion weights", "≈ 2 trillion calculations", one_token_art(485)),
         ((557, 118, 1043, 722), PURPLE_DARK, PURPLE_ART, "A Short Answer", "About 100 tokens written by AI", "≈ 200 trillion calculations", short_answer_art(486)),
-        ((1075, 118, 1560, 722), TEAL, TEAL_ART, "Complete Dog Chat", "About 1,000 tokens written by AI across the conversation", "≈ 2 quadrillion calculations", dog_chat_art(485)),
+        ((1075, 118, 1560, 722), TEAL, TEAL_ART, "A Longer Conversation", "About 1,000 tokens written by AI across the conversation", "≈ 2 quadrillion calculations", dog_chat_art(485)),
     ]
 
     for box, accent, _art_bg, title, body, number, art in card_specs:
@@ -181,7 +181,7 @@ def render() -> None:
 
     banner = (40, 762, 1560, 850)
     draw.rounded_rectangle(banner, radius=14, fill=GOLD)
-    takeaway = "The estimates are rough. The scale is not."
+    takeaway = "Even a short answer takes trillions of calculations."
     takeaway_face = font(32, "Medium")
     takeaway_w = draw.textbbox((0, 0), takeaway, font=takeaway_face)[2]
     group_w = 44 + 24 + takeaway_w

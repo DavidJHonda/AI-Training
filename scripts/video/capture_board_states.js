@@ -7,7 +7,7 @@
 //
 // Without STATES.json: states are 0..N, one per label (whole-card highlight).
 // With STATES.json: {"states":[{"panels":["Label"],"elements":["exact text"]},...]}
-// — each state rings the named panels (card treatment + label chip) and draws a
+// — each state rings the named panels (outline only) and draws a
 // 2.5px ring on each named element (chip/bubble/row/line, matched by exact
 // textContent; box-shadow only, so zero layout shift). rects.json then also
 // carries an "elements" map for camera targeting.
@@ -23,21 +23,16 @@
 // An element entry may add {"mark": true}: the target is a SENTENCE (or any
 // substring) inside a paragraph, not a DOM element. At compose time the text
 // node containing it is split and the match wrapped in a neutral inline span
-// (no style — zero visual change, zero layout shift); the state then paints a
-// soft tinted background (ring color at ~20% alpha, rounded, box-decoration
-// clone for multi-line) behind the words instead of drawing a ring — the
-// as-spoken sentence-highlight treatment (flattery ChatGPT reply, 2026-08-06).
+// (no style — zero visual change, zero layout shift); the active state draws
+// an outline only. It never shades the text or its background.
 // A panel entry may likewise be {"label": "...", "ring": "#color"} — owner rule
 // 2026-08-03 (which-app): a card with its own accent color gets its accent as
 // the ring, not the primary purple; bare-string panels keep the default.
 //
 // Item detection: for each label, the innermost element with that exact text is
 // the label leaf; the highlight target ("card") is the highest ancestor that
-// contains no other label's leaf. Cards with an inline background (real cards)
-// get a 3px primary ring; background-less targets (rows in a shared white card,
-// e.g. NumberedRows) get a white-filled rounded ring (owner call 2026-08-02: no
-// tint — ring on white, matching the card treatment) with margin/padding
-// compensation so text never reflows. Labels get the app's chip treatment.
+// contains no other label's leaf. All targets get an outline without changing
+// text, backgrounds, spacing, or layout. Existing shadows are retained.
 const http = require("http");
 const fs = require("fs");
 const [PORT, DBG, LESSON, HEADLINE, LABELS, CANW, CANH, BANDW, OUTDIR, STATESJSON] = process.argv.slice(2);
@@ -142,46 +137,12 @@ const COMPOSE = `(function(){
     window.__elems[t] = { el: el, style: el.getAttribute("style") || "" };
   });
   if (missing.length) return "ELEMENT NOT FOUND: " + missing.join(" // ");
-  function applyPanel(it, ringColor, noChip) {
+  function applyPanel(it, ringColor) {
     var ring = ringColor || "#6e51ff";
-    var isCard = (it.card.style.background || "").length > 0;
-    if (isCard) {
-      it.card.style.boxShadow = (it.card.style.boxShadow ? it.card.style.boxShadow + ", " : "") + "0 0 0 3px " + ring;
-    } else {
-      it.card.style.background = "#fff";
-      it.card.style.borderRadius = "12px";
-      it.card.style.boxShadow = "0 0 0 3px " + ring;
-      it.card.style.padding = "18px 16px";
-      it.card.style.margin = "0 -16px";
-      it.card.style.borderBottom = "none";
-      // Paint above later siblings: a following row's white background can
-      // otherwise cover the ring's bottom edge (learn-with-ai feed-in header,
-      // owner-flagged 2026-08-02). relative+zIndex shifts no layout.
-      it.card.style.position = "relative";
-      it.card.style.zIndex = "3";
-    }
-    // Panel entry {"chip": false} rings the card but leaves the label text
-    // untouched (owner rule 2026-08-05: on a box with few words the boundary
-    // IS the highlight — no pill behind the spoken words).
-    if (noChip) return;
-    var lc = it.leaf.style.color;
-    // An explicit ring override also recolors the chip (owner rule 2026-08-05,
-    // amber odds cards): the leaf's own concrete color still wins below.
-    var chipColor = ringColor || "#6e51ff", chipBg = (ringColor || "#6e51ff") + "22";
-    if (lc && lc.charAt(0) === "#" && lc.length === 7) { chipColor = lc; chipBg = lc + "22"; }
-    else if (lc && lc.indexOf("rgb(") === 0) { chipColor = lc; chipBg = lc.replace("rgb(", "rgba(").replace(")", ", 0.13)"); }
-    it.leaf.style.background = chipBg;
-    it.leaf.style.color = chipColor;
-    // Padding fully offset by negative margin so the chip NEVER changes the
-    // label's outer box. Without this, subgrid boards share the label row's
-    // height across all cards, so one chip re-flowed every card AND re-centered
-    // the flex-centered band — a board-wide 2-3px text shift at every panel
-    // junction (owner-flagged 2026-08-03, which-app big-three board).
-    it.leaf.style.padding = "2px 10px";
-    it.leaf.style.margin = "-2px -10px";
-    it.leaf.style.borderRadius = "7px";
-    it.leaf.style.display = "inline-block";
-    it.leaf.style.alignSelf = "flex-start";
+    // Outline only: preserve all heading, background, padding, and margin styles.
+    it.card.style.boxShadow = (it.card.style.boxShadow ? it.card.style.boxShadow + ", " : "") + "0 0 0 3px " + ring;
+    it.card.style.position = "relative";
+    it.card.style.zIndex = "3";
   }
   window.__setHL = function(k){
     window.__items.forEach(function(it){
@@ -194,18 +155,10 @@ const COMPOSE = `(function(){
       (s.panels || []).forEach(function(pn){
         var lb = (typeof pn === "string") ? pn : pn.label;
         var i = labels.indexOf(lb);
-        if (i >= 0) applyPanel(window.__items[i], (typeof pn === "string") ? null : pn.ring,
-          (typeof pn !== "string") && pn.chip === false); });
+        if (i >= 0) applyPanel(window.__items[i], (typeof pn === "string") ? null : pn.ring); });
       (s.elements || []).forEach(function(en){ var t = (typeof en === "string") ? en : en.text;
         var e = window.__elems[t];
         var rc = ringColors[t] || "#6e51ff";
-        if (markFlags[t]) {
-          e.el.style.background = rc + "33";
-          e.el.style.borderRadius = "5px";
-          e.el.style.boxDecorationBreak = "clone";
-          e.el.style.webkitBoxDecorationBreak = "clone";
-          return;
-        }
         // outline+offset, not box-shadow: the shadow ring hugs the text box so
         // glyphs touch the line (owner-flagged 2026-08-02). outline-offset
         // paints the ring outside the bounds with breathing room, zero layout

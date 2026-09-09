@@ -1,19 +1,19 @@
-# Avoid Traps illustration updates — ready for review
+# Avoid Traps illustration updates — shipping status
 
-All eight remaining candidates are ready. Support Trap was already approved and shipped. These eight are NOT shipped; live videos and lesson files were not changed.
+Opener, Hallucination, Training Bias, Document Trap, Mind Trap, Engagement Trap, and Fake Trap are now approved and shipped. Support Trap was already shipped. Flattery Trap revision v3 is now approved and shipped, completing all nine Avoid Traps illustration updates. It keeps the full board visible during the scenario highlight. No index.html or lesson writes. Shipped originals and review copies are recoverable in the audit folders; each has a shipping-receipt.json.
 
 Start with the short reels. Each includes two seconds before and after the updated segment. Mind Trap and Fake Trap reels contain two separate segments; exact reel-to-full-video mappings are in each manifest.
 
 | Video | Review reel | Full candidate | Changed times in full video |
 | --- | --- | --- | --- |
-| Opener | [10 sec](/Users/davidobrien/Developer/AI-Training/Prompts/opener-avoid-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/opener-avoid-illustrations-patched.mp4) | 1:48–1:54 |
-| Hallucination | [12 sec](/Users/davidobrien/Developer/AI-Training/Prompts/hallucination-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/hallucination-illustrations-patched.mp4) | 2:04–2:12 |
-| Training Bias | [17 sec](/Users/davidobrien/Developer/AI-Training/Prompts/training-bias-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/training-bias-illustrations-patched.mp4) | 0:15–0:28 |
-| Document Trap | [12 sec](/Users/davidobrien/Developer/AI-Training/Prompts/document-trap-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/document-trap-illustrations-patched.mp4) | 0:58–1:06 |
-| Mind Trap | [47 sec](/Users/davidobrien/Developer/AI-Training/Prompts/mind-trap-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/mind-trap-illustrations-patched.mp4) | 0:25–0:36; 0:41–1:09 |
-| Flattery Trap | [51 sec](/Users/davidobrien/Developer/AI-Training/Prompts/flattery-trap-illustrations-review-reel-v2.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/flattery-trap-illustrations-patched-v2.mp4) | 0:29–1:16 |
-| Engagement Trap | [27 sec](/Users/davidobrien/Developer/AI-Training/Prompts/engagement-trap-illustrations-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/engagement-trap-illustrations-patched.mp4) | 3:32–3:55 |
-| Fake Trap | [59 sec](/Users/davidobrien/Developer/AI-Training/Prompts/fake-trap-illustrations-review-reel-v2.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/Prompts/fake-trap-illustrations-patched-v2.mp4) | 0:13–0:43; 1:59–2:20 |
+| Opener | [10 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/opener-avoid/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/opener-avoid.mp4) | 1:48–1:54 |
+| Hallucination | [12 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/hallucination/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/hallucination.mp4) | 2:04–2:12 |
+| Training Bias | [17 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/training-bias/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/training-bias.mp4) | 0:15–0:28 |
+| Document Trap | [12 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/document-trap/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/document-trap.mp4) | 0:58–1:06 |
+| Mind Trap | [47 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/mind-trap/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/mind-trap.mp4) | 0:25–0:36; 0:41–1:09 |
+| Flattery Trap | [51 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch-v3/flattery-trap/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/flattery-trap.mp4) | 0:29–1:16 |
+| Engagement Trap | [27 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch/engagement-trap/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/engagement-trap.mp4) | 3:32–3:55 |
+| Fake Trap | [59 sec](/Users/davidobrien/Developer/AI-Training/video-audit/avoid-traps-illustration-sync-2026-09-08/batch-v2/fake-trap/approved-review-reel.mp4) | [Full video](/Users/davidobrien/Developer/AI-Training/videos/fake-trap.mp4) | 0:13–0:43; 1:59–2:20 |
 
 ## Verification
 
@@ -32,3 +32,6 @@ Final manifests and fidelity results are in `batch/<slug>/` for the first six ap
 
 Builder: `scripts/video/build_avoid_illustration_sync.py`. It uses the visual-only retrofit procedure: one concat encode from each frozen approved live baseline plus lossless replacement legs; approved audio is stream-copied, and candidates are never used as new baselines. The first six were built with base revision; the refined pair uses `--revision v2 --slugs flattery-trap fake-trap`. Existing outputs are deliberately protected from overwrites.
 
+## Flattery Trap v3 follow-up
+
+Removed scenario camera zoom and masking at full-video 0:32.800 (review reel 0:06.300). The full board remains visible with a full-width scenario highlight. Later card highlights and approved audio are preserved. Frame count 10,999, audio packet payload identical. Native playback passes for the full video and reel. Compared 344 outside-span frames; maximum mean RGB difference 1.002/255. Manually inspected all nine every-frame boundary strips: no stale-graphic flashes. Two automated flags at frames 1788 and 2010 are continuous approved camera moves. The scenario and following transition both pass automatically. Flattery Trap v3 is approved and shipped. The previous live video and approved review copies are preserved in batch-v3/flattery-trap; shipping-receipt.json records the verified live hash. Superseded v2 review files are recoverable in batch-v2/flattery-trap.

@@ -4,7 +4,19 @@
 
 **Math is the magic that powers AI.** But you ask AI questions in words, not numbers.
 
-![You Use Words. AI Uses Numbers. You ask what the best Avengers movie is, and AI answers in natural language with Avengers Endgame and Infinity War as the leading choices.](tokens-using-ai-feels-like-editorial.jpg)
+### Board 1: You Use Words. AI Uses Numbers.
+
+**Image file:** `tokens-using-ai-feels-like-editorial.jpg`
+
+![You Use Words. AI Uses Numbers.](tokens-using-ai-feels-like-editorial.jpg)
+
+**Teaching content:**
+
+**You:** “What’s the best Avengers movie?”
+
+**AI:** “Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending.”
+
+You ask in words and receive an answer in words. The lesson now asks how those words become numbers AI can use.
 
 How do your words become numbers that AI can use?
 
@@ -16,7 +28,19 @@ But that breaks down fast. People keep inventing words, names, and slang. They a
 
 Instead of giving every word its own number, AI uses reusable pieces of text called **tokens**. Think of them as building blocks for language. A token can be a whole word or just part of one. The full collection of tokens is called the model’s **vocabulary**. The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, **un** can be reused in **unbelievable** and **unusual**.
 
-![Building Blocks for Language. Luke and Nate feed the written word unbelievable into a brass tokenizer, which produces un, belie, and vable tiles. Below, the same green un piece is highlighted in unbelievable, unmatchable, and unusual; the remaining letters are unboxed and may span multiple tokens. Reuse the pieces. Build more words.](tokens-building-blocks-editorial.jpg)
+### Board 2: Building Blocks for Language
+
+**Image file:** `tokens-building-blocks-notebook.jpg`
+
+![Building Blocks for Language](tokens-building-blocks-notebook.jpg)
+
+**Teaching content:**
+
+The word **unbelievable** is built from the pieces **un**, **belie**, and **vable** in this example.
+
+The piece **un** can be reused in **unbelievable**, **unmatchable**, and **unusual**. The remaining letters may span multiple tokens. The vocabulary can reuse a piece instead of storing a separate entry for every whole word.
+
+**Takeaway:** Reuse the pieces. Build more words.
 
 ## WHERE THE PIECES COME FROM
 
@@ -24,15 +48,69 @@ When setting up AI, engineers choose how text will be split into tokens and how 
 
 These vocabularies can be large: ChatGPT’s holds about **200,000** tokens and Gemini’s about **256,000**. Anthropic hasn’t published Claude’s.
 
-![What Happens When You Hit Send. Start With Text: You type a question or message. Split Into Tokens: A program called a tokenizer breaks the text into reusable chunks. Look Up Token IDs: The tokenizer finds each chunk’s number in its vocabulary. In this cl100k_base example, unbelievable becomes un, belie, and vable, with IDs 359, 32898, and 24694. Tokenization turns text into token IDs the model can use.](tokens-how-tokenization-works-editorial.jpg)
+### Board 3: What Happens When You Hit Send
 
-![Humans See a Cat. AI Starts With a Token ID. A person recognizes the animal. On the AI side, the written word cat becomes token ID 4719, using cl100k_base. A token ID identifies the token. Meaning comes later.](tokens-cat-token-id-editorial.jpg)
+**Image file:** `tokens-how-tokenization-works-editorial.jpg`
+
+![What Happens When You Hit Send](tokens-how-tokenization-works-editorial.jpg)
+
+**Teaching content:**
+
+1. **Start With Text:** You type a question or message.
+2. **Split Into Tokens:** A program called a **tokenizer** breaks the text into reusable chunks.
+3. **Look Up Token IDs:** The tokenizer finds each chunk’s number in its vocabulary.
+
+For the word **unbelievable**, this cl100k_base example uses:
+
+| Token | Token ID |
+| --- | --- |
+| un | 359 |
+| belie | 32898 |
+| vable | 24694 |
+
+**Takeaway:** Tokenization turns text into token IDs the model can use.
+
+### Board 4: Humans See a Cat. AI Starts With a Token ID.
+
+**Image file:** `tokens-cat-token-id-editorial.jpg`
+
+![Humans See a Cat. AI Starts With a Token ID.](tokens-cat-token-id-editorial.jpg)
+
+**Teaching content:**
+
+**Instant Understanding:** You know what cat means: fur, whiskers, the animal.
+
+**Token ID:** Here, the tokenizer converts the written word **cat** to ID **4719**, using cl100k_base. The number identifies the token, not its meaning.
+
+**Takeaway:** A token ID identifies the token. Meaning comes later.
 
 All the text you send to AI gets split into tokens. Here are some examples.
 
-![How AI Splits Text Into Tokens. Verified cl100k_base examples: unbelievable becomes un (359), belie (32898), vable (24694); basketball becomes basket (60864), ball (4047); ChatGPT becomes Chat (16047), G (38), PT (2898); I ♥ AI becomes I (40), space plus ♥ (68679), space plus AI (15592). https://www.quickbookstraining.com becomes eight tokens: https (2485), :// (1129), www (2185), .quick (92074), book (2239), str (496), aining (2101), .com (916). SP marks a leading space. Numbers below the chunks are token IDs.](tokens-how-ai-splits-text-verified-editorial.jpg)
+### Board 5: How AI Splits Text Into Tokens
+
+**Image file:** `tokens-how-ai-splits-text-verified-editorial.jpg`
+
+![How AI Splits Text Into Tokens](tokens-how-ai-splits-text-verified-editorial.jpg)
+
+**Teaching content:**
+
+These examples use the cl100k_base tokenizer. On this board, **SP** is only a visual label for a leading space; it is not text the tokenizer inserts. In **I ♥ AI**, the space and heart form one token, and the next space and **AI** form another. Including **I**, that makes three tokens. Numbers below the chunks on the board are token IDs.
+
+| Text | Tokens, in order | Token IDs, in the same order | Count |
+| --- | --- | --- | --- |
+| unbelievable | un · belie · vable | 359 · 32898 · 24694 | 3 |
+| basketball | basket · ball | 60864 · 4047 | 2 |
+| ChatGPT | Chat · G · PT | 16047 · 38 · 2898 | 3 |
+| I ♥ AI | I · SP ♥ · SP AI | 40 · 68679 · 15592 | 3 |
+| https://www.quickbookstraining.com | https · :// · www · .quick · book · str · aining · .com | 2485 · 1129 · 2185 · 92074 · 2239 · 496 · 2101 · 916 | 8 |
+
+One word can contain several tokens. A token can include a space before a word or symbol. Names and web addresses also split into pieces.
+
+## HOW THE ANSWER BECOMES WORDS AGAIN
 
 When AI replies, its answer comes out as token IDs. The tokenizer converts those IDs back into pieces of text and joins them together into the answer you read.
+
+## Closing Message
 
 Words become numbers.
 

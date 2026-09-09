@@ -48,7 +48,7 @@ def specs():
             if slug=='flattery-trap':
                 left=(31,302,618,1115);right=(643,302,1230,1115)
                 scenario=(31,90,1230,276)
-                states+=[state(984,'essay',scenario,P,scenario,24),state(1275,'flattery-response',(31,678,618,818),A,left,30),state(1431,'praised',(31,826,618,909),A,left),state(1563,'false-praise-result',(31,1012,618,1094),A,left),state(1788,'useful-heading-and-response',(643,678,1230,814),B,right,30),state(1887,'missing-thesis',(643,918,1230,1005),B,right),state(2010,'full-takeaway',gold_bounds(asset),H,None,24)]
+                states+=[state(984,'essay',scenario,P,None,0),state(1275,'flattery-response',(31,678,618,818),A,left,30),state(1431,'praised',(31,826,618,909),A,left),state(1563,'false-praise-result',(31,1012,618,1094),A,left),state(1788,'useful-heading-and-response',(643,678,1230,814),B,right,30),state(1887,'missing-thesis',(643,918,1230,1005),B,right),state(2010,'full-takeaway',gold_bounds(asset),H,None,24)]
             if slug=='fake-trap' and 'comparison' in asset.name:
                 left=(33,221,590,1162);right=(615,221,1174,1162)
                 states=[state(a,'scenario',(33,95,1174,193),P),state(573,'appearance-test',left,A,left,24),state(915,'source-trail-test',right,B,right,24)]
@@ -139,8 +139,8 @@ def encode(g):
 
 def main():
     global AUDIT,REVISION
-    p=argparse.ArgumentParser();p.add_argument('--slugs',nargs='*');p.add_argument('--revision',choices=['base','v2'],default='base');args=p.parse_args()
-    REVISION='-v2' if args.revision=='v2' else '';AUDIT=BASE/('batch'+REVISION);groups=specs()
+    p=argparse.ArgumentParser();p.add_argument('--slugs',nargs='*');p.add_argument('--revision',choices=['base','v2','v3'],default='base');args=p.parse_args()
+    REVISION='-'+args.revision if args.revision!='base' else '';AUDIT=BASE/('batch'+REVISION);groups=specs()
     if args.slugs:groups={k:groups[k] for k in args.slugs}
     AUDIT.mkdir(parents=True,exist_ok=True)
     (AUDIT/'batch-plan.json').write_text(json.dumps(list(groups.values()),indent=2)+'\n')

@@ -1,0 +1,55 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/videos/ai-is-math-v2.mp4`
+- Decoded frames: 6310
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f1306 `Pause before standard probability` — [`boundary-001306-Pause-before-standard-probability.jpg`](boundary-001306-Pause-before-standard-probability.jpg)
+- PASS — f1336 `Equally likely outcomes and counting formula` — [`boundary-001336-Equally-likely-outcomes-and-counting-formula.jpg`](boundary-001336-Equally-likely-outcomes-and-counting-formula.jpg)
+- PASS — f1630 `ways-to-get-result` — [`boundary-001630-ways-to-get-result.jpg`](boundary-001630-ways-to-get-result.jpg)
+- PASS — f1718 `total-outcomes` — [`boundary-001718-total-outcomes.jpg`](boundary-001718-total-outcomes.jpg)
+- PASS — f1794 `formula-settle` — [`boundary-001794-formula-settle.jpg`](boundary-001794-formula-settle.jpg)
+- PASS — f1804 `Pause before two-coin example; ratio overreach removed` — [`boundary-001804-Pause-before-two-coin-example-ratio-overreach-removed.jpg`](boundary-001804-Pause-before-two-coin-example-ratio-overreach-removed.jpg)
+- PASS — f1834 `Four outcomes and 25 percent` — [`boundary-001834-Four-outcomes-and-25-percent.jpg`](boundary-001834-Four-outcomes-and-25-percent.jpg)
+- PASS — f1895 `coin-scenario` — [`boundary-001895-coin-scenario.jpg`](boundary-001895-coin-scenario.jpg)
+- PASS — f2069 `four-equally-likely-outcomes` — [`boundary-002069-four-equally-likely-outcomes.jpg`](boundary-002069-four-equally-likely-outcomes.jpg)
+- PASS — f2146 `heads-heads` — [`boundary-002146-heads-heads.jpg`](boundary-002146-heads-heads.jpg)
+- PASS — f2195 `heads-tails` — [`boundary-002195-heads-tails.jpg`](boundary-002195-heads-tails.jpg)
+- PASS — f2233 `tails-heads` — [`boundary-002233-tails-heads.jpg`](boundary-002233-tails-heads.jpg)
+- PASS — f2275 `tails-tails` — [`boundary-002275-tails-tails.jpg`](boundary-002275-tails-tails.jpg)
+- PASS — f2342 `one-matching-outcome` — [`boundary-002342-one-matching-outcome.jpg`](boundary-002342-one-matching-outcome.jpg)
+- PASS — f2393 `one-out-of-four` — [`boundary-002393-one-out-of-four.jpg`](boundary-002393-one-out-of-four.jpg)
+- PASS — f2597 `notebook-four-outcomes-summary` — [`boundary-002597-notebook-four-outcomes-summary.jpg`](boundary-002597-notebook-four-outcomes-summary.jpg)
+- PASS — f2807 `Pause before new evidence` — [`boundary-002807-Pause-before-new-evidence.jpg`](boundary-002807-Pause-before-new-evidence.jpg)
+- PASS — f2837 `Conditional probability and changed knowledge` — [`boundary-002837-Conditional-probability-and-changed-knowledge.jpg`](boundary-002837-Conditional-probability-and-changed-knowledge.jpg)
+- PASS — f2847 `notebook-new-evidence-and-peek` — [`boundary-002847-notebook-new-evidence-and-peek.jpg`](boundary-002847-notebook-new-evidence-and-peek.jpg)
+- PASS — f3549 `clue-board-establish` — [`boundary-003549-clue-board-establish.jpg`](boundary-003549-clue-board-establish.jpg)
+- PASS — f3606 `rule-out-tails-first` — [`boundary-003606-rule-out-tails-first.jpg`](boundary-003606-rule-out-tails-first.jpg)
+- PASS — f3788 `two-remaining-outcomes` — [`boundary-003788-two-remaining-outcomes.jpg`](boundary-003788-two-remaining-outcomes.jpg)
+- PASS — f3903 `one-remaining-double-heads` — [`boundary-003903-one-remaining-double-heads.jpg`](boundary-003903-one-remaining-double-heads.jpg)
+- PASS — f4041 `one-out-of-two` — [`boundary-004041-one-out-of-two.jpg`](boundary-004041-one-out-of-two.jpg)
+- PASS — f4155 `unchanged-coins-changed-knowledge` — [`boundary-004155-unchanged-coins-changed-knowledge.jpg`](boundary-004155-unchanged-coins-changed-knowledge.jpg)
+- PASS — f4301 `fifty-percent-takeaway` — [`boundary-004301-fifty-percent-takeaway.jpg`](boundary-004301-fifty-percent-takeaway.jpg)
+- PASS — f4450 `Pause before connection to AI` — [`boundary-004450-Pause-before-connection-to-AI.jpg`](boundary-004450-Pause-before-connection-to-AI.jpg)
+- PASS — f4480 `Conversation conditions next-word probabilities` — [`boundary-004480-Conversation-conditions-next-word-probabilities.jpg`](boundary-004480-Conversation-conditions-next-word-probabilities.jpg)
+- PASS — f4761 `question-and-written-words` — [`boundary-004761-question-and-written-words.jpg`](boundary-004761-question-and-written-words.jpg)
+- PASS — f4854 `conditioned-probabilities` — [`boundary-004854-conditioned-probabilities.jpg`](boundary-004854-conditioned-probabilities.jpg)
+- PASS — f4995 `Pause before dog-name example` — [`boundary-004995-Pause-before-dog-name-example.jpg`](boundary-004995-Pause-before-dog-name-example.jpg)
+- PASS — f5025 `Question, reply, and three probabilities` — [`boundary-005025-Question-reply-and-three-probabilities.jpg`](boundary-005025-Question-reply-and-three-probabilities.jpg)
+- PASS — f5058 `dog-question` — [`boundary-005058-dog-question.jpg`](boundary-005058-dog-question.jpg)
+- PASS — f5186 `reply-so-far` — [`boundary-005186-reply-so-far.jpg`](boundary-005186-reply-so-far.jpg)
+- PASS — f5326 `possible-next-words` — [`boundary-005326-possible-next-words.jpg`](boundary-005326-possible-next-words.jpg)
+- PASS — f5528 `spot-probability` — [`boundary-005528-spot-probability.jpg`](boundary-005528-spot-probability.jpg)
+- PASS — f5617 `max-probability` — [`boundary-005617-max-probability.jpg`](boundary-005617-max-probability.jpg)
+- PASS — f5668 `buddy-probability` — [`boundary-005668-buddy-probability.jpg`](boundary-005668-buddy-probability.jpg)
+- PASS — f5730 `Pause before prediction loop; database claim removed` — [`boundary-005730-Pause-before-prediction-loop-database-claim-removed.jpg`](boundary-005730-Pause-before-prediction-loop-database-claim-removed.jpg)
+- PASS — f5760 `Chosen word joins the text; next prediction` — [`boundary-005760-Chosen-word-joins-the-text-next-prediction.jpg`](boundary-005760-Chosen-word-joins-the-text-next-prediction.jpg)
+- PASS — f5798 `word-joins-text` — [`boundary-005798-word-joins-text.jpg`](boundary-005798-word-joins-text.jpg)
+- PASS — f5848 `new-evidence-for-next-prediction` — [`boundary-005848-new-evidence-for-next-prediction.jpg`](boundary-005848-new-evidence-for-next-prediction.jpg)
+- PASS — f6040 `Pause before exact closing` — [`boundary-006040-Pause-before-exact-closing.jpg`](boundary-006040-Pause-before-exact-closing.jpg)
+- PASS — f6070 `Exact lesson closing narration` — [`boundary-006070-Exact-lesson-closing-narration.jpg`](boundary-006070-Exact-lesson-closing-narration.jpg)
+- PASS — f6203 `Settled closing hold` — [`boundary-006203-Settled-closing-hold.jpg`](boundary-006203-Settled-closing-hold.jpg)

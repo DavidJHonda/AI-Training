@@ -1,0 +1,57 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/make-your-move-illustrations-patched.mp4`
+- Decoded frames: 8619
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f877 `illustration-start` — [`boundary-000877-illustration-start.jpg`](boundary-000877-illustration-start.jpg)
+- PASS — f1119 `illustration-end` — [`boundary-001119-illustration-end.jpg`](boundary-001119-illustration-end.jpg)
+- PASS — f2255 `illustration-start` — [`boundary-002255-illustration-start.jpg`](boundary-002255-illustration-start.jpg)
+- FAIL — f2311 `doctor-ai` — [`boundary-002311-doctor-ai.jpg`](boundary-002311-doctor-ai.jpg)
+  - Possible stale visual: f2316 to f2317 (1 frames)
+  - Possible stale visual: f2317 to f2318 (1 frames)
+  - Possible stale visual: f2318 to f2319 (1 frames)
+  - Possible stale visual: f2319 to f2320 (1 frames)
+  - Possible stale visual: f2320 to f2321 (1 frames)
+  - Possible stale visual: f2321 to f2322 (1 frames)
+  - Possible stale visual: f2322 to f2323 (1 frames)
+- PASS — f2533 `doctor-people` — [`boundary-002533-doctor-people.jpg`](boundary-002533-doctor-people.jpg)
+- PASS — f2692 `illustration-end` — [`boundary-002692-illustration-end.jpg`](boundary-002692-illustration-end.jpg)
+- PASS — f2807 `illustration-start` — [`boundary-002807-illustration-start.jpg`](boundary-002807-illustration-start.jpg)
+- PASS — f2849 `teacher-ai` — [`boundary-002849-teacher-ai.jpg`](boundary-002849-teacher-ai.jpg)
+- PASS — f2981 `teacher-people` — [`boundary-002981-teacher-people.jpg`](boundary-002981-teacher-people.jpg)
+- PASS — f3091 `illustration-end` — [`boundary-003091-illustration-end.jpg`](boundary-003091-illustration-end.jpg)
+- PASS — f3216 `illustration-start` — [`boundary-003216-illustration-start.jpg`](boundary-003216-illustration-start.jpg)
+- PASS — f3265 `lawyer-ai` — [`boundary-003265-lawyer-ai.jpg`](boundary-003265-lawyer-ai.jpg)
+- PASS — f3362 `lawyer-people` — [`boundary-003362-lawyer-people.jpg`](boundary-003362-lawyer-people.jpg)
+- PASS — f3576 `illustration-end` — [`boundary-003576-illustration-end.jpg`](boundary-003576-illustration-end.jpg)
+- PASS — f3789 `illustration-start` — [`boundary-003789-illustration-start.jpg`](boundary-003789-illustration-start.jpg)
+- FAIL — f3851 `electrician-ai` — [`boundary-003851-electrician-ai.jpg`](boundary-003851-electrician-ai.jpg)
+  - Possible stale visual: f3856 to f3857 (1 frames)
+  - Possible stale visual: f3857 to f3858 (1 frames)
+  - Possible stale visual: f3858 to f3859 (1 frames)
+  - Possible stale visual: f3859 to f3860 (1 frames)
+  - Possible stale visual: f3860 to f3861 (1 frames)
+  - Possible stale visual: f3861 to f3862 (1 frames)
+  - Possible stale visual: f3862 to f3863 (1 frames)
+- PASS — f4066 `electrician-people` — [`boundary-004066-electrician-people.jpg`](boundary-004066-electrician-people.jpg)
+- PASS — f4147 `illustration-end` — [`boundary-004147-illustration-end.jpg`](boundary-004147-illustration-end.jpg)
+- PASS — f4404 `illustration-start` — [`boundary-004404-illustration-start.jpg`](boundary-004404-illustration-start.jpg)
+- PASS — f4481 `designer-people` — [`boundary-004481-designer-people.jpg`](boundary-004481-designer-people.jpg)
+- FAIL — f4731 `entrepreneur-intro` — [`boundary-004731-entrepreneur-intro.jpg`](boundary-004731-entrepreneur-intro.jpg)
+  - Possible stale visual: f4734 to f4735 (1 frames)
+  - Possible stale visual: f4735 to f4736 (1 frames)
+  - Possible stale visual: f4736 to f4737 (1 frames)
+  - Possible stale visual: f4737 to f4738 (1 frames)
+  - Possible stale visual: f4738 to f4739 (1 frames)
+  - Possible stale visual: f4739 to f4740 (1 frames)
+  - Possible stale visual: f4740 to f4741 (1 frames)
+  - Possible stale visual: f4741 to f4742 (1 frames)
+  - Possible stale visual: f4742 to f4743 (1 frames)
+- PASS — f4796 `entrepreneur-ai` — [`boundary-004796-entrepreneur-ai.jpg`](boundary-004796-entrepreneur-ai.jpg)
+- PASS — f4949 `entrepreneur-people` — [`boundary-004949-entrepreneur-people.jpg`](boundary-004949-entrepreneur-people.jpg)
+- PASS — f5057 `illustration-end` — [`boundary-005057-illustration-end.jpg`](boundary-005057-illustration-end.jpg)

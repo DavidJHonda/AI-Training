@@ -143,7 +143,7 @@
     .oay-row > .oay-figure{ text-align:left; font-size:26px; }
     .oay-time-fields{ flex-direction:column; }
   }
-  /* Be the Attention TRY IT: every word in the sentence is clickable, and an arc
+  /* Be the Transformer TRY IT: every word in the sentence is clickable, and an arc
      is drawn from the marked word to the one it depends on. Hover, wrapping and
      the draw-in stroke all need real CSS, so the sentence lives here rather than
      as inline styles. The arc path carries pathLength="1", which lets the dash
@@ -875,15 +875,15 @@ const LESSON_VIDEOS = {
   evaluating: { src: "videos/evaluate-the-results.mp4?v=2", duration: "5 min", title: "The quick pass, the dig decision, the final moves." },
   critical: { src: "videos/critical-thinking.mp4?v=2", duration: "4 min", title: "Five questions that keep the thinking yours." },
   openerfoundations: { src: "videos/opener-understand.mp4?v=2", duration: "3 min", title: "Not magic, not a person, not normal software.", cta: "Both walk the same section map." },
-  training: { src: "videos/training.mp4?v=2", duration: "5 min", title: "Watch the machine get built: one loop, three phases." },
-  aiismath: { src: "videos/ai-is-math.mp4?v=3", duration: "4 min", title: "Two ideas from probability, plus the loop that makes language." },
+  training: { src: "videos/training.mp4?v=20260909repair1", duration: "5 min", title: "Watch the machine get built: one loop, three phases." },
+  aiismath: { src: "videos/ai-is-math.mp4?v=20260909repair1", duration: "4 min", title: "Two ideas from probability, plus the loop that makes language." },
   tokens: { src: "videos/tokens.mp4?v=4", duration: "4 min", title: "How your words become chunks the model can work with." },
   embeddings: { src: "videos/embeddings.mp4?v=2", duration: "3 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "videos/transformer.mp4", duration: "5 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "videos/layers.mp4", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
   vectorspace: { src: "videos/vector-space.mp4?v=2", duration: "3 min", title: "Where a token's numbers finally land." },
   prediction: { src: "videos/how-ai-answers.mp4?v=2", duration: "4 min", title: "How the answer builds itself, one token at a time." },
-  inference: { src: "videos/one-more-thing.mp4", duration: "5 min", title: "Three more things: the lottery, the transcript, and the bill." },
+  inference: { src: "videos/one-more-thing.mp4", duration: "4 min", title: "Different choices, temperature, and the scale of the math." },
   openerprotect: { src: "videos/opener-avoid.mp4?v=2", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
   hallucination: { src: "videos/hallucination.mp4", duration: "3 min", title: "Why AI can make up facts that sound true.", cta: "Both end at the same LAB." },
   trainingbias: { src: "videos/training-bias.mp4", duration: "4 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
@@ -896,7 +896,7 @@ const LESSON_VIDEOS = {
   // Build Your Skills lessons are ready to read. Approved videos use `src` below;
   // `comingSoon` cards reserve the same position for the remaining productions.
   openerskills: { src: "videos/opener-build.mp4", duration: "3 min", title: "The Skills You Keep", cta: "Both walk the same section map." },
-  choosemodel: { src: "videos/your-choices.mp4", duration: "5 min", title: "The Choices Behind Every Answer" },
+  choosemodel: { src: "videos/your-choices.mp4?v=20260908notemperature1", duration: "3 min", title: "The Choices Behind Every Answer" },
   aitips: { src: "videos/next-level-moves.mp4", duration: "5 min", title: "Go Beyond the First Answer", cta: "Both end at the same LAB." },
   integrity: { comingSoon: true, title: "Own the Work. Protect the Details." },
   peopleskills: { src: "videos/people-skills.mp4", duration: "3 min", title: "The Skills AI Cannot Replace", cta: "Both end at the same LAB." },
@@ -2946,7 +2946,7 @@ function OpenerFoundationsSection(props) {
       eyebrow: "In this section",
       title: "How AI Really Works"
     },
-    sectionOverviewBoard: "illustrations/opener-understand-section-map.jpg?v=20260905opener5",
+    sectionOverviewBoard: "illustrations/opener-understand-section-map.jpg?v=20260908scope1",
     groups: [
       {
         kicker: "How AI Learned",
@@ -2966,7 +2966,7 @@ function OpenerFoundationsSection(props) {
       },
       {
         kicker: "How AI Builds an Answer",
-        bridge: "How AI chooses each next token, why answers vary, and what keeps a conversation going."
+        bridge: "How AI builds an answer, why answers vary, and how much math it takes."
       }
     ],
     nextLessonId: "training",
@@ -3530,8 +3530,7 @@ function BayesianMindReaderTryIt(props) {
       instructions: [
         "Choose a whole number from 1 to 200 and keep it secret.",
         "Compare each guess with your number.",
-        React.createElement("span", null, "Select ", React.createElement("strong", null, "Higher"), " if your number is higher than the guess, ", React.createElement("strong", null, "Lower"), " if it’s lower, or ", React.createElement("strong", null, "Correct"), " if they match."),
-        "Watch the probability chart change after each clue until the number is found."
+        React.createElement("span", null, "Select ", React.createElement("strong", null, "Higher"), " if your number is higher than the guess, ", React.createElement("strong", null, "Lower"), " if it’s lower, or ", React.createElement("strong", null, "Correct"), " if they match.")
       ]
     },
       /*#__PURE__*/React.createElement(InnerCard, null,
@@ -4980,10 +4979,6 @@ function ControlSection(props) {
     }));
 }
 function AIvsCodeSection(props) {
-  // Fixed Rules vs Patterns box renders fully revealed (was a click-through SEE IT).
-  var revealStep = 2, setRevealStep = function() {};
-  var askCount = 2, setAskCount = function() {};
-  var seeComplete = true, setSeeComplete = function() {};
   const FIT_SCENARIOS = [
     { prompt: "You log in to your school’s portal and it shows your cumulative GPA, pulled from every class you’ve taken.", options: [
       { label: "Normal Software", correct: true, headline: "It’s a rule.", feedback: "Your GPA is exact math with one right answer: total the grade points, weight them by credits, and divide. The portal runs the same formula every time, so the number never drifts." },
@@ -5000,7 +4995,7 @@ function AIvsCodeSection(props) {
   ];
   const KRYPTONITE_STORIES = [
     { title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds." },
-    { title: "Deepfakes of real people", text: "Convincing fakes can target and humiliate anyone, including students." },
+    { title: "Deepfakes", text: "Convincing fakes can target and humiliate anyone, including students." },
     { title: "Confident but wrong", text: "Medical and safety answers can sound correct even when they are flat wrong." }
   ];
   return /*#__PURE__*/React.createElement("div", null,
@@ -5021,15 +5016,18 @@ function AIvsCodeSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "IF-THEN-ELSE"),
       " statements. Here’s what that looks like."
     ),
-    /*#__PURE__*/React.createElement("div", { style: { background: "#d6e2f4", borderRadius: 18, padding: 22, boxShadow: "var(--shadowElevated)", margin: "0 36px 20px" } },
-      /*#__PURE__*/React.createElement(InnerCard, { style: { marginBottom: 0 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--mono)", fontSize: 14, lineHeight: 1.9, color: "var(--ink)" } },
-        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "IF"), " the password matches"),
-        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "THEN"), " open the app"),
-        /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", { style: { color: "#2f4cb8" } }, "ELSE"), " show message “Password doesn’t match. Please try again.”")))),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-different-rules.jpg?v=20260909branch1",
+      alt: "Rules Look Like This. A user enters a password. If the password matches, the app opens. Otherwise, the app shows Password doesn’t match. Please try again. Written rules return the same result every time.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS Based On Patterns"),
     /*#__PURE__*/React.createElement(BodyP, null, "As you learned earlier, AI is based on patterns, not rules."),
-    /*#__PURE__*/React.createElement(CoreLoopBox, null),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-different-learn-once.jpg?v=20260909arrows1",
+      alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Wrapping your head around this is important, so here’s a cooking analogy."
     ),
@@ -5046,29 +5044,14 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Watch what each one does with the same question."
     ),
-    /*#__PURE__*/React.createElement(ShowcaseBox, { headline: "Fixed Rules vs. Built From Patterns" },
-      /*#__PURE__*/React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 10, padding: "16px 20px", marginBottom: 16, textAlign: "center" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--inkMuted)", marginBottom: 4 } }, "THE QUESTION"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)" } }, "“What’s the best game for my new PS5?”")),
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16, animation: "fadeIn 0.4s ease" } },
-          /*#__PURE__*/React.createElement(CompareCard, { bg: "#e0f2fe" },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "💻"),
-            /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#1e40af", marginBottom: 4, fontSize: 18 } }, "Normal Software"),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#1e40af", fontStyle: "italic", marginBottom: 8 } }, "Follows Fixed Rules"),
-            /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#1e3a5f", lineHeight: 1.6, marginBottom: 12 } },
-              "Returns the same preset list, no matter who asks or why."),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1e40af", fontWeight: 600, fontStyle: "italic" } },
-              "Ask again → same list, every time.")),
-          /*#__PURE__*/React.createElement(TypingAICard, { askCount: askCount, onAskAgain: function() {}, onComplete: function() {} })))),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/ai-is-different-fixed-vs-patterns.jpg?v=20260909compare1",
+      alt: "Fixed Rules vs. Built From Patterns. Nate and Luke ask what the best game is for a new PS5. Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That’s the split. Normal software follows fixed rules, so it hands back the same preset list no matter who asks or why. AI is built from patterns, so it does the opposite: it builds a fresh answer every time, shaped to your exact question."
     ),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different.jpg",
-      alt: "Two teens compare adjacent workshop demonstrations. A transparent machine labeled Rules follows rigid IF and THEN gates to produce one fixed blue answer card, while a display labeled Patterns connects varied examples and produces several plausible purple answer cards.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "STRUCTURED VS UNSTRUCTURED DATA"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s another AI superpower. What you give it, and what it returns, doesn’t have to follow a set structure."
@@ -5080,8 +5063,8 @@ function AIvsCodeSection(props) {
       "But AI is different. It read our messy notes and turned them into whatever we asked for."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-side-by-side.jpg",
-      alt: "",
+      src: "illustrations/ai-is-different-normal-vs-ai.jpg?v=20260909compare1",
+      alt: "Normal Software vs. AI Software. Nate and Luke compare normal software built from rules with AI built from patterns. Normal software needs clean structured input, returns the same output, and lets people trace errors to a line. AI handles messy human input, may change its answer, and can be confidently wrong without one line to point to. Rules deliver consistency. Patterns handle the mess.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", {
@@ -5117,8 +5100,8 @@ function AIvsCodeSection(props) {
       "Because AI runs on learned patterns and not rules, it’s harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written rules."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-kryptonite.jpg",
-      alt: "",
+      src: "illustrations/ai-is-different-kryptonite-v2.jpg?v=20260909graphics1",
+      alt: "AI’s Kryptonite. Scams That Scale: AI generates code, convincing messages, and fake identities in seconds. Deepfakes: convincing fakes can target and humiliate anyone, including students. Confident but Wrong: medical and safety answers can sound correct even when they are flat wrong. Trained behavior is harder to predict, inspect, and lock down.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", {
@@ -5154,23 +5137,6 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
-}
-function TypingAICard(props) {
-  var responses = [
-    "Marvel’s Spider-Man 2 is a great pick. The open-world web-swinging across New York City feels incredible on the PS5, and you can switch between Peter Parker and Miles Morales mid-mission. It’s polished, fun, and easy to jump into.",
-    "NHL 26 is a solid pick. The skating physics feel sharper than last year, the goalies actually put up a fight on one-on-one breakaways, and franchise mode goes deep if you want to build a dynasty over a decade of seasons. Online play is fast and competitive.",
-    "God of War Ragnarok is a strong choice. It’s a cinematic action game with great combat, a serious story about Kratos and his son Atreus, and stunning visuals across the Nine Realms of Norse mythology. Expect 30+ hours of content."
-  ];
-  // Static (was a type-and-ask-again card): all three asks shown at once.
-  return /*#__PURE__*/React.createElement(CompareCard, { bg: "#f3e8ff", style: { animation: "fadeIn 0.4s ease" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 8 } }, "🧠"),
-    /*#__PURE__*/React.createElement("h4", { style: { fontWeight: 800, color: "#5b21b6", marginBottom: 4, fontSize: 18 } }, "AI Software"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#5b21b6", fontStyle: "italic", marginBottom: 8 } }, "Built From Patterns"),
-    responses.map(function(r, i) {
-      return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 10 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#7c3aed", marginBottom: 4 } }, ["First ask", "Ask again", "Ask again"][i]),
-        /*#__PURE__*/React.createElement("div", { style: { background: "#ffffff", borderRadius: 8, padding: 12, fontSize: 14, color: "#3b1f6e", lineHeight: 1.6 } }, r));
-    }));
 }
 function TransformerClaimsTryIt(props) {
   var CLAIMS = [
@@ -5215,10 +5181,9 @@ function TransformerClaimsTryIt(props) {
           }));
       })) : null);
 }
-// Be the Attention: the Transformer TRY IT. Every word in the sentence is
-// clickable and the student picks the one the marked word depends on, so the
-// interaction is the thing attention actually does rather than a multiple
-// choice about it. Item 5 is a Winograd schema: one word swaps at the end and
+// Be the Transformer: the Transformer TRY IT. Every word in the sentence is
+// clickable and the student uses the complete sentence to find contextual
+// clues to the marked word's meaning. Item 5 is a Winograd schema: one word swaps at the end and
 // the link jumps to the other noun.
 //
 // Plain React. Only the arc needs imperative work, because a curve between two
@@ -5244,9 +5209,9 @@ var BTA_ITEMS = [
     words: ["My", "brother", "spilled", "juice", "on", "the", "laptop,", "and", "now", "IT", "won’t", "turn", "on."],
     target: 9, correct: 6,
     fb: {
-      ok: "“Won’t turn on” fits the laptop, so attention links IT there. The juice is doing fine.",
-      1: "Your brother may be in trouble, but people don’t “turn on.” That phrase fits the laptop, so that’s where attention links IT.",
-      3: "The juice is doing fine; it already did its damage. “Won’t turn on” fits the laptop, so that’s where attention links IT.",
+      ok: "“Won’t turn on” fits the laptop, so IT refers to the laptop. The juice is doing fine.",
+      1: "Your brother may be in trouble, but people don’t “turn on.” That phrase fits the laptop, so IT refers to the laptop.",
+      3: "The juice is doing fine; it already did its damage. “Won’t turn on” fits the laptop, so IT refers to the laptop.",
       none: "This IT points at something real. Ask which thing in the sentence could fail to turn on.",
       any: "Try the swap. Which one of these would you say “won’t turn on” about? The laptop."
     }
@@ -5462,7 +5427,7 @@ function BeTheAttentionTryIt(props) {
             correct === null ? "No word in this sentence." : "Answer: " + words[correct].replace(/[.,]$/, "") + "."),
           E("span", null, ok)));
     };
-    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Attention", instructions: [
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Be the Transformer", instructions: [
       "Read each sentence and find the marked word.",
       E("span", null, "Choose the word that answers the question, or choose ", E("strong", null, "No word in this sentence"), ".")
     ] },
@@ -5481,8 +5446,8 @@ function BeTheAttentionTryIt(props) {
   }
 
   return E(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Be the Attention",
-    lead: "The Transformer uses connections between words to help interpret your message. Now you’ll find those connections yourself.",
+    variant: "try", surface: "mint", title: "Be the Transformer",
+    lead: "Use the clues in each sentence to work out what the marked word means.",
     instructions: [
       "Read the sentence and find the marked word.",
       E("span", null, "Click the word that answers the question, or choose ", E("strong", null, "No word in this sentence"), ".")
@@ -5522,7 +5487,7 @@ function HowAIReadsSection(props) {
     E(SectionKicker, null, "WHY THIS WAS HARD FOR AI"),
 
     E(BodyP, null,
-      "Our human brains see the right meaning instantly from the surrounding words. For earlier AI, this was a challenge because it read text in order, one word at a time. The further it read, the more the early words faded."
+      "Our human brains see the right meaning instantly from the surrounding words. For earlier AI, this was a challenge because it read text in order, one word at a time. In longer passages, it could lose track of the earlier words."
     ),
 
     E("img", {
@@ -5568,6 +5533,10 @@ function HowAIReadsSection(props) {
       alt: "How Context Changes the Numbers. Attention weighs information from relevant words and blends it into the token’s numbers, illustrated by IT connecting back to CAT. Transformation uses learned patterns to further process those numbers, shown as IT after attention becoming IT with context. Attention and transformation work together to build meaning from context.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
+
+    E(BodyP, null,
+      "The model’s learned weights stay fixed. What changes is the row of numbers representing each token in your message."
+    ),
 
     E(BodyP, null,
       "Now let’s return to our two examples."
@@ -7010,8 +6979,8 @@ function LayersStackBox() {
 }
 function LayersResolutionBox() {
   return React.createElement("img", {
-    src: "illustrations/layers-resolves-it.jpg?v=20260907mechanics12",
-    alt: "How AI Connects ‘IT’ to ‘CAT’. The same blue IT pill appears in the sentence and every step. Matching teal CAT circles appear in the sentence and result. Smaller matching labels highlight IT and CAT in the explanations. IT could refer to different things. The starting numbers don’t tell us which one. In Layer 1, the numbers begin shifting toward CAT. They keep changing through Layer 2 and more layers. AI works out that IT refers to CAT.",
+    src: "illustrations/layers-resolves-it.jpg?v=20260909layout4",
+    alt: "How AI Connects ‘IT’ to ‘CAT’. Blue IT pills and teal CAT circles highlight the words in the sentence and explanations. Each stage shows its heading, changing numbers or repeated layers, and explanation. IT could refer to different things. The starting numbers don’t tell us which one. In Layer 1, the numbers begin to capture IT’s connection to CAT. In Layer 2, the updated numbers carry more information about that connection. Repeat: Each layer builds on the previous layer’s numbers. AI works out that IT refers to CAT.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
 }
@@ -7082,62 +7051,57 @@ function InferenceSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
   /*#__PURE__*/React.createElement(BodyP, null, "One more thing. Actually, three."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Across this section, you built the machine from tokens to predictions. Three questions remain: Why can the same prompt produce a different answer? How does a chat seem to remember what came before? And how much math does one answer require?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Answer those, and the whole process comes together."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The top token does not always win"),
-  /*#__PURE__*/React.createElement(BodyP, null, "When AI builds an answer, it scores many possible next tokens and ranks them. The token at the top has the best chance of being selected, but it does not always win. Another likely token can be chosen instead. That is one reason the same question can produce different answers."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Suppose you ask AI, \u201cWhat should I name my new dog?\u201d As it builds the answer, it reaches the place where a dog name comes next."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Think of the choice as a weighted drawing. If Spot has a 22% chance, imagine Spot holding 22 of 100 tickets. Max holds 17, Buddy holds 14, and the other possible tokens share the rest."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Spot has more tickets than any single choice, so it has the best chance to win. But the other choices hold 78 tickets together. Most drawings will select something other than Spot."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Why give other choices a chance? If AI always selected the safest token, its answers would start to sound repetitive. Letting other likely choices win gives the writing more variety."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Why can the same prompt produce a different answer? What makes AI’s answers more predictable or more varied? And how much math does one answer require?"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The Top Choice Doesn’t Always Win"),
+  /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time."),
+  /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/one-more-thing-same-odds-v2.jpg?v=20260905sameodds2",
-    alt: "Same Odds, Five Draws. The same 100 tickets give Spot the best individual chance, but five drawings produce Max, Spot, Buddy, Rex, and Max. The best chance is not a guarantee.",
+    src: "illustrations/one-more-thing-same-odds-v2.jpg?v=20260908combined1",
+    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. With these probabilities unchanged, five separate tries produce Max, Spot, Buddy, Rex, and Max. The best chance is not a guarantee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-    /*#__PURE__*/React.createElement("h3", null, "Same Odds, Five Draws"),
+    /*#__PURE__*/React.createElement("h3", null, "Same Probabilities, Different Choices"),
     /*#__PURE__*/React.createElement("p", null, "You could name him ___."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The odds: "), "Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens 32%. The same 100 tickets are used every time."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five draws: "), "Max, Spot, Buddy, Rex, Max."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The probabilities: "), "Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. These probabilities stay unchanged across all five tries."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five separate tries: "), "Max, Spot, Buddy, Rex, Max."),
     /*#__PURE__*/React.createElement("p", null, "The best chance is not a guarantee.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "When AI selects a different token, every prediction that follows starts from a different place. The replies do not just differ by one word. They can take different paths."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "AI doesn’t remember"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Back to naming your dog. This time, the question comes at the end of a long chat about whether to get a dog or a cat. After choosing a dog, you ask, \u201cWhat should I name my new dog?\u201d"),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI can use that earlier discussion, which makes it seem like it remembers. It doesn’t. The app keeps the chat transcript and sends it along with your new question. The model sees the dog-or-cat discussion again and uses it to answer. The words are in front of it, not stored as a memory of making the decision with you."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/one-more-thing-memory-v2.jpg?v=20260905memory2",
-    alt: "You Remember. AI Reads. A person remembers choosing a dog and why. The app instead sends the earlier chat transcript and new question to AI, which reads that text again.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-  }),
-  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-    /*#__PURE__*/React.createElement("h3", null, "You Remember. AI Reads."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You remember: "), "You remember choosing a dog and why. When you ask for a name, you draw on memory and experience."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "AI reads: "), "The app sends the earlier chat with your new question. AI sees the choice in that text and uses it to answer."),
-    /*#__PURE__*/React.createElement("p", null, "You remember the conversation. AI reads it again.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI does not even remember the last word it wrote. It doesn’t have to. AI adds each new word to the reply and uses that growing reply to make the next prediction. The rest of the context window stays in front of AI too. That is how it uses earlier information without remembering it."),
+  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 10 }, /*#__PURE__*/React.createElement("strong", null, "Two important points:")),
+  /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } }, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety."),
+    /*#__PURE__*/React.createElement("li", null, "Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Behind the scenes, the app uses a setting called ", /*#__PURE__*/React.createElement("strong", null, "temperature"), " to reshape the probabilities before AI picks a token. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Start with the same probabilities. Watch how they change with temperature."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/one-more-thing-temperature.jpg?v=20260908combined1",
+      alt: "How Temperature Changes the Odds. For the unfinished sentence You could name him followed by a question-mark box, the starting probabilities are Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Low temperature concentrates the odds on Spot. High temperature gives less likely choices a better chance. Temperature reshapes the probabilities. It does not change what the model learned.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
+      /*#__PURE__*/React.createElement("p", null, "For the unfinished sentence “You could name him ___,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Takeaway: "), "Temperature reshapes the probabilities. It does not change what the model learned.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The scale of the math"),
   /*#__PURE__*/React.createElement(BodyP, null, "Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction. When you use AI, those weights stay fixed. For each new token, AI uses those weights in a massive set of calculations."),
-  /*#__PURE__*/React.createElement(BodyP, null, "OpenAI doesn’t publish enough about the model behind ChatGPT to count its calculations exactly. So this is a rough guess. The exact number is not the point. What matters is how quickly the math becomes enormous."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Let’s estimate one trillion weights in an LLM. If each weight requires roughly a multiply and an add for every token, that comes to about two trillion calculations for one token."),
+  /*#__PURE__*/React.createElement(BodyP, null, "To picture the scale, imagine a model that uses one trillion weights for each token it produces. At roughly two calculations per weight, that would mean about two trillion calculations for one token."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/one-more-thing-math-v2.jpg?v=20260905math2",
-    alt: "The Math Adds Up Fast. Under a rough estimate, one token requires about 2 trillion calculations, a short answer about 200 trillion, and the complete dog chat about 2 quadrillion. The estimates are rough. The scale is not.",
+    src: "illustrations/one-more-thing-math-v2.jpg?v=20260908banner1",
+    alt: "The Math Adds Up Fast. Under a rough estimate, one token requires about 2 trillion calculations, a short answer about 200 trillion, and a longer conversation about 2 quadrillion. Even a short answer takes trillions of calculations.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
     /*#__PURE__*/React.createElement("h3", null, "The Math Adds Up Fast"),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "One token: "), "One trip through our estimated trillion weights. About 2 trillion calculations."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "One token: "), "One trip through our example model’s trillion weights. About 2 trillion calculations."),
     /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A short answer: "), "About 100 tokens written by AI. About 200 trillion calculations."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Complete dog chat: "), "About 1,000 tokens written by AI across the conversation. About 2 quadrillion calculations."),
-    /*#__PURE__*/React.createElement("p", null, "The estimates are rough. The scale is not.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "A longer chat gives AI more information to work with, but it also creates more work. More text has to be processed and kept available while the reply is built. That can make long conversations slower. Starting a new chat for a different task keeps the work focused."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A longer conversation: "), "About 1,000 tokens written by AI across the conversation. About 2 quadrillion calculations."),
+    /*#__PURE__*/React.createElement("p", null, "Even a short answer takes trillions of calculations.")),
   closeBoard("inference"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "How Big Is 2 Quadrillion?",
-    lead: "Under our rough estimate, your complete dog chat involved about 2 quadrillion calculations. That number is almost impossible to picture. These comparisons make it a little less impossible.",
+    lead: "In our example, writing 1,000 tokens takes about 2 quadrillion calculations. That number is almost impossible to picture. These comparisons make it a little less impossible.",
     instructions: [
       "Read each comparison.",
       "Choose the estimate you think is closest."
@@ -7173,50 +7137,14 @@ function InferenceSection(props) {
 
 // The missing half of the five sources: what the window never holds, and why.
 function OutsideWindowBox() {
-  var E = React.createElement;
-  var CASES = [
-    { h: "Older chats", body: "What you said in a different conversation. A new chat starts cold, unless the app saved a note about it." },
-    { h: "Web pages you didn’t send", body: "The model isn’t browsing. Search works because the app fetches a page and drops its text into the window." },
-    { h: "Files on your computer", body: "Nothing on your device is visible. Uploading works by copying the file’s text into the window." },
-    { h: "Other apps and tabs", body: "Whatever you have open next door is invisible. Different app, different window." }
-  ];
-  return E(React.Fragment, null,
-    E("img", {
-      src: "illustrations/context-window-outside.jpg?v=2",
-      alt: "",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    E("div", {
-      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
-    },
-      E("h3", null, "Outside the window"),
-      CASES.map(function(c, i) {
-        return E("section", { key: i },
-          E("h4", null, c.h),
-          E("p", null, c.body));
-      }),
-      E("p", null, "If it isn’t in the window, the model can’t see it. Everything that helps got put there, by you or by the app.")));
+  return /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/context-window-outside-v2.jpg?v=20260909outside1",
+    alt: "Outside the Window. Four cards show information the model cannot see: older chats, unsent web pages, files on your computer, and other apps and tabs. If it isn’t in the context window, the model can’t see it.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
 }
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps-v2", {});
-  var AI_ANSWER_SIDES = [
-    {
-      emoji: "👦🏻",
-      title: "Luke’s AI",
-      color: "#2f4cb8",
-      prefix: "Great question, Luke. I definitely recommend a ",
-      car: "Jeep Cherokee",
-      suffix: "."
-    },
-    {
-      emoji: "👱‍♂️",
-      title: "Nate’s AI",
-      color: "#5a3aa6",
-      prefix: "I’m happy you asked this question, Nate. At this point in your life, I recommend the ",
-      car: "Ford Raptor",
-      suffix: "."
-    }
-  ];
   const LAB_STEPS = [
     { title: "Log in to ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in."] },
     { title: "Start your first project", body: "Find Projects and start a new one. Don\u2019t name or create it yet." },
@@ -7230,24 +7158,11 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "When you type 2 + 2 on the calculator on your phone, you always get 4. Same input, same answer, every time. AI doesn’t work that way. Consider the following: identical questions, asked to AI by two different people."),
-    /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "#fff", borderRadius: 999, boxShadow: "var(--shadowSoft)", padding: "12px 22px", fontSize: 16, fontWeight: 700, color: "var(--ink)", textAlign: "center", marginBottom: 16 }
-      }, "What car should I buy after I graduate from college?"),
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 } },
-        AI_ANSWER_SIDES.map(function(side, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: side.color + "12", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 9, marginBottom: 14 } },
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 20, flexShrink: 0 } }, side.emoji),
-              /*#__PURE__*/React.createElement("span", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: side.color, letterSpacing: "-0.01em" } }, side.title)),
-            /*#__PURE__*/React.createElement("div", { style: { background: "#fff", borderRadius: 12, padding: "16px 18px", boxShadow: "var(--shadowSoft)", flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8 } }, "ChatGPT Answers"),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--ink)", lineHeight: 1.6 } },
-                side.prefix,
-                /*#__PURE__*/React.createElement("strong", { style: { color: side.color } }, side.car),
-                side.suffix)));
-        }))
-    ),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/context-window-same-question-v2.jpg?v=20260909context1",
+      alt: "Same Question. Different Answers. Luke and Nate ask what car they should buy after college. Luke’s AI recommends a versatile Jeep Cherokee because he has not shared a strong vehicle preference. Nate’s AI recommends a Ford Raptor because he previously said he loves pickup trucks. Same question. Different context. Different answer.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+    }),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Wait a second. In the last lab, you changed the answer by changing the prompt. But this time, Luke and Nate typed the exact same prompt into the same app, and still got different answers!"),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7284,11 +7199,6 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "The Forgetting Problem"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Ever been deep in a long chat, and AI seems to forget something you told it earlier? There’s a reason. The window isn’t infinite, and when a chat gets long enough, the oldest parts fall out. Some apps summarize them, others just drop them. That’s one reason starting a fresh chat for a new task is often the right move."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/context-window-2.jpg?v=2",
-    alt: "Nate, wearing a Claude hoodie, stands beside a Ford pickup. Luke, wearing a Silicon Valley hoodie, stands beside a Jeep. A chalkboard summarizes the lesson: Same prompt. Different context. Different suggestion. AI predicts. You choose.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "16px auto 28px", borderRadius: 16 }
-  }),
     closeBoard("prompt"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -7491,33 +7401,24 @@ function ModelSelectionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
-  /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/which-app.jpg",
-    alt: "Two teens in matching green hockey jerseys thoughtfully compare three equally sized and equally lit workstations labeled ChatGPT, Claude, and Gemini beneath the message Pick a home base. Learn it deeply.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-  }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
   /*#__PURE__*/React.createElement(BodyP, null, "The big three AI apps work the same way. They\u2019re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules."),
   /*#__PURE__*/React.createElement(BodyP, null, "Those choices shape much of how each app differs: how it feels, what it\u2019s good at, and how it acts when it\u2019s not sure. Underneath, each one is built around a different core philosophy."),
-  /*#__PURE__*/React.createElement(ComparisonCards, {
-    headline: "The big three, side by side",
-    items: [
-      { label: "ChatGPT", title: "The Anything Box", intro: "One general-purpose AI app aimed at a wide audience. It\u2019s still many people\u2019s default starting point.", color: "#10a37f", sections: [
-        { label: "OpenAI asks", body: "How do we put capable AI in everyone\u2019s hands?", italic: true }
-      ] },
-      { label: "Claude", title: "The Thinking Partner", intro: "Built by Anthropic with an explicit safety-and-behavior philosophy. Often strong when careful reasoning and accuracy matter most.", color: "#d97757", sections: [
-        { label: "Anthropic asks", body: "How do we build powerful AI we can actually trust?", italic: true }
-      ] },
-      { label: "Gemini", title: "Built Into Google", intro: "Google\u2019s AI assistant, strongest when the task connects to the Google tools you already use.", color: "#3b82f6", sections: [
-        { label: "Google asks", body: "How do we put AI inside the tools people already use?", italic: true }
-      ] }
-    ]
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/which-app-big-three-v2.jpg?v=20260909purple1",
+    alt: "The Big Three, Side by Side. ChatGPT, the Anything Box: one general-purpose AI app aimed at a wide audience. OpenAI asks, How do we put capable AI in everyone’s hands? Claude, the Thinking Partner: built by Anthropic with an explicit safety-and-behavior philosophy and often strong when careful reasoning and accuracy matter most. Anthropic asks, How do we build powerful AI we can actually trust? Gemini, Built Into Google: Google’s AI assistant, strongest when the task connects to the Google tools you already use. Google asks, How do we put AI inside the tools people already use?",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHICH APP SHOULD YOU USE?"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Honest answer: for most of what you\u2019ll do, any of the three can do the job if it is available to you. Don\u2019t agonize over the choice. There\u2019s no single best app, and what\u2019s best today might not be best tomorrow."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/which-app-pick-home-base-v2.jpg?v=20260909board1",
+    alt: "Pick a Home Base. Learn It Deeply. Nate and Luke compare three workstations labeled ChatGPT, Claude, and Gemini. The skills transfer. The app is where you practice them.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+  }),
   /*#__PURE__*/React.createElement(BodyP, null,
     "For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three."),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -7525,27 +7426,11 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "A real-world example"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Hi. This is Nate and Luke again. When we built this course, we used different apps for different jobs. Our dad knows the strengths of each, and guided us into the right app for the task at hand."),
-  (function() {
-    var USES = [
-      { name: "ChatGPT", color: "#10b981", items: ["Brainstorming content and TRY ITs", "Illustrations of us in Dallas Stars jerseys"] },
-      { name: "Claude", color: "#8b5cf6", items: ["Claude Code wrote all the code from plain English", "Claude Design styled the pages"] },
-      { name: "Gemini", color: "#3b82f6", items: ["Pulling in current information", "Fact-checking what we used"] }
-    ];
-    return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 40px", marginBottom: "var(--blockGap)" } },
-      /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "auto auto", columnGap: 18, rowGap: 0 } },
-        USES.map(function(u, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 16, border: "1px solid var(--rule)", borderTop: "3px solid " + u.color, boxShadow: "var(--shadowSoft)", overflow: "hidden", display: "grid", gridTemplateRows: "subgrid", gridRow: "1 / span 2" } },
-            /*#__PURE__*/React.createElement("div", { style: { padding: "16px 18px" } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: u.color, lineHeight: 1.2 } }, u.name)),
-            /*#__PURE__*/React.createElement("div", { style: { padding: "14px 18px", borderTop: "1px solid var(--rule)" } },
-              /*#__PURE__*/React.createElement("ul", { style: { listStyle: "none", padding: 0, margin: 0 } },
-                u.items.map(function(item, j) {
-                  return /*#__PURE__*/React.createElement("li", { key: j, style: { fontSize: 14, color: "var(--ink)", lineHeight: 1.5, marginBottom: 6, paddingLeft: 18, position: "relative" } },
-                    /*#__PURE__*/React.createElement("span", { style: { position: "absolute", left: 0, top: 0, color: u.color, fontWeight: 700 } }, "✓"),
-                    item);
-                }))));
-        })));
-  }()),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/which-app-how-we-used-big-three-v2.jpg?v=20260909tasks1",
+    alt: "How We Used the Big Three. ChatGPT helped brainstorm content and TRY ITs and create illustrations of Nate and Luke in Dallas Stars jerseys. Claude Code wrote the course code from plain English, and Claude Design styled the pages. Gemini pulled in current information and helped fact-check what we used.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+  }),
   /*#__PURE__*/React.createElement(BodyP, null,
     "We leaned on one more tool: Gemini Notebook. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and Gemini Notebook did the rest."),
   closeBoard("modelselection"),
@@ -7608,20 +7493,6 @@ function ChoosingModelSection(props) {
       alt: "Choice 3, Reasoning: apps may call this Effort, Thinking, or Reasoning. Use more for math, code, planning, and problems with steps. Keep the default for routine work. Choice 4, Research: some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto 24px", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "A CHOICE YOU DON\u2019T MAKE"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "One more choice shapes every answer, even though AI companies control it behind the scenes: temperature. Think of temperature as a variety switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "During training, AI learns patterns it uses to predict the next token. Each possible token gets a probability. Temperature reshapes those probabilities before AI chooses one. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/your-choices-temperature-v1.jpg?v=20260829choices1",
-      alt: "How Temperature Changes the Odds. For the unfinished sentence You could name your new dog blank, the starting probabilities favor Spot. Low temperature concentrates the odds on Spot. High temperature spreads the odds across Spot, Max, Buddy, Rex, Biscuit, Pixel, and Mochi. Temperature reshapes the probabilities. It does not change what the model learned.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
-      /*#__PURE__*/React.createElement("p", null, "For the unfinished sentence “You could name your new dog _____,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Takeaway: "), "Temperature reshapes the probabilities. It does not change what the model learned.")),
     closeBoard("choosemodel"),
     /*#__PURE__*/React.createElement(YourChoicesLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -7656,12 +7527,11 @@ function YourChoicesLab() {
         E("span", { style: { display: "block", marginTop: 6 } }, E("strong", { style: { color: "var(--ink)" } }, "App: "), "You chose ChatGPT."),
         E("span", { style: { display: "block", marginTop: 4 } }, E("strong", { style: { color: "var(--ink)" } }, "Model: "), "ChatGPT chose it."),
         E("span", { style: { display: "block", marginTop: 4 } }, E("strong", { style: { color: "var(--ink)" } }, "Reasoning: "), "ChatGPT handled it."),
-        E("span", { style: { display: "block", marginTop: 4 } }, E("strong", { style: { color: "var(--ink)" } }, "Research: "), "Unavailable in this version."),
-        E("span", { style: { display: "block", marginTop: 4 } }, E("strong", { style: { color: "var(--ink)" } }, "Temperature: "), "OpenAI set it behind the scenes."))
+        E("span", { style: { display: "block", marginTop: 4 } }, E("strong", { style: { color: "var(--ink)" } }, "Research: "), "Unavailable in this version."))
     },
     {
       title: "Ask for more variety",
-      body: "Send this follow-up, then compare it with the first answer. The answer changed because you changed a choice you control: the words in your request. The model, reasoning, and temperature remained hidden.",
+      body: "Send this follow-up, then compare it with the first answer. The answer changed because you changed a choice you control: the words in your request. The model and reasoning settings remained hidden.",
       prompt: "Now give me five very different plans, including ideas I might not expect."
     }
   ];
@@ -7996,7 +7866,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(LastTokenBridgeBoard, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Starting the Answer"),
   /*#__PURE__*/React.createElement(BodyP, null, "AI is ready to answer your question. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now watch the loop. AI selects a token, adds it to the reply, and uses the growing context to predict again. Each selection is a ", /*#__PURE__*/React.createElement("strong", null, "prediction"), "."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now watch the loop. AI selects a token, adds it to the reply, and uses the growing context to predict again."),
   /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
   /*#__PURE__*/React.createElement(BodyP, null, "You asked for a dog name, but AI began with ", /*#__PURE__*/React.createElement("strong", null, "You"), ", a possible start to a reply. Each added token changes what can fit next. After ", /*#__PURE__*/React.createElement("strong", null, "You could name him"), ", a dog name becomes a likely continuation."),
   /*#__PURE__*/React.createElement(BodyP, null, "AI keeps predicting tokens until it produces a special token that signals the answer is finished."),
@@ -8310,15 +8180,15 @@ function CriticalThinkingSection(props) {
       }, accessibleContent));
   };
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation."),
-  criticalBoard("illustrations/critical-thinking-1-equation.jpg?v=3",
+  criticalBoard("illustrations/critical-thinking-1-equation-v2.jpg?v=20260909causal1",
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h3", null, "The course equation"),
-      /*#__PURE__*/React.createElement("p", null, "Learn more equals more knowledge. More knowledge creates better questions and better results."),
+      /*#__PURE__*/React.createElement("p", null, "Learn more leads to more knowledge. More knowledge leads to better questions and better results."),
       /*#__PURE__*/React.createElement("p", null, "Be Smarter Than the Tool."))),
   /*#__PURE__*/React.createElement(BodyP, null, "That equation leaves out one skill: the one that raises every line of it. It matters enough that we could have called this lesson ", /*#__PURE__*/React.createElement("strong", null, "How to Take Your AI Use from a B to an A+"), "."),
   /*#__PURE__*/React.createElement(BodyP, null, "It’s called ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". And it will help you far beyond AI: in school, in work, in almost every part of your life."),
   /*#__PURE__*/React.createElement(BodyP, null, "There’s almost a direct line between this skill and the people who get the most out of AI. That’s why AI experts use the term constantly. But what does it actually mean? The answer fits in one more equation."),
-  criticalBoard("illustrations/critical-thinking-2-one-more.jpg?v=3",
+  criticalBoard("illustrations/critical-thinking-2-one-more-v2.jpg?v=20260909equation1",
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h3", null, "One more equation"),
       /*#__PURE__*/React.createElement("p", null, "Critical plus thinking equals A-plus."),
@@ -8332,13 +8202,15 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking in Action"),
   /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page."),
   /*#__PURE__*/React.createElement(BodyP, null, "Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions."),
-  criticalBoard("illustrations/critical-thinking-3-two-reactions.jpg?v=3",
+  criticalBoard("illustrations/critical-thinking-3-two-reactions-v2.jpg?v=20260909comparison1",
     /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "Slim by Chocolate!"),
+      /*#__PURE__*/React.createElement("h3", null, "Same Claim. Different Thinking."),
+      /*#__PURE__*/React.createElement("h4", null, "The claim"),
+      /*#__PURE__*/React.createElement("p", null, "Chocolate helps you lose weight."),
       /*#__PURE__*/React.createElement("h4", null, "Face value"),
-      /*#__PURE__*/React.createElement("p", null, "Sounds great. I believe it."),
+      /*#__PURE__*/React.createElement("p", null, "Luke’s reaction: Sounds great. I believe it."),
       /*#__PURE__*/React.createElement("h4", null, "Critical thinking"),
-      /*#__PURE__*/React.createElement("p", null, "Wait. What’s behind the claim?"),
+      /*#__PURE__*/React.createElement("p", null, "Nate’s reaction: Wait. What’s behind the claim?"),
       /*#__PURE__*/React.createElement("p", null, "Pause when a claim sounds exactly like what you want to believe."))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "The True Story"),
   /*#__PURE__*/React.createElement(BodyP, null, "The study was real, but it was flimsy on purpose:"),
@@ -8418,8 +8290,8 @@ function OpenerWorkWithSection(props) {
       "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?",
       "Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it.",
       /*#__PURE__*/React.createElement("img", {
-        src: "illustrations/opener-work.jpg",
-        alt: "Two teens use identical phones to photograph the same sandwich. One takes a rushed blurry picture while the other carefully frames a crisp shot, beneath the message Same tool. Different results.",
+        src: "illustrations/opener-work.jpg?v=20260909character1",
+        alt: "Same Tool. Different Results. Luke and Nate use identical phones to photograph the same sandwich. Luke takes a rushed blurry picture while Nate carefully frames a crisp shot. AI does not replace your thinking. It multiplies it.",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       })
     ],
@@ -8528,10 +8400,10 @@ function WhatItDoesBestSection(props) {
     }
   ];
   const STRENGTH_BOARDS = [
-    "where-ai-works-best-1-transform.jpg",
-    "where-ai-works-best-2-variation.jpg",
-    "where-ai-works-best-3-compression.jpg",
-    "where-ai-works-best-4-reasoning.jpg"
+    "where-ai-works-best-1-transform.jpg?v=20260909meaning1",
+    "where-ai-works-best-2-variation.jpg?v=20260909meaning1",
+    "where-ai-works-best-3-compression.jpg?v=20260909meaning1",
+    "where-ai-works-best-4-reasoning.jpg?v=20260909meaning1"
   ];
   const CLAIMS = [
     { claim: "You scribbled your Physics notes on the back of a Chick-fil-A menu, and now you want them cleaned up into organized notes.", correct: "fit", fb: {
@@ -8566,8 +8438,8 @@ function WhatItDoesBestSection(props) {
     E(BodyP, null,
       "We saw this firsthand building this course. AI coded every page and every interaction you’ll see, and we give it a grade of ", E("strong", { style: { color: "var(--green)" } }, "A+"), " for coding. It also wrote the first drafts of all lessons, but only earned a ", E("strong", { style: { color: "var(--red)" } }, "C-"), ". It made points in the wrong order, added explanations that missed what we meant, and had no real feel for how a lesson should flow."),
     E("img", {
-      src: "illustrations/where-ai-works-best.jpg",
-      alt: "Two teens build their AI course at a kitchen table. A monitor gives the generated code an A+, while a lesson draft graded C-minus is covered in their handwritten revisions and reordered sections.",
+      src: "illustrations/where-ai-works-best.jpg?v=20260909buildcourse1",
+      alt: "AI Helped Us Build This Course. Nate and Luke revise a lesson draft graded C-minus beside AI-generated course code graded A-plus. AI is strongest when the work follows patterns.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     E(BodyP, null,
@@ -8655,58 +8527,58 @@ function PromptingSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. And when a person doesn\u2019t understand you, they ask a follow-up before answering. AI does almost none of that. It starts from the words you typed, and instead of asking what you meant, it confidently answers whatever you gave it."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: packaging it for something that isn\u2019t a person. That\u2019s prompting, and here\u2019s why it pays off: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Start With a Good Question"),
   /*#__PURE__*/React.createElement(BodyP, null, "You learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question."),
-  (function() {
-    var QUESTION_QUALITIES = [
-      { n: 1, icon: "\u2696\uFE0F", title: "Open-Minded", line: "You haven\u2019t picked the answer in advance." },
-      { n: 2, icon: "\uD83D\uDD2C", title: "Specific", line: "It asks for exactly what you need." },
-      { n: 3, icon: "\uD83E\uDDED", title: "On Target", line: "It asks about the right thing." },
-      { n: 4, icon: "\uD83D\uDCA1", title: "Open-Ended", line: "It leaves room for an answer you didn\u2019t expect." }
-    ];
-    return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24 } },
-      React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#5a47c9", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 } }, "Four Qualities of a Good Question"),
-      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-        QUESTION_QUALITIES.map(function(q) {
-          return React.createElement("div", { key: q.n, style: { background: "var(--card)", borderRadius: 14, padding: "14px 16px", boxShadow: "var(--shadowSoft)" } },
-            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 } },
-              React.createElement("span", { style: { width: 22, height: 22, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 12, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, q.n),
-              React.createElement("span", { style: { fontSize: 16 } }, q.icon),
-              React.createElement("span", { style: { fontSize: BOX_TEXT, fontWeight: 800, color: "var(--ink)" } }, q.title)),
-            React.createElement("div", { style: { fontSize: 13, color: "var(--inkSoft)", lineHeight: 1.5 } }, q.line));
-        })));
-  }()),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Then Add Three Moves"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to three moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to ", /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), "."),
-  (function() {
-    var MOVES = [
-      { tag: "Move 1", icon: "\uD83D\uDCCB", title: "Share your situation", body: "A person already knows this. AI only has what you hand over.", points: ["Who you are, and who the work is for", "What you\u2019re working on and why", "The material itself: your draft, the assignment, the numbers"], bad: "Is my intro good?", better: "I\u2019m writing my Common App essay about how fixing cars with my dad taught me patience. Here\u2019s my opening paragraph: [paragraph]. Does the hook grab attention?" },
-      { tag: "Move 2", icon: "\uD83D\uDCDD", title: "Describe the answer you want", body: "The model fills in every blank you leave, so describe the target.", points: ["The shape: a table, a list, steps", "The limits: length, what to skip, what not to sound like", "An example to match, if you have one", "Who AI should be: a tutor, a coach, an editor"], bad: "Write a caption for our lacrosse championship photo.", better: "Write a caption for our team\u2019s photo after the lacrosse state championship. One sentence. No hashtags, no emojis, nothing corporate. Sound like a senior wrote it, not the school account." },
-      { tag: "Move 3", icon: "\u2705", title: "One job at a time", body: "Big work goes in steps. One prompt, one job, so each part lands and you can check it before you build on it.", points: [], bad: "Write me a 5-page paper on the Cold War with an outline, thesis, research, MLA citations, and a conclusion.", better: "Step 1: Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions." }
-    ];
-    return React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
-      MOVES.map(function(m, i) {
-        return React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
-          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-            React.createElement("span", { style: { background: "var(--primary)", color: "#fff", borderRadius: 999, padding: "3px 10px", fontSize: BOX_LABEL, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, flexShrink: 0 } }, m.tag),
-            React.createElement("span", { style: { fontSize: 18 } }, m.icon),
-            React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, m.title)),
-          React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: m.points.length ? 10 : 14 } }, m.body),
-          m.points.length ? React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 5, marginBottom: 14 } },
-            m.points.map(function(pt, j) {
-              return React.createElement("div", { key: j, style: { display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "var(--ink)", lineHeight: 1.5 } },
-                React.createElement("span", { style: { color: "var(--primary)", fontWeight: 800, flexShrink: 0 } }, "\u2022"),
-                pt);
-            })) : null,
-          React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-            React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "10px 14px" } },
-              React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Bad"),
-              React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, m.bad)),
-            React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "10px 14px" } },
-              React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Better"),
-              React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, m.better))));
-      }));
-  }()),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/art-of-prompting-good-question-refresher-v2.jpg?v=20260909refresher1",
+    alt: "Every Strong Prompt Starts With a Good Question. Open-Minded means you haven’t picked the answer in advance. Specific means it asks for exactly what you need. On Target means it asks about the right thing. Open-Ended means it leaves room for an answer you didn’t expect. A good question is the foundation. Prompting adds the instructions.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", {
+    style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+  },
+    /*#__PURE__*/React.createElement("h3", null, "Every Strong Prompt Starts With a Good Question"),
+    /*#__PURE__*/React.createElement("ul", null,
+      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Open-Minded: "), "You haven’t picked the answer in advance."),
+      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Specific: "), "It asks for exactly what you need."),
+      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "On Target: "), "It asks about the right thing."),
+      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Open-Ended: "), "It leaves room for an answer you didn’t expect.")),
+    /*#__PURE__*/React.createElement("p", null, "A good question is the foundation. Prompting adds the instructions.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Then Add Four Moves"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to ", /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), "."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/art-of-prompting-four-moves-v2.jpg?v=20260909fourmoves1",
+    alt: "Four Moves That Turn a Good Question Into a Good Prompt: Share Your Situation, Give It the Material, Describe the Answer You Want, and One Job at a Time. Each move includes what to provide and a weak and better prompt example.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", {
+    style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+  },
+    /*#__PURE__*/React.createElement("h3", null, "Four Moves That Turn a Good Question Into a Good Prompt"),
+    /*#__PURE__*/React.createElement("section", null,
+      /*#__PURE__*/React.createElement("h4", null, "Move 1: Share Your Situation"),
+      /*#__PURE__*/React.createElement("p", null, "A person already knows this. AI only has what you hand over."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Who you are and who the work is for; what you’re working on and why."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Is my intro good?"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I’m a high school senior writing my Common App essay about how fixing cars with my dad taught me patience. What should the opening help the reader understand about me?")),
+    /*#__PURE__*/React.createElement("section", null,
+      /*#__PURE__*/React.createElement("h4", null, "Move 2: Give It the Material"),
+      /*#__PURE__*/React.createElement("p", null, "AI cannot inspect work you only describe. Give it the actual material it needs to use."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Your draft, notes, assignment, or rubric; the numbers, source, or example it should use."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Help me improve my essay intro."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Here is my opening paragraph: [paragraph]. Here is the essay prompt: [prompt]. What is unclear or generic?")),
+    /*#__PURE__*/React.createElement("section", null,
+      /*#__PURE__*/React.createElement("h4", null, "Move 3: Describe the Answer You Want"),
+      /*#__PURE__*/React.createElement("p", null, "The model fills in every blank you leave, so describe the target."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "The shape; the limits; a role or example to follow."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Write a caption for our lacrosse championship photo."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags, no emojis, nothing corporate. Sound like a senior wrote it, not the school account.")),
+    /*#__PURE__*/React.createElement("section", null,
+      /*#__PURE__*/React.createElement("h4", null, "Move 4: One Job at a Time"),
+      /*#__PURE__*/React.createElement("p", null, "Big work goes in steps. One prompt, one job, so each part lands and you can check it before you build on it."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Start with the next decision; check the result before moving to the next step."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Write me a 5-page paper on the Cold War with an outline, thesis, research, MLA citations, and a conclusion."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Step 1: Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions."))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
-  /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation and describe the answer you want. A big project: add steps. The more the result matters, the more you bring."),
+  /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation, give AI the material, and describe the answer you want. A big project: work one job at a time. The more the result matters, the more you bring."),
   closeBoard("prompting"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
@@ -8928,26 +8800,26 @@ function DigDeeperTryIt(props) {
 function EvaluatingSection(props) {
   var E = React.createElement;
   var QUICK_PASS = [
-    { title: "Read", body: "This might sound obvious, but weak AI users take AI’s output and pass it along without reading it. Reading every word is the floor." },
-    { title: "Understand", body: "You’ll never know whether an answer is right if you don’t understand what it says. Usually, the best explainer is the same AI: “Explain the second paragraph in simpler terms.”" },
-    { title: "Validate", body: "As you read, hold the answer up against your own knowledge. A well-stocked brain is your fastest fact-checker." }
+    { title: "Read", body: "Read every word. Passing along unread AI output means owning a mistake you never noticed." },
+    { title: "Understand", body: "You cannot judge an answer you do not understand. Ask AI, “Explain the second paragraph in simpler terms.”" },
+    { title: "Validate", body: "Compare the answer with what you already know. Your own knowledge is the fastest first fact-check." }
   ];
   var DIG_DECISION = [
-    { title: "Could you actually validate it?", body: "If it held up against things you genuinely know, you may be done. If it’s beyond what you know, keep going." },
-    { title: "What kind of task was this?", body: "Tasks that involve facts often need more evaluation. A first draft or a brainstorm usually doesn’t: you’re just checking it against what you asked for." },
-    { title: "How much is riding on it?", body: "Picking a movie for tonight: you’re done. A college essay, a health question, anything with your name on it: keep going." }
+    { title: "Could You Actually Validate It?", body: "If it holds up against what you genuinely know, you may be done. If it is beyond your knowledge, keep going." },
+    { title: "What Kind of Task Was This?", body: "Facts usually need more evaluation. A draft or brainstorm may only need to match what you asked for." },
+    { title: "How Much Is Riding on It?", body: "A movie pick is low stakes. A health question, college essay, or anything with your name on it deserves more care." }
   ];
   var DIG_TACTICS = [
-    { title: "Ask for citations", body: "Give me citations in your response. Click the links: does the page exist and actually say what AI claims? Is it a reputable source? And if one claim checks out, don’t assume the rest do." },
-    { title: "Challenge the AI", body: "Ask it to argue the other side, or to flag what it’s least sure of." },
-    { title: "Ask what’s missing", body: "An answer can be all true and still narrow. One question surfaces what never made the page." },
-    { title: "Ask for a live web search", body: "AI’s built-in knowledge has a cut-off date, so on anything recent, have it check the live web." },
-    { title: "Leave the chat", body: "Search the claim yourself. If you can only find it inside the chat, treat it as unproven." }
+    { title: "Ask for Citations", body: "Check that each link exists, supports the claim, and is credible." },
+    { title: "Challenge the AI", body: "Ask it to argue the other side and name what it is least sure about." },
+    { title: "Ask What’s Missing", body: "Surface the context and viewpoints the answer left out." },
+    { title: "Search the Live Web", body: "For recent claims, check current sources instead of relying on training." },
+    { title: "Leave the Chat", body: "Search the claim yourself. If it exists only in the chat, treat it as unproven." }
   ];
   var NEXT_MOVES = [
-    { icon: "✅", title: "Use it", desc: "It passed your checks. Most answers end here. Read, understood, validated, done." },
-    { icon: "🔧", title: "Fix it", desc: "Something’s off and you can name it. Say exactly what’s wrong in a follow-up: “cut the stat I never gave you,” “make it shorter.”" },
-    { icon: "🚪", title: "Walk away", desc: "Wrong tool, or stakes too high. Do it yourself, or take it to a person who actually knows: a teacher, a doctor, a pro." }
+    { icon: "✅", title: "Use It", desc: "It passed your checks. You read it, understood it, validated what mattered, and you are done." },
+    { icon: "🔧", title: "Fix It", desc: "Something is off and you can name it. Tell AI exactly what is wrong: cut the unsupported statistic, or make it shorter." },
+    { icon: "✕", title: "Walk Away", desc: "The tool is wrong for the job or the stakes are too high. Do it yourself or take it to a person who knows." }
   ];
   var processBoard = function(src, title, items, takeaway, ordered, marginBottom) {
     var listItems = items.map(function(item, i) {
@@ -8979,22 +8851,22 @@ function EvaluatingSection(props) {
     E(SectionKicker, null, "Every response: the quick pass"),
     E(BodyP, null,
       "Three steps, a few seconds, every time. This is the floor for anything AI hands you."),
-    processBoard("illustrations/evaluate-the-results-1-quick-pass.jpg", "Run the quick pass", QUICK_PASS, "Read it. Understand it. Validate what you can.", true, 20),
+    processBoard("illustrations/evaluate-the-results-1-quick-pass.jpg?v=20260909sequence2", "The Quick Pass", QUICK_PASS, "Three steps, a few seconds, every time.", true, 20),
     E(SectionKicker, null, "Then decide: does this answer deserve the dig?"),
     E(BodyP, null,
       "Most chats end at the quick pass. Three questions tell you when this one shouldn’t:"),
-    processBoard("illustrations/evaluate-the-results-2-decide.jpg", "Decide whether to dig", DIG_DECISION, "Unknown facts or real stakes mean keep going.", true, 32),
+    processBoard("illustrations/evaluate-the-results-2-decide.jpg?v=20260909sequence2", "Does This Answer Deserve the Dig?", DIG_DECISION, "Most chats end at the quick pass.", true, 32),
     E(SectionKicker, null, "When it deserves the dig"),
     E(BodyP, null,
       "Some answers you can’t validate on your own, and some carry real stakes. Those get the deep evaluation. Here are the tactics:"),
-    processBoard("illustrations/evaluate-the-results-3-dig.jpg", "Dig deeper when it matters", DIG_TACTICS, "Check the claim outside the answer.", false, 20),
+    processBoard("illustrations/evaluate-the-results-3-dig.jpg?v=20260909sequence2", "When It Deserves the Dig", DIG_TACTICS, "Some answers you can’t validate on your own, and some carry real stakes.", false, 20),
     E(SectionKicker, null, "Then make your move"),
     E(BodyP, null,
       "An evaluation isn’t finished until you act on it. Every one ends in one of three moves."),
-    processBoard("illustrations/evaluate-the-results-4-move.jpg", "Make your move", NEXT_MOVES, "Use it, fix it, or choose a better path.", false, 20),
+    processBoard("illustrations/evaluate-the-results-4-move.jpg?v=20260909sequence2", "Make Your Move", NEXT_MOVES, "The tool answers. You evaluate.", false, 20),
     E("img", {
-      src: "illustrations/evaluate-the-results.jpg",
-      alt: "Two teens check one highlighted claim in an AI response against an open reference book and a second source on a tablet, beneath the reminder Check before you use.",
+      src: "illustrations/evaluate-the-results-check-before-use-v2.jpg?v=20260909teaching1",
+      alt: "Check Before You Use. Nate and Luke compare an AI claim that a scholarship deadline is March 1 against two sources that say February 15, then decide to fix it. The answer is not the evidence.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     closeBoard("evaluating"),
@@ -11885,8 +11757,8 @@ function WhereValueLivesBox() {
   var E = React.createElement;
   return E(React.Fragment, null,
     E("img", {
-      src: "illustrations/questions-matter-value-shift.jpg",
-      alt: "",
+      src: "illustrations/questions-matter-value-shift-v2.jpg?v=20260909twocard1",
+      alt: "It Changes Where Value Lives. Pre-AI: Finding the Answer. Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one. With AI: Asking the Right Question. AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps. Takeaway: Answers got cheap. Questions didn’t.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", {
@@ -11898,7 +11770,7 @@ function WhereValueLivesBox() {
         E("p", null, "Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one.")),
       E("section", null,
         E("h4", null, "With AI: Asking the right question"),
-        E("p", null, "Answers are abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps."))));
+        E("p", null, "AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps."))));
 }
 function QuestionsValuableSection(props) {
   const [selectedQuality, setSelectedQuality] = useState(null);
@@ -11951,8 +11823,8 @@ function QuestionsValuableSection(props) {
       "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at how this changed between your grandparents, your parents, and you."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/questions-matter-answers-cheap.jpg",
-      alt: "",
+      src: "illustrations/questions-matter-answers-faster-v2.jpg?v=20260909people1",
+      alt: "How Answers Got Easier and Faster. Nate and Luke compare three research experiences. The library requires traveling there, searching the catalog, finding books, and taking notes by hand, taking half a Saturday. Web search requires opening tabs, judging sites, and copying useful pieces, taking an hour or two. With AI, they open the app, ask, and see an answer in seconds. Answers became cheap to get.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", {
@@ -11982,11 +11854,6 @@ function QuestionsValuableSection(props) {
       /*#__PURE__*/React.createElement("strong", null, "It changes where value lives.")
     ),
     /*#__PURE__*/React.createElement(WhereValueLivesBox, null),
-    /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/questions-matter.jpg",
-      alt: "A three-panel timeline shows finding an answer taking hours at a library, minutes with internet search, and seconds with AI. In the final panel, two teens still compare and choose among possible questions beneath the message Answers got cheap. Questions didn’t.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What Makes a Good Question?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Asking good questions is one of humanity’s oldest skills. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Einstein supposedly said that with an hour to save the world, he’d spend the first 55 minutes finding the right question."
@@ -11994,30 +11861,35 @@ function QuestionsValuableSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "So what separates a good question from a weak one? Four qualities, and none of them mention AI."
     ),
-    (function() {
-      var QUALITIES = [
-        { icon: "⚖️", title: "Open-Minded", body: "You haven’t picked the answer in advance. A leading question isn’t research, it’s a request for backup.", bad: "Homework doesn’t help students learn. Can you help me prove it?", better: "What does the research actually say about homework and learning?" },
-        { icon: "🔬", title: "Specific", body: "It says enough about your situation. A question without enough information returns an answer that helps with nothing.", bad: "How do I get better at sports?", better: "I play basketball as a point guard. Sometimes I lose the ball against pressure. What drills fix that?" },
-        { icon: "🧭", title: "On Target", body: "Specific is about how much your question says. On target is about asking the right thing: the problem you’re actually trying to solve.", bad: "What energy drinks work best for staying awake in class?", better: "I keep falling asleep in first period no matter how interesting the class is. How do I fix my sleep schedule?" },
-        { icon: "💡", title: "Open-Ended", body: "A yes-or-no question ends the conversation; an open-ended one starts it. Leave room for an answer you didn’t expect.", bad: "Should I join the debate team?", better: "What would joining debate add to my week, and what would I have to give up for it?" }
-      ];
-      return /*#__PURE__*/React.createElement("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: 18, marginBottom: 24, display: "flex", flexDirection: "column", gap: 12 } },
-        QUALITIES.map(function(q, i) {
-          return /*#__PURE__*/React.createElement("div", { key: i, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
-            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 } },
-              /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 24, borderRadius: "50%", background: "var(--primary)", color: "#fff", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, i + 1),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: 18 } }, q.icon),
-              /*#__PURE__*/React.createElement("span", { style: { fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)" } }, q.title)),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 14 } }, q.body),
-            /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-              /*#__PURE__*/React.createElement("div", { style: { background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 10, padding: "10px 14px" } },
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Bad"),
-                /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, q.bad)),
-              /*#__PURE__*/React.createElement("div", { style: { background: "#ecfdf5", border: "1px solid #86efac", borderRadius: 10, padding: "10px 14px" } },
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_LABEL, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 } }, "Better"),
-                /*#__PURE__*/React.createElement("div", { style: { fontStyle: "italic", color: "var(--ink)", fontSize: 14, lineHeight: 1.5 } }, q.better))));
-        }));
-    })(),
+    /*#__PURE__*/React.createElement("img", {
+      src: "illustrations/questions-matter-four-qualities-v2.jpg?v=20260909heavy1",
+      alt: "Four Qualities of a Good Question: Open-Minded, Specific, On Target, and Open-Ended, each shown with a weak question and a better question.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
+    },
+      /*#__PURE__*/React.createElement("h3", null, "Four Qualities of a Good Question"),
+      /*#__PURE__*/React.createElement("section", null,
+        /*#__PURE__*/React.createElement("h4", null, "Open-Minded"),
+        /*#__PURE__*/React.createElement("p", null, "You haven’t picked the answer in advance. A leading question isn’t research, it’s a request for backup."),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Homework doesn’t help students learn. Can you help me prove it?"),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "What does the research actually say about homework and learning?")),
+      /*#__PURE__*/React.createElement("section", null,
+        /*#__PURE__*/React.createElement("h4", null, "Specific"),
+        /*#__PURE__*/React.createElement("p", null, "It says enough about your situation. A question without enough information returns an answer that helps with nothing."),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "How do I get better at sports?"),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I play basketball as a point guard. Sometimes I lose the ball against pressure. What drills fix that?")),
+      /*#__PURE__*/React.createElement("section", null,
+        /*#__PURE__*/React.createElement("h4", null, "On Target"),
+        /*#__PURE__*/React.createElement("p", null, "Specific is about how much your question says. On target is about asking the right thing: the problem you’re actually trying to solve."),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "What energy drinks work best for staying awake in class?"),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I keep falling asleep in first period no matter how interesting the class is. How do I fix my sleep schedule?")),
+      /*#__PURE__*/React.createElement("section", null,
+        /*#__PURE__*/React.createElement("h4", null, "Open-Ended"),
+        /*#__PURE__*/React.createElement("p", null, "A yes-or-no question ends the conversation; an open-ended one starts it. Leave room for an answer you didn’t expect."),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Should I join the debate team?"),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "What would joining debate add to my week, and what would I have to give up for it?"))),
     closeBoard("questionsvaluable"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",

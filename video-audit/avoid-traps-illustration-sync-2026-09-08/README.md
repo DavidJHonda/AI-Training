@@ -2,7 +2,7 @@
 
 ## Scope and status
 
-Nine live videos were identified for illustration updates. Ten current lesson assets cover eleven mapped spans. Support Trap was approved and shipped on 2026-09-08. All other eight candidates and their short review reels are now built and verified, awaiting user review; none of those eight is shipped. See [REVIEW.md](REVIEW.md) for final deliverables. No lesson files were changed. The original mapping table below records the pre-build queue.
+Nine live videos were identified for illustration updates. Ten current lesson assets cover eleven mapped spans. Support Trap was approved and shipped on 2026-09-08. The seven other approved updates are now shipped: Opener, Hallucination, Training Bias, Document Trap, Mind Trap, Engagement Trap, and Fake Trap. Flattery Trap revision v3 is also approved and shipped. All nine Avoid Traps illustration updates are now live. Recoverable original videos and shipping receipts are retained in each final batch audit folder. See [REVIEW.md](REVIEW.md) for final deliverables. No lesson files were changed. The original mapping table below records the pre-build queue.
 
 | Video | Mapped live-video interval | Status |
 | --- | --- | --- |

@@ -28,18 +28,6 @@ Your first choice is the app. The other three choices may or may not appear, dep
 
 **Research:** Some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.
 
-## A CHOICE YOU DON’T MAKE
-
-One more choice shapes every answer, even though AI companies control it behind the scenes: temperature. Think of temperature as a variety switch. Low temperature makes answers more predictable. High temperature makes them more varied or surprising.
-
-During training, AI learns patterns it uses to predict the next token. Each possible token gets a probability. Temperature reshapes those probabilities before AI chooses one. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
-
-### How Temperature Changes the Odds
-
-For the unfinished sentence “You could name your new dog _____,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance.
-
-**Takeaway:** Temperature reshapes the probabilities. It does not change what the model learned.
-
 The choices behind the answer shape it.
 
 Use the default when it works. Change what you can when the work demands more.

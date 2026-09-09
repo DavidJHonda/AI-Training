@@ -10,14 +10,55 @@ A map uses two numbers to describe position: latitude and longitude. Dallas, Tex
 
 Imagine these are the only three cities on our map.
 
-![Three Cities, Two Coordinates Each. A United States map marks Mountain View at roughly 37 north, 122 west; Dallas at 33 north, 97 west; and New York City at 41 north, 74 west.](vector-space-1-cities.jpg)
+### Board 1: Three Cities, Two Coordinates Each
+
+**Image file:** `vector-space-1-cities.jpg`
+
+![Three Cities, Two Coordinates Each](vector-space-1-cities.jpg)
+
+**Teaching content:**
+
+Each city has a position described by latitude and longitude. These are approximate coordinates:
+
+| City | Latitude | Longitude |
+| --- | --- | --- |
+| Mountain View | 37° N | 122° W |
+| Dallas | 33° N | 97° W |
+| New York City | 41° N | 74° W |
+
+**Takeaway:** Latitude and longitude give each city a position.
 
 Someone hands you two sets of coordinates. For each position, which of the three cities is closest?
 
 - **38 N, 120 W**
 - **40 N, 76 W**
 
-![Use the Map to Find the Closest City. The same U.S. map shows cities as solid colored dots and new positions as filled dark orange diamonds with matching lines and white callout boxes outlined in dark orange. Dotted lines connect 38 north, 120 west to Mountain View and 40 north, 76 west to New York City, the nearest of the three cities.](vector-space-1-cities-closest.jpg)
+### Board 2: Use the Map to Find the Closest City
+
+**Image file:** `vector-space-1-cities-closest.jpg`
+
+![Use the Map to Find the Closest City](vector-space-1-cities-closest.jpg)
+
+**Teaching content:**
+
+Keep the same three cities on the map:
+
+| City | Latitude | Longitude |
+| --- | --- | --- |
+| Mountain View | 37° N | 122° W |
+| Dallas | 33° N | 97° W |
+| New York City | 41° N | 74° W |
+
+Add two new positions:
+
+| New position | Closest of these three cities |
+| --- | --- |
+| 38° N, 120° W | Mountain View |
+| 40° N, 76° W | New York City |
+
+Neither position exactly matches a city. Comparing their positions still identifies the closest of the three.
+
+**Takeaway:** When nothing matches exactly, distance finds the closest one.
 
 The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city.
 
@@ -25,17 +66,63 @@ The new coordinates don’t match any city exactly. But comparing positions lets
 
 These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a **vector**.
 
-![Three Drinks, Seven Dimensions Each. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.](vector-space-2-taste.jpg)
+### Board 3: Three Drinks, Seven Dimensions Each
+
+**Image file:** `vector-space-2-taste.jpg`
+
+![Three Drinks, Seven Dimensions Each](vector-space-2-taste.jpg)
+
+**Teaching content:**
+
+Each drink has seven ratings on a scale from 0 to 10. Compare matching columns:
+
+| Drink | Sweet | Bitter | Fizz | Heat | Caffeine | Dark | Citrus |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Coke | 9 | 1 | 10 | 2 | 3 | 8 | 1 |
+| Pepsi | 9 | 1 | 10 | 2 | 3 | 8 | 10 |
+| Coffee | 1 | 9 | 0 | 9 | 8 | 10 | 0 |
+
+**Takeaway:** Coke and Pepsi have more similar profiles than either does to coffee.
 
 Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s **vector space**. We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
 
-![A Map of Drink Similarities. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.](vector-space-neighborhoods.jpg)
+### Board 4: A Map of Drink Similarities
+
+**Image file:** `vector-space-neighborhoods.jpg`
+
+![A Map of Drink Similarities](vector-space-neighborhoods.jpg)
+
+**Teaching content:**
+
+The map pictures the similarities between these numerical profiles:
+
+| Drink | Sweet | Bitter | Fizz | Heat | Caffeine | Dark | Citrus |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Coke | 9 | 1 | 10 | 2 | 3 | 8 | 1 |
+| Pepsi | 9 | 1 | 10 | 2 | 3 | 8 | 10 |
+| Coffee | 1 | 9 | 0 | 9 | 8 | 10 | 0 |
+
+Coke and Pepsi sit near each other in the soft drinks neighborhood. Coffee sits farther away in the hot drinks neighborhood. Their positions express similarities and differences in the ratings.
+
+**Takeaway:** Similar scores place Coke and Pepsi together in the soft drinks neighborhood.
 
 Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match.
 
 - **9, 1, 10, 2, 3, 8, 9**
 
-![Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dark orange dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.](vector-space-closest-drink.jpg)
+### Board 5: Use the Map to Find the Closest Drink
+
+**Image file:** `vector-space-closest-drink.jpg`
+
+![Use the Map to Find the Closest Drink](vector-space-closest-drink.jpg)
+
+**Teaching content:**
+
+The mystery drink’s ratings are **[9, 1, 10, 2, 3, 8, 9]**, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus.
+
+Its first six scores match Pepsi’s. Its Citrus score is 9 compared with Pepsi’s 10, a gap of just 1. Coke’s Citrus score is 1, a gap of 8. The mystery point therefore sits close to Pepsi on the map.
+
+**Takeaway:** The mystery drink’s ratings are closest to Pepsi’s.
 
 ## Distance
 
@@ -49,14 +136,27 @@ AI uses this idea on a much larger scale. Its embeddings have thousands of dimen
 
 In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space:
 
-<div style="background: #fff; border: 1px solid #d8cff2; border-left: 4px solid #4f2fc4; border-radius: 12px; padding: 16px 20px; margin: 8px 0 24px;">
-  <div style="color: #4f2fc4; font-size: 13px; font-weight: 800; margin-bottom: 10px;">THE SENTENCE</div>
-  <p style="color: #3d3752; font-size: 17px; line-height: 2.3; margin: 0;">“The <strong style="display: inline-flex; align-items: center; justify-content: center; width: 2.5em; height: 2.5em; border-radius: 50%; background: #0e8f86; color: #fff; font-size: 0.9em; line-height: 1; vertical-align: middle;">CAT</strong> sat on the mat during the May rainstorm because <strong style="display: inline-flex; align-items: center; justify-content: center; width: 2.2em; height: 1.55em; border-radius: 0.4em; background: #1652f0; color: #fff; line-height: 1; vertical-align: middle;">IT</strong> was tired.”</p>
-</div>
+**The sentence:** “The **CAT** sat on the mat during the May rainstorm because **IT** was tired.”
 
-On its own, <strong style="display: inline-flex; align-items: center; justify-content: center; width: 2.2em; height: 1.55em; border-radius: 0.4em; background: #1652f0; color: #fff; font-size: 0.82em; line-height: 1; vertical-align: middle;">IT</strong> could refer to many things. As the layers process this sentence, they update <span style="white-space: nowrap;"><strong style="display: inline-flex; align-items: center; justify-content: center; width: 2.2em; height: 1.55em; border-radius: 0.4em; background: #1652f0; color: #fff; font-size: 0.82em; line-height: 1; vertical-align: middle;">IT</strong>’s</span> numbers to carry information connecting it to <strong style="display: inline-flex; align-items: center; justify-content: center; width: 2.4em; height: 2.4em; border-radius: 50%; background: #0e8f86; color: #fff; font-size: 0.68em; line-height: 1; vertical-align: middle;">CAT</strong>. Changing those numbers also changes its position in **vector space**.
+On its own, **IT** could refer to many things. As the layers process this sentence, they update **IT**’s numbers to carry information connecting it to **CAT**. Changing those numbers also changes its position in **vector space**.
 
-![How Context Changes IT’s Position. A realistic tabletop meaning map shows a blue IT marker following a purple path through three intermediate points toward a ragdoll cat. The animal neighborhood also contains a dog, kitten, and pet bowl. Adjoining object and weather neighborhoods contain a mat, chair, cloud, and rainstorm. Starting numbers [.12, −.34, …] change to [.41, .06, …]. The separate IT marker ends near CAT, illustrating their contextual connection. Takeaway: IT’s new position reflects its connection to CAT in this sentence.](vector-space-4-meaning-map.jpg)
+### Board 6: How Context Changes IT’s Position
+
+**Image file:** `vector-space-4-meaning-map.jpg`
+
+![How Context Changes IT’s Position](vector-space-4-meaning-map.jpg)
+
+**Teaching content:**
+
+IT begins with numbers **[0.12, −0.34, …]**. As the layers update the numbers to **[0.41, 0.06, …]**, its position changes.
+
+The path ends with a separate IT marker near CAT. The animal neighborhood also contains a dog, kitten, and pet bowl. Adjoining neighborhoods contain a mat and chair, and a cloud and rainstorm.
+
+The movement illustrates IT’s contextual connection to CAT. It does not mean the model identifies a word’s meaning by looking up the nearest original token embedding.
+
+**Takeaway:** IT’s new position reflects its connection to CAT in this sentence.
+
+## Closing Message
 
 Meaning is a position in vector space.
 

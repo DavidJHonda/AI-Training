@@ -60,7 +60,7 @@ Neither position exactly matches a city. Comparing their positions still identif
 
 **Takeaway:** When nothing matches exactly, distance finds the closest one.
 
-The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city.
+The new coordinates don’t match any city exactly. But comparing positions finds the closest city: 38° N, 120° W is closest to Mountain View, and 40° N, 76° W is closest to New York City.
 
 ## From Places to Meaning
 
@@ -126,11 +126,11 @@ Its first six scores match Pepsi’s. Its Citrus score is 9 compared with Pepsi�
 
 ## Distance
 
-The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. That puts the mystery drink closer to Pepsi.
+The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. So the mystery drink is closest to Pepsi.
 
 This is the idea behind **distance**: compare the numbers in matching positions across the vectors. Smaller gaps mean closer positions.
 
-AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. Similar meanings usually occupy nearby positions in vector space.
+AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions. The values in those dimensions are learned during training. Similar meanings usually occupy nearby positions in vector space.
 
 ## When the Numbers Change
 

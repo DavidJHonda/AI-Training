@@ -519,6 +519,15 @@ the source is.
    rendering** — the failure mode is a window edge slicing through a heading
    ("AI Software" cut in half). Fix by moving the edge into a gap between rows.
 
+**Superseded mechanism (2026-09-10):** the variant below captured one PNG per
+highlight state with the ring baked into the DOM, so the stroke scaled with every
+camera dive (2.5px at capture, 3-7px on the delivery frame). r5 requires a constant
+5px ring rendered after the crop. Current method: capture the board ONCE with
+`RECTS_ONLY=1`, then list `rings` (and `fit` keyframes) in one `ken_burns_path.py`
+spec, which draws the rings post-crop; see `RETROFIT-PLAYBOOK.md` §2-3. The
+owner rules collected in the sub-bullets (granularity, accent colors, bullet-row
+rings, full-screen open, no dives on compact boards, camera scope) still apply.
+
 **HIGHLIGHT-STATE VARIANT — N items on one board, each lighting up as it is
 named** (first shipped: welcome five-step path, 2026-08-02). Capture the SAME
 board N+1 times via CDP at deviceScaleFactor 4 (compose on a fixed wrapper,

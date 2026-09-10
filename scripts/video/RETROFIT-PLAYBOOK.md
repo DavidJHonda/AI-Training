@@ -64,9 +64,12 @@ board:
   ```
   Junction frames = word-onset × 30, rounded.
 
-## 2. Capture boards from the CURRENT page
-Start your own server+chrome on YOUR assigned ports (never 8768/9338), from the
-repository root:
+## 2. Capture the board ONCE from the CURRENT page (rects-only, 2026-09-10)
+
+Rings are no longer baked into captures. Capture one unmarked board and export the
+rectangles; `ken_burns_path.py` draws every ring after the camera crop at a constant
+5px (grader rule: zooming a board must not thicken its border). Start your own
+server+chrome on YOUR assigned ports (never 8768/9338), from the repository root:
 ```
 python3 -m http.server PORT --bind 127.0.0.1 &
 PROFILE=$(mktemp -d -t chromeprof)
@@ -76,65 +79,73 @@ PROFILE=$(mktemp -d -t chromeprof)
 ```
 Capture:
 ```
-node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
-  "Label1||Label2" 1600 900 0 OUTDIR STATES.json
+RECTS_ONLY=1 node scripts/video/capture_board_states.js PORT DBG <lessonId> "HEADLINE" \
+  "Label1||Label2" 1600 900 0 OUTDIR TARGETS.json
 ```
 - HEADLINE + labels: text that appears ONLY in the target component; the band is the
   innermost div containing all of them. Copy text EXACTLY from index.html source —
   curly apostrophes (’) and all. If the found band is wrong size (check printed
   rects.json band), adjust find strings; WRAP_UP=N env walks N ancestors up.
-- STATES.json: `{"states":[{}, {"panels":[{"label":"...","ring":"#hex"}]},
-  {"elements":[{"text":"...","ring":"#hex"}]}, ...]}`. Element entries accept
-  `"row": true` (ring a bullet row incl. its dot) and `"mark": true` (sentence target inside a paragraph, outlined without fill). Accent-colored cards ring in their OWN
-  accent color, not purple. One ring per point the narration makes.
-- Verify every state PNG visually. Preserve the clean board pixels and composite
-  only the outline at a constant 5-pixel weight on the 1280×720 delivery frame.
-  Text and its background must remain unchanged; no label chips or shaded fills.
-  States must be pixel-identical outside the outline.
-- Match highlight granularity to the narration. Ring the whole board or card while the
-  narration addresses it as a whole; move to an item or row ring when the narration
-  names that part. If the narration walks several sections, the ring walks them too.
-- For AI Chat boards, every active turn ring traces the complete speech bubble. If the
-  narration walks the prompt and response separately, walk those bubbles separately
-  rather than enclosing the full round. Every takeaway ring traces the complete gold
-  banner boundary, not the text or checkmark inside it.
-- The first settled frame of an active bubble or takeaway must already show its full
-  ring. Never use an unmarked camera move as the opening of an active banner state;
-  complete the move before the state begins or cut directly to the settled framing.
-- Resolve every highlight color in the repair manifest before capture. A target inside
-  an Editorial Explainer card or flow step inherits that component's stored locked
-  accent: green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`, editorial purple
-  `#4f2fc4`, amber `#a9760c`, or red `#c41f28`. Use the exact same token for the ring. Never infer color from column position, sample the illustration,
-  or default an accented component to purple. A neutral title or board-wide target may
-  use standard video purple `#6e51ff`. Write both `highlight_color` and
-  `highlight_source` in the board sync manifest; acceptable sources are
-  `card_locked_accent`, `neutral_video_purple`, and `none`.
-- If one spoken point explicitly combines differently colored components, preserve
-  each component's own accent when showing multiple rings. If the narration is only
-  summarizing the board, remove the rings and show the complete unmarked board.
+- TARGETS.json uses the STATES shape so every panel and element you will ring gets
+  located: `{"states":[{"panels":["Label"],"elements":[{"text":"...","row":true}]}]}`.
+  `"row": true` targets a bullet row including its dot; `"mark": true` targets a
+  sentence inside a paragraph. With RECTS_ONLY only `state-0.png` is written, but
+  `rects.json` carries `band`, `cards` (one per label, in label order) and
+  `elements` (keyed by exact text), all in CSS px on the 1600×900 canvas.
+- Verify `state-0.png` visually: the actual lesson board at the app column width,
+  no reformatting, nothing clipped. Verify each rect in `rects.json` encloses the
+  complete component (illustration, title, body, all four edges), not a text span.
+- Resolve every ring color in the board sync manifest before building. A target
+  inside an Editorial Explainer card or flow step inherits that component's stored
+  locked accent: green `#0f7a4a`, teal `#0e8f86`, blue `#1652f0`, editorial purple
+  `#4f2fc4`, amber `#a9760c`, or red `#c41f28`. A neutral title or board-wide
+  target may use standard video purple `#6e51ff`. Never sample the illustration,
+  infer color from column position, or default an accented component to purple.
+  Write `highlight_color` and `highlight_source` (`card_locked_accent`,
+  `neutral_video_purple`, `none`) in the manifest.
+- Match granularity to the narration: a whole-component ring while it addresses the
+  card, bubble, or banner; a component ring when it names a section, row, or element.
+  One ring per point being made; rings replace one another unless the narration
+  explicitly combines points, in which case list both spans.
+- AI Chat boards: a turn ring traces the complete speech bubble. Takeaway rings trace
+  the complete gold banner. The first settled frame of an active bubble or banner
+  already carries its ring; never open an active state with an unmarked camera move.
 - Close boards: only touch if your span plan says so; closes were standardized 8/4.
 
-## 3. Build legs (ken_burns_path.py)
-- PNGs are 6400×3600 (dsf4). rects.json coords are CSS px on 1600×900 → multiply by 4.
+## 3. Build the leg (ken_burns_path.py, one run per board span)
+- `state-0.png` is 6400×3600 (dsf4). rects.json coords are CSS px on 1600×900 →
+  multiply by 4 for `rect` and `fit` values.
 - FRAMING STANDARD (owner rule 8/7): the wide/"full board" window is sized to the
   BAND, not the canvas: `w = band.w*4/0.90`, centered on the band (board fills ~90%
   of frame width). NEVER frame the whole 1600×900 canvas.
-- Spec per STATE (one run per highlight state, on that state's PNG):
-  `{"image": ..., "fps":30, "out_w":1280, "out_h":720, "upscale":3, "beats":[...]}`
-  beats = {frames, from?, to} with (cx, cy, w) in image px. Thread camera ACROSS runs:
-  each run's first beat needs explicit "from" = previous run's final "to" (the tool
-  errors otherwise). Sum of beat frames per run = that state's frame budget; total
-  across runs = replaced span length EXACTLY (end_frame - start_frame, end exclusive).
+- One spec for the whole span:
+  `{"image": "state-0.png", "fps":30, "out_w":1280, "out_h":720, "upscale":3,
+    "beats":[...], "rings":[...]}`.
+  Beats are `{label, frames, from?, to}`; `to` is `[cx, cy, w]` in image px, or
+  `{"fit": [x, y, w, h], "margin": 24, "pad": 0}` to derive the settled camera from
+  the ring rectangle itself (the ring stays inside the frame with `margin` output px
+  of clearance; the grader forbids choosing ring and camera independently). Sum of
+  beat frames = replaced span length EXACTLY (end_frame - start_frame, end exclusive).
+- Rings are `{"start", "end", "rect": [x, y, w, h], "color": "#hex", "pad", "radius"}`
+  on the leg's own frame timeline, half-open. `start` = the spoken onset frame of
+  that target minus the leg's first frame. Whole-component ring: `rect` = the card,
+  bubble, or banner rect ×4, `pad` 0, so the stroke's inner edge traces the outer
+  boundary. Component ring: `rect` = the element's ink rect ×4 with balanced `pad`;
+  for stacked sections inside one card, set x and w from the card's rails inset by
+  the 16px clearance so every section ring shares the same horizontal edges.
+  `radius` matches the component's corner radius (image px).
 - Motion: open at the wide framing; ~24-30 frame transit into a dive, then drift-hold
   (shrink w ~3% over the hold). Compact boards (everything legible at 720p wide view):
   NO dives — rings pop at word onsets, ≤4%-per-30s push only. Dives are for boards
-  whose item text needs zoom to read. A dive frames the whole card; never crop or pan
-  inside it. Sequential-step boards stay full-frame while the ring walks the steps.
-  Never let a window edge slice a heading; check the state PNG geometry (rects) when
-  picking windows.
-- Render: `.video-venv/bin/python scripts/video/ken_burns_path.py spec.json out.mkv`
-  (FFV1). Concat the state runs: concat demuxer list + `-c copy` → leg.mkv. Verify
-  each leg's decoded frame count == span length (decode loop, not metadata).
+  whose item text needs zoom to read. A dive frames the whole card via `fit`; never
+  crop or pan inside it. Sequential-step boards stay full-frame while the ring walks
+  the steps. Never let a window edge slice a heading; check rects when picking windows.
+- `--preview DIR` writes the first and last frame of every beat WITH the rings
+  active at those frames. Eyeball every one before rendering: ring on the right
+  component, all four edges inside the frame, nothing sliced.
+- Render: `.video-venv/bin/python scripts/video/ken_burns_path.py spec.json leg.mkv`
+  (FFV1). Verify the leg's decoded frame count == span length (decode loop, not
+  metadata).
 
 ## 4. Splice (ONE re-encode)
 ```
@@ -159,8 +170,9 @@ drops a frame).
    short sequence on both sides. The first restored frame must already be the next
    approved shot; no frame from an old graphic may survive. Never approve a seam
    from Whisper or second-based timing alone.
-5. Junction smoothness inside legs: state-pop junctions should diff <12 (motion
-   continuous, only the ring changes).
+5. Ring onsets inside legs: at each ring `start`/`end` frame the diff should stay
+   <12 (motion continuous, only the ring changes). Measure the stroke on a settled
+   full-resolution frame at the widest and the tightest camera: 5px core at both.
 6. Save review frames to /tmp/retrofit-review/<slug>/: for each replaced span, the
    original frame and the -v2 frame at span start+1s and span midpoint, full res.
 7. Eyeball (Read) each leg's dive/hold framing: text legible, nothing sliced, ring on

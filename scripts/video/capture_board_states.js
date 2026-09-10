@@ -1,6 +1,14 @@
-// CDP worker: capture a lesson board at deviceScaleFactor 4 in N+1 highlight
-// states (state-0 = none, state-k = item k highlighted) for the highlight-state
-// Ken Burns recipe (see README.md). Writes state-*.png + rects.json to OUTDIR.
+// CDP worker: capture a lesson board at deviceScaleFactor 4 and export the
+// card/element rectangles the post-crop ring renderer needs (rects.json).
+//
+// CURRENT MODE (owner rule 2026-09-10): set RECTS_ONLY=1. Only the unmarked
+// state-0.png is written; every panel and element named in STATES.json is still
+// located so rects.json carries its rectangle, and ken_burns_path.py draws the
+// rings AFTER the camera crop at a constant 5px. No ring is baked into a capture.
+//
+// LEGACY MODE (no RECTS_ONLY): also writes state-k.png with DOM-applied rings
+// (box-shadow / outline). Those rings scale with the camera zoom, which the r5
+// grader forbids; keep this path only for reproducing pre-2026-09-10 builds.
 //
 // Usage (drive it like capture-board.js — server + headless chrome already up):
 //   node capture_board_states.js PORT DBG LESSON "HEADLINE" "Label1||Label2||..." CANW CANH BANDW OUTDIR [STATES.json]
@@ -202,7 +210,7 @@ const COMPOSE = `(function(){
   fs.writeFileSync(OUTDIR + "/rects.json", msg);
   console.log("rects: " + msg);
   await sleep(300);
-  const n = STATES ? STATES.length - 1 : LABELS.split("||").length;
+  const n = process.env.RECTS_ONLY ? 0 : (STATES ? STATES.length - 1 : LABELS.split("||").length);
   for (let k = 0; k <= n; k++) {
     const h = await send("Runtime.evaluate", { expression: `window.__setHL(${k})`, returnByValue: true });
     console.log(h.result && h.result.result && h.result.result.value);

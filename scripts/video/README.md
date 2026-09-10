@@ -7,7 +7,7 @@ how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
 Start here when continuing video work in a new assistant session. This file governs
-production; `GRADER-r5.md` governs evaluation; `Prompts/README.md` governs upload
+production; `NARRATION-REVIEW.md` governs evaluation; `Prompts/README.md` governs upload
 preparation. Dated owner corrections supersede older recipes below. The current
 2026-09-10 handoff is `docs/video-handoff-2026-09-10.md` (repository-relative path).
 
@@ -94,13 +94,41 @@ Understand AI uses this structure in all ten sources, from
 `Prompts/*-video-prompt.txt` files. The opener prompt is
 `Prompts/opener-understand-video-prompt.txt`.
 
-## Evaluation
+## Evaluation (owner rule, 2026-09-10: narration only)
 
-`scripts/video/GRADER-r5.md` is the single grading authority.
-`videos/video-rubric.csv` is its synchronized tracker summary. The primary ship test is
-non-compensable: a student must be able to watch the video instead of reading
-the lesson and lose no essential understanding. Source coherence and teaching
-accuracy are separate gates; neither can be offset by cleanliness or pacing.
+`scripts/video/NARRATION-REVIEW.md` is the single evaluation authority. The
+numeric rubric, its six dimensions, and the r5 ship gates as a grade are retired.
+A roll or a finished edit is judged on one question: does the narration teach the
+current lesson accurately, clearly, and completely? The verdict is KEEP, REPAIR,
+or REROLL. Visual problems are editing notes, never evaluation findings.
+
+Production quality is verified separately with the ship checklist below.
+
+## Ship checklist (editor's verification of the finished file)
+
+Every item is checked on the final encoded candidate before it goes to David.
+None of them affects the narration verdict; all of them block a ship.
+
+- **Narration verdict is KEEP** from `NARRATION-REVIEW.md`, on this exact edit.
+- **Restraint**: no legible profanity, no depiction of a real person, no
+  self-harm, restricted medical, or red-staining imagery.
+- **Stock**: no Getty, watermark, or unlicensed asset. Cropping a watermark is
+  not a repair. Course assets from `illustrations/` and `lessons/` are always fine.
+- **Ending**: the app close board is the literal final frame, inserted in post
+  with the standard push and settle (see the standard close section).
+- **Sync**: each visual and each highlight begins at the spoken onset of the idea
+  it supports.
+- **Boards**: every course board shown is the exact current lesson board, with
+  the compact or dense treatment from the content-board walk section, rings
+  outline-only at a constant 5px, colors from the board sync manifest.
+- **No Notebook highlighting** remains on any course board.
+- **Edit integrity**: splice frames declared on the output timeline,
+  `transition_guard.py` passed, every boundary strip inspected, no spoken
+  sentence cut short, no click, blip, or noise-floor cliff. Requested teaching
+  pauses measured with `silencedetect` on the final file.
+- **Audio grafts listened to**, not just transcribed. Say what was heard.
+- **Frame count and audio** verified by decode (visual-only repairs keep
+  bit-identical audio).
 
 ### Preserve teaching when planning cuts (2026-09-10)
 
@@ -145,10 +173,8 @@ and QA commands, verification limits, and whether David has approved shipping.
 Keep review status distinct from the live lesson registry and avoid treating an
 old handoff as current after new edits.
 
-The tracker keeps the r3 numeric columns because r5 does not change the /100
-calculation. Run or rerun `scripts/video-tracker-migrate-r5.gs` to add any missing
-current gate columns without altering old reviews. The r4 migration remains only
-for reconstructing the historical r4 tracker schema.
+David maintains the external video tracker himself (2026-09-10). Do not draft
+rows or post updates to it.
 
 ## Shipping filename convention (owner rule, 2026-08-17)
 
@@ -207,8 +233,8 @@ cards, show their separate inherited rings only if the combination itself matter
 otherwise return to the complete unmarked board.
 
 Background animation is expendable during a board walk; keeping the teaching framework
-visible is the priority. These rules are enforced at ship review by `GATE_BOARD_WALK`
-and `GATE_NO_NOTEBOOK_HIGHLIGHT`. Build and verify replacement legs with
+visible is the priority. These rules are verified by the ship checklist above.
+Build and verify replacement legs with
 `scripts/video/RETROFIT-PLAYBOOK.md`.
 
 ## The standard close (owner rule, 2026-08-04 — applies to EVERY video)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build one current-rubric grading bundle per video.
+"""Build one narration-review bundle per video (transcript first; the rest supports editing).
 
 Per video, writes into OUT/<slug>/:
   transcript.txt  segment-level narration with [m:ss] stamps (faster-whisper base.en)
@@ -8,8 +8,8 @@ Per video, writes into OUT/<slug>/:
                   narration that runs underneath each one (the dead-time rule needs
                   both halves: a hold is free while narration still walks the screen)
   sheets/         contact sheets, 480x270 cells every 4s, red timestamps
-  sections.txt    seconds-per-beat against the lesson's own word weighting, the
-                  evidence for PACING now that it scores allocation and not length
+  sections.txt    seconds-per-beat against the lesson's own word weighting, useful
+                  for spotting a beat the narration skipped or compressed
 
 Usage: prep_bundle.py <out_dir> <video.mp4> [video.mp4 ...]
 """

@@ -1,8 +1,18 @@
 # Video grader changelog
 
-The current grading authority is `GRADER-r5.md`. Historical grader files remain
-unchanged so prior decisions can be reconstructed; `GRADER-r4.md` now lives in
-`archive/video-specs-retired-2026-09-10/`.
+Numeric grading is retired. The current evaluation authority is
+`NARRATION-REVIEW.md`. Historical grader files remain unchanged so prior decisions
+can be reconstructed; r4, r5, the r5 migration audit, the challenger intake, and
+the rubric CSV live in `archive/video-specs-retired-2026-09-10/`.
+
+## Narration review, 2026-09-10
+
+Owner rule: "We don't care about the rubric anymore. It's all about whether the
+narration teaches the content." The six dimensions, /100 totals, anti-anchoring
+score rules, and contact-sheet evidence rules are retired. Evaluation asks one
+question and returns KEEP, REPAIR, or REROLL with each teaching point marked
+TAUGHT, THIN, MISSING, or WRONG. The former ship gates continue as the editor's
+ship checklist in `README.md`; they verify production, they do not grade.
 
 ## r5, 2026-08-22
 

@@ -35,14 +35,13 @@ Per-video production and review status lives in the shared Google Sheet
 The tracker is authoritative for workflow state and review flags; `LESSON_VIDEOS` is
 authoritative for which standard videos the live course offers. Repository files are
 the production artifacts, and Git history records past changes and intake decisions.
-Update the tracker at every intake decision. Workflow: Claude reads the tracker
-directly (Google Drive connector, read-only) and drafts paste-ready updated rows;
-David pastes them into the tracker.
+David maintains the tracker himself (2026-09-10); Claude does not draft or post
+tracker rows.
 
-New reviews use rubric r5: `scripts/video/GRADER-r5.md` is the single grading
-authority and `videos/video-rubric.csv` is its synchronized tracker summary. The
-r3 numeric columns remain valid; `scripts/video-tracker-migrate-r5.gs` adds any
-missing current gate columns without rewriting earlier reviews.
+Evaluation is narration-only (owner rule 2026-09-10): `scripts/video/NARRATION-REVIEW.md`
+is the single authority, with a KEEP / REPAIR / REROLL verdict. The numeric rubric
+and its CSV are retired to `archive/video-specs-retired-2026-09-10/`. Production
+quality is verified by the ship checklist in `scripts/video/README.md`.
 
 ## Rules learned the hard way
 

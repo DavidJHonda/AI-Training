@@ -7,8 +7,9 @@ Read the current files and subsequent owner feedback before acting.
 
 - `scripts/video/README.md`: production workflow and owner preferences. Read the
   current rules first; dated corrections supersede older repair recipes.
-- `scripts/video/GRADER-r5.md`: canonical evaluation rubric. Narration teaches the
-  complete lesson first; visuals are repairable. Read it in full before grading.
+- `scripts/video/NARRATION-REVIEW.md`: the evaluation authority (narration-only,
+  KEEP / REPAIR / REROLL). The r5 grader was retired later on 2026-09-10; visuals
+  are verified by the ship checklist in the README.
 - `Prompts/README.md`: Markdown, prompt TXT, upload boards, and cleanup workflow.
 - `scripts/video/RETROFIT-PLAYBOOK.md` and `scripts/video/BOARD-SYNC-MANIFEST.md`:
   board replacement and timing/verification details.

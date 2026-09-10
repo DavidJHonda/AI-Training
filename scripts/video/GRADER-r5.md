@@ -34,6 +34,17 @@ spoken explanation cannot be repaired by merely putting the correct board on scr
 Pauses between ideas and removable excess narration are also editing opportunities.
 State a narration verdict separately from the visual repair list.
 
+For worked examples, verify that the narration actually reads or explains the
+sentence, values, or comparison the student must follow. Merely displaying them
+does not establish spoken coverage. Do not favor a shorter edit that removes the
+lesson's explanatory arc. The proposed cut and donor workflow is documented in
+`scripts/video/README.md` under “Preserve teaching when planning cuts.”
+
+Report verification limits precisely. ASR, waveform checks, and level matching
+support audio QA but do not prove natural pronunciation, cadence, or seamless
+voice continuity. Audition rendered audio grafts and joins; if listening remains
+outstanding, explicitly record it rather than claiming the audio ship gate passed.
+
 ## 1. Required inputs
 
 Your assignment names the lesson slug, lesson source, and grading bundle.
@@ -176,8 +187,13 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
   sign follows it.
 - `GATE_SYNC`: Narration and visuals agree in timing. Elements appear as they are
   mentioned; narration leads and visuals follow.
-- `GATE_BOARD_WALK`: Every teaching board is the exact current lesson board and uses
-  the correct treatment:
+- `GATE_BOARD_WALK`: Every course board selected for display is the exact current
+  lesson board and uses the correct treatment. This gate does not require a board
+  for every teaching beat. Preserve useful Notebook graphics and motion; insert a
+  board for the specific teaching span that benefits from its exact content, then
+  retain or return to source visuals. Review the edit plan for the concrete defect
+  or teaching benefit behind each replacement. Do not extend board time merely
+  because the asset is available (owner clarification, 2026-09-10):
   - Compact or lighter-text board: keep the entire board visible; begin unmarked,
     then highlight the active card, row, or component in spoken order. A restrained
     whole-board push is allowed. Do not dive or pan between items.

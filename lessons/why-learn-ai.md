@@ -52,9 +52,11 @@ Carries on a conversation with you.
 
 ChatGPT, Claude, Gemini
 
-## AND IT’S EARLY
+## AI IS NEW FOR EVERYONE
 
-AI is new for everyone. This is YOUR big advantage.
+And here’s the great news: AI isn’t a mature technology the world has been using for decades. It’s still in its infancy. That gives you a rare advantage. You can learn the new way while everyone else is still learning it too.
+
+Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing arrived, and a teenager with a Mac could produce professional work in an afternoon. The tool didn’t replace skill. It shortened the distance between wanting to do the work and actually doing it.
 
 Why you’ll thrive in the AI future.
 
@@ -80,7 +82,7 @@ Others must undo the workflow that made them fast. You skip all of that and lear
 
 ## THIS HAS HAPPENED BEFORE
 
-Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing showed up, and a teenager with a Mac could turn out professional work in an afternoon. The tool didn’t replace skill, it shortened the distance between wanting to do the work and actually doing it. And it’s the rule, not the exception: the steam engine did it for physical labor, electricity for the factory, the internet for information. **AI is that, for almost everything.**
+AI isn’t the first technology to transform how people work. The steam engine did it for physical labor, electricity for factories, and the internet for information. **AI could do it across almost everything.**
 
 And this isn’t just tech industry hype. In July 2025, the White House released an official national strategy document, *Winning the Race: America’s AI Action Plan*. Here’s how it describes what AI makes possible:
 

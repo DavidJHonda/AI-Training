@@ -6,6 +6,11 @@ here shipped on real videos (learn-with-ai, what-you-can-control, does-ai-think,
 how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
+Start here when continuing video work in a new assistant session. This file governs
+production; `GRADER-r5.md` governs evaluation; `Prompts/README.md` governs upload
+preparation. Dated owner corrections supersede older recipes below. The current
+2026-09-10 handoff is `docs/video-handoff-2026-09-10.md` (repository-relative path).
+
 ## Source and editing workflow (owner observations, 2026-09-08)
 
 Apply these observations when rebuilding lesson video prompts and preparing new rolls:
@@ -31,6 +36,11 @@ edit still receives the complete visual, pacing, and shipping checks in the grad
 4. **Replace weak visuals in post.** Custom graphics and canonical lesson boards
    can replace poor Gemini Notebook visuals. Good narration with a bad visual is
    useful source material; the visual alone need not force a new roll.
+   **Video-only replacements (owner clarification, 2026-09-10):** use
+   Notebook-style illustrations for new replacement graphics. Avoid inventing
+   course-style boards solely for a video; students expect to find those boards
+   on the lesson page. Preserve useful Notebook visuals, and reserve the course
+   title/banner treatment for existing lesson boards.
 5. **Treat requested runtime as a weak guide.** Suggested durations have little
    reliable effect on Notebook output. Prioritize coverage and a teachable sequence;
    establish the final length and pacing during editing.
@@ -40,6 +50,25 @@ edit still receives the complete visual, pacing, and shipping checks in the grad
    the board taught is the priority. Use the approved illustrated course board in
    the finished edit; rejection of its illustration should not remove its lesson
    content from the narration.
+
+### Preserve Notebook graphics (owner rule, 2026-09-10)
+
+Keep Gemini Notebook graphics and motion wherever they support the narration. Their
+variety helps engage students. An approved lesson board is available teaching material,
+not an instruction to cover the entire explanation with that board.
+
+Show an existing course board when its exact numbers, comparison, sequence, or takeaway
+makes the spoken idea easier to understand. Choose its entrance and exit around that
+specific teaching beat; retain or return to useful Notebook graphics before and after.
+For example, the Understand AI opener keeps the original opening and car explanation,
+then shows Under the Hood in full view for the takeaway around 0:58–1:05 and its pause.
+
+Before replacing a source span, identify the concrete visual defect or teaching benefit
+in the edit plan. Do not replace engaging, accurate graphics merely because a board
+exists or is easier to edit. Repair only the span that needs it. Avoid arbitrary quotas
+for board time or forced cuts during a comparison that needs sustained visibility.
+The board-walk rules below govern boards selected for display; they do not require a
+board for every teaching beat. The standard course close remains required.
 
 ### Markdown, prompt TXT, and board responsibilities
 
@@ -73,6 +102,45 @@ non-compensable: a student must be able to watch the video instead of reading
 the lesson and lose no essential understanding. Source coherence and teaching
 accuracy are separate gates; neither can be offset by cleanliness or pacing.
 
+### Preserve teaching when planning cuts (2026-09-10)
+
+Choose a base roll for its complete spoken teaching. Compare alternate rolls for
+specific stronger explanations, not just shorter runtime. Read the examples aloud
+when students need them to understand the explanation: displaying a sentence is
+not a substitute for narrating it. Preserve the problem, explanation, worked
+example, and payoff, especially in dense lessons such as Transformer.
+
+For proposed cuts that remove or substantially compress teaching, show David the
+exact source timestamps and words, the reason, and any donor replacement before
+building. Once that plan is approved, execute it without asking again. Approval to
+build is not permission to silently shorten additional teaching or to ship.
+Record source and output times separately so later feedback is applied correctly.
+
+Prefer coherent donor phrases or complete teaching beats. A factual narration
+error needs a narration repair or reroll; a corrected graphic alone cannot fix it.
+For every audio graft, check the words, pronunciation, cadence, voice continuity,
+and seams in the rendered result. A one-word graft needs particular care.
+Transcription, waveforms, level matching, and correlation checks do not establish
+that a splice sounds natural. State exactly what was checked and any listening
+still needed; never call an audio edit fully verified on technical checks alone.
+
+### Active materials and handoff (2026-09-10)
+
+Keep retired boards out of the active `lessons/` upload set. When cleaning a source
+package, retain only current referenced boards there and move retired assets to an
+archive outside that directory, with their original paths recorded. Do not remove
+assets still referenced by the course or another active package.
+
+David prefers rerolling to maintaining a large library of rejected videos. When he
+authorizes cleanup, verify the approved live version exists, then remove the extras
+within that scope. Do not retain rejected rolls solely for possible future donors.
+Do not delete active sources or candidates automatically during a build.
+
+A session handoff records the review candidate, base/donors, edit manifest, build
+and QA commands, verification limits, and whether David has approved shipping.
+Keep review status distinct from the live lesson registry and avoid treating an
+old handoff as current after new edits.
+
 The tracker keeps the r3 numeric columns because r5 does not change the /100
 calculation. Run or rerun `scripts/video-tracker-migrate-r5.gs` to add any missing
 current gate columns without altering old reviews. The r4 migration remains only
@@ -87,7 +155,8 @@ shipped course and `index.html` must never depend on a `-v2` video path.
 
 ## The standard content-board walk (owner rule, 2026-08-14)
 
-Every teaching board uses the exact current lesson capture and one of two treatments:
+When a course board is selected for display, use the exact current lesson capture
+and one of two treatments. Keep useful Notebook graphics outside that teaching span:
 
 1. **Compact / lighter-text board:** keep the complete board visible for the entire
    walkthrough. Begin unmarked, then highlight the active card, row, or component at

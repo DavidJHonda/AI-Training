@@ -1,0 +1,52 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/videos/transformer-v4.mp4`
+- Decoded frames: 7671
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f798 `Context shapes meaning` — [`boundary-000798-Context-shapes-meaning.jpg`](boundary-000798-Context-shapes-meaning.jpg)
+- PASS — f1098 `Pause before the two context problems` — [`boundary-001098-Pause-before-the-two-context-problems.jpg`](boundary-001098-Pause-before-the-two-context-problems.jpg)
+- PASS — f1128 `problems-different-meanings` — [`boundary-001128-problems-different-meanings.jpg`](boundary-001128-problems-different-meanings.jpg)
+- PASS — f1278 `problems-lamp-sentence` — [`boundary-001278-problems-lamp-sentence.jpg`](boundary-001278-problems-lamp-sentence.jpg)
+- PASS — f1397 `problems-suitcase-sentence` — [`boundary-001397-problems-suitcase-sentence.jpg`](boundary-001397-problems-suitcase-sentence.jpg)
+- PASS — f1499 `problems-pronouns` — [`boundary-001499-problems-pronouns.jpg`](boundary-001499-problems-pronouns.jpg)
+- PASS — f1748 `problems-cat-sentence` — [`boundary-001748-problems-cat-sentence.jpg`](boundary-001748-problems-cat-sentence.jpg)
+- PASS — f1826 `problems-milk-sentence` — [`boundary-001826-problems-milk-sentence.jpg`](boundary-001826-problems-milk-sentence.jpg)
+- PASS — f1919 `problems-context-takeaway` — [`boundary-001919-problems-context-takeaway.jpg`](boundary-001919-problems-context-takeaway.jpg)
+- PASS — f2075 `Pause before human understanding and AI math` — [`boundary-002075-Pause-before-human-understanding-and-AI-math.jpg`](boundary-002075-Pause-before-human-understanding-and-AI-math.jpg)
+- PASS — f2105 `Human understanding, mathematical work, and earlier AI` — [`boundary-002105-Human-understanding-mathematical-work-and-earlier-AI.jpg`](boundary-002105-Human-understanding-mathematical-work-and-earlier-AI.jpg)
+- PASS — f2815 `before-establish` — [`boundary-002815-before-establish.jpg`](boundary-002815-before-establish.jpg)
+- PASS — f2971 `before-cat` — [`boundary-002971-before-cat.jpg`](boundary-002971-before-cat.jpg)
+- PASS — f3055 `before-it` — [`boundary-003055-before-it.jpg`](boundary-003055-before-it.jpg)
+- PASS — f3139 `before-takeaway` — [`boundary-003139-before-takeaway.jpg`](boundary-003139-before-takeaway.jpg)
+- PASS — f3275 `Pause before the Transformer breakthrough` — [`boundary-003275-Pause-before-the-Transformer-breakthrough.jpg`](boundary-003275-Pause-before-the-Transformer-breakthrough.jpg)
+- PASS — f3305 `Original 2017 research and Transformer graphic` — [`boundary-003305-Original-2017-research-and-Transformer-graphic.jpg`](boundary-003305-Original-2017-research-and-Transformer-graphic.jpg)
+- PASS — f3628 `reads-establish` — [`boundary-003628-reads-establish.jpg`](boundary-003628-reads-establish.jpg)
+- PASS — f3734 `reads-all-present` — [`boundary-003734-reads-all-present.jpg`](boundary-003734-reads-all-present.jpg)
+- PASS — f3953 `reads-cat-it-connection` — [`boundary-003953-reads-cat-it-connection.jpg`](boundary-003953-reads-cat-it-connection.jpg)
+- PASS — f3981 `Draws information from CAT; instantly removed` — [`boundary-003981-Draws-information-from-CAT-instantly-removed.jpg`](boundary-003981-Draws-information-from-CAT-instantly-removed.jpg)
+- PASS — f4088 `Distance between them; physical removed` — [`boundary-004088-Distance-between-them-physical-removed.jpg`](boundary-004088-Distance-between-them-physical-removed.jpg)
+- PASS — f4125 `Full explanation of calculating relevance` — [`boundary-004125-Full-explanation-of-calculating-relevance.jpg`](boundary-004125-Full-explanation-of-calculating-relevance.jpg)
+- PASS — f4413 `Recall exercise and why the numbers must change` — [`boundary-004413-Recall-exercise-and-why-the-numbers-must-change.jpg`](boundary-004413-Recall-exercise-and-why-the-numbers-must-change.jpg)
+- PASS — f5085 `Pause before attention and transformation` — [`boundary-005085-Pause-before-attention-and-transformation.jpg`](boundary-005085-Pause-before-attention-and-transformation.jpg)
+- PASS — f5115 `operations-establish` — [`boundary-005115-operations-establish.jpg`](boundary-005115-operations-establish.jpg)
+- PASS — f5189 `operations-attention` — [`boundary-005189-operations-attention.jpg`](boundary-005189-operations-attention.jpg)
+- PASS — f5529 `operations-transformation` — [`boundary-005529-operations-transformation.jpg`](boundary-005529-operations-transformation.jpg)
+- PASS — f5670 `operations-numbers-change` — [`boundary-005670-operations-numbers-change.jpg`](boundary-005670-operations-numbers-change.jpg)
+- PASS — f5805 `resolve-establish` — [`boundary-005805-resolve-establish.jpg`](boundary-005805-resolve-establish.jpg)
+- PASS — f5899 `resolve-light-clues` — [`boundary-005899-resolve-light-clues.jpg`](boundary-005899-resolve-light-clues.jpg)
+- PASS — f6149 `resolve-pronoun-clues` — [`boundary-006149-resolve-pronoun-clues.jpg`](boundary-006149-resolve-pronoun-clues.jpg)
+- PASS — f6309 `Original complex-phrasing explanation and mathematical engine` — [`boundary-006309-Original-complex-phrasing-explanation-and-mathematical-engine.jpg`](boundary-006309-Original-complex-phrasing-explanation-and-mathematical-engine.jpg)
+- PASS — f6667 `Pause before word order` — [`boundary-006667-Pause-before-word-order.jpg`](boundary-006667-Pause-before-word-order.jpg)
+- PASS — f6697 `order-establish` — [`boundary-006697-order-establish.jpg`](boundary-006697-order-establish.jpg)
+- PASS — f6826 `order-same-three-words` — [`boundary-006826-order-same-three-words.jpg`](boundary-006826-order-same-three-words.jpg)
+- PASS — f7024 `order-without-positions` — [`boundary-007024-order-without-positions.jpg`](boundary-007024-order-without-positions.jpg)
+- PASS — f7173 `order-position-stamps` — [`boundary-007173-order-position-stamps.jpg`](boundary-007173-order-position-stamps.jpg)
+- PASS — f7348 `order-takeaway` — [`boundary-007348-order-takeaway.jpg`](boundary-007348-order-takeaway.jpg)
+- PASS — f7411 `Pause before closing message` — [`boundary-007411-Pause-before-closing-message.jpg`](boundary-007411-Pause-before-closing-message.jpg)
+- PASS — f7441 `standard-close` — [`boundary-007441-standard-close.jpg`](boundary-007441-standard-close.jpg)
+- PASS — f7599 `Settled closing hold` — [`boundary-007599-Settled-closing-hold.jpg`](boundary-007599-Settled-closing-hold.jpg)

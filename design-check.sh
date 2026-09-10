@@ -23,7 +23,7 @@ echo "----------------------------------------------------"
 #   word-chip (added 2026-06-06; the "It -> is -> going -> to -> rain" generation
 #   strip in AIIsMath "Tying the math together" box). All deliberate, not counters.
 #   The section-overview "NN / N" badge in renderOverview was removed 2026-06-06.
-chk "hand-built counter pills" 3 \
+chk "hand-built counter pills" 1 \
   "$(grep -oF 'borderRadius: 999, padding: "6px 14px"' "$F" | wc -l | tr -d ' ')"
 chk "Source Serif reintroduced" 0 \
   "$(grep -oE 'Source.Serif' "$F" | wc -l | tr -d ' ')"

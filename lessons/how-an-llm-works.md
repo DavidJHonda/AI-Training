@@ -2,31 +2,17 @@
 
 # How an LLM Works
 
-You’ve met the two kinds of AI and named the generative one: a Large Language Model, or LLM. So how does an LLM actually turn your words into an answer?
+If you’ve used AI, you’ve probably used an app like ChatGPT, Claude, or Gemini. The app is what you use. Under the hood, a **Large Language Model**, or **LLM** for short, does the work.
+
+![What’s an LLM? Large means trained on huge amounts of text and code. Language means reading, writing, summarizing, translating, and explaining. Model means predicting likely output from learned patterns.](../illustrations/what-is-ai-llm.jpg)
+
+So how does an LLM actually turn your words into an answer?
 
 When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They aren't looking up what your words mean; they're working out which words tend to follow which.
 
 How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time.
 
-## Learn once
-
-🌱 Training
-
-↓
-
-🍀 Patterns
-
-→
-
-patterns power every answer
-
-Answer· every word
-
-🎲 Probability
-
-↓
-
-✍️ Prediction
+![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
 
 Four ideas carry it. Below, we follow one example, peanut butter, through all four.
 

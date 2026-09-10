@@ -1,0 +1,13 @@
+# What Is AI? Opening illustration
+
+Created using the imagegen skill and built-in image-generation tool. Review version.
+
+Use case: illustration-story
+Create one wide 16:9 educational illustration for the opening of "What Is AI?", with two balanced scenes in the same warm sunlit high-school classroom.
+References: image 1 is Luke's facial identity, image 2 is Nate's facial identity. Image 3 is ONLY the course's established realistic cinematic illustration style and dark green hockey jersey wardrobe, not the composition or text to copy.
+LEFT: Luke, matching first portrait, light brown tousled loose curls with natural irregular shape (not tight curls or round puff), sits at an ordinary EMPTY school desk. He leans toward its bare desktop, speaking with a quietly expectant expression and one open hand. The desk is completely ordinary, inert, has no face, no electronics, no glow, and offers no answer. The humor is gentle, not slapstick.
+RIGHT: Nate, matching second portrait, dark brown shaggy mostly straight/wavy hair falling over forehead, sits at a similar school desk using a laptop with AI chat. Show his face in natural three-quarter view AND a clearly readable laptop display angled toward viewer. He looks engaged, reading a generated numbered list of history-project ideas. Only these two people, once each.
+Use matching understated white speech bubbles above each boy, with a short tail clearly pointing to that boy. BOTH contain exactly: "Give me 10 ideas for my history project."
+The laptop screen says "10 History Project Ideas" and shows a visible numbered list, with readable short entries where possible: 1. Ancient Egypt; 2. The printing press; 3. The Silk Road; 4. The moon landing; 5. The Roman Empire; 6. The Industrial Revolution; 7. The civil rights movement; 8. The history of voting; 9. The invention of flight; 10. The Berlin Wall.
+Composition: entire illustration a single polished diptych, subtle separation through a classroom aisle, no heavy divider. Large subjects, ordinary wooden school desks and realistic laptop, background books and classroom windows softly out of focus. Both have dark green Dallas Stars style hockey jerseys over black hoodies consistent with the course reference. Luke left wears 4, Nate right wears 96. Authentic teenage proportions, natural facial features, realistic hair and skin, anatomically correct hands. Warm cinematic photographic illustration, not cartoon or caricature.
+No overall title, no title bar, no banner, no robot, no floating brain, no holograms, no magical machine, no extra people, no labels over the scenes, no watermark. Text should be crisp and large, and the main teaching contrast should be instantly clear: speaking to furniture gives nothing; asking AI yields ideas.

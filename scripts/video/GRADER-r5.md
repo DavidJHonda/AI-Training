@@ -185,8 +185,9 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
   not stock. Course assets from `illustrations/` and `lessons/` are always allowed.
 - `GATE_ENDING`: The close board is the literal final frame. No outro or engine-drawn
   sign follows it.
-- `GATE_SYNC`: Narration and visuals agree in timing. Elements appear as they are
-  mentioned; narration leads and visuals follow.
+- `GATE_SYNC`: Narration and visuals agree in timing. Each visual and each highlight
+  begins at the spoken onset of the idea it supports: never before the cue, and never
+  held back until the phrase has finished.
 - `GATE_BOARD_WALK`: Every course board selected for display is the exact current
   lesson board and uses the correct treatment. This gate does not require a board
   for every teaching beat. Preserve useful Notebook graphics and motion; insert a
@@ -222,10 +223,16 @@ compensate for a failed Source QA, Accuracy, Substitute, or Spine gate.
     left edge to its full right edge. Never fit the ring to the checkmark or banner text.
     Once the takeaway becomes the active target, its first settled frame is already
     ringed; camera transit may not present the active band as an unmarked target.
-  - Keep the ring wholly inside its owning card or section. At the settled camera,
-    its outside stroke must have at least 16 visible pixels of clearance from the
+  - Two ring cases exist, and every highlight is one or the other. A **whole-component
+    ring** (an entire card, speech bubble, or takeaway banner) traces that component's
+    canonical outer boundary within three source pixels; this is the ring the Edit
+    Integrity gate measures. A **component ring** (a section, row, or element inside a
+    card) is defined from the ink bounds of the spoken content group plus balanced
+    padding and stays wholly inside its owning card. At the settled camera, a component
+    ring's outside stroke must have at least 16 visible pixels of clearance from the
     card edge and may not cross a divider, overlap sibling text, or include text from
-    the preceding or following component.
+    the preceding or following component. The fixed horizontal rails for stacked
+    sections are inset from the card's visible outer boundary by that same clearance.
   - Derive the settled camera from that same padded highlight rectangle. The complete
     ring must remain visible with at least 24 pixels of video-frame clearance, and the
     highlighted content group must be centered inside both the ring and the frame.

@@ -2,7 +2,7 @@
 
 Initially prepared against the lesson pages on 2026-09-04; individual kits are updated as reviewed. Each has one canonical Markdown, one prompt under 500 words, and the current JPG sources. Support Trap was rebuilt on 2026-09-07 with a face-free comparison upload variant. Follow each lesson's current checklist rather than the original batch counts. Numbering follows teaching order; gaps in the upload list are intentional.
 
-Do not upload `Prompts/Master Prompt.md`. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
+`Master Prompt.md` is retired and is never uploaded. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
 
 Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. Save new raw videos to `Prompts/<slug>-reroll.mp4` for evaluation; do not overwrite the live video before approval.
 
@@ -113,7 +113,7 @@ Rebuilt 2026-09-07. Target 4:00–4:45, with a 460-word prompt and expanded teac
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `lessons/support-trap-1-comparison.jpg`
 
-The comparison Notebook version retains the illustrated lesson board's words, order, colors, and conclusion but omits both photographs. This is an intentional upload-only variant, not a replacement for the on-page board. Replace it with the illustrated version in post. The other boards match the page; the current close is retained. Do not upload the PDF, old videos, this checklist, or Master Prompt.md.
+The comparison Notebook version retains the illustrated lesson board's words, order, colors, and conclusion but omits both photographs. This is an intentional upload-only variant, not a replacement for the on-page board. Replace it with the illustrated version in post. The other boards match the page; the current close is retained. Do not upload the PDF, old videos, or this checklist.
 
 Rebuild only this kit with `scripts/video/prepare_support_trap_reroll.py`. The expanded Markdown is video-prep teaching, including nuance from the lesson's activity; a plain DOM export would lose it. Save the next generation as `Prompts/support-trap-reroll.mp4`. Current raw, patched, and live videos are retained.
 

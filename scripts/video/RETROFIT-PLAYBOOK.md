@@ -29,25 +29,28 @@ other text. Preserve the board’s existing colors and backgrounds. The outline
 alone identifies the active item, including on the final board. This supersedes
 the earlier heading-fill instruction.
 
-## Canonical content-board walk (mandatory)
+## Canonical content-board walk (updated 2026-09-10; supersedes the 2026-08-07 text)
 
 Use this treatment whenever narration walks two or more points on a current lesson
-board that remains legible in whole-board framing:
+board:
 
-- Replace the complete narrated board span, including its board-level introduction,
-  with the exact current app capture. Never use an engine recreation or a recomposed
+- Replace only the span where the board's exact content is being taught. Enter at the
+  first spoken beat that benefits from the board and exit when narration moves past its
+  content. Keep useful Notebook graphics before and after; do not absorb the board-level
+  introduction or the following transition merely because the board is available.
+- Use the exact current app capture. Never an engine recreation or a recomposed
   approximation when the lesson board exists.
-- Hold the whole board in fixed framing throughout. Start unmarked when narration
-  addresses the board as a whole, then show exactly one active card or row at each
-  spoken onset. Highlights replace one another; they accumulate only when narration
-  explicitly combines or compares points.
-- No camera dive, crop, zoom, or pan between items. Background animation is not a
-  reason to leave the board: the board is the teaching scene while it is being walked.
-- Exception: if text is genuinely unreadable at 720p in whole-board framing, a dive
-  may frame the whole active card. Never crop inside a card, and return to the same
-  board rather than introducing a substitute visual.
-- End the board span only when narration moves to the next teaching beat. Static time
-  while narration is explaining the board is intentional teaching, not dead time.
+- Compact or lighter-text board (every item legible at 720p in whole-board framing):
+  hold the whole board in fixed framing. Start unmarked while narration addresses the
+  board as a whole, then ring exactly one active card or row at each spoken onset. A
+  restrained whole-board push is allowed; no dives or pans between items.
+- Dense or text-heavy board: establish the complete unmarked board, dive to the complete
+  active card or section, and pan smoothly to the next complete area as narration moves.
+  Never crop inside a card. Pull back when timing permits.
+- Highlights replace one another; they accumulate only when narration explicitly
+  combines or compares points.
+- Static time while narration explains the displayed content is teaching, not dead
+  time. End the span when narration moves to the next beat.
 
 ## 1. Map the spans
 - Scene cuts: `.video-venv/bin/python scripts/video/scenes.py videos/<slug>.mp4`

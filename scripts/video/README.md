@@ -136,6 +136,10 @@ authorizes cleanup, verify the approved live version exists, then remove the ext
 within that scope. Do not retain rejected rolls solely for possible future donors.
 Do not delete active sources or candidates automatically during a build.
 
+Raw Notebook rolls are saved as `Prompts/<slug>-reroll.mp4`; a second roll in the
+same pass is `Prompts/<slug>-reroll-2.mp4`. Older bases named `<slug>-1.mp4` or
+`<slug>-2.mp4` predate this convention (Vector Space, 2026-09-10).
+
 A session handoff records the review candidate, base/donors, edit manifest, build
 and QA commands, verification limits, and whether David has approved shipping.
 Keep review status distinct from the live lesson registry and avoid treating an
@@ -588,6 +592,10 @@ Two extensions (what-is-ai, 2026-08-02):
   PROSE are the video doing its job, not inconsistencies — do not invent app
   boards to replace them. The treatment applies only to spans rendering a real
   lesson component (there, one side-by-side board of eight scenes).
+- **Superseded (owner rule 2026-08-04, recorded here 2026-09-10):** the next two
+  bullets re-band boards to custom widths. Boards are now captured at the lesson's
+  own width (`BANDW 0`, the 902px app column) and never resized, so a different band
+  re-wraps no text. They stay only as the history behind the framing rules.
 - **Capture preflight for the full-screen open:** before picking CANW/BANDW,
   check band aspect ≥ ~16:10 at the planned band width — a taller-than-wide
   board cannot fit a 16:9 window at any zoom, and a wide-flat board leaves no

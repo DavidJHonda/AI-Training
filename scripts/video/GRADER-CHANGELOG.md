@@ -1,7 +1,8 @@
 # Video grader changelog
 
 The current grading authority is `GRADER-r5.md`. Historical grader files remain
-unchanged so prior decisions can be reconstructed.
+unchanged so prior decisions can be reconstructed; `GRADER-r4.md` now lives in
+`archive/video-specs-retired-2026-09-10/`.
 
 ## r5, 2026-08-22
 

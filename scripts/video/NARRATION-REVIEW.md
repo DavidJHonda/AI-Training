@@ -13,9 +13,14 @@ understanding. Everything else about a roll is editing work.
 
 ## Required inputs
 
-1. The current lesson: the live page in `index.html` and its Markdown under
-   `lessons/`. Read it as an editor. It is the grounding source, not presumed
-   infallible.
+1. The current lesson. **The live page in `index.html` is the authority**: the
+   essential teaching points are what a student reads there. Read it as an
+   editor; it is the grounding source, not presumed infallible. The Markdown
+   under `lessons/` is the upload source and tells you what the roll was asked
+   to teach. It may carry more than the page (video-prep nuance such as Support
+   Trap's activity detail); teaching taken from it is an accurate addition, not
+   an error. If the Markdown lacks something the page teaches, that is a
+   materials bug: fix it before the next roll and say so in EDITING NOTES.
 2. The complete timestamped transcript of the candidate
    (`grade_bundle.py` writes `transcript.txt`). Listen to the audio wherever the
    wording matters or the transcript is uncertain.

@@ -1,6 +1,6 @@
 # Build Your Skills opener — EDIT-SPEC candidate from reroll 1 (2026-09-11)
 
-Status: **built for David's review, not shipped.** Live `videos/opener-build.mp4` and the lesson are unchanged.
+Status: **SHIPPED 2026-09-11** on David's approval ("It's excellent."): v2 moved to `videos/opener-build.mp4` (SHA-256 verified before and after the copy), candidate deleted, `index.html` cache key set to `?v=20260911ship1`. See `shipping-receipt.json`.
 
 - Candidate: `videos/opener-build-v2.mp4`, 2:29.37, 4481 frames at 30 fps.
 - SHA-256: `ddc11748d78a092e189469d743271077ad612c87c86937e78771629f0cd06316`.

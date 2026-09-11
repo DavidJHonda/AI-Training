@@ -26,7 +26,7 @@ Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-
 - `LESSON_VIDEOS` in `index.html` is the source of truth for standard videos offered in the live course. Inspect the current entries rather than relying on historical lesson counts.
 - A prompt remaining in this directory does not by itself mean its video is pending, current, or unshipped. Prompts may be retained for a re-roll or new production pass; clean shipped source bundles may instead live under `archive/<slug>/`.
 - Per-video review state and flags live in the external tracker described below. Check that tracker, the current `LESSON_VIDEOS` entry, the live lesson, and recent commits before deciding what needs production work.
-- **transformers-quiz** is a special case outside the standard system: its video supports the TransformerClaimsTryIt quiz and is embedded inside that activity, not in WatchOverview. `archive/transformers-quiz/transformers-quiz-source.md` is deliberately false because students are meant to debunk its six claims; it does not use the normal lesson source bundle.
+- **ai-brain-break** (formerly transformers-quiz, replaced 2026-09-11) is a special case outside the standard system: its video supports the TransformerClaimsTryIt quiz in the Layers lesson and is embedded inside that activity, not in WatchOverview. `Prompts/ai-brain-break-source.md` is deliberately false because students are meant to debunk its seven claims; it is exempt from the standard close and does not use the normal lesson source bundle. The old six-claim version is archived in `archive/transformers-quiz/`.
 
 ## Status tracking
 

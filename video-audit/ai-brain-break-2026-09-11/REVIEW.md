@@ -1,6 +1,6 @@
 # AI Brain Break (Layers TRY IT video) — candidate from Prompts/quiz-final.mp4 (2026-09-11)
 
-Status: **built for David's review, not installed.** The live TRY IT still plays `videos/transformers-quiz.mp4`; the seven questions are already installed in the component.
+Status: **SHIPPED 2026-09-11** on David's approval: copied to `videos/ai-brain-break.mp4` (SHA-256 verified before and after), the Layers TRY IT player points at it with cache key `?v=20260911ship1`, `videos/transformers-quiz.mp4` deleted. See `shipping-receipt.json`.
 
 - Candidate: `videos/ai-brain-break-v1.mp4`, 3:31.63, 6349 frames at 30 fps.
 - SHA-256: `da5399d1b7fd13d6c5cdba02b86ac1be9c9dd477c72be90e8c6b3f64981a56cc`.

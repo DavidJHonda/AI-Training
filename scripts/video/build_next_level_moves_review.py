@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Next Level Moves from reroll 2 under EDIT-SPEC.md (2026-09-11). Review only.
 
-Base: Prompts/next-level-moves-reroll-2.mp4 (3:07). Output: videos/next-level-moves-v2.mp4.
+Base: Prompts/next-level-moves-reroll-2.mp4 (3:07). Output: videos/next-level-moves-v3.mp4 (v2 had bubble dives and over-wide rings).
 Audit: video-audit/next-level-moves-repair-2026-09-11/.
-Four chat boards, each from the roll's own cut and carried through its spoken takeaway (replacing
+Four chat boards (all compact, rings only; owner call 2026-09-11: no dives on chat conversations), each from the roll's own cut and carried through its spoken takeaway (replacing
 Notebook's paraphrase card) with the banner ringed; Notebook's section intros kept; standard close
 from the engine close's arrival cut. No narration cuts.
 """
@@ -16,20 +16,27 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/next-level-moves-reroll-2.mp4'
-OUT = ROOT / 'video-audit/next-level-moves-repair-2026-09-11'; DEST = ROOT / 'videos/next-level-moves-v2.mp4'
+OUT = ROOT / 'video-audit/next-level-moves-repair-2026-09-11'; DEST = ROOT / 'videos/next-level-moves-v3.mp4'
 B = {k: ROOT / f'lessons/next-level-moves-{k}.jpg' for k in ('1-summer-business', '2-profit', '3-college', '4-iteration')}
 
 def bubbles(path, card_top=128):
-    """Speech-bubble boxes (image px, xyxy) from the dark text blocks: dilate text into blocks, then
-    grow to the bubble border (measured: 33 px sides, 34 top, 30 bottom beyond the text)."""
-    im = cv2.imread(str(path)); g = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    """Speech-bubble boxes (image px, xyxy) traced from the bubble itself: locate each dark text block,
+    sample the bubble fill just outside the text, and take the bounding box of the connected fill+border
+    region (tolerance wide enough to include the bubble's light border, tight enough to exclude the page)."""
+    im = cv2.imread(str(path)); g = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY); H, W = g.shape
     dark = (g < 130).astype(np.uint8); dark[:card_top] = 0
     n, lab, st, _ = cv2.connectedComponentsWithStats(cv2.dilate(dark, np.ones((25, 45), np.uint8)), 8)
-    boxes = sorted([[int(x), int(y), int(x + w), int(y + h)] for x, y, w, h, a in st[1:] if w > 250 and h > 40], key=lambda b: b[1])
-    boxes = [[x0 - 22 + 33 - 22, y0 - 12 + 34 - 22, x1 + 22 - 33 + 22, y1 + 12 - 30 + 18] for x0, y0, x1, y1 in boxes]  # undo dilation, add bubble padding
-    boxes = [[x0 - 11, y0 - 20, x1 + 11, y1 + 20] for x0, y0, x1, y1 in boxes]
-    ban = banner_rect(im)
-    return [b for b in boxes if b[1] < ban[1] - 20], ban   # drop the banner's own text block
+    blocks = sorted([[int(x) + 22, int(y) + 12, int(x + w) - 22, int(y + h) - 12] for x, y, w, h, a in st[1:] if w > 250 and h > 40], key=lambda b: b[1])
+    ban = banner_rect(im); blocks = [b for b in blocks if b[1] < ban[1] - 20]
+    boxes = []
+    for x0, y0, x1, y1 in blocks:
+        fill = im[y0 - 14, x0 - 14].astype(int)                       # inside the bubble padding, outside the text
+        m = (np.abs(im.astype(int) - fill).sum(axis=2) <= 24).astype(np.uint8)   # fill + its light border
+        m[:card_top] = 0
+        nn, ll, ss, _ = cv2.connectedComponentsWithStats(m, 8)
+        comp = ll[y0 - 14, x0 - 14]; x, y, w, h, a = ss[comp]
+        boxes.append([int(x), int(y), int(x + w - 1), int(y + h - 1)])
+    return boxes, ban
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
@@ -72,16 +79,16 @@ def main():
     assert len(bb1) == 4 and len(bb2) == 2 and len(bb3) == 2 and len(bb4) == 4, (len(bb1), len(bb2), len(bb3), len(bb4))
     T = lambda label, at, r: dict(label=label, at=at, rects=[r], cam=r, color=NEUTRAL, radius=18)
     # full-view opens: a 1s pause holds each board unmarked right after its cut, so the first ring lands >= 2s after arrival
-    b.board('1-summer-business', B['1-summer-business'], B1, B1_OUT, 'dense',
+    b.board('1-summer-business', B['1-summer-business'], B1, B1_OUT, 'compact',
         [T('You: earn money this summer', 51.34, bb1[0]), T('AI asks about you first', 56.38, bb1[1]), T('You: dogs, math, afternoons', 61.60, bb1[2]), T('AI: three directions', 62.94, bb1[3])],
-        banner_at=68.84, pullback_at=68.84, banner=ban1, min_open=0)
-    b.board('2-profit', B['2-profit'], B2, B2_OUT, 'dense',
-        [T('You: what is profit', 86.06, bb2[0]), T('AI: the math', 91.04, bb2[1])], banner_at=104.84, pullback_at=104.84, banner=ban2, min_open=0)
+        banner_at=68.84, banner=ban1, min_open=0)
+    b.board('2-profit', B['2-profit'], B2, B2_OUT, 'compact',
+        [T('You: what is profit', 86.06, bb2[0]), T('AI: the math', 91.04, bb2[1])], banner_at=104.84, banner=ban2, min_open=0)
     b.board('3-college', B['3-college'], B3, B3_OUT, 'compact',
         [T('You: one question at a time', 125.28, bb3[0]), T('AI: first question', 131.50, bb3[1])], banner_at=139.26, banner=ban3, min_open=0)
-    b.board('4-iteration', B['4-iteration'], B4, B4_OUT, 'dense',
+    b.board('4-iteration', B['4-iteration'], B4, B4_OUT, 'compact',
         [T('Early: vague request', 154.64, bb4[0]), T('Early: generic list', 156.28, bb4[1]), T('Later: detailed plan', 158.68, bb4[2]), T('Later: pressure test', 166.72, bb4[3])],
-        banner_at=172.84, pullback_at=172.84, banner=ban4, min_open=0)
+        banner_at=172.84, banner=ban4, min_open=0)
     for src_in, src_out, donor, key in PHOTOS:
         b.board(key, stills[donor], src_in, src_out, 'compact', [], min_open=0)
     b.render_legs()

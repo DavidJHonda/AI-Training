@@ -2,8 +2,8 @@
 
 Status: **built for David's review, not shipped.** Live `videos/next-level-moves.mp4` and the lesson are unchanged.
 
-- Candidate: `videos/next-level-moves-v2.mp4`, 3:15.00, 5850 frames at 30 fps.
-- SHA-256: `5b20e470e7fbb64b621da01943b3c00f3df182e38f5edc54b0bddbc3159c25d8`.
+- Candidate: `videos/next-level-moves-v3.mp4`, 3:15.00, 5850 frames at 30 fps (v2 superseded: David asked for no dives on the chat boards and rings that match the bubble borders).
+- SHA-256: `312359597398ff7152e5ccd546e28c389a4f2bbff295acdbd6bd0188147dff16`.
 - Base roll: `Prompts/next-level-moves-reroll-2.mp4` (3:07; narration verdict KEEP: four moves named, all four takeaways and both closing lines verbatim). No narration cut or grafted.
 - Build: `.video-venv/bin/python scripts/video/build_next_level_moves_review.py` (shared `editspec_build.py`).
 
@@ -11,12 +11,12 @@ Status: **built for David's review, not shipped.** Live `videos/next-level-moves
 
 | Board | Source span | Density | Rings |
 |---|---|---|---|
-| Starting a Summer Business | 1499–2171 (0:50.0–1:12.4) | dense | You 0:51, AI 0:56, You 1:02, AI 1:03 (bubble dives), pull back and banner 1:09 |
-| Understanding Profit | 2545–3359 (1:24.8–1:52.0) | dense | You 1:26, AI 1:31, banner 1:45 |
+| Starting a Summer Business | 1499–2171 (0:50.0–1:12.4) | compact | You 0:51, AI 0:56, You 1:02, AI 1:03, banner 1:09 |
+| Understanding Profit | 2545–3359 (1:24.8–1:52.0) | compact | You 1:26, AI 1:31, banner 1:45 |
 | Thinking About College | 3679–4303 (2:02.6–2:23.4) | compact | You 2:05, AI 2:12, banner 2:19 |
-| From Idea to Business Plan | 4606–5288 (2:33.5–2:56.3) | dense | early You 2:35, early AI 2:36, later You 2:39, later AI 2:47, pull back and banner 2:53 |
+| From Idea to Business Plan | 4606–5288 (2:33.5–2:56.3) | compact | early You 2:35, early AI 2:36, later You 2:39, later AI 2:47, banner 2:53 |
 
-Each board arrives on its cut and is held unmarked by a one-second pause before the first ring, so every full-view open exceeds two seconds. Notebook's own paraphrase cards ("Provide Context First", "Use Familiar Scenarios", "Request the First Step", "Detail Drives Quality") are replaced by the real board with its banner ringed while the takeaway is spoken. Rings are neutral purple (chat boards carry no locked accent).
+Each board arrives on its cut and is held unmarked by a one-second pause before the first ring, so every full-view open exceeds two seconds. Notebook's own paraphrase cards ("Provide Context First", "Use Familiar Scenarios", "Request the First Step", "Detail Drives Quality") are replaced by the real board with its banner ringed while the takeaway is spoken. All four boards stay at full view (owner call: no dives on chat conversations). Rings trace each speech bubble's own border, taken from the bubble's fill region, in neutral purple (chat boards carry no locked accent).
 
 ## Photographs replaced
 

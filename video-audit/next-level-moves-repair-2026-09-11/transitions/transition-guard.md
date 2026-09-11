@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/next-level-moves-v2.mp4`
+- Video: `videos/next-level-moves-v3.mp4`
 - Decoded frames: 5850
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

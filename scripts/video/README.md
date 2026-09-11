@@ -7,7 +7,8 @@ how-an-llm-works, why-learn-ai, does-school-matter, the what-is-ai three-source
 composite, and the Work With AI challenger round).
 
 Start here when continuing video work in a new assistant session. This file governs
-production; `NARRATION-REVIEW.md` governs evaluation; `Prompts/README.md` governs upload
+production recipes; `EDIT-SPEC.md` is the contract every candidate must meet (scope,
+board treatment, rings, pauses, close); `NARRATION-REVIEW.md` governs evaluation; `Prompts/README.md` governs upload
 preparation. Dated owner corrections supersede older recipes below. The current
 2026-09-10 handoff is `docs/video-handoff-2026-09-10.md` (repository-relative path).
 

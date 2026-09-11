@@ -1,5 +1,9 @@
 # Board-retrofit playbook (v2 builds, 2026-08-07)
 
+Read `EDIT-SPEC.md` first: it defines what a candidate must contain (every board,
+full-view open, compact vs dense by text legibility, rings, pauses, close). This
+playbook is the how.
+
 You are building `videos/<slug>-v2.mp4`: replacing off-format board spans in a shipped
 lesson video with legs built from CURRENT page captures, using the app's highlight
 system. HARD RULES: never modify the shipped `videos/<slug>.mp4`; never run git

@@ -2,7 +2,7 @@
 
 Current workflow (updated 2026-09-10; earlier production notes below are historical where superseded):
 
-For editing and owner preferences, start with [the video production spec](../scripts/video/README.md).
+For what a finished edit must contain, read [the edit spec](../scripts/video/EDIT-SPEC.md); for editing recipes and owner preferences, [the video production README](../scripts/video/README.md).
 For the current session's unfinished work, see [the September 10 handoff](../docs/video-handoff-2026-09-10.md).
 
 1. Prepare one current lesson Markdown, its canonical JPGs, and one self-contained prompt. The live lesson is the content authority. Markdown must include the teaching inside the boards, not just image captions. Avoid Traps has an exact checklist and scene plan in [AVOID-TRAPS-VIDEO-KITS.md](AVOID-TRAPS-VIDEO-KITS.md).

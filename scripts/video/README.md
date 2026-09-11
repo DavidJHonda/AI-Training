@@ -85,6 +85,20 @@ a second lesson outline, board inventory, or copy of the examples and numbers.
 When a lesson changes, update its Markdown and affected boards together. Update the
 prompt only when presentation requirements or its source filename change.
 
+**Speak the answers (owner rule, 2026-09-11; proven on Vector Space rolls 3 and 4).**
+Notebook narrates prose and treats tables, takeaway banners, and board captions as
+optional. So every result a student must hear lives in a prose sentence of the
+Markdown, not only in a table or banner: the answer to each worked example
+("38° N, 120° W is closest to Mountain View"), the conclusion of each comparison
+("So the mystery drink is closest to Pepsi"), and any short qualifying clause that
+matters, written as its own sentence. A question posed in the prose is answered in
+the next sentence. The prompt carries the matching rule: the narrator never asks the
+viewer to pause, guess, or work anything out; every worked example ends with its
+result spoken; read the values a comparison depends on. Reference prompt:
+`Prompts/vector-space-video-prompt.txt` (SPEAK THE ANSWERS section). Known limit: a
+short abstract clause ("values learned during training") still lands in about half
+of rolls even as its own sentence; do not chase it with more prompt text.
+
 Upload the Markdown as the text source and supply its referenced boards separately.
 A local Markdown image link identifies a board; it is not proof that Notebook has
 received that image. If a board needs an illustration-free source variant, retain

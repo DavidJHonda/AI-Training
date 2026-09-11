@@ -91,9 +91,11 @@ def fit_window(fit, aspect, ow, up):
     pad, margin = float(fit.get("pad", 0)), float(fit.get("margin", 24))
     # Solve for the window width W: scale = ow / W; need
     #   (w + 2 pad) * scale + 2 RING_PX + 2 margin <= ow   and the same for height.
+    # scale = ow / W (output px per image px); the padded rect must fit inside the
+    # inner box on BOTH axes:  (w+2pad)*scale <= inner_w  and  (h+2pad)*scale <= inner_h.
     inner_w = ow - 2 * (RING_PX + margin)
     inner_h = ow / aspect - 2 * (RING_PX + margin)
-    W = max((w + 2 * pad) * ow / inner_w, (h + 2 * pad) * (ow / aspect) / inner_h)
+    W = max((w + 2 * pad) * ow / inner_w, (h + 2 * pad) * ow / inner_h)
     return [x + w / 2, y + h / 2, W]
 
 

@@ -106,8 +106,9 @@ Outside the board spans, keep Notebook's graphics and motion. Do not replace an
 engaging, accurate scene because a board exists. Do not invent course-style
 boards for the video; a new replacement graphic is Notebook-style.
 
-Since 2026-09-10 the engine burns a "Gemini Notebook" mark into the bottom-right
-corner of every scene it renders. Owner decision 2026-09-11: it never ships, for
+The engine burns a "Gemini Notebook" mark into the bottom-right corner of every
+scene it renders (present on the September 4–9 rolls too; the audit of 2026-09-11
+found it on seven of eight Build Your Skills videos). Owner decision 2026-09-11: it never ships, for
 one reason: in a repaired video it blinks on at every cut back to Notebook and off
 at every board, which reads as a glitch. Google makes the visible mark optional
 (its help page: AI Pro and Ultra users can turn off "Visible watermarking" in the

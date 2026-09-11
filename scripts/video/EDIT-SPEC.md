@@ -106,6 +106,13 @@ Outside the board spans, keep Notebook's graphics and motion. Do not replace an
 engaging, accurate scene because a board exists. Do not invent course-style
 boards for the video; a new replacement graphic is Notebook-style.
 
+Since 2026-09-10 the engine burns a "Gemini Notebook" mark into the bottom-right
+corner of every scene it renders. It is a watermark and never ships. The render
+loop in `editspec_build.py` removes it on every kept Notebook frame
+(`gemini_mark.py`: paper cloned from the same frame, grid-matched); frames it
+declines are listed in the manifest and must be looked at. Board legs and the
+close never carry it.
+
 ## 9. Audio outside the pauses is untouched
 
 No narration is cut, moved, or grafted without David's approval of the exact

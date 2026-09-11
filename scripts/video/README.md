@@ -129,6 +129,9 @@ None of them affects the narration verdict; all of them block a ship.
   self-harm, restricted medical, or red-staining imagery.
 - **Stock**: no Getty, watermark, or unlicensed asset. Cropping a watermark is
   not a repair. Course assets from `illustrations/` and `lessons/` are always fine.
+  Gemini's own corner mark (bottom-right "Gemini Notebook", every roll since
+  2026-09-10) counts: `gemini_mark.py` cleans it in the render; check the corner
+  on several kept Notebook frames of the final file (`corner-check.jpg`).
 - **Ending**: the app close board is the literal final frame, inserted in post
   with the standard push and settle (see the standard close section).
 - **Sync**: each visual and each highlight begins at the spoken onset of the idea

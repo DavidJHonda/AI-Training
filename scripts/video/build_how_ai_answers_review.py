@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """How AI Answers repair candidate under EDIT-SPEC.md (2026-09-11): every board, pauses, close.
 
-Base: Prompts/how-ai-answers.mp4 (untouched). Output: videos/how-ai-answers-v3.mp4 (review only).
+Base: Prompts/how-ai-answers.mp4 (untouched). Output: videos/how-ai-answers-v4.mp4 (review only; v3 had B4 dense, owner asked for compact).
 Audit: video-audit/how-ai-answers-repair-2026-09-11/
 
 Boards (source cuts measured by sequential decode; each replaced from its own cut):
@@ -10,7 +10,7 @@ Boards (source cuts measured by sequential decode; each replaced from its own cu
   B3a The Answer, Token by Token frames [2467, 3804)  dense   Prediction 1 / three more / Prediction 5
       (Notebook's own loop diagram [3804, 4074) is kept: accurate, engaging)
   B3b The Answer, Token by Token frames [4074, 4389)  full view + banner ring
-  B4 Inference: How AI Builds an Answer [4389, 5126) dense 4 steps + banner (current illustrated board)
+  B4 Inference: How AI Builds an Answer [4389, 5126) compact 4 steps + banner (current illustrated board)
 Every board opens at full view unmarked; dense boards dive to complete cards at spoken onsets with one
 uniform window per board; rings are drawn post-crop at 5px in each card's locked accent.
 Pauses: 1.0s matched room tone at 47.83, 81.90, 145.93, 170.87 (visual held). Standard close.
@@ -23,7 +23,7 @@ import cv2, numpy as np, imageio_ffmpeg
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-ai-answers.mp4'
 OUT = ROOT / 'video-audit/how-ai-answers-repair-2026-09-11'
-DEST = ROOT / 'videos/how-ai-answers-v3.mp4'
+DEST = ROOT / 'videos/how-ai-answers-v4.mp4'
 KB = ROOT / 'scripts/video/ken_burns_path.py'
 PY = ROOT / '.video-venv/bin/python'
 ILL = ROOT / 'illustrations'
@@ -225,10 +225,11 @@ def main():
         [('Prediction 1', 89.70, g3['p1'], g3['cam1'], PURPLE), ('Three more predictions', 100.84, g3['mid'], g3['mid'], BLUE),
          ('Prediction 5', 107.18, g3['p5'], g3['cam5'], TEAL)])
     legs['b3b'] = plan_leg('b3b', assets['b3'], B3B, B4, 'compact', [], banner_at=141.84, banner=ban3)
-    legs['b4'] = plan_leg('b4', assets['b4'], B4, P4, 'dense',
+    # Owner call 2026-09-11: the four-step strip reads at full view, so this board is compact (no dives).
+    legs['b4'] = plan_leg('b4', assets['b4'], B4, P4, 'compact',
         [('1 · Rank', 154.64, c4[0], c4[0], PURPLE), ('2 · Pick', 158.06, c4[1], c4[1], BLUE),
          ('3 · Add', 159.88, c4[2], c4[2], TEAL), ('4 · Repeat', 162.38, c4[3], c4[3], GREEN)],
-        banner_at=165.70, pullback_at=165.70, banner=ban4)
+        banner_at=165.70, banner=ban4)
     for k, L in legs.items(): render_leg(k, L['src_out'] - L['src_in'])
 
     if not (OUT / 'close.png').exists():

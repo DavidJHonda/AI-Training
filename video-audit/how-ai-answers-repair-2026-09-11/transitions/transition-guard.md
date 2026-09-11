@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/how-ai-answers-v3.mp4`
+- Video: `videos/how-ai-answers-v4.mp4`
 - Decoded frames: 5483
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

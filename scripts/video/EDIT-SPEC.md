@@ -56,7 +56,11 @@ the full view on the delivered 1280x720 frame.
   Never crop inside a card.
 
 Judge legibility by looking at the full-view frame, not by counting cards.
-Record the decision in the manifest (`density`).
+Record the decision in the manifest (`density`). Calibration from David's calls
+(2026-09-11, How AI Answers): the four-card Before the Answer Begins board and the
+two prediction tables are dense; the two-card Why the Final Token Matters board and
+the four-step strip under the Inference illustration are compact, because their
+text reads at full view.
 
 ## 5. Rings: ours only
 

@@ -1,9 +1,9 @@
-# How AI Answers repair — full EDIT-SPEC candidate (2026-09-11)
+# How AI Answers repair — full EDIT-SPEC candidate (2026-09-11, v4)
 
-Status: **built for David's review, not shipped.** Live `videos/how-ai-answers.mp4` and the lesson are unchanged. Supersedes the 2026-09-10 v2 candidate (which treated only the inference board).
+Status: **built for David's review, not shipped.** Live `videos/how-ai-answers.mp4` and the lesson are unchanged. Supersedes the 2026-09-10 v2 candidate (inference board only) and this morning's v3 (David: the inference board's four-step strip is compact, not dense).
 
-- Candidate: `videos/how-ai-answers-v3.mp4`, 3:02.77, 5483 frames at 30 fps.
-- SHA-256: `f81eb3d54831316dcb853056db48542bce7621a44ca631cdf5b6b913f373ad33`.
+- Candidate: `videos/how-ai-answers-v4.mp4`, 3:02.77, 5483 frames at 30 fps.
+- SHA-256: `aa02876d9b8922aa2409ae68e579ed042001a6960ad264953ea51f9eae1f4761`.
 - Base roll: `Prompts/how-ai-answers.mp4` (narration verdict KEEP). No narration cut, moved, or grafted.
 - Build: `.video-venv/bin/python scripts/video/build_how_ai_answers_review.py` (`--prepare-only` = audio, legs, previews).
 - Manifest: `edit-manifest.json` (timeline, per-board density/onsets/rings/beats, close plan, boundaries, hashes).
@@ -17,7 +17,7 @@ Status: **built for David's review, not shipped.** Live `videos/how-ai-answers.m
 | B3a The Answer, Token by Token | 2467–3804 (1:22.2–2:06.8) | dense | 7.5 s | dive Prediction 1 1:30 · Three more predictions 1:41 · Prediction 5 1:47; ends at the roll's own cut to its loop diagram |
 | Notebook loop diagram | 3804–4074 | kept | — | accurate, engaging source scene |
 | B3b The Answer, Token by Token | 4074–4389 (2:15.8–2:26.3) | compact | 6.0 s | full frame; banner ring 2:22 |
-| B4 Inference: How AI Builds an Answer | 4389–5126 (2:26.3–2:50.9) | dense | 8.3 s | dive Rank 2:35 · Pick 2:38 · Add 2:40 · Repeat 2:42; pull back and banner ring 2:46 |
+| B4 Inference: How AI Builds an Answer | 4389–5126 (2:26.3–2:50.9) | compact | 8.3 s | full frame throughout; ring Rank 2:35 · Pick 2:38 · Add 2:40 · Repeat 2:42; banner ring 2:46 |
 
 Accents: purple `#4f2fc4`, blue `#1652f0`, teal `#0e8f86`, green `#0f7a4a` per card title; banners `#6e51ff`. One uniform dive window per dense board (40 px frame clearance around the ring). Board 4 is the illustrated page board, replacing the face-free upload variant.
 

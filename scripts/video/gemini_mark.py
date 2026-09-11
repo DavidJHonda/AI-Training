@@ -17,6 +17,7 @@ audio is untouched. Frame counts are unaffected.
 Rejected on purpose: the old NotebookLM fitted-alpha model (different glyphs), ffmpeg delogo
 (stripes dot grids), and cross-frame donors (the paper phase and zoom differ between scenes).
 """
+import os
 import cv2, numpy as np
 
 BOX = (1128, 666, 1279, 716)   # x0, y0, x1, y1 of the mark, with a small margin
@@ -57,6 +58,16 @@ def clean_corner(frame_in, box=BOX):
     out = frame.copy(); patch = frame[y0:y1, x0:x1].astype(np.float32)
     out[y0:y1, x0:x1] = (donor * m[:, :, None] + patch * (1 - m[:, :, None])).round().astype(np.uint8)
     return out[PAD:-PAD, PAD:-PAD], score, off
+
+CANONICAL_MASK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gemini-mark-glyph-mask.png")
+
+def glyph_mask(frames=None, box=BOX):
+    """The mark's glyph mask. The mark is identical in size and position on every roll, so the
+    committed canonical mask (learned 2026-09-11 from a clean-paper roll, 1112 px) is used; a
+    per-roll learned mask is only a fallback if the file is missing."""
+    if os.path.exists(CANONICAL_MASK):
+        m = cv2.imread(CANONICAL_MASK, 0); return (m > 0).astype(np.uint8)
+    return learn_glyph_mask(frames, box) if frames else None
 
 def learn_glyph_mask(frames, box=BOX, thresh=6.0):
     """Glyph-core mask of the mark, learned from frames where the paper clone succeeds:

@@ -170,7 +170,7 @@ class Build:
         self.close_img = cv2.imread(str(self.out / 'close.png'))
     def manifest(self, extra=None):
         m = dict(output=str(self.dest), source=str(self.src), fps=FPS, total_frames=self.total, duration=self.total / FPS, timeline=self.rows, boards=self.boards,
-                 close=dict(start_frame=self.close_start, prehold=CLOSE_PREHOLD, push=CLOSE_PUSH, endpoint=1.2, settle=self.total - self.close_start - CLOSE_PREHOLD - CLOSE_PUSH),
+                 close=(dict(start_frame=self.close_start, prehold=CLOSE_PREHOLD, push=CLOSE_PUSH, endpoint=1.2, settle=self.total - self.close_start - CLOSE_PREHOLD - CLOSE_PUSH) if self.close_start is not None else 'none (quiz video, exempt from the standard close)'),
                  audio=self.tone_meta, boundaries=[dict(frame=r['start_frame'], label=r['label']) for r in self.rows[1:]], protected_hashes=self.hashes,
                  scope='Review only; live unchanged', **(extra or {}))
         (self.out / 'edit-manifest.json').write_text(json.dumps(m, indent=2)); return m
@@ -180,7 +180,7 @@ class Build:
         are listed in the manifest for review."""
         assert not self.dest.exists(), f'{self.dest} exists; version-suffix a rebuild instead of overwriting'
         if clean_corner:
-            import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame as _cf, learn_glyph_mask
+            import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame as _cf, glyph_mask
             # learn the glyph mask from this roll's own paper frames (every 5th source frame)
             cap = cv2.VideoCapture(str(self.src)); samples = []; i = -1
             while True:
@@ -188,16 +188,16 @@ class Build:
                 if not ok: break
                 i += 1
                 if i % 5 == 0: samples.append(im)
-            mask = learn_glyph_mask(samples)
+            mask = glyph_mask(samples)
             if mask is not None: cv2.imwrite(str(self.out / 'corner-mask.png'), mask * 255)
         cleaned, inpainted, declined = 0, 0, []
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
-        src = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in self.boards}; last = None; ci = self.close_img
+        src = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in self.boards}; last = None; ci = getattr(self, 'close_img', None)
         for f in range(self.total):
             row = next(r for r in self.rows if r['start_frame'] <= f < r['end_frame'])
-            if f >= self.close_start:
+            if self.close_start is not None and f >= self.close_start:
                 k = f - self.close_start; q = np.clip((k - CLOSE_PREHOLD) / (CLOSE_PUSH - 1), 0, 1); z = 1 + .2 * q * q * (3 - 2 * q)
                 h, w = ci.shape[:2]; ww = w / z; hh = ww * 9 / 16
                 im = cv2.warpAffine(ci, np.float32([[ww / W, 0, (w - ww) / 2], [0, hh / H, (h - hh) / 2]]), (W, H), flags=cv2.INTER_CUBIC | cv2.WARP_INVERSE_MAP)

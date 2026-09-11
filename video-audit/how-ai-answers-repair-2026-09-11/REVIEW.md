@@ -1,6 +1,6 @@
 # How AI Answers repair — full EDIT-SPEC candidate (2026-09-11, v4)
 
-Status: **built for David's review, not shipped.** Live `videos/how-ai-answers.mp4` and the lesson are unchanged. Supersedes the 2026-09-10 v2 candidate (inference board only) and this morning's v3 (David: the inference board's four-step strip is compact, not dense).
+Status: **SHIPPED 2026-09-11** on David's approval: v4 moved to `videos/how-ai-answers.mp4` (SHA-256 verified before and after the copy), v2-v4 candidates deleted, `index.html` cache key bumped to `?v=20260911ship1`. See `shipping-receipt.json`.
 
 - Candidate: `videos/how-ai-answers-v4.mp4`, 3:02.77, 5483 frames at 30 fps.
 - SHA-256: `aa02876d9b8922aa2409ae68e579ed042001a6960ad264953ea51f9eae1f4761`.

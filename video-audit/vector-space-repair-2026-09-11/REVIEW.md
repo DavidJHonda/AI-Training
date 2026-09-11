@@ -1,6 +1,6 @@
 # Vector Space — EDIT-SPEC candidate from roll 4 (2026-09-11)
 
-Status: **built for David's review, not shipped.** Live `videos/vector-space.mp4` and the lesson are unchanged. Supersedes the 2026-09-10 `vector-space-v2.mp4` candidate (built from roll 1 with audio grafts; that file can be deleted).
+Status: **SHIPPED 2026-09-11** on David's approval ("The video is excellent. Ship it."): v3 moved to `videos/vector-space.mp4` (SHA-256 verified before and after the copy), v2 and v3 candidates deleted, `index.html` cache key bumped to `?v=20260911ship1`. See `shipping-receipt.json`.
 
 - Candidate: `videos/vector-space-v3.mp4`, 3:52.90, 6987 frames at 30 fps.
 - SHA-256: `94c843ad70242259e5bfa4f4e814bf1265c4b462b3e11cc2dfa65747a3b040df`.

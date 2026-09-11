@@ -26,4 +26,4 @@ End on the sauce line and hold the pasta illustration for two seconds. No separa
 
 ## Check before installation
 
-Verify all seven paragraphs appear once, in order, with no factual corrections, disclaimers, or improvised claims. Check deadpan delivery, legible labels, clean scene transitions, and the final audio tail. The older questions JSON is not the approved seven-question activity; do not install it. Finalize the new questions and corrections alongside the approved video in a later step.
+Verify all seven paragraphs appear once, in order, with no factual corrections, disclaimers, or improvised claims. Check deadpan delivery, legible labels, clean scene transitions, and the final audio tail. `ai-brain-break-questions.json` now holds the seven-question draft (claims in video order, one correction each, in the shape `TransformerClaimsTryIt` uses), drafted 2026-09-11 and pending David's read. Install it together with the approved roll: replace the component's CLAIMS array, change "six claims" to "seven" in the instructions, and point the player at the new video file.

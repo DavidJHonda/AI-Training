@@ -1,6 +1,6 @@
 # Next Level Moves — EDIT-SPEC candidate from reroll 2 (2026-09-11)
 
-Status: **built for David's review, not shipped.** Live `videos/next-level-moves.mp4` and the lesson are unchanged.
+Status: **SHIPPED 2026-09-11** on David's approval ("ship it"): v3 moved to `videos/next-level-moves.mp4` (SHA-256 verified before and after the copy), candidates deleted, `index.html` cache key set to `?v=20260911ship1`. See `shipping-receipt.json`.
 
 - Candidate: `videos/next-level-moves-v3.mp4`, 3:15.00, 5850 frames at 30 fps (v2 superseded: David asked for no dives on the chat boards and rings that match the bubble borders).
 - SHA-256: `312359597398ff7152e5ccd546e28c389a4f2bbff295acdbd6bd0188147dff16`.

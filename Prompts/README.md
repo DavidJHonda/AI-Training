@@ -18,7 +18,7 @@ verify the live replacement first and delete within that authorized scope; he pr
 rerolling to keeping rejected videos as a donor library. This does not authorize
 automatic deletion of pending review candidates.
 
-Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-Work.md`, `opener-understand` → `lessons/Opener-Understand.md`, `opener-avoid` → `lessons/Opener-Avoid.md`, `opener-embrace` → `lessons/Opener-Embrace.md`, and `opener-build` → `lessons/Opener-Build.md`. The Build Your Skills opener prompt is currently `Prompts/opener-build.txt`.
+Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-Work.md`, `opener-understand` → `lessons/Opener-Understand.md`, `opener-avoid` → `lessons/Opener-Avoid.md`, `opener-embrace` → `lessons/Opener-Embrace.md`, and `opener-build` → `lessons/Opener-Build.md`. The Build Your Skills opener prompt is `Prompts/opener-build-video-prompt.txt`.
 
 
 ## Repository status

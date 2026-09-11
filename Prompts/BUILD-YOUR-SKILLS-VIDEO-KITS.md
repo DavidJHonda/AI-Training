@@ -6,7 +6,7 @@ Updated 2026-09-10: paths corrected to `lessons/`, Your Choices temperature boar
 
 ## Opener
 
-- Prompt: `Prompts/opener-build.txt`
+- Prompt: `Prompts/opener-build-video-prompt.txt` (rebuilt 2026-09-11 under the speak-the-answers method; Markdown carries the creed, the map's three parts, and the closing lines as prose)
 - Markdown: `lessons/Opener-Build.md`
 - Notebook sources:
   1. `lessons/opener-build-1-creed.jpg`
@@ -26,7 +26,7 @@ The temperature board moved to One More Thing on 2026-09-09 and is no longer par
 
 ## Next Level Moves
 
-- Prompt: `Prompts/next-level-moves-video-prompt.txt`
+- Prompt: `Prompts/next-level-moves-video-prompt.txt` (rebuilt 2026-09-11; Markdown reads every conversation and takeaway as prose, closing lines explicit)
 - Markdown: `lessons/next-level-moves.md`
 - Notebook sources:
   1. `lessons/next-level-moves-1-summer-business.jpg`

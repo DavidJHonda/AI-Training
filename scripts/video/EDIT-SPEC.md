@@ -13,6 +13,11 @@ course board, every idea boundary, the close. Never hand over a candidate with
 one board fixed and the others left as Gemini Notebook rendered them. If a rule
 cannot be met, say so in the review record; do not silently narrow the scope.
 
+"Every board" means every board complies, not every board is rebuilt. Boards that
+already shipped under this spec stay as they are when a later build only touches
+audio or another span. What is never allowed is a Notebook rendering or a
+Notebook highlight on any board in the candidate.
+
 ## 2. Every course board is the current page asset
 
 Wherever the roll shows a lesson board, the candidate shows the exact current
@@ -28,6 +33,13 @@ Every board appears first as the complete, unmarked board, filling the frame
 with the house side bars if its shape needs them. Hold that full view for at
 least two seconds, or until the first item-level beat if that comes later.
 Never open a board already zoomed or already ringed.
+
+When the narrator names the first card before two seconds have passed, insert a
+one-second pause (rule 6) at the boundary between the board's introduction and
+its first item, holding the full unmarked view through it. If the introduction
+is so short that the full view still falls under two seconds, the ring pops at
+the first item's onset in the full view and the dive waits; the board is still
+seen whole first.
 
 ## 4. Compact or dense: decided by text, not structure
 

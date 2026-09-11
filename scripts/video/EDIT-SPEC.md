@@ -60,7 +60,9 @@ Record the decision in the manifest (`density`). Calibration from David's calls
 (2026-09-11, How AI Answers): the four-card Before the Answer Begins board and the
 two prediction tables are dense; the two-card Why the Final Token Matters board and
 the four-step strip under the Inference illustration are compact, because their
-text reads at full view.
+text reads at full view. AI Chat boards are always compact (Next Level Moves,
+2026-09-11): never dive into a conversation; ring each speech bubble in turn at
+full view, and the ring traces the bubble's own border, not the text inside it.
 
 ## 5. Rings: ours only
 

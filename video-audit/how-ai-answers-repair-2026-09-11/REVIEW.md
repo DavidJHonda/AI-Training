@@ -1,6 +1,6 @@
 # How AI Answers repair — full EDIT-SPEC candidate (2026-09-11, v4)
 
-Status: **SHIPPED 2026-09-11** on David's approval: v4 moved to `videos/how-ai-answers.mp4` (SHA-256 verified before and after the copy), v2-v4 candidates deleted, `index.html` cache key bumped to `?v=20260911ship1`. See `shipping-receipt.json`.
+Status: **RE-SHIPPED 2026-09-11 as v5** (same edit plus the Gemini corner-mark removal on 670 Notebook frames, 0 declined; ). Earlier the same day: **SHIPPED 2026-09-11** on David's approval: v4 moved to `videos/how-ai-answers.mp4` (SHA-256 verified before and after the copy), v2-v4 candidates deleted, `index.html` cache key bumped to `?v=20260911ship1`. See `shipping-receipt.json`.
 
 - Candidate: `videos/how-ai-answers-v4.mp4`, 3:02.77, 5483 frames at 30 fps.
 - SHA-256: `aa02876d9b8922aa2409ae68e579ed042001a6960ad264953ea51f9eae1f4761`.

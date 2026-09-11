@@ -17,13 +17,13 @@ Pauses: 1.0s matched room tone at 47.83, 81.90, 145.93, 170.87 (visual held). St
 Audio outside the pauses is the source audio.
 """
 from pathlib import Path
-import json, hashlib, subprocess, wave, argparse
+import json, hashlib, subprocess, wave, argparse, sys
 import cv2, numpy as np, imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-ai-answers.mp4'
 OUT = ROOT / 'video-audit/how-ai-answers-repair-2026-09-11'
-DEST = ROOT / 'videos/how-ai-answers-v4.mp4'
+DEST = ROOT / 'videos/how-ai-answers-v5.mp4'
 KB = ROOT / 'scripts/video/ken_burns_path.py'
 PY = ROOT / '.video-venv/bin/python'
 ILL = ROOT / 'illustrations'
@@ -249,6 +249,8 @@ def main():
     p = subprocess.Popen([ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(OUT / 'edited.wav'),
                           '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                           '-movflags', '+faststart', str(DEST)], stdin=subprocess.PIPE)
+    sys.path.insert(0, str(ROOT / 'scripts/video')); from gemini_mark import clean_corner
+    cleaned, declined = 0, []
     src = Reader(SRC); readers = {k: Reader(OUT / f'leg-{k}.mkv') for k in legs}; last = None
     for f in range(total):
         row = next(r for r in rows if r['start_frame'] <= f < r['end_frame'])
@@ -259,10 +261,15 @@ def main():
         elif row['kind'] == 'room_tone': im = last.copy()
         else:
             sf = row['source_start'] + f - row['start_frame']
-            im = src.at(sf) if row['visual'] == 'source' else readers[row['visual']].at(sf - legs[row['visual']]['src_in'])
+            if row['visual'] == 'source':
+                im, score, off = clean_corner(src.at(sf))   # Gemini corner mark: paper-clone, per frame
+                if off is None: declined.append(dict(output_frame=f, source_frame=sf, score=round(score, 1)))
+                else: cleaned += 1
+            else:
+                im = readers[row['visual']].at(sf - legs[row['visual']]['src_in'])
         p.stdin.write(im.tobytes()); last = im
     p.stdin.close(); assert p.wait() == 0
-    manifest['render_sha256'] = sha(DEST); manifest['protected_files_unchanged'] = {k: sha(Path(k)) == v for k, v in hashes.items()}
+    manifest['render_sha256'] = sha(DEST); manifest['corner_mark'] = dict(cleaned_frames=cleaned, declined=declined); manifest['protected_files_unchanged'] = {k: sha(Path(k)) == v for k, v in hashes.items()}
     assert all(manifest['protected_files_unchanged'].values()); (OUT / 'edit-manifest.json').write_text(json.dumps(manifest, indent=2)); print(DEST, flush=True)
 
 if __name__ == '__main__':

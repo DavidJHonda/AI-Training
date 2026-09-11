@@ -4,71 +4,85 @@
 
 The AI argument is getting louder and louder. Why? Because the technology is advancing at blazing speeds.
 
-ChatGPT: 2023 vs. 2026
+### Board 1: ChatGPT: 2023 vs. 2026
 
-## 2023
+**Image file:** `pace-of-change-1-three-years.jpg`
 
-## 2026
+![ChatGPT: 2023 vs. 2026](pace-of-change-1-three-years.jpg)
 
-Answering
+**Teaching content:**
 
-It started typing the instant you hit enter, with whatever came out first.
+Four rows compare 2023 with 2026.
 
-It can work on a hard problem quietly before it says a word, sometimes for minutes.
+Answering. In 2023 it started typing the instant you hit enter, with whatever came out first. In 2026 it can work on a hard problem quietly before it says a word, sometimes for minutes.
 
-Images
+Images. In 2023, ask for a picture of your new dog Spot and he might come back with a bonus leg and the ears of a rabbit. In 2026, photoreal images with signs you can actually read, and full video with sound and dialogue.
 
-Ask for a picture of your new dog Spot and he might come back with a bonus leg and the ears of a rabbit.
+Context window. In 2023 the free chatbots most people used could only hold a few pages at once; push a long chat far enough and the beginning fell out of its head. In 2026 some models can hold a million tokens, which is a whole novel series in view at the same time.
 
-Photoreal images with signs you can actually read, and full video with sound and dialogue.
-
-Context Window
-
-The free chatbots most people used could only hold a few pages at once. Push a long chat far enough and the beginning fell out of its head.
-
-Some current models can hold a million tokens, which is a whole novel series in view at the same time.
-
-Doing
-
-It told you the steps to do a thing, and wished you luck.
-
-It does the thing. AI agents can even book, build, and fix while you watch.
+Doing. In 2023 it told you the steps to do a thing, and wished you luck. In 2026 it does the thing. AI agents can even book, build, and fix while you watch.
 
 The AI companies are in a race to dominate the industry, so they release new models every couple of months. Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it. A limitation can disappear quickly, so today’s “no” is not necessarily permanent.
 
-## Why so fast?
+## WHY SO FAST?
 
 Three concepts are driving the acceleration, and you already understand the first one.
 
-### Better Training
+### Board 2: Why So Fast?
 
-AI learns from more and better data. That translates into better results.
+**Image file:** `pace-of-change-2-accelerants.jpg`
 
-### More Compute
+![Why So Fast?](pace-of-change-2-accelerants.jpg)
 
-AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute.
+**Teaching content:**
 
-### AI Helps Build AI
+Better training: AI learns from more and better data. That translates into better results.
 
-The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
+More compute: AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute.
+
+AI helps build AI: the strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
 
 Slow down and read that third one again. AI is already helping people build better AI.
 
-## 4 Future Ideas
+## 4 FUTURE IDEAS
 
 What does the future of AI look like? There are four key ideas driving the AI companies forward. One is happening in limited form. The other three describe a proposed process or possible milestones that have not been demonstrated.
 
-### Four future ideas
+### Board 3: Could AI Improve Itself?
 
-Automated AI Research is happening in limited form: AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.
+**Image file:** `pace-of-change-3-future-research.jpg`
 
-Self-Improving AI has not been demonstrated: an AI would improve its own design. The stronger version would then do it again, creating a loop with little or no human direction.
+![Could AI Improve Itself?](pace-of-change-3-future-research.jpg)
 
-Artificial General Intelligence usually means human-level ability across many kinds of work, but there is no accepted definition or test.
+**Teaching content:**
 
-Artificial Superintelligence is the hypothetical idea of AI exceeding the best humans across nearly every cognitive field.
+Automated AI research is happening in limited form: AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.
+
+Self-improving AI has not been demonstrated: an AI would improve its own design, the stronger version would do it again, creating a loop with little or no human direction.
+
+One is human-directed. The other would be a self-reinforcing loop.
+
+### Board 4: How Far Can AI Go?
+
+**Image file:** `pace-of-change-4-future-capability.jpg`
+
+![How Far Can AI Go?](pace-of-change-4-future-capability.jpg)
+
+**Teaching content:**
+
+Artificial General Intelligence, AGI, usually means human-level ability across many kinds of work, but there is no accepted definition or test.
+
+Artificial Superintelligence, ASI, is the hypothetical idea of AI exceeding the best humans across nearly every cognitive field.
 
 Nobody knows whether AI will reach either milestone.
+
+### Close
+
+**Image file:** `pace-of-change-5-close.jpg`
+
+![Close board](pace-of-change-5-close.jpg)
+
+## Closing Message
 
 AI keeps getting faster and more powerful.
 

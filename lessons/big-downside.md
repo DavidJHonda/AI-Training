@@ -6,105 +6,121 @@ AI is advancing fast. If your iPhone were about to get an amazing new feature, y
 
 Because greater capability can create greater risk. The downside becomes clear through six ideas.
 
-## I - The Black Box
+## I - THE BLACK BOX
 
-AI models are often called **black boxes**. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can trace some internal features, but they still cannot fully explain why a model produced one particular answer.
+AI models are often called black boxes. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can trace some internal features, but they still cannot fully explain why a model produced one particular answer.
 
 Why did AI suggest the name Spot for your dog? Nobody, even the people who design AI, can point to a spot inside and say “that’s where the name Spot came from.”
 
-That makes AI harder to debug than ordinary software. Engineers can retrain it, fine-tune it, and add safeguards. But **there is no complete repair manual** that tells them exactly which internal part to change.
+That makes AI harder to debug than ordinary software. Engineers can retrain it, fine-tune it, and add safeguards. But there is no complete repair manual that tells them exactly which internal part to change.
 
-## II - The Challenge of Guardrails
+## II - THE CHALLENGE OF GUARDRAILS
 
-AI companies use layers of protection called **guardrails**. Some are built into how the model is trained. Others monitor prompts and answers or limit what the product can do. Together, they try to block, redirect, or limit risky behavior. But no layer catches everything.
+AI companies use layers of protection called guardrails. Some are built into how the model is trained. Others monitor prompts and answers or limit what the product can do. Together, they try to block, redirect, or limit risky behavior. But no layer catches everything.
 
-The harder question is if guardrails will work as AI systems become far more capable:
+The harder question is whether guardrails will work as AI systems become far more capable.
 
-### The guardrail challenge gets harder
+### Board 1: The Guardrail Challenge Gets Harder
 
-**If AI Changes Itself:** Guardrails would have to keep up with a system that changes while people use it.
+**Image file:** `big-downside-1-guardrails.jpg`
 
-**If AI Matches People:** A system as capable as its builders might be better at finding gaps in their rules.
+![The Guardrail Challenge Gets Harder](big-downside-1-guardrails.jpg)
 
-**If AI Surpasses People:** The people setting the rules could be less capable than the system they are trying to control.
+**Teaching content:**
+
+If AI changes itself: guardrails would have to keep up with a system that changes while people use it.
+
+If AI matches people: a system as capable as its builders might be better at finding gaps in their rules.
+
+If AI surpasses people: the people setting the rules could be less capable than the system they are trying to control.
 
 The worry grows as capability grows.
 
-## III - Jailbreaking
+## III - JAILBREAKING
 
 Those are possible future risks. Here’s one for right now: what if a person using AI wants to cause harm?
 
-Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called **jailbreaking**.
+Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called jailbreaking.
 
-![Why Jailbreaks Keep Appearing. A massive guardrail wall has many guarded paths, while an attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.](big-downside-2-jailbreak.jpg)
+### Board 2: Why Jailbreaks Keep Appearing
 
-🔓 A jailbreak
+**Image file:** `big-downside-2-jailbreak.jpg`
 
-In 2025, AI-security company HiddenLayer reported that a technique called **Policy Puppetry** got past the guardrails in every LLM it tested, including Claude, ChatGPT, and Gemini. The prompt was made to look like official instructions from the AI company. The models followed those fake instructions instead of their safety rules.
+![Why Jailbreaks Keep Appearing](big-downside-2-jailbreak.jpg)
 
-## IV - Bad Actors
+**Teaching content:**
 
-Jailbreaking is not always necessary. A scammer can combine ordinary AI abilities, such as writing, voice cloning, and translation, into something harmful. Each request can look harmless on its own, so guardrails may miss the larger plan. Here’s an example:
+A massive guardrail wall has many guarded paths. Defenders must protect every path. An attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.
+
+### Board 3: A Jailbreak
+
+**Image file:** `big-downside-3-policy-puppetry.jpg`
+
+![A Jailbreak](big-downside-3-policy-puppetry.jpg)
+
+**Teaching content:**
+
+In 2025, AI-security company HiddenLayer reported that a technique called Policy Puppetry got past the guardrails in every LLM it tested, including Claude, ChatGPT, and Gemini. The prompt was made to look like official instructions from the AI company. The models followed those fake instructions instead of their safety rules.
+
+## IV - BAD ACTORS
+
+Jailbreaking is not always necessary. A scammer can combine ordinary AI abilities, such as writing, voice cloning, and translation, into something harmful. Each request can look harmless on its own, so guardrails may miss the larger plan. Here’s an example.
+
+### Board 4: How the Voice-Clone Scam Works
+
+**Image file:** `big-downside-4-voice-clone.jpg`
+
+![How the Voice-Clone Scam Works](big-downside-4-voice-clone.jpg)
+
+**Teaching content:**
+
+Four steps. Voice clip: scammers pull a short voice clip from a video posted online. Voice cloned: AI generates new speech that sounds like someone you know. Fake call: the scammer creates panic and demands money you send now. Call back: hang up. Call the person back on the real number you already have.
 
 As AI gets more powerful, so do the things a bad actor can do.
 
-## V - AI Follows the Goal
+## V - AI FOLLOWS THE GOAL
 
 Bad actors mean to cause harm. But AI can also go wrong when nobody means any harm. Give it a goal, and it may find a route you didn’t intend. Here is a real example.
 
-🕳️
+### Board 5: The Test That Reached the Internet
 
-The test that reached the internet
+**Image file:** `big-downside-5-goal-test.jpg`
 
-OpenAI, 2026. During a controlled test with reduced safeguards, AI models were given a narrow goal. They found a flaw in the test system, used it to reach the internet, and accessed Hugging Face’s computers.
+![The Test That Reached the Internet](big-downside-5-goal-test.jpg)
 
-Nobody told them to leave the test. They found that route because it helped them reach the goal.
+**Teaching content:**
 
-## VI - Safety Runs Behind
+OpenAI, 2026. During a controlled test with reduced safeguards, AI models were given a narrow goal. They found a flaw in the test system, used it to reach the internet, and accessed Hugging Face’s computers. Nobody told them to leave the test. They found that route because it helped them reach the goal.
+
+## VI - SAFETY RUNS BEHIND
 
 Safeguards and rules often arrive after a new technology is already in use. With earlier technologies, that gap was measured in years or decades.
 
-Technology First. Safety Later.
+### Board 6: Technology First. Safety Later.
 
-Cars → seat belts required
+**Image file:** `big-downside-6-safety-timeline.jpg`
 
-1908–1968
+![Technology First. Safety Later.](big-downside-6-safety-timeline.jpg)
 
-~60 yrs
+**Teaching content:**
 
-Airplanes → federal flight rules
-
-1903–1926
-
-~23 yrs
-
-Smartphones → screen-time parental controls
-
-2007–2018
-
-~11 yrs
-
-AI → safeguards and rules
-
-still evolving
-
-?
+Cars to required seat belts: 1908 to 1968, about 60 years. Airplanes to federal flight rules: 1903 to 1926, about 23 years. Smartphones to screen-time parental controls: 2007 to 2018, about 11 years. AI to safeguards and rules: still evolving.
 
 But AI is changing faster than society can adjust. Laws take years, and product safeguards take time. By the time one risk is addressed, new capabilities may create another.
 
-## What the AI companies are doing
+## WHAT THE AI COMPANIES ARE DOING
 
-AI companies use teams called **red teams**. Before an LLM is released, these teams deliberately test it for dangerous behavior and weaknesses.
+AI companies use teams called red teams. Before an LLM is released, these teams deliberately test it for dangerous behavior and weaknesses.
 
-In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast.
+In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast. The letter says: “There is a real risk that capability development rapidly accelerates beyond our ability to understand or control.”
 
-“
+### Close
 
-There is a real risk that capability development rapidly accelerates beyond our ability to understand or control.
+**Image file:** `big-downside-6-close.jpg`
 
-## Pacing the Frontier
+![Close board](big-downside-6-close.jpg)
 
-· Open letter signed by more than a thousand AI-company employees, 2026
+## Closing Message
 
 AI can follow a goal in ways nobody intended.
 

@@ -6,99 +6,61 @@ There are almost as many opinions about AI as calculations in an LLM. OK. Just k
 
 How about this? Let’s ask the people who make AI for a living. Same field. Same evidence. Very different bets.
 
-## Even the Experts Don’t Know
+### Board 1: Even the Experts Don’t Know
 
-Optimist
+**Image file:** `loudest-voices-1-experts.jpg`
 
-Dario Amodei
+![Even the Experts Don’t Know](loudest-voices-1-experts.jpg)
 
-Built GPT-2 and GPT-3 at OpenAI, then founded Anthropic, the company behind Claude.
+**Teaching content:**
 
-## Says
+Three experts, three bets.
 
-“AI-enabled biology and medicine will allow us to compress the progress that human biologists would have achieved over the next 50-100 years into 5-10 years.”
+The Optimist is Dario Amodei. He built GPT-2 and GPT-3 at OpenAI, then founded Anthropic, the company behind Claude. He says: “AI-enabled biology and medicine will allow us to compress the progress that human biologists would have achieved over the next 50 to 100 years into 5 to 10 years.” But he admits: “Humanity is about to be handed almost unimaginable power, and it is deeply unclear whether our social, political, and technological systems possess the maturity to wield it.”
 
-But admits
+The Worrier is Geoffrey Hinton. He won a Nobel Prize for the ideas that AI runs on. At 75, he left his job at Google so he could warn people about AI. He says: “We’re actually making new kinds of beings. They have goals. We give them goals, and from those goals they derive other goals. We don’t necessarily know what other goals they’ll derive.” But he admits: “If we can detect cancer much earlier thanks to AI, fewer people will die from it.”
 
-“Humanity is about to be handed almost unimaginable power, and it is deeply unclear whether our social, political, and technological systems possess the maturity to wield it.”
+The Doubter is Yann LeCun. He won the Turing Award for helping invent modern AI. He thinks everyone is building AI the wrong way. He says: “LLMs basically are a dead end when it comes to superintelligence,” and “LLMs have a more superficial understanding of the world than a house cat.” But he admits: “I do acknowledge risks. AI is not something that just happens. We build it, we have agency in what it becomes. Hence we control the risks.”
 
-Worrier
+Sources: Amodei, Machines of Loving Grace (2024) and The Adolescence of Technology (2026); Hinton, Ai4 conference (August 2025) and Gitex Europe (2025); LeCun, Financial Times (January 2026) and his own posts (2023).
 
-Geoffrey Hinton
+None of them has a simple, one-sided view. The Optimist sees danger. The Worrier sees benefits. The Doubter acknowledges risks. That’s the tell: the people who know AI best still don’t know where it’s going. Where AI will be in ten years is a bet.
 
-Won a Nobel Prize for his ideas that AI runs on. At 75, he left his job at Google so he could warn people about AI.
-
-## Says
-
-“We’re actually making new kinds of beings. They have goals. We give them goals, and from those goals they derive other goals. We don’t necessarily know what other goals they’ll derive.”
-
-But admits
-
-“If we can detect cancer much earlier thanks to AI, fewer people will die from it.”
-
-Doubter
-
-Yann LeCun
-
-Won the Turing Award for helping invent modern AI. He thinks that everyone is building AI the wrong way.
-
-## Says
-
-“LLMs basically are a dead end when it comes to superintelligence.”
-
-“LLMs have a more superficial understanding of the world than a house cat.”
-
-But admits
-
-“I do acknowledge risks. AI is not something that just happens. We build it, we have agency in what it becomes. Hence we control the risks.”
-
-Amodei
-
-Essays: Machines of Loving Grace (2024); The Adolescence of Technology (2026).
-
-Hinton
-
-Ai4 conference, Las Vegas (August 2025); Gitex Europe (2025).
-
-LeCun
-
-Financial Times (January 2026); his own posts (2023).
-
-None of them has a simple, one-sided view. The Optimist sees danger. The Worrier sees benefits. The Doubter acknowledges risks. That’s the tell: the people who know AI best still don’t know where it’s going. **Where AI will be in ten years is a bet.**
-
-## This has happened before
+## THIS HAS HAPPENED BEFORE
 
 Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions.
 
-![This Has Happened Before. Four confident technology predictions that missed: astronomer Clifford Stoll on online shopping, Microsoft CEO Steve Ballmer on the iPhone, Ethernet inventor Robert Metcalfe on an internet collapse, and Ford Motor Company founder Henry Ford on flying cars.](loudest-voices-2-missed-calls.jpg)
+### Board 2: This Has Happened Before
 
-📰
+**Image file:** `loudest-voices-2-missed-predictions.jpg`
 
-People won’t shop online
+![This Has Happened Before](loudest-voices-2-missed-predictions.jpg)
 
-Astronomer Clifford Stoll in 1995, on shopping over the internet: “So how come my local mall does more business in an afternoon than the entire Internet handles in a month?” Online shopping went on to become part of everyday life.
+**Teaching content:**
 
-📱
+Four confident predictions that missed.
 
-No chance for the iPhone
+Online shopping. In 1995, astronomer Clifford Stoll said online shopping could not compete with malls. It became part of everyday life.
 
-Steve Ballmer, running Microsoft in 2007: “There’s no chance that the iPhone is going to get any significant market share. No chance.” The iPhone went on to reshape the smartphone market.
+No chance for the iPhone. In 2007, Microsoft CEO Steve Ballmer said the iPhone had no chance at meaningful market share. It reshaped smartphones.
 
-🥤
+The internet will collapse. In 1996, Robert Metcalfe, who invented Ethernet, predicted a catastrophic collapse. The internet became essential infrastructure.
 
-The internet will collapse
+Flying cars are coming. In 1940, Ford Motor Company founder Henry Ford predicted a flying car was coming. It still has not become ordinary transportation.
 
-Robert Metcalfe invented the technology that still connects computers to each other. In 1996 he predicted the internet would catastrophically collapse. Instead, the internet became infrastructure for communication, commerce, and courses like this one.
+The future is hard to predict because people change the result.
 
-🚗
+## WHY WERE THEY WRONG?
 
-Flying cars, any decade now
+Because the future is hard to predict. A technology becomes the future only when people change their habits around it. Machines improve fast. Habits change at human speed.
 
-Henry Ford in Forbes, 1940: “Mark my word: a combination airplane and motorcar is coming. You may smile, but it will come.” More than eighty years later, flying cars remain experimental rather than ordinary transportation.
+### Close
 
-## Why were they wrong?
+**Image file:** `loudest-voices-3-close.jpg`
 
-Because **the future is hard to predict**. A technology becomes the future only when people change their habits around it. Machines improve fast. Habits change at human speed.
+![Close board](loudest-voices-3-close.jpg)
+
+## Closing Message
 
 Where AI will be in ten years is a bet.
 

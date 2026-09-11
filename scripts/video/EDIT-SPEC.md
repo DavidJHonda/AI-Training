@@ -116,9 +116,11 @@ Gemini Notebook profile menu; SynthID stays embedded regardless, and nothing in
 Google's generative-AI terms requires the visible mark). David's account is Ultra,
 so: **turn Visible watermarking off before generating**; new rolls arrive clean.
 For rolls that already carry the mark, the render loop in `editspec_build.py`
-removes it on every kept Notebook frame (`gemini_mark.py`: paper cloned from the
-same frame, grid-matched); frames it declines are listed in the manifest and must
-be looked at. Board legs and the close never carry it.
+removes it on every kept Notebook frame (`gemini_mark.py`): paper cloned from the
+same frame where the surround is paper, otherwise an inpaint of only the mark's
+glyph strokes, using a mask learned from that roll's own paper frames. Frames it
+declines are listed in the manifest and must be looked at. Board legs and the
+close never carry it.
 
 ## 9. Audio outside the pauses is untouched
 

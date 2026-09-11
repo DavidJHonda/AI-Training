@@ -58,6 +58,34 @@ def clean_corner(frame_in, box=BOX):
     out[y0:y1, x0:x1] = (donor * m[:, :, None] + patch * (1 - m[:, :, None])).round().astype(np.uint8)
     return out[PAD:-PAD, PAD:-PAD], score, off
 
+def learn_glyph_mask(frames, box=BOX, thresh=6.0):
+    """Glyph-core mask of the mark, learned from frames where the paper clone succeeds:
+    mean |observed - cloned| over the box, thresholded and grown by one pixel. Saved per
+    build so the inpaint fallback only ever touches the strokes themselves."""
+    x0, y0, x1, y1 = box; acc = None; n = 0
+    for f in frames:
+        out, score, off = clean_corner(f, box)
+        if off is None: continue
+        d = np.abs(f[y0:y1, x0:x1].astype(np.float32) - out[y0:y1, x0:x1].astype(np.float32)).mean(axis=2)
+        acc = d if acc is None else acc + d; n += 1
+    if not n: return None
+    m = (acc / n > thresh).astype(np.uint8)
+    return cv2.dilate(m, np.ones((3, 3), np.uint8))
+
+def inpaint_corner(frame, mask, box=BOX):
+    """Fallback for the mark over illustration: inpaint only the learned glyph strokes."""
+    x0, y0, x1, y1 = box; out = frame.copy()
+    out[y0:y1, x0:x1] = cv2.inpaint(frame[y0:y1, x0:x1], mask, 3, cv2.INPAINT_TELEA)
+    return out
+
+def clean_frame(frame, mask=None, box=BOX):
+    """Paper clone when the surround is paper; otherwise glyph inpaint when a mask is given.
+    Returns (frame, method) with method in {'clone', 'inpaint', None}."""
+    out, score, off = clean_corner(frame, box)
+    if off is not None: return out, 'clone'
+    if mask is not None: return inpaint_corner(frame, mask, box), 'inpaint'
+    return frame, None
+
 def mark_strength(frame, box=BOX):
     """Crude presence measure: gradient energy inside the box minus the band's (paper alone ~0)."""
     x0, y0, x1, y1 = box; g = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)

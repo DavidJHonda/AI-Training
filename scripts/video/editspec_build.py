@@ -80,8 +80,12 @@ class Build:
     def pause(self, n, label):
         self.rows.append(dict(kind='room_tone', start_frame=self.cursor, end_frame=self.cursor + n, label=label))
         self.parts.append(self.tone(n * SPF)); self.cursor += n
-    def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
+    def mark_close_start(self):
+        """Start the standard close visual at the current output frame (use at the source cut where the
+        engine's own close arrives); subsequent keep()/pause() rows carry the closing audio."""
         self.close_start = self.cursor
+    def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
+        if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
     def finish_audio(self):
         self.total = self.cursor; writewav(self.out / 'edited.wav', np.concatenate(self.parts))
@@ -97,7 +101,7 @@ class Build:
     def fit_w(w, h):
         return max(w * W / (W - 2 * (RING_PX + DIVE_MARGIN)), h * W / (H - 2 * (RING_PX + DIVE_MARGIN)))
 
-    def board(self, key, asset, src_in, src_out, density, targets, banner_at=None, pullback_at=None, banner=None, min_open=2 * FPS):
+    def board(self, key, asset, src_in, src_out, density, targets, banner_at=None, pullback_at=None, banner=None, min_open=2 * FPS, push=True):
         """targets: list of dicts {label, at (s), rects [xyxy image px, ...], color, cam (xyxy, dense only)}.
         A target with several rects is an explicitly combined point (all ring together).
         Rings run from `at` until the next target's `at` (or banner_at / the board's end)."""
@@ -119,7 +123,8 @@ class Build:
         first = on(targets[0]['at']) if targets else (on(banner_at) if banner_at else n)
         assert first >= min_open, (key, 'full-view open under the minimum', first, min_open)
         if density == 'compact':
-            beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, cw * (1 - 0.04 * n / (30 * FPS))])]
+            # push=False keeps a compact board perfectly still: use it when an audio cut removes frames inside the span
+            beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, cw * ((1 - 0.04 * n / (30 * FPS)) if push else 1.0)])]
         else:
             dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in targets)
             beats = [dict(label='establish', frames=first, **{'from': full}, to=[cw / 2, ch / 2, cw * 0.97])]; cursor = first
@@ -175,8 +180,17 @@ class Build:
         are listed in the manifest for review."""
         assert not self.dest.exists(), f'{self.dest} exists; version-suffix a rebuild instead of overwriting'
         if clean_corner:
-            import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_corner as _cc
-        cleaned, declined = 0, []
+            import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame as _cf, learn_glyph_mask
+            # learn the glyph mask from this roll's own paper frames (every 5th source frame)
+            cap = cv2.VideoCapture(str(self.src)); samples = []; i = -1
+            while True:
+                ok, im = cap.read()
+                if not ok: break
+                i += 1
+                if i % 5 == 0: samples.append(im)
+            mask = learn_glyph_mask(samples)
+            if mask is not None: cv2.imwrite(str(self.out / 'corner-mask.png'), mask * 255)
+        cleaned, inpainted, declined = 0, 0, []
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
@@ -193,14 +207,15 @@ class Build:
                 if row['visual'] == 'source':
                     im = src.at(sf)
                     if clean_corner:
-                        im, score, off = _cc(im)
-                        if off is None: declined.append(dict(output_frame=f, source_frame=sf, score=round(score, 1)))
-                        else: cleaned += 1
+                        im, how = _cf(im, mask)
+                        if how == 'clone': cleaned += 1
+                        elif how == 'inpaint': inpainted += 1
+                        else: declined.append(dict(output_frame=f, source_frame=sf))
                 else:
                     im = legs[row['visual']].at(sf - self.boards[row['visual']]['src_in'])
             p.stdin.write(im.tobytes()); last = im
         p.stdin.close(); assert p.wait() == 0
         m = json.load(open(self.out / 'edit-manifest.json')); m['render_sha256'] = sha(self.dest)
-        m['corner_mark'] = dict(cleaned_frames=cleaned, declined=declined)
+        m['corner_mark'] = dict(cloned_frames=cleaned, inpainted_frames=inpainted, declined=declined)
         m['protected_files_unchanged'] = {k: sha(k) == v for k, v in self.hashes.items()}; assert all(m['protected_files_unchanged'].values())
         (self.out / 'edit-manifest.json').write_text(json.dumps(m, indent=2)); return m

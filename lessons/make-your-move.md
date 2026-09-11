@@ -6,55 +6,95 @@ Imagine you started a basketball team with friends. You learned the fundamentals
 
 That is where you are now with AI. You have learned the fundamentals and built important skills. Now it is time to decide what you will do with them.
 
-## A NOTE FROM NATE AND LUKE
+### Board 1: A Note from Nate and Luke
 
-We’re still in high school, too. Building this course taught us a lot. Use these moves as starting points, talk with adults who know you, and remember: nobody knows exactly what the future holds.
+**Image file:** `make-your-move-1-note.jpg`
+
+![A Note from Nate and Luke](make-your-move-1-note.jpg)
+
+**Teaching content:**
+
+A note from Nate and Luke, who built this course: We’re still in high school, too. Building this course taught us a lot. Use these moves as starting points, talk with adults who know you, and remember: nobody knows exactly what the future holds.
 
 ## AI AND YOUR FUTURE CAREER
 
 If you’re thinking about how AI might change careers, you’re not alone. But remember: jobs are made up of many different tasks, and AI will not affect every task in the same way.
 
-### How AI Might Change Careers
+### Board 2a: How AI Might Change Careers (1 of 2)
 
-**Doctor:**AI may help review records, summarize research, and identify patterns. People still own patient care, context, uncertainty, explanation, and responsibility.
+**Image file:** `make-your-move-2-careers-a.jpg`
 
-**Teacher:**AI may help draft lessons, create practice, and review work. People still own student relationships, motivation, adaptation, and classroom community.
+![How AI Might Change Careers, part one](make-your-move-2-careers-a.jpg)
 
-**Lawyer:**AI may help search cases, summarize documents, and draft. People still own client advice, strategy, persuasion, and professional responsibility.
+**Teaching content:**
 
-**Electrician:**AI may help read manuals, suggest causes, and plan work. People still own safety, real-world diagnosis, and on-site adaptation.
+Doctor. AI may help review records, summarize research, and help identify patterns. People still own examining the patient, weighing context and uncertainty, explaining choices, and taking responsibility for care.
 
-**Graphic Designer:**AI may help generate drafts, variations, and directions. People still own purpose, audience, taste, and the final result.
+Teacher. AI may help draft lessons, create practice activities, and help review student work. People still own knowing the student, building motivation, adapting in the moment, and creating a classroom community.
 
-**Entrepreneur:**AI may help research markets, compare options, draft plans, and organize work. People still own the problem, risk, customers, leadership, and decisions.
+Lawyer. AI may help search cases, summarize documents, and help produce early drafts. People still own advising the client, building the strategy, persuading others, and taking professional responsibility.
+
+### Board 2b: How AI Might Change Careers (2 of 2)
+
+**Image file:** `make-your-move-2-careers-b.jpg`
+
+![How AI Might Change Careers, part two](make-your-move-2-careers-b.jpg)
+
+**Teaching content:**
+
+Electrician. AI may help read manuals, suggest possible causes, and help plan the work. People still own working safely in the real world, diagnosing what is actually happening, and adapting on site.
+
+Graphic designer. AI may help generate drafts, variations, and possible directions quickly. People still own choosing the purpose, understanding the audience, applying taste, and directing the final result.
+
+Entrepreneur. AI may help research markets, draft plans, compare options, and help organize the work. People still own choosing the problem, taking the risk, winning customers, leading people, and owning the decisions.
 
 ## SKILLS THAT TRAVEL
 
 In every example above, AI may take on more tasks, but people are responsible for the most important work. That points to a practical move: build skills you can carry into almost any career.
 
-### Four Skills to Build
+### Board 3: Four Skills to Build
 
-**Work well with people:**Listen, explain ideas clearly, collaborate, build trust, and help lead others.
+**Image file:** `make-your-move-3-skills.jpg`
 
-**Critical thinking and judgment:**Decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
+![Four Skills to Build](make-your-move-3-skills.jpg)
 
-**Create and solve problems:**Find new angles, combine ideas, test possibilities, and improve what already exists.
+**Teaching content:**
 
-**Stay curious and flexible:**Keep learning, explore new tools, test new approaches, and change when something better appears.
+Work well with people: listen, explain ideas clearly, collaborate, build trust, and help lead others.
+
+Critical thinking and judgment: decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
+
+Create and solve problems: find new angles, combine ideas, test possibilities, and improve what already exists.
+
+Stay curious and flexible: keep learning, explore new tools, test new approaches, and change when something better appears.
 
 ## FOUR MOVES TO MAKE
 
 You do not need to choose your entire future today. These four moves work whether you already have a career in mind or are still exploring.
 
-### Moves to Make
+### Board 4: Moves to Make
 
-**Learn from people in the field:**Talk with someone in the field. Ask what a normal week looks like, what is changing, and what students usually misunderstand.
+**Image file:** `make-your-move-4-actions.jpg`
 
-**Build real depth:**Choose something worth learning seriously. Take the class, do the reps, find feedback, and learn enough to catch what AI misses.
+![Moves to Make](make-your-move-4-actions.jpg)
 
-**Make something real:**Use AI to build a project, run an event, start a small business, conduct research, or solve a problem. Keep the finished work as proof.
+**Teaching content:**
 
-**Step into responsibility:**Join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
+Learn from people in the field: talk with someone in the field. Ask what a normal week looks like, what is changing, and what students usually misunderstand.
+
+Build real depth: choose something worth learning seriously. Take the class, do the reps, find feedback, and learn enough to catch what AI misses.
+
+Make something real: use AI to build a project, run an event, start a small business, conduct research, or solve a problem. Keep the finished work as proof.
+
+Step into responsibility: join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
+
+### Board 5: Close
+
+**Image file:** `make-your-move-4-close.jpg`
+
+![Close board](make-your-move-4-close.jpg)
+
+## Closing Message
 
 You know how to be smarter than the tool.
 

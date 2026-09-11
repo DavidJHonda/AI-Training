@@ -6,53 +6,59 @@ Think about the last time someone told you, “Good idea!” It feels good to he
 
 Why did they say it to you? You probably saw something they missed, connected things in a new way, or found a better way to move forward. That is creative thinking. It’s the ability to see a problem differently, question the obvious approach, and find an angle other people missed.
 
-Creative thinking is not about being random or unusual just to stand out. A creative idea still has to fit the real problem. The skill is finding more than one possible path before deciding which path is worth taking.
-
 ## WHO THINKS CREATIVELY?
 
-It’s not just “creative-type” people like artists, writers, and musicians. It’s anyone who solves problems or imagines a better way.
+It’s not just “creative-type” people like artists, writers, and musicians. It’s anyone who solves problems or imagines a better way. Think Steve Jobs. He helped build Apple by seeing that computers could be simpler, more personal, and easier to use. He wasn’t an artist, writer or musician. He saw a possibility other people had missed.
 
-Think Steve Jobs. He helped build Apple by seeing that computers could be simpler, more personal, and easier to use. He wasn’t an artist, writer, or musician. He saw a possibility other people had missed.
+### Board 1: Who Thinks Creatively?
 
-The same habit appears in very different kinds of work.
+**Image file:** `creative-thinking-1-professions.jpg`
 
-### Who thinks creatively?
+![Who Thinks Creatively?](creative-thinking-1-professions.jpg)
 
-**A lawyer:** A lawyer may work with the same laws, facts, and evidence as everyone else but organize them into a strategy nobody else saw. The information did not change. The angle did.
+**Teaching content:**
 
-**An entrepreneur:** An entrepreneur notices a frustration people have learned to accept and asks whether there is a better way to solve it. Creative thinking often begins by noticing a need other people stopped seeing.
+A lawyer finds a strategy nobody else saw in the same case file. Same laws and facts, different approach.
 
-**An engineer:** An engineer learns from the moment the standard approach fails. Instead of forcing the same solution, the engineer changes a material, process, shape, or constraint and tests another route.
+An entrepreneur spots a need everyone else overlooked and builds a new way to meet it.
 
-**A doctor:** A doctor may look at familiar symptoms and consider an explanation others missed. A new possibility is not automatically the right diagnosis, but it gives the medical team another idea to test against the evidence.
+An engineer finds a solution when the standard approach cannot solve the problem.
 
-Creativity is not a job title or a personality trait. It is a habit of thinking that matters anywhere the standard answer is not enough.
+A doctor looks at the same symptoms and considers a diagnosis others missed.
+
+Creativity is not a job title or a personality trait. It is a habit of thinking that runs underneath any job where the standard answer is not enough.
 
 ## WHY IT MATTERS
 
-AI gives polished answers in seconds. When people give similar AI tools similar instructions, they often receive similar starting ideas. That makes the first reasonable answer easy to reach.
+AI gives polished answers in seconds. And everyone, using the same AI, gets similar answers. The advantage moves to the person who can notice what is missing, connect ideas from different places, and choose the better direction. That’s creative thinking.
 
-But the first reasonable answer is not always the best one. It may be the most familiar answer, the most common answer, or the answer that worked in a different situation. The advantage moves to the person who notices what is missing, changes the question, connects ideas from different places, and chooses a better direction. That’s creative thinking.
+Creative thinking is not a gift some people receive. It’s a set of habits that you can improve.
 
-AI can help you generate possibilities, but it does not know which possibility fits your exact situation unless you do the thinking with it. You still define the real problem, recognize the important constraints, and decide which idea deserves more work.
+### Board 2: Four Ways to Think Creatively
 
-Suppose your school’s lunch line is so slow that students spend half of lunch waiting. The obvious answer might be “make the line move faster.” That is a starting point, not a finished idea. Creative thinking helps you look at the problem from more than one direction.
+**Image file:** `creative-thinking-2-practice.jpg`
 
-### Four ways to think creatively
+![Four Ways to Think Creatively](creative-thinking-2-practice.jpg)
 
-**Generate before you judge:** Separate creating ideas from evaluating them. Set a target—perhaps eight possible ways to reduce the wait—and do not stop after the first two sensible answers. Include ideas that seem incomplete or impractical. A weak idea can contain one useful piece, and the less obvious ideas often arrive after the predictable ones.
+**Teaching content:**
 
-For the lunch line, you might list clearer menu signs, grab-and-go meals, separate pickup stations, preordering, staggered lunch times, or a faster way to pay. You are not choosing yet. You are creating enough options to make a real choice possible.
+Generate before you judge: list several ideas, including bad ones, before deciding what works. The obvious ideas usually arrive first.
 
-**Ask “What if?”:** Find one assumption hiding inside the problem and change it. What if students did not choose their food while standing in line? What if everyone did not enter through the same place? What if the busiest meals were ready for pickup before lunch began? Changing one assumption can reveal an approach the original question made invisible.
+Ask “what if?”: change one rule or assumption. Ask what would happen if the opposite were true.
 
-**Connect unrelated things:** Ask where else people solve a similar problem. Restaurants use preorders. Airports use separate lines and boarding groups. Theme parks estimate wait times. You do not have to copy any one system. Borrow a useful pattern and adapt it to the lunchroom’s real limits.
+Connect unrelated things: borrow a pattern, feature, or approach from somewhere completely different and apply it to the problem.
 
-**Step away, then return:** When every idea starts sounding the same, stop forcing the problem. Save the question and your current list, then take a walk, practice a sport, work on something else, or sleep on it. Your mind keeps making connections after your attention moves. The important part is returning to the problem and capturing what changed.
+Step away, then return: work on the problem, then take a walk or switch activities. New connections often appear after your attention moves elsewhere.
 
-These habits widen the options. Then judgment returns. Ask which idea fits the people involved, respects the limits, and can be tested without creating a bigger problem.
+These four habits widen your options. Then judgment picks the one that fits.
 
-Creative thinking is not choosing the strangest idea. It is giving yourself better possibilities to choose from.
+### Board 3: Close
+
+**Image file:** `creative-thinking-3-close.jpg`
+
+![Close board](creative-thinking-3-close.jpg)
+
+## Closing Message
 
 AI widens the options.
 

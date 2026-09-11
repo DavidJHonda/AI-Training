@@ -14,8 +14,6 @@ Be Smarter Than the Tool.
 
 You’ve probably used AI. This course takes you under the hood so you understand what it’s doing. You’ll learn how to get better results and when to double-check its answers. Along the way, you’ll practice with AI and build the knowledge and judgment to use it wisely. That’s what we mean by **Be Smarter Than the Tool**.
 
-![Two ways to take the course: read the full lesson or press play for the video. Either way, finish the activity before moving to the next lesson.](welcome-2-how-to-take-course-page.jpg)
-
 ## WHY WE BUILT THIS
 
 We’re Luke and Nate, and yeah, we’re still in high school. This started at our kitchen table. AI is in every headline now, and it’s going to be in every career, including ours. We’re the ones who’ll be applying for those jobs, so we’d rather understand it now than scramble to catch up later.
@@ -30,6 +28,8 @@ You’ll even catch us in a few of the examples later, usually wearing the jerse
 Avoid—recognize the traps; Embrace—prepare for what changes; Build—turn AI into an
 advantage. Luke and Nate appear in green hockey jerseys across the five
 steps.](welcome-2-your-path.jpg)
+
+![How the Course Works. Watch or Read: after this Welcome, each lesson begins with a short video. The video and written lesson cover the same material. Choose either. Do the Activity: finish the activity at the end of each lesson. TRY ITs are short exercises inside the course. LABs take you into AI to practice what you’ve learned. Mark It Complete: at the bottom of the lesson, select the Mark as complete button. That records the lesson as complete and moves you forward. The progress bar counts completed lessons. Continue returns you to the first lesson you haven’t completed. Use the navigation bar to revisit lessons. Completed lessons show a checkmark.](welcome-2-how-to-take-course-page.jpg)
 
 ## TOOLS NEEDED
 

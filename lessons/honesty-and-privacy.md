@@ -4,28 +4,39 @@
 
 You send a friend a draft of your college essay and ask for feedback. Instead, they copy your opening into their own essay and claim they wrote it. Obviously, your friend wasn’t honest. They put their name on work they didn’t create.
 
-AI does not change the honesty question. **If your name goes on the work, be truthful about what you created, how AI helped, and whether you followed the rules.**
+AI does not change the honesty question. If your name goes on the work, be truthful about what you created, how AI helped, and whether you followed the rules.
 
 ## HONESTY
 
-AI is an incredibly powerful tool for learning. But there's a difference between **using AI to learn** and **using AI to skip learning**. The line isn't always obvious, so let's make it clear.
+AI is an incredibly powerful tool for learning. But there’s a difference between using AI to learn and using AI to skip learning. The line isn’t always obvious, so let’s make it clear.
 
-### Using AI in School
+### Board 1: Using AI in School
 
-**Acceptable:**Use AI to learn, practice, get feedback, or improve work you understand and created.
+**Image file:** `honesty-and-privacy-1-school.jpg`
 
-**Follow the rules:**AI help may be allowed in one class and prohibited in another. Check the policy and disclose your use.
+![Using AI in School](honesty-and-privacy-1-school.jpg)
 
-**Unacceptable:**Submit AI-generated work as your own or use AI when the assignment prohibits it.
+**Teaching content:**
+
+Acceptable: use AI to learn, practice, get feedback, or improve work you understand and created.
+
+Follow the rules: AI help may be allowed in one class and prohibited in another. Check the policy and disclose your use.
+
+Unacceptable: submit AI-generated work as your own, or use AI when the assignment prohibits it.
 
 When it’s okay to use AI in class, there are a few smart guidelines to follow.
 
-### When AI Help Is Allowed
+### Board 2: When AI Help Is Allowed
 
-1. **Understand It:**Explain the ideas and choices yourself.
-2. **Show Your Process:**Keep drafts, sources, and AI conversations.
-3. **Explain AI’s Role:**Clearly say what you did and how AI helped.
-**If your name is on the work, you own how it was made.**
+**Image file:** `honesty-and-privacy-2-best-practices.jpg`
+
+![When AI Help Is Allowed](honesty-and-privacy-2-best-practices.jpg)
+
+**Teaching content:**
+
+There are three steps. Step 1, understand it: explain the ideas and choices yourself. Step 2, show your process: keep drafts, sources, and AI conversations. Step 3, explain AI’s role: clearly say what you did and how AI helped.
+
+If your name is on the work, you own how it was made.
 
 Honesty is about what you claim. Privacy is about what you reveal. Both require you to pause before you submit or send.
 
@@ -35,21 +46,33 @@ You start a new chat and ask ChatGPT, “Help me improve my percentage.” You p
 
 Giving AI useful context can improve its answer. But this makes privacy difficult. The rule of thumb: give AI only the information it needs to help.
 
-### How much should you share?
+### Board 3: How Much Should You Share?
 
-**Usually fine:**Your interests, goals, preferences, and broad details about the situation.
+**Image file:** `honesty-and-privacy-3-privacy.jpg`
 
-**Only when needed:**Health, medication, family situations, grades, income, expenses, or debt. Keep it general whenever possible. Include only what the answer truly needs.
+![How much should you share?](honesty-and-privacy-3-privacy.jpg)
 
-**Keep out:**Passwords, security codes, account numbers, identification numbers, home addresses, and other people’s private information.
+**Teaching content:**
 
-It's not just about what you type in a prompt. The same judgment applies to images, screenshots, PDFs, audio, and video.
+Usually fine: your interests, goals, preferences, and broad details about the situation.
+
+Only when needed: health, medication, family situations, grades, income, expenses, or debt. Keep it general whenever possible. Include only what the answer truly needs.
+
+Keep out: passwords, security codes, account numbers, identification numbers, home addresses, and other people’s private information.
+
+It’s not just about what you type in a prompt. The same judgment applies to images, screenshots, PDFs, audio, and video.
 
 Picture this. You snap a quick photo of your math homework so AI can help with one of the problems. But, look at the photo. It includes personal information that AI doesn’t need to help you with the homework.
 
-### Share Only What AI Needs
+### Board 4: Share Only What AI Needs
 
-A photo of a math worksheet also reveals the student’s name, school and class, locker combination, prescription medication, home address, and a private notification.
+**Image file:** `honesty-and-privacy-4-share-only.jpg`
+
+![Share Only What AI Needs](honesty-and-privacy-4-share-only.jpg)
+
+**Teaching content:**
+
+A photo of a math worksheet also reveals the student’s name, school and class, locker combination, prescription medication, home address, and a private phone notification.
 
 You meant to share the homework. The whole photo became the prompt.
 
@@ -59,9 +82,17 @@ An AI chat may feel private, but it is still a record sent to an outside system.
 
 ## IF YOU ALREADY SHARED IT
 
-Delete the chat from your history. That removes it from the app’s visible history, so someone using your device or account can't see it. But a copy may remain in the AI company’s systems for a period of time. Each app has its own policy for deleting chat records.
+Delete the chat from your history. That removes it from the app’s visible history, so someone using your device or account can’t see it. But a copy may remain in the AI company’s systems for a period of time. Each app has its own policy for deleting chat records.
 
 If you shared a password or security code, deleting the chat isn’t enough. Go change any passwords or security codes you shared with AI.
+
+### Board 5: Close
+
+**Image file:** `honesty-and-privacy-5-close.jpg`
+
+![Close board](honesty-and-privacy-5-close.jpg)
+
+## Closing Message
 
 Own what you submit. Guard what you type.
 

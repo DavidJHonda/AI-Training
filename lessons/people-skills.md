@@ -10,27 +10,47 @@ People skills help you understand, communicate with, and work alongside other pe
 
 It’s easy to spot who has great people skills. They’re who you want in your group, talk to when something is wrong, and trust to help when things are difficult.
 
-### People Skills Matter More
+### Board 1: People Skills Matter More
 
-**AI isn’t the edge:**When everyone has AI, polished work becomes common. How you work with people stands out.
+**Image file:** `people-skills-1-why-matter.jpg`
 
-**Trust still matters:**People choose teammates and leaders who listen, keep promises, and treat others well.
+![People Skills Matter More](people-skills-1-why-matter.jpg)
 
-**Connection matters:**The more work AI handles, the more listening, empathy, and real interaction stand out.
+**Teaching content:**
+
+AI isn’t the edge: when everyone has AI, polished work becomes common. How you work with people stands out.
+
+Trust still matters: people choose teammates and leaders who listen, keep promises, and treat others well.
+
+Connection matters: the more work AI handles, the more listening, empathy, and real interaction stand out.
 
 You do not need a special class to start. People skills grow through everyday interactions. Try these during your next group project, club meeting, practice, or job.
 
-### Four ways to practice
+### Board 2: Four Ways to Practice
 
-**Listen to understand:**Do not plan your reply while the other person is talking. Ask one genuine follow-up question before offering your opinion.
+**Image file:** `people-skills-2-four-ways.jpg`
 
-**Notice what isn’t being said:**Pay attention to tone, hesitation, enthusiasm, and changes in behavior. Before assuming what is wrong, ask.
+![Four ways to practice people skills](people-skills-2-four-ways.jpg)
 
-**Show people they matter:**Remember what they tell you, give specific appreciation, and give people credit when an idea is theirs.
+**Teaching content:**
 
-**Challenge ideas, not people:**Address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.
+Listen to understand: do not plan your reply while the other person is talking. Ask one genuine follow-up question before offering your opinion.
+
+Notice what isn’t being said: pay attention to tone, hesitation, enthusiasm, and changes in behavior. Before assuming what is wrong, ask.
+
+Show people they matter: remember what they tell you, give specific appreciation, and give people credit when an idea is theirs.
+
+Challenge ideas, not people: address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.
 
 AI can suggest what to say. It cannot understand the person for you, earn someone’s trust, or do the rep for you.
+
+### Board 3: Close
+
+**Image file:** `people-skills-3-close.jpg`
+
+![Close board](people-skills-3-close.jpg)
+
+## Closing Message
 
 AI can write it. It can’t be the person in the room.
 

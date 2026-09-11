@@ -107,11 +107,17 @@ engaging, accurate scene because a board exists. Do not invent course-style
 boards for the video; a new replacement graphic is Notebook-style.
 
 Since 2026-09-10 the engine burns a "Gemini Notebook" mark into the bottom-right
-corner of every scene it renders. It is a watermark and never ships. The render
-loop in `editspec_build.py` removes it on every kept Notebook frame
-(`gemini_mark.py`: paper cloned from the same frame, grid-matched); frames it
-declines are listed in the manifest and must be looked at. Board legs and the
-close never carry it.
+corner of every scene it renders. Owner decision 2026-09-11: it never ships, for
+one reason: in a repaired video it blinks on at every cut back to Notebook and off
+at every board, which reads as a glitch. Google makes the visible mark optional
+(its help page: AI Pro and Ultra users can turn off "Visible watermarking" in the
+Gemini Notebook profile menu; SynthID stays embedded regardless, and nothing in
+Google's generative-AI terms requires the visible mark). David's account is Ultra,
+so: **turn Visible watermarking off before generating**; new rolls arrive clean.
+For rolls that already carry the mark, the render loop in `editspec_build.py`
+removes it on every kept Notebook frame (`gemini_mark.py`: paper cloned from the
+same frame, grid-matched); frames it declines are listed in the manifest and must
+be looked at. Board legs and the close never carry it.
 
 ## 9. Audio outside the pauses is untouched
 

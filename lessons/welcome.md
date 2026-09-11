@@ -12,7 +12,7 @@ Few understand it.
 
 Be Smarter Than the Tool.
 
-Welcome. You're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
+You’ve probably used AI. This course takes you under the hood so you understand what it’s doing. You’ll learn how to get better results and when to double-check its answers. Along the way, you’ll practice with AI and build the knowledge and judgment to use it wisely. That’s what we mean by **Be Smarter Than the Tool**.
 
 ![Two ways to take the course: read the full lesson or press play for the video. Either way, finish the activity before moving to the next lesson.](welcome-2-how-to-take-course-page.jpg)
 
@@ -22,9 +22,7 @@ We’re Luke and Nate, and yeah, we’re still in high school. This started at o
 
 We went looking for something good to learn from, but most of it was shallow, focused on tools, or already out of date. So we built our own.
 
-Building it is what showed us the bigger point. AI is already everywhere in your life, and it’ll define the career you haven’t started yet.
-
-And here’s the part nobody tells you: the better AI gets, the more it pays to be the person who actually understands it. The gap between people who get how it works and people who just type into the box is only going to get wider, and **which side you land on is up to you**. That edge has a name, and it’s the most important AI skill there is: **Be Smarter Than the Tool**.
+The better AI gets, the more it pays to understand it. You can accept whatever AI gives you, or learn to question it, improve it, and decide what’s worth using. Which approach you take is up to you.
 
 You’ll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world.
 

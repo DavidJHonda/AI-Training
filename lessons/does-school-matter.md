@@ -8,36 +8,20 @@ Think about it this way.
 
 Fast forward a few years. You’ve landed your dream job, and AI sits right next to you all day, cranking out drafts, code, and plans. Your coworker at the next desk is doing the same. You each have the same job, using the same AI.
 
-Here’s the catch: ask AI a similar question, and it hands back a similar answer, to you, your coworker, and everyone else. So what makes you more valuable? It’s not the answer itself. **It’s what you already know, which shapes the question you ask and what you do with the answer.**
+![Same Tool. Different Advantage. Luke and Nate use the same AI starting point, then apply different knowledge and practiced skills to take the work further. The tool may be the same. What you bring to it is yours.](../illustrations/does-school-matter-same-tool-v1.jpg)
 
-## WHAT MOST PEOPLE DO NOT UNDERSTAND
+Here’s the catch: During training, AI learned patterns from enormous amounts of existing work. Give it ordinary instructions, and it often produces a polished version of what is common or expected. That may be a useful starting point. But when that level of work is available to everyone, it becomes the new average.
 
-In the AI era, learning is more important than ever. This seems counterintuitive, but it’s true. This inspired the name of this course, **Be Smarter Than the Tool.** Whatever college and career you choose, the more you learn, the more successful you’ll be.
+That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?
 
-For almost any career, you’ll have AI as your partner. So here’s what it looks like.
+## WHAT SETS YOU APART
 
-Two skills. Both grow with what you know.
+Your secret sauce is the knowledge and skills you build. And where do you build them? You know where this is going: school.
 
-1
+In the AI era, the knowledge and skills you build in school matter more than ever. This seems counterintuitive, but it’s true. This inspired the name of this course, **Be Smarter Than the Tool.** Whatever college and career you choose, the more you learn, the more successful you’ll be.
 
-Ask the right question
+![What to Start Building Today. Deep Subject Knowledge: Become the person people turn to when the easy answer isn’t enough. Strong Skills: Start your career ready to write, build, analyze, solve, and contribute from day one. AI Fluency: Know how to work with AI, challenge it, and use it to go beyond the average. People Skills: Listen, communicate, earn trust, and help a team turn ideas into action. School helps you build what takes you beyond the new average.](../illustrations/does-school-matter-future-v3.jpg)
 
-What you know shapes what you ask. A sharper question gets a better answer before AI does anything special.
+The opportunity to learn is already in front of you.
 
-AI
-
-AI answer
-
-Similar questions get similar answers. The answer is a starting point, not the finish.
-
-2
-
-Make the answer better
-
-Read it. Judge whether it’s right. Push back and improve it. AI doesn’t have the knowledge you have.
-
-Those two things are your domain. This is where you need to live. Double down on building your knowledge and skills. And one day you’ll be the CEO at Google.
-
-The tool brings answers. You bring judgment.
-
-It starts today, not when you land the job.
+Use it to build the knowledge and skills that take you beyond the new average.

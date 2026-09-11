@@ -149,6 +149,7 @@ the layout from scratch.
 | `EE-3FB` | Three cards in one row | 485/486×273 px; pinned 16:9 | 56 / 40 / 29 px; body line 41 px | Left | Derived |
 | `EE-4FB` | Two cards by two rows | 744×339 px target; source cover-cropped | 56 / 40 / 29 px; body line 41 px | Left | Derived |
 | `EE-LONG` | Three vertically extended cards in one row | 485/486×273 px; pinned 16:9 | 56 / 40 / 29 px; labels 20 px | Left | Derived |
+| `EE-COMPARE` | Two equal columns with aligned comparison rows; optional shared scenario | Optional paired 744×339 px frames | 56 / 40 / 29 px; labels 20 px | Left | Derived by paired rows |
 | `EE-FLOW` | Three to five ordered steps in one row | Four-step reference: 310×174 px; pinned 16:9 | 56 / 40 / 29 px; body line 41 px | Title left; steps centered | Derived |
 | `EE-CHAT` | Four to six alternating dialogue turns on one shared sheet | No art frame | 56 px title / 29 px dialogue / 19 px labels | Human right; AI left | Derived |
 
@@ -186,6 +187,71 @@ derived from the longest card copy rather than selected independently.
 - Text padding: 32 px top and 34 px on the remaining sides. Title sits 14 px above
   the body.
 - Both text areas use the same fixed height, derived from the longest card.
+
+#### Editorial Explainer: Side-by-Side Comparison (`EE-COMPARE`)
+
+Use for two experiences, approaches, or responses compared point by point. Unlike
+`EE-2FB`, the internal rows correspond across columns. Unlike `EE-LONG`, this is
+not three evidence cards. Height does not determine the family.
+
+Approved layout references, checked against the on-page assets:
+
+- What Is AI?: `lessons/what-is-ai-2-same-goal.jpg`.
+- Flattery Trap: `illustrations/flattery-trap-comparison-v2.jpg`.
+- Support Trap: `illustrations/support-trap-comparison-v2.jpg`.
+
+These share a scenario, two illustrated white columns, small category pills,
+40 px headings, small structural labels, readable body text, and a compact
+gold takeaway. Flattery and Support use whitespace between subsections; What
+Is AI uses subtle rules for conversational turns. Both treatments are valid.
+The approved Does AI Think implementation is
+`illustrations/does-ai-think-side-by-side-v2.jpg`, with paired labels, whitespace
+between points, and no scenario. The earlier generated `does-ai-think-side-by-side-v1.png` is NOT a canonical
+format reference. Its oversized headings/labels and strong rules require
+replacement. No other lesson is automatically retrofitted by this definition.
+
+Author at 1600 px wide; derive height from the content:
+
+- Use the `EE-2FB` lavender frame, 40 px outer padding, 56 px black title,
+  two equal 744 px white cards, 32 px gutter, 14 px card radii, soft shadow,
+  and complete 22% accent outlines. No intermediate container around the cards.
+- Give each side a distinct approved accent, with 40 px bold card headings.
+  For Does AI Think, use green `#087c49` and purple `#4f2fc4`.
+- A shared scenario or question is optional. Place it beneath the board title
+  and above both columns in one full-width white area. Use the existing scenario
+  treatment: accent left rule, short label, then regular body text. Omit this area
+  entirely when no shared setup is needed.
+- Illustrations are optional. When present, use both, with equal approximately
+  744×416 px full-bleed frames, matching these three comparison references.
+  Preserve natural narrative scene colors; do not tint skin to force an accent.
+  Use restrained 20% accent dividers. Preserve essential
+  subjects; never stretch an existing image. Use approved Nate and Luke likenesses.
+- Keep one white content area per column. Do not box each paragraph separately.
+- An optional category pill comes before the column heading: 20 px heavy type
+  on a 12% accent tint, with 14 px horizontal padding. Use it for a useful role
+  distinction (PERSON / AI), not to repeat the full heading. An optional opening
+  response or description follows the heading in normal body type.
+- For multiple comparison points, use matching labels on both sides: 20 px heavy
+  accent-colored type. Short uppercase labels are appropriate. For Does AI Think,
+  use MEANING, EXPERIENCE, WORD CHOICE, BEAUTY, and UNCERTAINTY.
+- Use 29 px / 41 px dark body text (`#3a3550`) and 34 px horizontal text padding.
+  Leave 12 px between each label and its paragraph. Keep 32 px below card headings
+  before the first label. Preserve at least 34 px below the final paragraph.
+- Determine each paired row's height from its longer paragraph. Both labels,
+  paragraph starting baselines must align across the columns. Use whitespace
+  as the default separator, leaving 40 px after the longer paragraph before
+  the next label. Optional thin 20% accent rules may separate conversation
+  turns, as in What Is AI; align them and leave 24 px on either side.
+  A short side may have whitespace; do not shrink the longer side to match it.
+- Include the standard gold takeaway banner: 88 px authored height for one line,
+  32 px medium dark text, 44 px purple check circle, 24 px icon-to-text gap,
+  and 40 px separation from the cards. Grow it only when the text must wrap.
+  Leave the standard 40 px outer padding below it. Do not use oversized icons
+  or fixed browser-pixel padding that changes the proportions at lesson width.
+- For responsive text implementations, preserve paired comparisons when stacking
+  on small screens; for image boards, retain the course's larger-view affordance.
+- Verify typography and spacing against a reference at the same displayed width.
+  The automated design check alone does not validate board geometry.
 
 #### Editorial Explainer: Three-Card Full-Bleed (`EE-3FB`)
 

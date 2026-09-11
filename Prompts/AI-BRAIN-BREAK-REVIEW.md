@@ -1,5 +1,7 @@
 # AI Brain Break: seven-scene video package
 
+Revision 3 (2026-09-11, afternoon): rolls 5 and 6 from the bare verbatim script came back paraphrased into lab-report language and lost the humor; the engine rewrites no matter what. So the source now carries the jokes we want (the robot dragging the bucket, intelligence as cardio, scarves and mittens, the megaphones, "Nobody did."), and the prompt steers register with a VOICE section instead of forbidding rewording. Save the next roll as `Prompts/ai-brain-break-reroll.mp4`.
+
 Revised 2026-09-11 for a reroll after four rolls (quiz-1 to quiz-4) padded the script to 3:30–5:15, improvised closing lines, and one ran without the prompt. The source is now the bare script (no headings), the Lemon Pie paragraph carries the rhyme joke, and the prompt forbids paraphrase and any spoken line not in the source. The seven questions are installed in the lesson; the video follows. The earlier six-scene materials are preserved in archive/ai-brain-break-drafts/six-scene-proposal/.
 
 ## Upload and customization

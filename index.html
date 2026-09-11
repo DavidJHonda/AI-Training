@@ -932,9 +932,9 @@ const WATCH_CTA_DEFAULT = "Both end at the same TRY IT.";
 const CLOSE_BOARDS = {
   welcome: { pill: "Be Smarter Than the Tool.", sticky: "The most important AI skill there is." },
   whydeeper: { pill: "AI is today’s printing press.", sticky: "Learn to run it." },
-  llms: { pill: "Two kinds. One picks, one makes.", sticky: "This course is about the one that makes." },
+  llms: { pill: "Two kinds. One picks, one creates.", sticky: "This course is about the one that creates." },
   aihistory: { pill: "Training builds the patterns.", sticky: "The model uses those patterns to build your answer, one word at a time." },
-  doesaithink: { pill: "A pattern machine, not a thinker.", sticky: "Once you see that, its weird moments make sense." },
+  doesaithink: { pill: "Sounds human. Works differently.", sticky: "A convincing answer doesn’t prove understanding." },
   control: { pill: "Your skill and judgment aren’t a consolation prize.", sticky: "They’re the mechanical lever that tilts the odds in your favor." },
   whybother: { pill: "The opportunity to learn is already in front of you.", sticky: "Use it to build the knowledge and skills that take you beyond the new average." },
   studying: { pill: "Use AI to learn, not to skip the learning.", sticky: "Feed it your materials. Trace it back." },
@@ -2993,9 +2993,9 @@ function ContinueTheStoryLab(props) {
     { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in Lab 01. Start a new chat outside any project."] },
     { title: "Set the rule", body: "Open a new chat and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
     { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let ChatGPT take the next one." },
-    { title: "Go ten rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
-    { title: "Now run it again from the same line", body: "Start a brand new chat, send the same setup, and paste the exact same opening sentence. Go another ten rounds. Same start, and you will not get the same story." },
-    { title: "Put the two side by side", body: "The first sentence was identical, so every difference after it came from one thing: at each turn the model picked a likely next sentence, not the right one. It never knew the ending, because there was no ending to know yet. That’s the loop from this lesson, running slow enough to watch." }
+    { title: "Go five rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
+    { title: "Now run it again from the same line", body: "Start a brand new chat, send the same setup, and paste the exact same opening sentence. Go another five rounds. Same start, and you will not get the same story." },
+    { title: "Put the two side by side", body: "Compare the two stories. You started with the same sentence, but both your choices and AI’s answers shaped what happened next. Each new sentence changed what AI had to work with when writing the next one." }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -3044,8 +3044,8 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They aren't looking up what your words mean; they're working out which words tend to follow which."),
     /*#__PURE__*/React.createElement(BodyP, null, "How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-learn-once.jpg?v=20260909arrows1",
-      alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
+      src: "illustrations/ai-is-different-learn-once.jpg?v=20260911word1",
+      alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely next word, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "Four ideas carry it. Below, we follow one example, peanut butter, through all four."),
@@ -3065,14 +3065,15 @@ function AIHistorySection(props) {
       alt: "How AI Learns Patterns. One Familiar Pattern: peanut butter and blank leads to jelly; you knew it, and so does AI. Patterns Are Everywhere: Twinkle, twinkle, little blank leads to star; Once upon a blank leads to time; Better late than blank leads to never. AI learns patterns by working through billions of examples.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
+    /*#__PURE__*/React.createElement(BodyP, null, "These are easy patterns you already know. AI also learns patterns in places you might not expect: how people explain ideas, ask questions, solve problems, and even misspell words."),
     /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "probability" }),
     /*#__PURE__*/React.createElement(BodyP, null, "AI doesn't make one guess. It scores ", /*#__PURE__*/React.createElement("strong", null, "every"), " possible next word: a ranked list with a probability on each, and those numbers shift with the surrounding text."),
     /*#__PURE__*/React.createElement("div", { style: { maxWidth: 880, margin: "20px auto 28px" }, dangerouslySetInnerHTML: { __html: "<style>\n  #same-word-different-odds {\n    box-sizing: border-box;\n    width: 100%;\n    container-type: inline-size;\n    \n    padding: 2.5%;\n    border-radius: 22px;\n    background: #eae7fd;\n    color: #0e0a1f;\n    font-family: \"Plus Jakarta Sans\", sans-serif;\n    overflow: hidden;\n  }\n  #same-word-different-odds * { box-sizing: border-box; }\n  #same-word-different-odds h1 {\n    margin: 0 0 2.6%;\n    font-size: clamp(28px, 3.684cqw, 56px);\n    line-height: 1.04;\n    letter-spacing: -0.03em;\n    font-weight: 700;\n  }\n  #same-word-different-odds .odds-grid {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 2.6%;\n    min-height: 350px;\n  }\n  #same-word-different-odds .odds-panel {\n    display: flex;\n    flex-direction: column;\n    min-width: 0;\n    border-radius: 17px;\n    background: #fff;\n    overflow: hidden;\n    box-shadow: 0 8px 18px rgba(28, 19, 82, .08);\n  }\n  #same-word-different-odds .phrase {\n    min-height: 92px;\n    margin: 3.7% 5.2% 0;\n    padding: 3.5% 4%;\n    display: flex;\n    align-items: center;\n    border-radius: 12px;\n    font: 500 clamp(18px, 1.908cqw, 29px)/1.45 \"Plus Jakarta Sans\", sans-serif;\n    color: #3a3550;\n  }\n  #same-word-different-odds .purple .phrase { background: #e5defe; border: 2px solid #c8baf6; }\n  #same-word-different-odds .teal .phrase { background: #e1f5f1; border: 2px solid #b5ded8; }\n  #same-word-different-odds .rows {\n    flex: 1;\n    display: grid;\n    grid-template-rows: repeat(4, minmax(54px, 1fr));\n    padding: 3.4% 5.2% 4.2%;\n  }\n  #same-word-different-odds .row {\n    display: grid;\n    grid-template-columns: minmax(82px, .85fr) 2.5fr 56px;\n    align-items: center;\n    gap: 3.2%;\n    border-bottom: 1px solid #e5e2ed;\n  }\n  #same-word-different-odds .row:last-child { border-bottom: 0; }\n  #same-word-different-odds .word {\n    font-size: clamp(18px, 1.908cqw, 29px);\n    font-weight: 700;\n    color: #3a3550;\n  }\n  #same-word-different-odds .track {\n    height: clamp(12px, 1.447cqw, 22px);\n    border-radius: 999px;\n    background: #efedf4;\n    overflow: hidden;\n  }\n  #same-word-different-odds .fill { height: 100%; border-radius: inherit; }\n  #same-word-different-odds .purple .fill { background: #4f2fc4; }\n  #same-word-different-odds .teal .fill { background: #0e8f86; }\n  #same-word-different-odds .teal .jelly .fill { background: #4f2fc4; }\n  #same-word-different-odds .teal .jelly .word,\n  #same-word-different-odds .teal .jelly .percent { color: #4f2fc4; }\n  #same-word-different-odds .percent {\n    text-align: right;\n    font: 700 clamp(18px, 1.908cqw, 29px)/1.3 \"Plus Jakarta Sans\", sans-serif;\n    color: #3a3550;\n  }\n  #same-word-different-odds .takeaway {\n    min-height: 0;\n    margin-top: 2.6%;\n    border-radius: 10px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    gap: clamp(12px, 1.579cqw, 24px);\n    padding: clamp(10px, 1.447cqw, 22px) 16px;\n    background: #ffe39a;\n    font-size: clamp(18px, 2.105cqw, 32px);\n    line-height: 1.4;\n    font-weight: 500;\n    text-align: center;\n  }\n  #same-word-different-odds .check {\n    flex: 0 0 auto;\n    width: clamp(22px, 2.895cqw, 44px);\n    height: clamp(22px, 2.895cqw, 44px);\n    border-radius: 50%;\n    display: grid;\n    place-items: center;\n    color: #fff;\n    background: #4f2fc4;\n    font-size: .72em;\n    font-weight: 800;\n  }\n  #same-word-different-odds .check svg { width: 65%; height: 65%; display: block; }\n  @media (max-width: 620px) {\n    #same-word-different-odds { padding: 24px; }\n    #same-word-different-odds h1 { margin-bottom: 20px; }\n    #same-word-different-odds .odds-grid { grid-template-columns: 1fr; height: auto; gap: 18px; }\n    #same-word-different-odds .odds-panel { min-height: 290px; }\n    #same-word-different-odds .takeaway { min-height: 0; height: auto; padding: 12px 14px; margin-top: 20px; }\n  }\n</style>\n<div id=\"same-word-different-odds\" role=\"group\" aria-label=\"Same Word. Different Odds. Two probability lists show how surrounding words change likely next-word predictions.\">\n  <h1>Same Word. Different Odds.</h1>\n  <div class=\"odds-grid\">\n    <section class=\"odds-panel purple\" aria-label=\"Probabilities after I'd like to buy peanut butter and blank\">\n      <div class=\"phrase\">I’d like to buy peanut butter and _____.</div>\n      <div class=\"rows\">\n        <div class=\"row jelly\"><div class=\"word\">jelly</div><div class=\"track\"><div class=\"fill\" style=\"width: 41%\"></div></div><div class=\"percent\">41%</div></div>\n        <div class=\"row\"><div class=\"word\">bread</div><div class=\"track\"><div class=\"fill\" style=\"width: 27%\"></div></div><div class=\"percent\">27%</div></div>\n        <div class=\"row\"><div class=\"word\">bananas</div><div class=\"track\"><div class=\"fill\" style=\"width: 16%\"></div></div><div class=\"percent\">16%</div></div>\n        <div class=\"row\"><div class=\"word\">honey</div><div class=\"track\"><div class=\"fill\" style=\"width: 5%\"></div></div><div class=\"percent\">5%</div></div>\n      </div>\n    </section>\n    <section class=\"odds-panel teal\" aria-label=\"Probabilities after I'd like to buy a peanut butter and banana blank\">\n      <div class=\"phrase\">I’d like to buy a peanut butter and banana _____.</div>\n      <div class=\"rows\">\n        <div class=\"row\"><div class=\"word\">sandwich</div><div class=\"track\"><div class=\"fill\" style=\"width: 54%\"></div></div><div class=\"percent\">54%</div></div>\n        <div class=\"row\"><div class=\"word\">smoothie</div><div class=\"track\"><div class=\"fill\" style=\"width: 16%\"></div></div><div class=\"percent\">16%</div></div>\n        <div class=\"row\"><div class=\"word\">toast</div><div class=\"track\"><div class=\"fill\" style=\"width: 9%\"></div></div><div class=\"percent\">9%</div></div>\n        <div class=\"row jelly\"><div class=\"word\">jelly</div><div class=\"track\"><div class=\"fill\" style=\"width: 2%\"></div></div><div class=\"percent\">2%</div></div>\n      </div>\n    </section>\n  </div>\n  <div class=\"takeaway\"><span class=\"check\" aria-hidden=\"true\"><svg viewBox=\"0 0 32 32\"><path d=\"M5 16L12 23L27 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span>The surrounding words change the odds.</span></div>\n</div>\n" } }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Add the word banana, and jelly’s probability drops from 41% to 2%. The word banana changed everything."),
+    /*#__PURE__*/React.createElement(BodyP, null, "In this example, adding “banana” drops the probability of “jelly” from 41% to 2%."),
     /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "prediction" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next. AI works the same way, with no fixed plan for where the sentence will end up. One word, look again, the next."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next."),
     /*#__PURE__*/React.createElement("div", { style: { maxWidth: 880, margin: "20px auto 28px" }, dangerouslySetInnerHTML: { __html: "<style>\n#prediction-board { container-type:inline-size; background:#eae7fd; color:#0e0a1f; font-family:'Plus Jakarta Sans',sans-serif; padding:2.5%; border-radius:20px; }\n#prediction-board * { box-sizing:border-box; }\n#prediction-board h2 { font-size:clamp(28px,3.684cqw,56px); font-weight:700; letter-spacing:-.03em; line-height:1.2; margin:0 0 26px; }\n#prediction-board .content { display:grid; grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr) 26px minmax(0,1fr); gap:12px; align-items:stretch; }\n#prediction-board .step { background:#fff; border-radius:14px; padding:26px 22px; display:flex; flex-direction:column; justify-content:space-between; gap:26px; }\n#prediction-board .sentence { font-size:clamp(18px,1.908cqw,29px); font-weight:500; line-height:1.45; color:#3a3550; }\n#prediction-board .result { display:flex; align-items:center; gap:12px; font-size:clamp(18px,1.908cqw,29px); }\n#prediction-board .flow-arrow { align-self:center; width:26px; height:32px; color:#4f2fc4; }\n#prediction-board .prior { color:#4f2fc4; font-weight:700; }\n#prediction-board .new-word { display:inline-block; color:white; background:#4f2fc4; padding:3px 14px; border-radius:9px; font-weight:700; line-height:1.5; }\n#prediction-board .predict-arrow { color:#4f2fc4; font-weight:700; }\n#prediction-board .banner { margin-top:22px; padding:clamp(10px,1.447cqw,22px) 16px; border-radius:10px; background:#ffe39a; display:flex; align-items:center; justify-content:center; gap:clamp(12px,1.579cqw,24px); font-size:clamp(18px,2.105cqw,32px); line-height:1.4; font-weight:500; text-align:center; }\n#prediction-board .check { width:clamp(22px,2.895cqw,44px); height:clamp(22px,2.895cqw,44px); flex-shrink:0; background:#4f2fc4; color:white; border-radius:50%; display:grid; place-items:center; }\n#prediction-board .check svg { width:65%; height:65%; display:block; }\n@media(max-width:550px) { #prediction-board .content {grid-template-columns:1fr;} #prediction-board .step {padding:24px;} #prediction-board .flow-arrow {justify-self:center;transform:rotate(90deg);} #prediction-board .banner {padding:12px 14px;gap:12px;} }\n</style>\n<section id=\"prediction-board\" aria-label=\"Prediction: One Word at a Time\">\n  <h2>One Word at a Time</h2>\n  <div class=\"content\">\n    <div class=\"step\"><div class=\"sentence\">I want to buy peanut butter and</div><div class=\"result\"><span class=\"predict-arrow\" aria-label=\"predicts\">→</span><span class=\"new-word\">jelly</span></div></div>\n    <svg class=\"flow-arrow\" viewBox=\"0 0 26 32\" aria-label=\"Use the updated sentence\"><path d=\"M2 16H23 M15 8L23 16L15 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <div class=\"step\"><div class=\"sentence\">I want to buy peanut butter and <span class=\"prior\">jelly</span></div><div class=\"result\"><span class=\"predict-arrow\" aria-label=\"predicts\">→</span><span class=\"new-word\">for</span></div></div>\n    <svg class=\"flow-arrow\" viewBox=\"0 0 26 32\" aria-label=\"Use the updated sentence\"><path d=\"M2 16H23 M15 8L23 16L15 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <div class=\"step\"><div class=\"sentence\">I want to buy peanut butter and jelly <span class=\"prior\">for</span></div><div class=\"result\"><span class=\"predict-arrow\" aria-label=\"predicts\">→</span><span class=\"new-word\">lunch</span></div></div>\n  </div>\n  <div class=\"banner\"><span class=\"check\" aria-hidden=\"true\"><svg viewBox=\"0 0 32 32\"><path d=\"M5 16L12 23L27 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span>Add a word. Use the updated sentence. Predict again.</span></div>\n</section>\n" } }),
     /*#__PURE__*/React.createElement(BodyP, null, "A full paragraph runs this loop many times, fast enough to look like thought."),
     closeBoard("aihistory"),
@@ -3217,8 +3218,10 @@ function SetUpChatGPTLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-setup-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["A computer gives you the best experience for this course. Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), ". On a phone, you can use that website in your browser or the official ChatGPT app. You do not need a paid plan."] },
-    { title: "Get permission if you are under 18", body: "OpenAI requires anyone under 18 to have permission from a parent or legal guardian before using ChatGPT. Get that permission before you create an account." },
+    { title: "Open ChatGPT", body: E(React.Fragment, null,
+      "A computer gives you the best experience for this course. Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), ". On a phone, you can use that website in your browser or the official ChatGPT app. You do not need a paid plan.",
+      E("span", { style: { display: "block", marginTop: 10 } }, "Already have a ChatGPT account? Sign in to your own account and skip the account-creation and verification steps.")) },
+    { title: "Get permission if you are under 18", body: "ChatGPT is for people ages 13 and older. If you are under 18, OpenAI requires permission from a parent or legal guardian." },
     { title: "Create your free account", body: E(React.Fragment, null,
       "Select “Sign up for free,” then use an email address or one of the available sign-in options.",
       E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "Enter your real age."),
@@ -3232,8 +3235,8 @@ function SetUpChatGPTLab(props) {
       "The free version of ChatGPT has usage limits. Some models and tools may become temporarily unavailable before others.",
       E("span", { style: { display: "block", marginTop: 6 } }, "If ChatGPT says you have reached a usage limit, do not worry. Your work is still saved. If it shows a reset time, return then and finish the activity."),
       E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "You do not need to upgrade to a paid version to finish the course.")) },
-    { title: "Ask ChatGPT about itself", body: "Start a new chat. Read the answer, but hold it loosely. An app describing its own strengths is a starting point, not the final word.", prompt: "What are you good at, and what should I not fully trust you on?" },
-    { title: "End with a laugh", body: "Ask ChatGPT for a joke about AI. Not funny? Say so and demand a better one. Pushing back until the answer improves is a move you’ll use constantly in this course." }
+    { title: "Create your own superhero scene", body: "Start a new chat and send:", prompt: "Write a short, funny scene about two superhero teammates who disagree about how to save their city. One takes everything very seriously. The other has a ridiculous superpower that proves useful. Keep it under 200 words." },
+    { title: "End with a laugh", body: "Read the scene, then send:", prompt: "Keep the same characters, but give it a funnier ending." }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -3266,17 +3269,16 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "That doesn’t mean it thinks like your friend, or that all 10 ideas will be good. But you now have a tool that can help with tasks that once needed a person."),
     /*#__PURE__*/React.createElement(BodyP, null, "Different AI systems do different jobs. Let’s look at two kinds you already use."),
     /*#__PURE__*/React.createElement("img", {
-      src: "lessons/what-is-ai-1-types.jpg?v=20260910types1",
-      alt: "Two Types of AI. Recommendation AI chooses from what already exists by ranking available options and selecting the likely best match. Generative AI uses learned patterns to create a new output from a prompt. Everyday examples appear for both. The takeaway says: You already use both. This course focuses on generative AI.",
+      src: "lessons/what-is-ai-1-types.jpg?v=20260911types3",
+      alt: "Two Ways You Already Use AI. Recommendation AI chooses from what already exists by ranking available options and selecting the likely best match. Generative AI uses learned patterns to create a new output from your prompt, meaning the question or instructions you give it. Everyday examples appear for both. The takeaway says: AI can recommend. AI can create. This course focuses on generative AI.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like on one task."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Here’s what that difference looks like."),
     /*#__PURE__*/React.createElement("img", {
-      src: "lessons/what-is-ai-2-same-goal.jpg?v=20260910samegoal1",
-      alt: "Same Goal. Two Kinds of AI. Netflix Recommendations shows The Avengers, receives a Not for Me click, and advances to Avengers: Age of Ultron. Generative AI recommends The Avengers, receives a conversational request for heroes fighting each other, and creates a tailored Captain America: Civil War recommendation. The takeaway says: One responds to a signal. The other responds to what you say.",
+      src: "lessons/what-is-ai-2-same-goal.jpg?v=20260911pickcreate1",
+      alt: "One Picks. One Creates. You’re in the mood for superheroes. Recommendation AI selects Captain America: Civil War from an existing catalog. Generative AI writes a new scene about two superhero teammates who disagree. The takeaway says: One helps you find something to watch. The other helps you create a story of your own.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Netflix responded to your click by moving to the next title in its ranked list. Generative AI understood what you said and built a new response around it. And it’s still in the conversation."),
     closeBoard("llms"),
     /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -3678,8 +3680,13 @@ function WelcomeSection(props) {
     E(BodyP, null,
       "You\u2019ll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world."),
     E("img", {
-      src: "lessons/welcome-2-how-to-take-course-page.jpg?v=20260910works4",
-      alt: "How the Course Works. For each lesson, watch the video or read the same material, complete the activity, then select the Mark as complete button at the bottom to record completion and move forward. The progress bar counts completed lessons, and Continue returns you to the first unfinished lesson. Use the navigation bar to revisit lessons; completed lessons show a checkmark.",
+      src: "lessons/welcome-2-your-path.jpg?v=20260910path3",
+      alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Embrace the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
+    E("img", {
+      src: "lessons/welcome-2-how-to-take-course-page.jpg?v=20260911works5",
+      alt: "How the Course Works. Watch or Read: after this Welcome, each lesson begins with a short video. The video and written lesson cover the same material. Choose either. Do the Activity: finish the activity at the end of each lesson. TRY ITs are short exercises inside the course. LABs take you into AI to practice what you’ve learned. Mark It Complete: at the bottom of the lesson, select the Mark as complete button. That records the lesson as complete and moves you forward. The progress bar counts completed lessons. Continue returns you to the first lesson you haven’t completed. Use the navigation bar to revisit lessons. Completed lessons show a checkmark.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     E("div", {
@@ -3753,11 +3760,6 @@ function WelcomeSection(props) {
         }, "USING ANOTHER AI APP?"),
         E("div", { style: { color: "#3a3550", fontSize: 16, lineHeight: 1.5 } },
           "Gemini can complete many general chat exercises, but its screens and features will differ. Some LABs require the specific tool named in their instructions. Claude.ai requires users to be 18 or older. Always use your own account."))),
-    E("img", {
-      src: "lessons/welcome-2-your-path.jpg?v=20260910path3",
-      alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Embrace the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
-    }),
     closeBoard("welcome"),
 
     E(InteractiveBox, {
@@ -4030,7 +4032,7 @@ function AIMultiplierTryIt(props) {
       }
       body = ratio >= 1
         ? 'Round 2 gave you <b>' + rtxt + ' the progress</b>. Obviously these aren&rsquo;t scientifically proven numbers, but they demonstrate what AI does: it multiplies your human effort. And notice the one thing it never did. <b>It never tapped the button for you.</b>'
-        : 'Round 2 gave you just <b>' + rtxt + ' the progress</b> because you eased off, expecting AI to carry you. It can&rsquo;t. The multiplier only multiplies effort you actually put in. Notice the one thing it never did: <b>it never tapped the button for you.</b>';
+        : 'Your second-round score was lower because you tapped fewer times, even with the multiplier. In this game, the boost applies to every tap. The multiplier helps, but you still supply the effort.';
       stage.innerHTML =
         '<div class="aim-h">The results</div>' +
         '<div class="aim-resrow"><div class="aim-top"><span class="aim-rl">Round 1: Just you</span><span class="aim-pts">' + state.r1 + ' pts</span></div>' +
@@ -4055,7 +4057,7 @@ function AIMultiplierTryIt(props) {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    lead: "You’ll move faster with AI. Want to see what that idea looks like?",
+    lead: "What does it look like when AI multiplies your effort? Try this quick game. The multipliers are made up, but you still supply the effort.",
     instructions: [
       "Choose a goal.",
       React.createElement("span", null, "Run ", React.createElement("strong", null, "Round 1"), " and tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can after the countdown."),
@@ -4070,30 +4072,28 @@ function WhyDeeperSection(props) {
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
     /*#__PURE__*/E(BodyP, null,
-      "Pretend you\u2019re a scribe in the year 1500. All day, you hand-copy the king\u2019s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn\u2019t happening, or learn the new machine well enough to run it."),
-    /*#__PURE__*/E(BodyP, null,
-      /*#__PURE__*/E("strong", null, "AI is the press. Run it, or someone else will.")),
+      "Pretend you\u2019re a scribe in the 1450s. All day, you hand-copy the king\u2019s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn\u2019t happening, or learn the new machine well enough to run it."),
     /*#__PURE__*/E("img", {
-      src: "illustrations/why-learn-ai.jpg",
-      alt: "A young printer working an early printing press in a 1500s workshop, stacks of freshly printed royal proclamations beside him, while an older scribe still copies pages by hand in the background. A sign reads: Two choices. Pretend it isn\u2019t happening, or learn the new machine well enough to run it. Run it, or someone else will.",
+      src: "illustrations/why-learn-ai-press-v2.jpg?v=20260911press1",
+      alt: "AI Is the Press. A young printer operates an early printing press in a 1450s workshop while another worker copies a page by hand. Stacks of printed pages show how the machine multiplies output. Run it, or someone else will.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/E(SectionKicker, null, "AI IS EVERYWHERE"),
     /*#__PURE__*/E(BodyP, null,
-      "AI isn\u2019t something you go visit. It\u2019s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in about two years. ",
+      "AI isn\u2019t something you go visit. It\u2019s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in a few years. ",
       /*#__PURE__*/E("strong", null, "Most of what it does today, it will do better tomorrow.")),
     /*#__PURE__*/E("img", {
       src: "lessons/why-learn-ai-1-everyday.jpg?v=20260910everyday2",
       alt: "Where AI Already Lives. Recommendations predict what you might like next in Spotify, Netflix, and TikTok. Navigation predicts traffic and arrival time in Google Maps and Waze. Face recognition checks whether a face matches you in phone unlock and photo tagging. Voice assistants turn speech into words in Siri, Alexa, and Hey Google. Chatbots carry on a conversation in ChatGPT, Claude, and Gemini. AI was already part of your day before chatbots arrived.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
-    /*#__PURE__*/E(SectionKicker, null, "AI IS NEW FOR EVERYONE"),
+    /*#__PURE__*/E(SectionKicker, null, "YOU CAN START NOW"),
     /*#__PURE__*/E(BodyP, null,
-      "And here’s the great news: AI isn’t a mature technology the world has been using for decades. It’s still in its infancy. That gives you a rare advantage. You can learn the new way while everyone else is still learning it too."),
+      "Here’s the great news: you don’t have to wait until college or your first job to get good at this. You can start now. Learn what AI does well, notice where it struggles, and practice using it for something you care about. Every project gives you experience you can bring to the next one."),
     /*#__PURE__*/E(BodyP, null,
-      "Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing arrived, and a teenager with a Mac could produce professional work in an afternoon. The tool didn’t replace skill. It shortened the distance between wanting to do the work and actually doing it."),
+      "Before personal computers, becoming a designer meant years at a drafting table learning design by hand. Then desktop publishing put powerful design tools on a teenager’s desk. They could create posters, magazines, and brochures while developing their skills. The tool didn’t replace skill. It shortened the distance between wanting to do the work and actually doing it."),
     /*#__PURE__*/E("img", {
-      src: "illustrations/why-learn-ai-thrive.jpg?v=20260910thrive1",
+      src: "illustrations/why-learn-ai-thrive.jpg?v=20260911thrive8",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
@@ -4101,18 +4101,17 @@ function WhyDeeperSection(props) {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       /*#__PURE__*/E("h3", null, "Why you’ll thrive in the AI future"),
-      /*#__PURE__*/E("p", null, "AI is new for everyone. This is your big advantage."),
       /*#__PURE__*/E("ol", null,
-        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "This is your time. "), "Nobody has a twenty-year head start. That almost never happens with something this big. You’re showing up right as it lands."),
-        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "You’ll move faster. "), "AI collapses years of paying dues, learning the trade, and climbing the ladder. What took a decade is within reach now."),
-        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "Nothing to unlearn. "), "Others must undo the workflow that made them fast. You skip all of that and learn the new way from the start.")),
-      /*#__PURE__*/E("p", null, "This is your time to learn the new workflow.")),
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "This is your time. "), "Start building AI skills while you’re in school. Try new things, ask questions, and learn from what happens."),
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "You’ll move faster. "), "Try ideas and get feedback on your work. AI can help you tackle projects you wouldn’t have known how to start. Learn by building, starting now."),
+        /*#__PURE__*/E("li", null, /*#__PURE__*/E("strong", null, "Build Good Habits Early. "), "Use AI to learn and work from the start. Practice asking good questions, checking answers, and making your own decisions. These habits will stay with you.")),
+      /*#__PURE__*/E("p", null, "Start now. Build skills you’ll carry into whatever comes next.")),
     /*#__PURE__*/E(SectionKicker, null, "THIS HAS HAPPENED BEFORE"),
     /*#__PURE__*/E(BodyP, null,
       "AI isn’t the first technology to transform how people work. The steam engine did it for physical labor, electricity for factories, and the internet for information. ",
       /*#__PURE__*/E("strong", null, "AI could do it across almost everything.")),
     /*#__PURE__*/E(BodyP, null,
-      "And this isn\u2019t just tech industry hype. In July 2025, the White House released an official national strategy document, ",
+      "In July 2025, the White House released an official national strategy document, ",
       /*#__PURE__*/E("em", null, "Winning the Race: America\u2019s AI Action Plan"),
       ". Here\u2019s how it describes what AI makes possible:"),
     /*#__PURE__*/E(PullQuote, {
@@ -4136,9 +4135,9 @@ function TwentyQuestionsLab(props) {
     { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in Lab 01. Start a new chat outside any project."] },
     { title: "Write your word down first", body: "One everyday object. Put it in your notes or on paper before you start. Lock it in, because once the questions get close it is very tempting to drift." },
     { title: "Set up the game", body: "Send this to ChatGPT, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
-    { title: "Watch the first four questions", body: "Those are the tell. Alive or not. Man-made or not. Bigger than a microwave or not. Each one throws away about half of everything still possible, which is how twenty questions can pin down one object out of roughly a million." },
-    { title: "Play again with something that isn’t an object", body: "Try jealousy, or Tuesday, or the number seven. Watch whether the questions stay as sharp. Concrete things sit in neat piles. Abstract ones sit in messier ones, and either way you learn something about the map it’s using." },
-    { title: "Name what actually happened", body: "It never knew your word and it never guessed at random. It walked a map of how things relate to each other and cut that map in half, over and over. That is genuinely impressive. It is also pattern work all the way down, and nobody in there was wondering what you were thinking." }
+    { title: "Play the round", body: "Answer each question with yes or no until AI guesses your object or reaches 20 questions. If it guesses wrong, tell it so and keep going until its questions run out." },
+    { title: "Play again with something that isn’t an object", body: "Choose jealousy, Tuesday, seven, or another nonphysical thing. Write it down, then start a new chat. Play another round and notice whether AI asks different kinds of questions. Use this prompt:", prompt: "I’m thinking of something that isn’t a physical object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
+    { title: "Look at the clues", body: "Look back at the questions. Which answers helped AI narrow the possibilities? Whether it guessed correctly or got stuck, it had your answers to work with. Getting the answer right can feel like mind-reading, but you gave AI the clues." }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -4147,7 +4146,7 @@ function TwentyQuestionsLab(props) {
     labNumber: "03",
     title: "Twenty Questions",
     hint: "Click the box after you finish each step.",
-    lead: "This lesson says AI runs on patterns, not thought. Here is the hardest version of that to believe: let it read your mind, then look at how it actually did it.",
+    lead: "Can AI work out what you’re thinking of just by asking questions? Play Twenty Questions, then look back at the clues you gave it.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -4199,21 +4198,17 @@ function DoesAIThinkSection(props) {
     E(BodyP, null,
       "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the big question: ",
       E("strong", null, "Does AI actually think?"),
-      " Is it alive? Is it smart? Does it feel anything?"),
+      " When it answers like a person, is it understanding things the way you do?"),
+    E(SectionKicker, null, "SOUNDING HUMAN"),
     E(BodyP, null,
-      "Short answer: no, not the way you do."),
-
-    E(SectionKicker, null, "IT\u2019S IN THE NAME"),
-    E(BodyP, null,
-      E("strong", null, "We call it Artificial Intelligence, not Artificial Thinking."),
-      " That was picked on purpose. Something can act intelligent, finish your sentence, explain a poem, without understanding a single thing it just said."),
+      "AI can finish your sentence, explain a poem, and carry on a conversation. But sounding like a person doesn\u2019t tell you whether it understands things the way a person does."),
     E(BodyP, null,
       "There\u2019s a famous way to picture this, sometimes called the Chinese Room. Imagine someone locked in a room who doesn\u2019t know a word of Chinese. Notes in Chinese come in under the door. The person can\u2019t read any of it, but they have a giant rulebook telling them which symbols to send back. So they match symbols and slide back an answer that looks perfect to the people outside."),
     E("section", { "aria-label": "The Chinese Room", style: { maxWidth: 880, margin: "20px auto 28px", padding: "2.5%", containerType: "inline-size", borderRadius: 20, background: "#eae7fd", fontFamily: "var(--sans)", color: "var(--ink)" } },
       E("h2", { style: { margin: "0 0 2.6%", fontSize: "clamp(28px, 3.684cqw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2 } }, "The Chinese Room"),
       E("img", {
-        src: "illustrations/does-ai-think.jpg",
-        alt: "Chinese notes enter a room. A person who cannot read Chinese follows a rulebook to match symbols and sends a reply outside, where it looks like a fluent conversation.",
+        src: "illustrations/does-ai-think.jpg?v=20260911exchange1",
+        alt: "The Chinese Room. A note asks ‘How are you?’ in Chinese. A person who cannot read Chinese uses a rule chart to match the complete question to the complete reply, ‘I’m fine, thank you!’ They return the reply, creating what looks like a fluent Chinese conversation without understanding the language.",
         style: { display: "block", width: "100%", borderRadius: 12 }
       }),
       E("div", { style: { marginTop: "2.6%", padding: "clamp(10px, 1.447cqw, 22px) 16px", borderRadius: 10, background: "#ffe39a", display: "flex", alignItems: "center", justifyContent: "center", gap: "clamp(12px, 1.579cqw, 24px)", fontSize: "clamp(18px, 2.105cqw, 32px)", fontWeight: 500, lineHeight: 1.4, textAlign: "center" } },
@@ -4224,13 +4219,13 @@ function DoesAIThinkSection(props) {
       "The Chinese Room illustrates a distinction: producing an answer and understanding it aren’t necessarily the same thing. An LLM doesn’t follow a literal rulebook. It uses patterns learned during training to predict its response. A fluent answer alone doesn’t tell you whether it understands."),
 
     E("img", {
-      src: "illustrations/does-ai-think-side-by-side-v2.jpg?v=20260910",
-      alt: "When You Think. What AI Does. Meaning: You connect words to what they mean in your life; AI uses learned patterns and the context you provide. Experience: You draw on things you have lived through; AI works with patterns learned from text, images, audio, and other data. Word choice: You choose words to express what you want to say; AI predicts the next token, then repeats. Beauty: You have a personal response to art or music; AI can describe beauty using learned patterns. Uncertainty: You can notice when you are unsure; AI can sound certain even when it is wrong. Similar-looking answers can come from very different processes.",
+      src: "illustrations/does-ai-think-side-by-side-v2.jpg?v=20260911unified3",
+      alt: "When You Think. What AI Does. Meaning: You connect words to what they mean in your life; AI uses learned patterns and what you tell it. Experience: You draw on things you have lived through; AI works with patterns learned from text, images, audio, and other data. Word choice: You choose words to express what you want to say; AI predicts the next word, then repeats. Beauty: You have a personal response to art or music; AI can describe beauty using learned patterns. Uncertainty: You can notice when you are unsure; AI can sound certain even when it is wrong. Similar-looking answers can come from very different processes.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
 
     E(BodyP, null,
-      "None of this means AI is dumb or useless. A pattern machine this good is genuinely powerful. It just means it\u2019s not thinking."),
+      "None of this means AI is dumb or useless. It can do impressive work. But an answer that sounds human is not enough to show that it understands the way you do."),
     closeBoard("doesaithink"),
 
 
@@ -4824,8 +4819,8 @@ function AIvsCodeSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS Based On Patterns"),
     /*#__PURE__*/React.createElement(BodyP, null, "As you learned earlier, AI is based on patterns, not rules."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-learn-once.jpg?v=20260909arrows1",
-      alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
+      src: "illustrations/ai-is-different-learn-once.jpg?v=20260911word1",
+      alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely next word, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,

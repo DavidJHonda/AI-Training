@@ -40,7 +40,7 @@ STEPS = (
     (
         TEAL,
         "Do the Activity",
-        "Finish the TRY IT or LAB at the end of the lesson.",
+        "Finish the activity at the end of each lesson. TRY ITs are short exercises inside the course. LABs take you into AI to practice what you’ve learned.",
     ),
     (
         BLUE,
@@ -108,15 +108,15 @@ def render() -> Image.Image:
     takeaway_font = face("medium", TAKEAWAY_TEXT_SIZE)
 
     centers = (285, 800, 1315)
-    column_width = 420
+    column_width = 465
     marker_y = 190
     title_y = 240
     body_y = 305
     line_height = 41
     bodies = [wrap(measure, body, body_font, column_width) for _, _, body in STEPS]
     deepest_body = max(body_y + len(lines) * line_height for lines in bodies)
-    callout_top = deepest_body + 34
-    callout_bottom = callout_top + 158
+    callout_top = deepest_body + 54
+    callout_bottom = callout_top + 176
     stage_bottom = callout_bottom + 40
     footer_top = stage_bottom + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -136,8 +136,25 @@ def render() -> Image.Image:
         )
         draw.text((center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm")
         draw_inner_title(draw, (center, title_y), title, fill=accent, anchor="ma")
-        if index != 3:
+        if index == 1:
             centered_lines(draw, center, body_y, lines, body_font, BODY, line_height)
+        elif index == 2:
+            second_lines = (
+                [("Finish the activity at the end of", body_font)],
+                [("each lesson.", body_font)],
+                [("TRY ITs", body_bold_font), (" are short exercises inside", body_font)],
+                [("the course.", body_font)],
+                [("LABs", body_bold_font), (" take you into AI to practice", body_font)],
+                [("what you’ve learned.", body_font)],
+            )
+            for line_index, segments in enumerate(second_lines):
+                centered_segments(
+                    draw,
+                    center,
+                    body_y + line_index * line_height,
+                    segments,
+                    BODY,
+                )
         else:
             third_lines = (
                 "At the bottom of the lesson,",
@@ -160,9 +177,8 @@ def render() -> Image.Image:
                     draw.text((center, y), line, font=body_font, fill=BODY, anchor="ma")
 
     callout = (90, callout_top, 1510, callout_bottom)
-    draw.rounded_rectangle(callout, radius=12, fill=WHITE, outline="#d9d2f5", width=1)
     draw.rounded_rectangle(
-        (90, callout_top, 95, callout_bottom), radius=2, fill=PURPLE
+        callout, radius=12, fill="#f0edff", outline="#c9c1fb", width=2
     )
     draw.text(
         (120, callout_top + 20),
@@ -172,13 +188,13 @@ def render() -> Image.Image:
         anchor="la",
     )
     draw.text(
-        (120, callout_top + 61),
+        (120, callout_top + 65),
         "The progress bar counts completed lessons.",
         font=body_font,
         fill=BODY,
         anchor="la",
     )
-    callout_y = callout_top + 102
+    callout_y = callout_top + 111
     callout_x = 120
     for text, font in [
         ("Continue", body_bold_font),

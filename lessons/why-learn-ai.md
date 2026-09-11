@@ -2,13 +2,13 @@
 
 # Why Learn AI?
 
-Pretend you’re a scribe in the year 1500. All day, you hand-copy the king’s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn’t happening, or learn the new machine well enough to run it.
+Pretend you’re a scribe in the 1450s. All day, you hand-copy the king’s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn’t happening, or learn the new machine well enough to run it.
 
-**AI is the press. Run it, or someone else will.**
+![AI Is the Press. A young printer operates an early printing press in a 1450s workshop while another worker copies a page by hand. Stacks of printed pages show how the machine multiplies output. Run it, or someone else will.](../illustrations/why-learn-ai-press-v2.jpg)
 
 ## AI IS EVERYWHERE
 
-AI isn’t something you go visit. It’s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in about two years. **Most of what it does today, it will do better tomorrow.**
+AI isn’t something you go visit. It’s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in a few years. **Most of what it does today, it will do better tomorrow.**
 
 AI is already in the apps you use every day
 
@@ -52,11 +52,11 @@ Carries on a conversation with you.
 
 ChatGPT, Claude, Gemini
 
-## AI IS NEW FOR EVERYONE
+## YOU CAN START NOW
 
-And here’s the great news: AI isn’t a mature technology the world has been using for decades. It’s still in its infancy. That gives you a rare advantage. You can learn the new way while everyone else is still learning it too.
+Here’s the great news: you don’t have to wait until college or your first job to get good at this. You can start now. Learn what AI does well, notice where it struggles, and practice using it for something you care about. Every project gives you experience you can bring to the next one.
 
-Before personal computers, becoming a designer meant years at a drafting table learning the craft by hand. Then desktop publishing arrived, and a teenager with a Mac could produce professional work in an afternoon. The tool didn’t replace skill. It shortened the distance between wanting to do the work and actually doing it.
+Before personal computers, becoming a designer meant years at a drafting table learning design by hand. Then desktop publishing put powerful design tools on a teenager’s desk. They could create posters, magazines, and brochures while developing their skills. The tool didn’t replace skill. It shortened the distance between wanting to do the work and actually doing it.
 
 Why you’ll thrive in the AI future.
 
@@ -64,27 +64,27 @@ Why you’ll thrive in the AI future.
 
 This is YOUR time
 
-Nobody has a twenty-year head start. That almost never happens with something this big. You’re showing up right as it lands.
+Start building AI skills while you’re in school. Try new things, ask questions, and learn from what happens.
 
 2
 
 You’ll move faster
 
-AI collapses years of paying dues, learning the trade, and climbing the ladder. What took a decade is within reach now.
+Try ideas and get feedback on your work. AI can help you tackle projects you wouldn’t have known how to start. Learn by building, starting now.
 
 3
 
-Nothing to unlearn
+Build good habits early
 
-Others must undo the workflow that made them fast. You skip all of that and learn the new way from the start.
+Use AI to learn and work from the start. Practice asking good questions, checking answers, and making your own decisions. These habits will stay with you.
 
-**This is your time to learn the new workflow.**
+**Start now. Build skills you’ll carry into whatever comes next.**
 
 ## THIS HAS HAPPENED BEFORE
 
 AI isn’t the first technology to transform how people work. The steam engine did it for physical labor, electricity for factories, and the internet for information. **AI could do it across almost everything.**
 
-And this isn’t just tech industry hype. In July 2025, the White House released an official national strategy document, *Winning the Race: America’s AI Action Plan*. Here’s how it describes what AI makes possible:
+In July 2025, the White House released an official national strategy document, *Winning the Race: America’s AI Action Plan*. Here’s how it describes what AI makes possible:
 
 “
 

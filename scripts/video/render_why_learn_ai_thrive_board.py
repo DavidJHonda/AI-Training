@@ -35,19 +35,19 @@ CARDS = (
     (
         PURPLE,
         "This Is Your Time",
-        "Nobody has a twenty-year head start. That almost never happens with something this big. You’re showing up right as it lands.",
+        "Start building AI skills while you’re in school. Try new things, ask questions, and learn from what happens.",
         ASSET_DIR / "this-is-your-time.png",
     ),
     (
         BLUE,
         "You’ll Move Faster",
-        "AI collapses years of paying dues, learning the trade, and climbing the ladder. What took a decade is within reach now.",
+        "Try ideas and get feedback on your work. AI can help you tackle projects you wouldn’t have known how to start. Learn by building, starting now.",
         ASSET_DIR / "youll-move-faster.png",
     ),
     (
         TEAL,
-        "Nothing to Unlearn",
-        "Others must undo the workflow that made them fast. You skip all of that and learn the new way from the start.",
+        "Build Good Habits Early",
+        "Use AI to learn and work from the start. Practice asking good questions, checking answers, and making your own decisions. These habits will stay with you.",
         ASSET_DIR / "nothing-to-unlearn.png",
     ),
 )
@@ -163,7 +163,7 @@ def render() -> Image.Image:
         top=footer_top,
         left=40,
         right=1560,
-        text="This is your time to learn the new workflow.",
+        text="Start now. Build skills you’ll carry into whatever comes next.",
         font=takeaway_font,
     )
     return image

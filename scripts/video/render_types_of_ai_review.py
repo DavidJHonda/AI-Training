@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the review-only Two Types of AI Editorial Explainer board."""
+"""Render the Two Ways You Already Use AI Editorial Explainer board."""
 
 from __future__ import annotations
 
@@ -12,7 +12,8 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = ROOT / "board-review-what-is-ai/two-types-of-ai.jpg"
+REVIEW_OUTPUT = ROOT / "board-review-what-is-ai/two-types-of-ai.jpg"
+LESSON_OUTPUT = ROOT / "lessons/what-is-ai-1-types.jpg"
 
 WIDTH = 1600
 HEIGHT = 1302
@@ -141,8 +142,8 @@ def draw_card(
 
     label_font = face("heavy", 20)
     body_font = face("medium", 29)
-    section_tops = (636, 756, 925)
-    separator_ys = (730, 899)
+    section_tops = (636, 756, 966)
+    separator_ys = (730, 940)
     for index, ((label, body), section_y) in enumerate(zip(sections, section_tops)):
         label_y = section_y
         draw.text((text_x, label_y), label, font=label_font, fill=accent)
@@ -160,7 +161,7 @@ def draw_card(
 def render() -> None:
     image = Image.new("RGB", (WIDTH, HEIGHT), FRAME)
     draw = ImageDraw.Draw(image)
-    draw_board_title(draw, "Two Types of AI")
+    draw_board_title(draw, "Two Ways You Already Use AI")
 
     asset_dir = ROOT / "scripts/video/assets/start-smarter/types-of-ai"
     draw_card(
@@ -183,7 +184,7 @@ def render() -> None:
         title="Generative AI",
         sections=(
             ("THE JOB", "Make something that didn’t exist."),
-            ("HOW IT WORKS", "Use learned patterns to create a new output from your prompt."),
+            ("HOW IT WORKS", "Use learned patterns to create a new output from your prompt (the question or instructions you give it)."),
             ("EVERYDAY EXAMPLES", "An email, essay, image, website, song, or video."),
         ),
     )
@@ -193,11 +194,12 @@ def render() -> None:
         top=1174,
         left=40,
         right=1560,
-        text="You already use both. This course focuses on generative AI.",
+        text="AI can recommend. AI can create. This course focuses on generative AI.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(OUTPUT, quality=94, subsampling=0)
+    for output in (REVIEW_OUTPUT, LESSON_OUTPUT):
+        output.parent.mkdir(parents=True, exist_ok=True)
+        image.save(output, quality=94, subsampling=0)
 
 
 if __name__ == "__main__":

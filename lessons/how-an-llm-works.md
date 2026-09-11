@@ -12,7 +12,7 @@ When ChatGPT or Claude write a sentence, they're running math to predict the lik
 
 How do they do it? In two phases. First the model learns, once, by soaking up patterns from mountains of text. Then, every time you chat, it uses those patterns to build your answer one word at a time.
 
-![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
+![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely next word, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
 
 Four ideas carry it. Below, we follow one example, peanut butter, through all four.
 
@@ -27,6 +27,8 @@ The model **teaches itself**: guess the next word, check, and nudge its numbers 
 So what is it actually learning? **Patterns**. Here's one you picked up as a child. Which word comes next?
 
 ![How AI Learns Patterns. One Familiar Pattern: Peanut butter and blank leads to jelly; you knew it, and so does AI. Patterns Are Everywhere: Twinkle, twinkle, little blank leads to star; Once upon a blank leads to time; Better late than blank leads to never. AI learns patterns by working through billions of examples.](how-ai-learns-patterns.jpg)
+
+These are easy patterns you already know. AI also learns patterns in places you might not expect: how people explain ideas, ask questions, solve problems, and even misspell words.
 
 ## 03 Probability
 
@@ -177,11 +179,11 @@ AI doesn't make one guess. It scores **every** possible next word: a ranked list
   <div class="takeaway"><span class="check" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 16L12 23L27 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>The surrounding words change the odds.</span></div>
 </div>
 
-Add the word banana, and jelly’s probability drops from 41% to 2%. The word banana changed everything.
+In this example, adding “banana” drops the probability of “jelly” from 41% to 2%.
 
 ## 04 Prediction
 
-Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next. AI works the same way, with no fixed plan for where the sentence will end up. One word, look again, the next.
+Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next.
 
 <style>
 #prediction-board { container-type:inline-size; background:#eae7fd; color:#0e0a1f; font-family:'Plus Jakarta Sans',sans-serif; padding:2.5%; border-radius:20px; }

@@ -16,14 +16,12 @@ That doesn’t mean it thinks like your friend, or that all 10 ideas will be goo
 
 Different AI systems do different jobs. Let’s look at two kinds you already use.
 
-![Two Types of AI. Recommendation AI chooses from existing options; generative AI creates a new output from learned patterns.](what-is-ai-1-types.jpg)
+![Two Ways You Already Use AI. Recommendation AI chooses from existing options; generative AI uses learned patterns to create a new output from your prompt, meaning the question or instructions you give it. AI can recommend. AI can create. This course focuses on generative AI.](what-is-ai-1-types.jpg)
 
-Here’s what that difference looks like on one task.
+Here’s what that difference looks like.
 
-![Same Goal. Two Kinds of AI. Netflix responds to a Not for Me click by advancing through its ranked list. Generative AI responds to conversational context and creates a tailored recommendation.](what-is-ai-2-same-goal.jpg)
+![One Picks. One Creates. Recommendation AI selects an existing superhero movie. Generative AI writes a new superhero scene from a request.](what-is-ai-2-same-goal.jpg)
 
-Netflix responded to your click by moving to the next title in its ranked list. Generative AI understood what you said and built a new response around it. And it’s still in the conversation.
+Two kinds. One picks, one creates.
 
-Two kinds. One picks, one makes.
-
-This course is about the one that makes.
+This course is about the one that creates.

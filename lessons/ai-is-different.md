@@ -16,7 +16,7 @@ The core of normal software is something called **Rules**. The best way to under
 
 As you learned earlier, AI is based on patterns, not rules.
 
-![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely token, and repeats the process. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
+![Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely next word, and repeats the process. Learn once. Use the patterns for every answer.](ai-is-different-learn-once.jpg)
 
 Wrapping your head around this is important, so here’s a cooking analogy.
 

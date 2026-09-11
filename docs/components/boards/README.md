@@ -205,16 +205,24 @@ These share a scenario, two illustrated white columns, small category pills,
 gold takeaway. Flattery and Support use whitespace between subsections; What
 Is AI uses subtle rules for conversational turns. Both treatments are valid.
 The approved Does AI Think implementation is
-`illustrations/does-ai-think-side-by-side-v2.jpg`, with paired labels, whitespace
-between points, and no scenario. The earlier generated `does-ai-think-side-by-side-v1.png` is NOT a canonical
-format reference. Its oversized headings/labels and strong rules require
-replacement. No other lesson is automatically retrofitted by this definition.
+`illustrations/does-ai-think-side-by-side-v2.jpg`. It uses the unified-card
+variant established by `illustrations/what-you-can-control-hands-v2.jpg`: the
+two full-bleed images touch, both columns share one white content card, and the
+five category labels appear as bold inline lead-ins on the left side of the
+aligned comparison rows. Use this variant
+when direct scanning across the two sides matters more than treating each side
+as a separate experience. The earlier generated
+`does-ai-think-side-by-side-v1.png` is NOT a canonical format reference. Its
+oversized headings/labels and strong rules require replacement. No other lesson
+is automatically retrofitted by this definition.
 
 Author at 1600 px wide; derive height from the content:
 
-- Use the `EE-2FB` lavender frame, 40 px outer padding, 56 px black title,
-  two equal 744 px white cards, 32 px gutter, 14 px card radii, soft shadow,
-  and complete 22% accent outlines. No intermediate container around the cards.
+- Use the `EE-2FB` lavender frame, 40 px outer padding, and 56 px black title.
+  The standard variant uses two equal 744 px white cards, a 32 px gutter,
+  14 px card radii, soft shadow, and complete 22% accent outlines. The unified
+  variant uses one white card with two equal columns and aligned row rules.
+  Do not add an intermediate container around either treatment.
 - Give each side a distinct approved accent, with 40 px bold card headings.
   For Does AI Think, use green `#087c49` and purple `#4f2fc4`.
 - A shared scenario or question is optional. Place it beneath the board title

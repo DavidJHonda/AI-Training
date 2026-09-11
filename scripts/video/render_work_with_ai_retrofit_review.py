@@ -442,7 +442,7 @@ def render_all() -> None:
         base.Card("Training", "The model learns from enormous amounts of data once, before you use it.", PURPLE, "data"),
         base.Card("Patterns", "Training turns examples into learned numerical patterns.", BLUE, "architecture"),
         base.Card("Probability", "For every next word, the model scores what is most likely.", AMBER, "number"),
-        base.Card("Prediction", "It chooses one likely token, then runs the process again.", TEAL, "transcript"),
+        base.Card("Prediction", "It chooses one likely next word, then runs the process again.", TEAL, "transcript"),
     ], "Learn once. Use the patterns for every answer.", board_path("ai-is-different", "02-learn-once-answer-every-word.jpg"))
     render_comparison(
         "Fixed Rules vs. Built From Patterns",

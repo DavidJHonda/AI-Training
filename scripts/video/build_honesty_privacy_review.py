@@ -1,326 +1,92 @@
 #!/usr/bin/env python3
-"""Build the review repair for the Honesty & Privacy Notebook roll.
+"""Honesty & Privacy from roll 2 under EDIT-SPEC.md (2026-09-12). Review only.
 
-The narration spine is retained with two owner-approved excisions. All four
-teaching boards are replaced with exact current lesson assets and course-native
-highlight walks, and the engine ending is replaced with the standard close.
-The result is review-only and never overwrites a shipped video.
+Base: Prompts/honesty-and-privacy-2.mp4 (3:48, KEEP under NARRATION-REVIEW; ampersand-free copy of
+Prompts/honesty-&-privacy-2.mp4). Output: videos/honesty-and-privacy-v4.mp4 (v2 had eight same-box pauses; v3 showed the JPG corner matte at the board bottoms; both owner reports 2026-09-12). Audit: video-audit/honesty-and-privacy-repair-2026-09-12/.
+No narration cuts. Four boards, all compact: Using AI in School and How Much Should You Share (three cards, rings in each
+heading's accent), When AI Help Is Allowed (faces; not uploaded; inserted over Notebook's 1-2-3 collage span, three step
+columns ringed purple/blue/teal, banner ringed), Share Only What AI Needs (six numbered callouts ringed with their legend
+rows as spoken, banner ringed). Each board arrives at the start of its own spoken introduction (the face board at
+"Sometimes a teacher will allow…"), inside measured silence, so the full view opens well before the first ring. Pauses only
+at idea boundaries (ten), never inside a board (owner rule 2026-09-12). Standard close from the engine card's
+arrival; Notebook's drawn scenes elsewhere kept (no archival photographs); corner mark cleaned in render.
 """
-
-from __future__ import annotations
-
 from pathlib import Path
-import subprocess
-import tempfile
-
-import cv2
-import imageio_ffmpeg
-
-from build_work_changes_hybrid import (
-    BoardLeg,
-    State,
-    crop_frame,
-    render_leg,
-    smoothstep,
-)
-
+import argparse, sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from editspec_build import Build, fr, banner_rect, PURPLE, BLUE, TEAL, GREEN, AMBER, RED, NEUTRAL
+import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "Prompts/honesty-_-privacy.mp4"
-OUTPUT = ROOT / "Prompts/honesty-and-privacy-patched.mp4"
-FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+SRC = ROOT / 'Prompts/honesty-and-privacy-2.mp4'
+OUT = ROOT / 'video-audit/honesty-and-privacy-repair-2026-09-12'; DEST = ROOT / 'videos/honesty-and-privacy-v4.mp4'
+B = {k: ROOT / f'lessons/honesty-and-privacy-{k}.jpg' for k in ('1-school', '2-best-practices', '3-privacy', '4-share-only')}
 
-FPS = 30
-SOURCE_FRAMES = 6552
-END_FRAME = round(215.40 * FPS)  # Standard close ends before Notebook's logo.
+def cards(path, n_expected):
+    """Whole-card boxes (image + white text panel) on a lavender board: white panels locate the columns, the first row
+    that departs from the background above the panel locates the card top."""
+    im = cv2.imread(str(path)); bg = im[10, 10].astype(int)
+    white = (im.min(axis=2) > 246).astype(np.uint8)
+    _, _, st, _ = cv2.connectedComponentsWithStats(white, 4)
+    panels = sorted([(int(x), int(y), int(x + w - 1), int(y + h - 1)) for x, y, w, h, a in st[1:] if w > 250 and h > 150])
+    assert len(panels) == n_expected, (path.name, panels)
+    out = []
+    for x0, _, x1, y1 in panels:
+        d = (np.abs(im[:, x0:x1].astype(int) - bg).sum(axis=2) > 40).mean(axis=1)
+        rows = np.where(d > 0.6)[0]; rows = rows[rows > 100]
+        out.append([x0, int(rows.min()), x1, y1])
+    return out
 
-# Both cuts begin and end inside measured room-tone troughs. Removing the full
-# password sentence avoids the clipped, coarticulated word produced by a
-# partial edit and leaves a natural transition into the active-filter point.
-CUTS = (
-    (3687, 3807),  # "Never enter passwords or private information ..."
-    (5145, 5265),  # "An AI chat is a permanent record ... outside system."
-)
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/honesty-and-privacy.mp4', ROOT / 'lessons/honesty-and-privacy.md', *B.values()])
+    b.load_audio([(13.02, 13.62), (22.18, 22.67), (31.77, 32.33), (55.15, 55.94), (63.11, 63.58), (73.37, 73.78), (88.52, 89.07), (97.27, 97.73),
+                  (114.06, 114.68), (118.93, 119.55), (123.87, 124.35), (143.78, 144.35), (154.80, 155.53), (159.79, 160.24), (171.31, 171.86),
+                  (175.21, 175.90), (188.25, 188.91), (207.70, 208.34), (219.02, 219.43)])
+    # boards arrive inside the silence before their first line, a few frames ahead of Notebook's own cut (680, 2214, 3588, 4669)
+    B1, B1_OUT = fr(22.47), fr(55.87)      # Using AI in School: intro, learn/skip line, three zones
+    B2, B2_OUT = fr(63.30), fr(93.00)      # When AI Help Is Allowed: arrives at its intro sentence ("Sometimes a teacher…"), three steps + name line (Notebook cut 2790)
+    B3, B3_OUT = fr(119.47), fr(144.33)    # How Much Should You Share: intro + three tiers (Notebook cut 4330)
+    B4, B4_OUT = fr(155.47), fr(175.97)    # Share Only What AI Needs: photo, six items, banner line (Notebook cut 5279)
+    CLOSE_AUDIO, CLOSE_END = fr(219.2), fr(226.0)   # engine card arrives 6585; last word ends 225.07
+    def open_board(key, s):   # the pause at a board's arrival is an idea boundary (new section); it holds the board's first, unmarked frame
+        b.keep(s, s + 1, f'{key} arrives', key); b.pause(30, f'Pause: into {key}'); return s + 1
+    b.keep(0, fr(13.3), 'Notebook: essay hook'); b.pause(30, 'Pause: into the honesty question')
+    b.keep(fr(13.3), B1, 'Notebook: honesty question')
+    s = open_board('1-school', B1); b.keep(s, B1_OUT, 'B1 intro, learn vs skip, three zones', '1-school')
+    b.keep(B1_OUT, B2, 'Notebook: shortcut addition'); 
+    s = open_board('2-best-practices', B2); b.keep(s, B2_OUT, 'B2 permission intro, three steps, name line', '2-best-practices')
+    b.keep(B2_OUT, fr(97.5), 'Notebook: claim vs reveal'); b.pause(30, 'Pause: into privacy')
+    b.keep(fr(97.5), B3, 'Notebook: percentage hook, rule of thumb')
+    s = open_board('3-privacy', B3); b.keep(s, fr(144.1), 'B3 intro, three tiers', '3-privacy'); b.pause(30, 'Pause: into uploads'); b.keep(fr(144.1), B3_OUT, 'B3 tail', '3-privacy')
+    b.keep(B3_OUT, B4, 'Notebook: same judgment for uploads')
+    s = open_board('4-share-only', B4); b.keep(s, fr(175.5), 'B4 snap a photo, six items, banner line', '4-share-only'); b.pause(30, 'Pause: into why this matters'); b.keep(fr(175.5), B4_OUT, 'B4 tail', '4-share-only')
+    b.keep(B4_OUT, fr(188.6), 'Notebook: a record sent outside'); b.pause(30, 'Pause: into if you already shared')
+    b.keep(fr(188.6), CLOSE_AUDIO, 'Notebook: delete the chat, change the password'); b.pause(30, 'Pause: before the closing message')
+    b.mark_close_start(); b.close(CLOSE_AUDIO, CLOSE_END); b.finish_audio()
 
-PURPLE = "#6e51ff"
-GREEN = "#0f7a4a"
-BLUE = "#1652f0"
-TEAL = "#0e8f86"
-AMBER = "#a9760c"
-RED = "#c41f28"
+    T = lambda label, at, r, c: dict(label=label, at=at, rects=[r], cam=r, color=c, radius=18)
+    c1 = cards(B['1-school'], 3); c3 = cards(B['3-privacy'], 3)
+    b.board('1-school', B['1-school'], B1, B1_OUT, 'compact',
+        [T('Acceptable', 32.34, c1[0], GREEN), T('Follow the rules', 40.38, c1[1], AMBER), T('Unacceptable', 48.42, c1[2], RED)], min_open=0, push=False)
+    STEPS = [[70, 170, 560, 750], [612, 170, 1100, 750], [1150, 170, 1640, 750]]
+    b.board('2-best-practices', B['2-best-practices'], B2, B2_OUT, 'compact',
+        [T('Understand it', 73.82, STEPS[0], PURPLE), T('Show your process', 78.18, STEPS[1], BLUE), T("Explain AI's role", 83.46, STEPS[2], TEAL)],
+        banner_at=89.06, min_open=0, push=False)
+    b.board('3-privacy', B['3-privacy'], B3, B3_OUT, 'compact',
+        [T('Usually fine', 124.38, c3[0], GREEN), T('Only when needed', 129.26, c3[1], AMBER), T('Keep out', 136.30, c3[2], RED)], min_open=0, push=False)
+    LEG = lambda y: [1210, y - 27, 1525, y + 27]; DOT = lambda x, y: [x - 32, y - 32, x + 32, y + 32]
+    ITEMS = [('Your name', 160.98, (383, 215), 390), ('School and class', 161.84, (883, 177), 448), ('Locker combination', 164.10, (283, 343), 506),
+             ('Prescription', 165.40, (1023, 273), 565), ('Home address', 168.06, (330, 565), 623), ('Private notification', 170.22, (955, 575), 682)]
+    b.board('4-share-only', B['4-share-only'], B4, B4_OUT, 'compact',
+        [dict(label=l, at=t, rects=[DOT(*d), LEG(y)], cam=LEG(y), color=NEUTRAL, radius=18) for l, t, d, y in ITEMS], banner_at=171.80, min_open=0, push=False)
+    b.render_legs()
+    for k in b.boards: b.state_sheet(k)
+    b.make_close('integrity')
+    b.manifest({'cards_detected': {'1-school': c1, '3-privacy': c3}})
+    print('Prepared', b.total, f'{b.total / 30:.2f}s', {k: (v['src_in'], v['src_out'], v['full_view_frames']) for k, v in b.boards.items()}, 'close', b.close_start, flush=True)
+    if args.prepare_only: return
+    b.render(); print(DEST)
 
-BOARDS = {
-    "school": ROOT / "lessons/honesty-and-privacy-1-school.jpg",
-    "allowed": ROOT / "lessons/honesty-and-privacy-2-best-practices.jpg",
-    "privacy": ROOT / "lessons/honesty-and-privacy-3-privacy.jpg",
-    "photo": ROOT / "lessons/honesty-and-privacy-4-share-only.jpg",
-    "close": ROOT / "lessons/honesty-and-privacy-5-close.jpg",
-}
-
-
-def at(seconds: float) -> int:
-    return round(seconds * FPS)
-
-
-def output_frame(source_frame: int) -> int:
-    removed = 0
-    for start, end in CUTS:
-        if source_frame >= end:
-            removed += end - start
-        elif source_frame > start:
-            removed += source_frame - start
-    return source_frame - removed
-
-
-def frame_count(path: Path) -> int:
-    capture = cv2.VideoCapture(str(path))
-    if not capture.isOpened():
-        raise SystemExit(f"cannot open {path}")
-    frames = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-    capture.release()
-    return frames
-
-
-def make_leg(
-    name: str,
-    board: Path,
-    source_points: tuple[int, ...],
-    specs: tuple[tuple[str, tuple[int, int, int, int] | None, str], ...],
-) -> BoardLeg:
-    mapped = tuple(output_frame(point) for point in source_points)
-    base = mapped[0]
-    relative = tuple(point - base for point in mapped)
-    states = []
-    for index, spec in enumerate(specs):
-        frames = relative[index + 1] - relative[index]
-        if frames <= 0:
-            raise SystemExit(f"{name}/{spec[0]} has {frames} frames")
-        states.append(
-            State(label=spec[0], frames=frames, ring=spec[1], color=spec[2])
-        )
-    return BoardLeg(name, board, 0, relative[-1], tuple(states))
-
-
-def teaching_legs() -> tuple[BoardLeg, ...]:
-    school = make_leg(
-        "school",
-        BOARDS["school"],
-        (at(46.80), at(48.40), at(52.40), at(58.40), at(65.40)),
-        (
-            ("full", None, PURPLE),
-            ("acceptable", (40, 127, 526, 751), GREEN),
-            ("rules", (558, 127, 1043, 751), AMBER),
-            ("unacceptable", (1075, 127, 1560, 751), RED),
-        ),
-    )
-
-    allowed = make_leg(
-        "allowed",
-        BOARDS["allowed"],
-        (
-            at(65.40), at(67.00), at(70.40), at(73.20), at(76.20),
-            at(78.40), at(81.60),
-        ),
-        (
-            ("full", None, PURPLE),
-            # The horizontal edges lock to the art frames. The vertical span
-            # continues through the complete teaching unit below each image.
-            ("understand", (80, 175, 507, 665), "#4f2fc4"),
-            ("process", (586, 175, 1013, 665), BLUE),
-            ("role", (1093, 175, 1520, 665), TEAL),
-            ("accountability", None, PURPLE),
-            ("takeaway", (40, 738, 1560, 827), PURPLE),
-        ),
-    )
-
-    privacy = make_leg(
-        "privacy",
-        BOARDS["privacy"],
-        (
-            at(108.60), at(111.00), at(114.40), at(119.40),
-            # Hold through Notebook's dissolve so the deleted loading graphic
-            # cannot flash between the board and the stable funnel scene.
-            at(127.10), at(131.40),
-        ),
-        (
-            ("full", None, PURPLE),
-            ("usually-fine", (40, 127, 526, 815), GREEN),
-            ("only-when-needed", (558, 127, 1043, 815), AMBER),
-            ("keep-out", (1075, 127, 1560, 815), RED),
-            ("full-filter", None, PURPLE),
-        ),
-    )
-
-    photo = make_leg(
-        "photo",
-        BOARDS["photo"],
-        (
-            at(149.06), at(155.12), at(156.24), at(157.20), at(159.30),
-            at(160.52), at(161.54), at(163.18), at(175.90),
-        ),
-        (
-            ("full", None, PURPLE),
-            ("student-name", (390, 190, 580, 260), PURPLE),
-            ("school-class", (645, 175, 915, 260), PURPLE),
-            ("locker-combination", (105, 285, 310, 400), PURPLE),
-            ("prescription-bottle", (1010, 115, 1210, 395), PURPLE),
-            ("shipping-label", (85, 510, 405, 750), PURPLE),
-            ("private-notification", (950, 530, 1150, 660), PURPLE),
-            ("takeaway", (40, 794, 1560, 883), PURPLE),
-        ),
-    )
-    return school, allowed, privacy, photo
-
-
-def render_close(target: Path, frames: int) -> None:
-    image = cv2.imread(str(BOARDS["close"]), cv2.IMREAD_COLOR)
-    if image is None:
-        raise SystemExit(f"cannot read {BOARDS['close']}")
-    if image.shape[:2] != (900, 1600):
-        raise SystemExit(f"close board is {image.shape[1]}x{image.shape[0]}")
-    prehold = 48
-    push = 150
-    settle = frames - prehold - push
-    if settle <= 0:
-        raise SystemExit("close span is too short for the standard move")
-
-    process = subprocess.Popen(
-        [
-            FFMPEG, "-y", "-hide_banner", "-loglevel", "error",
-            "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", "1280x720",
-            "-r", str(FPS), "-i", "-", "-c:v", "ffv1", "-level", "3",
-            str(target),
-        ],
-        stdin=subprocess.PIPE,
-    )
-    endpoint = 1600 / 1.2
-    for index in range(frames):
-        if index < prehold:
-            width = 1600.0
-        elif index < prehold + push:
-            amount = smoothstep((index - prehold) / max(1, push - 1))
-            width = 1600 + (endpoint - 1600) * amount
-        else:
-            width = endpoint
-        process.stdin.write(crop_frame(image, (800, 450, width)).tobytes())
-    process.stdin.close()
-    if process.wait() != 0 or frame_count(target) != frames:
-        raise SystemExit("failed to render the standard close")
-
-
-def append_source_video(graph, labels, start, end):
-    label = f"v{len(labels)}"
-    graph.append(
-        f"[0:v]trim=start_frame={start}:end_frame={end},settb=1/{FPS},"
-        f"setpts=N/({FPS}*TB),setsar=1,format=yuv420p[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def append_leg_video(graph, labels, input_index, frames):
-    label = f"v{len(labels)}"
-    graph.append(
-        f"[{input_index}:v]trim=start_frame=0:end_frame={frames},"
-        f"settb=1/{FPS},setpts=N/({FPS}*TB),setsar=1,"
-        f"format=yuv420p[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def append_audio(graph, labels, start, end):
-    label = f"a{len(labels)}"
-    duration = (end - start) / FPS
-    graph.append(
-        f"[0:a]atrim=start={start/FPS:.6f}:end={end/FPS:.6f},"
-        f"asetpts=PTS-STARTPTS,aresample=44100,"
-        f"aformat=sample_fmts=fltp:channel_layouts=mono,apad,"
-        f"atrim=duration={duration:.6f}[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def run(command: list[str]) -> None:
-    subprocess.run(command, cwd=ROOT, check=True)
-
-
-def main() -> None:
-    if frame_count(SOURCE) != SOURCE_FRAMES:
-        raise SystemExit(
-            f"source has {frame_count(SOURCE)} frames; expected {SOURCE_FRAMES}"
-        )
-    for board in BOARDS.values():
-        if not board.exists():
-            raise SystemExit(f"missing {board}")
-
-    legs = teaching_legs()
-    close_start = at(205.20)
-    close_frames = output_frame(END_FRAME) - output_frame(close_start)
-    expected = output_frame(END_FRAME)
-
-    with tempfile.TemporaryDirectory(
-        prefix="honesty-privacy-review-", dir="/private/tmp"
-    ) as directory:
-        work = Path(directory)
-        rendered = []
-        for leg in legs:
-            path = work / f"{leg.name}.mkv"
-            render_leg(leg, path)
-            rendered.append(path)
-        close_path = work / "close.mkv"
-        render_close(close_path, close_frames)
-        rendered.append(close_path)
-
-        graph: list[str] = []
-        video_labels: list[str] = []
-        school, allowed, privacy, photo = legs
-
-        append_source_video(graph, video_labels, 0, at(46.80))
-        append_leg_video(graph, video_labels, 1, school.frames)
-        append_leg_video(graph, video_labels, 2, allowed.frames)
-        append_source_video(graph, video_labels, at(81.60), at(108.60))
-        append_leg_video(graph, video_labels, 3, privacy.frames)
-        append_source_video(graph, video_labels, at(131.40), at(149.06))
-        append_leg_video(graph, video_labels, 4, photo.frames)
-        append_source_video(graph, video_labels, at(175.90), close_start)
-        append_leg_video(graph, video_labels, 5, close_frames)
-        graph.append(
-            "".join(video_labels)
-            + f"concat=n={len(video_labels)}:v=1:a=0,format=yuv420p[outv]"
-        )
-
-        audio_labels: list[str] = []
-        cursor = 0
-        for start, end in CUTS:
-            append_audio(graph, audio_labels, cursor, start)
-            cursor = end
-        append_audio(graph, audio_labels, cursor, END_FRAME)
-        graph.append(
-            "".join(audio_labels)
-            + f"concat=n={len(audio_labels)}:v=0:a=1[outa]"
-        )
-
-        command = [
-            FFMPEG, "-y", "-hide_banner", "-loglevel", "error",
-            "-i", str(SOURCE),
-        ]
-        for path in rendered:
-            command.extend(["-i", str(path)])
-        command.extend(
-            [
-                "-filter_complex", ";".join(graph),
-                "-map", "[outv]", "-map", "[outa]",
-                "-r", str(FPS), "-c:v", "libx264", "-crf", "18",
-                "-preset", "medium", "-pix_fmt", "yuv420p",
-                "-c:a", "aac", "-b:a", "192k", str(OUTPUT),
-            ]
-        )
-        run(command)
-
-    actual = frame_count(OUTPUT)
-    if actual != expected:
-        raise SystemExit(f"output has {actual} frames; expected {expected}")
-    print(f"{OUTPUT}: {actual} frames, {actual/FPS:.2f}s")
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

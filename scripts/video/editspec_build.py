@@ -95,6 +95,14 @@ class Build:
         board = cv2.imread(str(asset)); bh, bw = board.shape[:2]
         cw = max(bw, int(bh * 16 / 9)); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2
         ox, oy = (cw - bw) // 2, (ch - bh) // 2; bg = tuple(int(v) for v in board[4, 4])
+        # The page renders boards with rounded corners; the exported JPG flattens the matte outside those corners to
+        # whatever the page background was (white, or a dark shade), which then reads as gray smudges at the board's
+        # bottom corners once the board sits on the house stage (owner report 2026-09-12). Paint the outside of a
+        # rounded rectangle in the stage color so the board blends into the stage; the board's own pixels are untouched.
+        r = 28; mask = np.zeros((bh, bw), np.uint8)
+        cv2.rectangle(mask, (r, 0), (bw - 1 - r, bh - 1), 255, -1); cv2.rectangle(mask, (0, r), (bw - 1, bh - 1 - r), 255, -1)
+        for cx, cy in ((r, r), (bw - 1 - r, r), (r, bh - 1 - r), (bw - 1 - r, bh - 1 - r)): cv2.circle(mask, (cx, cy), r, 255, -1)
+        board = board.copy(); board[mask == 0] = bg
         canvas = np.full((ch, bw and cw, 3), bg, np.uint8); canvas[oy:oy + bh, ox:ox + bw] = board
         p = self.out / f'canvas-{key}.png'; cv2.imwrite(str(p), canvas); return p, cw, ch, ox, oy
     @staticmethod

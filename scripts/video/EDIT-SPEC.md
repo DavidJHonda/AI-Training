@@ -34,12 +34,15 @@ with the house side bars if its shape needs them. Hold that full view for at
 least two seconds, or until the first item-level beat if that comes later.
 Never open a board already zoomed or already ringed.
 
-When the narrator names the first card before two seconds have passed, insert a
-one-second pause (rule 6) at the boundary between the board's introduction and
-its first item, holding the full unmarked view through it. If the introduction
-is so short that the full view still falls under two seconds, the ring pops at
-the first item's onset in the full view and the dive waits; the board is still
-seen whole first.
+The full view comes from arriving early, not from a pause. A board arrives at
+the start of the narration that introduces it ("This chart maps out…", "Sometimes
+a teacher will allow…", "Say you snap a photo…"), replacing Notebook's stock
+for that sentence, so the whole board is on screen while the narrator sets it up.
+If a board has no spoken introduction and the narrator names the first card
+inside two seconds, the ring pops at the first item's onset in the full view and
+the dive waits; the board is still seen whole first. (Owner rule 2026-09-12: a
+pause is never inserted between a board's introduction and its first item; the
+earlier rule that did so is withdrawn.)
 
 ## 4. Compact or dense: decided by text, not structure
 
@@ -85,8 +88,17 @@ full view, and the ring traces the bubble's own border, not the text inside it.
 ## 6. Pauses: one second between ideas
 
 Gemini Notebook runs ideas together. Insert one second of matched room tone at
-each boundary between distinct ideas (a board handoff, a new example, the move
-into the summary, before the closing lines). Not after every sentence.
+each boundary between distinct ideas. Not after every sentence.
+
+Judge the boundary from the lesson's structure, not from the Markdown's board
+blocks (owner rule 2026-09-12): a pause belongs where the page starts a new
+section or a new idea (a new heading, the hook giving way to the teaching, the
+move from one board's subject to the next, the move into the summary, before the
+closing lines). Inside a board there are no pauses: not between its introduction
+and its first item, not between items, not before its takeaway banner. Those are
+parts of one box, and the narrator's own breath is enough. When in doubt, the
+question is "is a different idea starting here?", not "is a different part of the
+board starting here?".
 
 - Tone is mirror-tiled from the roll's own pause, seeded at the median level of
   the source's pauses, with short crossfades. Never digital zero.

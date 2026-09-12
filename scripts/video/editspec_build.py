@@ -117,7 +117,7 @@ class Build:
         n = src_out - src_in; on = lambda t: fr(t) - src_in
         sh = lambda r: [r[0] + ox, r[1] + oy, r[2] - r[0], r[3] - r[1]]
         full = [cw / 2, ch / 2, float(cw)]
-        ends = [on(t['at']) for t in targets[1:]] + [on(banner_at) if banner_at else n]
+        ends = [on(t['at']) for t in targets[1:]] + [on(banner_at) if banner_at else (on(pullback_at) if pullback_at else n)]   # the last ring ends at the banner, else at the pull-back (2026-09-12), else the board's end
         rings, states = [], []
         for t, e in zip(targets, ends):
             colors = t.get('colors') or [t['color']] * len(t['rects'])   # combined points: each component keeps its own accent

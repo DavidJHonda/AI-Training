@@ -6,89 +6,113 @@ AI will take on almost anything you ask: writing, planning, summarizing, coding,
 
 We saw this firsthand building this course. AI coded every page and every interaction you’ll see, and we give it a grade of **A+** for coding. It also wrote the first drafts of all lessons, but only earned a **C-**. It made points in the wrong order, added explanations that missed what we meant, and had no real feel for how a lesson should flow.
 
-That gap is the whole lesson in one example. Writing software code is all about patterns, and AI is a pattern-making machine, so it aces that job. But writing strong lessons doesn’t follow a set pattern, so AI can help, but it can’t do the whole thing.
+That gap taught us something. AI could test whether a button worked or a page loaded correctly. A lesson needed more: the right ideas, in the right order, explained in a way that made sense to you. AI gave us drafts, but they weren’t good enough to use. We had to decide what worked and what needed to change.
 
-Aim that one ability at real work, and it becomes four distinct strengths.
+Here are four strengths you can put to work.
 
 AI is strongest when the job has one of four shapes.
 
-🍀
+## Reshape Your Material
 
-Same meaning, new shape.
+**Strength 1 of 4**
 
-AI learns patterns, so it can take your input and recast it into something clearer, cleaner, or better structured. The meaning stays the same; only the shape changes.
+### Why it fits AI
 
-## Examples
+AI has learned patterns for putting the same ideas into different forms.
 
-Coding help
+### What it does
 
-Reformatting messy data
-
-Translating between languages
-
-Turning an outline into prose
-
-## Patterned transformation
-
-🎲
-
-Ten versions in ten seconds.
-
-AI builds each answer by predicting likely pieces, and there are usually many likely options. So it can give you several versions at once.
+Give AI something you already have and ask for it in a different form. Turn messy notes into a table, a long explanation into plain language, or a paragraph into bullet points. The goal is to keep your meaning while changing how you present it.
 
 ## Examples
 
-Brainstorming angles
+Organize notes into a study guide
 
-“Give me 10 variations”
+Turn a voice memo into a to-do list
 
-Rewriting in a different tone
+Translate a message into another language
 
-First drafts of common documents
+Rewrite technical instructions in plain language
 
-## Generative variation
+Your material. A more useful form.
 
-🔍
+## Explore Possibilities
 
-Finds the signal in long documents.
+**Strength 2 of 4**
 
-AI can read long documents and see past the words on the page to what they actually mean. So it can shrink long documents down to the core, or surface the one part you actually need.
+### Why it fits AI
 
-## Examples
+AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.
 
-Summarizing a chapter
+### What it does
 
-Extracting key points
-
-Finding the relevant section in a long document
-
-Answering questions from supplied material
-
-## Semantic compression and retrieval
-
-🧠
-
-Reasons through what you give it.
-
-AI can hold a lot of information at once. Give it the facts, the constraints, and the goal, and it can work through them toward an answer.
+When you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you. You decide which ideas are worth taking further.
 
 ## Examples
 
-Planning a project
+Brainstorm angles for an essay
 
-Debugging code
+Suggest names for a club
 
-Comparing options
+Try different openings for a story
 
-Critiquing a draft
+Come up with ideas for a fundraiser
 
-## Structured reasoning and synthesis
+More possibilities. You choose the direction.
+
+## Find What Matters
+
+**Strength 3 of 4**
+
+### Why it fits AI
+
+AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.
+
+### What it does
+
+Give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.
+
+## Examples
+
+Pull the main ideas from a textbook chapter
+
+Find what a scholarship application requires
+
+Compare what two articles say about a topic
+
+Summarize your school’s student handbook
+
+A lot to read. A clearer place to focus.
+
+## Work Through Problems
+
+**Strength 4 of 4**
+
+### Why it fits AI
+
+During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions. It learned patterns it can apply to new problems.
+
+### What it does
+
+Tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.
+
+## Examples
+
+Plan a weekend trip within your budget
+
+Work out why your code isn’t working
+
+Compare colleges based on what matters to you
+
+Figure out why your science experiment gave unexpected results
+
+Work through the pieces. Make your own call.
 
 ## Why this works: vast exposure
 
 Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before.
 
-But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version.
+Seeing many examples helps AI get started. But it doesn’t guarantee the answer is right or that it fits what you need. That’s where your knowledge and judgment matter.
 
 “Can try” is not “built for.”
 

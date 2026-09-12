@@ -16,36 +16,19 @@ Don’t just use AI.
 
 Work with it.
 
-It doesn’t replace your thinking.
-
-It multiplies it.
+It doesn’t replace your thinking. It multiplies it.
 
 You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?
 
-Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it.
+Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Knowing how to work with it helps you get more out of it.
 
-## In this section
+### Work With AI
 
-Work With AI
+In this section
 
-1
-
-## KNOW WHAT IT'S FOR
-
-First, why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.
-
-2
-
-## USE IT WELL
-
-Then, the moves that get a better answer, and a look at what the model actually reads when you ask.
-
-3
-
-## THINK BEFORE YOU TRUST
-
-Finally, what to do with the answer that comes back: question it, verify it, and decide whether it’s good enough to use.
-
+1. Know What It’s For Why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.
+2. Use It Well The moves that get a better answer, and a look at what the model actually reads when you ask.
+3. Think Before You Trust What to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use.
 Don’t just use AI. Work with it.
 
 It doesn’t replace your thinking. It multiplies it.

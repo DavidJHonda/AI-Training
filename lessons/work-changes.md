@@ -10,15 +10,15 @@ Some familiar job titles may still be around: entrepreneur, teacher, lawyer, or 
 
 To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job.
 
-### Board 1: Four Shapes of AI Work
+### Board 1: Four AI Strengths at Work
 
 **Image file:** `work-changes-1-strengths.jpg`
 
-![Four Shapes of AI Work](work-changes-1-strengths.jpg)
+![Four AI Strengths at Work](work-changes-1-strengths.jpg)
 
 **Teaching content:**
 
-AI is strongest when the job has one of four shapes. Transform: it turns your input into something clearer, cleaner, and better structured. Generate: it creates several options at once. Compress: it turns long documents into what they actually mean. Reason: it works through your input toward an answer.
+Reshape Your Material: turn existing material into a more useful form. Explore Possibilities: generate options and explore different directions. Find What Matters: pull key ideas and relevant details from long documents. Work Through Problems: break down a problem, compare approaches, and plan next steps.
 
 Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? It’s what you already know.
 

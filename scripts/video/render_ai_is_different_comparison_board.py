@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the video-ready Normal Software vs. AI Software comparison board."""
+"""Render the video-ready Structured vs. Unstructured Data comparison board."""
 
 from pathlib import Path
 
@@ -110,7 +110,7 @@ def main():
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
 
-    centered(draw, (800, 90), "Normal software vs. AI software", HEAVY_44)
+    centered(draw, (800, 90), "Structured vs. Unstructured Data", HEAVY_44)
     draw.rounded_rectangle((80, 172, 1520, 860), radius=16, fill=WHITE)
 
     header(draw, (112, 192, 720, 280), "NORMAL SOFTWARE", "Built from rules", BLUE, "rules")

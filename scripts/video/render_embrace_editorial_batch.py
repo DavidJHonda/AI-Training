@@ -88,6 +88,7 @@ class CardBoard:
     prep_output: str
     takeaway: str | None = None
     accents: tuple[str, ...] = ()
+    art_files: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -198,17 +199,23 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="work-four-shapes",
-        title="Four Shapes of AI Work",
+        title="Four AI Strengths at Work",
         cards=(
-            Card("Transform", "Transforms your input into something clearer, cleaner, and better structured."),
-            Card("Generate", "Generates several options at once."),
-            Card("Compress", "Compresses long documents into what they actually mean."),
-            Card("Reason", "Reasons through your input and works toward an answer."),
+            Card("Reshape Your Material", "Turn existing material into a more useful form."),
+            Card("Explore Possibilities", "Generate options and explore different directions."),
+            Card("Find What Matters", "Pull key ideas and relevant details from long documents."),
+            Card("Work Through Problems", "Break down a problem, compare approaches, and plan next steps."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-four-shapes/art-sheet.png",
         page_output="illustrations/work-changes-strengths-v2.jpg",
         prep_output="lessons/work-changes-1-strengths.jpg",
-        accents=(PURPLE, BLUE, TEAL, AMBER),
+        accents=(BLUE, AMBER, PURPLE, TEAL),
+        art_files=(
+            "scripts/video/assets/work-with-ai/card-illustrations/transform.png",
+            "scripts/video/assets/work-with-ai/card-illustrations/variation.png",
+            "scripts/video/assets/work-with-ai/card-illustrations/books.png",
+            "scripts/video/assets/work-with-ai/card-illustrations/reasoning.png",
+        ),
     ),
     CardBoard(
         key="work-automate-augment",
@@ -455,7 +462,12 @@ def render_card_board(board: CardBoard) -> Image.Image:
     if board.title:
         draw_board_title(draw, board.title)
 
-    panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
+    if board.art_files:
+        if len(board.art_files) != count:
+            raise ValueError(f"{board.key}: assign one art file to every card")
+        panels = [Image.open(ROOT / path).convert("RGB") for path in board.art_files]
+    else:
+        panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
         row = 0 if count < 4 else index // 2
         x = card_xs[index]

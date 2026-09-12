@@ -865,7 +865,7 @@ const LESSON_VIDEOS = {
   control: { src: "videos/what-you-can-control.mp4?v=3", duration: "3 min", title: "What about your future with AI is actually in your hands." },
   studying: { src: "videos/learn-with-ai.mp4?v=3", duration: "3 min", title: "How to turn AI into a study tool that actually works.", cta: "Both end at the same LAB." },
   openerworkwith: { src: "videos/opener-work.mp4?v=2", duration: "2 min", title: "Same tool, different results. Here's how to get the good ones.", cta: "Both walk the same section map." },
-  aivscode: { src: "videos/ai-is-different.mp4?v=2", duration: "4 min", title: "Why AI works differently from every other app you use." },
+  aivscode: { src: "videos/ai-is-different.mp4?v=2", duration: "4 min", title: "Why AI works differently from every other app you use.", cta: "Both end at the same LAB." },
   whatitdoesbest: { src: "videos/where-ai-works-best.mp4", duration: "3 min", title: "The four kinds of work AI is actually built for." },
   modelselection: { src: "videos/which-app.mp4", duration: "4 min", title: "ChatGPT, Claude, Gemini: how to pick your home base." },
   questionsvaluable: { src: "videos/questions-matter.mp4?v=2", duration: "3 min", title: "Why the question is the half that still belongs to you.", cta: "Both end at the same LAB." },
@@ -935,11 +935,11 @@ const CLOSE_BOARDS = {
   llms: { pill: "Two kinds. One picks, one creates.", sticky: "This course is about the one that creates." },
   aihistory: { pill: "Training builds the patterns.", sticky: "The model uses those patterns to build your answer, one word at a time." },
   doesaithink: { pill: "Sounds human. Works differently.", sticky: "A convincing answer doesn’t prove understanding." },
-  control: { pill: "Your skill and judgment aren’t a consolation prize.", sticky: "They’re the mechanical lever that tilts the odds in your favor." },
+  control: { pill: "You can’t control where AI goes next.", sticky: "You can build the skill and judgment to decide what you do next." },
   whybother: { pill: "The opportunity to learn is already in front of you.", sticky: "Use it to build the knowledge and skills that take you beyond the new average." },
   studying: { pill: "Use AI to learn, not to skip the learning.", sticky: "Feed it your materials. Trace it back." },
   openerworkwith: { pill: "Don’t just use AI. Work with it.", sticky: "It doesn’t replace your thinking. It multiplies it." },
-  aivscode: { pill: "Written rules or learned patterns.", sticky: "Patterns handle the mess. Rules stay consistent." },
+  aivscode: { pill: "AI’s foundation gives it new superpowers.", sticky: "Those superpowers come with Kryptonite." },
   whatitdoesbest: { pill: "AI does some things better than others.", sticky: "“Can try” is not “built for.”" },
   modelselection: { pill: "Pick a home base. Learn it deeply.", sticky: "The skills transfer. The app is just where you practice them." },
   questionsvaluable: { pill: "Answers got cheap. Questions didn’t.", sticky: "Frame the problem. Ask the next better question." },
@@ -1901,6 +1901,7 @@ function FeedbackPill(props) {
   if (props.state != null) {
     look = props.state === "picked-correct" ? "correct"
       : props.state === "picked-wrong" ? "wrong-loud"
+      : props.state === "picked-neutral" ? "selected"
       : "neutral";
   } else if (!props.answered) {
     look = "neutral";
@@ -1918,6 +1919,7 @@ function FeedbackPill(props) {
     correct: { bg: "#1f9d5f", border: "#1f9d5f", color: "#fff", icon: "\u2713", iconColor: "#fff" },
     "wrong-loud": { bg: "#d4334a", border: "#d4334a", color: "#fff", icon: "\u2715", iconColor: "#fff" },
     "wrong-dim": { bg: "#fbe9ec", border: "#f0b8c1", color: "#d4334a", icon: "\u2715", iconColor: "#d4334a" },
+    selected: { bg: "var(--tryAccent)", border: "var(--tryAccent)", color: "#fff", icon: null, iconColor: null },
     neutral: { bg: "#fff", border: "var(--rule)", color: "#0e0a1f", icon: null, iconColor: null }
   };
   var L = LOOKS[look];
@@ -1939,7 +1941,7 @@ function FeedbackPill(props) {
 function ScenarioRow(props) {
   var isFirst = props.index === 1;
   var numeralOpacity = props.answered ? 1 : 0.6;
-  var fbAccent = props.correct ? "#1f9d5f" : "#d4334a";
+  var fbAccent = props.feedbackAccent || (props.correct ? "#1f9d5f" : "#d4334a");
   var fbEyebrow = props.eyebrow || (props.correct ? "Correct" : "Not quite");
   var fbHeadline = props.headline || (props.correct ? "Right." : "Not quite.");
   return React.createElement("div", {
@@ -4207,7 +4209,7 @@ function DoesAIThinkSection(props) {
     E("section", { "aria-label": "The Chinese Room", style: { maxWidth: 880, margin: "20px auto 28px", padding: "2.5%", containerType: "inline-size", borderRadius: 20, background: "#eae7fd", fontFamily: "var(--sans)", color: "var(--ink)" } },
       E("h2", { style: { margin: "0 0 2.6%", fontSize: "clamp(28px, 3.684cqw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2 } }, "The Chinese Room"),
       E("img", {
-        src: "illustrations/does-ai-think.jpg?v=20260911exchange1",
+        src: "illustrations/does-ai-think.jpg?v=20260911exchange2",
         alt: "The Chinese Room. A note asks ‘How are you?’ in Chinese. A person who cannot read Chinese uses a rule chart to match the complete question to the complete reply, ‘I’m fine, thank you!’ They return the reply, creating what looks like a fluent Chinese conversation without understanding the language.",
         style: { display: "block", width: "100%", borderRadius: 12 }
       }),
@@ -4244,45 +4246,29 @@ function WhyBotherSection(props) {
     claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
       E(UserBubble, { text: "What\u2019s the price of a $60 hoodie that\u2019s 20% off?", align: "right" }),
       E(AIBubble, { text: "20% of $60 is $12, so the hoodie costs $52.", align: "left" })),
-    options: [
-      { label: "I know enough to catch it", correct: true, feedback: "Right, and you can prove it: $60 minus $12 is $48, not $52. The arithmetic you already own just caught AI in a confident mistake." },
-      { label: "I\u2019d have to trust it", correct: false, feedback: "You\u2019ve got this one already. $60 minus 20% ($12) is $48, not $52. Basic arithmetic was all it took, and you have it." }
-    ]
+    feedback: "The hoodie costs $48: 20% of $60 is $12, and $60 minus $12 is $48. Basic arithmetic is enough to check this answer."
   }, {
     claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
       E(UserBubble, { text: "When did World War I begin?", align: "right" }),
       E(AIBubble, { text: "World War I started in 1739.", align: "left" })),
-    options: [
-      { label: "I know enough to catch it", correct: true, feedback: "Right. World War I began in 1914, not 1739. A date from history class just caught an answer AI delivered without blinking." },
-      { label: "I\u2019d have to trust it", correct: false, feedback: "You likely knew this one. World War I began in 1914; 1739 isn\u2019t close. History already handed you the tool to catch it." }
-    ]
+    feedback: "World War I began in 1914, not 1739. Knowing the date from history, or checking a reliable source, reveals the mistake."
   }, {
     claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
       E(UserBubble, { text: "How many branches does the US government have?", align: "right" }),
       E(AIBubble, { text: "It has four branches, the Legislative, the Judicial, the Executive, and the Provincial.", align: "left" })),
-    options: [
-      { label: "I know enough to catch it", correct: true, feedback: "Right. There are three branches: Legislative, Executive, and Judicial. 'Provincial' is invented. Civics already gave you what you need to catch it." },
-      { label: "I\u2019d have to trust it", correct: false, feedback: "You may know more than you think. The US government has three branches; 'Provincial' is made up. That\u2019s a civics fact, and it\u2019s catchable." }
-    ]
+    feedback: "The US government has three branches: Legislative, Executive, and Judicial. \u2018Provincial\u2019 is invented. Civics knowledge, or a reliable source, reveals the mistake."
   }, {
     claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
       E(UserBubble, { text: "Where did modern chatbots come from?", align: "right" }),
       E(AIBubble, { text: "The Transformer, the design behind every modern chatbot, was invented by OpenAI in their 2017 paper, Attention Is All You Need.", align: "left" })),
-    options: [
-      { label: "I know enough to catch it", correct: false, feedback: "If you knew it was Google, not OpenAI, you\u2019re ahead. Most people haven\u2019t learned this yet, and you will, in the Transformer lesson later in this course." },
-      { label: "I\u2019d have to trust it", correct: true, feedback: "Honest call. The paper and the year are real, but it came from eight researchers at Google, not OpenAI. The payoff is close: you\u2019ll learn the whole story in the Transformer lesson." }
-    ]
+    feedback: "The paper and year are real, but the Transformer paper came from eight researchers at Google, not OpenAI. This is the kind of specialized fact you may need to check."
   }, {
     claim: E("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
       E(UserBubble, { text: "Is a handshake deal legally binding?", align: "right" }),
       E(AIBubble, { text: "A spoken agreement is never legally binding, it only counts if it\u2019s in writing.", align: "left" })),
-    options: [
-      { label: "I know enough to catch it", correct: false, feedback: "Trickier than it looks. Many spoken agreements are binding; only certain kinds need to be in writing. This is the sort of thing further education hands you." },
-      { label: "I\u2019d have to trust it", correct: true, feedback: "Exactly right to be unsure. Plenty of spoken agreements are legally binding; only certain kinds must be written. Most people don\u2019t learn this until much later. More education, more you can catch." }
-    ]
+    feedback: "Many spoken agreements can be legally binding; only certain agreements must be in writing. This is a high-stakes legal claim, so checking a reliable source or qualified person matters."
   }];
-
-  const allAnswered = Object.keys(catchAnswers).length >= CATCH_ITEMS.length;
+  var CATCH_CHOICES = ["I can spot the mistake.", "I\u2019d need to check."];
 
   return E("div", null,
     E(LessonHeader, { sectionId: "whybother" }),
@@ -4304,18 +4290,17 @@ function WhyBotherSection(props) {
       E("p", null, "Luke and Nate use the same AI starting point, then apply different knowledge and practiced skills to take the work further."),
       E("p", null, "The tool may be the same. What you bring to it is yours.")),
     E(BodyP, null,
-      "Here\u2019s the catch: During training, AI learned patterns from enormous amounts of existing work. Give it ordinary instructions, and it often produces a polished version of what is common or expected. That may be a useful starting point. But when that level of work is available to everyone, it becomes the new average."),
+      "Here\u2019s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It\u2019s the new average. What you bring to the work is what takes you further."),
     E(BodyP, null,
       "That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?"),
     E(SectionKicker, null, "WHAT SETS YOU APART"),
     E(BodyP, null,
       "Your secret sauce is the knowledge and skills you build. And where do you build them? You know where this is going: school."),
     E(BodyP, null,
-      "In the AI era, the knowledge and skills you build in school matter more than ever. This seems counterintuitive, but it\u2019s true. This inspired the name of this course, ",
-      E("strong", null, "Be Smarter Than the Tool."),
-      " Whatever college and career you choose, the more you learn, the more successful you\u2019ll be."),
+      "School is where you get to build what you bring to the work. Learn how things work. Practice writing, solving problems, making things, and working with people. Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That\u2019s what it means to ",
+      E("strong", null, "Be Smarter Than the Tool.")),
     E("img", {
-      src: "illustrations/does-school-matter-future-v3.jpg?v=20260911",
+      src: "illustrations/does-school-matter-future-v3.jpg?v=20260911copy1",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
@@ -4324,9 +4309,9 @@ function WhyBotherSection(props) {
     },
       E("h3", null, "What to Start Building Today"),
       E("h4", null, "Deep Subject Knowledge"),
-      E("p", null, "Become the person people turn to when the easy answer isn\u2019t enough."),
+      E("p", null, "Go deep in a subject you care about. Become someone people turn to for your knowledge."),
       E("h4", null, "Strong Skills"),
-      E("p", null, "Start your career ready to write, build, analyze, solve, and contribute from day one."),
+      E("p", null, "Practice writing, building, analyzing, and solving problems. Get good at turning what you know into work you\u2019re proud of."),
       E("h4", null, "AI Fluency"),
       E("p", null, "Know how to work with AI, challenge it, and use it to go beyond the average."),
       E("h4", null, "People Skills"),
@@ -4337,28 +4322,23 @@ function WhyBotherSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Catch It, or Trust It?",
-      lead: "Five AI answers sound completely confident and hide a mistake. The test is whether what you know lets you catch it.",
+      title: "Can You Catch It?",
+      lead: "Five AI answers sound completely confident and hide a mistake. What you know changes what you can recognize.",
       instructions: [
-        "Read the AI answer.",
-        "Decide whether you know enough to catch its mistake or would have to trust it.",
-        "Choose honestly."
+        "Read each AI answer.",
+        "Decide whether you can spot the mistake using what you already know or would need to check another source."
       ]
     },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         CATCH_ITEMS.map(function(s, i) {
           var answered = catchAnswers[i] !== undefined;
           var pickedIdx = catchAnswers[i];
-          var pickedOpt = answered ? s.options[pickedIdx] : null;
-          var correct = answered && pickedOpt.correct;
-          function PillButton(opt, optIdx) {
+          function PillButton(label, optIdx) {
             var isPicked = pickedIdx === optIdx;
             return E(FeedbackPill, {
               key: optIdx,
-              answered: answered,
-              isCorrect: opt.correct,
-              isPicked: isPicked,
-              label: opt.label,
+              state: isPicked ? "picked-neutral" : "neutral",
+              label: label,
               onClick: function() { setCatchAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, optIdx]])); }); }
             });
           }
@@ -4368,9 +4348,12 @@ function WhyBotherSection(props) {
             prompt: s.claim,
             alignTop: true,
             answered: answered,
-            correct: correct,
-            feedback: pickedOpt ? pickedOpt.feedback : null
-          }, s.options.map(function(opt, optIdx) { return PillButton(opt, optIdx); }));
+            correct: false,
+            feedbackAccent: "var(--tryAccent)",
+            eyebrow: "Check the claim",
+            headline: "Here\u2019s the correction.",
+            feedback: answered ? s.feedback : null
+          }, CATCH_CHOICES.map(function(label, optIdx) { return PillButton(label, optIdx); }));
         }))),
     E(LessonRule, null),
     E(NextLessonGate, {
@@ -4467,17 +4450,17 @@ function ControlStressGame() {
 
     var CHIPS = [
       // Out of your hands.
-      { t: "If AI takes your future job", own: false, teach: "A headline built to get clicked. You can’t vote on it, so don’t pay it rent." },
-      { t: "How fast AI gets smarter", own: false, teach: "Labs with billions of dollars set that pace. Your job is to keep up, not to slow it down." },
-      { t: "If your school bans AI", own: false, teach: "That’s a policy meeting you’re not in. What you do inside the rules is still yours." },
+      { t: "If AI takes your future job", own: false, teach: "You can’t guarantee what happens to a particular job. You can build useful skills and learn how to use AI in work you care about." },
+      { t: "How fast AI gets smarter", own: false, teach: "You don’t set the pace of AI development. You can choose what to learn and practice using it well." },
+      { t: "If your school bans AI", own: false, teach: "You don’t set school policy yourself. You can ask questions and suggest changes. How you use AI within the rules is still your choice." },
       { t: "If your future boss uses AI", own: false, teach: "They make that call before you walk in. Be good enough to be useful either way." },
       { t: "Which careers get automated first", own: false, teach: "An economic call other people make. What you decide is how strong your skills are when you arrive." },
-      { t: "What AI experts predict next", own: false, teach: "Nobody knows, including them. A prediction isn’t a plan." },
+      { t: "What AI experts predict next", own: false, teach: "Predictions can help you prepare, but they aren’t guarantees. A prediction isn’t a plan." },
       // In your hands.
       { t: "How good you get with AI", own: true, teach: "Depth beats dabbling. Pick one tool and learn where it breaks." },
       { t: "Whether you do your own thinking", own: true, teach: "Every prompt is a choice. Think faster, or think less." },
       { t: "How long you doomscroll", own: true, teach: "The volume is loud. The dial is still yours." },
-      { t: "Whether you check what AI tells you", own: true, teach: "Confident and correct are two different things. Checking is free." },
+      { t: "Whether you check what AI tells you", own: true, teach: "Confident and correct are two different things. Check important answers before you rely on them." },
       { t: "If you get <strong>Smarter Than the Tool</strong>", own: true, teach: "You can be handed information. You can be handed answers. Nobody can hand you skill." },
       { t: "Asking a better question", own: true, teach: "The question is the half that still belongs to you." },
       { t: "How much real skill you build", own: true, teach: "It only comes from practice and reps. Nobody else gets a vote on how hard you work." }
@@ -4577,7 +4560,7 @@ function ControlStressGame() {
       // One statement at a time on a fixed beat: each lives SHOW ms, and the
       // next arrives on schedule whether or not this one was clicked, so
       // clicking never speeds up or slows down the round.
-      var SHOW = 2000, N = state.deck.length;
+      var SHOW = 4000, N = state.deck.length;
       state.deck.forEach(function (chip, i) {
         later(function () { spawn(stage, chip, i, 0, SHOW); }, i * SHOW);
       });
@@ -4661,19 +4644,22 @@ function ControlStressGame() {
 
       // The score is everything handled correctly, catches and let-gos together,
       // because ignoring the noise is as much a right answer as claiming what is
-      // yours. The endings speak to the stress number, not the individual round.
+      // yours. The endings report the sorting result without inferring emotion.
       var right = log.length - chased - missed;
       var total = log.length;
       var verdict, body;
-      if (st <= 20) {
-        verdict = "You ran the dial.";
-        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter barely moved. That’s the whole skill right there. The headlines are going to keep coming, and they’re going to get louder, and none of that has to land on you. Hold onto that attitude no matter what AI does next.";
+      if (right === total && st === 0) {
+        verdict = "Perfect round.";
+        body = "You got all <b>" + total + " right</b> and kept the meter at zero. Keep putting your effort into choices you can act on yourself.";
+      } else if (st <= 20) {
+        verdict = "Strong sorting.";
+        body = "You got <b>" + right + " of " + total + "</b> right. Look back at any you missed. Which choices can you act on yourself? Try again and see how low you can keep the meter.";
       } else if (st <= 50) {
-        verdict = "Pretty steady.";
-        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter landed in the middle. That’s a good place to be. A few things still got to you, which is completely normal, and it’s also something you can get better at. The cleaner you sort the noise from the stuff you actually control, the lower that number goes.";
+        verdict = "Look back at your choices.";
+        body = "You got <b>" + right + " of " + total + "</b> right. Look back at the ones you missed. Which choices can you act on yourself? Try again and see how low you can keep the meter.";
       } else {
-        verdict = "Let’s get that number down.";
-        body = "You got <b>" + right + " of " + total + "</b> right, and your stress meter climbed. Here’s the good part: that’s fixable, and it’s fixable fast. Nothing on that list moved one inch because you worried about it. Put your energy on the ones you can actually change, let the rest float by, and watch what happens to that number.";
+        verdict = "Take another look.";
+        body = "You got <b>" + right + " of " + total + "</b> right. Look back at the ones you missed. Separate what you can act on yourself from what you cannot control by yourself. Try again and see how low you can keep the meter.";
       }
 
       // Two separate signals, because one pill carrying both was unreadable: the
@@ -4731,13 +4717,13 @@ function ControlSection(props) {
       "So here’s the question worth asking: what’s in your hands, and what isn’t?"),
 
     E("img", {
-      src: "illustrations/what-you-can-control-hands-v2.jpg?v=20260910",
-      alt: "What’s in Your Hands? Out of Your Hands / In Your Hands. How AI changes future jobs / Build real depth in something you care about. How quickly AI changes / Stay curious and keep what works. How much work AI can produce / Practice coming up with your own ideas. How other people use AI / Decide how you use it. Then get good with people. What the next headline predicts / Make something real instead of waiting to see what happens. You don’t control every outcome. Your choices still matter.",
+      src: "illustrations/what-you-can-control-hands-v2.jpg?v=20260911people1",
+      alt: "What’s in Your Hands? Out of Your Hands / In Your Hands. How AI changes future jobs / Build real depth in something you care about. How quickly AI changes / Stay curious and keep what works. How much work AI can produce / Practice coming up with your own ideas. How other people use AI / Choose how you use AI and how you work with other people. What the next headline predicts / Make something real instead of waiting to see what happens. You don’t control every outcome. Your choices still matter.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
 
     E(BodyP, null,
-      "Most of the noise around AI is the left column. Most of the leverage in your life is the right column."),
+      "Keep informed about the left column. Put most of your energy into the right."),
 
     E(SectionKicker, null, "SO WHAT DO YOU DO?"),
     E(BodyP, null,
@@ -4773,21 +4759,52 @@ function ControlSection(props) {
       label: "Next: Does School Matter?"
     }));
 }
-function AIvsCodeSection(props) {
-  const FIT_SCENARIOS = [
-    { prompt: "You log in to your school’s portal and it shows your cumulative GPA, pulled from every class you’ve taken.", options: [
-      { label: "Normal Software", correct: true, headline: "It’s a rule.", feedback: "Your GPA is exact math with one right answer: total the grade points, weight them by credits, and divide. The portal runs the same formula every time, so the number never drifts." },
-      { label: "AI Software", correct: false, headline: "You don’t want patterns here.", feedback: "AI could try, but it can slip on the multi-step math and may not give the same number twice. For an official figure like your GPA, you want the system that returns the exact same answer every time." } ] },
-    { prompt: "Turn a friend’s rambling voice memo into a clean to-do list.", options: [
-      { label: "Normal Software", correct: false, headline: "No rule fits this.", feedback: "A rule-based program needs neat, labeled input. Nobody wrote a rule for “um, oh and grab milk, wait, two.” There is no fixed structure to follow." },
-      { label: "AI Software", correct: true, headline: "This needs patterns.", feedback: "Messy, unstructured talk with no fixed fields. AI has heard countless ways people ramble, so it pulls the to-dos right out: buy milk, text Jordan back, book the dentist. Making sense of mess is its superpower." } ] },
-    { prompt: "A website checks that your new password has at least 8 characters and a number before it lets you create your account.", options: [
-      { label: "Normal Software", correct: true, headline: "It’s a rule.", feedback: "A precise, fixed check with a clear yes or no. Count the characters, look for a digit, done. No judgment or learning needed, so written rules nail it every time." },
-      { label: "AI Software", correct: false, headline: "Patterns are overkill here.", feedback: "You could ask AI, but the check never changes and must be exact on every signup. When the rule is this clear, normal software is faster and always consistent." } ] },
-    { prompt: "Your mom asks you to send her every photo you’ve taken of your dogs, Tei-Tei and Gei-Gei. Your camera roll has thousands of pictures, none of them labeled.", options: [
-      { label: "Normal Software", correct: false, headline: "No rule fits this.", feedback: "Normal software can only find what’s already tagged. With no labels on the photos, it has nothing to match against. Recognizing Tei-Tei and Gei-Gei in a pile of unlabeled images is exactly AI’s kind of job." },
-      { label: "AI Software", correct: true, headline: "This needs patterns.", feedback: "No rule can tell which photos have Tei-Tei or Gei-Gei in them; nobody labeled them. AI learned what countless dogs look like, so it recognizes them across angles and lighting and pulls every shot. Just glance before you send: it can only find them where they actually appear, and a look-alike could sneak in." } ] }
+function MessyNotesLab() {
+  var E = React.createElement;
+  var _a = useLocalStorage("ai-different-messy-notes-lab-v1", {}), checked = _a[0], setChecked = _a[1];
+  var STEPS = [
+    { title: "Open the notes", body: [
+      E("a", { key: "notes", href: "packets/supervillain-school-planning-notes.pdf", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the lesson that didn't make it to the course.")
+    ] },
+    { title: "Download the file", body: "In the browser tab with the notes, click the download button near the top of the PDF viewer. Save the file where you can find it. Gemini Notebook needs the file itself, not the open tab." },
+    { title: "Go to Gemini Notebook", body: [
+      "Go to ",
+      E("a", { key: "nb", href: "https://notebook.google.com", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700 } }, "notebook.google.com"),
+      " and sign in with your Google account."
+    ] },
+    { title: "Create the notebook", body: [
+      "Click ", E("strong", { key: "create" }, "+ Create notebook"),
+      " and name it ", E("strong", { key: "name" }, "AI Replaces School"), "."
+    ] },
+    { title: "Upload the notes", body: [
+      "Click ", E("strong", { key: "add" }, "+ Add sources"),
+      " and upload the planning-notes PDF you downloaded."
+    ] },
+    { title: "Make your own lesson video", body: E(React.Fragment, null,
+      E("span", { style: { display: "block" } }, "1. Select ", E("strong", null, "Video Overview"), " to the right."),
+      E("span", { style: { display: "block" } }, "2. Below ", E("strong", null, "Format"), ", select ", E("strong", null, "Explainer"), "."),
+      E("span", { style: { display: "block" } }, "3. Select ", E("strong", null, "Generate Now"), ".")) },
+    { title: "Come back when it’s ready", body: "Your video may take a while to build. You can keep going with the course and return to this notebook later." },
+    { title: "Watch your video", body: "Watch how Gemini Notebook turned messy handwritten notes into a lesson. Then make your call: Can AI replace school?" }
   ];
+  var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    labNumber: "05",
+    title: "Make Sense of the Mess",
+    hint: "Click the box after you finish each step.",
+    lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you'll use Gemini Notebook to create the video version of the lesson.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  },
+    E(LabStepList, {
+      steps: STEPS,
+      checked: checked,
+      onToggle: function(i) { setChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+    })
+  );
+}
+function AIvsCodeSection(props) {
   const KRYPTONITE_STORIES = [
     { title: "Scams that scale", text: "AI generates code, convincing messages, and fake identities in seconds." },
     { title: "Deepfakes", text: "Convincing fakes can target and humiliate anyone, including students." },
@@ -4817,12 +4834,15 @@ function AIvsCodeSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS Based On Patterns"),
-    /*#__PURE__*/React.createElement(BodyP, null, "As you learned earlier, AI is based on patterns, not rules."),
+    /*#__PURE__*/React.createElement(BodyP, null, "AI is different. A programmer doesn’t write out the rules for every situation. Instead, AI uses patterns it learned during training."),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/ai-is-different-learn-once.jpg?v=20260911word1",
       alt: "Learn Once. Answer Every Word. Training creates learned numerical patterns once. For every next word, the model scores probabilities, chooses one likely next word, and repeats the process. Both arrows stop at the next numbered step. Learn once. Use the patterns for every answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That’s the difference: someone writes the rules for ordinary software. AI learns patterns it can use in situations it hasn’t seen before."
+    ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Wrapping your head around this is important, so here’s a cooking analogy."
     ),
@@ -4840,46 +4860,49 @@ function AIvsCodeSection(props) {
       "Watch what each one does with the same question."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-fixed-vs-patterns.jpg?v=20260909compare1",
-      alt: "Fixed Rules vs. Built From Patterns. Nate and Luke ask what the best game is for a new PS5. Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.",
+      src: "illustrations/ai-is-different-fixed-vs-patterns.jpg?v=20260912title1",
+      alt: "Rules vs. Patterns. Nate and Luke ask what the best game is for a new PS5. Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That’s the split. Normal software follows fixed rules, so it hands back the same preset list no matter who asks or why. AI is built from patterns, so it does the opposite: it builds a fresh answer every time, shaped to your exact question."
+      "In this example, normal software follows a rule: when you ask for the best PS5 game, show the top game on a preset list. AI builds an answer using learned patterns, so you can ask the same question again and get a different recommendation."
     ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "STRUCTURED VS UNSTRUCTURED DATA"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s another AI superpower. What you give it, and what it returns, doesn’t have to follow a set structure."
+      "Here’s another AI superpower: your information doesn’t have to arrive neatly organized. To calculate your GPA in a spreadsheet, you enter grades and credits into rows and columns. That’s ",
+      /*#__PURE__*/React.createElement("strong", null, "structured data"),
+      ". AI can also read those details scribbled on the back of a Chick-fil-A receipt or buried in a copied text message. That’s ",
+      /*#__PURE__*/React.createElement("strong", null, "unstructured data"),
+      ". It can help turn that mess into a table, ready for the calculation."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "A good example is how we wrote this lesson. We sketched out messy notes on a legal pad. We scratched through lines, drew arrows to move things around, the works. It was MESSY. We couldn’t hand that to normal software like Microsoft Word or Excel, because that software needs data in nice rows and columns."
+      "A good example is how we wrote this lesson. We sketched out messy notes on a legal pad. We scratched through lines, drew arrows to move things around, the works. It was MESSY. Just saving a picture of those notes wouldn’t turn them into a lesson. Something still had to make sense of them."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "But AI is different. It read our messy notes and turned them into whatever we asked for."
+      "That something was AI. It read the notes, followed the changes, and turned them into a first draft."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/ai-is-different-normal-vs-ai.jpg?v=20260909compare1",
-      alt: "Normal Software vs. AI Software. Nate and Luke compare normal software built from rules with AI built from patterns. Normal software needs clean structured input, returns the same output, and lets people trace errors to a line. AI handles messy human input, may change its answer, and can be confidently wrong without one line to point to. Rules deliver consistency. Patterns handle the mess.",
+      src: "illustrations/ai-is-different-normal-vs-ai.jpg?v=20260912data1",
+      alt: "Structured vs. Unstructured Data. Normal Software: You fit information into a structure the software expects. You use the fields, file types, and commands the software was built to handle. AI Software: AI can make sense of messy information and help you organize or transform it. Give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image. Available inputs and outputs depend on the app. You bring the mess. AI helps make sense of it.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      /*#__PURE__*/React.createElement("h3", null, "Normal software vs. AI software"),
+      /*#__PURE__*/React.createElement("h3", null, "Structured vs. Unstructured Data"),
       /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h4", null, "Normal software. Built from rules."),
-        /*#__PURE__*/React.createElement("p", null, "Input: Needs clean structure. Rows, fields, and labels defined ahead of time."),
-        /*#__PURE__*/React.createElement("p", null, "Output: Same every time. Ask twice and get the same answer."),
-        /*#__PURE__*/React.createElement("p", null, "When wrong: Trace it to a line. Find the bug, fix the rule, and know exactly why.")),
+        /*#__PURE__*/React.createElement("h4", null, "Normal Software"),
+        /*#__PURE__*/React.createElement("p", null, "The idea: You fit information into a structure the software expects."),
+        /*#__PURE__*/React.createElement("p", null, "Input and Output: You use the fields, file types, and commands the software was built to handle.")),
       /*#__PURE__*/React.createElement("section", null,
-        /*#__PURE__*/React.createElement("h4", null, "AI software. Built from patterns."),
-        /*#__PURE__*/React.createElement("p", null, "Input: Handles human mess. Photos, audio, conversations, and half-formed questions."),
-        /*#__PURE__*/React.createElement("p", null, "Output: The answer may change. Patterns build a fresh response each time."),
-        /*#__PURE__*/React.createElement("p", null, "When wrong: There is no line to point to. AI handles unfamiliar problems, but can be confidently wrong.")),
-      /*#__PURE__*/React.createElement("p", null, "Rules deliver consistency. Patterns handle the mess.")),
+        /*#__PURE__*/React.createElement("h4", null, "AI Software"),
+        /*#__PURE__*/React.createElement("p", null, "The idea: AI can make sense of messy information and help you organize or transform it."),
+        /*#__PURE__*/React.createElement("p", null, "Input and Output: Give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image."),
+        /*#__PURE__*/React.createElement("p", null, "Available inputs and outputs depend on the app.")),
+      /*#__PURE__*/React.createElement("p", null, "You bring the mess. AI helps make sense of it.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE RIGHT TOOL FOR THE JOB"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s the catch: a superpower isn’t the same as the right tool. When a job is exact, runs the same way every time, and has to stay consistent, like calculating a GPA or checking a password, normal software wins. It’s faster, it never drifts, and you can always see exactly why it did what it did."
+      "Here’s the catch: a superpower isn’t the same as the right tool. When a job is exact, runs the same way every time, and has to stay consistent, like calculating a GPA or checking a password, normal software wins."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI earns its place on the messy, open-ended jobs no one could write a rule for. So the skill isn’t reaching for AI every time. It’s knowing which kind of job you’re looking at, and picking the tool that fits."
@@ -4892,7 +4915,7 @@ function AIvsCodeSection(props) {
       "AI has its own Kryptonite. It’s not fatal, but you need to be aware of it."
     ),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "Because AI runs on learned patterns and not rules, it’s harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written rules."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do."
+      "Because AI runs on learned patterns and not rules, it’s harder to control. ", /*#__PURE__*/React.createElement("strong", null, "Trained behavior is harder to predict, inspect, and lock down than written rules."), " And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do. And sometimes, people use its superpowers to cause harm. You need to recognize these risks."
     ),
     /*#__PURE__*/React.createElement("img", {
       src: "illustrations/ai-is-different-kryptonite-v2.jpg?v=20260909graphics1",
@@ -4909,26 +4932,14 @@ function AIvsCodeSection(props) {
           /*#__PURE__*/React.createElement("p", null, item.text));
       }),
       /*#__PURE__*/React.createElement("p", null, "Trained behavior is harder to predict, inspect, and lock down.")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "When you hear stories like these, remember the mechanism: AI is being steered, not authored. What’s inside isn’t rules, or even readable patterns; it’s millions of learned numbers, which is exactly why you can’t open it up and read it."
-    ),
     /*#__PURE__*/React.createElement(SectionKicker, null, "THE INDUSTRY’S ANSWER: GUARDRAILS"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "AI companies don’t ignore this. They can’t rewrite the model’s learned patterns, so they wrap a safety layer around it instead. That layer has a name."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "It’s called a ",
-      /*#__PURE__*/React.createElement("strong", null, "guardrail"),
-      ", and its job is to block, redirect, or limit specific behaviors, like medical dosage advice or harmful content. Guardrails come in different forms, and none of them are perfect, so they catch some things and miss others."
-    ),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "So when an app refuses something dangerous, that’s the guardrail talking, not the AI making a call of its own."
+      "AI companies don’t ignore this. During training, they teach AI to avoid harmful behavior. They also add a safety layer to the apps: ",
+      /*#__PURE__*/React.createElement("strong", null, "guardrails"),
+      ". These help block, redirect, or limit harmful requests. But none are perfect. They can miss something dangerous or block something harmless."
     ),
     closeBoard("aivscode"),
-    /*#__PURE__*/React.createElement(ChoiceQuiz, { surface: "mint", title: "Which One Handles This Better?", instruction: "The difference between normal software and AI becomes clearest when both are given the same job.", instructions: [
-      "Read the situation.",
-      React.createElement("span", null, "Choose ", React.createElement("strong", null, "normal software"), " or ", React.createElement("strong", null, "AI"), " based on the kind of job.")
-    ], scenarios: FIT_SCENARIOS }),
+    /*#__PURE__*/React.createElement(MessyNotesLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
@@ -5509,7 +5520,7 @@ function TrainingBiasSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Crack the Picture Open",
-      labNumber: "08",
+      labNumber: "09",
       hint: "Click the box after you finish each step.",
       lead: "You know the tell: sameness. Now go catch it live, then use the questions from this lesson to make the model show you more of what its first answer left out. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: BIAS_LAB_STEPS.length })},
@@ -6999,7 +7010,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "06",
+      labNumber: "07",
       title: "Set Up Your Context",
       hint: "Click the box after you finish each step.",
       lead: "Time to build a context you control. In a few minutes you’ll create a ChatGPT project, keep it in its own lane, and give it only what it needs. You’ll use this project in the next coding lab.",
@@ -7177,11 +7188,11 @@ function ModelSelectionSection(props) {
         { label: "ChatGPT", correct: false, feedback: "OpenAI didn’t merge with anyone to build ChatGPT, and “Generative Pre-trained Transformer” is many things, but Latin isn’t one of them." },
         { label: "Claude", correct: false, feedback: "Claude is one person’s name, a single mathematician, no twin in sight. The twins here are two AI labs that became one team." },
         { label: "Gemini", correct: true, feedback: "Right. Google Brain and DeepMind merged into one team, and the twins name fit, NASA nod included. A name about two things working as one, from the company whose philosophy is integration." } ] },
-    { clue: "This app honors a person: the mathematician whose 1948 paper invented information theory, the math of storing and sending information that everything digital is built on.",
+    { clue: "This app shares its name with the mathematician whose 1948 paper laid the foundation for information theory, the math of storing and sending information.",
       options: [
         { label: "ChatGPT", correct: false, feedback: "There’s no person hiding in ChatGPT. GPT stands for Generative Pre-trained Transformer, which nobody has ever named a child." },
-        { label: "Claude", correct: true, feedback: "Right. It’s named as a tribute to Claude Shannon, the father of information theory. A thinker’s name from the company obsessed with how its AI thinks and behaves." },
-        { label: "Gemini", correct: false, feedback: "Gemini commemorates a merger, not a mathematician. The name you want belonged to the man who invented the bit." } ] },
+        { label: "Claude", correct: true, feedback: "Right. Claude shares its name with Claude Shannon, the father of information theory." },
+        { label: "Gemini", correct: false, feedback: "Gemini’s name points to two AI teams joining forces. You’re looking for the name of the mathematician who developed information theory." } ] },
     { clue: /*#__PURE__*/React.createElement(React.Fragment, null,
         "The least romantic name of the three. It’s a plain description of the technology: a ",
         /*#__PURE__*/React.createElement("strong", null, "Chat"),
@@ -7191,25 +7202,27 @@ function ModelSelectionSection(props) {
         /*#__PURE__*/React.createElement("strong", null, "T"), "ransformer.” The name is the spec sheet."),
       options: [
         { label: "ChatGPT", correct: true, feedback: "Right. Chat plus GPT, an engineering label from the engineering-first company. The Anything Box doesn’t need a fancy name; it needs everyone to find it." },
-        { label: "Claude", correct: false, feedback: "Claude is the opposite move: a warm human name picked so the tool feels like a colleague, not a spec sheet." },
+        { label: "Claude", correct: false, feedback: "Claude has a human name. You’re looking for the app whose name describes the technology." },
         { label: "Gemini", correct: false, feedback: "Gemini is Latin with a story behind it. The name we’re after here is pure abbreviation, no story at all." } ] }
   ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to use. Three you’ll hear about often are ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
-  /*#__PURE__*/React.createElement(BodyP, null, "The big three AI apps work the same way. They\u2019re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The big three AI apps are like that. They all use AI models that learn patterns during training. But each company makes different choices about how to train its models and what to build into its app."),
   /*#__PURE__*/React.createElement(BodyP, null, "Those choices shape much of how each app differs: how it feels, what it\u2019s good at, and how it acts when it\u2019s not sure. Underneath, each one is built around a different core philosophy."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/which-app-big-three-v2.jpg?v=20260909purple1",
-    alt: "The Big Three, Side by Side. ChatGPT, the Anything Box: one general-purpose AI app aimed at a wide audience. OpenAI asks, How do we put capable AI in everyone’s hands? Claude, the Thinking Partner: built by Anthropic with an explicit safety-and-behavior philosophy and often strong when careful reasoning and accuracy matter most. Anthropic asks, How do we build powerful AI we can actually trust? Gemini, Built Into Google: Google’s AI assistant, strongest when the task connects to the Google tools you already use. Google asks, How do we put AI inside the tools people already use?",
+    src: "illustrations/which-app-big-three-v2.jpg?v=20260912clauderow",
+    alt: "The Big Three, Side by Side. ChatGPT, the Anything Box: one general-purpose AI app for a wide range of tasks. You can ask questions, create things, and get help with your work. OpenAI asks, How do we put capable AI in everyone’s hands? Claude, the Thinking Partner: an AI assistant for thinking through ideas and working through difficult tasks. Anthropic puts a strong emphasis on safety and how its AI behaves. Anthropic asks, How do we build powerful AI we can actually trust? Gemini, Built Into Google: Google’s AI assistant, especially useful when your work connects to the Google tools you already use. Google asks, How do we put AI inside the tools people already use?",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
   }),
-  /*#__PURE__*/React.createElement(BodyP, null, "Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Each app has its own strengths, but there’s plenty of overlap in what they can do."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHICH APP SHOULD YOU USE?"),
   /*#__PURE__*/React.createElement(BodyP, null,
     "Honest answer: for most of what you\u2019ll do, any of the three can do the job if it is available to you. Don\u2019t agonize over the choice. There\u2019s no single best app, and what\u2019s best today might not be best tomorrow."),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Claude currently requires users to be 18. We include it here because knowing your options matters, even before you can use them."),
   /*#__PURE__*/React.createElement("img", {
     src: "illustrations/which-app-pick-home-base-v2.jpg?v=20260909board1",
     alt: "Pick a Home Base. Learn It Deeply. Nate and Luke compare three workstations labeled ChatGPT, Claude, and Gemini. The skills transfer. The app is where you practice them.",
@@ -7218,17 +7231,15 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null,
     "For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "A power move for later: when an answer really matters, ask the same question in a second app. Two differently trained apps agreeing is real evidence. If they disagree, you know exactly where to dig."),
+    "A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "A real-world example"),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "Hi. This is Nate and Luke again. When we built this course, we used different apps for different jobs. Our dad knows the strengths of each, and guided us into the right app for the task at hand."),
+    "Hi. This is Nate and Luke again. Several AI apps helped bring this course to life. Sometimes different apps handled different jobs. Sometimes they helped with the same job. Here are a few examples."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/which-app-how-we-used-big-three-v2.jpg?v=20260909tasks1",
-    alt: "How We Used the Big Three. ChatGPT helped brainstorm content and TRY ITs and create illustrations of Nate and Luke in Dallas Stars jerseys. Claude Code wrote the course code from plain English, and Claude Design styled the pages. Gemini pulled in current information and helped fact-check what we used.",
+    src: "illustrations/which-app-how-we-used-big-three-v2.jpg?v=20260912roles",
+    alt: "How We Used the Big Three. ChatGPT helped brainstorm TRY ITs and LABs, review lessons, write code, and edit videos. Claude Code helped write code, and Claude Design styled pages. Gemini found current information, and Gemini Notebook created lesson videos.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
   }),
-  /*#__PURE__*/React.createElement(BodyP, null,
-    "We leaned on one more tool: Gemini Notebook. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and Gemini Notebook did the rest."),
   closeBoard("modelselection"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -7236,7 +7247,7 @@ function ModelSelectionSection(props) {
     title: "It’s in the Name",
     lead: "Each name has a story. See if you can match the story to the app.",
     instructions: [
-      "Read the origin of the name.",
+      "Read the clue.",
       "Choose the AI app it belongs to."
     ]
   },
@@ -7335,7 +7346,7 @@ function YourChoicesLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "13",
+    labNumber: "14",
     title: "Map the Choices Behind an Answer",
     hint: "Click the box after you finish each step.",
     lead: "Use the free teen version of ChatGPT to see which decisions you make and which decisions ChatGPT makes for you. Not seeing a choice does not mean it disappeared. It means ChatGPT made the choice for you.",
@@ -7422,7 +7433,7 @@ function CareerExplorationPlanLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "14",
+    labNumber: "15",
     title: "Build a Career Exploration Plan",
     hint: "Click the box after you finish each step.",
     lead: "You are not choosing your future today. In about 15 minutes, you will use the four moves from this lesson to identify one career field worth exploring and leave with a clear plan for what to learn next.",
@@ -7454,7 +7465,7 @@ function CareerFieldControl(props) {
       }
     }),
     E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
-      "This field was saved in Lab 14. Change it here if you chose a different one."));
+      "This field was saved in Lab 15. Change it here if you chose a different one."));
 }
 function CareerMoveSelector(props) {
   var E = React.createElement;
@@ -7807,7 +7818,7 @@ function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
     { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and sign in." },
-    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in Lab 06. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
+    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in Lab 07. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
     { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
     { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. Specific asks beat \u201cmake it better.\u201d If the free plan says you reached a tool limit, your first game still counts; note the reset time and make the change later." },
@@ -7879,7 +7890,7 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "07",
+      labNumber: "08",
       title: "Build the Dino Game",
       hint: "Click the box after you finish each step.",
       lead: "You just saw the downside of AI working through patterns. When a fact is missing, AI can fill the space with something that sounds true. Now see the upside. A simple game follows familiar coding patterns, and AI is extremely good at putting those patterns together. You’re going to make your own version of the classic no-wifi dinosaur game without writing a single line of code.",
@@ -8086,7 +8097,7 @@ function OpenerWorkWithSection(props) {
     featuredCard: workCreed,
     whyThisMatters: [
       "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?",
-      "Here’s what most people miss: the AI is identical for everyone, but the results aren’t. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. AI is exactly like that: what you get out of it comes down to how you use it.",
+      "Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Knowing how to work with it helps you get more out of it.",
       /*#__PURE__*/React.createElement("img", {
         src: "illustrations/opener-work.jpg?v=20260909character1",
         alt: "Same Tool. Different Results. Luke and Nate use identical phones to photograph the same sandwich. Luke takes a rushed blurry picture while Nate carefully frames a crisp shot. AI does not replace your thinking. It multiplies it.",
@@ -8170,58 +8181,62 @@ function WhatItDoesBestSection(props) {
   const ENGINES = [
     {
       id: "transform",
-      name: "Patterned transformation",
-      mechanism: "AI learns patterns, so it can take your input and recast it into something clearer, cleaner, or better structured. The meaning stays the same; only the shape changes.",
-      powers: ["Coding help", "Reformatting messy data", "Translating between languages", "Turning an outline into prose"],
+      name: "Reshape Your Material",
+      mechanism: "Give AI something you already have and ask for it in a different form. Turn messy notes into a table, a long explanation into plain language, or a paragraph into bullet points. The goal is to keep your meaning while changing how you present it.",
+      why: "AI has learned patterns for putting the same ideas into different forms.",
+      powers: ["Organize notes into a study guide", "Turn a voice memo into a to-do list", "Translate a message into another language", "Rewrite technical instructions in plain language"],
       color: "#3b82f6"
     },
     {
       id: "variation",
-      name: "Generative variation",
-      mechanism: "AI builds each answer by predicting likely pieces, and there are usually many likely options. So it can give you several versions at once.",
-      powers: ["Brainstorming angles", "“Give me 10 variations”", "Rewriting in a different tone", "First drafts of common documents"],
+      name: "Explore Possibilities",
+      mechanism: "When you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you. You decide which ideas are worth taking further.",
+      why: "AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.",
+      powers: ["Brainstorm angles for an essay", "Suggest names for a club", "Try different openings for a story", "Come up with ideas for a fundraiser"],
       color: "#f59e0b"
     },
     {
       id: "compression",
-      name: "Semantic compression and retrieval",
-      mechanism: "AI can read long documents and see past the words on the page to what they actually mean. So it can shrink long documents down to the core, or surface the one part you actually need.",
-      powers: ["Summarizing a chapter", "Extracting key points", "Finding the relevant section in a long document", "Answering questions from supplied material"],
+      name: "Find What Matters",
+      mechanism: "Give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.",
+      why: "AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.",
+      powers: ["Pull the main ideas from a textbook chapter", "Find what a scholarship application requires", "Compare what two articles say about a topic", "Summarize your school’s student handbook"],
       color: "#8b5cf6"
     },
     {
       id: "reasoning",
-      name: "Structured reasoning and synthesis",
-      mechanism: "AI can hold a lot of information at once. Give it the facts, the constraints, and the goal, and it can work through them toward an answer.",
-      powers: ["Planning a project", "Debugging code", "Comparing options", "Critiquing a draft"],
+      name: "Work Through Problems",
+      mechanism: "Tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.",
+      why: "During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions. It learned patterns it can apply to new problems.",
+      powers: ["Plan a weekend trip within your budget", "Work out why your code isn’t working", "Compare colleges based on what matters to you", "Figure out why your science experiment gave unexpected results"],
       color: "#0d9488"
     }
   ];
   const STRENGTH_BOARDS = [
-    "where-ai-works-best-1-transform.jpg?v=20260909meaning1",
-    "where-ai-works-best-2-variation.jpg?v=20260909meaning1",
-    "where-ai-works-best-3-compression.jpg?v=20260909meaning1",
-    "where-ai-works-best-4-reasoning.jpg?v=20260909meaning1"
+    "where-ai-works-best-1-transform.jpg?v=20260912reshape1",
+    "where-ai-works-best-2-variation.jpg?v=20260912explore1",
+    "where-ai-works-best-3-compression.jpg?v=20260912find1",
+    "where-ai-works-best-4-reasoning.jpg?v=20260912problems1"
   ];
   const CLAIMS = [
     { claim: "You scribbled your Physics notes on the back of a Chick-fil-A menu, and now you want them cleaned up into organized notes.", correct: "fit", fb: {
-      ok: "Right, it’s a fit. Same notes, new shape. Reshaping messy scribbles into something clean is patterned transformation, one of AI’s best jobs.",
-      no: "It can feel too personal to hand off, but AI isn’t changing your ideas, only their shape. Messy scribbles into clean, organized notes is patterned transformation, a core strength." } },
+      ok: "AI can help turn messy notes into something organized and easier to use. That’s Reshape Your Material.",
+      no: "AI can help turn messy notes into something organized and easier to use. That’s Reshape Your Material." } },
     { claim: "You want to know exactly how much of your monthly budget is left after gas, food, and subscriptions.", correct: "notfit", fb: {
-      ok: "Right, not a fit. Adding up what you spent and subtracting is exact, rule-based math. AI can slip, and may not give the same number twice. Use a calculator or a budgeting app.",
-      no: "AI can walk you through the math, and that’s the trap. An exact figure has to come out the same every time, and AI can slip or drift. This one’s rule-based: use a calculator or a budgeting app." } },
+      ok: "This job needs an exact calculation. Use a calculator or budgeting app to total your spending and subtract it from your budget. AI can help you organize expenses or think through ways to save.",
+      no: "This job needs an exact calculation. Use a calculator or budgeting app to total your spending and subtract it from your budget. AI can help you organize expenses or think through ways to save." } },
     { claim: "An English essay is due Friday and you’re stuck. You want to brainstorm a bunch of angles for the theme.", correct: "fit", fb: {
-      ok: "Right, it’s a fit. You want lots of options, not one answer. Spinning up angles on demand is generative variation.",
-      no: "You’re not asking it to write the essay, just to throw out angles you can react to. Generating a pile of options is generative variation, one of its best fits. The picking stays yours." } },
+      ok: "You need possibilities to react to. AI can suggest different angles, and you choose which one to develop. That’s Explore Possibilities.",
+      no: "You need possibilities to react to. AI can suggest different angles, and you choose which one to develop. That’s Explore Possibilities." } },
     { claim: "You joined a new basketball team and the rule book is 300 pages. You just want the important rules.", correct: "fit", fb: {
-      ok: "Right, it’s a fit. Shrinking a long document down to its core is compression and retrieval. (Still skim it to be sure it didn’t drop one.)",
-      no: "Fair caution: AI can miss a detail buried in a long document. But pulling the key rules out is exactly compression and retrieval, a core strength. Just skim it to be sure nothing important got dropped." } },
-    { claim: "You have to decide which college is actually the right fit for you.", correct: "notfit", fb: {
-      ok: "Right, not a fit. AI can lay out pros and cons, but it has no stake in your life. This call is yours to make.",
-      no: "AI can compare the two all day, and that part is genuinely useful. But the actual choice turns on what you want, and it has no stake in your life. The decision stays yours." } },
+      ok: "Give AI the rulebook and ask for the key rules a new player needs to know. That’s Find What Matters. You can return to the original for the details.",
+      no: "Give AI the rulebook and ask for the key rules a new player needs to know. That’s Find What Matters. You can return to the original for the details." } },
+    { claim: "You want AI to choose which college you’ll attend so you don’t have to make the decision.", correct: "notfit", fb: {
+      ok: "AI can help you compare colleges and work through the tradeoffs. But choosing where to go depends on what matters to you. Use its help. Make your own call.",
+      no: "AI can help you compare colleges and work through the tradeoffs. But choosing where to go depends on what matters to you. Use its help. Make your own call." } },
     { claim: "You want to start a small business helping local shops use AI, and you need a marketing and business plan.", correct: "fit", fb: {
-      ok: "Right, it’s a fit. Give it the goal and the constraints and it works through a plan. That’s structured reasoning.",
-      no: "It feels too big to hand a tool, but a plan is right in its wheelhouse: give it the goal and the constraints and it works through the pieces. That’s structured reasoning. You still make the calls." } }
+      ok: "Tell AI about your business idea, your budget, and the shops you want to help. It can help you work through the pieces and build a plan. That’s Work Through Problems.",
+      no: "Tell AI about your business idea, your budget, and the shops you want to help. It can help you work through the pieces and build a plan. That’s Work Through Problems." } }
   ];
   const TF_LABELS = { "fit": "Fits a strength", "notfit": "Not a fit" };
   const TF_ORDER = ["fit", "notfit"];
@@ -8236,14 +8251,14 @@ function WhatItDoesBestSection(props) {
     E(BodyP, null,
       "We saw this firsthand building this course. AI coded every page and every interaction you’ll see, and we give it a grade of ", E("strong", { style: { color: "var(--green)" } }, "A+"), " for coding. It also wrote the first drafts of all lessons, but only earned a ", E("strong", { style: { color: "var(--red)" } }, "C-"), ". It made points in the wrong order, added explanations that missed what we meant, and had no real feel for how a lesson should flow."),
     E("img", {
-      src: "illustrations/where-ai-works-best.jpg?v=20260909buildcourse1",
-      alt: "AI Helped Us Build This Course. Nate and Luke revise a lesson draft graded C-minus beside AI-generated course code graded A-plus. AI is strongest when the work follows patterns.",
+      src: "illustrations/where-ai-works-best.jpg?v=20260912differentjobs1",
+      alt: "AI Helped Us Build This Course. Nate and Luke revise a lesson draft graded C-minus beside AI-generated course code graded A-plus. Same AI. Different jobs. Different results.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     E(BodyP, null,
-      "That gap is the whole lesson in one example. Writing software code is all about patterns, and AI is a pattern-making machine, so it aces that job. But writing strong lessons doesn’t follow a set pattern, so AI can help, but it can’t do the whole thing."),
+      "That gap taught us something. AI could test whether a button worked or a page loaded correctly. A lesson needed more: the right ideas, in the right order, explained in a way that made sense to you. AI gave us drafts, but they weren’t good enough to use. We had to decide what worked and what needed to change."),
     E(BodyP, null,
-      "Aim that one ability at real work, and it becomes four distinct strengths."),
+      "Here are four strengths you can put to work."),
     E("div", { style: { display: "flex", flexDirection: "column", gap: 20, margin: "20px auto 32px" } },
       STRENGTH_BOARDS.map(function(filename) {
         return E("img", {
@@ -8260,6 +8275,7 @@ function WhatItDoesBestSection(props) {
       ENGINES.map(function(e, index) {
         return E("section", { key: e.id },
           E("h4", null, "Strength " + (index + 1) + " of 4: " + e.name),
+          e.why ? E("p", null, "Why it fits AI: " + e.why) : null,
           E("p", null, e.mechanism),
           E("h5", null, "Examples"),
           E("ul", null, e.powers.map(function(p) { return E("li", { key: p }, p); })));
@@ -8268,7 +8284,7 @@ function WhatItDoesBestSection(props) {
     E(BodyP, null,
       "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
     E(BodyP, null,
-      "But exposure has a limit. AI is often good at the common version of a task, not necessarily the true, current, personal, safest, or best version."),
+      "Seeing many examples helps AI get started. But it doesn’t guarantee the answer is right or that it fits what you need. That’s where your knowledge and judgment matter."),
   closeBoard("whatitdoesbest"),
     E(InteractiveBox, {
       variant: "try",
@@ -8429,7 +8445,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "05",
+    labNumber: "06",
     title: "Build a Rubric. Test the Work.",
     hint: "Click the box after you finish each step.",
     lead: "A rubric tells AI exactly what good work must do. You will choose the criteria, assign the points, and have AI apply your standard to an essay. AI can apply the standard. You set the standard.",
@@ -8750,7 +8766,7 @@ function CreativeThinkingCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "16",
+    labNumber: "17",
     title: "Solve a Problem in Your Field",
     hint: "Click the box after you finish each step.",
     lead: "Continue your career exploration. In about 10 minutes, you will use creative-thinking techniques to develop a stronger solution to a realistic problem from the field.",
@@ -8815,7 +8831,7 @@ function PeopleSkillsCareerLab() {
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you used in Lab 14. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      body: "Open the ChatGPT conversation you used in Lab 15. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
       content: E(CareerFieldControl, { id: "people-skills-career-field", value: careerField, onChange: setCareerField })
     },
     {
@@ -8843,10 +8859,10 @@ function PeopleSkillsCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "15",
+    labNumber: "16",
     title: "Practice the People Side of Work",
     hint: "Click the box after you finish each step.",
-    lead: "Continue the career exploration you began in Lab 14. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
+    lead: "Continue the career exploration you began in Lab 15. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -8931,7 +8947,7 @@ function BeCuriousCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "17",
+    labNumber: "18",
     title: "Prepare for Change in Your Field",
     hint: "Click the box after you finish each step.",
     lead: "Continue your career exploration. In about 10 minutes, you will separate current changes from uncertain predictions and build a short watchlist for the field.",
@@ -9295,7 +9311,7 @@ function MakeYourMoveCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "18",
+    labNumber: "19",
     title: "Make One Move",
     hint: "Click the box after you finish each step.",
     lead: "Finish the Career Explorer by turning one idea into a real step. In about 10 minutes, you will create a practical 30-day plan and begin moving outside the chat.",
@@ -9836,7 +9852,7 @@ function FlatteryTrapSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Make Feedback Useful",
-      labNumber: "09",
+      labNumber: "10",
       hint: "Click the box after you finish each step.",
       lead: "Change one setting so AI points to what needs work instead of just telling you it looks good. Then run the same prompt before and after to see what changes. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},
@@ -11814,7 +11830,7 @@ function BigUpsideSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "11",
+      labNumber: "12",
       title: "Open the Vault",
       hint: "Click the box after you finish each step.",
       lead: "The 200 million protein shapes aren’t just a story. They’re a website, open right now, and you’re allowed in. Five minutes to hold the Nobel Prize database in your hands.",
@@ -12004,7 +12020,7 @@ function PaceOfChangeSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "10",
+      labNumber: "11",
       title: "Build the Game You Played",
       hint: "Click the box after you finish each step.",
       lead: "Here’s something you couldn’t do three years ago. Remember the sliding-tile game from Vector Space? You’re about to build it, by typing sentences. Ten minutes, no code.",
@@ -12251,8 +12267,8 @@ function WorkChangesSection(props) {
     E(BodyP, null,
       "To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job."),
     E("img", {
-      src: "illustrations/work-changes-strengths-v2.jpg?v=20260829titles1",
-      alt: "AI is strongest when the job has one of four shapes. Transform turns input into something clearer, cleaner, and better structured. Generate creates several options at once. Compress turns long documents into what they actually mean. Reason works through input toward an answer.",
+      src: "illustrations/work-changes-strengths-v2.jpg?v=20260912strengths2",
+      alt: "Four AI Strengths at Work. Reshape Your Material: turn existing material into a more useful form. Explore Possibilities: generate options and explore different directions. Find What Matters: pull key ideas and relevant details from long documents. Work Through Problems: break down a problem, compare approaches, and plan next steps.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
     E(BodyP, null,
@@ -12305,7 +12321,7 @@ function WorkChangesSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "12",
+      labNumber: "13",
       title: "Your First Assignment, For Real",
       hint: "Click the box after you finish each step.",
       lead: "You just read about this exact assignment. Now live it: real file, real AI, ten minutes. The product with the bad reviews? This course.",

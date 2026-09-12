@@ -38,9 +38,10 @@ informative, contemporary, and serious rather than playful.
   description and sound captioning as accessibility tools.
 - **Rogue Agents** Two horizontal panels: database and backup deletion after a
   credential is found; project files being wiped by an agent.
-- **Four Shapes of AI Work** A 2-by-2 sheet: transform messy input into a clear
-  structure; generate several options; compress a large document stack; reason
-  through branching possibilities toward an answer.
+- **Four AI Strengths at Work** A 2-by-2 sheet: reshape existing material into a
+  useful form; explore several possibilities; find key ideas in long material;
+  work through connected pieces toward an answer. Reuse the matching blue, gold,
+  purple, and teal graphics from the four Where AI Works Best strength boards.
 - **Automate versus Augment** Two horizontal panels: AI completes a workflow step
   and produces a first summary; AI helps a person explore, compare, judge, and
   improve a recommendation.

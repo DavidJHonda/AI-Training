@@ -250,7 +250,7 @@ def render_software_table(out_path: Path) -> None:
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
-    draw_board_title(draw, "Normal Software vs. AI Software")
+    draw_board_title(draw, "Structured vs. Unstructured Data")
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
     left_x, mid_x, right_x = 110, 590, 875
     draw.text((left_x, 190), "NORMAL SOFTWARE", font=face("bold", 34), fill=BLUE, anchor="la")
@@ -276,14 +276,22 @@ def render_software_table(out_path: Path) -> None:
 
 
 def render_strength(number: int, title: str, mechanism: str, examples: list[str], accent: str, art: str, why: str, takeaway: str, out_path: Path) -> None:
-    stage_top, stage_bottom = 127, 820
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    body_font = face("medium", 29)
+    mechanism_lines = wrap(measure, mechanism, body_font, 730)
+    why_lines = wrap(measure, why, body_font, 530)
+    example_lines = [wrap(measure, item, body_font, 690) for item in examples]
+    mechanism_end = 236 + len(mechanism_lines) * 41
+    examples_end = mechanism_end + 104 + sum(max(50, len(lines) * 41 + 9) for lines in example_lines)
+    why_end = 675 + len(why_lines) * 41
+    stage_top, stage_bottom = 127, max(820, examples_end + 42, why_end + 65)
     footer_top = stage_bottom + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw_board_title(draw, title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
-    draw.rounded_rectangle((84, 166, 704, 781), radius=18, fill=mix(accent, .08), outline=mix(accent, .22), width=2)
+    draw.rounded_rectangle((84, 166, 704, stage_bottom - 39), radius=18, fill=mix(accent, .08), outline=mix(accent, .22), width=2)
     art_size = (560, 315)
     project_art = ROOT / "scripts/video/assets/work-with-ai/card-illustrations" / f"{art}.png"
     if project_art.exists():
@@ -302,16 +310,16 @@ def render_strength(number: int, title: str, mechanism: str, examples: list[str]
     draw.rounded_rectangle((114, 548, 360, 602), radius=27, fill=accent)
     draw.text((237, 575), f"STRENGTH {number} OF 4", font=face("bold", 20), fill=WHITE, anchor="mm")
     draw.text((114, 640), "WHY IT FITS AI", font=face("bold", 22), fill=accent, anchor="la")
-    draw_lines(draw, wrap(draw, why, face("medium", 29), 530), 114, 675, face("medium", 29), leading=41)
+    draw_lines(draw, why_lines, 114, 675, body_font, leading=41)
     draw.text((748, 190), "WHAT IT DOES", font=face("bold", 22), fill=accent, anchor="la")
-    y = draw_lines(draw, wrap(draw, mechanism, face("medium", 29), 730), 748, 236, face("medium", 29))
+    y = draw_lines(draw, mechanism_lines, 748, 236, body_font)
     draw.line((748, y + 12, 1514, y + 12), fill=mix(accent, .20), width=2)
     draw.text((748, y + 54), "EXAMPLES", font=face("bold", 22), fill=accent, anchor="la")
     yy = y + 104
-    for item in examples:
+    for lines in example_lines:
         draw.ellipse((754, yy + 11, 768, yy + 25), fill=accent)
-        draw.text((790, yy), item, font=face("medium", 29), fill=INK, anchor="la")
-        yy += 50
+        draw_lines(draw, lines, 790, yy, body_font, leading=41)
+        yy += max(50, len(lines) * 41 + 9)
     draw_takeaway_band(canvas, top=footer_top, left=40, right=1560, text=takeaway, font=face("medium", TAKEAWAY_TEXT_SIZE))
     save(canvas, out_path)
 
@@ -445,7 +453,7 @@ def render_all() -> None:
         base.Card("Prediction", "It chooses one likely next word, then runs the process again.", TEAL, "transcript"),
     ], "Learn once. Use the patterns for every answer.", board_path("ai-is-different", "02-learn-once-answer-every-word.jpg"))
     render_comparison(
-        "Fixed Rules vs. Built From Patterns",
+        "Rules vs. Patterns",
         "What’s the best game for my new PS5?",
         "Normal Software",
         "Fixed Rule",
@@ -465,11 +473,11 @@ def render_all() -> None:
     ], "Trained behavior is harder to predict, inspect, and lock down.", board_path("ai-is-different", "06-ai-kryptonite.jpg"))
 
     # Where AI Works Best
-    render_teaching_board("AI Helped Us Build This Course", where, board_path("where-ai-works-best", "01-code-a-lesson-c.jpg"), "AI is strongest when the work follows patterns.")
-    render_strength(1, "Patterned Transformation", "AI learns patterns, so it can recast your input into something clearer, cleaner, or better structured. The meaning stays; the shape changes.", ["Coding help", "Reformatting messy data", "Translating between languages", "Turning an outline into prose"], BLUE, "transform", "Patterns make the transformation repeatable.", "Use AI when the meaning stays and the shape changes.", board_path("where-ai-works-best", "02-patterned-transformation.jpg"))
-    render_strength(2, "Generative Variation", "There are usually many likely answers. AI can generate several useful versions at once so you have options to react to.", ["Brainstorming angles", "Generating ten variations", "Rewriting in a new tone", "First drafts of common documents"], AMBER, "variation", "Many possible answers can all be useful.", "Use AI when several possible answers are useful.", board_path("where-ai-works-best", "03-generative-variation.jpg"))
-    render_strength(3, "Semantic Compression and Retrieval", "AI can read past the words to what they mean, then shrink long material or surface the one part you need.", ["Summarizing a chapter", "Extracting key points", "Finding one relevant section", "Answering from supplied material"], PURPLE, "books", "Meaning links related ideas across the material.", "Use AI to find the meaning inside a lot of material.", board_path("where-ai-works-best", "04-compression-retrieval.jpg"))
-    render_strength(4, "Structured Reasoning and Synthesis", "Give AI the facts, constraints, and goal. It can hold the pieces together and work through them toward an answer.", ["Planning a project", "Debugging code", "Comparing options", "Critiquing a draft"], TEAL, "reasoning", "It can connect many constraints at once.", "Use AI to work through many connected pieces.", board_path("where-ai-works-best", "05-reasoning-synthesis.jpg"))
+    render_teaching_board("AI Helped Us Build This Course", where, board_path("where-ai-works-best", "01-code-a-lesson-c.jpg"), "Same AI. Different jobs. Different results.")
+    render_strength(1, "Reshape Your Material", "Give AI something you already have and ask for it in a different form. Turn messy notes into a table, a long explanation into plain language, or a paragraph into bullet points. The goal is to keep your meaning while changing how you present it.", ["Organize notes into a study guide", "Turn a voice memo into a to-do list", "Translate a message into another language", "Rewrite technical instructions in plain language"], BLUE, "transform", "AI has learned patterns for putting the same ideas into different forms.", "Your material. A more useful form.", board_path("where-ai-works-best", "02-patterned-transformation.jpg"))
+    render_strength(2, "Explore Possibilities", "When you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you. You decide which ideas are worth taking further.", ["Brainstorm angles for an essay", "Suggest names for a club", "Try different openings for a story", "Come up with ideas for a fundraiser"], AMBER, "variation", "AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.", "More possibilities. You choose the direction.", board_path("where-ai-works-best", "03-generative-variation.jpg"))
+    render_strength(3, "Find What Matters", "Give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.", ["Pull the main ideas from a textbook chapter", "Find what a scholarship application requires", "Compare what two articles say about a topic", "Summarize your school’s student handbook"], PURPLE, "books", "AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.", "A lot to read. A clearer place to focus.", board_path("where-ai-works-best", "04-compression-retrieval.jpg"))
+    render_strength(4, "Work Through Problems", "Tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.", ["Plan a weekend trip within your budget", "Work out why your code isn’t working", "Compare colleges based on what matters to you", "Figure out why your science experiment gave unexpected results"], TEAL, "reasoning", "During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions. It learned patterns it can apply to new problems.", "Work through the pieces. Make your own call.", board_path("where-ai-works-best", "05-reasoning-synthesis.jpg"))
 
     # Which App?
     render_teaching_board("Pick a Home Base. Learn It Deeply.", which_app, board_path("which-app", "01-pick-a-home-base.jpg"), "The skills transfer. The app is where you practice them.")

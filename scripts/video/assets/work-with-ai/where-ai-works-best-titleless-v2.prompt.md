@@ -13,6 +13,5 @@ Generated with the built-in image-generation tool as an identity-preserving edit
   and the marked-up lesson draft graded `C−`.
 - Keep the artwork title-free. The renderer supplies the deterministic board title
   `AI Helped Us Build This Course` and the takeaway
-  `AI is strongest when the work follows patterns.`
+  `Same AI. Different jobs. Different results.`
 - No additional people, labels, company logos, or watermark.
-

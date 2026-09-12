@@ -2,13 +2,13 @@
 
 # Which App?
 
-When you sit down to use AI, your first decision is which app to download and use. Three dominate: ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?
+When you sit down to use AI, your first decision is which app to use. Three you’ll hear about often are ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?
 
 ## Different Philosophies
 
 Think about it like this. In-N-Out and McDonald’s both sell cheeseburgers, built from roughly the same ingredients. They’re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth.
 
-The big three AI apps work the same way. They’re all Generative AI, trained on much of the same internet. But each company trains its model with different priorities and rules.
+The big three AI apps are like that. They all use AI models that learn patterns during training. But each company makes different choices about how to train its models and what to build into its app.
 
 Those choices shape much of how each app differs: how it feels, what it’s good at, and how it acts when it’s not sure. Underneath, each one is built around a different core philosophy.
 
@@ -20,7 +20,7 @@ The Anything Box
 
 ## What it is
 
-One general-purpose AI app aimed at a wide audience. It’s still many people’s default starting point.
+One general-purpose AI app for a wide range of tasks. You can ask questions, create things, and get help with your work.
 
 ## OpenAI Asks
 
@@ -32,7 +32,7 @@ The Thinking Partner
 
 ## What it is
 
-Built by Anthropic with an explicit safety-and-behavior philosophy. Often strong when careful reasoning and accuracy matter most.
+An AI assistant for thinking through ideas and working through difficult tasks. Anthropic puts a strong emphasis on safety and how its AI behaves.
 
 ## Anthropic Asks
 
@@ -44,39 +44,42 @@ Built Into Google
 
 ## What it is
 
-Google’s AI assistant, strongest when the task connects to the Google tools you already use.
+Google’s AI assistant, especially useful when your work connects to the Google tools you already use.
 
 ## Google Asks
 
 How do we put AI inside the tools people already use?
 
-Each philosophy turns into a different kind of strength. ChatGPT is built for breadth. Claude is built for depth. Gemini is built for context.
+Each app has its own strengths, but there’s plenty of overlap in what they can do.
 
 ## WHICH APP SHOULD YOU USE?
 
 Honest answer: for most of what you’ll do, any of the three can do the job if it is available to you. Don’t agonize over the choice. There’s no single best app, and what’s best today might not be best tomorrow.
 
+Claude currently requires users to be 18. We include it here because knowing your options matters, even before you can use them.
+
 For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three.
 
-A power move for later: when an answer really matters, ask the same question in a second app. Two differently trained apps agreeing is real evidence. If they disagree, you know exactly where to dig.
+A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right.
 
 ## A real-world example
 
-Hi. This is Nate and Luke again. When we built this course, we used different apps for different jobs. Our dad knows the strengths of each, and guided us into the right app for the task at hand.
+Hi. This is Nate and Luke again. Several AI apps helped bring this course to life. Sometimes different apps handled different jobs. Sometimes they helped with the same job. Here are a few examples.
 
-ChatGPT
+ChatGPT — Ideas and Improvements
 
-- ✓Brainstorming content and TRY ITs
-- ✓Illustrations of us in Dallas Stars jerseys
-Claude
+- Brainstorming TRY ITs and LABs, and reviewing lessons
+- Writing code and helping edit videos
 
-- ✓Claude Code wrote all the code from plain English
-- ✓Claude Design styled the pages
-Gemini
+Claude — Building and Design
 
-- ✓Pulling in current information
-- ✓Fact-checking what we used
-We leaned on one more tool: Gemini Notebook. Its job was the videos in this course. We uploaded a lesson’s content, clicked a button, and Gemini Notebook did the rest.
+- Writing code with Claude Code
+- Styling pages with Claude Design
+
+Gemini — Information and Videos
+
+- Finding current information with Gemini
+- Creating lesson videos with Gemini Notebook
 
 Pick a home base. Learn it deeply.
 

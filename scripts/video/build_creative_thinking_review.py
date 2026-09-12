@@ -1,347 +1,71 @@
 #!/usr/bin/env python3
-"""Build the review repair for the Creative Thinking Notebook roll.
+"""Creative Thinking from roll 1 under EDIT-SPEC.md (2026-09-12). Review only.
 
-Two owner-approved narration detours are removed at measured room-tone
-boundaries. The two current four-card lesson boards receive course-native,
-outer-boundary walks, and the exact standard close replaces the engine ending.
-The result is review-only and never overwrites a shipped video.
+Base: Prompts/creative-thinking-1.mp4 (3:03, REPAIR under NARRATION-REVIEW). Output: videos/creative-thinking-v3.mp4 (v2 resumed the first cut 8 frames before Notebook's scene cut and flashed the previous drawing; owner report 2026-09-12).
+Audit: video-audit/creative-thinking-repair-2026-09-12/.
+Three narration cuts (0:23.0-0:29.5 "Creativity isn't some mystical state of mind…"; 1:45.9-1:49.95 "We have reached a
+point…"; 2:51.5-2:55.1 "This final image summarizes…", which also removes the engine's close card). The archival
+photograph of Steve Jobs (0:41.13-0:46.43) is covered by the roll's own next frame (the Macintosh). Two boards, both tall
+2x2 grids on the house side bars, dense: Who Thinks Creatively arrives at its intro sentence and dives per profession,
+pulling back for "Creativity is not a job title…"; Four Ways to Think Creatively arrives at its lead-in ("Creative thinking
+is a set of habits…") and dives per way, pulling back for "These four habits widen your options…". Four pauses at idea
+boundaries only. Standard close; corner mark cleaned in render.
 """
-
-from __future__ import annotations
-
 from pathlib import Path
-import shutil
-import subprocess
-import sys
-import tempfile
-
+import argparse, sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from editspec_build import Build, fr, PURPLE, BLUE, TEAL, AMBER
+from build_people_skills_review import cards_grid
+from gemini_mark import clean_frame, glyph_mask
 import cv2
-import imageio_ffmpeg
-
-from build_work_changes_hybrid import (
-    BoardLeg,
-    State,
-    crop_frame,
-    render_leg,
-    smoothstep,
-)
-
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "Prompts/creative-thinking.mp4"
-OUTPUT = ROOT / "Prompts/creative-thinking-patched.mp4"
-TRANSITION_AUDIT = Path("/private/tmp/creative-thinking-transition-audit")
-FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+SRC = ROOT / 'Prompts/creative-thinking-1.mp4'
+OUT = ROOT / 'video-audit/creative-thinking-repair-2026-09-12'; DEST = ROOT / 'videos/creative-thinking-v3.mp4'
+B = {k: ROOT / f'lessons/creative-thinking-{k}.jpg' for k in ('1-professions', '2-practice')}
 
-FPS = 30
-SOURCE_FRAMES = 6744
-END_FRAME = SOURCE_FRAMES
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/creative-thinking.mp4', ROOT / 'lessons/creative-thinking.md', *B.values()])
+    b.load_audio([(22.67, 23.37), (29.19, 29.87), (59.92, 60.50), (98.91, 99.64), (105.67, 106.26), (109.78, 110.12), (121.17, 121.65),
+                  (124.91, 125.26), (171.27, 171.72), (174.97, 175.29), (179.31, 182.79)])
+    CUTA = (fr(23.0), 894)                 # "Creativity isn't some mystical state of mind… problem solving."; resumes on Notebook's scene cut (0:29.77, inside the 29.19-29.87 silence)
+    PHOTO, PHOTO_OUT = 1234, 1393          # Steve Jobs photograph (Notebook cuts 0:41.13 and 0:46.43); covered by frame 1393
+    B1, B1_OUT = fr(60.2), 2988            # Who Thinks Creatively: intro "This board lays out…" (Notebook cut 1816) to Notebook's cut at 1:39.60
+    CUTB = (fr(105.9), fr(109.95))         # "We have reached a point where standard output is instantly available to all."
+    B2 = fr(121.4)                         # Four Ways: from the lead-in "Creative thinking is a set of habits…" (Notebook cut 3651)
+    CUTC = (fr(171.5), fr(175.1))          # "This final image summarizes your role in a modern workflow." (engine close card 5154 inside)
+    B2_OUT = CUTC[0]
+    CLOSE_END = fr(180.0)                  # "…the better angle." ends 179.31
+    b.keep(0, CUTA[0], 'Notebook: hook, definition'); b.pause(30, 'Pause: into who thinks creatively')
+    b.keep(CUTA[1], PHOTO, 'Notebook: not just creative types, Steve Jobs')
+    b.keep(PHOTO, PHOTO_OUT, 'Still over the Jobs photograph', 'still-mac')
+    b.keep(PHOTO_OUT, B1, 'Notebook: Macintosh, circuit drawing')
+    b.keep(B1, fr(99.3), 'B1 intro, four professions, not a job title', '1-professions'); b.pause(30, 'Pause: into why it matters'); b.keep(fr(99.3), B1_OUT, 'B1 tail', '1-professions')
+    b.keep(B1_OUT, CUTB[0], 'Notebook: polished answers, similar answers'); b.keep(CUTB[1], B2, 'Notebook: the advantage moves'); b.pause(30, 'Pause: into the four ways')
+    b.keep(B2, B2_OUT, 'B2 lead-in, four ways, widen your options', '2-practice'); b.pause(30, 'Pause: before the closing message')
+    b.mark_close_start(); b.close(CUTC[1], CLOSE_END); b.finish_audio()
+    T = lambda label, at, r, c: dict(label=label, at=at, rects=[r], cam=r, color=c, radius=18)
+    c1 = cards_grid(B['1-professions'], 4); c2 = cards_grid(B['2-practice'], 4)
+    b.board('1-professions', B['1-professions'], B1, B1_OUT, 'dense',
+        [T('A lawyer', 68.10, c1[0], PURPLE), T('An entrepreneur', 75.90, c1[1], BLUE), T('An engineer', 81.10, c1[2], TEAL), T('A doctor', 85.55, c1[3], AMBER)],
+        pullback_at=89.5, min_open=0)
+    b.board('2-practice', B['2-practice'], B2, B2_OUT, 'dense',
+        [T('Generate before you judge', 129.55, c2[0], PURPLE), T('Ask what if', 140.10, c2[1], BLUE), T('Connect unrelated things', 147.50, c2[2], TEAL), T('Step away, then return', 156.20, c2[3], AMBER)],
+        pullback_at=165.7, min_open=0)
+    cap = cv2.VideoCapture(str(SRC)); i = -1
+    while i < PHOTO_OUT:
+        ok, im = cap.read(); assert ok; i += 1
+    im, mode = clean_frame(im, glyph_mask()); assert mode is not None, 'cover frame: corner mark not cleaned'   # photo corner: glyph-mask inpaint
+    still = OUT / f'still-{PHOTO_OUT}.png'; cv2.imwrite(str(still), im)
+    b.board('still-mac', still, PHOTO, PHOTO_OUT, 'compact', [], min_open=0, push=False)
+    b.render_legs()
+    for k in b.boards: b.state_sheet(k)
+    b.make_close('creativethinking')
+    b.manifest({'narration_cuts_source_frames': [list(CUTA), list(CUTB), list(CUTC)], 'archival_photo_cover': [PHOTO, PHOTO_OUT], 'cards_detected': {'1-professions': c1, '2-practice': c2}})
+    print('Prepared', b.total, f'{b.total / 30:.2f}s', {k: (v['src_in'], v['src_out'], v['full_view_frames']) for k, v in b.boards.items()}, 'close', b.close_start, flush=True)
+    if args.prepare_only: return
+    b.render(); print(DEST)
 
-# Midpoints of measured room-tone troughs. Frame spans are half-open.
-CUTS = (
-    (2117, 2716),  # inflated survival/obsolescence detour
-    (4880, 5175),  # awkward "outlier angle" transition
-)
-
-CLOSE_START = 6444  # 214.80s, before the exact closing narration
-
-PURPLE = "#4f2fc4"
-VIDEO_PURPLE = "#6e51ff"
-BLUE = "#1652f0"
-TEAL = "#0e8f86"
-AMBER = "#a9760c"
-
-BOARDS = {
-    "professions": ROOT / "lessons/creative-thinking-1-professions.jpg",
-    "practice": ROOT / "lessons/creative-thinking-2-practice.jpg",
-    "close": ROOT / "lessons/creative-thinking-3-close.jpg",
-}
-
-# Canonical outer card geometry shared by these two four-card boards. These are
-# card boundaries, not inset content estimates.
-CARD_BOUNDS = {
-    "top_left": (40, 127, 787, 719),
-    "top_right": (816, 127, 1564, 719),
-    "bottom_left": (40, 750, 787, 1341),
-    "bottom_right": (816, 750, 1564, 1341),
-}
-
-
-def at(seconds: float) -> int:
-    return round(seconds * FPS)
-
-
-def output_frame(source_frame: int) -> int:
-    removed = 0
-    for start, end in CUTS:
-        if source_frame >= end:
-            removed += end - start
-        elif source_frame > start:
-            removed += source_frame - start
-    return source_frame - removed
-
-
-def frame_count(path: Path) -> int:
-    capture = cv2.VideoCapture(str(path))
-    if not capture.isOpened():
-        raise SystemExit(f"cannot open {path}")
-    frames = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-    capture.release()
-    return frames
-
-
-def make_leg(
-    name: str,
-    board: Path,
-    source_points: tuple[int, ...],
-    specs: tuple[
-        tuple[
-            str,
-            tuple[int, int, int, int] | None,
-            str,
-            tuple[float, float, float] | None,
-            int,
-        ],
-        ...,
-    ],
-) -> BoardLeg:
-    mapped = tuple(output_frame(point) for point in source_points)
-    base = mapped[0]
-    relative = tuple(point - base for point in mapped)
-    states = []
-    for index, spec in enumerate(specs):
-        frames = relative[index + 1] - relative[index]
-        if frames <= 0:
-            raise SystemExit(f"{name}/{spec[0]} has {frames} frames")
-        states.append(
-            State(
-                label=spec[0],
-                frames=frames,
-                ring=spec[1],
-                color=spec[2],
-                camera=spec[3],
-                move_frames=spec[4],
-            )
-        )
-    return BoardLeg(name, board, 0, relative[-1], tuple(states))
-
-
-def teaching_legs() -> tuple[BoardLeg, BoardLeg]:
-    professions = make_leg(
-        "professions",
-        BOARDS["professions"],
-        (
-            CUTS[0][1], at(94.52), at(98.92), at(102.66), at(106.74),
-            at(111.20),
-        ),
-        (
-            ("full", None, VIDEO_PURPLE, None, 0),
-            (
-                "lawyer", CARD_BOUNDS["top_left"], PURPLE,
-                (412, 422, 1280), 24,
-            ),
-            (
-                "entrepreneur", CARD_BOUNDS["top_right"], BLUE,
-                (1188, 422, 1280), 24,
-            ),
-            (
-                "engineer", CARD_BOUNDS["bottom_left"], TEAL,
-                (412, 1045, 1280), 24,
-            ),
-            (
-                "doctor", CARD_BOUNDS["bottom_right"], AMBER,
-                (1188, 1045, 1280), 24,
-            ),
-        ),
-    )
-
-    practice = make_leg(
-        "practice",
-        BOARDS["practice"],
-        (
-            CUTS[1][1], at(176.86), at(182.12), at(186.74), at(192.46),
-            at(198.50),
-        ),
-        (
-            ("full", None, VIDEO_PURPLE, None, 0),
-            (
-                "generate", CARD_BOUNDS["top_left"], PURPLE,
-                (412, 422, 1280), 24,
-            ),
-            (
-                "what-if", CARD_BOUNDS["top_right"], BLUE,
-                (1188, 422, 1280), 24,
-            ),
-            (
-                "connect", CARD_BOUNDS["bottom_left"], TEAL,
-                (412, 1045, 1280), 24,
-            ),
-            (
-                "step-away", CARD_BOUNDS["bottom_right"], AMBER,
-                (1188, 1045, 1280), 24,
-            ),
-        ),
-    )
-    return professions, practice
-
-
-def render_close(target: Path, frames: int) -> None:
-    image = cv2.imread(str(BOARDS["close"]), cv2.IMREAD_COLOR)
-    if image is None:
-        raise SystemExit(f"cannot read {BOARDS['close']}")
-    if image.shape[:2] != (900, 1600):
-        raise SystemExit(f"close board is {image.shape[1]}x{image.shape[0]}")
-    prehold = 48
-    push = 150
-    settle = frames - prehold - push
-    if settle <= 0:
-        raise SystemExit("close span is too short for the standard move")
-
-    process = subprocess.Popen(
-        [
-            FFMPEG, "-y", "-hide_banner", "-loglevel", "error",
-            "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", "1280x720",
-            "-r", str(FPS), "-i", "-", "-c:v", "ffv1", "-level", "3",
-            str(target),
-        ],
-        stdin=subprocess.PIPE,
-    )
-    endpoint = 1600 / 1.2
-    for index in range(frames):
-        if index < prehold:
-            width = 1600.0
-        elif index < prehold + push:
-            amount = smoothstep((index - prehold) / max(1, push - 1))
-            width = 1600 + (endpoint - 1600) * amount
-        else:
-            width = endpoint
-        process.stdin.write(crop_frame(image, (800, 450, width)).tobytes())
-    process.stdin.close()
-    if process.wait() != 0 or frame_count(target) != frames:
-        raise SystemExit("failed to render the standard close")
-
-
-def append_source_video(graph, labels, start, end):
-    label = f"v{len(labels)}"
-    graph.append(
-        f"[0:v]trim=start_frame={start}:end_frame={end},settb=1/{FPS},"
-        f"setpts=N/({FPS}*TB),setsar=1,format=yuv420p[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def append_leg_video(graph, labels, input_index, frames):
-    label = f"v{len(labels)}"
-    graph.append(
-        f"[{input_index}:v]trim=start_frame=0:end_frame={frames},"
-        f"settb=1/{FPS},setpts=N/({FPS}*TB),setsar=1,"
-        f"format=yuv420p[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def append_audio(graph, labels, start, end):
-    label = f"a{len(labels)}"
-    duration = (end - start) / FPS
-    graph.append(
-        f"[0:a]atrim=start={start/FPS:.6f}:end={end/FPS:.6f},"
-        f"asetpts=PTS-STARTPTS,aresample=44100,"
-        f"aformat=sample_fmts=fltp:channel_layouts=mono,apad,"
-        f"atrim=duration={duration:.6f}[{label}]"
-    )
-    labels.append(f"[{label}]")
-
-
-def main() -> None:
-    if frame_count(SOURCE) != SOURCE_FRAMES:
-        raise SystemExit(
-            f"source has {frame_count(SOURCE)} frames; expected {SOURCE_FRAMES}"
-        )
-    for board in BOARDS.values():
-        if not board.exists():
-            raise SystemExit(f"missing {board}")
-
-    professions, practice = teaching_legs()
-    expected = output_frame(END_FRAME)
-    close_frames = expected - output_frame(CLOSE_START)
-
-    with tempfile.TemporaryDirectory(
-        prefix="creative-thinking-review-", dir="/private/tmp"
-    ) as directory:
-        work = Path(directory)
-        professions_path = work / "professions.mkv"
-        practice_path = work / "practice.mkv"
-        close_path = work / "close.mkv"
-        render_leg(professions, professions_path)
-        render_leg(practice, practice_path)
-        render_close(close_path, close_frames)
-
-        graph: list[str] = []
-        video_labels: list[str] = []
-        append_source_video(graph, video_labels, 0, CUTS[0][0])
-        append_leg_video(graph, video_labels, 1, professions.frames)
-        append_source_video(graph, video_labels, at(111.20), CUTS[1][0])
-        append_leg_video(graph, video_labels, 2, practice.frames)
-        append_source_video(graph, video_labels, at(198.50), CLOSE_START)
-        append_leg_video(graph, video_labels, 3, close_frames)
-        graph.append(
-            "".join(video_labels)
-            + f"concat=n={len(video_labels)}:v=1:a=0,format=yuv420p[outv]"
-        )
-
-        audio_labels: list[str] = []
-        cursor = 0
-        for start, end in CUTS:
-            append_audio(graph, audio_labels, cursor, start)
-            cursor = end
-        append_audio(graph, audio_labels, cursor, END_FRAME)
-        graph.append(
-            "".join(audio_labels)
-            + f"concat=n={len(audio_labels)}:v=0:a=1[outa]"
-        )
-
-        command = [
-            FFMPEG, "-y", "-hide_banner", "-loglevel", "error",
-            "-i", str(SOURCE),
-            "-i", str(professions_path),
-            "-i", str(practice_path),
-            "-i", str(close_path),
-            "-filter_complex", ";".join(graph),
-            "-map", "[outv]", "-map", "[outa]", "-r", str(FPS),
-            "-c:v", "libx264", "-crf", "18", "-preset", "medium",
-            "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
-            str(OUTPUT),
-        ]
-        subprocess.run(command, cwd=ROOT, check=True)
-
-    actual = frame_count(OUTPUT)
-    if actual != expected:
-        raise SystemExit(f"output has {actual} frames; expected {expected}")
-
-    if TRANSITION_AUDIT.exists():
-        shutil.rmtree(TRANSITION_AUDIT)
-    first_boundary = output_frame(CUTS[0][0])
-    professions_end = first_boundary + professions.frames
-    practice_start = output_frame(CUTS[1][1])
-    practice_end = practice_start + practice.frames
-    close_boundary = output_frame(CLOSE_START)
-    subprocess.run(
-        [
-            sys.executable,
-            str(ROOT / "scripts/video/transition_guard.py"),
-            str(OUTPUT),
-            "--boundary", f"{first_boundary}:source-to-professions",
-            "--boundary", f"{professions_end}:professions-to-source",
-            "--boundary", f"{practice_start}:source-to-practice",
-            "--boundary", f"{practice_end}:practice-to-source",
-            "--boundary", f"{close_boundary}:source-to-close",
-            "--outdir", str(TRANSITION_AUDIT),
-        ],
-        cwd=ROOT,
-        check=True,
-    )
-    print(f"{OUTPUT}: {actual} frames, {actual/FPS:.2f}s")
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

@@ -115,6 +115,10 @@ which is now the hand-built upload Markdown, and its id filter is a substring ma
 review, run it and immediately `git checkout -- lessons/<slug>.md`, or read the
 export from `git diff`. Never leave its output in place.
 
+**Gotcha (2026-09-12):** a narration cut's resume point must sit on Notebook's own scene cut when one falls inside
+the resume silence, not merely inside the silence. Creative Thinking v2 resumed 8 frames early and flashed the previous
+drawing; transition_guard's flicker limit is 6 frames, so it did not catch it. Check `scenes.txt` for every cut end.
+
 ## Evaluation (owner rule, 2026-09-10: narration only)
 
 `scripts/video/NARRATION-REVIEW.md` is the single evaluation authority. The

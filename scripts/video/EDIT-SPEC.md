@@ -48,7 +48,7 @@ the full view on the delivered 1280x720 frame.
 
 - **Compact** (all card text reads comfortably at full view): stay at full
   frame for the whole span. Rings pop card to card at spoken onsets. At most a
-  restrained whole-board push (about 4 percent per 30 seconds). No dives, no pans.
+  restrained whole-board push (4 percent, reached at 30 seconds, never more, and capped so every ring stays inside the frame with a margin). No dives, no pans.
 - **Dense** (text needs zoom to read): full view first (rule 3), then dive to
   the complete active card at its spoken onset, pan smoothly to the next
   complete card as narration moves, and pull back to the full view for the

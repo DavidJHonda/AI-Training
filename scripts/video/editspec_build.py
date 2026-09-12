@@ -123,8 +123,15 @@ class Build:
         first = on(targets[0]['at']) if targets else (on(banner_at) if banner_at else n)
         assert first >= min_open, (key, 'full-view open under the minimum', first, min_open)
         if density == 'compact':
-            # push=False keeps a compact board perfectly still: use it when an audio cut removes frames inside the span
-            beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, cw * ((1 - 0.04 * n / (30 * FPS)) if push else 1.0)])]
+            # push=False keeps a compact board perfectly still: use it when an audio cut removes frames inside the span.
+            # The push is at most 4% (reached at 30s) and is capped so the window always contains every ring plus a
+            # margin: on 2026-09-11 an uncapped 4%/30s push carried a 52s board to 7% and pushed a card ring off-screen.
+            end_w = cw * (1 - min(0.04, 0.04 * n / (30 * FPS))) if push else float(cw)
+            for r in rings:
+                x, y, w, h = r['rect']; m = RING_PX + r.get('pad', 0) + 24
+                need = max(2 * max(cw / 2 - x + m, x + w - cw / 2 + m), 2 * max(ch / 2 - y + m, y + h - ch / 2 + m) * cw / ch)
+                end_w = min(float(cw), max(end_w, need))
+            beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, end_w])]
         else:
             dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in targets)
             beats = [dict(label='establish', frames=first, **{'from': full}, to=[cw / 2, ch / 2, cw * 0.97])]; cursor = first

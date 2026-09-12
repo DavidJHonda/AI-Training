@@ -109,6 +109,12 @@ Understand AI uses this structure in all ten sources, from
 `Prompts/*-video-prompt.txt` files. The opener prompt is
 `Prompts/opener-understand-video-prompt.txt`.
 
+**Gotcha (2026-09-11):** `bash scripts/make-lesson-texts.sh <id>` writes `lessons/<slug>.md`,
+which is now the hand-built upload Markdown, and its id filter is a substring match
+(`choosemodel` also hit `what-you-can-control`). To read the live page text for a
+review, run it and immediately `git checkout -- lessons/<slug>.md`, or read the
+export from `git diff`. Never leave its output in place.
+
 ## Evaluation (owner rule, 2026-09-10: narration only)
 
 `scripts/video/NARRATION-REVIEW.md` is the single evaluation authority. The

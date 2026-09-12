@@ -117,7 +117,7 @@ export from `git diff`. Never leave its output in place.
 
 **Keep the source roll after shipping (2026-09-12).** Do not delete `Prompts/<slug>-N.mp4` at ship time. A
 post-ship defect (the Creative Thinking first-row framing) needs the pristine roll to rebuild, and the rolls are
-gitignored, so a deleted roll is gone until David re-saves it from Notebook. Delete rolls only when the section is done.
+gitignored, so a deleted roll is gone until David re-saves it from Notebook. Delete rolls when David says so (Curious & Flexible's were deleted on his call the same day, after both reships were done).
 
 **Gotcha (2026-09-12):** a narration cut's resume point must sit on Notebook's own scene cut when one falls inside
 the resume silence, not merely inside the silence. Creative Thinking v2 resumed 8 frames early and flashed the previous

@@ -29,3 +29,6 @@ Build: scripts/video/build_creative_thinking_review.py (editspec_build). Live fi
 
 ## Shipped
 2026-09-12: v3 approved ("ship it"); copied to videos/creative-thinking.mp4, cache key 20260912ship1, candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.
+
+## Reshipped (v4)
+2026-09-12: the first-row cards of both boards had been framed text-only (grid detector). Both board legs re-rendered with whole-card boxes and spliced into the v3 live render (build_creative_thinking_reframe.py; audio copied; 14/14 transitions; unchanged frames ~39 dB PSNR vs v3). Cache key 20260912ship2. Manifest: edit-manifest-v4.json; states-*-v4.jpg; transitions-v4/.

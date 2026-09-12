@@ -78,7 +78,7 @@ You meant to share the homework. The whole photo became the prompt.
 
 ## WHY THIS MATTERS
 
-An AI chat may feel private, but it is still a record sent to an outside system. It may remain in your account, be shared, or be seen by someone who gains access to your device or account.
+An AI chat may feel private, but it is still a record sent to an outside system. It may stay in your account, be read by people at the AI company, be handed over if the law requires it, or be seen by someone who gets into your device or account.
 
 ## IF YOU ALREADY SHARED IT
 

@@ -33,8 +33,16 @@ def cards_grid(path, n_expected):
     out = []
     for x0, y0, x1, y1 in sorted(panels, key=lambda p: (p[1] // 200, p[0])):
         frac = (np.abs(im[:, x0:x1].astype(int) - bg).sum(axis=2) > 40).mean(axis=1)
-        top = y0
-        while top - 1 >= 0 and frac[top - 1] > 0.6: top -= 1
+        # Walk up from the panel until a real gap (8 consecutive background rows). A single pale row inside the
+        # graphic must not stop the walk: on Stay Curious the lilac graphic's last row read as background and the
+        # first-row cards came out text-only (owner report 2026-09-12).
+        top = y0; low = 0; y = y0 - 1
+        while y >= 0:
+            if frac[y] > 0.6: top = y; low = 0
+            else:
+                low += 1
+                if low >= 8: break
+            y -= 1
         out.append([x0, top, x1, y1])
     return out
 

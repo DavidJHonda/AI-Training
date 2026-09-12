@@ -57,7 +57,7 @@ class Build:
         self.out.mkdir(parents=True, exist_ok=True); (self.out / 'preview').mkdir(exist_ok=True)
         self.protected = [self.src, *map(Path, protected)]
         self.hashes = {str(p): sha(p) for p in self.protected}
-        self.rows, self.parts, self.cursor = [], [], 0
+        self.rows, self.parts, self.cursor = [], [], 0; self.grafts = {}
         self.boards = {}; self.close_start = None; self.tone_meta = None
 
     # ---------------- audio
@@ -87,6 +87,42 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
+    def graft(self, src2, s, e, label, key, cover_intro=True):
+        """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
+        picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
+        roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
+        corner mark cleaned. Check the two rolls' speech loudness before grafting (they should sit within ~1 dB).
+        cover_intro: the other roll usually opens the span on its own rendering of a course board (never ships); the
+        frames before its first scene cut (within 3s) are covered by the first frame after that cut."""
+        import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame, glyph_mask
+        src2 = Path(src2); wav = self.out / f'graft-{key}.wav'
+        if not wav.exists():
+            subprocess.run([self.ff, '-y', '-v', 'error', '-i', str(src2), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', str(wav)], check=True)
+        a2 = readwav(wav); data = a2[s * SPF:e * SPF].copy(); r = np.linspace(0, 1, 240); bed = self.tone(len(data))
+        data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
+        mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])
+        p = subprocess.Popen([self.ff, '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-c:v', 'ffv1', '-level', '3', str(leg)], stdin=subprocess.PIPE)
+        cap = cv2.VideoCapture(str(src2)); i = -1; frames = []
+        while i + 1 < e:
+            ok, im = cap.read(); assert ok, ('graft source too short', i); i += 1
+            if i < s: continue
+            assert im.shape[:2] == (H, W), im.shape; frames.append(im)
+        cover = None
+        if cover_intro:
+            g = [cv2.cvtColor(cv2.resize(f, (160, 90)), cv2.COLOR_BGR2GRAY).astype('int32') for f in frames[:91]]
+            cuts = [k for k in range(1, len(g)) if abs(g[k] - g[k - 1]).mean() > 12]
+            if cuts:
+                cover = cuts[0]; frames[:cover] = [frames[cover].copy() for _ in range(cover)]
+        for k, im in enumerate(frames):
+            im, how = clean_frame(im, mask)
+            if how == 'clone': counts['cloned_frames'] += 1
+            elif how == 'inpaint': counts['inpainted_frames'] += 1
+            else: counts['declined'].append(s + k)
+            p.stdin.write(im.tobytes())
+        p.stdin.close(); assert p.wait() == 0
+        self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), src_in=s, src_out=e, corner_mark=counts, intro_cover_frames=cover)
+        self.rows.append(dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=key, graft_source=str(src2)))
+        self.parts.append(data); self.cursor += e - s
     def finish_audio(self):
         self.total = self.cursor; writewav(self.out / 'edited.wav', np.concatenate(self.parts))
 
@@ -187,7 +223,7 @@ class Build:
         m = dict(output=str(self.dest), source=str(self.src), fps=FPS, total_frames=self.total, duration=self.total / FPS, timeline=self.rows, boards=self.boards,
                  close=(dict(start_frame=self.close_start, prehold=CLOSE_PREHOLD, push=CLOSE_PUSH, endpoint=1.2, settle=self.total - self.close_start - CLOSE_PREHOLD - CLOSE_PUSH) if self.close_start is not None else 'none (quiz video, exempt from the standard close)'),
                  audio=self.tone_meta, boundaries=[dict(frame=r['start_frame'], label=r['label']) for r in self.rows[1:]], protected_hashes=self.hashes,
-                 scope='Review only; live unchanged', **(extra or {}))
+                 scope='Review only; live unchanged', grafts=self.grafts, **(extra or {}))
         (self.out / 'edit-manifest.json').write_text(json.dumps(m, indent=2)); return m
     def render(self, clean_corner=True):
         """Single-pass render. With clean_corner, every kept Notebook source frame passes through
@@ -209,7 +245,7 @@ class Build:
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
-        src = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in self.boards}; last = None; ci = getattr(self, 'close_img', None)
+        spans = {**self.boards, **self.grafts}; src = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
         for f in range(self.total):
             row = next(r for r in self.rows if r['start_frame'] <= f < r['end_frame'])
             if self.close_start is not None and f >= self.close_start:
@@ -227,7 +263,7 @@ class Build:
                         elif how == 'inpaint': inpainted += 1
                         else: declined.append(dict(output_frame=f, source_frame=sf))
                 else:
-                    im = legs[row['visual']].at(sf - self.boards[row['visual']]['src_in'])
+                    im = legs[row['visual']].at(sf - spans[row['visual']]['src_in'])
             p.stdin.write(im.tobytes()); last = im
         p.stdin.close(); assert p.wait() == 0
         m = json.load(open(self.out / 'edit-manifest.json')); m['render_sha256'] = sha(self.dest)

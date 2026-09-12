@@ -115,6 +115,10 @@ which is now the hand-built upload Markdown, and its id filter is a substring ma
 review, run it and immediately `git checkout -- lessons/<slug>.md`, or read the
 export from `git diff`. Never leave its output in place.
 
+**Keep the source roll after shipping (2026-09-12).** Do not delete `Prompts/<slug>-N.mp4` at ship time. A
+post-ship defect (the Creative Thinking first-row framing) needs the pristine roll to rebuild, and the rolls are
+gitignored, so a deleted roll is gone until David re-saves it from Notebook. Delete rolls only when the section is done.
+
 **Gotcha (2026-09-12):** a narration cut's resume point must sit on Notebook's own scene cut when one falls inside
 the resume silence, not merely inside the silence. Creative Thinking v2 resumed 8 frames early and flashed the previous
 drawing; transition_guard's flicker limit is 6 frames, so it did not catch it. Check `scenes.txt` for every cut end.

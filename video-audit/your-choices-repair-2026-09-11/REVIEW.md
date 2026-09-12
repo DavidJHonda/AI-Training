@@ -28,3 +28,7 @@ Build: scripts/video/build_your_choices_review.py (editspec_build). Live file vi
 
 ## Shipped
 2026-09-12: v3 approved ("ship it"); copied to videos/your-choices.mp4, cache key videos/your-choices.mp4?v=20260912ship1, candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.
+
+## v4 (2026-09-12)
+Owner rule (pauses only between ideas): the four same-box pauses (board 1 full view, into which model, board 2 full view, into research) dropped from the v3 live render by build_your_choices_v4_from_live.py (source roll deleted at ship); board legs re-rendered with the corner-matte fix; audio = live track minus the four seconds. 5412 frames, 3:00.40; 16/16 transitions; five pauses remain (0:08, 0:39, 0:58, 1:51, 2:41). Manifest: edit-manifest-v4.json.
+Shipped 2026-09-12 as v4 ("ship it"); cache key 20260912ship2. Receipt: shipping-receipt.json.

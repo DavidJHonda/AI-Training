@@ -136,6 +136,33 @@ glyph strokes, using a mask learned from that roll's own paper frames. Frames it
 declines are listed in the manifest and must be looked at. Board legs and the
 close never carry it.
 
+## 8b. Use Notebook's drawings to break up a board run (owner rule 2026-09-12)
+
+A lesson whose boards would otherwise run back to back for minutes is less
+engaging than one that breathes. Make Your Move v4 set the pattern: from the
+first career board to the close, every board is interleaved with Notebook's own
+drawings, and the narration and pauses did not change.
+
+- **Under a board's introduction.** Where Notebook drew a scene for the sentences
+  that introduce a board, keep that scene and bring the board in about three
+  seconds before its first item rings (the full-view rule still holds). Where the
+  intro's own picture was a Notebook rendering of the board, re-time a Notebook
+  drawing from elsewhere in the roll under it, typically one drawn for narration
+  that was cut (`keep(..., video_from=<source frame>)`).
+- **Inside a long board.** After an item's ring has held for a few seconds, cut to
+  the drawing Notebook made for that item's narration, and return to the board
+  about one second before the next item's title so the cut back lands on a
+  still view, not on a moving dive. Do this only where Notebook drew something
+  for that span; never invent a filler.
+- **Never** a Notebook rendering of a course board, with or without its
+  highlight, even for a second (rule 2). Check every in-time span against the
+  roll's scene cuts: Notebook often cuts from a drawing back to its board render
+  mid-sentence.
+- **Between boards.** Keep Notebook's hand-off scenes (Curious & Flexible kept
+  the Weekly AI Updates sketch rather than jumping board to board).
+- Everything still passes rule 10: transition guard at every seam, corner mark
+  cleaned on re-timed frames, and the audio untouched.
+
 ## 9. Audio outside the pauses is untouched
 
 No narration is cut, moved, or grafted without David's approval of the exact

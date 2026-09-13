@@ -119,6 +119,12 @@ export from `git diff`. Never leave its output in place.
 post-ship defect (the Creative Thinking first-row framing) needs the pristine roll to rebuild, and the rolls are
 gitignored, so a deleted roll is gone until David re-saves it from Notebook. Delete rolls when David says so (Curious & Flexible's were deleted on his call the same day, after both reships were done).
 
+**Gotcha (2026-09-13, third time):** when a board is followed by a pause and then Notebook footage, end the board
+row ON Notebook's next scene cut, not at the pause. The pause holds the board, and the source frames between the
+pause point and Notebook's cut are the tail of the scene that was *under* the board (Creative Thinking, Does AI Think v2:
+a few frames of that scene flash before the next drawing). Pattern: `keep(B, pause_at, key); pause(); keep(pause_at,
+notebook_cut, key)`.
+
 **Gotcha (2026-09-12):** a narration cut's resume point must sit on Notebook's own scene cut when one falls inside
 the resume silence, not merely inside the silence. Creative Thinking v2 resumed 8 frames early and flashed the previous
 drawing; transition_guard's flicker limit is 6 frames, so it did not catch it. Check `scenes.txt` for every cut end.

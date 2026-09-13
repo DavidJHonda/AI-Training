@@ -52,9 +52,9 @@ Here’s what that difference looks like.
 
 The scenario: you’re in the mood for superheroes.
 
-Recommendation AI picks. It chooses from what already exists. The job: find a superhero movie you might enjoy. What you get: Captain America: Civil War, a movie selected from an existing catalog based on your interests. It picked a movie that already exists.
+On the left, Recommendation AI picks. It chooses from what already exists. The job: find a superhero movie you might enjoy. What you get: Captain America: Civil War, a movie selected from an existing catalog based on your interests. It picked a movie that already exists.
 
-Generative AI creates. It creates something new from your request. The job: write a scene about two superhero teammates who disagree. What you get: “We save the bridge,” Maya said. “The hospital loses power in three minutes,” Leo replied. “We can’t do both.” It generated a scene from your request.
+On the right, Generative AI creates. It creates something new from your request. The job: write a scene about two superhero teammates who disagree. What you get: “We save the bridge,” Maya said. “The hospital loses power in three minutes,” Leo replied. “We can’t do both.” It generated a scene from your request.
 
 One helps you find something to watch. The other helps you create a story of your own.
 

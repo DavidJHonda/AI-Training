@@ -2,7 +2,9 @@
 
 # What Is AI?
 
-Ask your desk at school, “Give me 10 ideas for my next history project.”
+You need to start your next history project, but you haven’t picked a topic.
+
+Ask your desk, “Give me 10 ideas for my next history project.”
 
 Nothing. It’s a desk.
 

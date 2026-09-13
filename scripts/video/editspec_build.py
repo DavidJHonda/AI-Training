@@ -72,11 +72,15 @@ class Build:
         seed = a[round(t0 * SR):round((t0 + .1) * SR)].copy(); seed -= seed.mean(); self.loop = np.r_[seed, seed[::-1]]
         self.tone_meta = dict(sample_rate=SR, room_tone_source=[t0, t0 + .1], room_tone_rms=rms(seed), source_pause_floor_rms=floor, crossfade_ms=5)
     def tone(self, n): return np.resize(self.loop, n)
-    def keep(self, s, e, label, visual='source'):
+    def keep(self, s, e, label, visual='source', video_from=None):
+        """video_from: picture from another span of the same roll (starting at that source frame) under this audio,
+        e.g. a Notebook drawing that was made for narration we cut (2026-09-12, Make Your Move). Such spans must be
+        used in increasing source order; corner cleaning applies to them like any source frame."""
         data = self.audio[s * SPF:e * SPF].copy(); r = np.linspace(0, 1, 240); bed = self.tone(len(data))
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
-        self.rows.append(dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual))
-        self.parts.append(data); self.cursor += e - s
+        row = dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual)
+        if video_from is not None: assert visual == 'source'; row['video_start'] = video_from
+        self.rows.append(row); self.parts.append(data); self.cursor += e - s
     def pause(self, n, label):
         self.rows.append(dict(kind='room_tone', start_frame=self.cursor, end_frame=self.cursor + n, label=label))
         self.parts.append(self.tone(n * SPF)); self.cursor += n
@@ -178,7 +182,8 @@ class Build:
             beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, end_w])]
         else:
             dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in targets)
-            beats = [dict(label='establish', frames=first, **{'from': full}, to=[cw / 2, ch / 2, cw * 0.97])]; cursor = first
+            est = max(first, 2 * FPS)   # spec rule 3: named at once -> the ring pops in the full view and the dive waits
+            beats = [dict(label='establish', frames=est, **{'from': full}, to=[cw / 2, ch / 2, cw * 0.97])]; cursor = est
             for i, t in enumerate(targets):
                 c = sh(t['cam']); cam = [c[0] + c[2] / 2, c[1] + c[3] / 2, dive_w]
                 nxt = on(targets[i + 1]['at']) if i + 1 < len(targets) else (on(pullback_at) if pullback_at else n)
@@ -245,7 +250,7 @@ class Build:
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
-        spans = {**self.boards, **self.grafts}; src = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
+        spans = {**self.boards, **self.grafts}; src = Reader(self.src); vsrc = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
         for f in range(self.total):
             row = next(r for r in self.rows if r['start_frame'] <= f < r['end_frame'])
             if self.close_start is not None and f >= self.close_start:
@@ -256,7 +261,7 @@ class Build:
             else:
                 sf = row['source_start'] + f - row['start_frame']
                 if row['visual'] == 'source':
-                    im = src.at(sf)
+                    im = vsrc.at(row['video_start'] + f - row['start_frame']) if 'video_start' in row else src.at(sf)
                     if clean_corner:
                         im, how = _cf(im, mask)
                         if how == 'clone': cleaned += 1

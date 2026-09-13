@@ -143,6 +143,13 @@ engaging than one that breathes. Make Your Move v4 set the pattern: from the
 first career board to the close, every board is interleaved with Notebook's own
 drawings, and the narration and pauses did not change.
 
+**When (owner call 2026-09-12):** apply this by default when a run of boards would
+otherwise exceed about sixty seconds without a Notebook scene between them, and
+never otherwise. A lesson with two boards and Notebook's own scenes between them
+(Your Choices) is left alone. Every candidate's report states the longest
+unbroken board run and lists every Notebook span used and where, so David can
+pull any of it back before shipping.
+
 - **Under a board's introduction.** Where Notebook drew a scene for the sentences
   that introduce a board, keep that scene and bring the board in about three
   seconds before its first item rings (the full-view rule still holds). Where the

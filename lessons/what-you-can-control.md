@@ -8,16 +8,50 @@ And jobs are just the loudest headline. AI is also reshaping who holds power, wh
 
 So here’s the question worth asking: what’s in your hands, and what isn’t?
 
-![What’s in Your Hands? Out of Your Hands / In Your Hands. How AI changes future jobs / Build real depth in something you care about. How quickly AI changes / Stay curious and keep what works. How much work AI can produce / Practice coming up with your own ideas. How other people use AI / Decide how you use it. Then get good with people. What the next headline predicts / Make something real instead of waiting to see what happens. You don’t control every outcome. Your choices still matter.](../illustrations/what-you-can-control-hands-v2.jpg)
+### Board 1: What’s in Your Hands?
 
-Most of the noise around AI is the left column. Most of the leverage in your life is the right column.
+**Image file:** `what-you-can-control-1-hands.jpg`
+
+![What’s in Your Hands?](what-you-can-control-1-hands.jpg)
+
+**Teaching content:**
+
+Out of your hands: how AI changes future jobs, how quickly AI changes, how much work AI can produce, how other people use AI, and what the next headline predicts.
+
+In your hands: build real depth in something you care about, stay curious and keep what works, practice coming up with your own ideas, choose how you use AI and how you work with other people, and make something real instead of waiting to see what happens.
+
+You don’t control every outcome. Your choices still matter.
+
+Keep informed about the left column. Put most of your energy into the right.
 
 ## SO WHAT DO YOU DO?
 
-That right column isn’t a feeling, it’s a to-do list. Three moves worth your energy:
+That right column isn’t a feeling, it’s a to-do list. Three moves worth your energy.
 
-![Three Moves Worth Your Energy. Go Deep: Pick one AI tool and learn what it does well, where it gets things wrong, and how to push it. Depth beats dabbling. Think First: Form your own take before you ask. Then use AI to sharpen your thinking. That’s the difference between getting smarter and just getting answers. Skip the Hype: You can’t control the headlines. You can control whether you doomscroll them or spend that hour getting better at something real. Put your effort where it changes your outcome.](../illustrations/what-you-can-control-three-moves-v2.jpg)
+### Board 2: Three Moves Worth Your Energy
 
-The volume is loud. The dial is yours.
+**Image file:** `what-you-can-control-2-three-moves.jpg`
 
-Skill and judgment tilt your odds.
+![Three Moves Worth Your Energy](what-you-can-control-2-three-moves.jpg)
+
+**Teaching content:**
+
+Go deep: pick one AI tool and learn what it does well, where it gets things wrong, and how to push it. Depth beats dabbling.
+
+Think first: form your own take before you ask. Then use AI to sharpen your thinking. That’s the difference between getting smarter and just getting answers.
+
+Skip the hype: you can’t control the headlines. You can control whether you doomscroll them or spend that hour getting better at something real.
+
+Put your effort where it changes your outcome.
+
+### Close
+
+**Image file:** `what-you-can-control-3-close.jpg`
+
+![Close board](what-you-can-control-3-close.jpg)
+
+## Closing Message
+
+You can’t control where AI goes next.
+
+You can build the skill and judgment to decide what you do next.

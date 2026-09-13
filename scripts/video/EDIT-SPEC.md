@@ -170,6 +170,25 @@ pull any of it back before shipping.
 - Everything still passes rule 10: transition guard at every seam, corner mark
   cleaned on re-timed frames, and the audio untouched.
 
+## 8c. Photographs never ship (owner rule 2026-09-13)
+
+Notebook drops stock photographs into its rolls: people, machines, buildings,
+old computers. None of them ship, whether or not a watermark is visible and
+whether or not a person is in frame. Two earlier rolls surfaced Getty watermarks
+mid-span, so the source and license of any Notebook photograph is unknowable
+from the frames, and a public course video cannot carry that question.
+
+Cover every photograph span with a drawing: Notebook's own drawing from
+elsewhere in the roll (`keep(..., video_from=)`), a drawing from another roll or
+the previous live video of the same lesson (`keep(..., video_from=, video_src=)`),
+or, when nothing fits, a still from the roll's own next drawn scene. Match the
+narration where a drawing exists for it: Why Learn AI v3 borrowed the live
+video's Macintosh, gear-bolt-globe, and Winning the Race drawings under exactly
+the lines they were drawn for. The candidate's report lists every photograph
+replaced and what covers it. Course boards that contain the course's own
+photographs (the career boards, the study boards) are page assets and are not
+affected by this rule.
+
 ## 9. Audio outside the pauses is untouched
 
 No narration is cut, moved, or grafted without David's approval of the exact

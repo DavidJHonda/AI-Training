@@ -72,14 +72,20 @@ class Build:
         seed = a[round(t0 * SR):round((t0 + .1) * SR)].copy(); seed -= seed.mean(); self.loop = np.r_[seed, seed[::-1]]
         self.tone_meta = dict(sample_rate=SR, room_tone_source=[t0, t0 + .1], room_tone_rms=rms(seed), source_pause_floor_rms=floor, crossfade_ms=5)
     def tone(self, n): return np.resize(self.loop, n)
-    def keep(self, s, e, label, visual='source', video_from=None):
-        """video_from: picture from another span of the same roll (starting at that source frame) under this audio,
-        e.g. a Notebook drawing that was made for narration we cut (2026-09-12, Make Your Move). Such spans must be
-        used in increasing source order; corner cleaning applies to them like any source frame."""
+    def keep(self, s, e, label, visual='source', video_from=None, video_src=None, video_end=None):
+        """video_from: picture from another span (starting at that frame) under this audio, e.g. a Notebook drawing
+        that was made for narration we cut (2026-09-12, Make Your Move). video_src: take that picture from another
+        file of the same lesson (2026-09-13, Why Learn AI: drawings borrowed from the live video to replace stock
+        photographs); it must be 1280x720. video_end: the last usable frame (exclusive) in that file; when the
+        borrowed span is shorter than this row, its last frame holds. Borrowed spans from one file must be used in
+        increasing order; corner cleaning applies to them like any source frame."""
         data = self.audio[s * SPF:e * SPF].copy(); r = np.linspace(0, 1, 240); bed = self.tone(len(data))
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
         row = dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual)
-        if video_from is not None: assert visual == 'source'; row['video_start'] = video_from
+        if video_from is not None:
+            assert visual == 'source'; row['video_start'] = video_from
+            if video_src is not None: row['video_src'] = str(video_src)
+            if video_end is not None: row['video_end'] = video_end
         self.rows.append(row); self.parts.append(data); self.cursor += e - s
     def pause(self, n, label):
         self.rows.append(dict(kind='room_tone', start_frame=self.cursor, end_frame=self.cursor + n, label=label))
@@ -250,7 +256,7 @@ class Build:
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
-        spans = {**self.boards, **self.grafts}; src = Reader(self.src); vsrc = Reader(self.src); legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
+        spans = {**self.boards, **self.grafts}; src = Reader(self.src); vreaders = {}; legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
         for f in range(self.total):
             row = next(r for r in self.rows if r['start_frame'] <= f < r['end_frame'])
             if self.close_start is not None and f >= self.close_start:
@@ -261,7 +267,12 @@ class Build:
             else:
                 sf = row['source_start'] + f - row['start_frame']
                 if row['visual'] == 'source':
-                    im = vsrc.at(row['video_start'] + f - row['start_frame']) if 'video_start' in row else src.at(sf)
+                    if 'video_start' in row:
+                        key = row.get('video_src', str(self.src)); vr = vreaders.setdefault(key, Reader(key))
+                        idx = row['video_start'] + f - row['start_frame']
+                        if 'video_end' in row: idx = min(idx, row['video_end'] - 1)
+                        im = vr.at(idx); assert im.shape[:2] == (H, W), (key, im.shape)
+                    else: im = src.at(sf)
                     if clean_corner:
                         im, how = _cf(im, mask)
                         if how == 'clone': cleaned += 1

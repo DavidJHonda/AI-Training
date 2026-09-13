@@ -4,9 +4,9 @@
 
 In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person.
 
-A person meets your question halfway. Your teacher already knows what class you’re in. Your friend knows what happened last weekend. And when a person doesn’t understand you, they ask a follow-up before answering. AI does almost none of that. It starts from the words you typed, and instead of asking what you meant, it confidently answers whatever you gave it.
+A person meets your question halfway. Your teacher already knows what class you’re in. Your friend knows what happened last weekend. With AI, don’t assume it knows those details or will ask for them.
 
-So asking AI good questions requires another skill: packaging it for something that isn’t a person. That’s prompting, and here’s why it pays off: **the quality of your prompt directly controls the quality of the response.**
+So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer.
 
 ## Start With a Good Question
 
@@ -28,7 +28,7 @@ You haven’t picked the answer in advance.
 
 Specific
 
-It asks for exactly what you need.
+It gives enough detail to get an answer that fits.
 
 3
 
@@ -56,15 +56,15 @@ Packaging your question for AI comes down to four moves. There are entire classe
 
 Share your situation
 
-A person already knows this. AI only has what you hand over.
+Don’t make AI guess what you’re working on or who it’s for. Tell it.
 
 •Who you are, and who the work is for
 
 •What you’re working on and why
 
-## Bad
+## Weak
 
-Is my intro good?
+What should my essay opening do?
 
 ## Better
 
@@ -76,19 +76,19 @@ I’m a high school senior writing my Common App essay about how fixing cars wit
 
 Give it the material
 
-AI cannot inspect work you only describe. Give it the actual material it needs to use.
+Give AI the actual work you want help with, not just a description of it.
 
 •Your draft, notes, assignment, or rubric
 
 •The numbers, source, or example it should use
 
-## Bad
+## Weak
 
 Help me improve my essay intro.
 
 ## Better
 
-Here is my opening paragraph: [paragraph]. Here is the essay prompt: [prompt]. What is unclear or generic?
+Here is my opening paragraph: [paragraph]. Here is the essay question I’m answering: [question]. What is unclear or generic?
 
 ## Move 3
 
@@ -96,17 +96,15 @@ Here is my opening paragraph: [paragraph]. Here is the essay prompt: [prompt]. W
 
 Describe the answer you want
 
-The model fills in every blank you leave, so describe the target.
+Tell AI what a good answer looks like.
 
-•The shape: a table, a list, steps
+•The format: a table, a list, or steps
 
-•The limits: length, what to skip, what not to sound like
+•The limits: length, tone, and what to skip
 
-•An example to match, if you have one
+•An example of what you want
 
-•Who AI should be: a tutor, a coach, an editor
-
-## Bad
+## Weak
 
 Write a caption for our lacrosse championship photo.
 
@@ -120,15 +118,19 @@ Write a caption for our team’s photo after the lacrosse state championship. On
 
 One job at a time
 
-Big work goes in steps. One prompt, one job, so each part lands and you can check it before you build on it.
+Break big work into steps. Review each part before asking AI to build on it.
 
-## Bad
+•The next step you want help with
+
+•Where AI should stop and wait for you
+
+## Weak
 
 Write me a 5-page paper on the Cold War with an outline, thesis, research, MLA citations, and a conclusion.
 
 ## Better
 
-Step 1: Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions.
+Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions. Let’s work on the thesis first.
 
 ## You don't need all of these every time
 

@@ -167,6 +167,26 @@
   .bta-none:disabled{ cursor:default; opacity:.5; }
   .bta-none.bta-right:disabled{ opacity:1; border-color:#b6e3cd; background:#e7f6ee; color:#15683f; }
   .bta-none.bta-wrong:disabled{ opacity:1; border-color:#f0b8c1; background:#fbe9ec; color:var(--red); }
+  .rubric-values-head,.rubric-values-row{ display:grid; grid-template-columns:minmax(0,1.45fr) minmax(160px,.8fr) 150px; gap:22px; align-items:center; }
+  .rubric-values-head{ padding:8px 0 10px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); color:var(--inkMuted); font-size:11px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+  .rubric-values-row{ min-height:74px; padding:12px 0; border-bottom:1px solid var(--rule); }
+  .rubric-value-name{ color:var(--ink); font-size:16px; font-weight:800; line-height:1.35; }
+  .rubric-weight-track{ height:10px; overflow:hidden; border-radius:999px; background:#ebeaf4; }
+  .rubric-weight-fill{ height:100%; border-radius:999px; background:#0e0b22; transition:width .2s ease; }
+  .rubric-points-field{ position:relative; }
+  .rubric-points-field input{ width:100%; box-sizing:border-box; border:2px solid #d8d5eb; border-radius:12px; padding:12px 48px 12px 14px; background:#fff; color:var(--ink); font-family:var(--sans); font-size:20px; font-weight:800; text-align:right; }
+  .rubric-points-field input::placeholder{ color:#c7c3dc; opacity:1; }
+  .rubric-points-field input:focus{ border-color:var(--labAccent); box-shadow:0 0 0 3px rgba(14,143,134,.12); }
+  .rubric-points-suffix{ position:absolute; right:13px; top:50%; transform:translateY(-50%); color:var(--inkMuted); font-size:12px; font-weight:800; pointer-events:none; }
+  .rubric-values-total{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:14px; padding:14px 16px; border-radius:10px; font-size:15px; font-weight:800; }
+  .rubric-split-row{ display:flex; justify-content:flex-end; margin-top:10px; }
+  .rubric-split-button{ border:0; padding:4px 0; background:transparent; color:var(--labAccent); font-family:var(--sans); font-size:14px; font-weight:800; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+  @media (max-width:640px){
+    .rubric-values-head{ display:none; }
+    .rubric-values-row{ grid-template-columns:minmax(0,1fr) 108px; gap:12px; min-height:0; padding:15px 0; }
+    .rubric-value-name{ grid-column:1 / -1; }
+    .rubric-values-total{ align-items:flex-start; flex-direction:column; gap:4px; }
+  }
   @media (max-width:640px){ .bta-w{ font-size:14px; } .bta-sent{ line-height:2.3; } }
   /* Welcome gate: implements the "Course Opener" design (claude.ai/design, 2026-07-14) */
   .gate-screen{ position:relative; overflow:hidden; min-height:100vh; padding:64px 24px 80px; background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); font-family:var(--sans); color:#c7d0f0; }
@@ -3187,7 +3207,7 @@ function CopyableLabPrompt(props) {
       }, disabled ? (props.disabledLabel || "Enter Field First") : (status === "copied" ? "✓ Copied" : (status === "error" ? "Try Again" : "Copy Prompt")))),
     E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, lineHeight: 1.6, whiteSpace: "pre-wrap", overflowWrap: "anywhere" } }, props.text),
     disabled && props.disabledMessage ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
-    hasPlaceholder ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
+    hasPlaceholder && !props.hidePlaceholderHint ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
 }
 function LabStepList(props) {
   var E = React.createElement;
@@ -3209,7 +3229,7 @@ function LabStepList(props) {
           E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
           E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
           st.content ? E("div", { style: { marginTop: 12 } }, st.content) : null,
-          st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage, disabledLabel: st.promptDisabledLabel }) : null,
+          st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage, disabledLabel: st.promptDisabledLabel, hidePlaceholderHint: st.hidePlaceholderHint }) : null,
           st.afterPromptContent ? E("div", { style: { marginTop: 12 } }, st.afterPromptContent) : null));
     }));
 }
@@ -4462,7 +4482,7 @@ function ControlStressGame() {
       { t: "How long you doomscroll", own: true, teach: "The volume is loud. The dial is still yours." },
       { t: "Whether you check what AI tells you", own: true, teach: "Confident and correct are two different things. Check important answers before you rely on them." },
       { t: "If you get <strong>Smarter Than the Tool</strong>", own: true, teach: "You can be handed information. You can be handed answers. Nobody can hand you skill." },
-      { t: "Asking a better question", own: true, teach: "The question is the half that still belongs to you." },
+      { t: "Asking a better question", own: true, teach: "You decide what you need to know and what to ask next." },
       { t: "How much real skill you build", own: true, teach: "It only comes from practice and reps. Nobody else gets a vote on how hard you work." }
     ];
 
@@ -8329,7 +8349,7 @@ function WhatItDoesBestSection(props) {
 }
 
 function PromptingSection(props) {
-  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-rubric-steps-v1", {});
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-prompting-rubric-steps-v2", {});
   const RUBRIC_CRITERIA = [
     "Clear main idea",
     "Relevant reasons",
@@ -8356,41 +8376,82 @@ function PromptingSection(props) {
   var rubricLines = RUBRIC_CRITERIA.map(function(criterion, index) {
     return (index + 1) + ". " + criterion + ": " + (rubricPoints[index] || "[POINTS]") + " points";
   }).join("\n");
-  var rubricBuilderPrompt = "Build an analytic rubric for a short high-school essay. Use exactly these four criteria and point values:\n\n" + rubricLines + "\n\nFor each criterion, describe what excellent, proficient, developing, and missing work looks like. Put the rubric in a clear table. Confirm that the maximum score is 100 points. Do not grade anything yet.";
   var essayText = "Why Students Need to Learn About AI\n\nAI is becoming part of school, work, and everyday life, so students need to understand how to use it. Learning about AI is important because it can help students work faster and prepare for future jobs. It can also answer questions and explain difficult topics.\n\nOne reason to learn about AI is that many workplaces already use it. People use AI to write drafts, organize information, create images, and analyze data. Students who understand these tools will be more prepared when they enter the workforce. They will know how to ask for useful results instead of simply accepting the first answer.\n\nAI can also help students learn. A student can ask for another explanation, create practice questions, or get feedback on a draft. This can make studying more personal. However, AI sometimes gives incorrect or misleading information. Students must still check important facts and use their own judgment.\n\nSome people worry that students will use AI to avoid thinking. That can happen, but avoiding AI will not solve the problem. Schools should teach students how to use it responsibly, just as they teach students how to evaluate websites and sources.\n\nStudents need to learn about AI because it is not going away. If they understand both its strengths and its limits, they can use it as a tool without letting it do all of their thinking.";
-  var rubricInputs = React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+  var rubricEvaluationPrompt = "Build an analytic rubric for a short high-school essay. Use exactly these four criteria and point values:\n\n" + rubricLines + "\n\nFor each criterion, describe what excellent, proficient, developing, and missing work looks like. Put the rubric in a clear table and confirm that the maximum score is 100 points.\n\nThen apply the rubric to the essay below. For each criterion, give the points earned, identify specific evidence from the essay, and explain the score in one sentence. Show the total score out of 100 and name the single strongest improvement the writer could make. Do not rewrite the essay.\n\n" + essayText;
+  var essayParts = essayText.split("\n\n");
+  var essayReadingCard = React.createElement("article", {
+    "aria-label": "Essay: " + essayParts[0],
+    style: { background: "#fbfaf7", border: "1px solid #d8d2c4", borderRadius: 10, padding: "22px 24px", color: "var(--ink)", boxShadow: "0 6px 18px rgba(54, 45, 30, 0.08)" }
+  },
+    React.createElement("div", { style: { marginBottom: 8, color: "var(--labAccent)", fontSize: 11, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase" } }, "Essay"),
+    React.createElement("h4", { style: { margin: "0 0 16px", fontFamily: "Georgia, serif", fontSize: 22, lineHeight: 1.25, color: "var(--ink)" } }, essayParts[0]),
+    essayParts.slice(1).map(function(paragraph, index) {
+      return React.createElement("p", { key: index, style: { margin: index === essayParts.length - 2 ? 0 : "0 0 13px", fontFamily: "Georgia, serif", fontSize: 15, lineHeight: 1.65, color: "var(--inkSoft)" } }, paragraph);
+    }));
+  var rubricRemaining = 100 - rubricTotal;
+  var rubricInputs = React.createElement("div", { className: "rubric-values" },
+    React.createElement("div", { className: "rubric-values-head", "aria-hidden": "true" },
+      React.createElement("span", null, "Criterion"),
+      React.createElement("span", null, "Weight"),
+      React.createElement("span", { style: { textAlign: "right" } }, "Points")),
     RUBRIC_CRITERIA.map(function(criterion, index) {
-      return React.createElement("div", { key: criterion, style: { display: "grid", gridTemplateColumns: "minmax(0, 1fr) 120px", gap: 16, alignItems: "center", padding: "4px 0" } },
-        React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.4 } }, criterion),
-        React.createElement("label", { style: { display: "flex", flexDirection: "column", gap: 5, fontSize: 12, fontWeight: 800, color: "var(--inkMuted)", textTransform: "uppercase", letterSpacing: "0.08em" } },
-          "Points",
+      var points = parseInt(rubricPoints[index], 10);
+      var safePoints = isNaN(points) ? 0 : Math.max(0, Math.min(100, points));
+      return React.createElement("div", { key: criterion, className: "rubric-values-row" },
+        React.createElement("div", { className: "rubric-value-name" }, criterion),
+        React.createElement("div", {
+          className: "rubric-weight-track",
+          role: "progressbar",
+          "aria-label": criterion + " weight",
+          "aria-valuemin": 0,
+          "aria-valuemax": 100,
+          "aria-valuenow": safePoints
+        }, React.createElement("div", { className: "rubric-weight-fill", style: { width: safePoints + "%" } })),
+        React.createElement("label", { className: "rubric-points-field" },
           React.createElement("input", {
             type: "text",
             inputMode: "numeric",
             pattern: "[0-9]*",
             value: rubricPoints[index],
-            onChange: function(event) { updateRubricPoints(index, event.target.value); },
-            style: { width: "100%", boxSizing: "border-box", border: "1px solid var(--rule)", borderRadius: 9, padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink)", background: "#fff" }
-          })));
+            placeholder: "0",
+            "aria-label": criterion + " points",
+            onChange: function(event) { updateRubricPoints(index, event.target.value); }
+          }),
+          React.createElement("span", { className: "rubric-points-suffix", "aria-hidden": "true" }, "PTS")));
     }),
     React.createElement("div", {
+      className: "rubric-values-total",
       role: "status",
-      style: { display: "flex", justifyContent: "space-between", gap: 16, borderRadius: 9, padding: "10px 12px", background: rubricTotal === 100 ? "#ecfdf5" : "var(--primaryFaint)", color: rubricTotal === 100 ? "#15803d" : "var(--ink)", fontSize: 15, fontWeight: 800 }
-    }, React.createElement("span", null, "Total"), React.createElement("span", null, rubricTotal + " / 100 points")));
+      "aria-live": "polite",
+      style: {
+        background: rubricTotal === 100 ? "#e4f2ef" : rubricTotal > 100 ? "#fbe9ec" : "#e8f1ef",
+        color: rubricTotal === 100 ? "#116f63" : rubricTotal > 100 ? "var(--red)" : "var(--ink)"
+      }
+    },
+      React.createElement("span", null, "Total"),
+      React.createElement("span", null,
+        React.createElement("strong", null, rubricTotal),
+        " of 100 assigned \u00b7 ",
+        rubricRemaining >= 0 ? rubricRemaining + " left" : Math.abs(rubricRemaining) + " over")),
+    React.createElement("div", { className: "rubric-split-row" },
+      React.createElement("button", {
+        type: "button",
+        className: "rubric-split-button",
+        onClick: function() { setRubricPoints(["25", "25", "25", "25"]); }
+      }, "Split evenly")));
   const LAB_STEPS = [
-    { title: "Know what a rubric does", body: "A rubric turns ‘Is this good?’ into named criteria with assigned points. It makes the standard visible before anyone evaluates the work." },
-    { title: "Set the values", body: "Your teacher gave you four criteria but did not assign their values. Decide how much each criterion should count. Your four values must total 100 points.", content: rubricInputs },
-    { title: "Build the rubric", body: "Open a new ChatGPT chat. When your four criteria total 100 points, copy and send this prompt. Read the rubric it creates before continuing.", prompt: rubricBuilderPrompt, promptDisabled: !rubricReady, promptDisabledMessage: "Complete all four criteria and make the points total 100 to unlock this prompt.", promptDisabledLabel: "Finish Rubric First" },
-    { title: "Read the essay", body: "The essay below was written for this lab. Read it once yourself before asking AI to evaluate it.", prompt: essayText },
-    { title: "Apply your rubric", body: "Stay in the same chat so ChatGPT can use the rubric it just built. Paste this prompt and the essay together.", prompt: "Apply the rubric we built to the essay below. For each criterion, give the points earned, identify specific evidence from the essay, and explain the score in one sentence. Then show the total score out of 100 and name the single strongest improvement the writer could make. Do not rewrite the essay.\n\n" + essayText },
+    { title: "Set the Values", body: "Here are the four criteria for grading the essay. You decide how much each is worth, and enter the number in the box to the right. And, make sure it adds up to 100.", content: rubricInputs },
+    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new chat outside any project."] },
+    { title: "Read the essay", body: "The essay below was written for this lab.", content: essayReadingCard },
+    { title: "Build and apply the rubric", body: "Copy and send this prompt. It will build your rubric, then use it to evaluate the essay.", prompt: rubricEvaluationPrompt, promptDisabled: !rubricReady, promptDisabledLabel: "Copy Prompt", hidePlaceholderHint: true },
     { title: "Read the completed rubric", body: "Look across the four criteria and the evidence AI used. Notice what the rubric changed: instead of a vague opinion, the evaluation follows the standards and point values you supplied." }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. And when a person doesn\u2019t understand you, they ask a follow-up before answering. AI does almost none of that. It starts from the words you typed, and instead of asking what you meant, it confidently answers whatever you gave it."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: packaging it for something that isn\u2019t a person. That\u2019s prompting, and here\u2019s why it pays off: ", /*#__PURE__*/React.createElement("strong", null, "the quality of your prompt directly controls the quality of the response.")),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. With AI, don’t assume it knows those details or will ask for them."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Start With a Good Question"),
   /*#__PURE__*/React.createElement(BodyP, null, "You learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/art-of-prompting-good-question-refresher-v2.jpg?v=20260909refresher1",
+    src: "illustrations/art-of-prompting-good-question-refresher-v2.jpg?v=20260912specificity",
     alt: "Every Strong Prompt Starts With a Good Question. Open-Minded means you haven’t picked the answer in advance. Specific means it asks for exactly what you need. On Target means it asks about the right thing. Open-Ended means it leaves room for an answer you didn’t expect. A good question is the foundation. Prompting adds the instructions.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
@@ -8400,45 +8461,45 @@ function PromptingSection(props) {
     /*#__PURE__*/React.createElement("h3", null, "Every Strong Prompt Starts With a Good Question"),
     /*#__PURE__*/React.createElement("ul", null,
       /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Open-Minded: "), "You haven’t picked the answer in advance."),
-      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Specific: "), "It asks for exactly what you need."),
+      /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Specific: "), "It gives enough detail to get an answer that fits."),
       /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "On Target: "), "It asks about the right thing."),
       /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Open-Ended: "), "It leaves room for an answer you didn’t expect.")),
     /*#__PURE__*/React.createElement("p", null, "A good question is the foundation. Prompting adds the instructions.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Then Add Four Moves"),
   /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to ", /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), "."),
   /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/art-of-prompting-four-moves-v2.jpg?v=20260909fourmoves1",
-    alt: "Four Moves That Turn a Good Question Into a Good Prompt: Share Your Situation, Give It the Material, Describe the Answer You Want, and One Job at a Time. Each move includes what to provide and a weak and better prompt example.",
+    src: "illustrations/art-of-prompting-four-moves-v2.jpg?v=20260912betterprompts",
+    alt: "Four Moves for Better Prompts: Share Your Situation, Give It the Material, Describe the Answer You Want, and One Job at a Time. Each move explains what to include and shows a weak and better prompt example.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement("div", {
     style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
   },
-    /*#__PURE__*/React.createElement("h3", null, "Four Moves That Turn a Good Question Into a Good Prompt"),
+    /*#__PURE__*/React.createElement("h3", null, "Four Moves for Better Prompts"),
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h4", null, "Move 1: Share Your Situation"),
-      /*#__PURE__*/React.createElement("p", null, "A person already knows this. AI only has what you hand over."),
+      /*#__PURE__*/React.createElement("p", null, "Don’t make AI guess what you’re working on or who it’s for. Tell it."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Who you are and who the work is for; what you’re working on and why."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Is my intro good?"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "What should my essay opening do?"),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I’m a high school senior writing my Common App essay about how fixing cars with my dad taught me patience. What should the opening help the reader understand about me?")),
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h4", null, "Move 2: Give It the Material"),
-      /*#__PURE__*/React.createElement("p", null, "AI cannot inspect work you only describe. Give it the actual material it needs to use."),
+      /*#__PURE__*/React.createElement("p", null, "Give AI the actual work you want help with, not just a description of it."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Your draft, notes, assignment, or rubric; the numbers, source, or example it should use."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Help me improve my essay intro."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Here is my opening paragraph: [paragraph]. Here is the essay prompt: [prompt]. What is unclear or generic?")),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Here is my opening paragraph: [paragraph]. Here is the essay question I’m answering: [question]. What is unclear or generic?")),
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h4", null, "Move 3: Describe the Answer You Want"),
-      /*#__PURE__*/React.createElement("p", null, "The model fills in every blank you leave, so describe the target."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "The shape; the limits; a role or example to follow."),
+      /*#__PURE__*/React.createElement("p", null, "Tell AI what a good answer looks like."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "The format: a table, a list, or steps; the limits: length, tone, and what to skip; an example of what you want."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Write a caption for our lacrosse championship photo."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags, no emojis, nothing corporate. Sound like a senior wrote it, not the school account.")),
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h4", null, "Move 4: One Job at a Time"),
-      /*#__PURE__*/React.createElement("p", null, "Big work goes in steps. One prompt, one job, so each part lands and you can check it before you build on it."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "Start with the next decision; check the result before moving to the next step."),
+      /*#__PURE__*/React.createElement("p", null, "Break big work into steps. Review each part before asking AI to build on it."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Include: "), "The next step you want help with; where AI should stop and wait for you."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Write me a 5-page paper on the Cold War with an outline, thesis, research, MLA citations, and a conclusion."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Step 1: Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions."))),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions. Let’s work on the thesis first."))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
   /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation, give AI the material, and describe the answer you want. A big project: work one job at a time. The more the result matters, the more you bring."),
   closeBoard("prompting"),
@@ -8448,7 +8509,7 @@ function PromptingSection(props) {
     labNumber: "06",
     title: "Build a Rubric. Test the Work.",
     hint: "Click the box after you finish each step.",
-    lead: "A rubric tells AI exactly what good work must do. You will choose the criteria, assign the points, and have AI apply your standard to an essay. AI can apply the standard. You set the standard.",
+    lead: "A rubric is a guide for evaluating your work. It lists what matters and how many points out of 100 each part is worth. In this LAB, you’ll use a rubric to evaluate an essay we already wrote.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
   },
     /*#__PURE__*/React.createElement(LabStepList, {
@@ -8526,7 +8587,7 @@ function StudyingWithAISection(props) {
     E(BodyP, { marginBottom: 16 },
       "The first move is choosing which kind of AI to aim at the job. There\u2019s a simple question to guide your choice: do you want to learn from materials you already have, or learn something new?"),
     E("img", {
-      src: "illustrations/learn-with-ai-study-tools-v2.jpg?v=20260911",
+      src: "illustrations/learn-with-ai-study-tools-v2.jpg?v=20260912focus",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
@@ -8535,7 +8596,7 @@ function StudyingWithAISection(props) {
     },
       E("h3", null, "Which Study Tool for the Job?"),
       E("h4", null, "Focus: Gemini Notebook"),
-      E("p", null, "Learns from your materials. It only knows what you give it, which makes it the ultimate exam-prep machine."),
+      E("p", null, "Uses your materials to answer questions and create study tools. That keeps your exam prep focused on what you need to learn."),
       E("p", null, "Best use: You have the materials the test covers, including class notes, screenshots, study guides, a webpage, or a YouTube video."),
       E("p", null, "The catch: It does not know what you did not give it. If your notes are missing a key concept, it cannot reliably fill the gap."),
       E("h4", null, "Exploration: ChatGPT, Claude, or Gemini"),
@@ -11615,41 +11676,39 @@ function WhereValueLivesBox() {
   var E = React.createElement;
   return E(React.Fragment, null,
     E("img", {
-      src: "illustrations/questions-matter-value-shift-v2.jpg?v=20260909twocard1",
-      alt: "It Changes Where Value Lives. Pre-AI: Finding the Answer. Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one. With AI: Asking the Right Question. AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps. Takeaway: Answers got cheap. Questions didn’t.",
+      src: "illustrations/questions-matter-value-shift-v2.jpg?v=20260912value2",
+      alt: "It Changes Where Value Lives. Pre-AI: Finding the Answer. Finding a good answer took work. You had to know where to look, what to trust, and what mattered. With AI: Asking the Right Question. AI can give you an answer in seconds. You still have to decide which questions to ask and whether the answer helps. Takeaway: Answers got cheap. Questions didn’t.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      E("h3", null, "It changes where value lives."),
+      E("h3", null, "It Changes Where Value Lives"),
       E("section", null,
-        E("h4", null, "Pre-AI: Finding the answer"),
-        E("p", null, "Answers were scarce. The valuable skill was knowing where to look and how to uncover a reliable one.")),
+        E("h4", null, "Pre-AI: Finding the Answer"),
+        E("p", null, "Finding a good answer took work. You had to know where to look, what to trust, and what mattered.")),
       E("section", null,
-        E("h4", null, "With AI: Asking the right question"),
-        E("p", null, "AI makes answers abundant. The valuable skill is deciding what to ask, providing the right context, and judging whether the answer helps."))));
+        E("h4", null, "With AI: Asking the Right Question"),
+        E("p", null, "AI can give you an answer in seconds. You still have to decide which questions to ask and whether the answer helps."))));
 }
 function QuestionsValuableSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-questions-better-question-steps-v1", {});
   const QUESTION_LAB_STEPS = [
     { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new chat outside any project."] },
     { title: "Ask the weak question", body: "Send this question and read the answer. It has already chosen a side, so it asks AI for support instead of understanding.", prompt: "Homework doesn’t help students learn. Can you help me prove it?" },
-    { title: "Ask a better question", body: "Start another new chat and send this version. It stays open to the answer, names the group and topic, aims at the real issue, and invites an explanation.", prompt: "For high-school students, what kinds of homework improve learning, what kinds do not, and what evidence explains the difference?" },
-    { title: "Compare the answers", body: "Put the two responses side by side. Notice how the first question pushes toward one conclusion while the second leaves room for a more useful answer." },
+    { title: "Ask a better question", body: "Start another new chat. Send this question and read the answer.", prompt: "For high-school students, what kinds of homework improve learning, what kinds do not, and what evidence explains the difference?" },
+    { title: "Compare the answers", body: "Read both answers. Did AI accept the first question’s claim or push back? What changed when you asked the second question?" },
     { title: "Find the four qualities", body: "Check the second question against the board: open-minded, specific, on target, and open-ended. Find the words that make each quality visible." },
-    { title: "Rewrite one of your questions", body: "Choose something you genuinely want to understand. Write the first question that comes to mind, then revise it until it has all four qualities. Send the better version to ChatGPT." }
+    { title: "Rewrite one of your questions", body: "Choose something you genuinely want to understand. Write the first question that comes to mind, then use the four qualities to make it better. Send the better version to ChatGPT." }
   ];
   var questionLabCount = QUESTION_LAB_STEPS.reduce(function(total, _step, index) { return total + (labChecked[index] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Every conversation with AI happens the same way: you ask a question, and AI gives an answer."
+      "AI can help with all kinds of work. But getting useful help starts with knowing what to ask."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "For decades, technology has been making it easier and easier to get answers. And the less time we spend chasing the answer, the more time we have for the half that’s still 100% ours: ",
-      /*#__PURE__*/React.createElement("strong", null, "asking the right question"),
-      "."
+      "For decades, technology has been making it easier and easier to get answers. The less time we spend chasing an answer, the more time we can spend asking the right question."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "One example makes the whole idea click. Teachers have been handing out research assignments since the dawn of school. But look at how this changed between your grandparents, your parents, and you."
@@ -11688,14 +11747,14 @@ function QuestionsValuableSection(props) {
     /*#__PURE__*/React.createElement(WhereValueLivesBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "What Makes a Good Question?"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Asking good questions is one of humanity’s oldest skills. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Einstein supposedly said that with an hour to save the world, he’d spend the first 55 minutes finding the right question."
+      "Asking good questions is one of humanity’s oldest skills. Socrates taught by doing almost nothing but asking. The scientific method doesn’t start with an answer; it starts with a question worth testing. Someone once said that with an hour to save the world, they’d spend the first 55 minutes finding the right question."
     ),
     /*#__PURE__*/React.createElement(BodyP, null,
       "So what separates a good question from a weak one? Four qualities, and none of them mention AI."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/questions-matter-four-qualities-v2.jpg?v=20260909heavy1",
-      alt: "Four Qualities of a Good Question: Open-Minded, Specific, On Target, and Open-Ended, each shown with a weak question and a better question.",
+      src: "illustrations/questions-matter-four-qualities-v2.jpg?v=20260912copy2",
+      alt: "Four Qualities of a Good Question: Open-Minded, Specific, On Target, and Open-Ended. Each quality includes guidance, a weak question, and a better question.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement("div", {
@@ -11709,17 +11768,17 @@ function QuestionsValuableSection(props) {
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "What does the research actually say about homework and learning?")),
       /*#__PURE__*/React.createElement("section", null,
         /*#__PURE__*/React.createElement("h4", null, "Specific"),
-        /*#__PURE__*/React.createElement("p", null, "It says enough about your situation. A question without enough information returns an answer that helps with nothing."),
+        /*#__PURE__*/React.createElement("p", null, "Give enough detail about your situation to get an answer that fits."),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "How do I get better at sports?"),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I play basketball as a point guard. Sometimes I lose the ball against pressure. What drills fix that?")),
       /*#__PURE__*/React.createElement("section", null,
         /*#__PURE__*/React.createElement("h4", null, "On Target"),
-        /*#__PURE__*/React.createElement("p", null, "Specific is about how much your question says. On target is about asking the right thing: the problem you’re actually trying to solve."),
+        /*#__PURE__*/React.createElement("p", null, "Ask about the problem you actually need to solve. The first question that comes to mind might miss it."),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "What energy drinks work best for staying awake in class?"),
-        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I keep falling asleep in first period no matter how interesting the class is. How do I fix my sleep schedule?")),
+        /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "I keep falling asleep in first period, even when the class is interesting. What could be making me so tired, and what can I change?")),
       /*#__PURE__*/React.createElement("section", null,
         /*#__PURE__*/React.createElement("h4", null, "Open-Ended"),
-        /*#__PURE__*/React.createElement("p", null, "A yes-or-no question ends the conversation; an open-ended one starts it. Leave room for an answer you didn’t expect."),
+        /*#__PURE__*/React.createElement("p", null, "Invite an explanation, not just a yes or no. Leave room for an answer you didn’t expect."),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Should I join the debate team?"),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "What would joining debate add to my week, and what would I have to give up for it?"))),
     closeBoard("questionsvaluable"),

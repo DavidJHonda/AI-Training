@@ -97,19 +97,25 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
-    def graft(self, src2, s, e, label, key, cover_intro=True):
+    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None):
         """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
         picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
         roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
         corner mark cleaned. Check the two rolls' speech loudness before grafting (they should sit within ~1 dB).
         cover_intro: the other roll usually opens the span on its own rendering of a course board (never ships); the
-        frames before its first scene cut (within 3s) are covered by the first frame after that cut."""
+        frames before its first scene cut (within 3s) are covered by the first frame after that cut.
+        picture_from: AUDIO-ONLY graft (2026-09-13, How an LLM Works: a garbled word replaced by the same line from
+        roll 1): the sound is the second roll's, the picture stays this roll's own frames from that source frame on."""
         import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame, glyph_mask
         src2 = Path(src2); wav = self.out / f'graft-{key}.wav'
         if not wav.exists():
             subprocess.run([self.ff, '-y', '-v', 'error', '-i', str(src2), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', str(wav)], check=True)
         a2 = readwav(wav); data = a2[s * SPF:e * SPF].copy(); r = np.linspace(0, 1, 240); bed = self.tone(len(data))
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
+        if picture_from is not None:
+            self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True)
+            self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual='source', graft_audio=str(src2), audio_start=s, audio_end=e))
+            self.parts.append(data); self.cursor += e - s; return
         mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])
         p = subprocess.Popen([self.ff, '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-c:v', 'ffv1', '-level', '3', str(leg)], stdin=subprocess.PIPE)
         cap = cv2.VideoCapture(str(src2)); i = -1; frames = []
@@ -256,7 +262,7 @@ class Build:
         p = subprocess.Popen([self.ff, '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-i', str(self.out / 'edited.wav'),
                               '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
                               '-movflags', '+faststart', str(self.dest)], stdin=subprocess.PIPE)
-        spans = {**self.boards, **self.grafts}; src = Reader(self.src); vreaders = {}; legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
+        spans = {**self.boards, **{k: v for k, v in self.grafts.items() if not v.get('audio_only')}}; src = Reader(self.src); vreaders = {}; legs = {k: Reader(self.out / f'leg-{k}.mkv') for k in spans}; last = None; ci = getattr(self, 'close_img', None)
         for f in range(self.total):
             row = next(r for r in self.rows if r['start_frame'] <= f < r['end_frame'])
             if self.close_start is not None and f >= self.close_start:

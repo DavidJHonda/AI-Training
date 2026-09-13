@@ -14,7 +14,7 @@ SOURCES = (
     ROOT / "assets" / "labs" / "supervillain-school-planning-notes-page-2.png",
     ROOT / "assets" / "labs" / "supervillain-school-planning-notes-page-3.png",
 )
-OUTPUT = ROOT / "packets" / "supervillain-school-planning-notes.pdf"
+OUTPUT = ROOT / "packets" / "ai-replaces-school.pdf"  # named after the PDF title students see, "AI Replaces School?"
 
 
 def main() -> None:

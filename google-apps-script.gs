@@ -1,11 +1,89 @@
 // Complete replacement for the Apps Script web app handler.
 //
 // The first spreadsheet tab remains the enrollment sheet. Add "Student ID" as
-// the heading in column G. Course completions are stored in a separate tab that
-// this script creates automatically.
+// the heading in column G. Course completions and reviews are stored in separate
+// tabs that this script creates automatically.
 
 var NOTIFICATION_EMAIL = "besmarterthanthetool@gmail.com";
 var COMPLETIONS_SHEET_NAME = "Course Completions";
+var REVIEWS_SHEET_NAME = "Reviews";
+
+function doGet(e) {
+  try {
+    var params = e && e.parameter ? e.parameter : {};
+    if (params.action !== "public_reviews") throw new Error("Unknown action");
+    return jsonResponse_(getPublicReviews_(params));
+  } catch (error) {
+    console.error(error && error.stack ? error.stack : error);
+    return jsonResponse_({ error: "Student reviews could not be loaded." });
+  }
+}
+
+function getPublicReviews_(params) {
+  var cursor = params.cursor ? JSON.parse(params.cursor) : null;
+  if (cursor && (!Number.isSafeInteger(cursor.offset) || cursor.offset < 0 ||
+      typeof cursor.revision !== "string")) throw new Error("Invalid cursor");
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  var entries = [];
+  var ratingTotal = 0;
+  var ratingSum = 0;
+  try {
+    // A public read must not create a sheet or change its sharing settings.
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REVIEWS_SHEET_NAME);
+    if (sheet) {
+      sheet = getReviewSheet_(); // Validate the compact or legacy headers before reading.
+      var feedbackIndex = sheet.getRange(1, 7).getValues()[0][0] === "Improvement" ? 6 : 10;
+      var count = sheet.getLastRow() - 1;
+      var rows = count > 0 ? sheet.getRange(2, 1, count, feedbackIndex + 4).getValues() : [];
+      rows.forEach(function(row, index) {
+        // Each saved row is one submission; editing updates that row instead of adding a rating.
+        // Aggregate all valid ratings, regardless of written text or publication permission.
+        var rating = Number(row[5]);
+        if (!Number.isInteger(rating) || rating < 1 || rating > 5) return;
+        ratingTotal++;
+        ratingSum += rating;
+        var permission = clean_(row[feedbackIndex + 2]);
+        var text = clean_(row[feedbackIndex + 1]);
+        if (!text || (permission !== "anonymous" && permission !== "first_name")) return;
+        var submitted = row[0] instanceof Date ? row[0] : new Date(row[0]);
+        if (!row[0] || !isFinite(submitted.getTime())) return;
+        // Explicit allowlist: never return review/student IDs, private feedback, or entire rows.
+        entries.push({ order: index, review: {
+          rating: rating,
+          text: text,
+          submittedAt: submitted.toISOString(),
+          name: permission === "first_name" ? (clean_(row[feedbackIndex + 3]) || "Anonymous") : "Anonymous"
+        } });
+      });
+    }
+  } finally {
+    lock.releaseLock();
+  }
+  entries.sort(function(a, b) {
+    return Date.parse(b.review.submittedAt) - Date.parse(a.review.submittedAt) || b.order - a.order;
+  });
+  var reviews = entries.map(function(entry) { return entry.review; });
+  var ratingSummary = { average: ratingTotal ? ratingSum / ratingTotal : null, total: ratingTotal };
+  // Restart pagination if a review was added, edited, or made private between requests.
+  // The cursor contains only an offset and a digest of public fields, never private IDs.
+  var revision = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, JSON.stringify({ reviews: reviews, ratingSummary: ratingSummary }))
+    .map(function(byte) { return ("0" + ((byte + 256) % 256).toString(16)).slice(-2); }).join("");
+  var reset = !!cursor && cursor.revision !== revision;
+  var offset = cursor && !reset ? cursor.offset : 0;
+  var page = reviews.slice(offset, offset + 20);
+  var nextOffset = offset + page.length;
+  return {
+    reviews: page,
+    ratingSummary: ratingSummary,
+    nextCursor: nextOffset < reviews.length ? JSON.stringify({ offset: nextOffset, revision: revision }) : null,
+    reset: reset
+  };
+}
+
+function jsonResponse_(value) {
+  return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON);
+}
 
 function doPost(e) {
   try {
@@ -13,6 +91,10 @@ function doPost(e) {
     if (data.eventType === "course_completed") {
       recordCompletion_(data);
       return textResponse_("completion-ok");
+    }
+    if (data.eventType === "review") {
+      recordReview_(data);
+      return textResponse_("review-ok");
     }
 
     recordEnrollment_(data);
@@ -162,6 +244,114 @@ function findCompletionRow_(sheet, completionId) {
     .matchEntireCell(true)
     .findNext();
   return match ? match.getRow() : null;
+}
+
+function recordReview_(data) {
+  var reviewId = clean_(data.reviewId);
+  var studentId = clean_(data.studentId);
+  if (!reviewId || !studentId) throw new Error("Review ID and student ID are required");
+
+  var usefulness = normalizeRating_(data.usefulnessRating);
+  var testimonial = sheetSafe_(data.testimonial, 2500);
+  // Publication permission applies only to the written review, never improvement feedback.
+  var quotePermission = testimonial ? (clean_(data.quotePermission) || "none") : "none";
+  if (["none", "anonymous", "first_name"].indexOf(quotePermission) === -1) {
+    throw new Error("Invalid quote permission");
+  }
+  var quoteFirstName = quotePermission === "first_name" ? sheetSafe_(data.quoteFirstName, 80) : "";
+  if (quotePermission === "first_name" && !quoteFirstName) {
+    throw new Error("A first name is required for first-name quote permission");
+  }
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var sheet = getReviewSheet_();
+    // Support the old layout until G–J are deleted, then write feedback into G–J.
+    var feedbackColumn = sheet.getRange(1, 7).getValues()[0][0] === "Improvement" ? 7 : 11;
+    var now = new Date();
+    var existingRow = findReviewRow_(sheet, reviewId);
+    var reviewValues = [
+      now,
+      reviewId,
+      studentId,
+      clean_(data.courseVersion),
+      usefulness
+    ];
+    var feedbackValues = [
+      sheetSafe_(data.improvement, 2500),
+      testimonial,
+      quotePermission,
+      quoteFirstName
+    ];
+
+    if (existingRow) {
+      // Preserve Submitted At (A). Review ID continues to identify the same row.
+      sheet.getRange(existingRow, 2, 1, reviewValues.length).setValues([reviewValues]);
+      sheet.getRange(existingRow, feedbackColumn, 1, feedbackValues.length).setValues([feedbackValues]);
+    } else {
+      var retiredColumns = feedbackColumn === 11 ? ["", "", "", ""] : [];
+      sheet.appendRow([now].concat(reviewValues, retiredColumns, feedbackValues));
+    }
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getReviewSheet_() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = spreadsheet.getSheetByName(REVIEWS_SHEET_NAME);
+  var headers = [
+    "Submitted At",
+    "Updated At",
+    "Review ID",
+    "Student ID",
+    "Course Version",
+    "Usefulness Rating",
+    "Improvement",
+    "Testimonial",
+    "Quote Permission",
+    "Quote First Name"
+  ];
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(REVIEWS_SHEET_NAME);
+    sheet.appendRow(headers);
+    sheet.setFrozenRows(1);
+  } else {
+    // Validate before writing so partial deletions or reordered columns cannot misfile answers.
+    var currentHeaders = sheet.getRange(1, 1, 1, Math.max(1, sheet.getLastColumn())).getValues()[0];
+    var legacyHeaders = headers.slice(0, 6).concat(
+      ["Confidence Before", "Confidence After", "Most Useful", "What Changed"], headers.slice(6));
+    if (JSON.stringify(currentHeaders) !== JSON.stringify(headers) &&
+        JSON.stringify(currentHeaders) !== JSON.stringify(legacyHeaders)) {
+      throw new Error("Reviews headers do not match the supported layout. Delete the four retired columns together, leaving Submitted At through Usefulness Rating followed by Improvement, Testimonial, Quote Permission, and Quote First Name.");
+    }
+  }
+  return sheet;
+}
+
+function findReviewRow_(sheet, reviewId) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return null;
+  var match = sheet
+    .getRange(2, 3, lastRow - 1, 1)
+    .createTextFinder(reviewId)
+    .matchEntireCell(true)
+    .findNext();
+  return match ? match.getRow() : null;
+}
+
+function normalizeRating_(value) {
+  var rating = Number(value);
+  if (!isFinite(rating) || rating < 1 || rating > 5 || Math.round(rating) !== rating) {
+    throw new Error("Review ratings must be whole numbers from 1 to 5");
+  }
+  return rating;
+}
+
+function sheetSafe_(value, maxLength) {
+  var text = clean_(value).slice(0, maxLength || 2500);
+  return /^[=+\-@]/.test(text) ? "'" + text : text;
 }
 
 function normalizeScore_(value) {

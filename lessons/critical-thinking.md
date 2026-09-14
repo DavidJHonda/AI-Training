@@ -2,19 +2,9 @@
 
 # Critical Thinking
 
-Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation.
+What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up.
 
-![The course equation: Learn More equals More Knowledge, which creates Better Questions and Better Results. A bottom banner reads Be Smarter Than the Tool.](critical-thinking-1-equation.jpg)
-
-That equation leaves out one skill: the one that raises every line of it. It matters enough that we could have called this lesson **How to Take Your AI Use from a B to an A+**.
-
-It’s called **critical thinking**. And it will help you far beyond AI: in school, in work, in almost every part of your life.
-
-There’s almost a direct line between this skill and the people who get the most out of AI. That’s why AI experts use the term constantly. But what does it actually mean? The answer fits in one more equation.
-
-![One more equation: Critical plus Thinking equals A-plus. Critical means not taking claims at face value. Thinking means analyzing, questioning, and evaluating before deciding. AI gives answers. You own the thinking.](critical-thinking-2-one-more.jpg)
-
-Put the words together and you have a process: actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do.
+![What You Know. How You Think. Knowledge plus Critical Thinking leads to Better Questions plus Better Decisions. Knowledge: What you know helps you understand the subject and recognize when something doesn’t add up. Critical Thinking: You question the claim, examine the evidence, and consider other explanations before deciding what to believe or do. A bottom banner reads Be Smarter Than the Tool.](critical-thinking-1-equation-v3.jpg)
 
 It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up.
 
@@ -22,7 +12,7 @@ It isn’t “don’t trust anything,” either. It’s the habit of asking what
 
 In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. **Slim by Chocolate!** ran one front page.
 
-Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions.
+Did that headline make you pause? That’s critical thinking getting started. The next step is asking whether the evidence supports it. Picture everyone who read it that morning: the reactions went two directions.
 
 ![Slim by Chocolate. One student accepts the claim at face value: Sounds great. I believe it. Another examines the evidence: Wait. What’s behind the claim?](critical-thinking-3-two-reactions.jpg)
 
@@ -30,7 +20,7 @@ Did your critical thinking just kick in? If that headline made you pause, you’
 
 The study was real, but it was flimsy on purpose:
 
-- There were only 15 participants, and the study measured 18 different things about them. Track that many things in a group that small, and luck alone guarantees something will look like a finding.
+- There were only 15 participants, and the study measured 18 different things about them. With that many measurements in such a small group, a chance result could look like an important discovery.
 - The “research institute” behind it was just a website.
 - The author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did.
 That’s a big part of critical thinking: the ability to read between the lines, especially when the claim is something you’d love to believe.
@@ -43,7 +33,7 @@ There are five habits you can build to sharpen your critical thinking. Each one 
 
 Is it actually right?
 
-Don’t take it at face value. Ask what would have to be true for the claim to hold up.
+What evidence supports the claim? Does it support the conclusion?
 
 2
 
@@ -51,7 +41,7 @@ Don’t take it at face value. Ask what would have to be true for the claim to h
 
 Do I know enough to judge?
 
-The further a claim sits from what you know, the more carefully you have to check. Evaluate the Results made this the first dig question: could you actually validate it? Unfamiliar territory is exactly where everything sounds authoritative.
+Recognize where your knowledge ends. Find out what you need to understand.
 
 3
 
@@ -59,7 +49,7 @@ The further a claim sits from what you know, the more carefully you have to chec
 
 What’s missing?
 
-You’re seeing what got included, not what got left out. Look for context, exceptions, other perspectives, and the counterargument nobody mentioned.
+Look for missing information and other explanations.
 
 4
 
@@ -67,7 +57,7 @@ You’re seeing what got included, not what got left out. Look for context, exce
 
 Why am I convinced?
 
-Polish and confidence aren’t evidence. The smoother something sounds, the more your guard drops. That pull is the thing to catch.
+Is it the evidence, the confident wording, or what you want to believe?
 
 5
 
@@ -75,9 +65,9 @@ Polish and confidence aren’t evidence. The smoother something sounds, the more
 
 What’s my call?
 
-You decide what to keep, change, or toss. Anyone can hand you options. The thinking, the decision, and the consequences are yours.
+Decide what to believe or do. You can change your mind when you learn more.
 
-The five questions work on anything you read or hear. They matter most on AI, where answers arrive smooth, confident, and instant. The model doesn’t fix your thinking. It scales it.
+The five questions work on anything you read or hear. Use them with AI, too. AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening.
 
 AI amplifies whatever you bring to it.
 

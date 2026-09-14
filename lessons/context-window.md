@@ -6,9 +6,9 @@ When you type 2 + 2 on the calculator on your phone, you always get 4. Same inpu
 
 ![Same Question. Different Answers. Luke and Nate ask what car they should buy after college. Luke’s AI recommends a versatile Jeep Cherokee because he has not shared a strong vehicle preference. Nate’s AI recommends a Ford Raptor because he previously said he loves pickup trucks. Same question. Different context. Different answer.](context-window-same-question-v2.jpg)
 
-Wait a second. In the last lab, you changed the answer by changing the prompt. But this time, Luke and Nate typed the exact same prompt into the same app, and still got different answers!
+Wait a second. Luke and Nate typed the exact same prompt into the same app, and still got different answers!
 
-Some people think this is a reason not to trust AI. But the opposite is true. It’s actually demonstrating the power of AI. It gave a different, more tailored answer to each.
+Some people see different answers to the same question as a reason not to trust AI. But different doesn’t always mean wrong. AI’s answers can vary for several reasons. Here, it used different information about Luke and Nate to tailor its answers. That’s one of AI’s strengths.
 
 That’s the big idea of this lesson: **with the right context, AI gives better answers.** The rest of this page is about where that context comes from, and how to take control of it.
 
@@ -16,27 +16,19 @@ That’s the big idea of this lesson: **with the right context, AI gives better 
 
 ChatGPT sees more than just the last message Luke and Nate typed. For example, earlier in his chat, Nate said he loves pickup trucks. When ChatGPT answers his question, it recognizes this and suggests the Ford Raptor.
 
-What do you call everything the model can see when it answers your question? The **context window.** Think of it almost like the working memory the model uses to answer. And it builds that working memory from five places.
+What do you call everything the model can see when it answers your question? The context window. Think of it as working memory, with a limit to how much fits. Here are five places that information comes from.
 
-That’s what gets in. Here’s what doesn’t.
+The illustration includes three new concepts. Here’s an explanation.
 
-![Outside the Window. Four cards show information the model cannot see: older chats, unsent web pages, files on your computer, and other apps and tabs. If it isn’t in the context window, the model can’t see it.](context-window-outside-v2.jpg)
+![Give AI a Head Start. Personalization tells the app your interests and answer preferences. Saved Memory keeps useful details from conversations and brings them into future context windows. Projects keep instructions, files, and chats for ongoing work together. You don’t have to start from scratch every time you ask a question.](context-window-head-start-v1.jpg)
 
-## Personalization and Saved Memory
+That’s what gets in. Here’s what doesn’t get in automatically.
 
-Personalization is the Luke and Nate effect, on purpose. Tell the app once what to call you, what you’re into, and how you like your answers, and every chat starts already knowing it. Set it up in two minutes, and a generic tool becomes yours.
-
-Saved Memory is the app noticing things in your chats worth keeping. It keeps a record of them on its own. That can sound like the AI learning about you, but remember: the model learned once, during training, and nothing you type changes it. It’s the app keeping notes, and putting those notes into the window where the model sees them.
-
-## What’s a Project?
-
-That leaves the project card in the illustration. A project is a folder for one piece of ongoing work: your summer job hunt, your team’s season, the game you’re building. You put that work’s instructions and files inside: your resume, the schedule, your code, your notes.
-
-Here’s the idea: the big, ongoing things you do with AI have their own context. Your job hunt has a resume and a list of places you’ve applied. Your team has a schedule and a playbook. Without a project, you rebuild that context in every chat: re-upload the files, re-explain the work. A project holds the context for you. Start a chat inside it, and you step into that context instead of rebuilding it.
+![Outside the Window. Older Chats: The model doesn’t see every conversation you’ve had. The app has to bring relevant information into this one. Web Pages: The model needs information from the page, whether you share it or the app retrieves it. Files on Your Computer: A file sitting on your computer isn’t enough. Upload it or give the app access. Other Apps and Tabs: Having something open doesn’t put it in the conversation. You need to share it or connect the app. If it isn’t in the context window, the model can’t see it.](context-window-outside-v2.jpg)
 
 ## The Forgetting Problem
 
-Ever been deep in a long chat, and AI seems to forget something you told it earlier? There’s a reason. The window isn’t infinite, and when a chat gets long enough, the oldest parts fall out. Some apps summarize them, others just drop them. That’s one reason starting a fresh chat for a new task is often the right move.
+Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat.
 
 With the right context, AI gives better answers.
 

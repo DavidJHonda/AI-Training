@@ -720,6 +720,9 @@ const STUDENT_PROFILE_KEY = "llm-student-profile";
 const COMPLETION_PENDING_KEY = "llm-completion-pending";
 const COMPLETION_REPORTED_KEY = "llm-completion-reported";
 const COMPLETION_VERSION = "bstt-course-v1";
+const REVIEW_ID_KEY = "llm-course-review-id:" + COMPLETION_VERSION;
+const REVIEW_DRAFT_KEY = "llm-course-review-draft:" + COMPLETION_VERSION;
+const REVIEW_SUBMITTED_KEY = "llm-course-review-submitted:" + COMPLETION_VERSION;
 var completionReportInFlight = false;
 
 function getOrCreateStudentId() {
@@ -834,6 +837,20 @@ function retryPendingCompletionReport() {
     }
   } catch (e) {}
   if (payload && payload.firstName && payload.lastName) deliverCompletionReport(payload);
+}
+function getOrCreateReviewId() {
+  var id = "";
+  try { id = localStorage.getItem(REVIEW_ID_KEY) || ""; } catch (e) {}
+  if (id) return id;
+  try {
+    id = (typeof crypto !== "undefined" && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : "review-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+    localStorage.setItem(REVIEW_ID_KEY, id);
+  } catch (e) {
+    id = "review-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  }
+  return id;
 }
 // Typography tokens for static content boxes (not SEE IT / TRY IT activities).
 // BOX_CARD_TITLE: headline of a mini-card inside a showcase box.
@@ -1007,13 +1024,12 @@ const CLOSE_BOARDS = {
   openerskills: { pill: "The tool is rented.", sticky: "The skills are yours to keep." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two AI habits. They travel well." }
 };
-// Finish Smarter remains a draft: its lessons use red text in the icon navigation,
-// the sticky title adds "· Draft", and the full lesson header carries a draft notice.
-// Remove the group here when it graduates.
+// Finish Smarter is still in draft except for the live Course Reviews lesson.
+// Draft lessons use red navigation text, a sticky "· Draft" suffix, and a header notice.
 function isDraftLesson(sectionId) {
   var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (!group) return false;
-  return group.label === "Finish Smarter";
+  return group.label === "Finish Smarter" && sectionId !== "reviews";
 }
 
 function LessonHeader(props) {
@@ -2654,7 +2670,7 @@ const SECTION_META = {
   openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
   resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA" },
-  reviews: { kicker: "TELL US WHAT YOU THINK", label: "Reviews", icon: "\u2B50" },
+  reviews: { kicker: "TELL US WHAT YOU THINK", label: "Course Reviews", icon: "\u2B50" },
 };
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
@@ -2699,10 +2715,10 @@ const FINAL_BANK = [
   },
   {
     id: "fx02", section: "Start Smarter", lessonId: "doesaithink",
-    q: "AI understands what your words mean, the way a person does.",
+    q: "An answer that sounds human proves AI understands the way a person does.",
     options: ["True", "False"],
     correct: 1,
-    explain: "Your words become tokens, and tokens become numbers. Everything after that is pattern math. It produces convincing language without understanding any of it."
+    explain: "AI can explain, joke, and carry on a conversation. Sounding like a person doesn’t prove it understands the way you do."
   },
   {
     id: "fx03", section: "Avoid Traps", lessonId: "hallucination",
@@ -2712,32 +2728,32 @@ const FINAL_BANK = [
     explain: "A hallucination is the normal machinery doing its normal job: predicting likely words. Likely isn’t always true, so the same process that writes great answers sometimes writes confident nonsense."
   },
   {
-    id: "fx04", section: "Understand AI", lessonId: "training",
-    q: "AI was built by learning from enormous amounts of human writing.",
+    id: "fx04", section: "Work With AI", lessonId: "integrity",
+    q: "Before uploading a photo of your homework, check for private information elsewhere in the picture.",
     options: ["True", "False"],
     correct: 0,
-    explain: "That’s what training is: the model read an enormous slice of human writing and tuned billions of numbers to capture its patterns."
+    explain: "You meant to share the homework, but the photo might also include your name, a password, or someone’s private message. Share only what AI needs."
   },
   {
-    id: "fx05", section: "Understand AI", lessonId: "aiismath",
-    q: "Asking the exact same question twice can give you two different answers.",
+    id: "fx05", section: "Embrace the Future", lessonId: "whatpeoplesay",
+    q: "A confident prediction from an AI expert is still a prediction.",
     options: ["True", "False"],
     correct: 0,
-    explain: "The model picks among several likely next words, so two runs from the same prompt can head down different paths."
+    explain: "Experts can have good reasons for their predictions and still disagree about what comes next. Consider the evidence, recognize what’s uncertain, and stay ready to adjust."
   },
   {
     id: "fx06", section: "Work With AI", lessonId: "prompt",
-    q: "AI can see the files on your computer and your other apps when it answers you.",
+    q: "Starting an AI chat automatically gives it access to every file on your computer.",
     options: ["True", "False"],
     correct: 1,
-    explain: "The model sees only what’s in the context window: your prompt, the chat so far, and whatever the app adds. Files and apps you didn’t hand it are invisible."
+    explain: "The model uses information that reaches its context window. Uploads and connected tools can provide information, but starting a chat does not give it access to everything."
   },
   {
     id: "fx07", section: "Work With AI", lessonId: "prompting",
-    q: "The more of your situation you put into a prompt, the better the answer usually gets.",
+    q: "Sharing details that matter to your goal usually helps AI give a more useful answer.",
     options: ["True", "False"],
     correct: 0,
-    explain: "The model can only work with what you give it. Sharing your situation, constraints, and goal is the single biggest upgrade to an answer."
+    explain: "Tell AI what you’re trying to do and what it needs to know. Relevant details help. Extra information that has nothing to do with the job doesn’t."
   },
   {
     id: "fx08", section: "Work With AI", lessonId: "evaluating",
@@ -2747,18 +2763,18 @@ const FINAL_BANK = [
     explain: "Confidence is a writing style, not a truth signal. The model sounds equally sure when it’s right and when it’s hallucinating."
   },
   {
-    id: "fx09", section: "Understand AI", lessonId: "layers",
-    q: "The people who built an AI can open it up and read exactly how it reached a specific answer.",
+    id: "fx09", section: "Work With AI", lessonId: "agents",
+    q: "An AI agent has finished your team’s highlight reel. You should review it before it posts under your name.",
     options: ["True", "False"],
-    correct: 1,
-    explain: "They can see what went in and what came out, but the middle is billions of tuned numbers with no readable rules. That’s the black box."
+    correct: 0,
+    explain: "The agent did the work, but you own the result. Check the clips, caption, and anything else being shared before it goes public."
   },
   {
     id: "fx10", section: "Avoid Traps", lessonId: "flattery",
     q: "If AI says your essay is great, that’s solid evidence it’s great.",
     options: ["True", "False"],
     correct: 1,
-    explain: "AI leans toward agreeable praise, which is the Flattery Trap. Set it to be blunt, then judge the work yourself."
+    explain: "Praise alone doesn’t tell you much. Look for feedback that points to specific parts of your essay and explains what works or needs improvement."
   },
   // --- Multiple choice (11-19) ---
   {
@@ -2795,15 +2811,15 @@ const FINAL_BANK = [
     explain: "Transformers read everything at once, and attention weighs which words matter to which. That’s how IT finds CAT ten words back."
   },
   {
-    id: "fx14", section: "Work With AI", lessonId: "aivscode",
-    q: "A calculator gives the same answer every time. Why doesn’t AI?",
+    id: "fx14", section: "Work With AI", lessonId: "evaluating",
+    q: "AI drafts a paragraph for your history project. You check the facts, and they’re correct. What’s next?",
     options: [
-      "AI is buggier than a calculator",
-      "A calculator follows exact rules; AI builds each answer from patterns",
-      "AI changes its personality every day"
+      "Use it. Correct facts mean the paragraph is ready.",
+      "Ask AI whether it thinks the paragraph is good.",
+      "Decide whether it answers the assignment and makes its point clearly."
     ],
-    correct: 1,
-    explain: "A calculator runs fixed rules, so the same input always makes the same output. AI composes each answer from patterns, so results vary."
+    correct: 2,
+    explain: "Correct facts are only part of good work. The paragraph still needs a clear point, useful details, and a place in your project."
   },
   {
     id: "fx15", section: "Work With AI", lessonId: "prompting",
@@ -3279,14 +3295,15 @@ function SetUpChatGPTLab(props) {
 function LLMsSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Ask your desk at school, “Give me 10 ideas for my next history project.”"),
+    /*#__PURE__*/React.createElement(BodyP, null, "You need to start your next history project, but you haven’t picked a topic."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Ask your desk, “Give me 10 ideas for my next history project.”"),
     /*#__PURE__*/React.createElement(BodyP, null, "Nothing. It’s a desk."),
+    /*#__PURE__*/React.createElement(BodyP, null, "Ask a friend, and they can help you brainstorm. Ask AI, and it can give you a list in seconds."),
     /*#__PURE__*/React.createElement("img", {
       src: "lessons/what-is-ai-ask-the-desk.jpg?v=20260910desk1",
       alt: "Ask the Desk. Ask AI. Luke asks an ordinary school desk for 10 history-project ideas and gets no response. Nate asks AI on a laptop and receives a numbered list of ideas. The banner says: AI is software built to do things that used to take a human brain.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(BodyP, null, "Ask a friend, and they can help you brainstorm. Ask AI, and it can give you a list in seconds."),
     /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "AI is software built to do things that used to take a human brain."), " Understand a question. Summarize information. Translate a conversation. Suggest ideas for a history project."),
     /*#__PURE__*/React.createElement(BodyP, null, "That doesn’t mean it thinks like your friend, or that all 10 ideas will be good. But you now have a tool that can help with tasks that once needed a person."),
     /*#__PURE__*/React.createElement(BodyP, null, "Different AI systems do different jobs. Let’s look at two kinds you already use."),
@@ -4081,9 +4098,11 @@ function AIMultiplierTryIt(props) {
     surface: "mint",
     lead: "What does it look like when AI multiplies your effort? Try this quick game. The multipliers are made up, but you still supply the effort.",
     instructions: [
-      "Choose a goal.",
-      React.createElement("span", null, "Run ", React.createElement("strong", null, "Round 1"), " and tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can after the countdown."),
-      React.createElement("span", null, "Run ", React.createElement("strong", null, "Round 2"), " with AI and tap just as fast."),
+      "Select one of the three goals below.",
+      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 1:Just you"), "."),
+      React.createElement("span", null, "After the countdown, tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can."),
+      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 2:AI has your back"), "."),
+      React.createElement("span", null, "After the countdown, tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can."),
       "Compare the scores and see what changed with AI."
     ]
   }, E("div", { ref: rootRef, className: "no-print", style: { scrollMarginTop: 80 } }));
@@ -4800,12 +4819,8 @@ function MessyNotesLab() {
       "Click ", E("strong", { key: "add" }, "+ Add sources"),
       " and upload the AI Replaces School PDF you downloaded."
     ] },
-    { title: "Make your own lesson video", body: E(React.Fragment, null,
-      E("span", { style: { display: "block" } }, "1. Select ", E("strong", null, "Video Overview"), " to the right."),
-      E("span", { style: { display: "block" } }, "2. Below ", E("strong", null, "Format"), ", select ", E("strong", null, "Explainer"), "."),
-      E("span", { style: { display: "block" } }, "3. Select ", E("strong", null, "Generate Now"), ".")) },
-    { title: "Come back when it’s ready", body: "Your video may take a while to build. You can keep going with the course and return to this notebook later." },
-    { title: "Watch your video", body: "Watch how Gemini Notebook turned messy handwritten notes into a lesson. Then make your call: Can AI replace school?" }
+    { title: "Make Sense of the Notes", body: "Copy and send this prompt in the Gemini Notebook chat.", prompt: "Turn these messy notes into a clear summary in 200 words or fewer. Include the main argument, two ideas that were crossed out and their replacements, and your favorite joke from the notes." },
+    { title: "Read the Summary", body: "Read the summary, then look back at the notes. What did AI manage to make sense of?" }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -4814,7 +4829,7 @@ function MessyNotesLab() {
     labNumber: "05",
     title: "Make Sense of the Mess",
     hint: "Click the box after you finish each step.",
-    lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you'll use Gemini Notebook to create the video version of the lesson.",
+    lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you’ll use Gemini Notebook to turn them into a clear summary.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -6962,11 +6977,20 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
 
+// Three ways the app can bring useful context into the window.
+function HeadStartBox() {
+  return /*#__PURE__*/React.createElement("img", {
+    src: "illustrations/context-window-head-start-v1.jpg?v=20260913headstart1",
+    alt: "Give AI a Head Start. Personalization tells the app your interests and answer preferences. Saved Memory keeps useful details from conversations and brings them into future context windows. Projects keep instructions, files, and chats for ongoing work together. You don’t have to start from scratch every time you ask a question.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+  });
+}
+
 // The missing half of the five sources: what the window never holds, and why.
 function OutsideWindowBox() {
   return /*#__PURE__*/React.createElement("img", {
-    src: "illustrations/context-window-outside-v2.jpg?v=20260909outside1",
-    alt: "Outside the Window. Four cards show information the model cannot see: older chats, unsent web pages, files on your computer, and other apps and tabs. If it isn’t in the context window, the model can’t see it.",
+    src: "illustrations/context-window-outside-v2.jpg?v=20260913outside2",
+    alt: "Outside the Window. Older Chats: The model doesn’t see every conversation you’ve had. The app has to bring relevant information into this one. Web Pages: The model needs information from the page, whether you share it or the app retrieves it. Files on Your Computer: A file sitting on your computer isn’t enough. Upload it or give the app access. Other Apps and Tabs: Having something open doesn’t put it in the conversation. You need to share it or connect the app. If it isn’t in the context window, the model can’t see it.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
 }
@@ -6977,8 +7001,8 @@ function PromptSection(props) {
     { title: "Start your first project", body: "Find Projects and start a new one. Don\u2019t name or create it yet." },
     { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations." },
     { title: "Name and create it", body: "Enter \u201CMy First Coding Project\u201D as the name. Then click Create project." },
-    { title: "Give it the right context", body: "Inside the project, find its instructions and paste the context below. This is all ChatGPT needs for this job; you don\u2019t need to share personal details.", prompt: "I\u2019m learning to code with AI. I\u2019m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
-    { title: "See the window", body: "Start a new chat inside your project and ask the question below. The answer should reflect the instructions you just added. That\u2019s your project context, made visible.", prompt: "What do you know about me, and how should you help me in this project?" }
+    { title: "Give it the right context", body: "Inside the project, find its instructions and paste the text below. These instructions tell ChatGPT how to help you. You don’t need to share personal details.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." },
+    { title: "See Your Context at Work", body: "Start a new chat inside your project. Ask the question below without repeating that you’re a beginner. Notice how AI explains the answer. Your project instructions are already part of the context.", prompt: "How does code turn into a game I can play?" }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
@@ -6991,9 +7015,9 @@ function PromptSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Wait a second. In the last lab, you changed the answer by changing the prompt. But this time, Luke and Nate typed the exact same prompt into the same app, and still got different answers!"),
+      "Wait a second. Luke and Nate typed the exact same prompt into the same app, and still got different answers!"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Some people think this is a reason not to trust AI. But the opposite is true. It’s actually demonstrating the power of AI. It gave a different, more tailored answer to each."),
+      "Some people see different answers to the same question as a reason not to trust AI. But different doesn’t always mean wrong. AI’s answers can vary for several reasons. Here, it used different information about Luke and Nate to tailor its answers. That’s one of AI’s strengths."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "That’s the big idea of this lesson: ",
       /*#__PURE__*/React.createElement("strong", null, "with the right context, AI gives better answers."),
@@ -7002,30 +7026,21 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "ChatGPT sees more than just the last message Luke and Nate typed. For example, earlier in his chat, Nate said he loves pickup trucks. When ChatGPT answers his question, it recognizes this and suggests the Ford Raptor."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "What do you call everything the model can see when it answers your question? The ",
-      /*#__PURE__*/React.createElement("strong", null, "context window."),
-      " Think of it almost like the working memory the model uses to answer. And it builds that working memory from five places."),
+      "What do you call everything the model can see when it answers your question? The context window. Think of it as working memory, with a limit to how much fits. Here are five places that information comes from."),
     /*#__PURE__*/React.createElement("img", {
-      src: "illustrations/context-window-1.jpg?v=2",
-      alt: "Five cards feed a glowing tray labeled The Context Window: your current prompt and everything earlier in this chat stay in the chat; personalization and saved memory follow you everywhere; Projects appear only in project chats. The tray notes that all of this is what the model sees right now.",
+      src: "illustrations/context-window-1.jpg?v=20260913labels",
+      alt: "Five cards feed a glowing tray labeled The Context Window. From this chat: Your current prompt, plus earlier messages and answers. Personalization and memory: Personalization and Saved Memory. Project context: Projects. The tray says: The information available for this answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "That’s what gets in. Here’s what doesn’t."),
+      "The illustration includes three new concepts. Here’s an explanation."),
+    /*#__PURE__*/React.createElement(HeadStartBox, null),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "That’s what gets in. Here’s what doesn’t get in automatically."),
     /*#__PURE__*/React.createElement(OutsideWindowBox, null),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Personalization and Saved Memory"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Personalization is the Luke and Nate effect, on purpose. Tell the app once what to call you, what you’re into, and how you like your answers, and every chat starts already knowing it. Set it up in two minutes, and a generic tool becomes yours."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Saved Memory is the app noticing things in your chats worth keeping. It keeps a record of them on its own. That can sound like the AI learning about you, but remember: the model learned once, during training, and nothing you type changes it. It’s the app keeping notes, and putting those notes into the window where the model sees them."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "What’s a Project?"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "That leaves the project card in the illustration. A project is a folder for one piece of ongoing work: your summer job hunt, your team’s season, the game you’re building. You put that work’s instructions and files inside: your resume, the schedule, your code, your notes."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Here’s the idea: the big, ongoing things you do with AI have their own context. Your job hunt has a resume and a list of places you’ve applied. Your team has a schedule and a playbook. Without a project, you rebuild that context in every chat: re-upload the files, re-explain the work. A project holds the context for you. Start a chat inside it, and you step into that context instead of rebuilding it."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The Forgetting Problem"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Ever been deep in a long chat, and AI seems to forget something you told it earlier? There’s a reason. The window isn’t infinite, and when a chat gets long enough, the oldest parts fall out. Some apps summarize them, others just drop them. That’s one reason starting a fresh chat for a new task is often the right move."),
+      "Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat."),
     closeBoard("prompt"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -7955,45 +7970,45 @@ function CriticalThinkingSection(props) {
     icon: "\uD83E\uDDB7",
     claim: "A commercial on television claims: \"9 out of 10 dentists recommend this toothpaste.\"",
     options: [
-      { label: "9 out of 10 sounds high but it\u2019s actually a small majority", correct: false, headline: "9 of 10 really is a lot.", hint: "Nine out of ten genuinely is a strong majority, so the number itself isn't the trick. The weak spot is everything the claim leaves out. What would you need to know before that 90% means anything?", feedback: "9/10 really is a strong majority. The number isn\u2019t the trick. The trick is the missing background information: recommend it compared to what? How were the dentists picked? Who paid for the study?" },
-      { label: "The stat is missing the background information that would make it meaningful", correct: true, headline: "It's missing background information.", feedback: "Recommend it over what? Not brushing? A different brand? Who picked the dentists? Who paid for the study? Statistics without background information are meaningless. Always ask: compared to what, how was this measured, and who funded it?" },
-      { label: "Dentists aren\u2019t qualified to recommend toothpaste", correct: false, headline: "Dentists are fine to ask.", hint: "Dentists are a reasonable group to ask about toothpaste, so the source isn't the problem. Look at what the claim doesn't tell you instead. What's left unsaid?", feedback: "Dentists are reasonable people to ask. The issue isn\u2019t the source of the opinion, it\u2019s the missing background information: what were they comparing it to, and who set up the study?" }
+      { label: "9 out of 10 sounds high but it\u2019s actually a small majority", correct: false, headline: "Nine out of ten is a strong majority.", hint: "The percentage is high. What information is missing about how they got it?", feedback: "The issue isn\u2019t the arithmetic. It\u2019s what the dentists were asked and how the survey was conducted. A high percentage doesn\u2019t answer those questions." },
+      { label: "We don\u2019t know how the survey was done or what \u2018recommend\u2019 means.", correct: true, headline: "What does \u2018recommend\u2019 mean?", feedback: "Did the dentists choose this toothpaste over other brands, or could they recommend several? How many dentists were asked, and how were they chosen? Those details help you judge what the number actually tells you." },
+      { label: "Dentists aren\u2019t qualified to recommend toothpaste", correct: false, headline: "Dentists are reasonable people to ask.", hint: "Does knowing who answered tell you what they were asked?", feedback: "Their expertise matters. You still need to know what they were recommending and how the survey was conducted before deciding how much weight to give the claim." }
     ],
-    reality: "Recommend it over what? Not brushing at all? A different brand? And what did the 10th dentist say? This stat has been used to sell everything from gum to mouthwash. The number sounds scientific but the background information is missing.",
-    lesson: "Statistics without background information are meaningless. Always ask: compared to what? How was this measured? Who paid for the study?"
+    reality: "The number tells you that many surveyed dentists selected the toothpaste, but it doesn\u2019t tell you how the survey was done or what \u2018recommend\u2019 meant. Those details determine how much weight the claim deserves.",
+    lesson: "A statistic can tell you something without telling you enough. Ask what was measured, how it was measured, and who was included before deciding what the number means."
   }, {
     label: "I saw it on TikTok",
     icon: "\uD83D\uDCF1",
     claim: "Your friend is doing poorly in math. He texts you: \"Einstein failed math as a kid, too. I saw it on TikTok.\"",
     options: [
-      { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, headline: "Famous isn't the same as true.", hint: "Plenty of repeated 'facts' get repeated because they sound good, not because they're true. How often you've heard something isn't evidence. What would actually tell you whether it holds up?", feedback: "Famous and true aren\u2019t the same. The Einstein-failed-math story is one of the most repeated \u2018facts\u2019 on the internet, and it\u2019s a myth. He was actually strong at math from a young age. The reason you\u2019d know that isn\u2019t \u2018I\u2019ve heard it a lot,\u2019 it\u2019s tracing the claim back to where it actually came from." },
-      { label: "A TikTok creator isn\u2019t the source. The real check is where they got it.", correct: true, headline: "Trace it to the real source.", feedback: "\u2018I saw it on TikTok\u2019 is the start of a check, not the end. The creator got the claim from somewhere, and that\u2019s the source you actually need. In this case, the Einstein-failed-math story is a famous myth. He was a strong math student. The story spread because it sounds inspiring, not because it\u2019s true. Always ask: where did this originally come from?" },
-      { label: "TikTok is unreliable, so the claim is probably wrong.", correct: false, headline: "Don't just dismiss the platform.", hint: "Writing off everything from TikTok isn't critical thinking either, since plenty of true things show up there. The platform isn't the question. What's the real question to ask about the claim itself?", feedback: "Dismissing everything from TikTok isn\u2019t critical thinking either. Plenty of accurate stuff lives there. The skill isn\u2019t trusting or distrusting the platform, it\u2019s tracing the claim back to its original source so you can judge that." }
+      { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, headline: "Famous isn't the same as true.", hint: "Plenty of repeated 'facts' get repeated because they sound good, not because they're true. How often you've heard something isn't evidence. What would actually tell you whether it holds up?", feedback: "A story can spread because it\u2019s memorable or reassuring. Repetition doesn\u2019t establish that it happened. Look for evidence you can trace and check." },
+      { label: "Check the evidence behind the claim, not just where you saw it.", correct: true, headline: "Follow the evidence.", feedback: "\u2018I saw it on TikTok\u2019 tells you where you heard the story. It doesn\u2019t establish that it\u2019s true. Look for the evidence the creator provides and check whether it supports the claim." },
+      { label: "TikTok is unreliable, so the claim is probably wrong.", correct: false, headline: "Don't just dismiss the platform.", hint: "Writing off everything from TikTok isn't critical thinking either, since plenty of true things show up there. The platform isn't the question. What's the real question to ask about the claim itself?", feedback: "True and false claims appear on the same platform. Judge the evidence behind this claim rather than accepting or rejecting it because it appeared on TikTok." }
     ],
     reality: "Einstein didn\u2019t fail math. He was actually strong at it from a young age. The myth probably started when people misread his Swiss school grades (where 6 was the top score, not the bottom). It spread because it sounds like a great inspirational story.",
-    lesson: "Where the claim shows up isn\u2019t the source. Whoever you\u2019re hearing it from got it from somewhere. Trace it back to the original before you trust it."
+    lesson: "Check the claim instead of relying on its popularity or the platform. Follow the evidence and decide whether it supports what was said."
   }, {
     label: "Phones in bed",
     icon: "\uD83D\uDCF1",
     claim: "Headline: \"Smartphones are destroying teen sleep!\" The study found that teens who use phones in bed report higher rates of insomnia and anxiety.",
     options: [
-      { label: "The cause might run the other way: teens who can\u2019t sleep grab their phones.", correct: true, headline: "The cause may run backward.", feedback: "The study shows phone use and bad sleep happen together, but it doesn\u2019t tell you which one causes which. Teens who can\u2019t sleep are exactly the ones who reach for their phones at 2am. Same data, opposite story. Always ask: could the cause be running the other way?" },
-      { label: "The headline is right. Screen time keeps you awake, that\u2019s just biology.", correct: false, headline: "Real biology, wrong proof.", hint: "Blue light and sleep is a real topic, but it isn't what this data shows. The study only finds the two things happening together. Does 'happening together' actually tell you which one comes first?", feedback: "There\u2019s real biology around blue light and sleep, but that\u2019s not what this data proves. The study only shows that phone use and bad sleep happen together. It doesn\u2019t show which one comes first. Anxious teens reaching for their phones at 2am explains the same numbers in reverse." },
-      { label: "Phones probably don\u2019t really affect sleep, so the study is wrong.", correct: false, headline: "Don't toss the data.", hint: "Throwing out the study isn't critical thinking either. The link is probably real. The open question isn't whether they're connected, it's something about that connection. What haven't you pinned down yet?", feedback: "Throwing out the data isn\u2019t critical thinking either. The link is probably real: phone use and bad sleep do go together. The question isn\u2019t whether the connection exists, it\u2019s which way the cause runs. Phones causing bad sleep, or bad sleep causing phone use, same numbers either way." }
+      { label: "The study shows a connection, but doesn\u2019t establish what causes what.", correct: true, headline: "A connection isn\u2019t the whole explanation.", feedback: "Phone use could affect sleep. Teens who can\u2019t sleep could also reach for their phones. Both could happen, or something else could affect both. The finding described here doesn\u2019t settle which explanation is right." },
+      { label: "The headline is right. Screen time keeps you awake, that\u2019s just biology.", correct: false, headline: "Does this study show that?", hint: "The study found two things happening together. Does that establish that one caused the other?", feedback: "A believable explanation still needs evidence. This finding shows a connection between phone use and sleep problems. It doesn\u2019t establish that phones caused those problems." },
+      { label: "Phones probably don\u2019t really affect sleep, so the study is wrong.", correct: false, headline: "Don\u2019t dismiss the finding.", hint: "Can the connection be real even if the headline goes too far?", feedback: "Yes. Questioning the headline doesn\u2019t mean the study is wrong. The connection is worth investigating. You need more evidence before deciding what causes what." }
     ],
-    reality: "The study shows phone use and bad sleep happen together. It doesn\u2019t show which one causes which. Teens who can\u2019t sleep are the most likely to reach for their phones at 2am, which means the cause could easily run the other direction.",
-    lesson: "When two things happen together, don\u2019t assume A causes B. It could be B causing A. Always ask: which direction is the cause running?"
+    reality: "The study shows a connection between phone use in bed and sleep problems, but it doesn\u2019t establish what causes what. Phone use could affect sleep, sleepless teens could reach for their phones, both could happen, or something else could affect both.",
+    lesson: "When two things happen together, don\u2019t assume one caused the other. Consider other explanations and look for evidence that can distinguish among them."
   }, {
     label: "Lucky socks",
     icon: "\uD83E\uDDE6",
     claim: "A basketball player wears neon socks for one game and scores a career-high 30 points. He decides: \"These socks are magic.\"",
     options: [
-      { label: "The socks may have boosted his confidence, which actually helped his shooting.", correct: false, headline: "That's not the claim.", hint: "Maybe confidence helped, but that isn't what he's claiming. He's saying the socks have powers. And from a single night, can you really tell the socks did anything at all?", feedback: "Confidence is real, but that\u2019s not the claim. He\u2019s not saying \u2018these socks made me feel calm.\u2019 He\u2019s saying they have magic powers. And from one game, you can\u2019t tell whether the socks did anything at all. Maybe he had a great night for ten other reasons. To know, you\u2019d need many games with and without." },
-      { label: "One great game isn\u2019t a pattern. The socks were one of a hundred things that went right.", correct: true, headline: "One game proves nothing.", feedback: "A single event proves nothing. He might have slept well, eaten right, played a weaker defender, and gotten lucky on a few shots. The socks were one of a hundred variables that night. Crowning any single one as \u2018the cause\u2019 just because the night went well is exactly the trap." },
-      { label: "His teammates probably played better too, so the socks didn\u2019t really matter.", correct: false, headline: "Still just one game.", hint: "Even if that's true, it doesn't get at the real problem. Suppose he genuinely played great. How many games is this conclusion built on? Is that enough to crown any one cause?", feedback: "Maybe, but that\u2019s not the real issue. Even if his teammates played the exact same and HE played great, one game still wouldn\u2019t prove the socks did anything. The problem is the sample size: one. You can\u2019t draw a conclusion from a single data point, lucky socks or not." }
+      { label: "The socks boosted his confidence, and that caused his career high.", correct: false, headline: "That explanation still needs evidence.", hint: "Confidence could affect performance. Does one game establish that it caused this result?", feedback: "The socks might have boosted his confidence, and confidence might affect performance. But one game doesn\u2019t establish that this chain caused his career high. Other explanations could fit the same result." },
+      { label: "One game isn\u2019t enough to tell whether the socks made a difference.", correct: true, headline: "One game doesn\u2019t establish the cause.", feedback: "Maybe the socks boosted his confidence. Maybe he slept well or faced a weaker defender. One great game doesn\u2019t tell you which explanation holds up." },
+      { label: "Socks are just clothing, so they couldn\u2019t have affected his performance.", correct: false, headline: "Don\u2019t rule it out without evidence.", hint: "Clothing doesn\u2019t need magic powers to affect comfort or confidence. What does this one game establish?", feedback: "Clothing can affect comfort or confidence, which could affect performance. This game doesn\u2019t establish that the socks helped, but it also doesn\u2019t establish that clothing could never matter." }
     ],
-    reality: "He had a career night. So did a lot of variables: sleep, food, the defender he was matched against, the shots that happened to fall. Calling the socks the cause is picking one variable out of many and crowning it. One game can\u2019t prove anything caused anything.",
-    lesson: "One event isn\u2019t a pattern. Before you call something \u2018the cause,\u2019 ask: how many times did this happen? What else changed? A single coincidence is just a coincidence."
+    reality: "The socks may have affected his confidence, or his career night may have had other causes. With only one game, there isn\u2019t enough evidence to tell which explanation holds up.",
+    lesson: "One event usually isn\u2019t enough to establish a cause. Ask what else could explain the result and what additional evidence would help you decide."
   }];
   var criticalBoard = function(src, accessibleContent) {
     return /*#__PURE__*/React.createElement(React.Fragment, null,
@@ -8006,29 +8021,20 @@ function CriticalThinkingSection(props) {
         style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
       }, accessibleContent));
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "Here’s the big takeaway from the first part of this course. And in the spirit of AI, let’s write it as a math equation."),
-  criticalBoard("illustrations/critical-thinking-1-equation-v2.jpg?v=20260909causal1",
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up."),
+  criticalBoard("illustrations/critical-thinking-1-equation-v3.jpg?v=20260913equation5",
     /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "The course equation"),
-      /*#__PURE__*/React.createElement("p", null, "Learn more leads to more knowledge. More knowledge leads to better questions and better results."),
+      /*#__PURE__*/React.createElement("h3", null, "What You Know. How You Think."),
+      /*#__PURE__*/React.createElement("p", null, "Knowledge plus critical thinking leads to better questions and better decisions."),
+      /*#__PURE__*/React.createElement("h4", null, "Knowledge"),
+      /*#__PURE__*/React.createElement("p", null, "What you know helps you understand the subject and recognize when something doesn’t add up."),
+      /*#__PURE__*/React.createElement("h4", null, "Critical Thinking"),
+      /*#__PURE__*/React.createElement("p", null, "You question the claim, examine the evidence, and consider other explanations before deciding what to believe or do."),
       /*#__PURE__*/React.createElement("p", null, "Be Smarter Than the Tool."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "That equation leaves out one skill: the one that raises every line of it. It matters enough that we could have called this lesson ", /*#__PURE__*/React.createElement("strong", null, "How to Take Your AI Use from a B to an A+"), "."),
-  /*#__PURE__*/React.createElement(BodyP, null, "It’s called ", /*#__PURE__*/React.createElement("strong", null, "critical thinking"), ". And it will help you far beyond AI: in school, in work, in almost every part of your life."),
-  /*#__PURE__*/React.createElement(BodyP, null, "There’s almost a direct line between this skill and the people who get the most out of AI. That’s why AI experts use the term constantly. But what does it actually mean? The answer fits in one more equation."),
-  criticalBoard("illustrations/critical-thinking-2-one-more-v2.jpg?v=20260909equation1",
-    /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "One more equation"),
-      /*#__PURE__*/React.createElement("p", null, "Critical plus thinking equals A-plus."),
-      /*#__PURE__*/React.createElement("h4", null, "Critical"),
-      /*#__PURE__*/React.createElement("p", null, "Don’t take things at face value. False claims rarely announce themselves."),
-      /*#__PURE__*/React.createElement("h4", null, "Thinking"),
-      /*#__PURE__*/React.createElement("p", null, "Analyze, question, and evaluate before deciding what to believe or do."),
-      /*#__PURE__*/React.createElement("p", null, "AI gives answers. You own the thinking."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "Put the words together and you have a process: actively analyzing, questioning, and evaluating information, regardless of where it comes from, before deciding what to believe or do."),
   /*#__PURE__*/React.createElement(BodyP, null, "It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking in Action"),
   /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Did your critical thinking just kick in? If that headline made you pause, you’re a natural, and it’s a trait worth keeping. But picture everyone who read it that morning: the reactions went two directions."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Did that headline make you pause? That’s critical thinking getting started. The next step is asking whether the evidence supports it. Picture everyone who read it that morning: the reactions went two directions."),
   criticalBoard("illustrations/critical-thinking-3-two-reactions-v2.jpg?v=20260909comparison1",
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h3", null, "Same Claim. Different Thinking."),
@@ -8042,33 +8048,33 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "The True Story"),
   /*#__PURE__*/React.createElement(BodyP, null, "The study was real, but it was flimsy on purpose:"),
   /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "There were only 15 participants, and the study measured 18 different things about them. Track that many things in a group that small, and luck alone guarantees something will look like a finding."),
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "There were only 15 participants, and the study measured 18 different things about them. With that many measurements in such a small group, a chance result could look like an important discovery."),
     /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "The “research institute” behind it was just a website."),
     /*#__PURE__*/React.createElement("li", null, "The author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did.")),
   /*#__PURE__*/React.createElement(BodyP, null, "That’s a big part of critical thinking: the ability to read between the lines, especially when the claim is something you’d love to believe."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "There are five habits you can build to sharpen your critical thinking. Each one is a question you ask."),
-  criticalBoard("illustrations/critical-thinking-4-five-habits-v2.jpg?v=20260909habits1",
+  criticalBoard("illustrations/critical-thinking-4-five-habits-v3.jpg?v=20260913habits2",
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h3", null, "Five Habits of Critical Thinking"),
       /*#__PURE__*/React.createElement("ol", null,
         /*#__PURE__*/React.createElement("li", null,
           /*#__PURE__*/React.createElement("h4", null, "Is it actually right?"),
-          /*#__PURE__*/React.createElement("p", null, "Ask what would have to be true.")),
+          /*#__PURE__*/React.createElement("p", null, "What evidence supports the claim? Does it support the conclusion?")),
         /*#__PURE__*/React.createElement("li", null,
           /*#__PURE__*/React.createElement("h4", null, "Do I know enough to judge?"),
-          /*#__PURE__*/React.createElement("p", null, "The further from what you know, the harder you check.")),
+          /*#__PURE__*/React.createElement("p", null, "Recognize where your knowledge ends. Find out what you need to understand.")),
         /*#__PURE__*/React.createElement("li", null,
           /*#__PURE__*/React.createElement("h4", null, "What’s missing?"),
-          /*#__PURE__*/React.createElement("p", null, "Look for missing context, exceptions, and other views.")),
+          /*#__PURE__*/React.createElement("p", null, "Look for missing information and other explanations.")),
         /*#__PURE__*/React.createElement("li", null,
           /*#__PURE__*/React.createElement("h4", null, "Why am I convinced?"),
-          /*#__PURE__*/React.createElement("p", null, "Polish and confidence aren’t evidence.")),
+          /*#__PURE__*/React.createElement("p", null, "Is it the evidence, the confident wording, or what you want to believe?")),
         /*#__PURE__*/React.createElement("li", null,
           /*#__PURE__*/React.createElement("h4", null, "What’s my call?"),
-          /*#__PURE__*/React.createElement("p", null, "Keep, change, or toss. You own the decision."))),
+          /*#__PURE__*/React.createElement("p", null, "Decide what to believe or do. You can change your mind when you learn more."))),
       /*#__PURE__*/React.createElement("p", null, "Each habit is a question you ask."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "The five questions work on anything you read or hear. They matter most on AI, where answers arrive smooth, confident, and instant. The model doesn’t fix your thinking. It scales it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The five questions work on anything you read or hear. Use them with AI, too. AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening."),
   closeBoard("critical"),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
@@ -8098,7 +8104,7 @@ function CriticalThinkingSection(props) {
           }));
       }))),
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Polish lowers your guard.", body: "You caught five shaky claims on instinct. The hard part is using that same instinct when AI’s answer sounds confident and clean." })) : null,
+    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
   /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
 }
@@ -8376,8 +8382,8 @@ function PromptingSection(props) {
   var rubricLines = RUBRIC_CRITERIA.map(function(criterion, index) {
     return (index + 1) + ". " + criterion + ": " + (rubricPoints[index] || "[POINTS]") + " points";
   }).join("\n");
-  var essayText = "Why Students Need to Learn About AI\n\nAI is becoming part of school, work, and everyday life, so students need to understand how to use it. Learning about AI is important because it can help students work faster and prepare for future jobs. It can also answer questions and explain difficult topics.\n\nOne reason to learn about AI is that many workplaces already use it. People use AI to write drafts, organize information, create images, and analyze data. Students who understand these tools will be more prepared when they enter the workforce. They will know how to ask for useful results instead of simply accepting the first answer.\n\nAI can also help students learn. A student can ask for another explanation, create practice questions, or get feedback on a draft. This can make studying more personal. However, AI sometimes gives incorrect or misleading information. Students must still check important facts and use their own judgment.\n\nSome people worry that students will use AI to avoid thinking. That can happen, but avoiding AI will not solve the problem. Schools should teach students how to use it responsibly, just as they teach students how to evaluate websites and sources.\n\nStudents need to learn about AI because it is not going away. If they understand both its strengths and its limits, they can use it as a tool without letting it do all of their thinking.";
-  var rubricEvaluationPrompt = "Build an analytic rubric for a short high-school essay. Use exactly these four criteria and point values:\n\n" + rubricLines + "\n\nFor each criterion, describe what excellent, proficient, developing, and missing work looks like. Put the rubric in a clear table and confirm that the maximum score is 100 points.\n\nThen apply the rubric to the essay below. For each criterion, give the points earned, identify specific evidence from the essay, and explain the score in one sentence. Show the total score out of 100 and name the single strongest improvement the writer could make. Do not rewrite the essay.\n\n" + essayText;
+  var essayText = "Why Students Need to Learn About AI\n\nAI is becoming part of school, work, and everyday life, so students need to understand how to use it. Learning about AI is important because it can help students work faster and prepare for future jobs. It can also answer questions and explain difficult topics.\n\nOne reason to learn about AI is that many workplaces already use it. People use AI to write drafts, organize information, create images, and analyze data. Students who understands these tools will be more prepaired when they enter the workforce. They will know how to ask for useful results instead of simply accepting the first answer.\n\nAI can also help students learn. A student can ask for another explanation, create practice questions, or get feedback on a draft. This can make studying more personal. However, AI sometimes gives incorrect or misleading information. Students must still check important facts and use their own judgment.\n\nSome people worry that students will use AI to avoid thinking. That can happen, but avoiding AI will not solve the problem. Schools should teach students how to use it responsibly, just as they teach students how to evaluate websites and sources.\n\nStudents need to learn about AI because it is not going away. If they understand both its strengths and its limits, they can use it as a tool without letting it do all of their thinking.";
+  var rubricEvaluationPrompt = "Build a rubric for a short high-school essay. Use exactly these four criteria and point values:\n\n" + rubricLines + "\n\nFor each criterion, briefly explain what the essay needs to earn full points. Show the criteria, descriptions, and possible points in a table. The possible points should total 100.\n\nThen apply the rubric to the essay below. For each criterion, give the points earned, identify specific evidence from the essay, and explain the score in one sentence. Show the total score out of 100 and name the single strongest improvement the writer could make. Do not rewrite the essay.\n\n" + essayText;
   var essayParts = essayText.split("\n\n");
   var essayReadingCard = React.createElement("article", {
     "aria-label": "Essay: " + essayParts[0],
@@ -8440,11 +8446,11 @@ function PromptingSection(props) {
         onClick: function() { setRubricPoints(["25", "25", "25", "25"]); }
       }, "Split evenly")));
   const LAB_STEPS = [
-    { title: "Set the Values", body: "Here are the four criteria for grading the essay. You decide how much each is worth, and enter the number in the box to the right. And, make sure it adds up to 100.", content: rubricInputs },
+    { title: "Decide What Matters", body: "Divide 100 points among the four parts below. Give more points to the parts you think matter most in a good essay. Give each part at least one point.", content: rubricInputs },
+    { title: "Read the essay", body: "Read the essay below. What does it do well, and what needs work? Make up your own mind before you see AI’s evaluation.", content: essayReadingCard },
     { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new chat outside any project."] },
-    { title: "Read the essay", body: "The essay below was written for this lab.", content: essayReadingCard },
-    { title: "Build and apply the rubric", body: "Copy and send this prompt. It will build your rubric, then use it to evaluate the essay.", prompt: rubricEvaluationPrompt, promptDisabled: !rubricReady, promptDisabledLabel: "Copy Prompt", hidePlaceholderHint: true },
-    { title: "Read the completed rubric", body: "Look across the four criteria and the evidence AI used. Notice what the rubric changed: instead of a vague opinion, the evaluation follows the standards and point values you supplied." }
+    { title: "Get AI’s Evaluation", body: "The prompt below includes your point values and the essay. Copy and send it to ChatGPT. It will build the rubric and use it to grade the essay.", prompt: rubricEvaluationPrompt, promptDisabled: !rubricReady, promptDisabledLabel: "Copy Prompt", hidePlaceholderHint: true },
+    { title: "Read the evaluation", body: "Look at the scores and the examples AI used to explain them. Which part of the essay lost the most points? Do you agree with AI’s suggestion for improving it?" }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. With AI, don’t assume it knows those details or will ask for them."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer."),
@@ -8648,38 +8654,43 @@ function StudyingWithAISection(props) {
 function DigDeeperTryIt(props) {
   var DD_SCENARIOS = [
     {
+      request: "Suggest a movie for a group of friends who like Marvel movies.",
       response: "For tonight’s movie night, you can’t go wrong with Avengers: Endgame. Epic battles, big laughs, and the payoff to a decade of movies: it plays just as well with four people as with fourteen.",
       options: [
-        { label: "Good to go", correct: true, headline: "Right. Low stakes, your call.", feedback: "Two of the three questions settle it: what kind of task? A recommendation, and whether a movie is “good” is your call, not a fact to verify. How much is riding on it? One evening. If it sounds fun, press play." },
-        { label: "Dig deeper", headline: "Dig into… what, exactly?", hint: "Run the three questions: is there anything here you could even validate, what kind of task is this, and how much is riding on it?", feedback: "There’s no fact here to check: a movie pick is taste, and the stakes are one Friday night. Digging deeper would cost more than being wrong. Save the checks for answers that matter." }
+        { label: "Good to go", correct: true, headline: "Right. It fits your group.", feedback: "You asked for a movie for friends who like Marvel. This fits, and you can decide whether it sounds fun. That’s enough to make the choice." },
+        { label: "Dig deeper", headline: "A quick check is enough here.", hint: "Does the suggestion fit what you asked for? How much is riding on the choice?", feedback: "You don’t need to prove this is the best movie. You need something your friends will enjoy. If it fits the group, pick it. If it doesn’t, ask for another suggestion." }
       ]
     },
     {
+      request: "Find a scholarship I could apply for as a high-school senior.",
       response: "You’re in luck! In-N-Out Burger runs the Animal Style Scholars Program: $20,000 awarded to 50 high-school seniors every year. Applications close March 1, and the essay prompt is about secret menus. Want me to start your draft?",
       options: [
-        { label: "Good to go", headline: "Would you bet $20,000 on it?", hint: "Look at how specific those details are: a name, a dollar amount, a deadline. Could you actually validate any of them?", feedback: "Every detail here is exactly the kind AI invents: specific, confident, and plausible. If the program doesn’t exist, you’ve written an essay for a burger chain that never asked. High stakes plus specific claims is precisely when you dig." },
-        { label: "Dig deeper", correct: true, headline: "Right. Suspiciously specific.", feedback: "A program name, a dollar amount, a winner count, a deadline: the more specific the detail, the more skeptical you should be. Maybe it’s real, maybe it isn’t, and with college money on the line you don’t guess. Search the program yourself before writing a word of that essay." }
+        { label: "Good to go", headline: "Check before you apply.", hint: "AI gave you a program name, an award amount, and a deadline. What tells you those details are right?", feedback: "Before you spend time on the essay, find the scholarship on the organization’s official website. Check that it exists, that you qualify, and that the deadline is current." },
+        { label: "Dig deeper", correct: true, headline: "Right. Details need evidence.", feedback: "A convincing description isn’t enough. Find the scholarship on the organization’s official website and check the requirements and deadline. You don’t want to write an essay for a scholarship AI invented." }
       ]
     },
     {
+      request: "I twisted my ankle at practice. What should I do?",
       response: "For a sprained ankle, follow R.I.C.E.: rest, ice for 20 minutes at a time, compression with an elastic bandage, and elevation above your heart. Stay off it for 48 hours, then ease back in as the pain allows.",
       options: [
-        { label: "Good to go", headline: "It’s a health question.", hint: "The advice sounds standard. But run the stakes question: how much is riding on this one?", feedback: "Even good-sounding health advice deserves a real person’s eyes, because “sounds standard” can’t tell a sprain from a fracture. Health, legal, crisis: those always go to a real person." },
-        { label: "Dig deeper", correct: true, headline: "Right. It’s your body.", feedback: "The advice sounds textbook, and it may all be correct. But AI can’t see the swelling or rule out a fracture, and health sits at the top of the stakes ladder. This is the “walk away” move: have a parent, trainer, or doctor look at the actual ankle." }
+        { label: "Good to go", headline: "How does AI know it’s a sprain?", hint: "You said you twisted your ankle. Did the answer establish what the injury was before recommending treatment?", feedback: "The advice sounds familiar, but it assumes you have a sprain. That hasn’t been established. Tell a parent or athletic trainer what happened and get help deciding what care you need." },
+        { label: "Dig deeper", correct: true, headline: "Right. Check the assumption.", feedback: "Advice for a sprain only helps if it fits your injury. A confident answer doesn’t establish that. This is a time to involve someone who can assess the ankle, rather than rely on the chat." }
       ]
     },
     {
-      response: "Ten ideas for the team car-wash fundraiser: pre-sell tickets at lunch, add a “coach gets pied” stretch goal, offer a monthly pass, challenge the rival school to a wash-off, film before-and-after clips for the team account… want the other five?",
+      request: "Give me five ideas to help our team’s car wash raise more money.",
+      response: "Five ideas for the team car-wash fundraiser: pre-sell tickets at lunch, add a “coach gets pied” stretch goal, offer a monthly pass, challenge the rival school to a wash-off, and film before-and-after clips for the team account.",
       options: [
-        { label: "Good to go", correct: true, headline: "Right. It’s a brainstorm.", feedback: "Nothing here is a fact that can be wrong: they’re options. A brainstorm gets checked against what you asked for, and you’re about to keep two ideas and toss the rest anyway. You are the filter." },
-        { label: "Dig deeper", headline: "There’s no claim to check.", hint: "Start with the task question: what kind of task was this? Is there a fact in this answer that could be false?", feedback: "Ideas can’t be fact-checked, only kept or tossed, and picking the keepers is your job, not a verification step. Brainstorms get checked against what you asked for. Save the deep checks for facts with stakes." }
+        { label: "Good to go", correct: true, headline: "Good starting points.", feedback: "You asked for ideas, and AI gave you options. Pick the ones that fit your team, budget, and time. You don’t need a research project to choose a few favorites." },
+        { label: "Dig deeper", headline: "What needs a closer look?", hint: "You’re choosing ideas, not committing to the whole plan. Can you judge which ones are worth considering?", feedback: "A quick check is enough to pick a few promising ideas. Before you put one into action, work out the details. A “coach gets pied” event, for example, needs a willing coach." }
       ]
     },
     {
+      request: "Suggest a quote about how people have different abilities for the opening of my essay.",
       response: "Here’s a strong opener for your essay. As Albert Einstein said, “Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that it is stupid.”",
       options: [
-        { label: "Good to go", headline: "Einstein never said it.", hint: "A very specific claim about who said what, going into an essay with your name on it. What do the three questions say about that combination?", feedback: "This quote is a famous misattribution: no record of Einstein saying it exists. Confident wording is not evidence. One search before it goes in the essay saves you from a teacher who knows better." },
-        { label: "Dig deeper", correct: true, headline: "Right. Famous quotes lie.", feedback: "There’s no evidence Einstein ever said this: it’s one of the internet’s most famous misattributions. A quote in an essay with your name on it is a factual claim with real stakes. Ask for the source and click it. If you can’t find it, it doesn’t exist." }
+        { label: "Good to go", headline: "Did Einstein say it?", hint: "The quote fits your essay. But what supports the claim that Einstein said it?", feedback: "A quote can make a great opening, but the name attached to it needs checking. Look for a reliable source that identifies where and when the person said or wrote it. Seeing the same attribution on several quote websites isn’t enough." },
+        { label: "Dig deeper", correct: true, headline: "Right. Check who said it.", feedback: "AI gave you two things: a quote and a claim about its author. Before you put Einstein’s name in your essay, verify that claim. If you can’t, choose a quote you can source or make the point in your own words." }
       ]
     }
   ];
@@ -8687,11 +8698,11 @@ function DigDeeperTryIt(props) {
   var allAnswered = Object.keys(answers).length >= DD_SCENARIOS.length;
   useEffect(function() { if (allAnswered && props.onComplete) props.onComplete(); }, [allAnswered]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Are these AI responses good to go, or do you need to dig deeper?",
-    lead: "The three checking questions only matter if you can use them when an answer looks ready.",
+    variant: "try", surface: "mint", title: "Good to Go or Dig Deeper?",
+    lead: "AI gave you an answer. Does it need a closer look?",
     instructions: [
-      "Read the request and AI’s response.",
-      "Run the three checking questions from the lesson.",
+      "Read what you asked and AI’s answer.",
+      "Consider the three questions: Can you judge it? What kind of task is it? How much is riding on it?",
       React.createElement("span", null, "Choose ", React.createElement("strong", null, "Good to go"), " or ", React.createElement("strong", null, "Dig deeper"), ".")
     ]
   },
@@ -8702,6 +8713,8 @@ function DigDeeperTryIt(props) {
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--tryAccent)", marginBottom: 5 } }, "You asked"),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 600, color: "#45405b", lineHeight: 1.45, maxWidth: "60ch", marginBottom: 14 } }, sc.request),
               /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.response))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: si,
@@ -8719,26 +8732,26 @@ function DigDeeperTryIt(props) {
 function EvaluatingSection(props) {
   var E = React.createElement;
   var QUICK_PASS = [
-    { title: "Read", body: "Read every word. Passing along unread AI output means owning a mistake you never noticed." },
-    { title: "Understand", body: "You cannot judge an answer you do not understand. Ask AI, “Explain the second paragraph in simpler terms.”" },
-    { title: "Validate", body: "Compare the answer with what you already know. Your own knowledge is the fastest first fact-check." }
+    { title: "Read", body: "Read the answer before you use it. If you pass it along, you’re responsible for what it says." },
+    { title: "Understand", body: "You can’t judge an answer you don’t understand. Ask AI, “Explain the second paragraph in simpler terms.”" },
+    { title: "Validate", body: "Compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?" }
   ];
   var DIG_DECISION = [
-    { title: "Could You Actually Validate It?", body: "If it holds up against what you genuinely know, you may be done. If it is beyond your knowledge, keep going." },
-    { title: "What Kind of Task Was This?", body: "Facts usually need more evaluation. A draft or brainstorm may only need to match what you asked for." },
-    { title: "How Much Is Riding on It?", body: "A movie pick is low stakes. A health question, college essay, or anything with your name on it deserves more care." }
+    { title: "Can You Judge It?", body: "Compare the answer with what you know. If you don’t know enough to judge it, keep checking." },
+    { title: "What Kind of Task Is It?", body: "A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task." },
+    { title: "How Much Is Riding on It?", body: "A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?" }
   ];
   var DIG_TACTICS = [
-    { title: "Ask for Citations", body: "Check that each link exists, supports the claim, and is credible." },
-    { title: "Challenge the AI", body: "Ask it to argue the other side and name what it is least sure about." },
-    { title: "Ask What’s Missing", body: "Surface the context and viewpoints the answer left out." },
-    { title: "Search the Live Web", body: "For recent claims, check current sources instead of relying on training." },
-    { title: "Leave the Chat", body: "Search the claim yourself. If it exists only in the chat, treat it as unproven." }
+    { title: "Check the Sources", body: "Ask for sources, then open them. Does each source support the claim? Is it reliable?" },
+    { title: "Challenge the Answer", body: "Ask, “What’s the strongest argument against this?” Look for weaknesses you hadn’t considered." },
+    { title: "Ask What’s Missing", body: "Ask, “What important information did you leave out?” Decide whether it changes your view of the answer." },
+    { title: "Search the Live Web", body: "Ask AI to search the web for current information. Open the sources and check what they say." },
+    { title: "Check It Yourself", body: "Find another way to check the answer. Recalculate the numbers, test the code, or ask someone who knows the subject." }
   ];
   var NEXT_MOVES = [
-    { icon: "✅", title: "Use It", desc: "It passed your checks. You read it, understood it, validated what mattered, and you are done." },
-    { icon: "🔧", title: "Fix It", desc: "Something is off and you can name it. Tell AI exactly what is wrong: cut the unsupported statistic, or make it shorter." },
-    { icon: "✕", title: "Walk Away", desc: "The tool is wrong for the job or the stakes are too high. Do it yourself or take it to a person who knows." }
+    { icon: "✅", title: "Use It", desc: "The answer is right and good enough for what you need. Put it to work." },
+    { icon: "🔧", title: "Fix It", desc: "Tell AI what needs to change, or change it yourself. Then check the revised answer before you use it." },
+    { icon: "✕", title: "Walk Away", desc: "If AI isn’t helping you get there, try another approach or ask someone who knows the subject." }
   ];
   var processBoard = function(src, title, items, takeaway, ordered, marginBottom) {
     var listItems = items.map(function(item, i) {
@@ -8762,27 +8775,32 @@ function EvaluatingSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "evaluating" }),
     E(BodyP, null,
-      "By now you’ve seen it yourself: AI makes mistakes. It uses the same confident voice whether the facts are right or wrong. So what do you do with an AI answer, knowing it might be wrong?"),
+      "AI makes mistakes. It uses the same confident voice whether the facts are right or wrong. But even an answer with no factual mistakes can fall short. A joke that isn’t funny. An explanation that leaves you confused. A plan that won’t work."),
     E(BodyP, null,
       "One option is to ignore AI. Pretend it doesn’t exist. Nobody who’s made it this far in the course is doing that: AI is too powerful to leave on the shelf. To ",
       E("strong", null, "Be Smarter Than the Tool"),
       ", you need the right skills to evaluate AI’s results."),
+    E(BodyP, null,
+      "When you evaluate an answer, ask two questions: ",
+      E("strong", null, "Is it right?"),
+      " ",
+      E("strong", null, "Is it good enough for what I need?")),
     E(SectionKicker, null, "Every response: the quick pass"),
     E(BodyP, null,
-      "Three steps, a few seconds, every time. This is the floor for anything AI hands you."),
-    processBoard("illustrations/evaluate-the-results-1-quick-pass.jpg?v=20260909sequence2", "The Quick Pass", QUICK_PASS, "Three steps, a few seconds, every time.", true, 20),
+      "Start with these three steps before you use an AI answer."),
+    processBoard("illustrations/evaluate-the-results-1-quick-pass.jpg?v=20260913quickpass3", "The Quick Pass", QUICK_PASS, "Before you use it: read, understand, validate.", true, 20),
     E(SectionKicker, null, "Then decide: does this answer deserve the dig?"),
     E(BodyP, null,
-      "Most chats end at the quick pass. Three questions tell you when this one shouldn’t:"),
-    processBoard("illustrations/evaluate-the-results-2-decide.jpg?v=20260909sequence2", "Does This Answer Deserve the Dig?", DIG_DECISION, "Most chats end at the quick pass.", true, 32),
+      "Some answers need a closer look. These three questions help you decide."),
+    processBoard("illustrations/evaluate-the-results-2-decide.jpg?v=20260913decide3", "Do You Need to Dig Deeper?", DIG_DECISION, "Give the answer the attention it deserves.", true, 32),
     E(SectionKicker, null, "When it deserves the dig"),
     E(BodyP, null,
-      "Some answers you can’t validate on your own, and some carry real stakes. Those get the deep evaluation. Here are the tactics:"),
-    processBoard("illustrations/evaluate-the-results-3-dig.jpg?v=20260909sequence2", "When It Deserves the Dig", DIG_TACTICS, "Some answers you can’t validate on your own, and some carry real stakes.", false, 20),
+      "When an answer needs a closer look, choose the checks that fit the task."),
+    processBoard("illustrations/evaluate-the-results-3-dig.jpg?v=20260913dig4", "Dig Deeper", DIG_TACTICS, "Use AI to help you check. You decide whether the answer holds up.", false, 20),
     E(SectionKicker, null, "Then make your move"),
     E(BodyP, null,
-      "An evaluation isn’t finished until you act on it. Every one ends in one of three moves."),
-    processBoard("illustrations/evaluate-the-results-4-move.jpg?v=20260909sequence2", "Make Your Move", NEXT_MOVES, "The tool answers. You evaluate.", false, 20),
+      "Now decide what to do with the answer."),
+    processBoard("illustrations/evaluate-the-results-4-move.jpg?v=20260913move3", "Make Your Move", NEXT_MOVES, "The tool answers. You evaluate.", false, 20),
     E("img", {
       src: "illustrations/evaluate-the-results-check-before-use-v2.jpg?v=20260909teaching1",
       alt: "Check Before You Use. Nate and Luke compare an AI claim that a scholarship deadline is March 1 against two sources that say February 15, then decide to fix it. The answer is not the evidence.",
@@ -11623,7 +11641,7 @@ function FinishLetter() {
     E("p", null, "That’s what we want for every person our age. Get the fundamentals here, and soar to new heights in the AI future."),
     E("p", null, "Before you go, the next lesson has a 25-question final exam. Pass it, and you’ll get a cool certificate in PDF. Hang it on the wall."),
     E("p", null, "If we inspired you to keep learning, there’s a page called ", E("b", null, "Resources"), " which lists a few next steps."),
-    E("p", null, "And lastly, let us know how you liked the course. There’s a ", E("b", null, "Reviews"), " page where you can read previous reviews and add your own."),
+    E("p", null, "And lastly, let us know how you liked the course. There’s a ", E("b", null, "Course Reviews"), " page where you can leave feedback and help us improve it."),
     E("p", null, "And, if you’re a hockey fan, GO STARS!"),
     E("p", { className: "finish-letter-sig" }, "Luke and Nate"));
 }
@@ -11656,11 +11674,266 @@ function ResourcesSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "resources" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it’s tempting to coast from here, pass the final, and call it done. But the tool you’re using right now will be replaced, probably sooner than you’d guess. What this course asked you to build won’t be."));
+      "Treating the end of the course as the end of the work. The hard machinery is behind you and the last page is in sight, so it’s tempting to coast from here, pass the final, and call it done. But the tool you’re using right now will be replaced, probably sooner than you’d guess. What this course asked you to build won’t be."),
+    /*#__PURE__*/React.createElement(LessonRule, null),
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("reviews"); }, label: "Next: Course Reviews" }));
+}
+function StudentReviewsList(props) {
+  var E = React.createElement;
+  var _feed = useState({ items: [], ratingSummary: null, nextCursor: null, loading: true, loaded: false, error: "" });
+  var feed = _feed[0], setFeed = _feed[1];
+  var feedRef = useRef(feed);
+  var requestRef = useRef(null);
+  var scrollRef = useRef(null);
+  var loadRef = useRef(null);
+  var saveFeed = function(next) { feedRef.current = next; setFeed(next); };
+  var load = async function(refresh) {
+    var previous = feedRef.current;
+    if (!refresh && (requestRef.current || !previous.nextCursor)) return;
+    if (requestRef.current) requestRef.current.abort();
+    var controller = new AbortController();
+    requestRef.current = controller;
+    saveFeed(Object.assign({}, previous, { loading: true, error: "" }));
+    var timeout = setTimeout(function() { controller.abort(); }, 20000);
+    try {
+      var items = refresh ? [] : previous.items.slice();
+      var cursor = refresh ? null : previous.nextCursor;
+      var target = refresh ? Math.max(20, previous.items.length) : previous.items.length + 20;
+      var restarted = false;
+      var pages = 0;
+      do {
+        var url = SIGNUP_ENDPOINT + "?action=public_reviews&_=" + Date.now() + (cursor ? "&cursor=" + encodeURIComponent(cursor) : "");
+        var response = await fetch(url, { signal: controller.signal, cache: "no-store", credentials: "omit", redirect: "follow" });
+        if (!response.ok) throw new Error("Reviews request failed");
+        var data = await response.json();
+        if (data.error || !Array.isArray(data.reviews) || (data.nextCursor !== null && typeof data.nextCursor !== "string")) throw new Error("Invalid reviews response");
+        var summary = data.ratingSummary;
+        if (!summary || !Number.isSafeInteger(summary.total) || summary.total < 0 ||
+            (summary.total === 0 ? summary.average !== null : !Number.isFinite(summary.average) || summary.average < 1 || summary.average > 5)) throw new Error("Invalid rating summary");
+        if (data.reset) { items = []; restarted = true; }
+        items = items.concat(data.reviews);
+        cursor = data.nextCursor;
+        pages++;
+        // Bound retries if submissions keep changing during a multi-page refresh.
+        if (pages > Math.ceil(target / 20) + 2) throw new Error("Reviews changed during loading");
+      } while (cursor && items.length < target);
+      if (requestRef.current !== controller) return;
+      saveFeed({ items: items, ratingSummary: summary, nextCursor: cursor, loading: false, loaded: true, error: "" });
+      if (restarted && scrollRef.current) scrollRef.current.scrollTop = 0;
+    } catch (error) {
+      if (requestRef.current !== controller) return;
+      // Do not leave potentially withdrawn reviews visible after a failed refresh.
+      saveFeed({ items: [], ratingSummary: null, nextCursor: null, loading: false, loaded: false, error: "Student reviews couldn’t be loaded. Please try again." });
+    } finally {
+      clearTimeout(timeout);
+      if (requestRef.current === controller) requestRef.current = null;
+    }
+  };
+  loadRef.current = load;
+  useEffect(function() {
+    loadRef.current(true);
+    var refresh = function() {
+      if (document.visibilityState === "visible" && !requestRef.current) loadRef.current(true);
+    };
+    var timer = setInterval(refresh, 60000);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return function() {
+      clearInterval(timer);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+      if (requestRef.current) requestRef.current.abort();
+      requestRef.current = null;
+    };
+  }, [props.refreshKey]);
+  return E("section", { "aria-labelledby": "student-reviews-title", style: { marginTop: 36 } },
+    E("h2", { id: "student-reviews-title", style: { fontFamily: "var(--sans)", fontSize: 24, fontWeight: 800, color: "var(--ink)", marginBottom: 16 } }, "Student Reviews"),
+    feed.ratingSummary ? E("div", { role: "status", "aria-label": "Overall course rating", style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 14px", marginBottom: 18, fontFamily: "var(--sans)", color: "var(--ink)" } },
+      feed.ratingSummary.total > 0 ? E("span", { "aria-hidden": true, style: { position: "relative", display: "inline-block", fontSize: 26, lineHeight: 1, letterSpacing: 2, color: "var(--inkFaint)", whiteSpace: "nowrap" } },
+        "★★★★★",
+        E("span", { style: { position: "absolute", left: 0, top: 0, width: (feed.ratingSummary.average / 5 * 100) + "%", overflow: "hidden", color: "var(--primary)" } }, "★★★★★")) : null,
+      E("span", { style: { fontSize: 18, fontWeight: 800 } }, feed.ratingSummary.total > 0 ? feed.ratingSummary.average.toFixed(1) + " out of 5" : "No ratings yet"),
+      E("span", { style: { fontSize: 14, color: "var(--inkMuted)" } }, feed.ratingSummary.total.toLocaleString() + (feed.ratingSummary.total === 1 ? " rating" : " ratings"))) : null,
+    E("div", {
+      ref: scrollRef, role: "region", "aria-label": "Student reviews", "aria-busy": feed.loading, tabIndex: 0,
+      onScroll: function(event) {
+        var area = event.currentTarget;
+        if (!feed.error && area.scrollHeight - area.scrollTop - area.clientHeight < 160) loadRef.current(false);
+      },
+      style: { maxHeight: "min(65vh, 620px)", overflowY: "auto", padding: "4px 8px 4px 4px", borderRadius: 12, fontFamily: "var(--sans)", color: "var(--inkSoft)", overflowWrap: "anywhere" }
+    },
+      E("div", { role: "list" }, feed.items.map(function(review, index) {
+        return E("article", { role: "listitem", key: index, style: { padding: 20, marginBottom: 12, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12 } },
+          E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 10 } },
+            E("span", { role: "img", "aria-label": review.rating + " out of 5 stars", style: { color: "var(--primary)", fontSize: 23, letterSpacing: 2 } },
+              E("span", { "aria-hidden": true }, "★".repeat(review.rating) + "☆".repeat(5 - review.rating))),
+            E("time", { dateTime: review.submittedAt, style: { fontSize: 13, color: "var(--inkMuted)" } }, new Date(review.submittedAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }))),
+          E("p", { style: { fontSize: 16, lineHeight: 1.6, whiteSpace: "pre-wrap" } }, review.text),
+          E("p", { style: { marginTop: 12, fontSize: 14, fontWeight: 800, color: "var(--ink)" } }, review.name));
+      })),
+      feed.loaded && !feed.loading && !feed.items.length ? E("p", { style: { padding: "18px 0" } }, "No student reviews yet.") : null,
+      feed.loading ? E("p", { role: "status", style: { padding: "12px 0" } }, "Loading student reviews…") : null,
+      feed.error ? E("div", null,
+        E("p", { role: "alert", style: { marginBottom: 12 } }, feed.error),
+        E(ActivityButton, { onClick: function() { loadRef.current(true); } }, "Try loading reviews again")) : null,
+      feed.nextCursor ? E(ActivityButton, { disabled: feed.loading, onClick: function() { loadRef.current(false); } }, "Load older reviews") : null));
 }
 function ReviewsSection(props) {
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "reviews" }));
+  var E = React.createElement;
+  var profile = getStudentProfile();
+  var emptyReview = {
+    usefulnessRating: 0,
+    improvement: "",
+    testimonial: "",
+    quotePermission: "none",
+    quoteFirstName: profile.firstName || ""
+  };
+  var _draft = useLocalStorage(REVIEW_DRAFT_KEY, emptyReview), draft = _draft[0], setDraft = _draft[1];
+  var _status = useState(function() {
+    try { return localStorage.getItem(REVIEW_SUBMITTED_KEY) === getOrCreateReviewId() ? "success" : "idle"; }
+    catch (e) { return "idle"; }
+  }), status = _status[0], setStatus = _status[1];
+  var _reviewRefresh = useState(0), reviewRefresh = _reviewRefresh[0], setReviewRefresh = _reviewRefresh[1];
+  var _error = useState(""), error = _error[0], setError = _error[1];
+
+  var update = function(field, value) {
+    setError("");
+    setDraft(function(prev) {
+      var next = Object.assign({}, prev);
+      next[field] = value;
+      if (field === "testimonial" && !String(value || "").trim()) {
+        next.quotePermission = "none";
+      }
+      return next;
+    });
+  };
+  var fieldStyle = {
+    width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 10,
+    background: "var(--bg)", color: "var(--ink)", padding: "11px 13px",
+    fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, outlineColor: "var(--primary)"
+  };
+  var questionLabel = function(text, optional) {
+    return E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 10, lineHeight: 1.4 } },
+      text,
+      E("span", { style: { marginLeft: 7, color: "var(--inkMuted)", fontSize: 12, fontWeight: 700 } }, optional ? "Optional" : "Required"));
+  };
+  var textField = function(field, question, helpText) {
+    var id = "review-" + field;
+    return E("label", { htmlFor: id, style: { display: "block", marginBottom: 26 } },
+      questionLabel(question, true),
+      helpText ? E("div", { id: id + "-help", style: { marginBottom: 10, color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 14 } }, helpText) : null,
+      E("textarea", { id: id, rows: 4, maxLength: 2500, "aria-describedby": helpText ? id + "-help" : undefined, value: draft[field] || "", onChange: function(event) { update(field, event.target.value); }, style: Object.assign({}, fieldStyle, { resize: "vertical" }) }));
+  };
+  var submitReview = function() {
+    setError("");
+    if ([1, 2, 3, 4, 5].indexOf(Number(draft.usefulnessRating)) === -1) {
+      setError("Choose a star rating before submitting your review.");
+      return;
+    }
+    var hasTestimonial = !!String(draft.testimonial || "").trim();
+    var permission = hasTestimonial ? (draft.quotePermission || "none") : "none";
+    var firstName = permission === "first_name" ? String(draft.quoteFirstName || "").trim() : "";
+    if (permission === "first_name" && !firstName) {
+      setError("Add the first name we may use with your quote, or choose another permission option.");
+      return;
+    }
+    var payload = {
+      eventType: "review",
+      reviewId: getOrCreateReviewId(),
+      studentId: profile.studentId,
+      courseVersion: COMPLETION_VERSION,
+      usefulnessRating: Number(draft.usefulnessRating),
+      improvement: String(draft.improvement || "").trim(),
+      testimonial: String(draft.testimonial || "").trim(),
+      quotePermission: permission,
+      quoteFirstName: firstName
+    };
+    setStatus("sending");
+    try {
+      fetch(SIGNUP_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      })
+        .then(function(response) { return response.text(); })
+        .then(function(text) {
+          if (text.trim() !== "review-ok") throw new Error("Review was not accepted");
+          try { localStorage.setItem(REVIEW_SUBMITTED_KEY, payload.reviewId); } catch (e) {}
+          setStatus("success");
+          setReviewRefresh(function(value) { return value + 1; });
+          if (props.markComplete) props.markComplete("reviews");
+        })
+        .catch(function() {
+          setStatus("error");
+          setError("Your answers are still saved here. Check your connection and try again.");
+        });
+    } catch (e) {
+      setStatus("error");
+      setError("Your answers are still saved here. Check your connection and try again.");
+    }
+  };
+
+  var success = status === "success";
+  return E("div", null,
+    E(LessonHeader, { sectionId: "reviews" }),
+    success
+      ? E(React.Fragment, null,
+          E(InnerCard, { style: { padding: "24px 28px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6 } },
+            E("p", null, "Thanks for taking the course and telling us what you think. Your feedback helps us make it better for the next student."),
+            E("p", { style: { marginTop: 12 } }, "Luke and Nate")),
+          E("div", { style: { textAlign: "center", marginTop: 18 } },
+            E(ActivityButton, { onClick: function() { setStatus("idle"); setError(""); } }, "Edit my review")))
+      : E(React.Fragment, null,
+          E(BodyP, null, "How was the course? We hope you find it time well spent. If you have a minute, we'd love your feedback. It will help us improve the course for the next students who take it."),
+          E(InnerCard, { style: { border: "1px solid var(--rule)", boxShadow: "none" } },
+            E("div", { style: { marginBottom: 26 } },
+              questionLabel("Overall, how useful was this course?", false),
+              E("div", { role: "radiogroup", "aria-required": true, "aria-label": "Overall, how useful was this course?", style: { display: "grid", gridTemplateColumns: "repeat(5, minmax(44px, 1fr))", gap: 8, maxWidth: 280 } },
+                [1, 2, 3, 4, 5].map(function(value) {
+                  var selected = Number(draft.usefulnessRating) === value;
+                  var filled = value <= Number(draft.usefulnessRating);
+                  return E("button", {
+                    key: value, type: "button", role: "radio", "aria-checked": selected,
+                    "aria-label": value + " out of 5",
+                    tabIndex: selected || (!Number(draft.usefulnessRating) && value === 1) ? 0 : -1,
+                    onClick: function() { update("usefulnessRating", value); },
+                    onKeyDown: function(event) {
+                      var next;
+                      if (event.key === "ArrowRight" || event.key === "ArrowDown") next = value === 5 ? 1 : value + 1;
+                      else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = value === 1 ? 5 : value - 1;
+                      else if (event.key === "Home") next = 1;
+                      else if (event.key === "End") next = 5;
+                      else return;
+                      event.preventDefault();
+                      update("usefulnessRating", next);
+                      event.currentTarget.parentElement.children[next - 1].focus();
+                    },
+                    style: { minHeight: 46, borderRadius: 10, border: "none", background: "transparent", color: filled ? "var(--primary)" : "var(--inkMuted)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }
+                  }, E("svg", { width: 36, height: 36, viewBox: "0 0 24 24", "aria-hidden": true, focusable: "false", fill: filled ? "currentColor" : "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinejoin: "round" },
+                    E("path", { d: "M12 3l2.78 5.63L21 9.54l-4.5 4.38 1.06 6.19L12 17.19l-5.56 2.92 1.06-6.19L3 9.54l6.22-.91L12 3z" })));
+                })),
+              E("div", { style: { display: "flex", justifyContent: "space-between", maxWidth: 280, marginTop: 6, color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 12.5 } }, E("span", null, "Not useful"), E("span", null, "Very useful")),
+              E("div", { role: "status", "aria-live": "polite", style: { marginTop: 8, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 } }, Number(draft.usefulnessRating) ? Number(draft.usefulnessRating) + " out of 5" : "")),
+            textField("testimonial", "What would you tell another student about this course?"),
+            String(draft.testimonial || "").trim() ? E("fieldset", { style: { border: 0, padding: 0, margin: "0 0 26px" } },
+              E("legend", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 10, lineHeight: 1.4 } }, "May we share this review on the course website or when describing the course?"),
+              E("div", { role: "radiogroup", "aria-label": "Quote permission", style: { display: "grid", gap: 8 } }, [
+                ["none", "No, keep it private."],
+                ["anonymous", "Yes, but keep it anonymous."],
+                ["first_name", "Yes, use my first name."]
+              ].map(function(option) {
+                var selected = draft.quotePermission === option[0];
+                return E("button", { key: option[0], type: "button", role: "radio", "aria-checked": selected, onClick: function() { update("quotePermission", option[0]); }, style: { width: "100%", padding: "11px 13px", textAlign: "left", borderRadius: 10, border: "1.5px solid " + (selected ? "var(--primary)" : "var(--rule)"), background: selected ? "#f5f1ff" : "#fff", color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, cursor: "pointer" } }, selected ? "✓ " + option[1] : option[1]);
+              })),
+              draft.quotePermission === "first_name" ? E("label", { htmlFor: "review-quote-first-name", style: { display: "block", marginTop: 12 } },
+                E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800 } }, "First name to use"),
+                E("input", { id: "review-quote-first-name", type: "text", maxLength: 80, autoComplete: "given-name", value: draft.quoteFirstName || "", onChange: function(event) { update("quoteFirstName", event.target.value); }, style: fieldStyle })) : null) : null,
+            textField("improvement", "What should we improve?", "This feedback is just for us. We won’t publish it."),
+            error ? E("div", { role: "alert", style: { padding: "11px 13px", marginBottom: 14, borderRadius: 9, background: "#fdeaec", color: "#9f1d32", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, lineHeight: 1.45 } }, error) : null,
+            E(ActivityButton, { size: "large", disabled: status === "sending", onClick: submitReview }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : "Submit my review")))),
+    E(StudentReviewsList, { refreshKey: reviewRefresh }),
+    E(LessonRule, null),
+    E(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));
 }
 function WhatYouLearnedSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -11670,7 +11943,7 @@ function WhatYouLearnedSection(props) {
     /*#__PURE__*/React.createElement(CertificateTeaser, null),
     /*#__PURE__*/React.createElement(TheFinalQuiz, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("resources"); }, label: "Next: Resources" }));
 }
 function WhereValueLivesBox() {
   var E = React.createElement;
@@ -12013,7 +12286,7 @@ function PaceOfChangeSection(props) {
   const BUILD_LAB_STEPS = [
     { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and log in." },
     { title: "Start a new project", body: "Start a new project. Before you name or create it, open the memory menu and choose Project-only memory so this game stays separate from your dino game. Then name it My Second Coding Project and click Create project." },
-    { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language. Ask before assuming I understand a coding term." },
+    { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." },
     { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Save and play version one", body: "Download the HTML file before asking for changes and save it as my-2048-game-v1.html. Open that file in Chrome, chase the 2048 tile for a bit, and note the first thing you would change." },
     { title: "Change one thing", body: "Return to the same ChatGPT conversation and make one specific ask: emoji tiles instead of numbers, a 5-by-5 board, an undo button, or a dark theme. Specific asks beat “make it better.” If the free plan says you reached a tool limit, version one still counts; note the reset time and return later." },

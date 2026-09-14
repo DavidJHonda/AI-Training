@@ -94,7 +94,7 @@ Those superpowers come with Kryptonite.
 
 ## LAB 05: Make Sense of the Mess
 
-We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you'll use Gemini Notebook to create the video version of the lesson.
+We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you’ll use Gemini Notebook to turn them into a clear summary.
 
 ### 1. Open the notes
 
@@ -116,16 +116,12 @@ Click **+ Create notebook** and name it **AI Replaces School**.
 
 Click **+ Add sources** and upload the planning-notes PDF you downloaded.
 
-### 6. Make your own lesson video
+### 6. Make Sense of the Notes
 
-1. Select **Video Overview** to the right.
-2. Below **Format**, select **Explainer**.
-3. Select **Generate Now**.
+Copy and send this prompt in the Gemini Notebook chat.
 
-### 7. Come back when it’s ready
+> Turn these messy notes into a clear summary in 200 words or fewer. Include the main argument, two ideas that were crossed out and their replacements, and your favorite joke from the notes.
 
-Your video may take a while to build. You can keep going with the course and return to this notebook later.
+### 7. Read the Summary
 
-### 8. Watch your video
-
-Watch how Gemini Notebook turned messy handwritten notes into a lesson. Then make your call: Can AI replace school?
+Read the summary, then look back at the notes. What did AI manage to make sense of?

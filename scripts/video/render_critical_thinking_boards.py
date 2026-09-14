@@ -5,6 +5,23 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+try:
+    from .editorial_takeaway import (
+        TAKEAWAY_BOTTOM_PADDING,
+        TAKEAWAY_HEIGHT,
+        TAKEAWAY_TEXT_SIZE,
+        draw_takeaway_band,
+    )
+    from .editorial_typography import draw_board_title, face as editorial_face
+except ImportError:
+    from editorial_takeaway import (
+        TAKEAWAY_BOTTOM_PADDING,
+        TAKEAWAY_HEIGHT,
+        TAKEAWAY_TEXT_SIZE,
+        draw_takeaway_band,
+    )
+    from editorial_typography import draw_board_title, face as editorial_face
+
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
@@ -120,23 +137,55 @@ def save(image, stem):
 
 
 def render_course_equation():
-    image, draw = frame("The course equation", "Be Smarter Than the Tool")
+    footer_top = 756
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    image = Image.new("RGB", (W, height), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    draw_board_title(draw, "What You Know. How You Think.")
+    rounded(draw, (40, 126, 1560, 716), 16, WHITE)
 
-    equation_card(draw, (530, 202, 1070, 302), "Learn More")
-    centered(draw, (800, 340), "=", font("heavy", 34), MUTED)
-    equation_card(draw, (530, 378, 1070, 478), "More Knowledge", "#ece8fd", "#cfc4ff")
-    centered(draw, (800, 516), "=", font("heavy", 34), MUTED)
+    definition_card(
+        draw,
+        (90, 166, 750, 462),
+        "Knowledge",
+        "What you know helps you understand the subject and recognize when something doesn’t add up.",
+        fill="#eef3ff",
+        outline="#aec5ef",
+        title_fill="#1652f0",
+    )
+    centered(draw, (800, 314), "+", font("heavy", 40), NAVY)
+    definition_card(
+        draw,
+        (850, 166, 1510, 462),
+        "Critical Thinking",
+        "You question the claim, examine the evidence, and consider other explanations before deciding what to believe or do.",
+        fill="#edf8f5",
+        outline="#aed8d0",
+        title_fill="#0e8f86",
+    )
 
-    equation_card(draw, (230, 554, 700, 654), "Better Questions")
-    centered(draw, (800, 604), "+", font("heavy", 36), PURPLE)
-    equation_card(draw, (900, 554, 1370, 654), "Better Results")
-    save(image, "critical-thinking-1-equation")
+    draw.line((800, 482, 800, 534), fill=NAVY, width=5)
+    draw.line((800, 534, 785, 518), fill=NAVY, width=5)
+    draw.line((800, 534, 815, 518), fill=NAVY, width=5)
+    rounded(draw, (90, 562, 1510, 674), 16, NAVY)
+    centered(draw, (800, 618), "Better Questions + Better Decisions", font("bold", 36), WHITE)
+
+    draw_takeaway_band(
+        image,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Be Smarter Than the Tool.",
+        font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+
+    save(image, "critical-thinking-1-equation-v3")
 
 
-def definition_card(draw, box, title, text):
-    rounded(draw, box, 16, PALE, RULE, 2)
-    centered(draw, ((box[0] + box[2]) / 2, box[1] + 48), title, font("bold", 32), CARD_TITLE)
-    draw.line((box[0] + 40, box[1] + 88, box[2] - 40, box[1] + 88), fill=RULE, width=2)
+def definition_card(draw, box, title, text, fill=PALE, outline=RULE, title_fill=CARD_TITLE):
+    rounded(draw, box, 16, fill, outline, 2)
+    centered(draw, ((box[0] + box[2]) / 2, box[1] + 48), title, font("bold", 32), title_fill)
+    draw.line((box[0] + 40, box[1] + 88, box[2] - 40, box[1] + 88), fill=outline, width=2)
     centered_block(draw, (box[0] + 38, box[1] + 108, box[2] - 38, box[3] - 28), text, font("medium", 28))
 
 
@@ -212,10 +261,57 @@ def render_critical_thinking_in_action():
     save(image, "critical-thinking-3-two-reactions")
 
 
+def render_five_habits():
+    items = (
+        ("Is it actually right?", "What evidence supports the claim? Does it support the conclusion?"),
+        ("Do I know enough to judge?", "Recognize where your knowledge ends. Find out what you need to understand."),
+        ("What’s missing?", "Look for missing information and other explanations."),
+        ("Why am I convinced?", "Is it the evidence, the confident wording, or what you want to believe?"),
+        ("What’s my call?", "Decide what to believe or do. You can change your mind when you learn more."),
+    )
+    accents = ("#6540ec", "#1652f0", "#0e8f86", "#0f7a4a", "#b86200")
+    centers = (184, 492, 800, 1108, 1416)
+    footer_top = 660
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
+    image = Image.new("RGB", (W, height), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    draw_board_title(draw, "Five Habits of Critical Thinking")
+    title_face = editorial_face("bold", 30)
+    body_face = editorial_face("medium", 24)
+
+    for index, (center_x, accent, (title, body)) in enumerate(zip(centers, accents, items), 1):
+        rounded(draw, (center_x - 145, 140, center_x + 145, 622), 16, WHITE)
+        draw.ellipse((center_x - 28, 168, center_x + 28, 224), fill=accent)
+        draw.text((center_x, 196), str(index), font=editorial_face("bold", 24), fill=WHITE, anchor="mm")
+
+        title_lines = wrapped_lines(draw, title, title_face, 252)
+        title_y = 302 - ((len(title_lines) - 1) * 19)
+        for line in title_lines:
+            draw.text((center_x, title_y), line, font=title_face, fill=accent, anchor="mm")
+            title_y += 38
+
+        body_lines = wrapped_lines(draw, body, body_face, 244)
+        body_y = 374
+        for line in body_lines:
+            draw.text((center_x, body_y), line, font=body_face, fill=BODY, anchor="ma")
+            body_y += 34
+
+    draw_takeaway_band(
+        image,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text="Each habit is a question you ask.",
+        font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
+    )
+    save(image, "critical-thinking-4-five-habits-v3")
+
+
 def main():
     render_course_equation()
     render_one_more_equation()
     render_critical_thinking_in_action()
+    render_five_habits()
 
 
 if __name__ == "__main__":

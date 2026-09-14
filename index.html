@@ -205,12 +205,13 @@
   .gate-intro{ max-width:700px; margin:18px auto 0; color:#d5dcf6; font-size:17px; line-height:1.7; }
   .gate-content{ max-width:720px; margin:0 auto; }
   .gate-benefits{ background:#fff; padding:40px 28px 42px; }
-  .gate-section-title{ margin:0 0 28px; text-align:center; color:#152563; font-size:14px; font-weight:800; line-height:1.65; letter-spacing:.15em; text-transform:uppercase; }
-  .gate-cards{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0; padding:0; list-style:none; }
-  .gate-card{ padding:22px 24px; border:1px solid #d9e0ef; border-radius:16px; background:#f5f7fc; }
-  .gate-card:last-child{ grid-column:1 / -1; }
-  .gate-card h3{ margin:0 0 8px; color:#9b6b00; font-size:14px; font-weight:800; letter-spacing:.095em; }
-  .gate-card p{ margin:0; color:#26355f; font-size:16px; line-height:1.55; }
+  .gate-section-title{ margin:0 0 28px; text-align:left; color:#152563; font-size:14px; font-weight:800; line-height:1.65; letter-spacing:.15em; text-transform:uppercase; }
+  .gate-benefit-list{ margin:0; padding:0; list-style:none; }
+  .gate-benefit-row{ display:grid; grid-template-columns:160px minmax(0,1fr); gap:24px; align-items:baseline; padding:20px 0; }
+  .gate-benefit-row{ border-top:1px solid #d9e0ef; }
+  .gate-benefit-row:last-child{ padding-bottom:0; }
+  .gate-benefit-row h3{ margin:0; color:#152563; font-size:14px; font-weight:800; letter-spacing:.095em; line-height:1.55; }
+  .gate-benefit-row p{ margin:0; color:#26355f; font-size:16px; line-height:1.55; }
   .gate-curiosity{ margin:26px 0 22px; text-align:center; font-size:16px; line-height:1.5; font-weight:700; }
   .gate-certificate{ display:flex; justify-content:center; align-items:center; gap:24px; padding:24px; border-radius:16px; background:#ffd24a; color:#152563; }
   .gate-certificate-thumb{ display:block; flex:0 0 230px; width:230px; max-width:100%; padding:0; border:0; border-radius:6px; background:#fff; box-shadow:0 6px 18px rgba(21,37,99,.2); cursor:zoom-in; }
@@ -227,11 +228,22 @@
   .gate-field{ width:100%; min-width:0; padding:17px 24px; background:#ffffff0d; border:1.5px solid #ffd24a; border-radius:999px; font-family:var(--sans); font-size:16px; color:#fff; outline-offset:4px; transition:border-color .15s,background .15s; }
   .gate-field::placeholder{ color:#c7d0f0; opacity:.8; }
   .gate-field:focus{ background:#ffffff1a; border-color:#ffe08a; }
-  .gate-field:focus-visible{ outline:2px solid #fff; }
+  .gate-field:focus-visible{ outline:2px solid #fff; border-radius:999px; }
   .gate-span2{ grid-column:1 / -1; }
+  .gate-country{ min-width:0; text-align:left; }
+  .gate-country-control{ position:relative; }
+  .gate-country-control::after{ content:"▾"; position:absolute; right:24px; top:50%; transform:translateY(-50%); color:#ffd24a; pointer-events:none; }
+  .gate-country-control .gate-field{ padding-right:52px; appearance:none; -webkit-appearance:none; }
+  .gate-country-menu{ margin-top:10px; border-radius:16px; background:#fff; color:#152563; overflow:hidden; border:1px solid #ffd24a; }
+  .gate-country-list{ list-style:none; margin:0; padding:6px; max-height:240px; overflow-y:auto; overscroll-behavior:contain; }
+  .gate-country-option{ padding:12px 16px; min-height:44px; box-sizing:border-box; border-radius:10px; font-size:16px; line-height:1.4; cursor:pointer; }
+  .gate-country-option:hover,.gate-country-option.is-active{ background:#e7edf9; }
+  .gate-country-option[aria-selected="true"]{ background:#ffd24a; font-weight:700; }
+  .gate-country-empty{ padding:12px 20px; margin:0; font-size:14px; line-height:1.5; }
   .gate-hint{ max-width:530px; margin:18px auto 24px; color:#bcc8ed; font-size:12px; line-height:1.7; }
   .gate-go{ display:flex; justify-content:center; }
   .gate-hero-go{ margin-top:28px; }
+  .gate-entry-note{ margin:12px 0 0; color:#d5dcf6; font-size:14px; line-height:1.6; }
   .gate-go button{ display:inline-flex; align-items:center; justify-content:center; gap:22px; padding:17px 36px; border:0; border-radius:999px; background:#ffd24a; color:#152563; font-family:var(--sans); font-size:17px; font-weight:800; cursor:pointer; transition:transform .12s,background .12s; }
   .gate-go button span{ font-size:23px; font-weight:500; line-height:1; }
   .gate-go button:hover{ transform:translateY(-2px); background:#ffe08a; }
@@ -246,13 +258,15 @@
     .gate-eyebrow{ font-size:13px; letter-spacing:.17em; }
     .gate-intro{ max-width:430px; font-size:15px; }
     .gate-benefits,.gate-ask{ padding-left:22px; padding-right:22px; }
-    .gate-card{ padding:20px; }
     .gate-certificate{ flex-direction:column; text-align:center; }
     .gate-certificate-thumb{ flex:none; width:280px; }
   }
+  @media (max-width:600px){
+    .gate-benefit-row{ grid-template-columns:1fr; gap:8px; }
+  }
   @media (max-width:480px){
-    .gate-cards,.gate-form{ grid-template-columns:1fr; }
-    .gate-span2,.gate-card:last-child{ grid-column:auto; }
+    .gate-form{ grid-template-columns:1fr; }
+    .gate-span2{ grid-column:auto; }
     .gate-certificate{ padding:20px 18px; }
     .gate-certificate strong{ font-size:16px; }
     .gate-certificate span{ font-size:13px; }
@@ -699,6 +713,7 @@
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="country-select.js"></script>
 <script>
 const {
   useState,
@@ -746,8 +761,8 @@ function saveStudentProfile(payload) {
       studentId: payload.studentId,
       firstName: payload.firstName,
       lastName: payload.lastName || existing.lastName || "",
-      city: payload.city,
-      state: payload.state,
+      city: payload.city === undefined ? (existing.city || "") : payload.city,
+      state: payload.state === undefined ? (existing.state || "") : payload.state,
       country: payload.country === undefined ? (existing.country || "") : payload.country
     }));
   } catch (e) {}
@@ -774,6 +789,7 @@ function getStudentProfile() {
 function deliverCompletionReport(payload) {
   if (!payload || completionReportInFlight) return;
   completionReportInFlight = true;
+  var nextPendingPayload = null;
   try {
     fetch(SIGNUP_ENDPOINT, {
       method: "POST",
@@ -785,11 +801,21 @@ function deliverCompletionReport(payload) {
         if (t.trim() !== "completion-ok") return;
         try {
           localStorage.setItem(COMPLETION_REPORTED_KEY, payload.reportKey);
-          localStorage.removeItem(COMPLETION_PENDING_KEY);
+          var storedPending = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null");
+          if (!storedPending || storedPending.reportKey === payload.reportKey) {
+            localStorage.removeItem(COMPLETION_PENDING_KEY);
+          } else {
+            // A newer certificate name or Country-aware payload was queued while
+            // this request was in flight. Preserve it and send it next.
+            nextPendingPayload = storedPending;
+          }
         } catch (e) {}
       })
       .catch(function() {})
-      .then(function() { completionReportInFlight = false; });
+      .then(function() {
+        completionReportInFlight = false;
+        if (nextPendingPayload) deliverCompletionReport(nextPendingPayload);
+      });
   } catch (e) {
     completionReportInFlight = false;
   }
@@ -801,24 +827,25 @@ function reportCourseCompletion(score, certificateFirstName, certificateLastName
   var lastName = String(certificateLastName || profile.lastName || "").trim();
   if (!firstName || !lastName) return;
   var completionId = profile.studentId + ":" + COMPLETION_VERSION;
-  var reportKey = completionId + ":" + (firstName + " " + lastName).toLowerCase();
+  // v2 replaces City/State with Country. Including the payload version causes an
+  // existing completion to be refreshed once without creating a duplicate row.
+  var reportKey = completionId + ":" + (firstName + " " + lastName).toLowerCase() + ":v2";
   try {
     if (localStorage.getItem(COMPLETION_REPORTED_KEY) === reportKey) return;
   } catch (e) {}
   var payload = null;
   try { payload = JSON.parse(localStorage.getItem(COMPLETION_PENDING_KEY) || "null"); } catch (e) {}
-  if (!payload || payload.reportKey !== reportKey) {
+  if (!payload || payload.reportKey !== reportKey || payload.completionPayloadVersion !== 2) {
     payload = {
       eventType: "course_completed",
+      completionPayloadVersion: 2,
       completionId: completionId,
       reportKey: reportKey,
       courseVersion: COMPLETION_VERSION,
       studentId: profile.studentId,
       firstName: firstName,
       lastName: lastName,
-      email: "",
-      city: profile.city || "",
-      state: profile.state || "",
+      country: profile.country || "",
       score: score,
       completedAt: new Date().toISOString()
     };
@@ -903,7 +930,7 @@ const LESSON_VIDEOS = {
   control: { src: "videos/what-you-can-control.mp4?v=20260914ship1", duration: "3 min", title: "What about your future with AI is actually in your hands." },
   studying: { src: "videos/learn-with-ai.mp4?v=20260914ship1", duration: "3 min", title: "How to turn AI into a study tool that actually works.", cta: "Both end at the same LAB." },
   openerworkwith: { src: "videos/opener-work.mp4?v=2", duration: "2 min", title: "Same tool, different results. Here's how to get the good ones.", cta: "Both walk the same section map." },
-  aivscode: { src: "videos/ai-is-different.mp4?v=2", duration: "4 min", title: "Why AI works differently from every other app you use.", cta: "Both end at the same LAB." },
+  aivscode: { src: "videos/ai-is-different.mp4?v=20260914ship1", duration: "6 min", title: "Why AI works differently from every other app you use.", cta: "Both end at the same LAB." },
   whatitdoesbest: { src: "videos/where-ai-works-best.mp4", duration: "5 min", title: "The four kinds of work AI is actually built for." },
   modelselection: { src: "videos/which-app.mp4", duration: "4 min", title: "ChatGPT, Claude, Gemini: how to pick your home base." },
   questionsvaluable: { src: "videos/questions-matter.mp4?v=2", duration: "3 min", title: "Why the question is the half that still belongs to you.", cta: "Both end at the same LAB." },
@@ -1025,12 +1052,13 @@ const CLOSE_BOARDS = {
   openerskills: { pill: "The tool is rented.", sticky: "The skills are yours to keep." },
   integrity: { pill: "Own what you submit. Guard what you type.", sticky: "Two AI habits. They travel well." }
 };
-// Finish Smarter is still in draft except for the live Course Reviews lesson.
+// Resources is the remaining Finish Smarter draft. The opener, The Final, and
+// Course Reviews are complete.
 // Draft lessons use red navigation text, a sticky "· Draft" suffix, and a header notice.
 function isDraftLesson(sectionId) {
   var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
   if (!group) return false;
-  return group.label === "Finish Smarter" && sectionId !== "reviews";
+  return group.label === "Finish Smarter" && sectionId === "resources";
 }
 
 function LessonHeader(props) {
@@ -2962,6 +2990,105 @@ function scoreFinal(answers, questions) {
     pct: list.length ? Math.round((correct / list.length) * 100) : 0
   };
 }
+const FINAL_ATTEMPT_KEY = "final-exam-unfinished:v1";
+const FINAL_RESULT_KEY = "final-exam-result:v1";
+const FINAL_ATTEMPT_VERSION = 1;
+function finalBankSignature_(bank) {
+  var source = JSON.stringify((bank || []).map(function(q) {
+    return [q.id, q.q, q.options, q.correct];
+  }));
+  var hash = 2166136261;
+  for (var i = 0; i < source.length; i++) {
+    hash ^= source.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return "bank-" + (hash >>> 0).toString(36);
+}
+function normalizeFinalAttempt_(value, bank) {
+  var list = bank || [];
+  if (!value || value.version !== FINAL_ATTEMPT_VERSION || value.bankSignature !== finalBankSignature_(list) || !Array.isArray(value.questionIds) || !value.answers || typeof value.answers !== "object" || Array.isArray(value.answers)) return null;
+  var expectedIds = list.map(function(q) { return q.id; });
+  if (value.questionIds.length !== expectedIds.length || value.questionIds.some(function(id, index) { return id !== expectedIds[index]; })) return null;
+  var byId = {};
+  list.forEach(function(q) { byId[q.id] = q; });
+  var cleanAnswers = {};
+  var answerIds = Object.keys(value.answers);
+  for (var i = 0; i < answerIds.length; i++) {
+    var id = answerIds[i];
+    var choice = value.answers[id];
+    if (!byId[id] || !Number.isInteger(choice) || choice < 0 || choice >= byId[id].options.length) return null;
+    cleanAnswers[id] = choice;
+  }
+  return {
+    version: FINAL_ATTEMPT_VERSION,
+    bankSignature: finalBankSignature_(list),
+    questionIds: expectedIds,
+    answers: cleanAnswers,
+    startedAt: typeof value.startedAt === "string" ? value.startedAt : ""
+  };
+}
+function clearFinalAttempt_() {
+  try { localStorage.removeItem(FINAL_ATTEMPT_KEY); } catch (e) {}
+}
+function loadFinalAttempt_() {
+  var saved = null;
+  var hadStoredValue = false;
+  try {
+    var raw = localStorage.getItem(FINAL_ATTEMPT_KEY);
+    hadStoredValue = !!raw;
+    saved = JSON.parse(raw || "null");
+  } catch (e) {
+    clearFinalAttempt_();
+    return null;
+  }
+  var normalized = normalizeFinalAttempt_(saved, FINAL_BANK);
+  if (!normalized && hadStoredValue) clearFinalAttempt_();
+  return normalized;
+}
+function saveFinalAttempt_(questions, answers, startedAt) {
+  var attempt = {
+    version: FINAL_ATTEMPT_VERSION,
+    bankSignature: finalBankSignature_(questions),
+    questionIds: (questions || []).map(function(q) { return q.id; }),
+    answers: Object.assign({}, answers || {}),
+    startedAt: startedAt || new Date().toISOString()
+  };
+  var normalized = normalizeFinalAttempt_(attempt, FINAL_BANK);
+  if (!normalized) return null;
+  try { localStorage.setItem(FINAL_ATTEMPT_KEY, JSON.stringify(normalized)); } catch (e) {}
+  return normalized;
+}
+function clearFinalResult_() {
+  try { sessionStorage.removeItem(FINAL_RESULT_KEY); } catch (e) {}
+}
+function loadFinalResult_() {
+  var saved = null;
+  var hadStoredValue = false;
+  try {
+    var raw = sessionStorage.getItem(FINAL_RESULT_KEY);
+    hadStoredValue = !!raw;
+    saved = JSON.parse(raw || "null");
+  } catch (e) {
+    clearFinalResult_();
+    return null;
+  }
+  var normalized = normalizeFinalAttempt_(saved, FINAL_BANK);
+  if (!normalized && hadStoredValue) clearFinalResult_();
+  return normalized;
+}
+function saveFinalResult_(questions, answers) {
+  var result = {
+    version: FINAL_ATTEMPT_VERSION,
+    bankSignature: finalBankSignature_(questions),
+    questionIds: (questions || []).map(function(q) { return q.id; }),
+    answers: Object.assign({}, answers || {}),
+    startedAt: ""
+  };
+  var normalized = normalizeFinalAttempt_(result, FINAL_BANK);
+  if (!normalized) return null;
+  try { sessionStorage.setItem(FINAL_RESULT_KEY, JSON.stringify(normalized)); } catch (e) {}
+  return normalized;
+}
 function OpenerFoundationsSection(props) {
   var foundationsCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
     eyebrow: "WHAT KIND OF THING IS AI?",
@@ -4318,6 +4445,8 @@ function WhyBotherSection(props) {
       "Think about it this way."),
     E(BodyP, null,
       "Fast forward a few years. You\u2019ve landed your dream job, and AI sits right next to you all day, cranking out drafts, code, and plans. Your coworker at the next desk is doing the same. You each have the same job, using the same AI."),
+    E(BodyP, null,
+      "Here\u2019s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It\u2019s the new average. What you bring to the work is what takes you further."),
     E("img", {
       src: "illustrations/does-school-matter-same-tool-v1.jpg?v=20260911",
       alt: "",
@@ -4329,8 +4458,6 @@ function WhyBotherSection(props) {
       E("h3", null, "Same Tool. Different Advantage."),
       E("p", null, "Luke and Nate use the same AI starting point, then apply different knowledge and practiced skills to take the work further."),
       E("p", null, "The tool may be the same. What you bring to it is yours.")),
-    E(BodyP, null,
-      "Here\u2019s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It\u2019s the new average. What you bring to the work is what takes you further."),
     E(BodyP, null,
       "That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?"),
     E(SectionKicker, null, "WHAT SETS YOU APART"),
@@ -11006,9 +11133,9 @@ function SyntheticMediaSection(props) {
 // three states deep: idle (the start card), running (the fixed 25 questions,
 // untimed, no feedback until submit), and review (score, pass/fail for the
 // certificate, and every question explained with a pointer back to the lesson
-// that taught it, which is the teaching payoff of the page). An in-flight attempt
-// deliberately does NOT survive a reload: the page returns to idle and the
-// attempt is not counted. There is no anti-cheat here, on purpose.
+// that taught it, which is the teaching payoff of the page). An unfinished attempt
+// is stored separately from completed scores and certificate details so students
+// can leave and resume without affecting anything already earned.
 const FINAL_PASS_PCT = 80;
 const FINAL_BADGES = ["A", "B", "C", "D"];
 // Prefill for the name on the certificate. The welcome gate asks only for a first
@@ -11035,9 +11162,15 @@ function certificateNameParts(certName, certFirstName, certLastName) {
   if (!first) first = certificateSeedName();
   return { firstName: first, lastName: last };
 }
-function certificateDate() {
+function validCertificateDate_(value) {
+  if (!value) return false;
+  var parsed = new Date(value);
+  return !isNaN(parsed.getTime());
+}
+function certificateDate(value) {
+  if (!validCertificateDate_(value)) return "";
   try {
-    return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    return new Date(value).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   } catch (e) { return ""; }
 }
 // The certificate itself, and the only place its layout is defined: the lesson page
@@ -11296,7 +11429,7 @@ function CertificateBlock(props) {
   return wrap([
     kicker,
     E("div", { key: "doc", style: { marginBottom: 16 } },
-      E(CertificateDoc, { name: props.certName, score: props.bestScore, date: certificateDate() })),
+      E(CertificateDoc, { name: props.certName, score: props.bestScore, date: certificateDate(props.completionDate) })),
     E("div", { key: "a", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14 } },
       E(ActivityButton, {
         size: "large",
@@ -11332,6 +11465,12 @@ function CertificatePrintView() {
   var name = rec.certName || certificateSeedName();
   var nameParts = certificateNameParts(rec.certName, rec.certFirstName, rec.certLastName);
   var ready = best != null && best >= FINAL_PASS_PCT && !!nameParts.firstName && !!nameParts.lastName;
+  // Older passed records predate the fixed-date field. Give them one stable date
+  // the first time the certificate is opened under this version.
+  if (ready && !validCertificateDate_(rec.completionDate)) {
+    rec.completionDate = new Date().toISOString();
+    try { localStorage.setItem("final-exam", JSON.stringify(rec)); } catch (e) {}
+  }
   return E("div", {
     className: "certificate-print-page",
     style: { background: "var(--bg)", minHeight: "100vh", padding: "36px 32px 60px", fontFamily: "var(--sans)" }
@@ -11351,7 +11490,7 @@ function CertificatePrintView() {
           E(ActivityButton, { size: "large", onClick: function() { try { window.print(); } catch (e) {} } }, "Open the print dialog"),
           E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
             "Landscape is already set. Pick Save as PDF in the dialog to keep a copy.")),
-        E(CertificateDoc, { key: "doc", name: name, score: best, date: certificateDate() })
+        E(CertificateDoc, { key: "doc", name: name, score: best, date: certificateDate(rec.completionDate) })
       ] : E("p", {
         style: { fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6, maxWidth: "62ch", margin: "60px auto", textAlign: "center" }
       }, "There is no certificate on this device yet. Pass the Final at 80 percent or better, put your name on it, and this page fills in.")));
@@ -11393,14 +11532,32 @@ function FinalOptionPill(props) {
   style.cursor = "pointer";
   return /*#__PURE__*/React.createElement("button", { onClick: props.onClick, style: style }, body);
 }
-function TheFinalQuiz() {
+function TheFinalQuiz(props) {
+  props = props || {};
   var E = React.createElement;
-  var _ph = useState("idle"), phase = _ph[0], setPhase = _ph[1];
-  var _qs = useState([]), questions = _qs[0], setQuestions = _qs[1];
-  var _an = useState({}), answers = _an[0], setAnswers = _an[1];
-  var _rs = useState(null), result = _rs[0], setResult = _rs[1];
-  var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null, certFirstName: null, certLastName: null });
+  var _saved = useState(loadFinalAttempt_), savedAttempt = _saved[0], setSavedAttempt = _saved[1];
+  var _priorResult = useState(loadFinalResult_), priorResult = _priorResult[0], setPriorResult = _priorResult[1];
+  var priorQuestions = priorResult ? priorResult.questionIds.map(function(id) { return FINAL_BANK.find(function(q) { return q.id === id; }); }).filter(Boolean) : [];
+  var _ph = useState(priorResult ? "review" : "idle"), phase = _ph[0], setPhase = _ph[1];
+  var _qs = useState(priorQuestions), questions = _qs[0], setQuestions = _qs[1];
+  var _an = useState(priorResult ? Object.assign({}, priorResult.answers) : {}), answers = _an[0], setAnswers = _an[1];
+  var _rs = useState(priorResult ? scoreFinal(priorResult.answers, priorQuestions) : null), result = _rs[0], setResult = _rs[1];
+  var priorScore = priorResult ? scoreFinal(priorResult.answers, priorQuestions) : null;
+  var _reviewFilter = useState(priorScore && priorScore.correct < priorScore.total ? "missed" : "all"), reviewFilter = _reviewFilter[0], setReviewFilter = _reviewFilter[1];
+  var _confirmIncomplete = useState(false), confirmIncomplete = _confirmIncomplete[0], setConfirmIncomplete = _confirmIncomplete[1];
+  var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null, certFirstName: null, certLastName: null, completionDate: null });
   var record = _rec[0] || {}, setRecord = _rec[1];
+
+  // Migrate an older passed browser record once. This cannot reconstruct the
+  // historical day of the pass, but it prevents the displayed date from changing again.
+  useEffect(function() {
+    if (typeof record.bestScore !== "number" || record.bestScore < FINAL_PASS_PCT || validCertificateDate_(record.completionDate)) return;
+    setRecord(function(prev) {
+      var p = prev || {};
+      if (validCertificateDate_(p.completionDate)) return p;
+      return Object.assign({}, p, { completionDate: new Date().toISOString() });
+    });
+  }, [record.bestScore, record.completionDate]);
 
   // Completion is reported only after a passing student supplies both names for
   // the certificate. The local report key prevents repeat visits and printing
@@ -11416,6 +11573,11 @@ function TheFinalQuiz() {
 
   var finish = function() {
     var res = scoreFinal(answers, questions);
+    setConfirmIncomplete(false);
+    clearFinalAttempt_();
+    setSavedAttempt(null);
+    setPriorResult(saveFinalResult_(questions, answers));
+    setReviewFilter(res.correct < res.total ? "missed" : "all");
     setResult(res);
     setPhase("review");
     setRecord(function(prev) {
@@ -11425,15 +11587,71 @@ function TheFinalQuiz() {
         attempts: (p.attempts || 0) + 1,
         certName: p.certName != null ? p.certName : null,
         certFirstName: p.certFirstName != null ? p.certFirstName : null,
-        certLastName: p.certLastName != null ? p.certLastName : null
+        certLastName: p.certLastName != null ? p.certLastName : null,
+        completionDate: validCertificateDate_(p.completionDate)
+          ? p.completionDate
+          : ((res.pct >= FINAL_PASS_PCT || (p.bestScore != null && p.bestScore >= FINAL_PASS_PCT)) ? new Date().toISOString() : null)
       };
     });
   };
   var start = function() {
-    setQuestions(drawFinalQuestions(FINAL_BANK));
+    var freshQuestions = drawFinalQuestions(FINAL_BANK);
+    var freshAttempt = saveFinalAttempt_(freshQuestions, {});
+    clearFinalResult_();
+    setPriorResult(null);
+    setSavedAttempt(freshAttempt);
+    setQuestions(freshQuestions);
     setAnswers({});
     setResult(null);
+    setReviewFilter("all");
+    setConfirmIncomplete(false);
     setPhase("running");
+  };
+  var firstUnansweredQuestion = function() {
+    return questions.find(function(q) { return answers[q.id] === undefined; }) || null;
+  };
+  var keepAnswering = function() {
+    var first = firstUnansweredQuestion();
+    setConfirmIncomplete(false);
+    if (!first) return;
+    try {
+      var element = document.getElementById("final-question-" + first.id);
+      if (!element) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      element.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+      var firstOption = element.querySelector("button");
+      if (firstOption && firstOption.focus) window.setTimeout(function() { firstOption.focus(); }, reduce ? 0 : 350);
+    } catch (e) {}
+  };
+  var requestFinish = function() {
+    if (answeredCount < questions.length) {
+      setConfirmIncomplete(true);
+      return;
+    }
+    finish();
+  };
+  var continueAttempt = function() {
+    if (!savedAttempt) return start();
+    var byId = {};
+    FINAL_BANK.forEach(function(q) { byId[q.id] = q; });
+    var restoredQuestions = savedAttempt.questionIds.map(function(id) { return byId[id]; }).filter(Boolean);
+    if (restoredQuestions.length !== FINAL_BANK.length) {
+      clearFinalAttempt_();
+      setSavedAttempt(null);
+      return start();
+    }
+    setQuestions(restoredQuestions);
+    setAnswers(Object.assign({}, savedAttempt.answers));
+    setResult(null);
+    setPhase("running");
+  };
+  var startOver = function() {
+    var confirmed = false;
+    try { confirmed = window.confirm("Start over and clear your unfinished Final answers?"); } catch (e) {}
+    if (!confirmed) return;
+    clearFinalAttempt_();
+    setSavedAttempt(null);
+    start();
   };
   var saveCertName = function(firstName, lastName) {
     var fullName = (firstName.trim() + " " + lastName.trim()).trim();
@@ -11442,8 +11660,7 @@ function TheFinalQuiz() {
       studentId: profile.studentId,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      city: profile.city || "",
-      state: profile.state || ""
+      country: profile.country || ""
     });
     setRecord(function(prev) {
       var p = prev || {};
@@ -11452,7 +11669,8 @@ function TheFinalQuiz() {
         attempts: p.attempts || 0,
         certName: fullName,
         certFirstName: firstName.trim(),
-        certLastName: lastName.trim()
+        certLastName: lastName.trim(),
+        completionDate: validCertificateDate_(p.completionDate) ? p.completionDate : new Date().toISOString()
       };
     });
   };
@@ -11460,6 +11678,9 @@ function TheFinalQuiz() {
     setAnswers(function(prev) {
       var next = Object.assign({}, prev);
       next[qid] = oi;
+      var updatedAttempt = saveFinalAttempt_(questions, next, savedAttempt && savedAttempt.startedAt);
+      setSavedAttempt(updatedAttempt);
+      if (questions.every(function(q) { return next[q.id] !== undefined; })) setConfirmIncomplete(false);
       return next;
     });
   };
@@ -11479,6 +11700,7 @@ function TheFinalQuiz() {
 
   if (phase === "idle") {
     var best = record.bestScore;
+    var savedAnswerCount = savedAttempt ? Object.keys(savedAttempt.answers).length : 0;
     return band([
       kicker("THE FINAL", null),
       E("div", {
@@ -11503,11 +11725,29 @@ function TheFinalQuiz() {
           }
         }, best >= FINAL_PASS_PCT ? "Passed" : "Not there yet"),
         E("span", null, (record.attempts || 0) === 1 ? "1 attempt" : (record.attempts || 0) + " attempts")) : null,
-      E(ActivityButton, { key: "a", size: "large", onClick: start }, "Start the Final"),
+      E("p", {
+        key: "ai-guidance",
+        style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", lineHeight: 1.6, margin: "0 0 18px 0", maxWidth: "62ch" }
+      }, "Try the Final on your own first. This is your chance to see what you know. If you miss something, review the explanation and lesson, then try again."),
+      savedAttempt ? E("div", {
+        key: "resume", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14 }
+      },
+        E(ActivityButton, { size: "large", onClick: continueAttempt }, "Continue the Final"),
+        E("span", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)" } },
+          "You’ve answered " + savedAnswerCount + " of " + FINAL_BANK.length + " questions."),
+        E("button", {
+          onClick: startOver,
+          style: {
+            background: "transparent", border: "1.5px solid var(--rule)", borderRadius: 10,
+            padding: "11px 16px", cursor: "pointer", fontFamily: "var(--sans)",
+            fontSize: 14, fontWeight: 700, color: "var(--inkSoft)"
+          }
+        }, "Start over"))
+        : E(ActivityButton, { key: "a", size: "large", onClick: start }, "Start the Final"),
       // A passing score already on record means the certificate belongs here too, not
       // only on the review screen the student just left.
       (best != null && best >= FINAL_PASS_PCT)
-        ? E(CertificateBlock, { key: "cert", bestScore: best, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, onSaveName: saveCertName })
+        ? E(CertificateBlock, { key: "cert", bestScore: best, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, completionDate: record.completionDate, onSaveName: saveCertName })
         : null
     ]);
   }
@@ -11530,13 +11770,13 @@ function TheFinalQuiz() {
       // student's pick only; grading stays hidden until submit.
       E("div", { key: "qs" }, E(InnerCard, null,
         questions.map(function(q, qi) {
-          return E("div", { key: q.id, style: { paddingTop: qi === 0 ? 0 : 18, marginTop: qi === 0 ? 0 : 18, borderTop: qi === 0 ? "none" : "1px solid var(--rule)" } },
+          return E("div", { key: q.id, id: "final-question-" + q.id, style: { paddingTop: qi === 0 ? 0 : 18, marginTop: qi === 0 ? 0 : 18, borderTop: qi === 0 ? "none" : "1px solid var(--rule)" } },
             E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(qi + 1).padStart(2, "0")),
-              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, q.q)),
+              E("div", { id: "final-question-label-" + q.id, style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, q.q)),
             // True/false rows lay their two options side by side, matching the
             // horizontal radios of the standard TRY IT Q&A.
-            E("div", { style: q.options.length === 2
+            E("div", { role: "radiogroup", "aria-labelledby": "final-question-label-" + q.id, style: q.options.length === 2
               ? { display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 28, marginLeft: 46, marginTop: 14 }
               : { display: "flex", flexDirection: "column", gap: 8, marginLeft: 46, marginTop: 14 } },
               q.options.map(function(opt, oi) {
@@ -11544,6 +11784,23 @@ function TheFinalQuiz() {
                 return E("button", {
                   key: oi,
                   onClick: function() { pick(q.id, oi); },
+                  onKeyDown: function(event) {
+                    var nextIndex = null;
+                    if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (oi + 1) % q.options.length;
+                    if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (oi - 1 + q.options.length) % q.options.length;
+                    if (event.key === "Home") nextIndex = 0;
+                    if (event.key === "End") nextIndex = q.options.length - 1;
+                    if (nextIndex === null) return;
+                    event.preventDefault();
+                    pick(q.id, nextIndex);
+                    try {
+                      var radios = event.currentTarget.parentElement.querySelectorAll('[role="radio"]');
+                      if (radios[nextIndex]) radios[nextIndex].focus();
+                    } catch (e) {}
+                  },
+                  role: "radio",
+                  "aria-checked": pickedOpt,
+                  tabIndex: pickedOpt || (answers[q.id] === undefined && oi === 0) ? 0 : -1,
                   style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: pickedOpt ? "var(--tryAccent)" : "#0e0a1f", textAlign: "left" }
                 },
                   E("span", { style: { width: 22, height: 22, borderRadius: 999, border: "2px solid " + (pickedOpt ? "var(--tryAccent)" : "var(--rule)"), flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
@@ -11555,9 +11812,30 @@ function TheFinalQuiz() {
         key: "ft",
         style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginTop: 18 }
       },
-        E(ActivityButton, { size: "large", onClick: finish }, "Submit the Final"),
-        E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
-          answeredCount === questions.length ? "All " + questions.length + " marked." : (questions.length - answeredCount) + " still blank. You can submit anyway."))
+        confirmIncomplete ? E("div", {
+          role: "alert", style: {
+            width: "100%", padding: "18px 20px", borderRadius: 12,
+            background: "#fff8df", border: "1.5px solid #d9a821",
+            fontFamily: "var(--sans)", color: "var(--ink)"
+          }
+        },
+          E("div", { style: { fontSize: 17, fontWeight: 800, marginBottom: 5 } },
+            "You have " + (questions.length - answeredCount) + " unanswered " + ((questions.length - answeredCount) === 1 ? "question." : "questions.")),
+          E("div", { style: { fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.5, marginBottom: 15 } }, "Unanswered questions count as incorrect."),
+          E("div", { style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 12 } },
+            E(ActivityButton, { size: "large", onClick: keepAnswering }, "Keep answering"),
+            E("button", {
+              type: "button", onClick: finish,
+              style: {
+                background: "transparent", border: "1.5px solid var(--rule)", borderRadius: 10,
+                padding: "11px 16px", cursor: "pointer", fontFamily: "var(--sans)",
+                fontSize: 14, fontWeight: 800, color: "var(--inkSoft)"
+              }
+            }, "Submit anyway"))) : [
+          E(ActivityButton, { key: "submit", size: "large", onClick: requestFinish }, "Submit the Final"),
+          E("span", { key: "status", style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkSoft)" } },
+            answeredCount === questions.length ? "All " + questions.length + " marked." : (questions.length - answeredCount) + " still blank.")
+        ])
     ]);
   }
 
@@ -11569,6 +11847,38 @@ function TheFinalQuiz() {
   // certificate below still gates on bestOnRecord, so the headline and body need a
   // third framing here or the copy above the certificate reads as a contradiction.
   var passedBefore = !passed && bestOnRecord >= FINAL_PASS_PCT;
+  var missedCount = questions.filter(function(q) { return answers[q.id] !== q.correct; }).length;
+  var reviewQuestions = questions.map(function(q, index) { return { question: q, number: index + 1 }; });
+  if (reviewFilter === "missed" && missedCount) {
+    reviewQuestions = reviewQuestions.filter(function(item) { return answers[item.question.id] !== item.question.correct; });
+  }
+  var reviewFilterButton = function(value, label, disabled) {
+    var active = reviewFilter === value;
+    return E("button", {
+      type: "button",
+      disabled: !!disabled,
+      "aria-pressed": active,
+      onClick: function() { if (!disabled) setReviewFilter(value); },
+      style: {
+        border: "1.5px solid " + (active ? "var(--primary)" : "var(--rule)"),
+        borderRadius: 999, padding: "9px 14px", cursor: disabled ? "default" : "pointer",
+        background: active ? "var(--primaryFaint)" : "var(--card)",
+        color: disabled ? "var(--inkFaint)" : (active ? "var(--primary)" : "var(--inkSoft)"),
+        fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800,
+        opacity: disabled ? 0.65 : 1
+      }
+    }, label);
+  };
+  var reviewMissedQuestions = function() {
+    setReviewFilter("missed");
+    try {
+      var heading = document.getElementById("final-missed-review");
+      if (!heading) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      heading.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      if (heading.focus) window.setTimeout(function() { heading.focus(); }, reduce ? 0 : 350);
+    } catch (e) {}
+  };
   return band([
     kicker(passed ? "THE FINAL · PASSED" : "THE FINAL · RESULT", passed ? "var(--green)" : null),
     E("div", { key: "sc", style: { display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 14, marginBottom: 10 } },
@@ -11582,21 +11892,41 @@ function TheFinalQuiz() {
       key: "bd",
       style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--inkSoft)", lineHeight: 1.6, margin: 0, maxWidth: "62ch" }
     }, passed
-      ? "The bar was 80 percent and you cleared it. Every question is below with the reasoning behind it, and that is where the last of it locks in."
+      ? "You’ve earned your certificate. Put your name on it, then take a look at any questions you missed. You can take the Final again whenever you like. Your best score stays on record."
       : passedBefore
-      ? "Your best score is " + bestOnRecord + " percent, and that's what stays on record. The certificate below still stands, so this run doesn't cost you anything. Every question is below if you want to see what tripped you up."
-      : "The bar is " + needed + " of " + res.total + ". Every question is below with the right answer, the reason, and the lesson that covers it. Read those, then take it again. There is no limit and no penalty."),
+      ? "Your best score is " + bestOnRecord + " percent, and that's what stays on record. The certificate below still stands, so this run doesn't cost you anything. The questions you missed are below, with all 25 available whenever you want them."
+      : "The bar is " + needed + " of " + res.total + ". The questions you missed are below with the right answer, the reason, and the lesson that covers it. Review those, then take it again. There is no limit and no penalty."),
+    !passed && !passedBefore
+      ? E("div", { key: "next-actions", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 12, marginTop: 18 } },
+          E(ActivityButton, { size: "large", onClick: reviewMissedQuestions }, "Review missed questions"),
+          E("button", {
+            type: "button", onClick: start,
+            style: {
+              background: "transparent", border: "1.5px solid var(--rule)", borderRadius: 10,
+              padding: "11px 16px", cursor: "pointer", fontFamily: "var(--sans)",
+              fontSize: 14, fontWeight: 800, color: "var(--inkSoft)"
+            }
+          }, "Take it again"))
+      : null,
     // Best score is what the certificate reports, so a passing run on record keeps it
     // available even after a weaker retake.
     bestOnRecord >= FINAL_PASS_PCT
-      ? E(CertificateBlock, { key: "cert", bestScore: bestOnRecord, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, onSaveName: saveCertName })
+      ? E(CertificateBlock, { key: "cert", bestScore: bestOnRecord, certName: record.certName, certFirstName: record.certFirstName, certLastName: record.certLastName, completionDate: record.completionDate, onSaveName: saveCertName })
       : null,
     E("div", {
-      key: "rk",
-      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", margin: "24px 0 12px" }
-    }, "EVERY QUESTION, EXPLAINED"),
+      key: "filters", role: "group", "aria-label": "Questions to review",
+      style: { display: "flex", flexWrap: "wrap", gap: 10, margin: "24px 0 16px" }
+    },
+      reviewFilterButton("missed", "Missed questions (" + missedCount + ")", missedCount === 0),
+      reviewFilterButton("all", "All questions (" + questions.length + ")", false)),
+    E("div", {
+      key: "rk", id: "final-missed-review", tabIndex: -1,
+      style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", margin: "0 0 12px" }
+    }, reviewFilter === "missed" && missedCount ? "MISSED QUESTIONS, EXPLAINED" : "EVERY QUESTION, EXPLAINED"),
     E("div", { key: "rv", style: { display: "flex", flexDirection: "column", gap: 12 } },
-      questions.map(function(q, qi) {
+      reviewQuestions.map(function(item) {
+        var q = item.question;
+        var qi = item.number - 1;
         var picked = answers[q.id];
         var unanswered = picked === undefined;
         var got = !unanswered && picked === q.correct;
@@ -11621,8 +11951,20 @@ function TheFinalQuiz() {
             })),
           E("div", { style: { marginTop: 14, borderTop: "1px solid var(--rule)", paddingTop: 12 } },
             E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 8 } }, q.explain),
-            E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--inkMuted)" } },
-              "From: " + lessonName)));
+            props.onNavigate ? E("button", {
+              type: "button",
+              onClick: function() { props.onNavigate(q.lessonId); },
+              "aria-label": "Review lesson: " + lessonName,
+              style: {
+                display: "inline-flex", alignItems: "center", gap: 7, padding: 0,
+                border: "none", background: "transparent", cursor: "pointer",
+                fontFamily: "var(--sans)", fontSize: 13, fontWeight: 800,
+                color: "var(--primary)"
+              }
+            },
+              E("span", { style: { textDecoration: "underline", textUnderlineOffset: 3 } }, "Review lesson: " + lessonName),
+              E("span", { "aria-hidden": "true", style: { fontSize: 17 } }, "→"))
+              : E("div", { style: { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, color: "var(--inkMuted)" } }, "Review lesson: " + lessonName)));
       })),
     E("div", { key: "rt", style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginTop: 18 } },
       E(ActivityButton, { size: "large", onClick: start }, "Take it again"),
@@ -11646,26 +11988,50 @@ function FinishLetter() {
     E("p", null, "And, if you’re a hockey fan, GO STARS!"),
     E("p", { className: "finish-letter-sig" }, "Luke and Nate"));
 }
+function FiveBigIdeasKeepsake() {
+  var E = React.createElement;
+  var downloadStyle = {
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    padding: "11px 16px", borderRadius: 10, fontFamily: "var(--sans)",
+    fontSize: 14, fontWeight: 800, textDecoration: "none"
+  };
+  var alt = "Illustrated keepsake poster titled Five Big Ideas to Take With You. Five scenes show Nate and Luke watching AI select the next word in a sentence; correcting a polished answer that incorrectly prices a 20%-off $60 hoodie at $52 instead of $48; using a reference book, calculations, and a sketch to improve a solar-model suggestion; choosing one of three project designs; and building and testing the chosen model together. The five ideas are: AI predicts. It doesn’t think. Fluent isn’t the same as true. The more you know, the more it gives. You make the call. The better AI gets, the more you matter. The closing line says: Now you’re smarter than the tool.";
+  return E("div", { style: { marginBottom: 24 } },
+    E("img", {
+      src: "illustrations/five-big-ideas-keepsake.png",
+      alt: alt,
+      style: {
+        display: "block", width: "100%", maxWidth: 760, height: "auto",
+        margin: "0 auto", borderRadius: 16, boxShadow: "var(--shadowElevated)"
+      }
+    }),
+    E("div", {
+      className: "no-print",
+      style: {
+        maxWidth: 760, margin: "16px auto 0", padding: "18px 20px",
+        border: "1px solid var(--rule)", borderRadius: 14, background: "var(--card)"
+      }
+    },
+      E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } }, "Save the five big ideas"),
+      E("div", { style: { display: "flex", flexWrap: "wrap", gap: 10 } },
+        E("a", {
+          href: "illustrations/five-big-ideas-keepsake.png",
+          download: "Five Big Ideas to Take With You.png",
+          style: Object.assign({}, downloadStyle, { background: "var(--primary)", color: "#fff", border: "1.5px solid var(--primary)" })
+        }, "Download image"),
+        E("a", {
+          href: "lessons/five-big-ideas-keepsake.pdf",
+          download: "Five Big Ideas to Take With You.pdf",
+          style: Object.assign({}, downloadStyle, { background: "transparent", color: "var(--primary)", border: "1.5px solid var(--rule)" })
+        }, "Download PDF"))));
+}
 // The letter IS the opener: the course said what it had to say, signed off, and
-// everything exam-shaped (creed, six questions) lives on The Final now.
+// everything exam-shaped lives on The Final now.
 function FinishSmarterOpenerSection(props) {
-  // The creed sits under the signed letter as its postscript: the five parting
-  // ideas are the letter's enclosure, not an exam preamble (owner call, 2026-08-25).
-  var finishCreed = /*#__PURE__*/React.createElement(OpenerCreed, {
-    eyebrow: "FIVE BIG IDEAS TO TAKE WITH YOU",
-    lines: [
-      "AI predicts. It doesn’t think.",
-      "Fluent isn’t the same as true.",
-      "The more you know, the more it gives.",
-      "You make the call.",
-      "The better AI gets, the more you matter."
-    ],
-    closing: "now you’re smarter than the tool."
-  });
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "openerfinish" }), /*#__PURE__*/React.createElement(FinishLetter, null),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "Here are the five biggest takeaways from the course. Everything you just learned ties back to these ideas. Lock them in and you’ve got the mental model that runs every AI conversation."),
-    finishCreed,
+      "Five big ideas to take with you. Keep them handy whenever you work with AI."),
+    /*#__PURE__*/React.createElement(FiveBigIdeasKeepsake, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
 }
@@ -11944,7 +12310,7 @@ function WhatYouLearnedSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "So here’s the last move: twenty-five questions on the fundamentals, no clock, and every answer explained when you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. And keep an eye out for the finish: the six questions from the first page of this course are waiting at the end."),
     /*#__PURE__*/React.createElement(CertificateTeaser, null),
-    /*#__PURE__*/React.createElement(TheFinalQuiz, null),
+    /*#__PURE__*/React.createElement(TheFinalQuiz, { onNavigate: props.onNavigate }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("resources"); }, label: "Next: Resources" }));
 }
@@ -13659,20 +14025,17 @@ function LLMExplorer() {
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
   if (!hasName) {
-    var signupValid = !!signup.firstName.trim();
+    var signupValid = !!signup.firstName.trim() && COURSE_COUNTRIES.indexOf(signup.country) !== -1;
     var setField = function(k) { return function(e) { var v = e.target.value; setSignup(function(prev) { var next = Object.assign({}, prev); next[k] = v; return next; }); }; };
     var submitName = function() {
       if (!signupValid) return;
-      // Keep the legacy fields for the existing sheet and add a stable anonymous
-      // student ID so a later completion can be matched without collecting email.
+      // Keep a stable student ID so reviews and completions can be matched
+      // without collecting email or the retired registration fields.
       var payload = {
         eventType: "enrollment",
+        registrationVersion: 2,
         studentId: getOrCreateStudentId(),
         firstName: signup.firstName.trim(),
-        lastName: "",
-        email: "",
-        city: "",
-        state: "",
         country: signup.country.trim()
       };
       try { localStorage.setItem("llm-user-name", payload.firstName); } catch(ex) {}
@@ -13697,17 +14060,18 @@ function LLMExplorer() {
             E("button", { type: "button", onClick: function() {
               document.getElementById("gate-entry").scrollIntoView({ block: "start" });
               document.getElementById("gate-start-title").focus({ preventScroll: true });
-            } }, "Start the course", E("span", { "aria-hidden": true }, "→")))),
+            } }, "Start the course", E("span", { "aria-hidden": true }, "→"))),
+          E("p", { className: "gate-entry-note" }, "Free. No account.")),
         E("section", { className: "gate-benefits", "aria-labelledby": "gate-benefits-title" },
           E("div", { className: "gate-content" },
             E("h2", { className: "gate-section-title", id: "gate-benefits-title" }, "What you’ll learn"),
-            E("ul", { className: "gate-cards" },
+            E("ul", { className: "gate-benefit-list" },
               [["GET RESULTS", "Learn to work with AI, ask better questions, and get better results."],
                ["GET SMART", "See how AI learns, predicts, and produces an answer."],
                ["GET WISE", "Spot mistakes, question confident answers, and decide what to trust."],
                ["GET PREPARED", "Think ahead about what AI changes in school, work, and careers."],
                ["GET AHEAD", "Put what you learn to work in school, your own projects, and whatever comes next."]].map(function(item) {
-                return E("li", { className: "gate-card", key: item[0] }, E("h3", null, item[0]), E("p", null, item[1]));
+                return E("li", { className: "gate-benefit-row", key: item[0] }, E("h3", null, item[0]), E("p", null, item[1]));
               })),
             E("p", { className: "gate-curiosity" }, "No experience needed. Just bring your curiosity."),
             E("div", { className: "gate-certificate" },
@@ -13725,8 +14089,8 @@ function LLMExplorer() {
             E("p", { className: "gate-device-note" }, "Read and watch on any device. For the hands-on labs, a computer works best."),
             E("div", { className: "gate-form" },
               E("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "First name or nickname", className: "gate-field gate-span2", "aria-label": "First name or nickname", autoComplete: "given-name" }),
-              E("input", { type: "text", value: signup.country, onChange: setField("country"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "Country (optional)", className: "gate-field gate-span2", "aria-label": "Country (optional)", autoComplete: "country-name" })),
-            E("p", { className: "gate-hint" }, "Your first name personalizes the course. Country is optional and helps us understand where students are learning."),
+              E(CountrySelect, { value: signup.country, onChange: function(country) { setSignup(function(prev) { return Object.assign({}, prev, { country: country }); }); } })),
+            E("p", { className: "gate-hint" }, "Your first name personalizes the course. Your country helps us understand where students are learning."),
             E("div", { className: "gate-go" },
               E("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let’s go", E("span", { "aria-hidden": true }, "→")))))),
       E(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));

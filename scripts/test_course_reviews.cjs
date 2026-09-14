@@ -297,16 +297,18 @@ async function testPublicUI() {
 }
 
 // Stateful component harness: preserve hook state and local storage across renders.
-const storage = new Map();
+const storage = new Map([['review-id', 'ui-review']]);
+let reviewSequence = 0;
 const source = html.slice(html.indexOf('function ReviewsSection('), html.indexOf('function WhatYouLearnedSection('));
-function client() {
+function client(profile = {studentId: 'student', firstName: 'Pat'}) {
   const states = [];
   let cursor = 0;
   let failRequest = false;
+  let loseResponse = false;
   const requests = [];
   const context = {
     React: {createElement: (type, props, ...children) => ({type, props: props || {}, children: children.flat(Infinity)})},
-    getStudentProfile: () => ({studentId: 'student', firstName: 'Pat'}),
+    getStudentProfile: () => profile,
     useLocalStorage: (key, initial) => [storage.has(key) ? JSON.parse(storage.get(key)) : initial, updater => {
       const previous = storage.has(key) ? JSON.parse(storage.get(key)) : initial;
       storage.set(key, JSON.stringify(updater(previous)));
@@ -317,22 +319,27 @@ function client() {
       return [states[i], value => { states[i] = typeof value === 'function' ? value(states[i]) : value; }];
     },
     localStorage: {getItem: key => storage.get(key) || null, setItem: (key, value) => storage.set(key, value)},
-    getOrCreateReviewId: () => 'ui-review', REVIEW_DRAFT_KEY: 'draft', REVIEW_SUBMITTED_KEY: 'submitted',
+    crypto: {randomUUID: () => 'ui-review-' + (++reviewSequence)},
+    REVIEW_ID_KEY: 'review-id', REVIEW_DRAFT_KEY: 'draft', REVIEW_SUBMITTED_KEY: 'submitted',
     COMPLETION_VERSION: 'v2', SIGNUP_ENDPOINT: 'mock',
     fetch: async (url, options) => {
       const payload = JSON.parse(options.body);
       requests.push(payload);
       if (failRequest) throw Error('Offline');
-      return {text: async () => post(payload)};
+      const result = post(payload);
+      if (loseResponse) throw Error('Response lost after save');
+      return {text: async () => result};
     },
     ...Object.fromEntries(['LessonHeader', 'Takeaway', 'StudentReviewsList', 'ActivityButton', 'BodyP', 'InnerCard', 'LessonRule', 'NextLessonGate'].map(name => [name, name]))
   };
   vm.createContext(context);
+  vm.runInContext(html.slice(html.indexOf('function getOrCreateReviewId('), html.indexOf('// Typography tokens for static content boxes')), context);
   vm.runInContext(source, context);
   const flatten = node => [node, ...node.children.flatMap(child => child && typeof child === 'object' ? flatten(child) : [])];
   return {
     requests,
     setOffline: value => { failRequest = value; },
+    setResponseLost: value => { loseResponse = value; },
     render() { cursor = 0; return flatten(context.ReviewsSection({})); }
   };
 }
@@ -345,10 +352,15 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   assert.ok(node(ui, n => n.type === 'StudentReviewsList'));
   assert.equal(ui.render().filter(n => n.type === 'textarea').length, 2);
   assert.equal(ui.render().filter(n => n.props.role === 'radiogroup').length, 1);
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, true);
+  assert.ok(node(ui, n => n.children.includes('Pick a rating')));
+  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.placeholder, 'One or two sentences is plenty.');
+  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.placeholder, 'Just for us. We won’t publish it.');
   click(ui, 'Submit my review');
   assert.equal(ui.requests.length, 0);
   assert.match(node(ui, n => n.props.role === 'alert').children[0], /star rating/);
   node(ui, n => n.props['aria-label'] === '4 out of 5').props.onClick();
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, false);
   assert.equal(node(ui, n => n.props.role === 'status').children[0], '4 out of 5');
   ui = client(); // Reload with the saved draft.
   assert.equal(node(ui, n => n.props['aria-label'] === '4 out of 5').props['aria-checked'], true);
@@ -357,36 +369,78 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   await settle();
   assert.match(node(ui, n => n.props.role === 'alert').children[0], /still saved/);
   ui.setOffline(false);
+  ui.setResponseLost(true);
   click(ui, 'Try again');
   await settle();
+  assert.equal(reviews.rows.filter(r => r[2] === 'ui-review').length, 1);
+  ui.setResponseLost(false);
+  click(ui, 'Try again');
+  await settle();
+  assert.equal(reviews.rows.filter(r => r[2] === 'ui-review').length, 1);
+  assert.ok(ui.requests.every(r => r.reviewId === 'ui-review'));
   assert.equal(storage.get('submitted'), 'ui-review');
-  assert.ok(node(ui, n => n.children.includes('Edit my review')));
+  assert.ok(node(ui, n => n.children.includes('Write another review')));
+  assert.ok(!node(ui, n => n.children.includes('Edit my review')));
   assert.equal(node(ui, n => n.type === 'StudentReviewsList').props.refreshKey, 1);
   for (const key of ['confidenceBefore', 'confidenceAfter', 'mostUseful', 'changedBehavior']) assert.ok(!(key in ui.requests[0]));
-  ui = client(); // Submitted state survives reload, then remains editable.
-  click(ui, 'Edit my review');
+  const originalRow = reviews.rows.find(r => r[2] === 'ui-review').slice();
+  const summaryBeforeAnother = getPublic().ratingSummary;
+  ui = client(); // The thank-you state survives reload.
+  click(ui, 'Write another review');
+  const secondId = storage.get('review-id');
+  assert.notEqual(secondId, 'ui-review');
+  assert.equal(JSON.parse(storage.get('draft')).usefulnessRating, 0);
+  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.value, '');
+  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.value, '');
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, true);
+  ui = client(); // Blank form and fresh review ID survive reload too.
+  assert.ok(node(ui, n => n.children.includes('Pick a rating')));
+  node(ui, n => n.props['aria-label'] === '2 out of 5').props.onClick();
   field(ui, 'review-testimonial', 'Useful practice');
-  const permission = node(ui, n => n.props['aria-label'] === 'Quote permission');
-  assert.equal(permission.children[0].props['aria-checked'], true);
-  permission.children[2].props.onClick();
-  field(ui, 'review-quote-first-name', '');
-  click(ui, 'Submit my review');
-  assert.equal(ui.requests.length, 0);
-  assert.match(node(ui, n => n.props.role === 'alert').children[0], /first name/);
-  field(ui, 'review-quote-first-name', 'Pat');
+  assert.ok(!node(ui, n => n.props['aria-label'] === 'Quote permission'));
+  assert.ok(!node(ui, n => n.props.id === 'review-public-name'));
+  const publicationNotice = 'Your review will appear publicly with your first name or nickname. Your suggestions for improvement stay private.';
+  assert.equal(node(ui, n => n.props.id === 'review-publication-notice').children[0], publicationNotice);
+  assert.ok(ui.render().findIndex(n => n.props.id === 'review-publication-notice') < ui.render().findIndex(n => n.type === 'ActivityButton' && n.children.includes('Submit my review')));
   field(ui, 'review-improvement', 'More examples');
   click(ui, 'Submit my review');
   await settle();
-  const saved = reviews.rows.filter(r => r[2] === 'ui-review');
-  assert.equal(saved.length, 1);
-  assert.deepEqual(saved[0].slice(6), ['More examples', 'Useful practice', 'first_name', 'Pat']);
-  click(ui, 'Edit my review');
-  field(ui, 'review-testimonial', '');
-  assert.ok(!node(ui, n => n.props['aria-label'] === 'Quote permission'));
-  assert.equal(JSON.parse(storage.get('draft')).quotePermission, 'none');
+  assert.equal(ui.requests[0].reviewId, secondId);
+  const secondRow = reviews.rows.find(r => r[2] === secondId);
+  assert.deepEqual(secondRow.slice(6), ['More examples', 'Useful practice', 'first_name', 'Pat']);
+  assert.deepEqual(reviews.rows.find(r => r[2] === 'ui-review'), originalRow);
+  assert.equal(getPublic().ratingSummary.total, summaryBeforeAnother.total + 1);
+  assert.ok(Math.abs(getPublic().ratingSummary.average - (summaryBeforeAnother.average * summaryBeforeAnother.total + 2) / (summaryBeforeAnother.total + 1)) < 1e-10);
+  click(ui, 'Write another review');
+  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.value, '');
+  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.value, '');
+  assert.deepEqual(reviews.rows.find(r => r[2] === secondId).slice(6), ['More examples', 'Useful practice', 'first_name', 'Pat']);
+  // Old draft permission values do not override the notice on an explicit submission.
+  for (const permission of ['none', 'anonymous']) {
+    storage.delete('submitted');
+    storage.set('review-id', 'draft-' + permission);
+    storage.set('draft', JSON.stringify({usefulnessRating: 4, testimonial: 'Old draft', quotePermission: permission, quoteFirstName: 'Old stored name'}));
+    ui = client({studentId: 'student', firstName: 'Nickname'});
+    ui.render();
+    assert.equal(ui.requests.length, 0);
+    click(ui, 'Submit my review');
+    await settle();
+    assert.deepEqual(reviews.rows.find(r => r[2] === 'draft-' + permission).slice(7), ['Old draft', 'first_name', 'Nickname']);
+  }
+  // A profile without a saved name can provide a nickname on a new review.
+  click(ui, 'Write another review');
+  const thirdId = storage.get('review-id');
+  ui = client({studentId: 'student'});
+  node(ui, n => n.props['aria-label'] === '4 out of 5').props.onClick();
+  field(ui, 'review-testimonial', 'Review without a saved name');
+  field(ui, 'review-public-name', '');
+  click(ui, 'Submit my review');
+  assert.equal(ui.requests.length, 0);
+  assert.match(node(ui, n => n.props.role === 'alert').children[0], /first name or nickname/);
+  field(ui, 'review-public-name', 'Nick');
   click(ui, 'Submit my review');
   await settle();
-  assert.deepEqual(saved[0].slice(6), ['More examples', '', 'none', '']);
+  assert.equal(reviews.rows.find(r => r[2] === thirdId)[9], 'Nick');
   await testPublicUI();
   console.log('PASS: public field allowlist, all-rating consent filtering, ordering, pagination, edits/withdrawals, feed refresh/retry/scroll, form, drafts, compact/legacy layouts, enrollment, and certificates.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

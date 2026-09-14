@@ -68,6 +68,9 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--sans); background: var(--bg); margin: 0; }
+  .course-review-form { padding: 28px; border-radius: 18px; background: #eef4eb; }
+  .course-review-field::placeholder { color: #aaa5bf; opacity: 1; }
+  @media (max-width: 560px) { .course-review-form { padding: 22px 18px; } }
   .welcome-input:focus { border-color: #ffe08a !important; }
   .build-input:focus { border-color: var(--primary) !important; }
   /* shared title-bar lockup + CTA, defined globally so the welcome gate (rendered before the main course style block) can use them */
@@ -838,9 +841,9 @@ function retryPendingCompletionReport() {
   } catch (e) {}
   if (payload && payload.firstName && payload.lastName) deliverCompletionReport(payload);
 }
-function getOrCreateReviewId() {
+function getOrCreateReviewId(forceNew) {
   var id = "";
-  try { id = localStorage.getItem(REVIEW_ID_KEY) || ""; } catch (e) {}
+  try { if (!forceNew) id = localStorage.getItem(REVIEW_ID_KEY) || ""; } catch (e) {}
   if (id) return id;
   try {
     id = (typeof crypto !== "undefined" && crypto.randomUUID)
@@ -11746,14 +11749,14 @@ function StudentReviewsList(props) {
       requestRef.current = null;
     };
   }, [props.refreshKey]);
-  return E("section", { "aria-labelledby": "student-reviews-title", style: { marginTop: 36 } },
-    E("h2", { id: "student-reviews-title", style: { fontFamily: "var(--sans)", fontSize: 24, fontWeight: 800, color: "var(--ink)", marginBottom: 16 } }, "Student Reviews"),
-    feed.ratingSummary ? E("div", { role: "status", "aria-label": "Overall course rating", style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 14px", marginBottom: 18, fontFamily: "var(--sans)", color: "var(--ink)" } },
-      feed.ratingSummary.total > 0 ? E("span", { "aria-hidden": true, style: { position: "relative", display: "inline-block", fontSize: 26, lineHeight: 1, letterSpacing: 2, color: "var(--inkFaint)", whiteSpace: "nowrap" } },
+  return E("section", { "aria-labelledby": "student-reviews-title", style: { marginTop: 56 } },
+    E("h2", { id: "student-reviews-title", style: { fontFamily: "var(--sans)", fontSize: 32, fontWeight: 800, color: "var(--ink)", marginBottom: 14 } }, "Student Reviews"),
+    feed.ratingSummary ? E("div", { role: "status", "aria-label": "Overall course rating", style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 14px", paddingBottom: 24, marginBottom: 18, borderBottom: "1px solid var(--rule)", fontFamily: "var(--sans)", color: "var(--ink)" } },
+      feed.ratingSummary.total > 0 ? E("span", { "aria-hidden": true, style: { position: "relative", display: "inline-block", fontSize: 30, lineHeight: 1, letterSpacing: 4, color: "var(--inkFaint)", whiteSpace: "nowrap" } },
         "★★★★★",
         E("span", { style: { position: "absolute", left: 0, top: 0, width: (feed.ratingSummary.average / 5 * 100) + "%", overflow: "hidden", color: "var(--primary)" } }, "★★★★★")) : null,
-      E("span", { style: { fontSize: 18, fontWeight: 800 } }, feed.ratingSummary.total > 0 ? feed.ratingSummary.average.toFixed(1) + " out of 5" : "No ratings yet"),
-      E("span", { style: { fontSize: 14, color: "var(--inkMuted)" } }, feed.ratingSummary.total.toLocaleString() + (feed.ratingSummary.total === 1 ? " rating" : " ratings"))) : null,
+      E("span", { style: { fontSize: 22, fontWeight: 800 } }, feed.ratingSummary.total > 0 ? feed.ratingSummary.average.toFixed(1) + " out of 5" : "No ratings yet"),
+      E("span", { style: { fontSize: 16, color: "var(--inkMuted)" } }, feed.ratingSummary.total.toLocaleString() + (feed.ratingSummary.total === 1 ? " rating" : " ratings"))) : null,
     E("div", {
       ref: scrollRef, role: "region", "aria-label": "Student reviews", "aria-busy": feed.loading, tabIndex: 0,
       onScroll: function(event) {
@@ -11763,13 +11766,13 @@ function StudentReviewsList(props) {
       style: { maxHeight: "min(65vh, 620px)", overflowY: "auto", padding: "4px 8px 4px 4px", borderRadius: 12, fontFamily: "var(--sans)", color: "var(--inkSoft)", overflowWrap: "anywhere" }
     },
       E("div", { role: "list" }, feed.items.map(function(review, index) {
-        return E("article", { role: "listitem", key: index, style: { padding: 20, marginBottom: 12, background: "var(--card)", border: "1px solid var(--rule)", borderRadius: 12 } },
-          E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 10 } },
+        return E("article", { role: "listitem", key: index, style: { padding: "22px 24px", marginBottom: 14, background: "var(--card)", border: "1px solid #dcd6f7", borderRadius: 14, boxShadow: "0 3px 10px rgba(14, 10, 31, 0.035)" } },
+          E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 14px", marginBottom: 10 } },
             E("span", { role: "img", "aria-label": review.rating + " out of 5 stars", style: { color: "var(--primary)", fontSize: 23, letterSpacing: 2 } },
               E("span", { "aria-hidden": true }, "★".repeat(review.rating) + "☆".repeat(5 - review.rating))),
-            E("time", { dateTime: review.submittedAt, style: { fontSize: 13, color: "var(--inkMuted)" } }, new Date(review.submittedAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }))),
-          E("p", { style: { fontSize: 16, lineHeight: 1.6, whiteSpace: "pre-wrap" } }, review.text),
-          E("p", { style: { marginTop: 12, fontSize: 14, fontWeight: 800, color: "var(--ink)" } }, review.name));
+            E("span", { style: { fontSize: 16, fontWeight: 800, color: "var(--ink)" } }, review.name),
+            E("time", { dateTime: review.submittedAt, style: { fontSize: 15, color: "var(--inkMuted)" } }, new Date(review.submittedAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }))),
+          E("p", { style: { fontSize: 18, lineHeight: 1.6, whiteSpace: "pre-wrap" } }, review.text));
       })),
       feed.loaded && !feed.loading && !feed.items.length ? E("p", { style: { padding: "18px 0" } }, "No student reviews yet.") : null,
       feed.loading ? E("p", { role: "status", style: { padding: "12px 0" } }, "Loading student reviews…") : null,
@@ -11785,61 +11788,64 @@ function ReviewsSection(props) {
     usefulnessRating: 0,
     improvement: "",
     testimonial: "",
-    quotePermission: "none",
     quoteFirstName: profile.firstName || ""
   };
   var _draft = useLocalStorage(REVIEW_DRAFT_KEY, emptyReview), draft = _draft[0], setDraft = _draft[1];
+  var _reviewId = useState(function() { return getOrCreateReviewId(); }), reviewId = _reviewId[0], setReviewId = _reviewId[1];
   var _status = useState(function() {
-    try { return localStorage.getItem(REVIEW_SUBMITTED_KEY) === getOrCreateReviewId() ? "success" : "idle"; }
+    try { return localStorage.getItem(REVIEW_SUBMITTED_KEY) === reviewId ? "success" : "idle"; }
     catch (e) { return "idle"; }
   }), status = _status[0], setStatus = _status[1];
   var _reviewRefresh = useState(0), reviewRefresh = _reviewRefresh[0], setReviewRefresh = _reviewRefresh[1];
   var _error = useState(""), error = _error[0], setError = _error[1];
+
+  var startAnotherReview = function() {
+    setDraft(function() { return Object.assign({}, emptyReview); });
+    // Rotate only when starting another review. Network retries keep the same ID.
+    setReviewId(getOrCreateReviewId(true));
+    setError("");
+    setStatus("idle");
+  };
 
   var update = function(field, value) {
     setError("");
     setDraft(function(prev) {
       var next = Object.assign({}, prev);
       next[field] = value;
-      if (field === "testimonial" && !String(value || "").trim()) {
-        next.quotePermission = "none";
-      }
       return next;
     });
   };
   var fieldStyle = {
-    width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 10,
-    background: "var(--bg)", color: "var(--ink)", padding: "11px 13px",
-    fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.5, outlineColor: "var(--primary)"
+    width: "100%", boxSizing: "border-box", border: "1px solid transparent", borderRadius: 16,
+    background: "#fff", color: "var(--ink)", padding: "17px 18px", boxShadow: "0 4px 14px rgba(14, 10, 31, 0.025)",
+    fontFamily: "var(--sans)", fontSize: 17, lineHeight: 1.6, outlineColor: "var(--primary)"
   };
-  var questionLabel = function(text, optional) {
-    return E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 10, lineHeight: 1.4 } },
-      text,
-      E("span", { style: { marginLeft: 7, color: "var(--inkMuted)", fontSize: 12, fontWeight: 700 } }, optional ? "Optional" : "Required"));
+  var questionLabel = function(text) {
+    return E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 800, color: "var(--ink)", marginBottom: 12, lineHeight: 1.4 } }, text);
   };
-  var textField = function(field, question, helpText) {
+  var textField = function(field, question, placeholder) {
     var id = "review-" + field;
     return E("label", { htmlFor: id, style: { display: "block", marginBottom: 26 } },
-      questionLabel(question, true),
-      helpText ? E("div", { id: id + "-help", style: { marginBottom: 10, color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 14 } }, helpText) : null,
-      E("textarea", { id: id, rows: 4, maxLength: 2500, "aria-describedby": helpText ? id + "-help" : undefined, value: draft[field] || "", onChange: function(event) { update(field, event.target.value); }, style: Object.assign({}, fieldStyle, { resize: "vertical" }) }));
+      questionLabel(question),
+      E("textarea", { id: id, className: "course-review-field", rows: 4, maxLength: 2500, placeholder: placeholder, "aria-describedby": "review-form-note review-publication-notice", value: draft[field] || "", onChange: function(event) { update(field, event.target.value); }, style: Object.assign({}, fieldStyle, { resize: "vertical", minHeight: 128 }) }));
   };
+  var hasRating = [1, 2, 3, 4, 5].indexOf(Number(draft.usefulnessRating)) !== -1;
   var submitReview = function() {
     setError("");
-    if ([1, 2, 3, 4, 5].indexOf(Number(draft.usefulnessRating)) === -1) {
+    if (!hasRating) {
       setError("Choose a star rating before submitting your review.");
       return;
     }
     var hasTestimonial = !!String(draft.testimonial || "").trim();
-    var permission = hasTestimonial ? (draft.quotePermission || "none") : "none";
-    var firstName = permission === "first_name" ? String(draft.quoteFirstName || "").trim() : "";
+    var permission = hasTestimonial ? "first_name" : "none";
+    var firstName = hasTestimonial ? (String(profile.firstName || "").trim() || String(draft.quoteFirstName || "").trim()) : "";
     if (permission === "first_name" && !firstName) {
-      setError("Add the first name we may use with your quote, or choose another permission option.");
+      setError("Add your first name or nickname to publish your written review.");
       return;
     }
     var payload = {
       eventType: "review",
-      reviewId: getOrCreateReviewId(),
+      reviewId: reviewId,
       studentId: profile.studentId,
       courseVersion: COMPLETION_VERSION,
       usefulnessRating: Number(draft.usefulnessRating),
@@ -11882,13 +11888,17 @@ function ReviewsSection(props) {
             E("p", null, "Thanks for taking the course and telling us what you think. Your feedback helps us make it better for the next student."),
             E("p", { style: { marginTop: 12 } }, "Luke and Nate")),
           E("div", { style: { textAlign: "center", marginTop: 18 } },
-            E(ActivityButton, { onClick: function() { setStatus("idle"); setError(""); } }, "Edit my review")))
+            E(ActivityButton, { onClick: startAnotherReview }, "Write another review")))
       : E(React.Fragment, null,
           E(BodyP, null, "How was the course? We hope you find it time well spent. If you have a minute, we'd love your feedback. It will help us improve the course for the next students who take it."),
-          E(InnerCard, { style: { border: "1px solid var(--rule)", boxShadow: "none" } },
+          E("section", { className: "course-review-form", "aria-labelledby": "review-form-title" },
+            E("p", { style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", color: "var(--tryAccent)", marginBottom: 10 } }, E("span", { "aria-hidden": true }, "✎ "), "SHARE YOUR REVIEW"),
+            E("h2", { id: "review-form-title", style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 800, lineHeight: 1.3, color: "var(--ink)", marginBottom: 8 } }, "Rate the course. Tell the next student."),
+            E("p", { id: "review-form-note", style: { fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.6, color: "var(--inkSoft)", marginBottom: 26 } }, "Only the stars are required. Your written review and suggestions for improvement are optional."),
             E("div", { style: { marginBottom: 26 } },
-              questionLabel("Overall, how useful was this course?", false),
-              E("div", { role: "radiogroup", "aria-required": true, "aria-label": "Overall, how useful was this course?", style: { display: "grid", gridTemplateColumns: "repeat(5, minmax(44px, 1fr))", gap: 8, maxWidth: 280 } },
+              questionLabel("Overall, how useful was this course?"),
+              E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px 18px" } },
+              E("div", { role: "radiogroup", "aria-required": true, "aria-label": "Overall, how useful was this course?", style: { display: "flex", gap: 6, flexShrink: 0 } },
                 [1, 2, 3, 4, 5].map(function(value) {
                   var selected = Number(draft.usefulnessRating) === value;
                   var filled = value <= Number(draft.usefulnessRating);
@@ -11908,29 +11918,21 @@ function ReviewsSection(props) {
                       update("usefulnessRating", next);
                       event.currentTarget.parentElement.children[next - 1].focus();
                     },
-                    style: { minHeight: 46, borderRadius: 10, border: "none", background: "transparent", color: filled ? "var(--primary)" : "var(--inkMuted)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }
-                  }, E("svg", { width: 36, height: 36, viewBox: "0 0 24 24", "aria-hidden": true, focusable: "false", fill: filled ? "currentColor" : "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinejoin: "round" },
+                    style: { minHeight: 46, width: 44, padding: 0, borderRadius: 10, border: "none", background: "transparent", color: filled ? "#000" : "#c9d6cb", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }
+                  }, E("svg", { width: 42, height: 42, viewBox: "0 0 24 24", "aria-hidden": true, focusable: "false", fill: "currentColor", stroke: "currentColor", strokeWidth: 0, strokeLinejoin: "round" },
                     E("path", { d: "M12 3l2.78 5.63L21 9.54l-4.5 4.38 1.06 6.19L12 17.19l-5.56 2.92 1.06-6.19L3 9.54l6.22-.91L12 3z" })));
                 })),
-              E("div", { style: { display: "flex", justifyContent: "space-between", maxWidth: 280, marginTop: 6, color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 12.5 } }, E("span", null, "Not useful"), E("span", null, "Very useful")),
-              E("div", { role: "status", "aria-live": "polite", style: { marginTop: 8, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700 } }, Number(draft.usefulnessRating) ? Number(draft.usefulnessRating) + " out of 5" : "")),
-            textField("testimonial", "What would you tell another student about this course?"),
-            String(draft.testimonial || "").trim() ? E("fieldset", { style: { border: 0, padding: 0, margin: "0 0 26px" } },
-              E("legend", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 10, lineHeight: 1.4 } }, "May we share this review on the course website or when describing the course?"),
-              E("div", { role: "radiogroup", "aria-label": "Quote permission", style: { display: "grid", gap: 8 } }, [
-                ["none", "No, keep it private."],
-                ["anonymous", "Yes, but keep it anonymous."],
-                ["first_name", "Yes, use my first name."]
-              ].map(function(option) {
-                var selected = draft.quotePermission === option[0];
-                return E("button", { key: option[0], type: "button", role: "radio", "aria-checked": selected, onClick: function() { update("quotePermission", option[0]); }, style: { width: "100%", padding: "11px 13px", textAlign: "left", borderRadius: 10, border: "1.5px solid " + (selected ? "var(--primary)" : "var(--rule)"), background: selected ? "#f5f1ff" : "#fff", color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: 700, cursor: "pointer" } }, selected ? "✓ " + option[1] : option[1]);
-              })),
-              draft.quotePermission === "first_name" ? E("label", { htmlFor: "review-quote-first-name", style: { display: "block", marginTop: 12 } },
-                E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 800 } }, "First name to use"),
-                E("input", { id: "review-quote-first-name", type: "text", maxLength: 80, autoComplete: "given-name", value: draft.quoteFirstName || "", onChange: function(event) { update("quoteFirstName", event.target.value); }, style: fieldStyle })) : null) : null,
-            textField("improvement", "What should we improve?", "This feedback is just for us. We won’t publish it."),
+              E("div", { role: "status", "aria-live": "polite", style: { color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700 } }, hasRating ? Number(draft.usefulnessRating) + " out of 5" : "Pick a rating"))),
+            textField("testimonial", "What would you tell another student about this course?", "One or two sentences is plenty."),
+            String(draft.testimonial || "").trim() && !String(profile.firstName || "").trim() ? E("label", { htmlFor: "review-public-name", style: { display: "block", marginBottom: 26 } },
+              questionLabel("First name or nickname"),
+              E("input", { id: "review-public-name", type: "text", maxLength: 80, autoComplete: "given-name", "aria-describedby": "review-publication-notice", value: draft.quoteFirstName || "", onChange: function(event) { update("quoteFirstName", event.target.value); }, style: fieldStyle })) : null,
+            textField("improvement", "What should we improve?", "Just for us. We won’t publish it."),
             error ? E("div", { role: "alert", style: { padding: "11px 13px", marginBottom: 14, borderRadius: 9, background: "#fdeaec", color: "#9f1d32", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, lineHeight: 1.45 } }, error) : null,
-            E(ActivityButton, { size: "large", disabled: status === "sending", onClick: submitReview }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : "Submit my review")))),
+            E("p", { id: "review-publication-notice", style: { fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.6, color: "var(--inkSoft)", marginBottom: 18 } }, "Your review will appear publicly with your first name or nickname. Your suggestions for improvement stay private."),
+            E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 18px" } },
+              E(ActivityButton, { size: "large", disabled: status === "sending" || !hasRating, onClick: submitReview, style: { padding: "16px 26px", fontSize: 16, borderRadius: 12, background: status === "sending" || !hasRating ? "#9c9f9d" : "var(--ink)" } }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : "Submit my review")),
+              !hasRating ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)" } }, "Choose a star rating to submit.") : null))),
     E(StudentReviewsList, { refreshKey: reviewRefresh }),
     E(LessonRule, null),
     E(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));

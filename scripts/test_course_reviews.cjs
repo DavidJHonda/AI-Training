@@ -104,7 +104,8 @@ assert.equal(post({...base, reviewId: 'invalid-new'}), 'error');
 assert.equal(JSON.stringify(legacy.rows), beforeInvalidWrite);
 sheets.Reviews = reviews;
 assert.equal(post({firstName: 'Test', lastName: 'Student', studentId: 'student', email: 'test@example.com'}), 'ok');
-assert.equal(enrollment.rows.length, 1);
+assert.equal(enrollment.rows.length, 2); // Header plus the legacy-compatible enrollment.
+assert.equal(enrollment.rows[0][3], 'Country');
 const completion = {eventType: 'course_completed', completionId: 'completion', studentId: 'student', firstName: 'Test', lastName: 'Student', score: 88};
 assert.equal(post(completion), 'completion-ok');
 assert.equal(post(completion), 'completion-ok');

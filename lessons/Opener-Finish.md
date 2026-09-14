@@ -2,8 +2,6 @@
 
 # Opener
 
-Draft Lesson. Still working on it.
-
 A LETTER FROM LUKE AND NATE
 
 Congratulations. You made it to the end of **Be Smarter Than the Tool**. We hope you enjoyed our course. Some subjects were tough, but we hope you still had some fun.
@@ -24,9 +22,11 @@ And, if you’re a hockey fan, GO STARS!
 
 Luke and Nate
 
-Here are the five biggest takeaways from the course. Everything you just learned ties back to these ideas. Lock them in and you’ve got the mental model that runs every AI conversation.
+Five big ideas to take with you. Keep them handy whenever you work with AI.
 
 ## FIVE BIG IDEAS TO TAKE WITH YOU
+
+![Five Big Ideas to Take With You keepsake poster](../illustrations/five-big-ideas-keepsake.png)
 
 AI predicts. It doesn’t think.
 
@@ -38,4 +38,4 @@ You make the call.
 
 The better AI gets, the more you matter.
 
-now you’re smarter than the tool.
+Now you’re smarter than the tool.

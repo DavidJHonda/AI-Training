@@ -11990,10 +11990,35 @@ function FinishLetter() {
 }
 function FiveBigIdeasKeepsake() {
   var E = React.createElement;
+  var _downloadState = useState({ busy: "", failed: null });
+  var downloadState = _downloadState[0], setDownloadState = _downloadState[1];
   var downloadStyle = {
     display: "inline-flex", alignItems: "center", justifyContent: "center",
-    padding: "11px 16px", borderRadius: 10, fontFamily: "var(--sans)",
-    fontSize: 14, fontWeight: 800, textDecoration: "none"
+    minHeight: 44, padding: "8px 10px", boxSizing: "border-box",
+    fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700,
+    color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: 3
+  };
+  var downloadFile = async function(event, url, filename, key) {
+    if (event) event.preventDefault();
+    if (downloadState.busy) return;
+    setDownloadState({ busy: key, failed: null });
+    try {
+      var response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error("Download failed");
+      var blob = await response.blob();
+      var objectUrl = URL.createObjectURL(blob);
+      var anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = filename;
+      anchor.style.display = "none";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(function() { URL.revokeObjectURL(objectUrl); }, 1000);
+      setDownloadState({ busy: "", failed: null });
+    } catch (error) {
+      setDownloadState({ busy: "", failed: { url: url, filename: filename, key: key } });
+    }
   };
   var alt = "Illustrated keepsake poster titled Five Big Ideas to Take With You. Five scenes show Nate and Luke watching AI select the next word in a sentence; correcting a polished answer that incorrectly prices a 20%-off $60 hoodie at $52 instead of $48; using a reference book, calculations, and a sketch to improve a solar-model suggestion; choosing one of three project designs; and building and testing the chosen model together. The five ideas are: AI predicts. It doesn’t think. Fluent isn’t the same as true. The more you know, the more it gives. You make the call. The better AI gets, the more you matter. The closing line says: Now you’re smarter than the tool.";
   return E("div", { style: { marginBottom: 24 } },
@@ -12008,22 +12033,32 @@ function FiveBigIdeasKeepsake() {
     E("div", {
       className: "no-print",
       style: {
-        maxWidth: 760, margin: "16px auto 0", padding: "18px 20px",
-        border: "1px solid var(--rule)", borderRadius: 14, background: "var(--card)"
+        maxWidth: 760, margin: "8px auto 0", textAlign: "center"
       }
     },
-      E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 800, color: "var(--ink)", marginBottom: 12 } }, "Save the five big ideas"),
-      E("div", { style: { display: "flex", flexWrap: "wrap", gap: 10 } },
+      E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap" } },
         E("a", {
           href: "illustrations/five-big-ideas-keepsake.png",
           download: "Five Big Ideas to Take With You.png",
-          style: Object.assign({}, downloadStyle, { background: "var(--primary)", color: "#fff", border: "1.5px solid var(--primary)" })
-        }, "Download image"),
+          onClick: function(event) { downloadFile(event, "illustrations/five-big-ideas-keepsake.png", "Five Big Ideas to Take With You.png", "image"); },
+          "aria-busy": downloadState.busy === "image" ? "true" : undefined,
+          style: downloadStyle
+        }, downloadState.busy === "image" ? "Saving image…" : "Save image"),
+        E("span", { "aria-hidden": "true", style: { color: "var(--inkMuted)" } }, "·"),
         E("a", {
           href: "lessons/five-big-ideas-keepsake.pdf",
           download: "Five Big Ideas to Take With You.pdf",
-          style: Object.assign({}, downloadStyle, { background: "transparent", color: "var(--primary)", border: "1.5px solid var(--rule)" })
-        }, "Download PDF"))));
+          onClick: function(event) { downloadFile(event, "lessons/five-big-ideas-keepsake.pdf", "Five Big Ideas to Take With You.pdf", "pdf"); },
+          "aria-busy": downloadState.busy === "pdf" ? "true" : undefined,
+          style: downloadStyle
+        }, downloadState.busy === "pdf" ? "Downloading PDF…" : "Download PDF")),
+      downloadState.failed && E("div", { role: "alert", style: { marginTop: 2, fontFamily: "var(--sans)", fontSize: 13, color: "var(--danger, #a22)" } },
+        "Download failed. ",
+        E("button", {
+          type: "button",
+          onClick: function() { var failed = downloadState.failed; downloadFile(null, failed.url, failed.filename, failed.key); },
+          style: { appearance: "none", border: 0, padding: "8px 6px", background: "transparent", color: "var(--primary)", font: "inherit", fontWeight: 700, textDecoration: "underline", cursor: "pointer" }
+        }, "Try again"))));
 }
 // The letter IS the opener: the course said what it had to say, signed off, and
 // everything exam-shaped lives on The Final now.

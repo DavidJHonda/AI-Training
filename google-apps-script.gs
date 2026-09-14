@@ -1,12 +1,270 @@
 // Complete replacement for the Apps Script web app handler.
 //
-// The first spreadsheet tab remains the enrollment sheet. Add "Student ID" as
-// the heading in column G. Course completions and reviews are stored in separate
-// tabs that this script creates automatically.
+// The first spreadsheet tab remains the enrollment sheet. New sheets use:
+// Timestamp | First Name | Student ID | Country.
+// Existing enrollment layouts are read by header, including the old "Certificate?"
+// heading for Student ID. After deploying this version, run migrateEnrollmentSheet
+// once to back up the enrollment sheet and remove Last Name, Email, City and State.
+// Reviews remain in their existing separate tab. Course Completions keeps the
+// certificate first/last name and tracking fields. Run migrateCompletionSheet once
+// to back up that tab and replace its City/State columns with Country.
 
 var NOTIFICATION_EMAIL = "besmarterthanthetool@gmail.com";
 var COMPLETIONS_SHEET_NAME = "Course Completions";
 var REVIEWS_SHEET_NAME = "Reviews";
+
+// Same country labels as country-select.js. Legacy enrollments may omit country.
+var COURSE_COUNTRIES = [
+  "United States",
+  "Afghanistan",
+  "Åland Islands",
+  "Albania",
+  "Algeria",
+  "American Samoa",
+  "Andorra",
+  "Angola",
+  "Anguilla",
+  "Antarctica",
+  "Antigua & Barbuda",
+  "Argentina",
+  "Armenia",
+  "Aruba",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bermuda",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia & Herzegovina",
+  "Botswana",
+  "Bouvet Island",
+  "Brazil",
+  "British Indian Ocean Territory",
+  "British Virgin Islands",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Cape Verde",
+  "Caribbean Netherlands",
+  "Cayman Islands",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Christmas Island",
+  "Cocos (Keeling) Islands",
+  "Colombia",
+  "Comoros",
+  "Congo - Brazzaville",
+  "Congo - Kinshasa",
+  "Cook Islands",
+  "Costa Rica",
+  "Côte d’Ivoire",
+  "Croatia",
+  "Cuba",
+  "Curaçao",
+  "Cyprus",
+  "Czechia",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Falkland Islands",
+  "Faroe Islands",
+  "Fiji",
+  "Finland",
+  "France",
+  "French Guiana",
+  "French Polynesia",
+  "French Southern Territories",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Gibraltar",
+  "Greece",
+  "Greenland",
+  "Grenada",
+  "Guadeloupe",
+  "Guam",
+  "Guatemala",
+  "Guernsey",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Heard & McDonald Islands",
+  "Honduras",
+  "Hong Kong SAR China",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Isle of Man",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jersey",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Macao SAR China",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Martinique",
+  "Mauritania",
+  "Mauritius",
+  "Mayotte",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Montserrat",
+  "Morocco",
+  "Mozambique",
+  "Myanmar (Burma)",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Caledonia",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "Niue",
+  "Norfolk Island",
+  "North Korea",
+  "North Macedonia",
+  "Northern Mariana Islands",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Palestinian Territories",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Pitcairn Islands",
+  "Poland",
+  "Portugal",
+  "Puerto Rico",
+  "Qatar",
+  "Réunion",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Samoa",
+  "San Marino",
+  "São Tomé & Príncipe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Sint Maarten",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Georgia & South Sandwich Islands",
+  "South Korea",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "St. Barthélemy",
+  "St. Helena",
+  "St. Kitts & Nevis",
+  "St. Lucia",
+  "St. Martin",
+  "St. Pierre & Miquelon",
+  "St. Vincent & Grenadines",
+  "Sudan",
+  "Suriname",
+  "Svalbard & Jan Mayen",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor-Leste",
+  "Togo",
+  "Tokelau",
+  "Tonga",
+  "Trinidad & Tobago",
+  "Tunisia",
+  "Türkiye",
+  "Turkmenistan",
+  "Turks & Caicos Islands",
+  "Tuvalu",
+  "U.S. Outlying Islands",
+  "U.S. Virgin Islands",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Wallis & Futuna",
+  "Western Sahara",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe"
+];
 
 function doGet(e) {
   var diagnostic = { stage: "request", startedAt: Date.now() };
@@ -127,29 +385,112 @@ function parseRequest_(e) {
 }
 
 function recordEnrollment_(data) {
+  var country = clean_(data.country);
+  if (country && COURSE_COUNTRIES.indexOf(country) === -1) throw new Error("Invalid country selection");
+  // The new form requires a country. Older pages and queued signups can still
+  // send the legacy payload, preserving returning-student and retry behavior.
+  if (data.registrationVersion === 2 && (!clean_(data.firstName) || !country)) {
+    throw new Error("First name and country are required");
+  }
   var firstName = clean_(data.firstName) || "Student";
-  var lastName = clean_(data.lastName);
-  var email = clean_(data.email);
-  var city = clean_(data.city);
-  var state = clean_(data.state);
   var studentId = clean_(data.studentId);
-  var fullName = [firstName, lastName].filter(String).join(" ");
-  var location = [city, state].filter(String).join(", ");
 
-  SpreadsheetApp.getActiveSpreadsheet().getSheets()[0].appendRow([
-    new Date(), firstName, lastName, email, city, state, studentId
-  ]);
+  // Serialize header creation and row writes. Email delivery stays outside the lock.
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var enrollment = getEnrollmentSheet_();
+    var values = new Array(enrollment.width).fill("");
+    values[0] = new Date();
+    values[1] = firstName;
+    values[enrollment.studentIdColumn - 1] = studentId;
+    values[enrollment.countryColumn - 1] = country;
+    enrollment.sheet.appendRow(values);
+    SpreadsheetApp.flush();
+  } finally {
+    lock.releaseLock();
+  }
 
-  var lines = [fullName];
-  if (email) lines.push(email);
-  if (location) lines.push(location);
+  var lines = [firstName];
+  if (country) lines.push("Country: " + country);
   if (studentId) lines.push("Student ID: " + studentId);
 
   MailApp.sendEmail(
     NOTIFICATION_EMAIL,
-    "New course signup: " + fullName,
+    "New course signup: " + firstName,
     lines.join("\n")
   );
+}
+
+function enrollmentLayout_(sheet) {
+  var width = sheet.getLastColumn();
+  var headers = sheet.getRange(1, 1, 1, Math.max(1, width)).getValues()[0];
+  var normalized = headers.map(function(header) { return clean_(header).toLowerCase(); });
+  if (["timestamp", "registered at", "date"].indexOf(normalized[0]) === -1 || normalized[1] !== "first name") {
+    throw new Error("The first enrollment columns must be Timestamp and First Name");
+  }
+  var studentIndexes = [], countryIndexes = [], retiredColumns = [];
+  normalized.forEach(function(header, index) {
+    if (header === "student id" || header === "certificate?") studentIndexes.push(index);
+    if (header === "country") countryIndexes.push(index);
+    if (["last name", "email", "city", "state"].indexOf(header) !== -1) retiredColumns.push(index + 1);
+  });
+  // Older setup instructions sometimes left G1 blank, but G already held IDs.
+  var legacyBlankId = !studentIndexes.length && normalized.slice(2, 6).join("|") === "last name|email|city|state" && !normalized[6];
+  if (legacyBlankId) studentIndexes.push(6);
+  if (studentIndexes.length !== 1 || studentIndexes[0] < 2 || countryIndexes.length > 1 || (countryIndexes.length && countryIndexes[0] < 2)) {
+    throw new Error("Enrollment requires one Student ID column and at most one separate Country column");
+  }
+  return { sheet: sheet, headers: headers, width: Math.max(width, studentIndexes[0] + 1),
+    studentIdColumn: studentIndexes[0] + 1, countryColumn: countryIndexes.length ? countryIndexes[0] + 1 : null,
+    retiredColumns: retiredColumns };
+}
+
+function getEnrollmentSheet_() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  if (!sheet.getLastRow()) sheet.appendRow(["Timestamp", "First Name", "Student ID", "Country"]);
+  var layout = enrollmentLayout_(sheet);
+  if (clean_(layout.headers[layout.studentIdColumn - 1]) !== "Student ID") {
+    sheet.getRange(1, layout.studentIdColumn).setValues([["Student ID"]]);
+  }
+  if (!layout.countryColumn) {
+    layout.countryColumn = ++layout.width;
+    while (layout.width > sheet.getMaxColumns()) sheet.insertColumnAfter(sheet.getMaxColumns());
+    sheet.getRange(1, layout.countryColumn).setValues([["Country"]]);
+  }
+  return layout;
+}
+
+// Run from the Apps Script editor only AFTER deploying the new web app version.
+// It is not called by doGet/doPost. A full backup is created before removing columns.
+function migrateEnrollmentSheet() {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = spreadsheet.getSheets()[0];
+    if (!sheet.getLastRow()) {
+      getEnrollmentSheet_();
+      return "Created the four-column enrollment sheet.";
+    }
+    var layout = enrollmentLayout_(sheet); // Validate before making any changes.
+    var backupName = "";
+    if (layout.retiredColumns.length) {
+      backupName = "Enrollment backup " + new Date().getTime();
+      sheet.copyTo(spreadsheet).setName(backupName);
+    }
+    getEnrollmentSheet_(); // Normalize the ID heading and add Country if missing.
+    layout.retiredColumns.sort(function(a, b) { return b - a; }).forEach(function(column) {
+      sheet.deleteColumns(column, 1);
+    });
+    sheet.getRange(1, 1).setValues([["Timestamp"]]);
+    SpreadsheetApp.flush();
+    var message = backupName ? "Enrollment cleaned up. Historical data is preserved in " + backupName + "." : "Enrollment is already clean. No columns removed.";
+    console.log(message);
+    return message;
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function recordCompletion_(data) {
@@ -160,51 +501,59 @@ function recordCompletion_(data) {
   if (!completionId || !studentId || !firstName || !lastName) {
     throw new Error("Completion ID, student ID, first name, and last name are required");
   }
+  var country = clean_(data.country);
+  if (country && COURSE_COUNTRIES.indexOf(country) === -1) throw new Error("Invalid country selection");
 
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    var sheet = getCompletionSheet_();
-    var city = clean_(data.city);
-    var state = clean_(data.state);
-    var location = [city, state].filter(String).join(", ");
+    var layout = getCompletionSheet_();
+    var sheet = layout.sheet;
     var score = normalizeScore_(data.score);
     if (score < 80) throw new Error("A passing completion score is required");
     var completedAt = new Date();
     var fullName = firstName + " " + lastName;
-    var existingRow = findCompletionRow_(sheet, completionId);
+    var existingRow = findCompletionRow_(layout, completionId);
 
     if (existingRow) {
       var existingName = sheet.getRange(existingRow, 3, 1, 2).getValues()[0];
-      if (clean_(existingName[0]) === firstName && clean_(existingName[1]) === lastName) return;
-      sheet.getRange(existingRow, 3, 1, 2).setValues([[firstName, lastName]]);
-      MailApp.sendEmail(
-        NOTIFICATION_EMAIL,
-        "Course completion name updated: " + fullName,
-        "The certificate name for an existing completion was updated.\n" +
-          "Name: " + fullName + "\n" +
-          "Student ID: " + studentId
-      );
+      var existingCountry = clean_(sheet.getRange(existingRow, layout.countryColumn).getValues()[0][0]);
+      var nameChanged = clean_(existingName[0]) !== firstName || clean_(existingName[1]) !== lastName;
+      var countryChanged = !!country && existingCountry !== country;
+      if (!nameChanged && !countryChanged) return;
+      if (nameChanged) sheet.getRange(existingRow, 3, 1, 2).setValues([[firstName, lastName]]);
+      // A blank legacy payload must never erase an existing country.
+      if (countryChanged) sheet.getRange(existingRow, layout.countryColumn).setValues([[country]]);
+      SpreadsheetApp.flush();
+      if (nameChanged) {
+        MailApp.sendEmail(
+          NOTIFICATION_EMAIL,
+          "Course completion name updated: " + fullName,
+          "The certificate name for an existing completion was updated.\n" +
+            "Name: " + fullName + "\n" +
+            "Student ID: " + studentId
+        );
+      }
       return;
     }
 
-    sheet.appendRow([
-      completedAt,
-      studentId,
-      firstName,
-      lastName,
-      city,
-      state,
-      score,
-      completionId,
-      clean_(data.courseVersion)
-    ]);
+    var values = new Array(layout.width).fill("");
+    values[0] = completedAt;
+    values[1] = studentId;
+    values[2] = firstName;
+    values[3] = lastName;
+    values[layout.countryColumn - 1] = country;
+    values[layout.scoreColumn - 1] = score;
+    values[layout.completionIdColumn - 1] = completionId;
+    values[layout.courseVersionColumn - 1] = clean_(data.courseVersion);
+    sheet.appendRow(values);
+    SpreadsheetApp.flush();
 
     var lines = [
       fullName + " completed Be Smarter Than the Tool.",
       "Final score: " + score + "%"
     ];
-    if (location) lines.push("Location: " + location);
+    if (country) lines.push("Country: " + country);
     lines.push("Student ID: " + studentId);
     lines.push("Completed: " + completedAt.toLocaleString());
 
@@ -218,42 +567,107 @@ function recordCompletion_(data) {
   }
 }
 
+function completionLayout_(sheet) {
+  var width = sheet.getLastColumn();
+  var headers = sheet.getRange(1, 1, 1, Math.max(1, width)).getValues()[0].map(clean_);
+  var target = ["Completed At", "Student ID", "First Name", "Last Name", "Country", "Final Score", "Completion ID", "Course Version"];
+  var legacy = ["Completed At", "Student ID", "First Name", "Last Name", "City", "State", "Final Score", "Completion ID", "Course Version"];
+  var transitional = ["Completed At", "Student ID", "First Name", "Last Name", "City", "State", "Country", "Final Score", "Completion ID", "Course Version"];
+  var oldWithoutLastName = ["Completed At", "Student ID", "First Name", "City", "State", "Final Score", "Completion ID", "Course Version"];
+  var signature = JSON.stringify(headers);
+  var kind = signature === JSON.stringify(target) ? "target" :
+    signature === JSON.stringify(legacy) ? "legacy" :
+    signature === JSON.stringify(transitional) ? "transitional" :
+    signature === JSON.stringify(oldWithoutLastName) ? "without-last-name" : "";
+  if (!kind) {
+    throw new Error("Course Completions headers do not match a supported layout. Restore the sheet from backup before retrying.");
+  }
+  return {
+    sheet: sheet, kind: kind, headers: headers, width: width,
+    countryColumn: kind === "target" ? 5 : (kind === "transitional" ? 7 : null),
+    scoreColumn: kind === "target" ? 6 : (kind === "transitional" ? 8 : (kind === "without-last-name" ? 6 : 7)),
+    completionIdColumn: kind === "target" ? 7 : (kind === "transitional" ? 9 : (kind === "without-last-name" ? 7 : 8)),
+    courseVersionColumn: kind === "target" ? 8 : (kind === "transitional" ? 10 : (kind === "without-last-name" ? 8 : 9))
+  };
+}
+
 function getCompletionSheet_() {
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = spreadsheet.getSheetByName(COMPLETIONS_SHEET_NAME);
   if (!sheet) {
     sheet = spreadsheet.insertSheet(COMPLETIONS_SHEET_NAME);
-    sheet.appendRow([
-      "Completed At",
-      "Student ID",
-      "First Name",
-      "Last Name",
-      "City",
-      "State",
-      "Final Score",
-      "Completion ID",
-      "Course Version"
-    ]);
+    sheet.appendRow(["Completed At", "Student ID", "First Name", "Last Name", "Country", "Final Score", "Completion ID", "Course Version"]);
     sheet.setFrozenRows(1);
-  } else {
-    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-    if (headers.indexOf("Last Name") === -1) {
-      sheet.insertColumnAfter(3);
-      sheet.getRange(1, 4).setValue("Last Name");
-    }
+    return completionLayout_(sheet);
   }
-  return sheet;
+  if (!sheet.getLastRow()) {
+    sheet.appendRow(["Completed At", "Student ID", "First Name", "Last Name", "Country", "Final Score", "Completion ID", "Course Version"]);
+    sheet.setFrozenRows(1);
+    return completionLayout_(sheet);
+  }
+  var layout = completionLayout_(sheet);
+  if (layout.kind === "without-last-name") {
+    sheet.insertColumnAfter(3);
+    sheet.getRange(1, 4).setValues([["Last Name"]]);
+    layout = completionLayout_(sheet);
+  }
+  // During the deploy-before-migrate window, keep City/State untouched and add a
+  // dedicated Country column before Final Score. The migration later removes only City/State.
+  if (layout.kind === "legacy") {
+    sheet.insertColumnAfter(6);
+    sheet.getRange(1, 7).setValues([["Country"]]);
+    layout = completionLayout_(sheet);
+  }
+  return layout;
 }
 
-function findCompletionRow_(sheet, completionId) {
+function findCompletionRow_(layout, completionId) {
+  var sheet = layout.sheet;
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return null;
   var match = sheet
-    .getRange(2, 8, lastRow - 1, 1)
+    .getRange(2, layout.completionIdColumn, lastRow - 1, 1)
     .createTextFinder(completionId)
     .matchEntireCell(true)
     .findNext();
   return match ? match.getRow() : null;
+}
+
+// Run once from the Apps Script editor after deploying this version. The function
+// creates a full backup before deleting City and State, then leaves the active tab
+// in the compact layout used for all future completion records.
+function migrateCompletionSheet() {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = spreadsheet.getSheetByName(COMPLETIONS_SHEET_NAME);
+    if (!sheet) {
+      getCompletionSheet_();
+      return "Created the compact Course Completions sheet.";
+    }
+    if (!sheet.getLastRow()) {
+      getCompletionSheet_();
+      return "Initialized the empty Course Completions sheet.";
+    }
+    var before = completionLayout_(sheet); // Validate before backup or deletion.
+    if (before.kind === "target") return "Course Completions is already clean. No columns removed.";
+    var backupName = "Course Completions backup " + new Date().getTime();
+    sheet.copyTo(spreadsheet).setName(backupName); // Stop here if backup creation fails.
+    var layout = getCompletionSheet_(); // Add Last Name/Country if an older layout needs them.
+    if (layout.kind !== "transitional") throw new Error("Course Completions could not be prepared for migration");
+    // Delete right-to-left so the original City and State positions remain stable.
+    sheet.deleteColumns(6, 1);
+    sheet.deleteColumns(5, 1);
+    SpreadsheetApp.flush();
+    var finalLayout = completionLayout_(sheet);
+    if (finalLayout.kind !== "target") throw new Error("Course Completions migration did not produce the expected layout");
+    var message = "Course Completions cleaned up. Historical data is preserved in " + backupName + ".";
+    console.log(message);
+    return message;
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function recordReview_(data) {

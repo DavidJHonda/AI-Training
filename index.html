@@ -841,9 +841,9 @@ function retryPendingCompletionReport() {
   } catch (e) {}
   if (payload && payload.firstName && payload.lastName) deliverCompletionReport(payload);
 }
-function getOrCreateReviewId(forceNew) {
+function getOrCreateReviewId() {
   var id = "";
-  try { if (!forceNew) id = localStorage.getItem(REVIEW_ID_KEY) || ""; } catch (e) {}
+  try { id = localStorage.getItem(REVIEW_ID_KEY) || ""; } catch (e) {}
   if (id) return id;
   try {
     id = (typeof crypto !== "undefined" && crypto.randomUUID)
@@ -11697,7 +11697,7 @@ function StudentReviewsList(props) {
     var controller = new AbortController();
     requestRef.current = controller;
     saveFeed(Object.assign({}, previous, { loading: true, error: "" }));
-    var timeout = setTimeout(function() { controller.abort(); }, 20000);
+    var timeout = null;
     try {
       var items = refresh ? [] : previous.items.slice();
       var cursor = refresh ? null : previous.nextCursor;
@@ -11705,10 +11705,15 @@ function StudentReviewsList(props) {
       var restarted = false;
       var pages = 0;
       do {
+        // A multi-page refresh gets the same timeout per request as initial loading.
+        timeout = setTimeout(function() { controller.abort(); }, 20000);
         var url = SIGNUP_ENDPOINT + "?action=public_reviews&_=" + Date.now() + (cursor ? "&cursor=" + encodeURIComponent(cursor) : "");
         var response = await fetch(url, { signal: controller.signal, cache: "no-store", credentials: "omit", redirect: "follow" });
         if (!response.ok) throw new Error("Reviews request failed");
         var data = await response.json();
+        clearTimeout(timeout);
+        timeout = null;
+        if (requestRef.current !== controller) return;
         if (data.error || !Array.isArray(data.reviews) || (data.nextCursor !== null && typeof data.nextCursor !== "string")) throw new Error("Invalid reviews response");
         var summary = data.ratingSummary;
         if (!summary || !Number.isSafeInteger(summary.total) || summary.total < 0 ||
@@ -11791,7 +11796,8 @@ function ReviewsSection(props) {
     quoteFirstName: profile.firstName || ""
   };
   var _draft = useLocalStorage(REVIEW_DRAFT_KEY, emptyReview), draft = _draft[0], setDraft = _draft[1];
-  var _reviewId = useState(function() { return getOrCreateReviewId(); }), reviewId = _reviewId[0], setReviewId = _reviewId[1];
+  var publicName = typeof draft.quoteFirstName === "string" ? draft.quoteFirstName : (profile.firstName || "");
+  var reviewId = useState(function() { return getOrCreateReviewId(); })[0];
   var _status = useState(function() {
     try { return localStorage.getItem(REVIEW_SUBMITTED_KEY) === reviewId ? "success" : "idle"; }
     catch (e) { return "idle"; }
@@ -11799,10 +11805,7 @@ function ReviewsSection(props) {
   var _reviewRefresh = useState(0), reviewRefresh = _reviewRefresh[0], setReviewRefresh = _reviewRefresh[1];
   var _error = useState(""), error = _error[0], setError = _error[1];
 
-  var startAnotherReview = function() {
-    setDraft(function() { return Object.assign({}, emptyReview); });
-    // Rotate only when starting another review. Network retries keep the same ID.
-    setReviewId(getOrCreateReviewId(true));
+  var editReview = function() {
     setError("");
     setStatus("idle");
   };
@@ -11830,15 +11833,15 @@ function ReviewsSection(props) {
       E("textarea", { id: id, className: "course-review-field", rows: 4, maxLength: 2500, placeholder: placeholder, "aria-describedby": "review-form-note review-publication-notice", value: draft[field] || "", onChange: function(event) { update(field, event.target.value); }, style: Object.assign({}, fieldStyle, { resize: "vertical", minHeight: 128 }) }));
   };
   var hasRating = [1, 2, 3, 4, 5].indexOf(Number(draft.usefulnessRating)) !== -1;
+  var hasTestimonial = !!String(draft.testimonial || "").trim();
   var submitReview = function() {
     setError("");
     if (!hasRating) {
       setError("Choose a star rating before submitting your review.");
       return;
     }
-    var hasTestimonial = !!String(draft.testimonial || "").trim();
     var permission = hasTestimonial ? "first_name" : "none";
-    var firstName = hasTestimonial ? (String(profile.firstName || "").trim() || String(draft.quoteFirstName || "").trim()) : "";
+    var firstName = hasTestimonial ? String(publicName).trim() : "";
     if (permission === "first_name" && !firstName) {
       setError("Add your first name or nickname to publish your written review.");
       return;
@@ -11884,11 +11887,11 @@ function ReviewsSection(props) {
     E(LessonHeader, { sectionId: "reviews" }),
     success
       ? E(React.Fragment, null,
-          E(InnerCard, { style: { padding: "24px 28px", fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6 } },
+          E("div", { style: { padding: "22px 24px", background: "var(--card)", border: "1px solid #dcd6f7", borderRadius: 14, boxShadow: "0 3px 10px rgba(14, 10, 31, 0.035)", fontFamily: "var(--sans)", fontSize: 16, color: "var(--inkSoft)", lineHeight: 1.6 } },
             E("p", null, "Thanks for taking the course and telling us what you think. Your feedback helps us make it better for the next student."),
             E("p", { style: { marginTop: 12 } }, "Luke and Nate")),
           E("div", { style: { textAlign: "center", marginTop: 18 } },
-            E(ActivityButton, { onClick: startAnotherReview }, "Write another review")))
+            E(ActivityButton, { onClick: editReview }, "Edit my review")))
       : E(React.Fragment, null,
           E(BodyP, null, "How was the course? We hope you find it time well spent. If you have a minute, we'd love your feedback. It will help us improve the course for the next students who take it."),
           E("section", { className: "course-review-form", "aria-labelledby": "review-form-title" },
@@ -11924,14 +11927,14 @@ function ReviewsSection(props) {
                 })),
               E("div", { role: "status", "aria-live": "polite", style: { color: "var(--inkMuted)", fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700 } }, hasRating ? Number(draft.usefulnessRating) + " out of 5" : "Pick a rating"))),
             textField("testimonial", "What would you tell another student about this course?", "One or two sentences is plenty."),
-            String(draft.testimonial || "").trim() && !String(profile.firstName || "").trim() ? E("label", { htmlFor: "review-public-name", style: { display: "block", marginBottom: 26 } },
-              questionLabel("First name or nickname"),
-              E("input", { id: "review-public-name", type: "text", maxLength: 80, autoComplete: "given-name", "aria-describedby": "review-publication-notice", value: draft.quoteFirstName || "", onChange: function(event) { update("quoteFirstName", event.target.value); }, style: fieldStyle })) : null,
+            hasTestimonial ? E("label", { htmlFor: "review-public-name", style: { display: "block", marginBottom: 26 } },
+              questionLabel("Your first name or nickname"),
+              E("input", { id: "review-public-name", type: "text", maxLength: 80, autoComplete: "given-name", "aria-describedby": "review-publication-notice", value: publicName, onChange: function(event) { update("quoteFirstName", event.target.value); }, style: fieldStyle })) : null,
             textField("improvement", "What should we improve?", "Just for us. We won’t publish it."),
             error ? E("div", { role: "alert", style: { padding: "11px 13px", marginBottom: 14, borderRadius: 9, background: "#fdeaec", color: "#9f1d32", fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, lineHeight: 1.45 } }, error) : null,
-            E("p", { id: "review-publication-notice", style: { fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.6, color: "var(--inkSoft)", marginBottom: 18 } }, "Your review will appear publicly with your first name or nickname. Your suggestions for improvement stay private."),
+            E("p", { id: "review-publication-notice", style: { fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.6, color: "var(--inkSoft)", marginBottom: 18 } }, "Your rating counts toward the course average. Your written review will appear publicly with your first name or nickname. Your suggestions for improvement stay private."),
             E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 18px" } },
-              E(ActivityButton, { size: "large", disabled: status === "sending" || !hasRating, onClick: submitReview, style: { padding: "16px 26px", fontSize: 16, borderRadius: 12, background: status === "sending" || !hasRating ? "#9c9f9d" : "var(--ink)" } }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : "Submit my review")),
+              E(ActivityButton, { size: "large", disabled: status === "sending" || !hasRating, onClick: submitReview, style: { padding: "16px 26px", fontSize: 16, borderRadius: 12, background: status === "sending" || !hasRating ? "#9c9f9d" : "var(--ink)" } }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : (hasTestimonial ? "Post my review" : "Submit my rating"))),
               !hasRating ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)" } }, "Choose a star rating to submit.") : null))),
     E(StudentReviewsList, { refreshKey: reviewRefresh }),
     E(LessonRule, null),

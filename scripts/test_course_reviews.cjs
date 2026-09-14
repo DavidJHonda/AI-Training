@@ -38,7 +38,7 @@ let locked = false;
 const server = {
   Utilities: {DigestAlgorithm: {SHA_256: 'sha256'}, computeDigest: (algorithm, text) => Array.from(crypto.createHash(algorithm).update(text).digest())},
   console: {error() {}},
-  SpreadsheetApp: {getActiveSpreadsheet: () => ({
+  SpreadsheetApp: {flush() { assert.equal(locked, true); }, getActiveSpreadsheet: () => ({
     getSheets: () => [enrollment],
     getSheetByName: name => sheets[name],
     insertSheet: name => (sheets[name] = new Sheet())
@@ -351,21 +351,22 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   let ui = client();
   assert.ok(node(ui, n => n.type === 'StudentReviewsList'));
   assert.equal(ui.render().filter(n => n.type === 'textarea').length, 2);
+  assert.ok(!node(ui, n => n.props.id === 'review-public-name'));
   assert.equal(ui.render().filter(n => n.props.role === 'radiogroup').length, 1);
-  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, true);
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my rating')).props.disabled, true);
   assert.ok(node(ui, n => n.children.includes('Pick a rating')));
   assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.placeholder, 'One or two sentences is plenty.');
   assert.equal(node(ui, n => n.props.id === 'review-improvement').props.placeholder, 'Just for us. We won’t publish it.');
-  click(ui, 'Submit my review');
+  click(ui, 'Submit my rating');
   assert.equal(ui.requests.length, 0);
   assert.match(node(ui, n => n.props.role === 'alert').children[0], /star rating/);
   node(ui, n => n.props['aria-label'] === '4 out of 5').props.onClick();
-  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, false);
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my rating')).props.disabled, false);
   assert.equal(node(ui, n => n.props.role === 'status').children[0], '4 out of 5');
   ui = client(); // Reload with the saved draft.
   assert.equal(node(ui, n => n.props['aria-label'] === '4 out of 5').props['aria-checked'], true);
   ui.setOffline(true);
-  click(ui, 'Submit my review');
+  click(ui, 'Submit my rating');
   await settle();
   assert.match(node(ui, n => n.props.role === 'alert').children[0], /still saved/);
   ui.setOffline(false);
@@ -379,42 +380,53 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   assert.equal(reviews.rows.filter(r => r[2] === 'ui-review').length, 1);
   assert.ok(ui.requests.every(r => r.reviewId === 'ui-review'));
   assert.equal(storage.get('submitted'), 'ui-review');
-  assert.ok(node(ui, n => n.children.includes('Write another review')));
-  assert.ok(!node(ui, n => n.children.includes('Edit my review')));
+  assert.ok(node(ui, n => n.children.includes('Edit my review')));
+  assert.ok(!node(ui, n => n.children.includes('Write another review')));
   assert.equal(node(ui, n => n.type === 'StudentReviewsList').props.refreshKey, 1);
   for (const key of ['confidenceBefore', 'confidenceAfter', 'mostUseful', 'changedBehavior']) assert.ok(!(key in ui.requests[0]));
   const originalRow = reviews.rows.find(r => r[2] === 'ui-review').slice();
-  const summaryBeforeAnother = getPublic().ratingSummary;
+  const summaryBeforeEdit = getPublic().ratingSummary;
   ui = client(); // The thank-you state survives reload.
-  click(ui, 'Write another review');
-  const secondId = storage.get('review-id');
-  assert.notEqual(secondId, 'ui-review');
-  assert.equal(JSON.parse(storage.get('draft')).usefulnessRating, 0);
-  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.value, '');
-  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.value, '');
-  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my review')).props.disabled, true);
-  ui = client(); // Blank form and fresh review ID survive reload too.
-  assert.ok(node(ui, n => n.children.includes('Pick a rating')));
+  click(ui, 'Edit my review');
+  assert.equal(storage.get('review-id'), 'ui-review');
+  assert.equal(JSON.parse(storage.get('draft')).usefulnessRating, 4);
+  assert.equal(node(ui, n => n.props['aria-label'] === '4 out of 5').props['aria-checked'], true);
+  assert.equal(node(ui, n => n.type === 'ActivityButton' && n.children.includes('Submit my rating')).props.disabled, false);
   node(ui, n => n.props['aria-label'] === '2 out of 5').props.onClick();
   field(ui, 'review-testimonial', 'Useful practice');
   assert.ok(!node(ui, n => n.props['aria-label'] === 'Quote permission'));
-  assert.ok(!node(ui, n => n.props.id === 'review-public-name'));
-  const publicationNotice = 'Your review will appear publicly with your first name or nickname. Your suggestions for improvement stay private.';
+  assert.equal(node(ui, n => n.props.id === 'review-public-name').props.value, 'Pat');
+  field(ui, 'review-public-name', '   ');
+  click(ui, 'Post my review');
+  assert.equal(ui.requests.length, 0);
+  assert.match(node(ui, n => n.props.role === 'alert').children[0], /first name or nickname/);
+  field(ui, 'review-public-name', '  PJ  ');
+  const publicationNotice = 'Your rating counts toward the course average. Your written review will appear publicly with your first name or nickname. Your suggestions for improvement stay private.';
   assert.equal(node(ui, n => n.props.id === 'review-publication-notice').children[0], publicationNotice);
-  assert.ok(ui.render().findIndex(n => n.props.id === 'review-publication-notice') < ui.render().findIndex(n => n.type === 'ActivityButton' && n.children.includes('Submit my review')));
+  assert.ok(ui.render().findIndex(n => n.props.id === 'review-publication-notice') < ui.render().findIndex(n => n.type === 'ActivityButton' && n.children.includes('Post my review')));
   field(ui, 'review-improvement', 'More examples');
-  click(ui, 'Submit my review');
+  click(ui, 'Post my review');
   await settle();
-  assert.equal(ui.requests[0].reviewId, secondId);
-  const secondRow = reviews.rows.find(r => r[2] === secondId);
-  assert.deepEqual(secondRow.slice(6), ['More examples', 'Useful practice', 'first_name', 'Pat']);
-  assert.deepEqual(reviews.rows.find(r => r[2] === 'ui-review'), originalRow);
-  assert.equal(getPublic().ratingSummary.total, summaryBeforeAnother.total + 1);
-  assert.ok(Math.abs(getPublic().ratingSummary.average - (summaryBeforeAnother.average * summaryBeforeAnother.total + 2) / (summaryBeforeAnother.total + 1)) < 1e-10);
-  click(ui, 'Write another review');
-  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.value, '');
-  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.value, '');
-  assert.deepEqual(reviews.rows.find(r => r[2] === secondId).slice(6), ['More examples', 'Useful practice', 'first_name', 'Pat']);
+  assert.equal(ui.requests[0].reviewId, 'ui-review');
+  const editedRow = reviews.rows.find(r => r[2] === 'ui-review');
+  assert.equal(reviews.rows.filter(r => r[2] === 'ui-review').length, 1);
+  assert.deepEqual(editedRow.slice(6), ['More examples', 'Useful practice', 'first_name', 'PJ']);
+  assert.equal(getPublic().reviews.find(r => r.text === 'Useful practice').name, 'PJ');
+  assert.equal(editedRow[0], originalRow[0]);
+  assert.equal(getPublic().ratingSummary.total, summaryBeforeEdit.total);
+  assert.ok(Math.abs(getPublic().ratingSummary.average - (summaryBeforeEdit.average * summaryBeforeEdit.total - 4 + 2) / summaryBeforeEdit.total) < 1e-10);
+  ui = client();
+  click(ui, 'Edit my review');
+  assert.equal(node(ui, n => n.props.id === 'review-testimonial').props.value, 'Useful practice');
+  assert.equal(node(ui, n => n.props.id === 'review-improvement').props.value, 'More examples');
+  assert.equal(node(ui, n => n.props.id === 'review-public-name').props.value, '  PJ  ');
+  assert.equal(node(ui, n => n.props['aria-label'] === '2 out of 5').props['aria-checked'], true);
+  field(ui, 'review-testimonial', '   ');
+  assert.ok(!node(ui, n => n.props.id === 'review-public-name'));
+  click(ui, 'Submit my rating');
+  await settle();
+  assert.deepEqual(editedRow.slice(6), ['More examples', '', 'none', '']);
+  assert.equal(getPublic().ratingSummary.total, summaryBeforeEdit.total);
   // Old draft permission values do not override the notice on an explicit submission.
   for (const permission of ['none', 'anonymous']) {
     storage.delete('submitted');
@@ -423,24 +435,36 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
     ui = client({studentId: 'student', firstName: 'Nickname'});
     ui.render();
     assert.equal(ui.requests.length, 0);
-    click(ui, 'Submit my review');
+    assert.equal(node(ui, n => n.props.id === 'review-public-name').props.value, 'Old stored name');
+    click(ui, 'Post my review');
     await settle();
-    assert.deepEqual(reviews.rows.find(r => r[2] === 'draft-' + permission).slice(7), ['Old draft', 'first_name', 'Nickname']);
+    assert.equal(node(ui, n => n.children.includes('Edit my review')).type, 'ActivityButton');
+    assert.deepEqual(reviews.rows.find(r => r[2] === 'draft-' + permission).slice(7), ['Old draft', 'first_name', 'Old stored name']);
   }
-  // A profile without a saved name can provide a nickname on a new review.
-  click(ui, 'Write another review');
+  // A profile without a saved name can provide a nickname while editing.
   const thirdId = storage.get('review-id');
   ui = client({studentId: 'student'});
+  click(ui, 'Edit my review');
   node(ui, n => n.props['aria-label'] === '4 out of 5').props.onClick();
   field(ui, 'review-testimonial', 'Review without a saved name');
   field(ui, 'review-public-name', '');
-  click(ui, 'Submit my review');
+  click(ui, 'Post my review');
   assert.equal(ui.requests.length, 0);
   assert.match(node(ui, n => n.props.role === 'alert').children[0], /first name or nickname/);
   field(ui, 'review-public-name', 'Nick');
-  click(ui, 'Submit my review');
+  click(ui, 'Post my review');
   await settle();
   assert.equal(reviews.rows.find(r => r[2] === thirdId)[9], 'Nick');
+  // Older drafts without a public-name field use the registration name initially.
+  storage.delete('submitted');
+  storage.set('draft', JSON.stringify({usefulnessRating: 5, testimonial: 'Legacy draft'}));
+  ui = client({studentId: 'student', firstName: 'Pat'});
+  assert.equal(node(ui, n => n.props.id === 'review-public-name').props.value, 'Pat');
+  field(ui, 'review-public-name', '');
+  ui = client({studentId: 'student', firstName: 'Pat'});
+  assert.equal(node(ui, n => n.props.id === 'review-public-name').props.value, '');
+  click(ui, 'Post my review');
+  assert.equal(ui.requests.length, 0);
   await testPublicUI();
   console.log('PASS: public field allowlist, all-rating consent filtering, ordering, pagination, edits/withdrawals, feed refresh/retry/scroll, form, drafts, compact/legacy layouts, enrollment, and certificates.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

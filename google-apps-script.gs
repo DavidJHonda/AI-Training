@@ -9,57 +9,67 @@ var COMPLETIONS_SHEET_NAME = "Course Completions";
 var REVIEWS_SHEET_NAME = "Reviews";
 
 function doGet(e) {
+  var diagnostic = { stage: "request", startedAt: Date.now() };
   try {
     var params = e && e.parameter ? e.parameter : {};
     if (params.action !== "public_reviews") throw new Error("Unknown action");
-    return jsonResponse_(getPublicReviews_(params));
+    return jsonResponse_(getPublicReviews_(params, diagnostic));
   } catch (error) {
-    console.error(error && error.stack ? error.stack : error);
-    return jsonResponse_({ error: "Student reviews could not be loaded." });
+    var code = "REVIEWS_" + diagnostic.stage.toUpperCase() + "_FAILED";
+    console.error(JSON.stringify({ operation: "public_reviews", code: code,
+      elapsedMs: Date.now() - diagnostic.startedAt,
+      detail: String(error && error.stack ? error.stack : error) }));
+    // A safe category helps diagnose live failures even when Cloud logs are unavailable.
+    // Never send exception text, spreadsheet details, or student data to the browser.
+    return jsonResponse_({ error: "Student reviews could not be loaded.", code: code });
   }
 }
 
-function getPublicReviews_(params) {
+function getPublicReviews_(params, diagnostic) {
+  diagnostic = diagnostic || {};
+  diagnostic.stage = "request";
   var cursor = params.cursor ? JSON.parse(params.cursor) : null;
   if (cursor && (!Number.isSafeInteger(cursor.offset) || cursor.offset < 0 ||
       typeof cursor.revision !== "string")) throw new Error("Invalid cursor");
-  var lock = LockService.getScriptLock();
-  lock.waitLock(10000);
   var entries = [];
   var ratingTotal = 0;
   var ratingSum = 0;
-  try {
-    // A public read must not create a sheet or change its sharing settings.
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REVIEWS_SHEET_NAME);
-    if (sheet) {
-      sheet = getReviewSheet_(); // Validate the compact or legacy headers before reading.
-      var feedbackIndex = sheet.getRange(1, 7).getValues()[0][0] === "Improvement" ? 6 : 10;
-      var count = sheet.getLastRow() - 1;
-      var rows = count > 0 ? sheet.getRange(2, 1, count, feedbackIndex + 4).getValues() : [];
-      rows.forEach(function(row, index) {
-        // Each saved row is one submission; editing updates that row instead of adding a rating.
-        // Aggregate all valid ratings, regardless of written text or publication permission.
-        var rating = Number(row[5]);
-        if (!Number.isInteger(rating) || rating < 1 || rating > 5) return;
-        ratingTotal++;
-        ratingSum += rating;
-        var permission = clean_(row[feedbackIndex + 2]);
-        var text = clean_(row[feedbackIndex + 1]);
-        if (!text || (permission !== "anonymous" && permission !== "first_name")) return;
-        var submitted = row[0] instanceof Date ? row[0] : new Date(row[0]);
-        if (!row[0] || !isFinite(submitted.getTime())) return;
-        // Explicit allowlist: never return review/student IDs, private feedback, or entire rows.
-        entries.push({ order: index, review: {
-          rating: rating,
-          text: text,
-          submittedAt: submitted.toISOString(),
-          name: permission === "first_name" ? (clean_(row[feedbackIndex + 3]) || "Anonymous") : "Anonymous"
-        } });
-      });
-    }
-  } finally {
-    lock.releaseLock();
+  // Read one snapshot without queuing behind submissions, other readers, or
+  // certificate emails. Writers serialize with each other and update each review
+  // in one range operation, so rating, text, and permission are not split writes.
+  // A public read must not create a sheet or change its sharing settings.
+  diagnostic.stage = "read";
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REVIEWS_SHEET_NAME);
+  if (sheet) {
+    diagnostic.stage = "layout";
+    sheet = getReviewSheet_(); // Validate the compact or legacy headers before reading.
+    diagnostic.stage = "read";
+    var feedbackIndex = sheet.getRange(1, 7).getValues()[0][0] === "Improvement" ? 6 : 10;
+    var count = sheet.getLastRow() - 1;
+    var rows = count > 0 ? sheet.getRange(2, 1, count, feedbackIndex + 4).getValues() : [];
+    diagnostic.stage = "format";
+    rows.forEach(function(row, index) {
+      // Each saved row is one submission; editing updates that row instead of adding a rating.
+      // Aggregate all valid ratings, regardless of written text or publication permission.
+      var rating = Number(row[5]);
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) return;
+      ratingTotal++;
+      ratingSum += rating;
+      var permission = clean_(row[feedbackIndex + 2]);
+      var text = clean_(row[feedbackIndex + 1]);
+      if (!text || (permission !== "anonymous" && permission !== "first_name")) return;
+      var submitted = row[0] instanceof Date ? row[0] : new Date(row[0]);
+      if (!row[0] || !isFinite(submitted.getTime())) return;
+      // Explicit allowlist: never return review/student IDs, private feedback, or entire rows.
+      entries.push({ order: index, review: {
+        rating: rating,
+        text: text,
+        submittedAt: submitted.toISOString(),
+        name: permission === "first_name" ? (clean_(row[feedbackIndex + 3]) || "Anonymous") : "Anonymous"
+      } });
+    });
   }
+  diagnostic.stage = "format";
   entries.sort(function(a, b) {
     return Date.parse(b.review.submittedAt) - Date.parse(a.review.submittedAt) || b.order - a.order;
   });
@@ -287,12 +297,15 @@ function recordReview_(data) {
 
     if (existingRow) {
       // Preserve Submitted At (A). Review ID continues to identify the same row.
-      sheet.getRange(existingRow, 2, 1, reviewValues.length).setValues([reviewValues]);
-      sheet.getRange(existingRow, feedbackColumn, 1, feedbackValues.length).setValues([feedbackValues]);
+      var retiredValues = feedbackColumn === 11 ? sheet.getRange(existingRow, 7, 1, 4).getValues()[0] : [];
+      var updatedValues = reviewValues.concat(retiredValues, feedbackValues);
+      // Keep rating, text, publication permission, and name in the same range write.
+      sheet.getRange(existingRow, 2, 1, updatedValues.length).setValues([updatedValues]);
     } else {
       var retiredColumns = feedbackColumn === 11 ? ["", "", "", ""] : [];
       sheet.appendRow([now].concat(reviewValues, retiredColumns, feedbackValues));
     }
+    SpreadsheetApp.flush();
   } finally {
     lock.releaseLock();
   }

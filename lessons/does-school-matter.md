@@ -16,7 +16,7 @@ Fast forward a few years. You’ve landed your dream job, and AI sits right next
 
 **Teaching content:**
 
-Luke and Nate use the same AI starting point, then apply different knowledge and practiced skills to take the work further. One digs into history with maps and sources; the other builds a bridge model from engineering drawings. The tool may be the same. What you bring to it is yours.
+Two students start from the same AI answer. What each one brings to it, the knowledge and the practiced skills, is what takes the work further. The tool may be the same. What you bring to it is yours.
 
 Here’s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It’s the new average. What you bring to the work is what takes you further.
 

@@ -97,7 +97,7 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
-    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0):
+    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0, visual='source'):
         """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
         picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
         roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
@@ -114,7 +114,7 @@ class Build:
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
         if picture_from is not None:
             self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True, gain_db=gain_db)
-            self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual='source', graft_audio=str(src2), audio_start=s, audio_end=e))
+            self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual, graft_audio=str(src2), audio_start=s, audio_end=e))   # visual=<board key>: keep our board leg on screen (picture_from in that leg's source span)
             self.parts.append(data); self.cursor += e - s; return
         mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])
         p = subprocess.Popen([self.ff, '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-c:v', 'ffv1', '-level', '3', str(leg)], stdin=subprocess.PIPE)

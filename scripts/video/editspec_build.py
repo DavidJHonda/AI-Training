@@ -97,7 +97,7 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
-    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None):
+    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0):
         """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
         picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
         roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
@@ -110,10 +110,10 @@ class Build:
         src2 = Path(src2); wav = self.out / f'graft-{key}.wav'
         if not wav.exists():
             subprocess.run([self.ff, '-y', '-v', 'error', '-i', str(src2), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', str(wav)], check=True)
-        a2 = readwav(wav); data = a2[s * SPF:e * SPF].copy(); r = np.linspace(0, 1, 240); bed = self.tone(len(data))
+        a2 = readwav(wav); data = a2[s * SPF:e * SPF].copy() * (10 ** (gain_db / 20)); r = np.linspace(0, 1, 240); bed = self.tone(len(data))   # gain_db matches the other roll's speech level (measure both with loudnorm first)
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
         if picture_from is not None:
-            self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True)
+            self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True, gain_db=gain_db)
             self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual='source', graft_audio=str(src2), audio_start=s, audio_end=e))
             self.parts.append(data); self.cursor += e - s; return
         mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])

@@ -406,6 +406,13 @@ so any splice needs exactly ONE re-encode pass:
 
 ## Hard-won gotchas
 
+- **Never borrow drawings from `videos/<slug>.mp4` (2026-09-14, Why Learn AI v4):** `keep(..., video_src=)`
+  frame numbers are tied to one specific file. The live filename changes contents at every ship, so a
+  build that borrowed from "the live video" on 2026-09-13 borrowed from v3 itself a day later and put the
+  Winning the Race drawing under the steam-engine narration. Borrow from an archived copy with a dated
+  name (`archive/<slug>/<slug>-live-before-<date>.mp4`, restorable with `git show <commit>:videos/<slug>.mp4`),
+  assert it exists at the top of the build, and list it in `protected`.
+
 - **cv2 `CAP_PROP_POS_MSEC` seeks return WRONG frames on these mp4s.** All mapping
   must be sequential decode (`cap.read()` loop). frames.py and scenes.py already
   comply — include this warning in every mapping-agent prompt.

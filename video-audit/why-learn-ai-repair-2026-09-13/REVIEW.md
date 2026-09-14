@@ -51,8 +51,15 @@ compressed version (36.83–70.9) under the board. Roll 1 lowered 2.24 dB (speec
 leg's five dives and the banner follow roll 1's onsets (Recommends 44.54, Navigation 54.24, Face recognition 62.14, Voice assistants
 72.98, Chatbots 80.04, pull back 88.7, banner 89.82). Roll 2 resumes at "The great news is…" after the existing pause. Nothing else changed.
 
-Re-rendered 15:53 after the first v4's seam pairs showed one frame of Notebook's own board render after the pause (source 2127; v3
-carried it too): the picture now resumes on Notebook's cut (2128). Checks on the 15:53 render: decoded 7117 = plan, audio 237.248 s (one AAC frame over plan); `transition_guard.py` passed all 7
+Re-rendered twice. 15:53: the first v4's seam pairs showed one frame of Notebook's own board render after the pause (source 2127; v3
+carried it too); the picture now resumes on Notebook's cut (2128). 17:57: David's note on the 15:53 file ("at 3:00 the narration is
+about steam engines… but the graphics show the White House report") exposed a build bug: the three picture-only borrows
+(`video_src=`) pointed at `videos/why-learn-ai.mp4`, which was the July video when v3 was built on 2026-09-13 and became v3 itself
+when v3 shipped, so v4 borrowed v3's frames (the Winning the Race drawing under the steam-engine line, the close board under the
+White House line). The borrows now come from the archived July video (`archive/why-learn-ai/why-learn-ai-live-before-2026-09-13.mp4`,
+restored with `git show 13e9d84:videos/why-learn-ai.mp4`; gitignored; asserted and protected by the build). README gotcha added.
+`v4-back-half-sheet.jpg` and `v4-mac-borrow-f3400.jpg` show the three drawings under their lines. Checks on the 17:57 render (13
+boundaries now, the borrow seams added: 417, 757, 1135, 2818, 3340, 3487, 4048, 5253, 5428, 5813, 6099, 6421, 6841; all passed): decoded 7117 = plan, audio 237.248 s (one AAC frame over plan); `transition_guard.py` passed all 7
 boundaries (417, 757, 1135, 2818, 4048, 5253, 6841), `boundary-pairs.jpg` inspected; pauses 23.84–25.33, 92.80–94.01 (after the graft),
 173.41–175.07, 226.24–228.17, plus roll 1's own 0.95 s gap before its banner line at 86.47; joins re-transcribed on the final file:
 "…hand you on day one." 36.90 → "This board shows where AI is already integrated into your day" 38.16, and "…chat bots arrived." 92.08 →

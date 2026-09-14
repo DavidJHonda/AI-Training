@@ -57,3 +57,20 @@ LISTENING: not listened
 
 Decision: roll 1 teaches everything; its close is "There are two kinds of AI. One picks, and one creates. This course is exclusively
 about the AI that creates." Owner's call: build roll 1 as is, or roll once more now that the close copy says "creates".
+
+## Best-of plan (added 2026-09-14 under the beat-by-beat rule; retrospective check of the shipped v3, against all four rolls)
+
+```text
+BEST-OF PLAN: what-is-ai
+BASE: Prompts/what-is-ai-1.mp4 (second reroll, shipped 2026-09-13 as v3). Alternates: what-is-ai-2.mp4 (second reroll) and the first pair, What_Is_AI_.mp4 (a1) and What_Is_AI__The_Two_Main_Types.mp4 (a2), rolled before the intro rewrite.
+  Hook: the desk, nothing, AI's list in seconds — shipped RICH @0:00–0:21 "Nothing happens. It's a desk… from ancient Egypt to the Berlin Wall" | roll 2 TAUGHT @0:00–0:19 ("because it's an inanimate object") | a1 TAUGHT (no "It's a desk") | a2 TAUGHT — TAKE shipped
+  Software that does what used to take a human brain; the four tasks — shipped TAUGHT @0:21–0:35 ("suggest ideas for your homework") | roll 2 TAUGHT @0:19–0:31 ("brainstorm project ideas") | a1 TAUGHT ("suggest ideas for a school project") | a2 TAUGHT — tie
+  Doesn't think like your friend; not all 10 good; a tool for tasks that once needed a person — shipped TAUGHT @0:35–0:55 (adds "You might only use two of those 10 brainstormed ideas") | roll 2 TAUGHT | a1 TAUGHT @0:31–0:41 (closest to the page's words) | a2 TAUGHT — tie
+  Different systems, different jobs; two kinds you already use — all TAUGHT — tie
+  Recommendation AI: job, how it works, examples — shipped TAUGHT @1:09–1:29 (job, rank and select, Netflix / Spotify / maps) | roll 2 TAUGHT @0:49–1:09 (two examples; adds "It organizes our existing world by predicting what we want to consume next") | a1 TAUGHT+ @0:56–1:27 (all three examples; adds "This type of system acts purely as a retriever. It doesn't create anything new from scratch. Instead, it organizes, ranks and surfaces existing data for you") | a2 TAUGHT (adds "acting as a finder") — tie on the lesson's content; a1's added contrast is accurate and could become a lesson line, not a graft
+  Generative AI: job, learned patterns, the prompt defined, six examples — shipped RICH @1:29–1:56 (all six; prompt defined) | roll 2 TAUGHT @1:11–1:36 (all six; "which triggers the creation process") | a1 RICH @1:27–1:59 | a2 TAUGHT (four examples) — TAKE shipped
+  "AI can recommend. AI can create. This course focuses on generative AI." — shipped TAUGHT "One system recommends, and the other creates. This course focuses solely on generative AI" | roll 2 TAUGHT "So AI can recommend and AI can create. This course focuses exclusively on generative AI" | a1 TAUGHT "AI can recommend or AI can create" | a2 TAUGHT — tie (wording)
+  One Picks. One Creates.: scenario, Civil War from a catalog, the scene with its dialogue, both takeaway lines — shipped RICH @2:01–2:45 (dialogue read; "It picked a movie that already exists… It generated a completely original scene… One tool helps you find something to watch. The other helps you create a completely original story") | roll 2 RICH @1:51–2:35 | a1 RICH @2:06–2:50 | a2 TAUGHT (dialogue not read) — TAKE shipped
+  Close lines — shipped near-verbatim paraphrase (accepted by David) | roll 2, a2: the retired "makes" copy | a1 paraphrase — shipped
+GRAFTS: none. No beat is richer in an alternate roll; a1's retriever contrast is an addition beyond the lesson (candidate lesson edit, if wanted).
+```

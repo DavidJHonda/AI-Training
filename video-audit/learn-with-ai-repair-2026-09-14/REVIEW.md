@@ -61,3 +61,22 @@ teacher taught it." 113.58 → "Avoiding that trap…" 114.52 → "…need to le
 `states-1-study-tools-b.jpg` inspected: Focus header, what, best use, catch; Exploration header, what, best use, catch; banner.
 **Listen:** 74–75.5, 88.5–90, 113.5–115, and 118.5–120.5 (roll 2's voice in and out, three times).
 Live v3 unchanged until David ships.
+
+## v5 (2026-09-14): Notebook scenes between the boards (EDIT-SPEC 8b)
+
+**Candidate:** `videos/learn-with-ai-v5.mp4` (3:40.4, 6613 frames; audio identical to v4). David on v4: "the boards start at :57 and appear
+through the rest of the video." Neither roll drew anything for the Which Study Tool content (both rendered that board with crops), so
+that board still runs 62 s; the other runs are now broken by roll 1's own drawings, and each board arrives 3 s before its first ring:
+1. Notebook's notebook-and-chat sketch (roll 1 1638–1646, then held) carries "As you can see here, there are two main categories…";
+   Which Study Tool arrives at 58.2 (v4: 54.6).
+2. Notebook's source-grounded diagram (3625–3825, drawing itself) carries "Gemini Notebook should be your primary tool… exact sources
+   your teacher provided"; How Gemini Notebook Works arrives at 127.5 (v4: 120.8) and leaves at 149.8 after the banner ring holds 3 s.
+3. Notebook's files-to-sticky-notes-and-mind-map drawing (4494–4638, then held) carries "This pipeline takes a chaotic folder…",
+   the pause, and "To get the most out of those uploaded materials…"; Your Four Moves arrives at 157.0 (v4: 154.6).
+Not used: Notebook's "stop passive reading" card under the four-moves takeaway (Notebook replaces it with a three-column diagram
+that is still drawing itself where the cut would land); the banner stays the last board image before the close.
+Board runs now: 62 s (Which Study Tool), 22 s (How It Works), 53 s (Four Moves).
+
+Checks on the 18:23 render: decoded 6613 = plan; `transition_guard.py` passed all 11 boundaries (1698, 1806, 2241, 2680, 3422, 3612,
+3812, 4481, 4649, 4727, 6325), `boundary-pairs.jpg` inspected; pauses unchanged from v4 (21.74, 39.42, 119.01, 153.74, 209.64); graft
+seams unchanged; corner mark 1871 cloned / 291 inpainted / 0 declined. Live v3 unchanged until David ships.

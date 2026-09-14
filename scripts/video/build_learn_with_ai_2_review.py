@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Learn with AI from roll 1 under EDIT-SPEC.md (2026-09-14). Review only.
 
+v5 (2026-09-14, EDIT-SPEC 8b on David's note that the boards run from 0:57 to the close): Notebook's chat sketch held under the study-tool
+intro, its source-grounded diagram under the Gemini Notebook intro, and its files-to-sticky-notes drawing as the hand-off into the four
+moves; each board now arrives 3 s before its first ring. Audio unchanged from v4.
 v4 (2026-09-14, beat-by-beat rule): two roll 2 grafts under Which Study Tool: its fuller Focus best-use list with the catch (43.4-57.3)
 replaces roll 1's (73.0-85.4), and its takeaway line "Avoiding that trap relies entirely on choosing the tool that matches how you
 need to learn." (90.9-95.4) is added after the Exploration card, where roll 1's cut aside used to be; rings follow roll 2's onsets.
@@ -25,7 +28,7 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/learn-with-ai-1.mp4'
 SRC2 = ROOT / 'Prompts/learn-with-ai-2.mp4'
-OUT = ROOT / 'video-audit/learn-with-ai-repair-2026-09-14'; DEST = ROOT / 'videos/learn-with-ai-v4.mp4'   # v3 shipped 2026-09-14; v4 = v3 + two roll 2 grafts under Which Study Tool (beat-by-beat rule)
+OUT = ROOT / 'video-audit/learn-with-ai-repair-2026-09-14'; DEST = ROOT / 'videos/learn-with-ai-v5.mp4'   # v3 shipped 2026-09-14; v4 = v3 + two roll 2 grafts under Which Study Tool; v5 = v4 + Notebook drawings between the boards (EDIT-SPEC 8b, David 2026-09-14)
 B = {k: ROOT / f'lessons/learn-with-ai-{k}.jpg' for k in ('1-study-tools', '2-how-it-works', '3-four-moves')}
 
 def main():
@@ -34,7 +37,7 @@ def main():
     b.load_audio([(21.76, 22.11), (38.42, 39.01), (54.36, 54.96), (60.89, 61.27), (72.63, 73.07), (79.12, 79.48), (85.86, 86.19), (91.72, 92.06), (97.37, 97.72), (103.46, 103.78),
                   (110.59, 111.01), (120.47, 120.92), (130.05, 130.50), (137.86, 138.17), (146.22, 146.79), (154.20, 154.73), (159.45, 159.97), (169.82, 170.42), (180.88, 181.37),
                   (194.02, 194.62), (205.62, 206.08), (213.13, 213.50), (215.80, 216.10), (221.26, 224.56)])
-    B1, B1_OUT = fr(54.6), fr(110.8)       # Which Study Tool: from "As you can see here…" (Notebook cut 0:54.90) to the first cut
+    B1, B1_OUT = fr(58.2), fr(110.8)       # Which Study Tool: board in 3 s before Focus rings (61.27); Notebook's notebook-and-chat sketch (1638-1646, then held) carries "As you can see here, there are two main categories…" (v5; v4 brought the board in at 54.6)
     XA1, XA2 = fr(72.7), fr(86.05)         # roll 1's Focus best-use + catch ("This is best when… cannot fill the gap." 72.98-85.4) replaced; troughs 72.5-72.9 (-63..-74) / 85.9-86.2 (-56..-73)
     R2_FOCUS = (fr(43.1), fr(57.75))       # roll 2 43.40-57.3: "Choose this path when you have the materials the test covers. Class notes, screenshots, study guides, a web page, or a YouTube video. There is a constraint. If notes miss a key concept, Gemini Notebook cannot reliably fill the gap." (troughs -51..-66 / -52..-68)
     R2_BANNER = (fr(90.65), fr(96.0))      # roll 2 90.90-95.4: "Avoiding that trap relies entirely on choosing the tool that matches how you need to learn." (troughs -45..-72 / -54..-77); the board's takeaway, absent from roll 1
@@ -43,21 +46,25 @@ def main():
     def r2a(t): return (XA1 + (fr(t) - R2_FOCUS[0])) / 30    # roll 2 seconds inside the Focus graft -> leg-a equivalent roll 1 seconds
     def r2b(t): return (B1_OUT + (fr(t) - R2_BANNER[0])) / 30  # roll 2 seconds inside the banner graft -> leg-b equivalent roll 1 seconds
     CUTA = (B1_OUT, 3625)                  # "Selecting the wrong column… hours of preparation."; resumes on Notebook's EXAM F cut (2:00.83)
-    B2, B2_OUT = CUTA[1], 4639             # How Gemini Notebook Works: from "…Gemini Notebook should be your primary tool" to Notebook's four-moves cut (2:34.63)
-    B3, B3_OUT = 4639, fr(213.3)           # Your Four Moves: from "To get the most out of those uploaded materials…" to the second cut
+    B2, B2_OUT = fr(127.5), 4494           # How Gemini Notebook Works: board in 3 s before "You upload" (130.50); Notebook's source-grounded diagram (3625-3825) carries "Gemini Notebook should be your primary tool… exact sources your teacher provided"; board out at 149.8 after the banner ring held 3 s, then Notebook's files-to-sticky-notes drawing (4494-4638, held to 4710) is the hand-off (v5)
+    B3, B3_OUT = fr(157.0), fr(213.3)      # Your Four Moves: board in 3 s before move one rings (159.97); the files drawing carries "To get the most out of those uploaded materials…" (v5; v4 brought the board in at 154.6)
     GARBLE = (fr(170.42), fr(180.88))      # roll 1: "Move 2 is giving it the full picture. Add your [garble]… for that specific unit."
     GRAFT2 = (fr(146.6), fr(153.0))        # roll 2: "Move two. Give it the full picture. Upload all materials, notes, slides, videos." (silences 146.21-146.83, 152.85-153.46)
     CUTC = (B3_OUT, fr(216.0))             # "The overarching rule for all of this is simple." (engine close card 6406 inside)
     CLOSE_END = fr(221.6)                  # "…trace it back." ends 220.96
     b.keep(0, fr(21.9), 'Notebook: overwhelmed student, 24-hour math'); b.pause(30, 'Pause: into the patient tutor')
     b.keep(fr(21.9), fr(38.7), 'Notebook: 1:00 AM cards, patience loop'); b.pause(30, 'Pause: into the guiding question')
-    b.keep(fr(38.7), B1, 'Notebook: desk, materials sketches, chat sketch')
+    b.keep(fr(38.7), 1638, 'Notebook: desk, materials sketches, chat sketch')
+    b.keep(1638, B1, 'Notebook: chat sketch held under the board\'s introduction (Notebook\'s own render of the board starts 1647)', video_from=1638, video_end=1647)
     b.keep(B1, XA1, 'B1 which study tool: intro, Focus header and what it does', '1-study-tools')
     b.graft(SRC2, R2_FOCUS[0], R2_FOCUS[1], 'Roll 2 audio: Focus best use (full list) and the catch, under our board', 'roll2-focus', picture_from=XA1, gain_db=0.65, visual='1-study-tools')   # roll 2 -18.2 dBFS vs roll 1 -17.5
     b.keep(XA2, B1_OUT, 'B1 which study tool: Exploration card', '1-study-tools-b')
     b.graft(SRC2, R2_BANNER[0], R2_BANNER[1], 'Roll 2 audio: "Avoiding that trap relies entirely on choosing the tool that matches how you need to learn."', 'roll2-banner', picture_from=B1_OUT, gain_db=0.65, visual='1-study-tools-b')
     b.pause(30, 'Pause: into why Gemini Notebook')
-    b.keep(B2, fr(154.4), 'B2 why Gemini Notebook, upload, get, banner', '2-how-it-works'); b.pause(30, 'Pause: into the four moves'); b.keep(fr(154.4), B2_OUT, 'B2 tail', '2-how-it-works')
+    b.keep(CUTA[1], B2, 'Notebook: source-grounded diagram under the Gemini Notebook intro')
+    b.keep(B2, B2_OUT, 'B2 upload, get, banner', '2-how-it-works')
+    b.keep(B2_OUT, fr(154.4), 'Notebook: files to sticky notes and mind map (hand-off)'); b.pause(30, 'Pause: into the four moves')
+    b.keep(fr(154.4), B3, 'Notebook: files drawing held under the four-moves intro (its cut to Notebook\'s board render is 4639)', video_from=fr(154.4), video_end=4639)
     b.keep(B3, GARBLE[0], 'B3 intro, move one', '3-four-moves')
     b.graft(SRC2, GRAFT2[0], GRAFT2[1], 'Roll 2 audio: move two (replaces the garbled sentence) with our board on screen', 'roll2-move-two', picture_from=GARBLE[0], gain_db=-0.6, visual='3-four-moves')
     b.keep(GARBLE[1], B3_OUT, 'B3 moves three and four, banner', '3-four-moves'); b.pause(30, 'Pause: before the closing message')

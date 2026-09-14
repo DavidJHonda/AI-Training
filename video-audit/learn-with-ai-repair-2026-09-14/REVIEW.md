@@ -60,7 +60,7 @@ teacher taught it." 113.58 → "Avoiding that trap…" 114.52 → "…need to le
 −60 to −85 dB into each onset, no cliff. Corner mark 1347 cloned / 291 inpainted / 0 declined. `states-1-study-tools.jpg` and
 `states-1-study-tools-b.jpg` inspected: Focus header, what, best use, catch; Exploration header, what, best use, catch; banner.
 **Listen:** 74–75.5, 88.5–90, 113.5–115, and 118.5–120.5 (roll 2's voice in and out, three times).
-Live v3 unchanged until David ships.
+**SHIPPED 2026-09-14** on David's "ship it": v5 moved to `videos/learn-with-ai.mp4`, cache key `?v=20260914ship2`, duration pill unchanged (3:40 → 4 min).
 
 ## v5 (2026-09-14): Notebook scenes between the boards (EDIT-SPEC 8b)
 

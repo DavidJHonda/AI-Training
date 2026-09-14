@@ -250,6 +250,22 @@
   .gate-go button:active{ transform:translateY(0); }
   .gate-go button:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
   .gate-go button:disabled{ background:#ffffff24; color:#c7d0f08c; cursor:not-allowed; transform:none; }
+  .gate-footer{ display:flex; justify-content:center; padding:20px 24px 24px; border-top:1px solid rgba(255,255,255,.12); }
+  .using-course-link{ display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 10px; color:var(--inkMuted); font-family:var(--sans); font-size:13px; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+  .using-course-link:hover{ color:var(--primary); }
+  .using-course-link:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; border-radius:6px; }
+  .gate-footer .using-course-link{ color:#d5dcf6; }
+  .gate-footer .using-course-link:hover{ color:#ffd24a; }
+  .gate-footer .using-course-link:focus-visible{ outline-color:#ffd24a; }
+  .using-course-modal-backdrop{ position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(14,10,31,.62); }
+  .using-course-modal{ width:min(580px,100%); max-height:calc(100vh - 48px); max-height:calc(100dvh - 48px); overflow-y:auto; overscroll-behavior:contain; box-sizing:border-box; padding:28px 30px 24px; border:1px solid var(--rule); border-radius:18px; background:var(--card); color:var(--ink); box-shadow:0 28px 80px rgba(14,10,31,.34); }
+  .using-course-modal-header{ display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:18px; }
+  .using-course-modal h2{ margin:3px 0 0; font-family:var(--serif); font-size:32px; font-weight:500; line-height:1.08; letter-spacing:-.02em; }
+  .using-course-modal p{ margin:0 0 15px; color:var(--inkSoft); font-family:var(--sans); font-size:16px; line-height:1.65; }
+  .using-course-modal p:last-child{ margin-bottom:0; }
+  .using-course-modal-close{ flex:0 0 auto; min-width:72px; min-height:44px; padding:10px 16px; border:0; border-radius:999px; background:var(--primary); color:#fff; font-family:var(--sans); font-size:14px; font-weight:800; cursor:pointer; }
+  .using-course-modal-close:hover{ background:var(--primaryDark); }
+  .using-course-modal-close:focus-visible{ outline:3px solid #ffd24a; outline-offset:3px; }
   @media (max-width:700px){
     .gate-screen{ padding:0; }
     .gate-splash{ border-radius:0; box-shadow:none; }
@@ -270,6 +286,10 @@
     .gate-certificate{ padding:20px 18px; }
     .gate-certificate strong{ font-size:16px; }
     .gate-certificate span{ font-size:13px; }
+    .using-course-modal-backdrop{ align-items:flex-end; padding:12px; }
+    .using-course-modal{ max-height:calc(100vh - 24px); max-height:calc(100dvh - 24px); padding:22px 20px 20px; border-radius:16px; }
+    .using-course-modal-header{ gap:12px; }
+    .using-course-modal h2{ font-size:27px; }
   }
   .oay-input::placeholder{ color:#aaa6b5; opacity:1; font-weight:500; }
   /* Readable text alternative for the real Luke-and-Nate closing video. */
@@ -932,7 +952,7 @@ const LESSON_VIDEOS = {
   doesaithink: { src: "videos/does-ai-think.mp4?v=20260913ship1", duration: "3 min", title: "Whether AI thinks, or just sounds like it does.", cta: "Both end at the same LAB." },
   whybother: { src: "videos/does-school-matter.mp4?v=4", duration: "3 min", title: "Whether school still matters in the age of AI." },
   control: { src: "videos/what-you-can-control.mp4?v=20260914ship1", duration: "3 min", title: "What about your future with AI is actually in your hands." },
-  studying: { src: "videos/learn-with-ai.mp4?v=20260914ship1", duration: "3 min", title: "How to turn AI into a study tool that actually works.", cta: "Both end at the same LAB." },
+  studying: { src: "videos/learn-with-ai.mp4?v=20260914ship2", duration: "3 min", title: "How to turn AI into a study tool that actually works.", cta: "Both end at the same LAB." },
   openerworkwith: { src: "videos/opener-work.mp4?v=2", duration: "2 min", title: "Same tool, different results. Here's how to get the good ones.", cta: "Both walk the same section map." },
   aivscode: { src: "videos/ai-is-different.mp4?v=20260914ship1", duration: "6 min", title: "Why AI works differently from every other app you use.", cta: "Both end at the same LAB." },
   whatitdoesbest: { src: "videos/where-ai-works-best.mp4", duration: "5 min", title: "The four kinds of work AI is actually built for." },
@@ -1211,6 +1231,82 @@ function closeBoard(sectionId) {
   var copy = CLOSE_BOARDS[sectionId];
   if (!copy) return null;
   return /*#__PURE__*/React.createElement(CloseBoard, copy);
+}
+
+const USING_THIS_COURSE_POLICY = {
+  title: "Using This Course",
+  paragraphs: [
+    "Be Smarter Than the Tool is free to use for learning. Teachers and clubs are welcome to use the website with their students.",
+    "You may share links to the course and save materials offered for download for your personal learning.",
+    "Unless permitted by law, copying or adapting course materials for redistribution, hosting them on another website, or selling them requires written permission.",
+    "Please share the course by linking to this website."
+  ]
+};
+
+function UsingCourseLink(props) {
+  return React.createElement("a", {
+    href: "#using-this-course",
+    className: "using-course-link",
+    onClick: function(event) { event.preventDefault(); props.onOpen(event); },
+    "aria-haspopup": "dialog"
+  }, "Using This Course");
+}
+
+function UsingCourseModal(props) {
+  var E = React.createElement;
+  var dialogRef = useRef(null);
+  var closeRef = useRef(null);
+
+  useEffect(function() {
+    if (!props.open) return;
+    var previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    if (closeRef.current) closeRef.current.focus();
+    var onKeyDown = function(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        props.onClose();
+        return;
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return;
+      var controls = Array.prototype.slice.call(dialogRef.current.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+      if (!controls.length) return;
+      var first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return function() {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [props.open, props.onClose]);
+
+  if (!props.open) return null;
+  return ReactDOM.createPortal(
+    E("div", {
+      className: "using-course-modal-backdrop",
+      onMouseDown: function(event) { if (event.target === event.currentTarget) props.onClose(); }
+    },
+      E("section", {
+        ref: dialogRef,
+        className: "using-course-modal",
+        role: "dialog",
+        "aria-modal": "true",
+        "aria-labelledby": "using-course-title"
+      },
+        E("div", { className: "using-course-modal-header" },
+          E("h2", { id: "using-course-title" }, USING_THIS_COURSE_POLICY.title),
+          E("button", { ref: closeRef, type: "button", className: "using-course-modal-close", onClick: props.onClose }, "Close")),
+        USING_THIS_COURSE_POLICY.paragraphs.map(function(paragraph, index) {
+          return E("p", { key: index }, paragraph);
+        }))),
+    document.body);
 }
 
 // Full-screen treatment for the fixed-composition lesson illustrations. Trigger
@@ -13880,7 +13976,9 @@ function LLMExplorer() {
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
   const [signup, setSignup] = useState({ firstName: "", country: "" });
   const [expandedIllustration, setExpandedIllustration] = useState(null);
+  const [usingCourseOpen, setUsingCourseOpen] = useState(false);
   const illustrationTriggerRef = useRef(null);
+  const usingCourseTriggerRef = useRef(null);
   // Fail-open signup delivery: the queued payload is retried on each visit (max 3
   // attempts) until the endpoint confirms with "ok". A send failure never blocks entry.
   var sendSignup = function(payload) {
@@ -13918,6 +14016,17 @@ function LLMExplorer() {
       if (illustrationTriggerRef.current && illustrationTriggerRef.current.focus) illustrationTriggerRef.current.focus();
     }, 0);
   };
+  const openUsingCourse = function(event) {
+    usingCourseTriggerRef.current = event.currentTarget;
+    setUsingCourseOpen(true);
+  };
+  const closeUsingCourse = function() {
+    setUsingCourseOpen(false);
+    window.setTimeout(function() {
+      if (usingCourseTriggerRef.current && usingCourseTriggerRef.current.focus) usingCourseTriggerRef.current.focus();
+    }, 0);
+  };
+  const usingCourseModal = React.createElement(UsingCourseModal, { open: usingCourseOpen, onClose: closeUsingCourse });
   const illustrationFromEvent = function(event) {
     var composite = event.target && event.target.closest ? event.target.closest("[data-lightbox-kind]") : null;
     if (composite) return composite;
@@ -14130,8 +14239,11 @@ function LLMExplorer() {
               E(CountrySelect, { value: signup.country, onChange: function(country) { setSignup(function(prev) { return Object.assign({}, prev, { country: country }); }); } })),
             E("p", { className: "gate-hint" }, "Your first name personalizes the course. Your country helps us understand where students are learning."),
             E("div", { className: "gate-go" },
-              E("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let’s go", E("span", { "aria-hidden": true }, "→")))))),
-      E(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
+              E("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let’s go", E("span", { "aria-hidden": true }, "→"))))),
+        E("footer", { className: "gate-footer no-print" },
+          E(UsingCourseLink, { onOpen: openUsingCourse }))),
+      E(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }),
+      usingCourseModal);
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "course-shell",
@@ -14395,13 +14507,17 @@ function LLMExplorer() {
     /*#__PURE__*/React.createElement(LessonErrorBoundary, { key: activeSection, onHome: function() { setActiveSection("welcome"); } },
       /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
     )
-  )),/*#__PURE__*/React.createElement("div", {
+  )),/*#__PURE__*/React.createElement("footer", {
     className: "no-print",
     style: {
-      textAlign: "center",
       marginTop: 20,
       fontSize: 12,
-      color: "var(--inkMuted)"
+      color: "var(--inkMuted)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      gap: 4
     }
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function() {
@@ -14412,9 +14528,12 @@ function LLMExplorer() {
         window.location.reload();
       }
     },
-    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", padding: 0, font: "inherit", display: "block", margin: "0 auto" }
-  }, "\u21BA Reset Progress")),
-  /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
+    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", minHeight: 44, padding: "8px 10px", font: "inherit" }
+  }, "\u21BA Reset Progress"),
+  /*#__PURE__*/React.createElement("span", { "aria-hidden": "true" }, "·"),
+  /*#__PURE__*/React.createElement(UsingCourseLink, { onOpen: openUsingCourse })),
+  /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }),
+  usingCourseModal);
 }
 
 

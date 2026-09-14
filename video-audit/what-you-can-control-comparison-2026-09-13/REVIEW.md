@@ -55,3 +55,23 @@ LISTENING: 2:58–3:08 re-transcribed with small.en; the garble is confirmed
 
 Decision: build from roll 1 with roll 2's opening triple grafted (audio only) over the garble. The closing lines are a near-verbatim
 paraphrase with a spoken preface; owner's call, as with What Is AI.
+
+## Best-of plan (added 2026-09-14 under the beat-by-beat rule; retrospective check of the shipped v2)
+
+```text
+BEST-OF PLAN: what-you-can-control
+BASE: Prompts/what-you-can-control-1.mp4 (shipped 2026-09-13 as v2 with roll 2's opening triple grafted over roll 1's garble)
+  Hook: AI is taking jobs; prediction, now news — roll 1 TAUGHT @0:00–0:11 | roll 2 TAUGHT @0:00–0:07 — tie
+  Power, planet, trust; nobody knows; not in your hands — roll 1 garbled ("trust [unintelligible] online") | roll 2 TAUGHT @0:07–0:34 — TAKE roll 2 (already grafted)
+  What's in your hands, and what isn't — both TAUGHT — tie
+  Out of your hands: five items — roll 1 TAUGHT @0:49–1:11 (all five) | roll 2 TAUGHT @0:46–1:10 (all five) — tie
+  In your hands: five items — roll 1 TAUGHT @1:22–2:01 (all five; "instead of outsourcing your thinking entirely to a machine") | roll 2 TAUGHT @1:20–1:53 (all five) — tie
+  You don't control every outcome; your choices still matter; keep informed left, energy right — roll 1 TAUGHT @2:01–2:11 "Keeping informed about the left column is fine, but you need to put most of your daily energy into the right" | roll 2 TAUGHT @1:53–2:03 "direct the vast majority of your energy into these five controllable actions" (the "keep informed" half sits earlier at 1:10) — TAKE roll 1
+  A to-do list; three moves worth your energy — roll 1 TAUGHT "That right column is a strict to-do list, broken down into three moves worth your energy" | roll 2 TAUGHT "tactical execution plan… three specific moves that deserve your time and effort" — TAKE roll 1
+  Go deep — roll 1 TAUGHT @2:17–2:30 "Deep expertise beats superficial dabbling" | roll 2 TAUGHT @2:16–2:29 "Deep mastery beats shallow dabbling" — tie
+  Think first — roll 1 TAUGHT @2:30–2:46 "Form your own opinion on a problem before you ever type a prompt. Then use the AI to interrogate and sharpen your thinking… genuinely getting smarter and merely retrieving answers" | roll 2 TAUGHT @2:29–2:41 "Formulate your own take before you ask a prompt. Then use the AI to sharpen your thinking. That is the difference between getting smarter and merely getting answers" — tie (roll 2 closer to the page's words; not a quality gap)
+  Skip the hype — roll 1 TAUGHT @2:46–2:58 | roll 2 TAUGHT @2:41–2:53 — tie
+  Put your effort where it changes your outcome — roll 1 TAUGHT @2:58–3:02 "put effort where it changes your outcome" | roll 2 TAUGHT "Deploy the effort only where it has a direct, measurable impact on your personal outcome" — TAKE roll 1
+  Close lines — roll 1 near-verbatim (accepted) | roll 2 near-verbatim with a garble ("personess skill") — roll 1
+GRAFTS: none beyond the shipped opening triple. No beat is richer in roll 2.
+```

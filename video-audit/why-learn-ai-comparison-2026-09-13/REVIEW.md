@@ -60,3 +60,20 @@ LISTENING: 0:13–0:27 and 3:28–3:37 re-transcribed with small.en; "Mainz" is 
 ```
 
 Decision: build from roll 2 (Why_Learn_AI__The_Historical_Shift.mp4). Roll 1 drops half the White House quote and paraphrases the "run it" line.
+
+## Best-of plan (added 2026-09-14 under the beat-by-beat rule; retrospective check of the shipped v3)
+
+```text
+BEST-OF PLAN: why-learn-ai
+BASE: Prompts/why-learn-ai-2.mp4 (Historical Shift roll, shipped 2026-09-13 as v3)
+  Scribe story; two choices; run it or someone else will — roll 1 TAUGHT @0:00–0:27 "Ignore the change or learn to run it… master the tool or step aside for someone who will" | roll 2 RICH @0:00–0:24 "Pretend it isn't happening, or learn to run it… Run the machine, or someone else will take your place" — TAKE roll 2
+  AI is everywhere: apps, search results, first job; sci-fi to normal; better tomorrow — roll 1 TAUGHT @0:27–0:40 "already running inside the apps on your phone, the search results you read, and the tools you'll be handed on your first day of work" | roll 2 TAUGHT @0:24–0:37 "already running inside the tools your first job will hand you on day one" (apps and search dropped) — roll 1 fuller by a clause; both drop "it will do better tomorrow"; sits under Notebook's Gutenberg diagram in the shipped edit (risky kind) — not grafted
+  Where AI Already Lives: five rows, each with its job and its examples — roll 1 RICH @0:40–1:34 (each row named and explained with every example: "Spotify, Netflix, or TikTok predict what you might like next… Google Maps or Waze use AI to analyze traffic patterns and calculate your arrival time… unlock your phone by looking at it, or an app tags your friends in a photo… Siri, Alexa, and Google use AI to turn the sound you make into written words… ChatGPT, Claude, and Gemini use AI to hold conversations"; banner "AI was already part of your daily routine long before these conversational chatbots arrived") | roll 2 TAUGHT @0:37–1:04 (one sentence per row, examples halved: Spotify or TikTok, Google Maps, phone unlock, Siri and Alexa) — TAKE roll 1 (under Where AI Already Lives; the dense leg's five dives and the banner would follow roll 1's onsets; roll 1 0:40.2–1:34.6 replaces roll 2 0:36.8–1:10.9)
+  You can start now — roll 1 TAUGHT @1:34–1:42 | roll 2 TAUGHT @1:10–1:18 — tie (both drop "learn what AI does well, notice where it struggles… every project gives you experience")
+  Desktop publishing story — roll 1 TAUGHT @1:42–2:02 (no posters / magazines / brochures) | roll 2 RICH @1:18–1:47 "create professional posters, magazines and brochures… The software did not replace design skill. It simply shortened the distance between wanting to do the work and actually getting it done" — TAKE roll 2
+  Why You'll Thrive: three reasons — roll 1 RICH @2:02–2:45 | roll 2 RICH @1:52–2:31 — tie
+  This has happened before: steam, electricity, internet; AI across almost everything — roll 1 TAUGHT @2:45–3:04 | roll 2 RICH @2:31–2:59 — TAKE roll 2
+  White House quote — roll 1 THIN (half the quote) | roll 2 RICH @2:59–3:23 (full, with "This is the potential that AI presents") — TAKE roll 2
+  Close lines — both verbatim — roll 2
+GRAFTS: 1 recommended, under Where AI Already Lives (roll 1 0:40.2–1:34.6 for roll 2 0:36.8–1:10.9; +20 s). Not yet built; the live v3 stands until David says go.
+```

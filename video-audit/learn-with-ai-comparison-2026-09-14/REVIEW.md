@@ -54,3 +54,22 @@ LISTENING: not listened
 ```
 
 Decision: build from roll 1 with roll 2's move two grafted over the garble. Roll 2 misses the exact quiz prompt and compresses the opening.
+
+## Best-of plan (added 2026-09-14 under the beat-by-beat rule; retrospective check of the shipped v3)
+
+```text
+BEST-OF PLAN: learn-with-ai
+BASE: Prompts/learn-with-ai-1.mp4 (shipped 2026-09-14 as v3 with roll 2's move two grafted over roll 1's garble; two cuts)
+  Hook: not enough hours; quiz, essay, algebra; four more hours; AI can't add hours — roll 1 RICH @0:00–0:22 | roll 2 THIN @0:00–0:09 (one sentence) — TAKE roll 1
+  The patient tutor: 1 a.m., never sighs, meets you where you're stuck; finish the work and get sharper — roll 1 RICH @0:22–0:38 | roll 2 TAUGHT @0:09–0:16 (compressed) — TAKE roll 1
+  The first move: learn from materials you have, or learn something new — both TAUGHT — tie
+  Focus (Gemini Notebook): uses your materials; best use list; the catch — roll 1 TAUGHT @1:01–1:25 (best use: "class notes, study guides or videos"; screenshots and a webpage dropped) | roll 2 RICH @0:30–0:57 (best use: "Class notes, screenshots, study guides, a web page, or a YouTube video"; catch "cannot reliably fill the gap") — roll 2 fuller on the list; optional graft under Which Study Tool (the shipped section rings would follow roll 2's onsets)
+  Exploration (ChatGPT, Claude, Gemini): from scratch; best use; the catch — roll 1 TAUGHT @1:26–1:50 | roll 2 TAUGHT @0:57–1:30 — tie
+  Banner: "Choose the tool that matches how you need to learn." — roll 1 MISSING (its 1:50.8–2:00.8 aside was cut; a pause sits there now) | roll 2 TAUGHT @1:30.5–1:35.5 "Avoiding that trap relies entirely on choosing the tool that matches how you need to learn" — TAKE roll 2 (under Which Study Tool, at the cut; banner ring at its onset)
+  Why Gemini Notebook: primary tool, grounded in the teacher's sources — both TAUGHT — tie
+  How Gemini Notebook Works: what you upload, what you get — roll 1 RICH @2:10–2:26 (PDFs, slide decks, images, articles, YouTube links; quizzes, flashcards, study guides, audio overviews, mind maps) | roll 2 TAUGHT @1:45–2:00 (shorter lists) — TAKE roll 1
+  Four moves — roll 1 RICH (move one with the math analogy, move three with the exact prompt, move four) with roll 2's move two grafted | roll 2 TAUGHT (move three's prompt garbled: "grate me") — TAKE roll 1 (shipped)
+  Banner: use AI to strengthen the learning, not skip it — roll 1 TAUGHT @3:25–3:32 "forces you to actively test and strengthen your memory" | roll 2 TAUGHT "guaranteeing AI strengthens your learning rather than bypassing it" — tie
+  Close lines — both verbatim — roll 1
+GRAFTS: 1 recommended, under Which Study Tool (roll 2 1:30.5–1:35.5, the board's takeaway line, into the pause left by the cut); 1 optional (roll 2's Focus best-use list, 0:43–0:57). Not yet built; the live v3 stands until David says go.
+```

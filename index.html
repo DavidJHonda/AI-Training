@@ -272,16 +272,17 @@
     .gate-certificate span{ font-size:13px; }
   }
   .oay-input::placeholder{ color:#aaa6b5; opacity:1; font-weight:500; }
-  /* Closing letter on the Finish Smarter opener. Gate palette on purpose: the course
-     ends in the same room it opened in (navy gradient, gold accents, gold signature). */
-  .finish-letter{ background:radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%); border-radius:20px; padding:34px 36px 30px; margin-bottom:24px; box-shadow:var(--shadowSoft); }
-  .finish-letter p.finish-letter-eyebrow{ font-family:var(--sans); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.16em; color:#ffd24a; margin:0 0 18px; }
-  .finish-letter p{ font-family:var(--sans); font-size:16.5px; line-height:1.65; color:#e4e9fb; margin:0 0 16px; max-width:66ch; }
-  .finish-letter p b{ color:#fff; }
-  .finish-letter a{ color:#ffd24a; }
-  .finish-letter a b{ color:#fff; }
-  .finish-letter a:hover{ color:#ffe08a; }
-  .finish-letter p.finish-letter-sig{ font-family:"Caveat",cursive; font-size:52px; color:#ffd24a; line-height:1; margin:12px 0 0; }
+  /* Readable text alternative for the real Luke-and-Nate closing video. */
+  .finish-letter-disclosure{ margin:0 0 24px; border:1px solid var(--rule); border-radius:16px; background:#fffdf7; box-shadow:var(--shadowSoft); overflow:hidden; }
+  .finish-letter-disclosure summary{ min-height:54px; box-sizing:border-box; padding:15px 22px; cursor:pointer; font-family:var(--sans); font-size:16px; font-weight:800; color:var(--primary); }
+  .finish-letter-disclosure summary:focus-visible{ outline:3px solid var(--primary); outline-offset:-3px; }
+  .finish-letter-disclosure[open] summary{ border-bottom:1px solid var(--rule); }
+  .finish-letter{ padding:26px 28px 24px; }
+  .finish-letter p{ font-family:var(--sans); font-size:16.5px; line-height:1.65; color:var(--inkSoft); margin:0 0 16px; max-width:66ch; }
+  .finish-letter p b{ color:var(--ink); }
+  .finish-letter a{ color:var(--primary); }
+  .finish-letter a:hover{ color:var(--primaryDark); }
+  .finish-letter p.finish-letter-sig{ font-family:var(--sans); font-size:17px; font-weight:800; color:var(--ink); line-height:1.4; margin:20px 0 0; }
   /* Poster-style entry for companion story videos: the lesson illustration with a
      large play control; one click opens the inline player directly. */
   .story-poster{ display:block; width:100%; padding:0; border:none; background:none; cursor:pointer; text-align:left; }
@@ -292,6 +293,9 @@
   .mobile-course-nav { display: none; }
   .watch-copy-mobile, .watch-mobile-tag { display: none; }
   @media (max-width: 760px) {
+    .finish-letter-disclosure summary{ padding:14px 18px; }
+    .finish-letter{ padding:22px 18px 20px; }
+    .finish-letter p{ font-size:16px; }
     .sticky-navtext { display: none !important; }
     .sticky-sub { display: block !important; }
     .sticky-inner { padding: 8px 12px !important; gap: 8px !important; }
@@ -922,7 +926,7 @@ function BodyP(props) {
 // on title cards and/or contained screenshot-style visuals. Re-add entries one at a
 // time as new cuts pass review.)
 const LESSON_VIDEOS = {
-  whydeeper: { src: "videos/why-learn-ai.mp4?v=20260913ship1", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
+  whydeeper: { src: "videos/why-learn-ai.mp4?v=20260914ship1", duration: "4 min", title: "Why understanding AI is the edge that pays off." },
   llms: { src: "videos/what-is-ai.mp4?v=20260913ship1", duration: "4 min", title: "What AI is, and the two kinds you already use.", cta: "Both end at the same LAB." },
   aihistory: { src: "videos/how-an-llm-works.mp4?v=20260913ship1", duration: "4 min", title: "How an LLM turns your prompt into an answer.", cta: "Both end at the same LAB." },
   doesaithink: { src: "videos/does-ai-think.mp4?v=20260913ship1", duration: "3 min", title: "Whether AI thinks, or just sounds like it does.", cta: "Both end at the same LAB." },
@@ -970,7 +974,7 @@ const LESSON_VIDEOS = {
   // The Finish Smarter opener's video will be REAL footage of Luke and Nate
   // delivering their letter and the five big ideas, not a generated cut. The
   // card holds the position until it's recorded.
-  openerfinish: { comingSoon: true, title: "A Letter from Luke and Nate" },
+  openerfinish: { comingSoon: true, title: "A Message from Luke and Nate" },
   // Embrace the Future is final. These cards reserve the completed video position
   // while the nine final video cuts are produced and approved.
   openerrealworld: { src: "videos/opener-embrace.mp4", duration: "3 min", title: "Monsters, or open water? Nobody knows what’s coming.", cta: "Both walk the same section map." },
@@ -1881,7 +1885,7 @@ function WatchOverview(props) {
       ref: rootRef,
       className: "watch-overview no-print",
       role: "status",
-      "aria-label": "Video coming soon. Read the full lesson below for now.",
+      "aria-label": "Video coming soon: " + v.title + ". Read the letter below for now.",
       style: { marginBottom: 28 }
     },
       E("div", {
@@ -1897,8 +1901,8 @@ function WatchOverview(props) {
             E("span", { style: { color: "#a8842c", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Video"),
             E("span", { style: { color: "#6f654e", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" } }, "Coming soon")),
           E("div", { style: { fontSize: 15, color: "#2f3557", lineHeight: 1.5 } },
-            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Video coming soon. "),
-            "Read the full lesson below for now."))));
+            E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.title + ". "),
+            "A real recording will appear here. Read the letter below for now."))));
   }
   return E("div", { ref: rootRef, className: "watch-overview no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
     E("button", {
@@ -11976,17 +11980,16 @@ function TheFinalQuiz(props) {
 // Built This".
 function FinishLetter() {
   var E = React.createElement;
-  return E("div", { className: "finish-letter" },
-    E("p", { className: "finish-letter-eyebrow" }, "A LETTER FROM LUKE AND NATE"),
-    E("p", null, "Congratulations. You made it to the end of ", E("b", null, "Be Smarter Than the Tool"), ". We hope you enjoyed our course. Some subjects were tough, but we hope you still had some fun."),
-    E("p", null, "Here’s something that might surprise you. Your AI knowledge is now higher than most adults who use AI today. And whenever anyone talks about AI, you’ll see whether the speaker knows their stuff."),
-    E("p", null, "And here’s our prediction. Ten years from now you’ll think back to this course and return to ", E("a", { href: "https://besmarterthanthetool.com" }, E("b", null, "BeSmarterThanTheTool"), ".com"), ". After shaking the cobwebs off the first page, you’ll re-read some of what you learned here. And you’ll chuckle to yourself, because your future AI knowledge will make this course feel like the training wheels on your first bike."),
-    E("p", null, "That’s what we want for every person our age. Get the fundamentals here, and soar to new heights in the AI future."),
-    E("p", null, "Before you go, the next lesson has a 25-question final exam. Pass it, and you’ll get a cool certificate in PDF. Hang it on the wall."),
-    E("p", null, "If we inspired you to keep learning, there’s a page called ", E("b", null, "Resources"), " which lists a few next steps."),
-    E("p", null, "And lastly, let us know how you liked the course. There’s a ", E("b", null, "Course Reviews"), " page where you can leave feedback and help us improve it."),
-    E("p", null, "And, if you’re a hockey fan, GO STARS!"),
-    E("p", { className: "finish-letter-sig" }, "Luke and Nate"));
+  return E("details", { className: "finish-letter-disclosure", open: true },
+    E("summary", null, "Read the letter"),
+    E("div", { className: "finish-letter" },
+      E("p", null, "Congratulations. You made it to the end of ", E("b", null, "Be Smarter Than the Tool"), ". We hope you enjoyed our course. Some subjects were tough, but we hope you still had some fun."),
+      E("p", null, "You now have a foundation for understanding AI. When someone makes a big claim about it, you’ll know what questions to ask."),
+      E("p", null, "And here’s our prediction. Ten years from now you’ll think back to this course and return to ", E("a", { href: "https://besmarterthanthetool.com" }, E("b", null, "BeSmarterThanTheTool"), ".com"), ". After shaking the cobwebs off the first page, you’ll re-read some of what you learned here. And you’ll chuckle to yourself, because your future AI knowledge will make this course feel like the training wheels on your first bike."),
+      E("p", null, "That’s what we want for every person our age. We hope this course is just the beginning of what you learn and build."),
+      E("p", null, "Before you go, take the Final and earn your certificate. Resources has ideas for what to do next. And tell us what you thought on Course Reviews. Your feedback helps us make the course better."),
+      E("p", null, "Thanks for learning with us. And if you’re a hockey fan, GO STARS!"),
+      E("p", { className: "finish-letter-sig" }, "Luke and Nate")));
 }
 function FiveBigIdeasKeepsake() {
   var E = React.createElement;

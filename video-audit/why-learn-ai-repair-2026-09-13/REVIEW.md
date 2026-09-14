@@ -66,4 +66,4 @@ boundaries (417, 757, 1135, 2818, 4048, 5253, 6841), `boundary-pairs.jpg` inspec
 "The great news is you do not have to wait" 93.92; floors −59 to −75 dB into both onsets, no cliff. Corner mark 3139 cloned / 444
 inpainted / 0 declined. `states-1-everyday.jpg` inspected: each dive lands on the named card at roll 1's onset, banner edge to edge.
 **Listen:** 37–39 (roll 2 into roll 1, the voice is hotter in roll 1 so the −2.24 dB matters) and 92–94.5 (back to roll 2).
-Live v3 unchanged until David ships.
+**SHIPPED 2026-09-14** on David's "ship why-learn-ai": v4 moved to `videos/why-learn-ai.mp4`, cache key `?v=20260914ship1`, duration pill stays 4 min (3:57).

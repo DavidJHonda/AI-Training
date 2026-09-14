@@ -57,3 +57,21 @@ LISTENING: not listened; no doubtful words
 ```
 
 Decision: build from roll 2. Roll 1 never names probability or prediction, drops honey and the phone example, and paraphrases the engine line.
+
+## Best-of plan (added 2026-09-14 under the beat-by-beat rule; retrospective check of the shipped v4)
+
+```text
+BEST-OF PLAN: how-an-llm-works
+BASE: Prompts/how-an-llm-works-2.mp4 (shipped 2026-09-13 as v4; roll 1's "Over billions of examples… commonly misspell words" already grafted over roll 2's garbled sentence)
+  App vs LLM; the full term — roll 1 TAUGHT @0:00–0:13 "a large language model, or LLM, serves as the engine doing the actual work" | roll 2 TAUGHT @0:00–0:07 — tie
+  Large / Language / Model — roll 1 TAUGHT @0:13–0:32 (Language: "read, summarize, and explain"; writes and translates dropped) | roll 2 TAUGHT @0:07–0:24 (Language: "reads, writes, summarizes, and translates"; explains dropped) — tie (each drops one verb)
+  "ChatGPT is the app. The LLM is the engine." — roll 1 THIN @0:32 "the app serves as the user-facing interface, while the LLM acts as the power source" | roll 2 TAUGHT @0:28–0:36 "ChatGPT, Claude, and Gemini are the apps you interact with. The LLM is the underlying engine doing the heavy lifting" — TAKE roll 2
+  Running math to predict the next words; not looking up meaning — roll 1 TAUGHT @0:38 "relies on a predictive process rather than a database of facts or meanings" | roll 2 TAUGHT @0:36–0:47 "running math to predict which words tend to follow each other, operating without any internal dictionary" — tie
+  Two phases; Learn Once board (four items, patterns power every answer) — roll 1 TAUGHT @0:44–1:05 (phases unnamed; "learn once phase converts text into numerical patterns… calculates the probability… and loops") | roll 2 RICH @0:47–1:25 (training and prediction named; "one time before you ever use it… turning millions of text examples into learned numerical patterns… score the probability of different words, building your answer one word at a time… relies entirely on those exact numerical patterns to power every single answer") — TAKE roll 2 (under Learn Once)
+  01 Training: read, guess, check, adjust; cloud and jelly; billions of times — roll 1 TAUGHT @1:05–1:29 (steps unnamed: "guessing and checking… reads peanut butter and blank and guesses cloud… checks… jelly… nudges its internal numbers") | roll 2 RICH @1:25–2:09 (each step named and walked; "repeats this exact read, guess, check, and adjust cycle billions of times") — TAKE roll 2 (under How Training Works)
+  02 Patterns: jelly as a child, star, time, never; explanations, questions, problems, misspellings — roll 1 TAUGHT @1:29–1:55 ("Because the sequence appears so often in the training data, the AI internalizes it… learns how humans structure explanations, solve problems, and even commonly misspell words") | roll 2 TAUGHT @2:09–2:41 ("You picked up that pattern as a child… the AI learned it too… explain complex ideas and formulate questions… coding syntax and common spelling errors"; its garbled sentence replaced by roll 1's line in the shipped edit) — tie; the shipped edit already carries roll 1's best sentence
+  03 Probability: ranked list; 41 / 27 / 16 / 5; sandwich 54, jelly 2; surrounding words change the odds — roll 1 TAUGHT @1:55–2:33 (honey dropped; "Probability" never named) | roll 2 RICH @2:51–3:30 (all four values, both prompts, "The surrounding words dictate those odds", "jelly drops to just 2%") — TAKE roll 2
+  04 Prediction: repeat the move; the phone example; jelly, for, lunch; the loop looks like thought — roll 1 THIN @2:33–2:54 (phone example missing; "for" heard as "four") | roll 2 RICH @3:39–4:16 (jelly → for → lunch walked; "Your smart phone does the exact same thing… suggests a word… you tap it… suggests the next one"; "this single word loop running hundreds of times… the illusion of human thought") — TAKE roll 2
+  Close lines — roll 1 verbatim @3:00–3:07 | roll 2 verbatim @4:26–4:32 — roll 2 (base)
+GRAFTS: none beyond the shipped one (roll 1's patterns line over roll 2's garble). No beat is richer in roll 1; roll 1's only accurate addition ("a calculator of probabilities rather than a sentient mind or a traditional database") is not a lesson beat.
+```

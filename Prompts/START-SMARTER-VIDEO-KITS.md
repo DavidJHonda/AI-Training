@@ -15,4 +15,5 @@ Rebuilt 2026-09-12 under the speak-the-answers method (see `scripts/video/README
 Notes:
 - How an LLM Works: the "Same Word, Different Odds" table and the "One Word at a Time" walk are page components, not images; their numbers and words are in the Markdown as prose. The old odds capture and the myths board were stale and are deleted.
 - Does School Matter had no close board copy; one was rendered from the page's CLOSE_BOARDS entry (`make_close_board.py --lesson whybother`).
+- Does School Matter materials refreshed 2026-09-14 after a lesson edit: the "Here’s the catch" paragraph now precedes the Same Tool board on the page, so the Markdown and the prompt’s narration order follow it; boards and close copy unchanged (verified byte-identical / re-rendered). Rolls go to `Prompts/does-school-matter-reroll.mp4`.
 - Stale September captures (why-learn-ai quote card, what-is-ai movie task, how-an-llm-works map/training/patterns/odds/myths, does-ai-think rulebook/compare, what-you-can-control moves, does-school-matter two-skills, learn-with-ai feed-in/habits) were deleted; the page assets in `illustrations/` and `lessons/` are the originals.

@@ -8,6 +8,8 @@ Think about it this way.
 
 Fast forward a few years. You’ve landed your dream job, and AI sits right next to you all day, cranking out drafts, code, and plans. Your coworker at the next desk is doing the same. You each have the same job, using the same AI.
 
+Here’s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It’s the new average. What you bring to the work is what takes you further.
+
 ### Board 1: Same Tool. Different Advantage.
 
 **Image file:** `does-school-matter-1-same-tool.jpg`
@@ -18,9 +20,7 @@ Fast forward a few years. You’ve landed your dream job, and AI sits right next
 
 Two students start from the same AI answer. What each one brings to it, the knowledge and the practiced skills, is what takes the work further. The tool may be the same. What you bring to it is yours.
 
-Here’s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It’s the new average. What you bring to the work is what takes you further.
-
-That leads to a question worth considering: in your AI future, what takes you beyond the new average? What makes you more valuable?
+That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?
 
 ## WHAT SETS YOU APART
 

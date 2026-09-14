@@ -35,10 +35,14 @@ A review that skips the lesson or the full transcript is not a review.
    hard requirements (full terms such as "Retrieval-Augmented Generation",
    verbatim lines, the two closing lines), and the takeaway.
 2. Walk the transcript and mark each point:
+   - **RICH**: taught with the lesson's own example, reason, or comparison intact,
+     in words a student can follow; the beat a teacher would keep.
    - **TAUGHT**: reaches the viewer with enough substance to preserve its meaning.
    - **THIN**: named or shown but not explained; a paragraph reduced to a clause.
    - **MISSING**: not spoken. Displaying a sentence or table is not teaching it.
    - **WRONG**: contradicts the lesson, reverses a distinction, or misstates a number.
+   RICH and TAUGHT both pass; the distinction exists so that two rolls can be
+   compared beat by beat (owner rule 2026-09-14: presence is not quality).
 3. Note additions. An accurate addition that improves clarity is welcome and may
    be a candidate lesson edit. Weaker or distracting outside material is flagged.
 4. Read worked examples aloud in your head against the transcript: the narration
@@ -54,10 +58,36 @@ A review that skips the lesson or the full transcript is not a review.
 - **REROLL**: any essential point MISSING or WRONG, or a hard requirement
   missed. A corrected graphic never fixes spoken teaching.
 
-When comparing rolls, choose the one whose narration teaches most completely.
-Complete and slightly overlong beats concise and incomplete, because excess can
-be cut and missing narration cannot be added. Visual defects never decide the
-choice; list them as editing notes.
+## Comparing rolls: beat by beat, then a best-of plan (owner rule 2026-09-14)
+
+Presence is not quality. Two rolls of the same lesson are compared per teaching
+point, not by their totals: AI Is Different roll 1 covered more points and won,
+while roll 2 explained the Kryptonite board far better, and the build shipped
+the weak explanation. That is the failure this section prevents.
+
+For every teaching point, rate each roll (RICH / TAUGHT / THIN / MISSING / WRONG)
+and quote the sentence each roll actually speaks, with its timestamps. Where the
+rolls differ, name the better one. The result is a **best-of plan**: the base roll
+that carries the spine (usually the one with the most complete coverage and the
+verbatim close), plus the beats to take from the other roll.
+
+Rules for the plan:
+
+- A beat is taken from the alternate roll only when it is a whole beat between
+  silences (a sentence or a coherent run of sentences), not a phrase.
+- The safe place for a mid-video graft is under a course board: the picture is
+  ours during a board walk, the rolls share the Notebook voice, and levels are
+  matched, so only the audio seam is at risk. Beats that sit under Notebook's own
+  drawings are grafted only when the drawing's scene can carry the longer or
+  shorter audio without an orphan beat; otherwise note them as "richer in roll N,
+  not grafted" so the owner can decide.
+- The board leg stretches or shrinks to the grafted audio; its rings follow the
+  alternate roll's spoken onsets.
+- Complete and slightly overlong still beats concise and incomplete for the base
+  roll, because excess can be cut and missing narration cannot be added. Visual
+  defects never decide the choice; list them as editing notes.
+- The owner reads the quoted pairs and arbitrates ties. He does not need to watch
+  both rolls; the table is the comparison.
 
 ## Source QA
 
@@ -75,6 +105,18 @@ animation, style, and runtime. Those belong to the ship checklist in
 ## Output
 
 Return exactly this block and nothing else:
+
+When two or more rolls are reviewed, add one block after the per-roll blocks:
+
+```text
+BEST-OF PLAN: <slug>
+BASE: <file> (<why>)
+  <teaching point> — roll 1 RICH|TAUGHT|THIN|MISSING @<m:ss> "<quote>" | roll 2 … @<m:ss> "<quote>" — TAKE roll N (under <board> | Notebook scene | not grafted: <why>)
+  ...
+GRAFTS: <count>, all under boards | <exceptions>
+```
+
+Per-roll block:
 
 ```text
 LESSON: <slug>

@@ -184,6 +184,14 @@ Record source and output times separately so later feedback is applied correctly
 
 Prefer coherent donor phrases or complete teaching beats. A factual narration
 error needs a narration repair or reroll; a corrected graphic alone cannot fix it.
+**Compare rolls beat by beat (owner rule 2026-09-14):** the narration review
+rates each teaching point in every roll (RICH / TAUGHT / THIN / MISSING) with the
+spoken sentence quoted, and produces a best-of plan. The build takes the spine
+from the base roll and grafts the richer beats from the alternate roll, by
+default under the course board they belong to (`Build.graft(..., picture_from=,
+visual=<board key>)`; the leg is sized to the grafted audio). Presence of a beat
+never outranks how well it is taught. See `NARRATION-REVIEW.md`, "Comparing
+rolls", and `EDIT-SPEC.md` §9.
 For every audio graft, check the words, pronunciation, cadence, voice continuity,
 and seams in the rendered result. A one-word graft needs particular care.
 Transcription, waveforms, level matching, and correlation checks do not establish
@@ -860,6 +868,11 @@ inside narration pauses, in both videos.
 - Close grafts are the safe kind (one seam, nothing after it). Mid-video grafts
   across different rolls are the risky kind: topic hand-off both directions, style
   shift, possible voice/energy mismatch.
+  **Board-anchored grafts are the safe mid-video kind (2026-09-14):** under a
+  course board the picture is ours, so a whole beat from the alternate roll can
+  replace the base roll's beat with only two audio seams at silences; match
+  levels (loudnorm or speech-RMS, both rolls within ~1 dB after gain) and let the
+  leg's rings follow the grafted roll's onsets.
 - Long content-bearing flaw spans (the white text IS the scene's meaning) cannot
   be clone-patched — graft or re-roll.
 - **Dissolve-onset rule:** these rolls often dissolve between scenes (frame-diff

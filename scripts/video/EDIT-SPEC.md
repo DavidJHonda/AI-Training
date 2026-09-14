@@ -195,6 +195,16 @@ No narration is cut, moved, or grafted without David's approval of the exact
 source words and timestamps. Approved grafts use coherent phrases from course
 narration, level-matched, and are listed for listening.
 
+**Best-of grafts (owner rule 2026-09-14).** When the review's best-of plan
+names a beat that the alternate roll teaches better, the candidate carries that
+beat as an audio graft from the alternate roll, by default under the course board
+that beat belongs to: the board leg is sized to the grafted audio and its rings
+follow the alternate roll's onsets. The plan (quoted pairs, timestamps, the roll
+taken) is the approval; the report lists every graft with its output timestamps
+for listening. A beat that would have to sit under Notebook's own drawing is
+grafted only when the scene can carry it without an orphan beat; otherwise it is
+reported as richer-but-not-grafted.
+
 ## 10. Before handing over
 
 The review record (`video-audit/<slug>-repair-<date>/REVIEW.md`) states:

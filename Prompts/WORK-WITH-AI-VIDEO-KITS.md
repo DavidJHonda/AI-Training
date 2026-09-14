@@ -1,0 +1,24 @@
+# Work With AI Video Kits
+
+Rebuilt 2026-09-14 under the speak-the-answers method (see `scripts/video/README.md`, "Speak the answers", and `EDIT-SPEC.md`). Every Markdown was rewritten from the live page and the boards as they render today, with each board's text written out as prose beneath its image; every upload copy in `lessons/` is byte-for-byte the page asset, renumbered in page order. Each prompt is self-contained and under 500 words. Boards with visible faces are never uploaded; the prompt reserves their narration and the real board is inserted in editing. Close copies were rendered fresh from the page's CLOSE_BOARDS (`make_close_board.py --lesson <id>`). Per-lesson upload checklists: `Prompts/<slug>-upload-files.txt`.
+
+| Lesson | Markdown | Prompt | Notebook sources | Post-production only (faces) | Status |
+|---|---|---|---|---|---|
+| Opener | `lessons/Opener-Work.md` | `Prompts/opener-work-video-prompt.txt` | opener-work-2-section-map, opener-work-3-close | opener-work-1-same-tool | materials ready, roll pending |
+| AI Is Different | `lessons/ai-is-different.md` | `Prompts/ai-is-different-video-prompt.txt` | ai-is-different-1-rules, ai-is-different-2-learn-once, ai-is-different-5-kryptonite, ai-is-different-6-close | ai-is-different-3-rules-vs-patterns, ai-is-different-4-structured | materials ready, roll pending |
+| Where AI Works Best | `lessons/where-ai-works-best.md` | `Prompts/where-ai-works-best-video-prompt.txt` | where-ai-works-best-2-reshape, where-ai-works-best-3-explore, where-ai-works-best-4-find, where-ai-works-best-5-problems, where-ai-works-best-6-close | where-ai-works-best-1-built-this-course | materials ready, roll pending |
+| Which App? | `lessons/which-app.md` | `Prompts/which-app-video-prompt.txt` | which-app-1-big-three, which-app-3-how-we-used, which-app-4-close | which-app-2-home-base | materials ready, roll pending |
+| Questions Matter | `lessons/questions-matter.md` | `Prompts/questions-matter-video-prompt.txt` | questions-matter-2-value-lives, questions-matter-3-four-qualities, questions-matter-4-close | questions-matter-1-answers-faster | materials ready, roll pending |
+| Art Of Prompting | `lessons/art-of-prompting.md` | `Prompts/art-of-prompting-video-prompt.txt` | art-of-prompting-1-good-question, art-of-prompting-2-four-moves, art-of-prompting-3-close | none | materials ready, roll pending |
+| Context Window | `lessons/context-window.md` | `Prompts/context-window-video-prompt.txt` | context-window-3-head-start, context-window-4-outside, context-window-5-close | context-window-1-same-question, context-window-2-five-sources | materials ready, roll pending |
+| Evaluate The Results | `lessons/evaluate-the-results.md` | `Prompts/evaluate-the-results-video-prompt.txt` | evaluate-the-results-1-quick-pass, evaluate-the-results-2-decide, evaluate-the-results-3-dig, evaluate-the-results-4-move, evaluate-the-results-6-close | evaluate-the-results-5-check-before-use | materials ready, roll pending |
+| Critical Thinking | `lessons/critical-thinking.md` | `Prompts/critical-thinking-video-prompt.txt` | critical-thinking-1-equation, critical-thinking-3-five-habits, critical-thinking-4-close | critical-thinking-2-two-reactions | materials ready, roll pending |
+
+Notes:
+- Opener: the "Don’t just ask. Aim." refrain is a page component, not a board; it is in the Markdown as prose and the prompt opens on it. The old refrain/section captures were stale and are deleted.
+- AI Is Different: the Kryptonite board's Deepfakes panel shows stylized 3D figures, not photographs; it is uploaded. If Notebook rejects it, drop it and roll again. The old `ai-is-different-3-kryptonite.jpg` capture and the unnumbered copies are deleted.
+- Which App: the old `which-app-3-close.jpg` was actually the Pick a Home Base board (faces), mislabeled; replaced by a rendered close.
+- Art Of Prompting: the page now shows the four moves on one board; the old per-move captures (`-2-move-1` … `-4-move-3`) are deleted.
+- Context Window: the five-sources board (`context-window-1.jpg` on the page) has a photo-style person in profile at the left edge, so it is post-only like the car board. The old captures (`-1-luke-nate`, `-2-outside`, `-3-five-sources`) are deleted; the head-start and outside boards are the page's own `-v1`/`-v2` assets.
+- Critical Thinking: the page uses the v3 equation, v2 two-reactions, and v3 five-habits boards; all earlier generations and the retired "One More" board are deleted from `lessons/`.
+- Prompts say "do not narrate the TRY IT" where the lesson has one; the Markdown carries no TRY IT text.

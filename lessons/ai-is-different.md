@@ -10,21 +10,63 @@ Consider how normal (non-AI) software is created, like the calculator app on you
 
 The core of normal software is something called **Rules**. The best way to understand them is the most common kind: **IF-THEN-ELSE** statements. Here’s what that looks like.
 
+### Board 1: Rules Look Like This
+
+**Image file:** `ai-is-different-1-rules.jpg`
+
+![Rules Look Like This](ai-is-different-1-rules.jpg)
+
+**Teaching content:**
+
+A user enters a password. IF the password matches, THEN open the app. ELSE show the message “Password doesn’t match. Please try again.” Written rules return the same result every time.
+
 ## AI IS Based On Patterns
 
 AI is different. A programmer doesn’t write out the rules for every situation. Instead, AI uses patterns it learned during training.
+
+### Board 2: Learn Once. Answer Every Word.
+
+**Image file:** `ai-is-different-2-learn-once.jpg`
+
+![Learn Once. Answer Every Word.](ai-is-different-2-learn-once.jpg)
+
+**Teaching content:**
+
+Learn once. Step one, Training: the model learns from enormous amounts of data once, before you use it. Step two, Patterns: training turns examples into learned numerical patterns. Those patterns power every answer.
+
+Answer every word. Step three, Probability: for every next word, the model scores what is most likely. Step four, Prediction: it chooses one likely next word, then runs the process again.
+
+Learn once. Use the patterns for every answer.
 
 That’s the difference: someone writes the rules for ordinary software. AI learns patterns it can use in situations it hasn’t seen before.
 
 Wrapping your head around this is important, so here’s a cooking analogy.
 
-- **Normal software is like a robot cooking a recipe from a cookbook:** someone wrote every step, and the robot follows the rules and makes the same exact dish every time.
-- **AI is like a chef:** no one handed it a cookbook. AI cooked thousands of dishes, recognized the cooking patterns, so it can handle a dish it’s never made. Same kitchen, completely different way to get to dinner.
+Normal software is like a robot cooking a recipe from a cookbook: someone wrote every step, and the robot follows the rules and makes the same exact dish every time.
+
+AI is like a chef: no one handed it a cookbook. AI cooked thousands of dishes, recognized the cooking patterns, so it can handle a dish it’s never made. Same kitchen, completely different way to get to dinner.
+
 That difference shows up everywhere: how each one solves a problem, how it reaches an answer, how it fails, and whether you can even trace why.
 
-## RULES (Normal Software) VS Patterns (AI Software)
+## RULES (Normal Software) VS PATTERNS (AI Software)
 
 Watch what each one does with the same question.
+
+### Board 3: Rules vs. Patterns
+
+**Image file:** `ai-is-different-3-rules-vs-patterns.jpg`
+
+![Rules vs. Patterns](ai-is-different-3-rules-vs-patterns.jpg)
+
+**Teaching content:**
+
+The question: “What’s the best game for my new PS5?”
+
+Normal software follows written instructions. First ask: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2.
+
+AI software builds a fresh response. First ask: Marvel’s Spider-Man 2. Ask again: NHL 26. Ask again: God of War Ragnarök.
+
+Rules repeat the programmed answer. Patterns build a fresh one.
 
 In this example, normal software follows a rule: when you ask for the best PS5 game, show the top game on a preset list. AI builds an answer using learned patterns, so you can ask the same question again and get a different recommendation.
 
@@ -36,21 +78,17 @@ A good example is how we wrote this lesson. We sketched out messy notes on a leg
 
 That something was AI. It read the notes, followed the changes, and turned them into a first draft.
 
-### Structured vs. Unstructured Data
+### Board 4: Structured vs. Unstructured Data
 
-#### Normal Software
+**Image file:** `ai-is-different-4-structured.jpg`
 
-**The idea:** You fit information into a structure the software expects.
+![Structured vs. Unstructured Data](ai-is-different-4-structured.jpg)
 
-**Input & Output:** You use the fields, file types, and commands the software was built to handle.
+**Teaching content:**
 
-#### AI Software
+Normal software. The idea: you fit information into a structure the software expects. Input and output: you use the fields, file types, and commands the software was built to handle.
 
-**The idea:** AI can make sense of messy information and help you organize or transform it.
-
-**Input & Output:** Give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image.
-
-*Available inputs and outputs depend on the app.*
+AI software. The idea: AI can make sense of messy information and help you organize or transform it. Input and output: give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image. Available inputs and outputs depend on the app.
 
 You bring the mess. AI helps make sense of it.
 
@@ -68,19 +106,21 @@ AI has its own Kryptonite. It’s not fatal, but you need to be aware of it.
 
 Because AI runs on learned patterns and not rules, it’s harder to control. **Trained behavior is harder to predict, inspect, and lock down than written rules.** And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do. And sometimes, people use its superpowers to cause harm. You need to recognize these risks.
 
-### You’ll see stories like this
+### Board 5: AI’s Kryptonite
 
-#### Scams that scale
+**Image file:** `ai-is-different-5-kryptonite.jpg`
 
-AI generates code, convincing messages, and fake identities in seconds.
+![AI’s Kryptonite](ai-is-different-5-kryptonite.jpg)
 
-#### Deepfakes
+**Teaching content:**
 
-Convincing fakes can target and humiliate anyone, including students.
+You’ll see stories like this.
 
-#### Confident but wrong
+Scams that scale: AI generates code, convincing messages, and fake identities in seconds.
 
-Medical and safety answers can sound correct even when they are flat wrong.
+Deepfakes: convincing fakes can target and humiliate anyone, including students.
+
+Confident but wrong: medical and safety answers can sound correct even when they are flat wrong.
 
 Trained behavior is harder to predict, inspect, and lock down.
 
@@ -88,40 +128,14 @@ Trained behavior is harder to predict, inspect, and lock down.
 
 AI companies don’t ignore this. During training, they teach AI to avoid harmful behavior. They also add a safety layer to the apps: **guardrails**. These help block, redirect, or limit harmful requests. But none are perfect. They can miss something dangerous or block something harmless.
 
+### Close
+
+**Image file:** `ai-is-different-6-close.jpg`
+
+![Close board](ai-is-different-6-close.jpg)
+
+## Closing Message
+
 AI’s foundation gives it new superpowers.
 
 Those superpowers come with Kryptonite.
-
-## LAB 05: Make Sense of the Mess
-
-We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you’ll use Gemini Notebook to turn them into a clear summary.
-
-### 1. Open the notes
-
-[Click here to open the lesson that didn't make it to the course.](../packets/supervillain-school-planning-notes.pdf)
-
-### 2. Download the file
-
-In the browser tab with the notes, click the download button near the top of the PDF viewer. Save the file where you can find it. Gemini Notebook needs the file itself, not the open tab.
-
-### 3. Go to Gemini Notebook
-
-Go to [notebook.google.com](https://notebook.google.com) and sign in with your Google account.
-
-### 4. Create the notebook
-
-Click **+ Create notebook** and name it **AI Replaces School**.
-
-### 5. Upload the notes
-
-Click **+ Add sources** and upload the planning-notes PDF you downloaded.
-
-### 6. Make Sense of the Notes
-
-Copy and send this prompt in the Gemini Notebook chat.
-
-> Turn these messy notes into a clear summary in 200 words or fewer. Include the main argument, two ideas that were crossed out and their replacements, and your favorite joke from the notes.
-
-### 7. Read the Summary
-
-Read the summary, then look back at the notes. What did AI manage to make sense of?

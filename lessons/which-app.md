@@ -12,43 +12,19 @@ The big three AI apps are like that. They all use AI models that learn patterns 
 
 Those choices shape much of how each app differs: how it feels, what it’s good at, and how it acts when it’s not sure. Underneath, each one is built around a different core philosophy.
 
-The big three, side by side
+### Board 1: The Big Three, Side by Side
 
-## ChatGPT
+**Image file:** `which-app-1-big-three.jpg`
 
-The Anything Box
+![The Big Three, Side by Side](which-app-1-big-three.jpg)
 
-## What it is
+**Teaching content:**
 
-One general-purpose AI app for a wide range of tasks. You can ask questions, create things, and get help with your work.
+ChatGPT, the Anything Box. What it is: one general-purpose AI app for a wide range of tasks. You can ask questions, create things, and get help with your work. OpenAI asks: how do we put capable AI in everyone’s hands?
 
-## OpenAI Asks
+Claude, the Thinking Partner. What it is: an AI assistant for thinking through ideas and working through difficult tasks. Anthropic puts a strong emphasis on safety and how its AI behaves. Anthropic asks: how do we build powerful AI we can actually trust?
 
-How do we put capable AI in everyone’s hands?
-
-## Claude
-
-The Thinking Partner
-
-## What it is
-
-An AI assistant for thinking through ideas and working through difficult tasks. Anthropic puts a strong emphasis on safety and how its AI behaves.
-
-## Anthropic Asks
-
-How do we build powerful AI we can actually trust?
-
-## Gemini
-
-Built Into Google
-
-## What it is
-
-Google’s AI assistant, especially useful when your work connects to the Google tools you already use.
-
-## Google Asks
-
-How do we put AI inside the tools people already use?
+Gemini, Built Into Google. What it is: Google’s AI assistant, especially useful when your work connects to the Google tools you already use. Google asks: how do we put AI inside the tools people already use?
 
 Each app has its own strengths, but there’s plenty of overlap in what they can do.
 
@@ -60,26 +36,43 @@ Claude currently requires users to be 18. We include it here because knowing you
 
 For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three.
 
+### Board 2: Pick a Home Base. Learn It Deeply.
+
+**Image file:** `which-app-2-home-base.jpg`
+
+![Pick a Home Base. Learn It Deeply.](which-app-2-home-base.jpg)
+
+**Teaching content:**
+
+Three workstations, labeled ChatGPT, Claude, and Gemini. Pick one and learn it deeply. The skills transfer. The app is where you practice them.
+
 A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right.
 
 ## A real-world example
 
-Hi. This is Nate and Luke again. Several AI apps helped bring this course to life. Sometimes different apps handled different jobs. Sometimes they helped with the same job. Here are a few examples.
+Several AI apps helped bring this course to life. Sometimes different apps handled different jobs. Sometimes they helped with the same job. Here are a few examples.
 
-ChatGPT — Ideas and Improvements
+### Board 3: How We Used the Big Three
 
-- Brainstorming TRY ITs and LABs, and reviewing lessons
-- Writing code and helping edit videos
+**Image file:** `which-app-3-how-we-used.jpg`
 
-Claude — Building and Design
+![How We Used the Big Three](which-app-3-how-we-used.jpg)
 
-- Writing code with Claude Code
-- Styling pages with Claude Design
+**Teaching content:**
 
-Gemini — Information and Videos
+ChatGPT, ideas and improvements: brainstorming TRY ITs and LABs, and reviewing lessons; writing code and helping edit videos.
 
-- Finding current information with Gemini
-- Creating lesson videos with Gemini Notebook
+Claude, building and design: writing code with Claude Code; styling pages with Claude Design.
+
+Gemini, information and videos: finding current information with Gemini; creating lesson videos with Gemini Notebook.
+
+### Close
+
+**Image file:** `which-app-4-close.jpg`
+
+![Close board](which-app-4-close.jpg)
+
+## Closing Message
 
 Pick a home base. Learn it deeply.
 

@@ -41,3 +41,22 @@ Live file videos/why-learn-ai.mp4 untouched.
 
 ## Shipped
 2026-09-13: v3 approved ("Ship it"); copied to videos/why-learn-ai.mp4, cache key 20260913ship1, candidate deleted, rolls kept in Prompts/. Receipt: shipping-receipt.json. Spec 8c (photographs never ship) added the same day.
+
+## v4 (2026-09-14): the roll 1 Where AI Already Lives graft (beat-by-beat rule)
+
+**Candidate:** `videos/why-learn-ai-v4.mp4` (3:57.2, 7117 frames; v3 was 3:40). v4 = the shipped v3 with one best-of graft from the
+comparison REVIEW.md plan: roll 1's walk of the Where AI Already Lives board (roll 1 40.20–95.30, every row with its job and all its
+examples, ending on "AI was already part of your daily routine long before these conversational chat bots arrived") replaces roll 2's
+compressed version (36.83–70.9) under the board. Roll 1 lowered 2.24 dB (speech RMS; loudnorm puts the rolls 1.5 LU apart). The dense
+leg's five dives and the banner follow roll 1's onsets (Recommends 44.54, Navigation 54.24, Face recognition 62.14, Voice assistants
+72.98, Chatbots 80.04, pull back 88.7, banner 89.82). Roll 2 resumes at "The great news is…" after the existing pause. Nothing else changed.
+
+Re-rendered 15:53 after the first v4's seam pairs showed one frame of Notebook's own board render after the pause (source 2127; v3
+carried it too): the picture now resumes on Notebook's cut (2128). Checks on the 15:53 render: decoded 7117 = plan, audio 237.248 s (one AAC frame over plan); `transition_guard.py` passed all 7
+boundaries (417, 757, 1135, 2818, 4048, 5253, 6841), `boundary-pairs.jpg` inspected; pauses 23.84–25.33, 92.80–94.01 (after the graft),
+173.41–175.07, 226.24–228.17, plus roll 1's own 0.95 s gap before its banner line at 86.47; joins re-transcribed on the final file:
+"…hand you on day one." 36.90 → "This board shows where AI is already integrated into your day" 38.16, and "…chat bots arrived." 92.08 →
+"The great news is you do not have to wait" 93.92; floors −59 to −75 dB into both onsets, no cliff. Corner mark 3139 cloned / 444
+inpainted / 0 declined. `states-1-everyday.jpg` inspected: each dive lands on the named card at roll 1's onset, banner edge to edge.
+**Listen:** 37–39 (roll 2 into roll 1, the voice is hotter in roll 1 so the −2.24 dB matters) and 92–94.5 (back to roll 2).
+Live v3 unchanged until David ships.

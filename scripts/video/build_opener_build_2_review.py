@@ -7,6 +7,12 @@ separately; two short forward holds prevent discarded pictures leaking into
 the audio shoulders. Writes a review candidate, never the live lesson.
 """
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 import hashlib
 import json
@@ -135,7 +141,7 @@ def main():
     if abs(cap.get(cv2.CAP_PROP_FPS) - FPS) > 0.001:
         raise RuntimeError("Unexpected source FPS")
     cap.release()
-    boards = {name: ROOT / f"lessons/opener-build-{number}-{name}.jpg"
+    boards = {name: asset_path('lessons', f"opener-build-{number}-{name}.jpg")
               for number, name in ((1, "creed"), (2, "map"), (3, "close"))}
     source_hash = sha256(SOURCE)
     expected = mapped(END) + TAIL

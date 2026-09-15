@@ -10,6 +10,12 @@ silence boundaries and the output is written as a review candidate only.
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -36,11 +42,11 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "strengths": ROOT / "lessons/work-changes-1-strengths.jpg",
-    "assignment": ROOT / "lessons/work-changes-2-assignment.jpg",
-    "concepts": ROOT / "lessons/work-changes-3-concepts.jpg",
-    "changes": ROOT / "lessons/work-changes-4-what-changes.jpg",
-    "close": ROOT / "lessons/work-changes-5-close.jpg",
+    "strengths": ROOT / "course-assets/work-changes/work-changes-1-strengths.jpg",
+    "assignment": ROOT / "course-assets/work-changes/work-changes-2-assignment.jpg",
+    "concepts": asset_path('lessons', 'work-changes-3-concepts.jpg'),
+    "changes": ROOT / "course-assets/work-changes/work-changes-4-what-changes.jpg",
+    "close": ROOT / "course-assets/work-changes/work-changes-5-close.jpg",
 }
 
 

@@ -31,9 +31,9 @@ SRC = ROOT / 'Prompts/ai-is-different-1.mp4'
 DONOR = ROOT / 'Prompts/close-ai-is-different.mp4'
 SRC2 = ROOT / 'Prompts/ai-is-different-2.mp4'   # alternate roll: richer Kryptonite stories (best-of plan, comparison REVIEW.md)
 OUT = ROOT / 'video-audit/ai-is-different-repair-2026-09-14'; DEST = ROOT / 'videos/ai-is-different-v5.mp4'   # v2 reviewed; v3 his four notes; v4 the roll 2 Kryptonite graft; v5 removes an 8-frame diagram flash at 4:06 (David)
-B = {'rules': ROOT / 'illustrations/ai-is-different-rules.jpg', 'learn': ROOT / 'illustrations/ai-is-different-learn-once.jpg',
-     'rvp': ROOT / 'illustrations/ai-is-different-fixed-vs-patterns.jpg', 'structured': ROOT / 'illustrations/ai-is-different-normal-vs-ai.jpg',
-     'kryp': ROOT / 'illustrations/ai-is-different-kryptonite-v2.jpg'}
+B = {'rules': ROOT / 'course-assets/ai-is-different/ai-is-different-1-rules.jpg', 'learn': ROOT / 'course-assets/ai-is-different/ai-is-different-2-learn-once.jpg',
+     'rvp': ROOT / 'course-assets/ai-is-different/ai-is-different-3-rules-vs-patterns.jpg', 'structured': ROOT / 'course-assets/ai-is-different/ai-is-different-4-structured.jpg',
+     'kryp': ROOT / 'course-assets/ai-is-different/ai-is-different-5-kryptonite.jpg'}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

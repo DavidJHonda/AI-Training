@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """Render the unified When You Think / What AI Does comparison board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 
 REPO = Path(__file__).resolve().parents[2]
-OUT = REPO / "illustrations" / "does-ai-think-side-by-side-v2.jpg"
+OUT = REPO / "course-assets/does-ai-think/does-ai-think-2-side-by-side.jpg"
 ASSET_DIR = REPO / "scripts" / "video" / "assets" / "does-ai-think-unified"
 LEFT_ASSET = ASSET_DIR / "when-you-think.jpg"
 RIGHT_ASSET = ASSET_DIR / "what-ai-does.jpg"
@@ -111,8 +117,8 @@ def preserve_source_scenes():
         return
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     source = Image.open(OUT).convert("RGB")
-    source.crop((40, 127, 784, 544)).save(LEFT_ASSET, quality=96, subsampling=0)
-    source.crop((816, 127, 1560, 544)).save(RIGHT_ASSET, quality=96, subsampling=0)
+    save_course_image(source.crop((40, 127, 784, 544)), LEFT_ASSET, quality=96, subsampling=0)
+    save_course_image(source.crop((816, 127, 1560, 544)), RIGHT_ASSET, quality=96, subsampling=0)
 
 
 def takeaway(draw, text):
@@ -170,7 +176,7 @@ def main():
             draw.line((74, y + row_h - 1, 1526, y + row_h - 1), fill=RULE, width=2)
 
     takeaway(draw, "Similar-looking answers can come from very different processes.")
-    image.save(OUT, quality=95, subsampling=0)
+    save_course_image(image, OUT, quality=95, subsampling=0)
     print(f"Built {OUT}")
 
 

@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Create a person-free student-ID teaching board for the Notebook upload kit."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 from PIL import Image, ImageDraw
 from editorial_typography import draw_board_title, draw_inner_title, face
 from editorial_takeaway import draw_takeaway_band
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / 'lessons/embeddings-student-id-notebook.jpg'
+DEST = ROOT / 'course-assets/embeddings/embeddings-student-id-notebook.jpg'
 INK, MUTED = '#0e0a1f', '#716b84'
 PURPLE, TEAL = '#4f2fc4', '#0e8f86'
 
@@ -31,7 +37,7 @@ def render():
         draw.text((930,y), text, font=face('bold',37), fill=INK, anchor='lm')
     draw_takeaway_band(image, top=772, left=40, right=1560,
                        text='His ID won’t tell you he steals fries.', font=face('medium',32))
-    image.save(DEST, quality=95, subsampling=0)
+    save_course_image(image, DEST, quality=95, subsampling=0)
     print(DEST)
 
 

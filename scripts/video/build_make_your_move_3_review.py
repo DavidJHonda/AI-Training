@@ -10,6 +10,12 @@ clipboard and meeting, city) and the skills and moves boards leave for Notebook'
 (core-competency diagrams; people talking, keyboard, donation drive), returning for the next title. Five pauses at idea boundaries only.
 Standard close from the last cut; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -19,7 +25,7 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/make-your-move-1.mp4'
 OUT = ROOT / 'video-audit/make-your-move-repair-2026-09-12'; DEST = ROOT / 'videos/make-your-move-v4.mp4'
-B = {k: ROOT / f'lessons/make-your-move-{k}.jpg' for k in ('1-note', '2-careers-a', '2-careers-b', '3-skills', '4-actions')}
+B = {k: asset_path('lessons', f'make-your-move-{k}.jpg') for k in ('1-note', '2-careers-a', '2-careers-b', '3-skills', '4-actions')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

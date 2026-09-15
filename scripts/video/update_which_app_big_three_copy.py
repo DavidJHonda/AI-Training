@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Update only the What It Is copy on the approved Big Three board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -9,8 +15,8 @@ from editorial_typography import face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE = ROOT / "illustrations/which-app-big-three-v2.jpg"
-PREP = ROOT / "lessons/which-app-1-big-three.jpg"
+PAGE = ROOT / "course-assets/your-home-base/which-app-1-big-three.jpg"
+PREP = ROOT / "course-assets/your-home-base/which-app-1-big-three.jpg"
 BODY = "#3a3550"
 WHITE = "#ffffff"
 
@@ -50,7 +56,7 @@ def main():
         draw.text((text_x, 583), "WHAT IT IS", font=label_font, fill=accent, anchor="la")
         for index, line in enumerate(wrap(draw, copy, body_font, right - left - 68)):
             draw.text((text_x, 628 + index * 38), line, font=body_font, fill=BODY, anchor="la")
-    image.save(PAGE, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE, quality=95, subsampling=0, optimize=True)
     PREP.write_bytes(PAGE.read_bytes())
     print(f"updated {PAGE.relative_to(ROOT)}")
     print(f"copied byte-identically to {PREP.relative_to(ROOT)}")

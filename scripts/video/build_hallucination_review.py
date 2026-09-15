@@ -36,19 +36,19 @@ def replacements(card):
         points = tuple(at(t) for t in points)
         leg = common.make_leg(name, ROOT / asset, points, tuple(states))
         result.append((points[0], points[-1], leg))
-    add('example', 'illustrations/hallucination-example-v2.jpg',
+    add('example', 'course-assets/hallucination/hallucination-1-example.jpg',
         (9.0, 10.0, 19.8, 25.966667), (
             ('full', None, VP, None, 0),
             ('full-ai-bubble', (80,401,989,618), VP, (550,490,1180), 24),
             ('full-takeaway', (40,697,1560,786), VP, None, 24)))
-    add('why', 'illustrations/hallucination-why-v2.jpg',
+    add('why', 'course-assets/hallucination/hallucination-2-why.jpg',
         (60.533333, 61.1, 67.733333, 73.6, 77.4, 86.133333), (
             ('full', None, P, None, 0),
             ('learns-from-text', (56,164,362,794), P, None, 0),
             ('one-token', (452,164,756,794), B, None, 0),
             ('keeps-answering', (844,164,1150,794), T, None, 0),
             ('probable-not-true', (1234,164,1548,794), A, None, 0)))
-    add('real-text', 'illustrations/hallucination-real-text-v2.jpg',
+    add('real-text', 'course-assets/hallucination/hallucination-1-example.jpg',
         (121.566667, 135.0, 139.333333), (
             ('full-illustration', None, VP, None, 0),
             ('full-takeaway', (40,1180,1560,1269), VP, None, 0)))
@@ -65,8 +65,8 @@ def main():
     AUDIT.mkdir(parents=True, exist_ok=True)
     assert common.frame_count(SOURCE) == END
     original_hash = common.file_md5(SOURCE)
-    board = ROOT / 'illustrations/hallucination-check-claim-v1.jpg'
-    assert common.file_md5(board) == common.file_md5(ROOT/'lessons/hallucination-4-check-claim.jpg')
+    board = ROOT / 'course-assets/hallucination/hallucination-4-check-claim.jpg'
+    assert common.file_md5(board) == common.file_md5(ROOT/'course-assets/hallucination/hallucination-4-check-claim.jpg')
     items = replacements(board)
     close_start = at(190.1)
     expected = mapped(END)
@@ -90,7 +90,7 @@ def main():
                     'rect': state.ring, 'color': state.color, 'camera': state.camera})
                 cursor += state.frames
         # Preserve the standard close's 16:9 layout, scaling its current 4K asset.
-        close_image = cv2.imread(str(ROOT/'lessons/hallucination-5-close.jpg'))
+        close_image = cv2.imread(str(ROOT/'course-assets/hallucination/hallucination-5-close.jpg'))
         close_png = work/'close.png'
         cv2.imwrite(str(close_png), cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close'] = close_png

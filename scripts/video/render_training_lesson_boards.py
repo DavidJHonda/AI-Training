@@ -5,6 +5,12 @@ Run this entry point, not the full retrofit renderer, for Training-only changes.
 The TRY IT is intentionally outside this renderer and remains unchanged.
 """
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 import shutil
 
 from render_understand_ai_retrofit_review import ROOT, board_path, render_training_boards
@@ -23,6 +29,6 @@ BOARDS = (
 if __name__ == "__main__":
     render_training_boards()
     for review_name, lesson_name in BOARDS:
-        target = ROOT / "lessons" / lesson_name
+        target = asset_path('lessons', lesson_name)
         shutil.copyfile(board_path("training", review_name), target)
         print(f"Published {target.relative_to(ROOT)}")

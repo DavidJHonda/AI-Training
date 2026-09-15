@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Rebuild recent template-heavy boards in the course's illustration-first style."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -863,8 +869,8 @@ def render_fake_reasons():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/fake-trap-four-reasons-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/fake-trap-2-four-reasons.jpg",
-        "illustrations/fake-trap-four-reasons.jpg",
-        "lessons/fake-trap-2-four-reasons-board.jpg",
+        "course-assets/fake-trap/fake-trap-four-reasons.jpg",
+        "course-assets/fake-trap/fake-trap-2-four-reasons-board.jpg",
     ])
 
 
@@ -886,8 +892,8 @@ def render_fake_checks():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/fake-trap-three-checks-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/fake-trap-3-three-checks.jpg",
-        "illustrations/fake-trap-three-checks.jpg",
-        "lessons/fake-trap-3-three-checks-board.jpg",
+        "course-assets/fake-trap/fake-trap-three-checks.jpg",
+        "course-assets/fake-trap/fake-trap-3-three-checks-board.jpg",
     ])
 
 
@@ -908,8 +914,8 @@ def render_mind():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/mind-trap-eliza-effect-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/mind-trap-1-eliza-effect.jpg",
-        "illustrations/mind-trap-eliza-effect.jpg",
-        "lessons/mind-trap-1-eliza-effect.jpg",
+        "course-assets/mind-trap/mind-trap-eliza-effect.jpg",
+        "course-assets/mind-trap/mind-trap-1-eliza-effect.jpg",
     ])
 
 
@@ -930,8 +936,8 @@ def render_flattery():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg",
-        "illustrations/flattery-trap-praise-loop.jpg",
-        "lessons/flattery-trap-2-praise-loop.jpg",
+        "course-assets/flattery-trap/flattery-trap-praise-loop.jpg",
+        "course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg",
     ])
 
 
@@ -951,8 +957,8 @@ def render_support():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/support-trap-2-real-vs-missing.jpg",
-        "illustrations/support-trap-real-vs-missing.jpg",
-        "lessons/support-trap-2-real-vs-missing.jpg",
+        "course-assets/support-trap/support-trap-real-vs-missing.jpg",
+        "course-assets/support-trap/support-trap-2-real-vs-missing.jpg",
     ])
 
 
@@ -973,8 +979,8 @@ def render_training_bias():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/training-bias-1-mechanisms-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/training-bias-1-mechanisms.jpg",
-        "illustrations/training-bias-mechanisms.jpg",
-        "lessons/training-bias-1-mechanisms-board.jpg",
+        "course-assets/training-bias/training-bias-mechanisms.jpg",
+        "course-assets/training-bias/training-bias-1-mechanisms-board.jpg",
     ])
 
 
@@ -994,7 +1000,7 @@ def render_document_moves():
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/document-trap-2-moves-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/document-trap-2-moves.jpg",
-        "lessons/document-trap-2-moves.jpg",
+        "course-assets/document-trap/document-trap-2-moves.jpg",
     ])
 
 
@@ -1014,7 +1020,7 @@ def render_guardrails():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
-        "illustrations/big-downside-guardrails.jpg",
+        "course-assets/big-downside/big-downside-guardrails.jpg",
     ])
 
 
@@ -1036,7 +1042,7 @@ def render_voice_clone():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-downside-voice-clone-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-3-voice-clone.jpg",
-        "illustrations/big-downside-voice-clone.jpg",
+        "course-assets/big-downside/big-downside-voice-clone.jpg",
     ])
 
 
@@ -1085,7 +1091,7 @@ def render_work_concepts():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/work-changes-automate-augment-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/work-changes-3-concepts.jpg",
-        "illustrations/work-changes-automate-augment.jpg",
+        "course-assets/work-changes/work-changes-automate-augment.jpg",
     ])
 
 
@@ -1105,7 +1111,7 @@ def render_work_outcomes():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/work-changes-4-what-changes.jpg",
-        "illustrations/work-changes-what-changes.jpg",
+        "course-assets/work-changes/work-changes-what-changes.jpg",
     ])
 
 
@@ -1124,7 +1130,7 @@ def render_data_center_footprint():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/data-centers-2-footprint.jpg",
-        "illustrations/data-centers-footprint.jpg",
+        "course-assets/data-centers/data-centers-footprint.jpg",
     ])
 
 
@@ -1142,7 +1148,7 @@ def render_upside_discovery():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
-        "illustrations/big-upside-discovery.jpg",
+        "course-assets/big-upside/big-upside-discovery.jpg",
     ])
 
 
@@ -1161,7 +1167,7 @@ def render_upside_help():
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
-        "illustrations/big-upside-help.jpg",
+        "course-assets/big-upside/big-upside-help.jpg",
     ])
 
 
@@ -1207,7 +1213,7 @@ def save_all(image, paths):
     for relative in paths:
         output = ROOT / relative
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=94, subsampling=0)
+        save_course_image(image, output, quality=94, subsampling=0)
         print(output.relative_to(ROOT))
 
 

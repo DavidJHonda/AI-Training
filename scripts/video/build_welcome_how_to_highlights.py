@@ -14,7 +14,7 @@ from build_welcome_path_highlights import rounded_ring
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--image", default="lessons/welcome-2-how-to-take-course.jpg"
+        "--image", default="course-assets/welcome/welcome-2-how-to-take-course.jpg"
     )
     parser.add_argument(
         "--output-dir", default="/tmp/welcome-how-to-highlights"

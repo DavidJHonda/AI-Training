@@ -4,6 +4,12 @@
 Keep current board pixels and useful Notebook scenes. Authorized narration cuts
 and measured room-tone pauses use a frame/sample-aligned edit timeline.
 """
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 import argparse
 import hashlib
@@ -65,7 +71,7 @@ def overview():
                 d.text((800,579),'Calculate what comes next.',font=face('bold',43),fill=TEAL,anchor='mm')
             takeaway='Each new word becomes part of the next prediction.'
         draw_takeaway_band(im,top=752,left=40,right=1560,text=takeaway,font=face('medium',30))
-        im.save(OUT/f'{name}.png')
+        save_course_image(im, OUT/f'{name}.png')
 
 
 def main():
@@ -125,10 +131,10 @@ def main():
     overview()
     assert close_board_copy('aiismath')==('AI builds answers with probabilities.','One prediction at a time.')
     assets={
-        'formula':ROOT/'lessons/ai-is-math-the-math-editorial.jpg',
-        'coins':ROOT/'lessons/ai-is-math-two-coins-editorial.jpg',
-        'clue':ROOT/'lessons/ai-is-math-conditional-probability-editorial.jpg',
-        'dog':ROOT/'lessons/ai-is-math-what-comes-next-editorial.jpg',
+        'formula':ROOT/'course-assets/ai-is-math/ai-is-math-the-math-editorial.jpg',
+        'coins':ROOT/'course-assets/ai-is-math/ai-is-math-two-coins-editorial.jpg',
+        'clue':ROOT/'course-assets/ai-is-math/ai-is-math-conditional-probability-editorial.jpg',
+        'dog':ROOT/'course-assets/ai-is-math/ai-is-math-what-comes-next-editorial.jpg',
         'bridge':OUT/'bridge.png',
         'loop-start':OUT/'loop-start.png',
         'loop-added':OUT/'loop-added.png',

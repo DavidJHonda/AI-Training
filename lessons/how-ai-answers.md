@@ -8,9 +8,9 @@ Let’s give AI a simple question and watch how it builds an answer, one token a
 
 ### Board 1: Before the Answer Begins
 
-**Image file:** `how-ai-answers-before-answer-begins-v2.jpg`
+**Image file:** `how-ai-answers-before-answer-begins.jpg`
 
-![Before the Answer Begins](how-ai-answers-before-answer-begins-v2.jpg)
+![Before the Answer Begins](how-ai-answers-before-answer-begins.jpg)
 
 **Teaching content:**
 
@@ -25,9 +25,9 @@ Let’s give AI a simple question and watch how it builds an answer, one token a
 
 ### Board 2: Why the Final Token Matters
 
-**Image file:** `how-ai-answers-where-answer-begins-v2.jpg`
+**Image file:** `how-ai-answers-where-answer-begins.jpg`
 
-![Why the Final Token Matters](how-ai-answers-where-answer-begins-v2.jpg)
+![Why the Final Token Matters](how-ai-answers-where-answer-begins.jpg)
 
 **Teaching content:**
 

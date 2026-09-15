@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render the standardized three-move action board for What You Can Control."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -8,8 +20,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO = Path(__file__).resolve().parents[2]
 ALT_OUT = REPO / "board-review-first-four" / "alternatives" / "start-smarter"
-CANONICAL = REPO / "illustrations" / "what-you-can-control-three-moves.jpg"
-LESSON_COPY = REPO / "lessons" / "what-you-can-control-2-moves.jpg"
+CANONICAL = REPO / "course-assets/what-you-can-control/what-you-can-control-three-moves.jpg"
+LESSON_COPY = asset_path('lessons', "what-you-can-control-2-moves.jpg")
 FONT_DIR = Path("/Users/davidobrien/Library/Fonts")
 
 W, H = 1600, 900
@@ -248,7 +260,7 @@ def main():
     CANONICAL.parent.mkdir(parents=True, exist_ok=True)
     output = ALT_OUT / "what-you-can-control-three-moves.jpg"
     for path in (output, CANONICAL, LESSON_COPY):
-        image.save(path, quality=95, subsampling=0)
+        save_course_image(image, path, quality=95, subsampling=0)
         print(f"Built {path}")
 
 

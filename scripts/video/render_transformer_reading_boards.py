@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render the matched before-and-after reading boards for Transformer."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
@@ -98,13 +110,13 @@ def rounded_photo(canvas, source, box, radius=16):
 
 def save(image, filename):
     outputs = [
-        ROOT / "lessons" / filename,
-        ROOT / "illustrations" / filename,
+        asset_path('lessons', filename),
+        asset_path('illustrations', filename),
         ROOT / "board-review-first-four" / "current-selected" / "understand-ai" / filename,
     ]
     for output in outputs:
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=95, subsampling=0)
+        save_course_image(image, output, quality=95, subsampling=0)
         print(f"Built {output}")
 
 
@@ -168,7 +180,7 @@ def build_now():
     centered(draw, (800, 117), "Today's AI reads every word at once", font("heavy", 44))
     rounded(draw, (80, 172, 1520, 736), 16, WHITE)
 
-    source = Image.open(ROOT / "illustrations" / "transformer.jpg").convert("RGB")
+    source = Image.open(ROOT / "course-assets/transformer/transformer.jpg").convert("RGB")
     rounded_photo(image, source, (110, 202, 844, 706), 16)
 
     rounded(draw, (884, 202, 1490, 706), 16, PALE, RULE, 2)

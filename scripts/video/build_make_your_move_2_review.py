@@ -5,6 +5,12 @@ Preserve the 3:04–3:15 breather. Interleave exact lesson career cards with
 five short source-graphic cutaways. Geometry is in the actual asset's pixels,
 and audio edits are independent of picture cuts, inside measured room tone.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import hashlib
 import json
@@ -31,10 +37,10 @@ END = 9189
 # 291.9338–292.6634 / 296.2168–296.8734;
 # 299.0324–299.7750 / 301.4034–302.0051.
 CUTS = ((3789, 4164), (8769, 8895), (8982, 9051))
-BOARDS = {key: ROOT / f'lessons/make-your-move-{suffix}.jpg' for key, suffix in (
+BOARDS = {key: asset_path('lessons', f'make-your-move-{suffix}.jpg') for key, suffix in (
     ('a', '1-careers-a'), ('b', '1-careers-b'),
     ('skills', '2-skills'), ('actions', '3-actions'), ('close', '4-close'))}
-BOARDS['note'] = ROOT / 'illustrations/make-your-move-note-v1.png'
+BOARDS['note'] = ROOT / 'course-assets/make-your-move/make-your-move-1-note.jpg'
 COLORS = ('#4f2fc4', '#1652f0', '#0e8f86', '#a9760c')
 CAREERS = ((40, 127, 525, 941), (557, 127, 1043, 941), (1075, 127, 1560, 941))
 CARDS = ((40, 127, 784, 718), (816, 127, 1560, 718),

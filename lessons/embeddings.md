@@ -8,9 +8,9 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 ### Board 1: An ID Identifies You. It Doesn’t Describe You.
 
-**Image file:** `embeddings-student-id-notebook.jpg`
+**Image file:** `embeddings-student-id-editorial.jpg`
 
-![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id-notebook.jpg)
+![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id-editorial.jpg)
 
 **Teaching content:**
 

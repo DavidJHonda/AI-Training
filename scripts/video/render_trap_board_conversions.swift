@@ -128,6 +128,7 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
         let url = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try jpeg.write(to: url)
+        try finalizeCourseCredit(url)
         print("Built \(url.path)")
     }
 }
@@ -139,6 +140,7 @@ func promote(_ sourcePath: String, to relativePaths: [String]) throws {
         let output = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: output.deletingLastPathComponent(), withIntermediateDirectories: true)
         try data.write(to: output)
+        try finalizeCourseCredit(output)
         print("Built \(output.path)")
     }
 }
@@ -301,8 +303,8 @@ func renderMindBoard() throws {
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/avoid-traps/mind-trap-eliza-effect-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/mind-trap-1-eliza-effect.jpg",
-        "illustrations/mind-trap-eliza-effect.jpg",
-        "lessons/mind-trap-1-eliza-effect.jpg"
+        "course-assets/mind-trap/mind-trap-eliza-effect.jpg",
+        "course-assets/mind-trap/mind-trap-1-eliza-effect.jpg"
     ])
 }
 
@@ -348,8 +350,8 @@ func renderFakeReasonsBoard() throws {
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/avoid-traps/fake-trap-four-reasons-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/fake-trap-2-four-reasons.jpg",
-        "illustrations/fake-trap-four-reasons.jpg",
-        "lessons/fake-trap-2-four-reasons-board.jpg"
+        "course-assets/fake-trap/fake-trap-four-reasons.jpg",
+        "course-assets/fake-trap/fake-trap-2-four-reasons-board.jpg"
     ])
 }
 
@@ -360,14 +362,26 @@ if CommandLine.arguments.contains("--mind-only") {
     try renderFakeReasonsBoard()
     try promote(
         "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
-        to: ["board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg", "illustrations/flattery-trap-praise-loop.jpg", "lessons/flattery-trap-2-praise-loop.jpg"]
+        to: ["board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg", "course-assets/flattery-trap/flattery-trap-praise-loop.jpg", "course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg"]
     )
     try promote(
         "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",
-        to: ["board-review-first-four/current-selected/avoid-traps/support-trap-2-real-vs-missing.jpg", "illustrations/support-trap-real-vs-missing.jpg", "lessons/support-trap-2-real-vs-missing.jpg"]
+        to: ["board-review-first-four/current-selected/avoid-traps/support-trap-2-real-vs-missing.jpg", "course-assets/support-trap/support-trap-real-vs-missing.jpg", "course-assets/support-trap/support-trap-2-real-vs-missing.jpg"]
     )
     try promote(
         "board-review-first-four/alternatives/avoid-traps/fake-trap-three-checks-alternative.jpg",
-        to: ["board-review-first-four/current-selected/avoid-traps/fake-trap-3-three-checks.jpg", "illustrations/fake-trap-three-checks.jpg", "lessons/fake-trap-3-three-checks-board.jpg"]
+        to: ["board-review-first-four/current-selected/avoid-traps/fake-trap-3-three-checks.jpg", "course-assets/fake-trap/fake-trap-three-checks.jpg", "course-assets/fake-trap/fake-trap-3-three-checks-board.jpg"]
     )
+}
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
 }

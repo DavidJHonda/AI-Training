@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render and promote the Document Trap retrieval-moves board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 from shutil import copy2
 
@@ -110,11 +122,11 @@ def render():
     draw.text((lockup_x + 68, 818), takeaway, font=takeaway_face, fill=NAVY, anchor="lm")
 
     alternative = ROOT / "board-review-first-four/alternatives/avoid-traps/document-trap-2-moves-alternative.jpg"
-    lesson = ROOT / "lessons/document-trap-2-moves.jpg"
+    lesson = asset_path('lessons', 'document-trap-2-moves.jpg')
     selected = ROOT / "board-review-first-four/current-selected/avoid-traps/document-trap-2-moves.jpg"
     alternative.parent.mkdir(parents=True, exist_ok=True)
     selected.parent.mkdir(parents=True, exist_ok=True)
-    image.save(alternative, quality=94, subsampling=0)
+    save_course_image(image, alternative, quality=94, subsampling=0)
     copy2(alternative, lesson)
     copy2(alternative, selected)
     print(alternative.relative_to(ROOT))

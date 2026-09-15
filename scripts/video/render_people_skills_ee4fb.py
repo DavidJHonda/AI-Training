@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Render the canonical People Skills EE-4FB board and its exact prep copy."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -20,8 +26,8 @@ ART_SHEET = (
     ROOT
     / "scripts/video/assets/people-skills-ee4fb/art-sheet-v2.png"
 )
-PAGE_OUTPUT = ROOT / "illustrations/people-skills-four-ways-v2.jpg"
-PREP_OUTPUT = ROOT / "lessons/people-skills-2-four-ways.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/people-skills/people-skills-2-four-ways.jpg"
+PREP_OUTPUT = ROOT / "course-assets/people-skills/people-skills-2-four-ways.jpg"
 REVIEW_OUTPUT = ROOT / "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-ee4fb-review.jpg"
 
 WIDTH = 1600
@@ -227,7 +233,7 @@ def main() -> None:
     PAGE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     PREP_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     REVIEW_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUTPUT, PREP_OUTPUT)
     shutil.copyfile(PAGE_OUTPUT, REVIEW_OUTPUT)
     print(f"wrote {PAGE_OUTPUT} ({image.width}x{image.height})")

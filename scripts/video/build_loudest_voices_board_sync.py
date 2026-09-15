@@ -9,6 +9,12 @@ never overwritten.
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -22,8 +28,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "videos/loudest-voices.mp4"
 OUTPUT = ROOT / "videos/loudest-voices-v2.mp4"
-BOARD_ONE = ROOT / "lessons/loudest-voices-1-three-voices.jpg"
-BOARD_TWO = ROOT / "lessons/loudest-voices-2-missed-calls.jpg"
+BOARD_ONE = asset_path('lessons', 'loudest-voices-1-three-voices.jpg')
+BOARD_TWO = asset_path('lessons', 'loudest-voices-2-missed-calls.jpg')
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30

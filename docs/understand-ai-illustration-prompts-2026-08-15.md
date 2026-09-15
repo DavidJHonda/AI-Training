@@ -2,8 +2,8 @@
 
 Generated with the built-in image generation tool. The two source images below were supplied as identity and visual-style references only, not edit targets:
 
-- `illustrations/welcome.jpg`
-- `illustrations/does-school-matter.jpg`
+- `course-assets/welcome/welcome.jpg`
+- `course-assets/beyond-the-average/does-school-matter.jpg`
 
 All selected images use a 3:2 landscape composition and were exported as 1200×800 JPEGs. The shared direction was: preserve the recurring hosts (Luke, curly light-brown hair, green hockey jersey 4; Nate, dark curly hair, green hockey jersey 96); warm cinematic editorial photorealism; tactile brass-and-glass educational machinery; forest green, cream, and amber; believable faces and hands; exactly two people unless a puppy is specified; no technology-company logos, watermarks, brains, humanoid robots, or dense infographic text.
 

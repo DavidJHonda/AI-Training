@@ -15,6 +15,12 @@ The shipped ``videos/big-upside.mp4`` is never overwritten. Review output is
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -43,10 +49,10 @@ TEAL = "#0e8f86"
 GREEN = "#087f47"
 
 BOARDS = {
-    "timeline": ROOT / "lessons/big-upside-1-hassabis.jpg",
-    "discovery": ROOT / "lessons/big-upside-2-discovery.jpg",
-    "help": ROOT / "lessons/big-upside-3-help.jpg",
-    "close": ROOT / "lessons/big-upside-4-close.jpg",
+    "timeline": asset_path('lessons', 'big-upside-1-hassabis.jpg'),
+    "discovery": ROOT / "course-assets/big-upside/big-upside-2-discovery.jpg",
+    "help": ROOT / "course-assets/big-upside/big-upside-3-help.jpg",
+    "close": ROOT / "course-assets/big-upside/big-upside-4-close.jpg",
 }
 
 

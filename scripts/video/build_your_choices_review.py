@@ -9,6 +9,12 @@ own board cut carried through choice 2 and the model addition; Choose How It Wor
 research. Rings are the whole card (image + text panel) in each card's own heading accent. Standard close from the
 engine close card's arrival cut; Notebook's drawn scenes elsewhere kept; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -17,7 +23,7 @@ from editspec_build import Build, fr, PURPLE, BLUE, TEAL, AMBER
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/your-choices-1.mp4'
 OUT = ROOT / 'video-audit/your-choices-repair-2026-09-11'; DEST = ROOT / 'videos/your-choices-v3.mp4'
-B = {k: ROOT / f'lessons/your-choices-{k}.jpg' for k in ('1-choose-tool', '2-choose-how')}
+B = {k: asset_path('lessons', f'your-choices-{k}.jpg') for k in ('1-choose-tool', '2-choose-how')}
 # whole-card boxes (image + text panel), measured from the page assets: x 41-783 / 817-1559
 CARDS1 = [[41, 127, 783, 797], [817, 127, 1559, 797]]
 CARDS2 = [[41, 127, 782, 841], [817, 127, 1558, 841]]

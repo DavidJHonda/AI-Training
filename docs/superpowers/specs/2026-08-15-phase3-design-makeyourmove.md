@@ -7,7 +7,7 @@
 original, so nearly every line below is parked copy moving verbatim. New copy is confined to one
 opening bridge, one compressed thesis paragraph, one promoted landing beat, and the two required
 citation fixes. Verbatim source: `git show af5cd3c:index.html`, `BuildEdgeSection` (lines
-12349–12620). Illustration `illustrations/your-edge.jpg` still exists, currently unreferenced;
+12349–12620). Illustration `course-assets/shared/your-edge.jpg` still exists, currently unreferenced;
 this lesson rewires it.
 
 ---
@@ -91,7 +91,7 @@ it"), so in prose it is a restatement.
   PARADOX", serif headline "AI didn't change the value of depth. It made it *louder.*", three
   cards: 🪞 The floor / ⚙️ The middle / 🎯 The edge, bodies verbatim. It demonstrates the squeeze
   paragraph above by showing the three positions rather than asserting them again.
-- **Illustration — rewire** `illustrations/your-edge.jpg`, alt verbatim from the parked source: "A
+- **Illustration — rewire** `course-assets/shared/your-edge.jpg`, alt verbatim from the parked source: "A
   person in an I-have-the-edge hoodie at a mixing console labeled Clarify, Context, Standards,
   Taste, Purpose, turning generic AI output into polished work, over books labeled Depth, Judgment,
   and Experience."

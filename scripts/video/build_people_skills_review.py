@@ -9,6 +9,12 @@ measured silence; Four Ways to Practice (faces; not uploaded; 2x2 on the house s
 ("To build those skills…") at Notebook's own cut and ends at the first cut; Notebook's AI Suggestion / Human Execution scene carries the "AI can suggest what to say" line. Five pauses at
 idea boundaries only. Standard close from the cut that removes the engine's card; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,7 +26,7 @@ import cv2, numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/people-skills-1.mp4'
 OUT = ROOT / 'video-audit/people-skills-repair-2026-09-12'; DEST = ROOT / 'videos/people-skills-v3.mp4'
-B = {k: ROOT / f'lessons/people-skills-{k}.jpg' for k in ('1-why-matter', '2-four-ways')}
+B = {k: asset_path('lessons', f'people-skills-{k}.jpg') for k in ('1-why-matter', '2-four-ways')}
 
 def cards_grid(path, n_expected):
     """Whole-card boxes for a grid of cards: white panels locate each card; the card top is found by walking up from

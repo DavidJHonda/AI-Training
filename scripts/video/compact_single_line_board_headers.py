@@ -8,6 +8,18 @@ and non-board artwork are skipped. Re-running the script is safe because compact
 boards no longer match the y=172 body-panel test.
 """
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from argparse import ArgumentParser
 from pathlib import Path
 
@@ -21,8 +33,8 @@ ROOTS = (
     ROOT / "board-review-first-four/alternatives",
     ROOT / "board-review-first-four/current-selected",
     ROOT / "board-review-first-four/standardized/start-smarter",
-    ROOT / "illustrations",
-    ROOT / "lessons",
+    asset_dir('illustrations'),
+    asset_dir('lessons'),
 )
 
 
@@ -148,9 +160,9 @@ def compact(path, apply=False):
     image.paste(title, (bounds[0], title_y), mask)
 
     if path.suffix.lower() == ".png":
-        image.save(path)
+        save_course_image(image, path)
     else:
-        image.save(path, quality=94, subsampling=0)
+        save_course_image(image, path, quality=94, subsampling=0)
     return True, "updated"
 
 

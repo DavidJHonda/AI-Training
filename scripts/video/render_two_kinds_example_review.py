@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
@@ -13,7 +19,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW_OUTPUT = ROOT / "board-review-what-is-ai/same-question-two-kinds.jpg"
-LESSON_OUTPUT = ROOT / "lessons/what-is-ai-2-same-goal.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/what-is-ai/what-is-ai-2-same-goal.jpg"
 
 WIDTH = 1600
 HEIGHT = 1550
@@ -215,7 +221,7 @@ def render() -> None:
     )
     for output in (REVIEW_OUTPUT, LESSON_OUTPUT):
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=94, subsampling=0)
+        save_course_image(image, output, quality=94, subsampling=0)
 
 
 if __name__ == "__main__":

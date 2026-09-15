@@ -18,6 +18,12 @@ Notebook Works (faces; not uploaded; compact, arriving at "Gemini Notebook shoul
 banner at the roll's paraphrase), Your Four Moves (2x2, dense, dive per move, pull-back, banner at "Executing these four moves…").
 Five pauses at idea boundaries. No photographs. Standard close from the last cut; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -29,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/learn-with-ai-1.mp4'
 SRC2 = ROOT / 'Prompts/learn-with-ai-2.mp4'
 OUT = ROOT / 'video-audit/learn-with-ai-repair-2026-09-14'; DEST = ROOT / 'videos/learn-with-ai-v5.mp4'   # v3 shipped 2026-09-14; v4 = v3 + two roll 2 grafts under Which Study Tool; v5 = v4 + Notebook drawings between the boards (EDIT-SPEC 8b, David 2026-09-14)
-B = {k: ROOT / f'lessons/learn-with-ai-{k}.jpg' for k in ('1-study-tools', '2-how-it-works', '3-four-moves')}
+B = {k: asset_path('lessons', f'learn-with-ai-{k}.jpg') for k in ('1-study-tools', '2-how-it-works', '3-four-moves')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

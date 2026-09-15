@@ -10,7 +10,7 @@ AUDIT=ROOT/'video-audit/support-trap-hybrid-2026-09-07'
 OUT=ROOT/'Prompts/support-trap-patched.mp4'
 SOURCES=[ROOT/'Prompts/support-trap.mp4',ROOT/'videos/support-trap.mp4']
 P,B,A,T,R='#6e51ff','#1652f0','#a9760c','#0e8f86','#c41f28'
-BOARDS={'compare':ROOT/'illustrations/support-trap-comparison-v2.jpg','role':ROOT/'illustrations/support-trap-real-vs-missing-v2.jpg','danger':ROOT/'illustrations/support-trap-danger-v2.jpg'}
+BOARDS={'compare':ROOT/'course-assets/support-trap/support-trap-comparison-v2.jpg','role':ROOT/'course-assets/support-trap/support-trap-2-role.jpg','danger':ROOT/'course-assets/support-trap/support-trap-3-danger.jpg'}
 states=[];chunks=[]
 def keep(src,a,b,board=None,label='native',rect=None,color=P,camera=None,move=0):
     chunks.append(dict(src=src,a=at(a),b=at(b),board=board,label=label,rect=rect,color=color,camera=camera,move=move))
@@ -54,9 +54,9 @@ keep(0,150.0,158.8,'close','standard-close')
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def main():
     AUDIT.mkdir(parents=True,exist_ok=True);(AUDIT/'qa').mkdir(exist_ok=True)
-    protected={str(p):sha(p) for p in SOURCES+list(BOARDS.values())+[ROOT/'lessons/support-trap-4-close.jpg']}
+    protected={str(p):sha(p) for p in SOURCES+list(BOARDS.values())+[ROOT/'course-assets/support-trap/support-trap-4-close.jpg']}
     canvases={k:v.build_canvas(p) for k,p in BOARDS.items()}
-    close=cv2.resize(cv2.imread(str(ROOT/'lessons/support-trap-4-close.jpg')),(1600,900),interpolation=cv2.INTER_AREA)
+    close=cv2.resize(cv2.imread(str(ROOT/'course-assets/support-trap/support-trap-4-close.jpg')),(1600,900),interpolation=cv2.INTER_AREA)
     picture=AUDIT/'picture.mp4'
     encoder=subprocess.Popen([FF,'-y','-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','-','-an','-c:v','libx264','-pix_fmt','yuv420p','-profile:v','high','-level:v','3.1','-crf','18','-preset','fast',str(picture)],stdin=subprocess.PIPE)
     # Sequential decode and cache only needed source frames: supports donor

@@ -43,6 +43,6 @@ Checked using the dimensions already assumed in the text, not verified physical 
 - Memory board title ends in a period. User removed similar terminal periods elsewhere. Its banner largely repeats its title and should be reconsidered with the memory rewrite.
 - Math board uses the standard core colors but has a large blank gap before totals. More compact cards would emphasize multiplication and scale. Content accuracy takes priority.
 - Dedicated renderers are scripts/video/render_one_more_thing_same_odds_board.py, render_one_more_thing_memory_board.py, render_one_more_thing_math_board.py. Inspect their entry points before invoking; they can copy directly to lesson/live assets. The broad retrofit renderer only copies these assets; do not run render_all().
-- Current live images: illustrations/one-more-thing-same-odds-v2.jpg?v=20260905sameodds2; illustrations/one-more-thing-memory-v2.jpg?v=20260905memory2; illustrations/one-more-thing-math-v2.jpg?v=20260905math2.
-- Markdown assets: lessons/one-more-thing-1-draws.jpg; lessons/one-more-thing-2-two-sides.jpg; lessons/one-more-thing-3-bill.jpg.
+- Current live images: course-assets/one-more-thing/one-more-thing-1-draws.jpg?v=20260905sameodds2; course-assets/one-more-thing/one-more-thing-memory-v2.jpg?v=20260905memory2; course-assets/one-more-thing/one-more-thing-3-bill.jpg?v=20260905math2.
+- Markdown assets: course-assets/one-more-thing/one-more-thing-1-draws.jpg; lessons/one-more-thing-2-two-sides.jpg; course-assets/one-more-thing/one-more-thing-3-bill.jpg.
 - Video metadata points to videos/one-more-thing.mp4, five minutes. Video was not reviewed and must not be reported aligned with future edits.

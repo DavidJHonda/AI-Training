@@ -24,7 +24,7 @@ def replacements():
     def add(name,asset,points,states):
         points=tuple(at(t) for t in points)
         result.append((points[0],points[-1],common.make_leg(name,asset,points,tuple(states))))
-    add('gatsby',ROOT/'illustrations/flattery-trap-comparison-v2.jpg',
+    add('gatsby',ROOT/'course-assets/flattery-trap/flattery-trap-comparison-v2.jpg',
         (28.5,32.8,47.4,52.6,64.5,71.9,80.6),(
         ('establish',None,VP,None,0),
         ('essay',(40,112,1560,351),P,(800,232,1680),30),
@@ -32,7 +32,7 @@ def replacements():
         ('empty-praise',(40,1040,784,1414),A,(412,1227,1100),30),
         ('useful-feedback',(816,383,1560,1040),B,(1188,712,1330),36),
         ('takeaway',(40,1454,1560,1542),VP,(800,1498,1680),30)))
-    add('praise-loop',ROOT/'illustrations/flattery-trap-praise-loop-v2.jpg',
+    add('praise-loop',ROOT/'course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg',
         (87.566667,101.5,109.6,119.1,137.166667),(
         ('establish',None,VP,None,0),
         ('people-rank',(45,155,415,690),P,None,0),
@@ -51,19 +51,19 @@ def replacements():
     cv2.imwrite(str(asset),frame)
     add('native-mirror',asset,(137.166667,145.333333),(
         ('mirror-illustration',None,VP,(640,360,1250),210),))
-    add('sycophancy',ROOT/'illustrations/flattery-trap-sycophancy-v2.jpg',
+    add('sycophancy',ROOT/'course-assets/flattery-trap/flattery-trap-3-sycophancy.jpg',
         (162.066667,167.7,176.8,183.3),(
         ('establish',None,VP,None,0),
         ('brilliant-and-performance-art',(40,218,1560,402),P,None,0),
         ('viral-gold',(40,408,1560,615),P,None,0)))
-    add('five-moves',ROOT/'illustrations/flattery-trap-five-moves-v2.jpg',
+    add('five-moves',ROOT/'course-assets/flattery-trap/flattery-trap-4-five-moves.jpg',
         (210.633333,212.95,218.05,223.1,227.0,231.266667),(
         ('establish',None,VP,None,0),
         ('ask-dont-tell',(40,139,1560,317),VP,(800,228,1700),24),
         ('ask-for-gaps',(40,317,1560,536),VP,(800,426.5,1700),24),
         ('rubric',(40,536,1560,755),VP,(800,645.5,1700),24),
         ('other-side',(40,755,1560,974),VP,(800,864.5,1700),24)))
-    add('standing-instruction',ROOT/'illustrations/flattery-trap-five-moves-v2.jpg',
+    add('standing-instruction',ROOT/'course-assets/flattery-trap/flattery-trap-4-five-moves.jpg',
         (242.233333,255.25,261.2,271.8,276.0),(
         ('introduce-standing-instruction',None,VP,(800,1062,1700),0),
         ('standing-row',(40,974,1560,1150),VP,(800,1062,1700),0),
@@ -141,7 +141,7 @@ def main():
                 cursor+=state.frames
         close_start=at(276.0)
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'lessons/flattery-trap-5-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/flattery-trap/flattery-trap-5-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

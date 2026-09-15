@@ -43,9 +43,9 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "data_center": ROOT / "lessons/data-centers-1-data-center.jpg",
-    "footprint": ROOT / "lessons/data-centers-2-footprint.jpg",
-    "close": ROOT / "lessons/data-centers-3-close.jpg",
+    "data_center": ROOT / "course-assets/data-centers/data-centers-1-data-center.jpg",
+    "footprint": ROOT / "course-assets/data-centers/data-centers-2-footprint.jpg",
+    "close": ROOT / "course-assets/data-centers/data-centers-3-close.jpg",
 }
 
 

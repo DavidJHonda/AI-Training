@@ -13,6 +13,12 @@ is ``videos/rise-of-agents-v2.mp4``.
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -41,11 +47,11 @@ TEAL = "#0e8f86"
 GREEN = "#0f7a4a"
 
 BOARDS = {
-    "gps": ROOT / "lessons/rise-of-agents-1-gps.jpg",
-    "comparison": ROOT / "lessons/rise-of-agents-2-highlights.jpg",
-    "loop": ROOT / "lessons/rise-of-agents-3-loop.jpg",
-    "rogue": ROOT / "lessons/rise-of-agents-4-rogue.jpg",
-    "close": ROOT / "lessons/rise-of-agents-5-close.jpg",
+    "gps": ROOT / "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
+    "comparison": asset_path('lessons', 'rise-of-agents-2-highlights.jpg'),
+    "loop": ROOT / "course-assets/rise-of-agents/rise-of-agents-3-loop.jpg",
+    "rogue": ROOT / "course-assets/rise-of-agents/rise-of-agents-4-rogue.jpg",
+    "close": ROOT / "course-assets/rise-of-agents/rise-of-agents-5-close.jpg",
 }
 
 

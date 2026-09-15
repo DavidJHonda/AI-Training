@@ -5,6 +5,12 @@ Base: Prompts/vector-space-4.mp4 (or Prompts/vector-space-4-clean.mp4 if a water
 Output: videos/vector-space-v3.mp4. Audit: video-audit/vector-space-repair-2026-09-11/.
 Six boards from their own source cuts; Notebook scenes between them kept; seven pauses; standard close.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -15,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/vector-space-4-clean.mp4'
 if not SRC.exists(): SRC = ROOT / 'Prompts/vector-space-4.mp4'
 OUT = ROOT / 'video-audit/vector-space-repair-2026-09-11'; DEST = ROOT / 'videos/vector-space-v3.mp4'
-ILL = ROOT / 'illustrations'
+ILL = asset_dir('illustrations')
 ORANGE = '#b96108'  # the boards' own NEW POSITION / MYSTERY DRINK callout accent (sampled from the asset border)
 A = dict(cities=ILL / 'vector-space-cities.jpg', closest=ILL / 'vector-space-cities-closest.jpg', taste=ILL / 'vector-space-taste-profile.jpg',
          nbhd=ILL / 'vector-space-neighborhoods.jpg', drink=ILL / 'vector-space-closest-drink.jpg', ctx=ILL / 'vector-space.jpg')

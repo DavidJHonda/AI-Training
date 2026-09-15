@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 PORT="${PORT:-8765}"
 DBG="${DBG:-9333}"
-OUT="lessons"
+OUT="tmp/lesson-pdfs"
 mkdir -p "$OUT"
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &

@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -13,8 +19,8 @@ from editorial_typography import face
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "scripts/video/assets/evaluate-results/move-base.jpg"
-PAGE_OUTPUT = ROOT / "illustrations/evaluate-the-results-4-move.jpg"
-LESSON_OUTPUT = ROOT / "lessons/evaluate-the-results-4-move.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-4-move.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-4-move.jpg"
 
 WHITE = "#ffffff"
 BODY = "#3a3550"
@@ -60,7 +66,7 @@ def render() -> Image.Image:
 
 def main() -> None:
     image = render()
-    image.save(PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUTPUT, LESSON_OUTPUT)
     print(f"wrote {PAGE_OUTPUT.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {LESSON_OUTPUT.relative_to(ROOT)}")

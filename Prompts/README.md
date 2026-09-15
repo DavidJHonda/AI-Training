@@ -1,22 +1,18 @@
 # Video Production — Prompts Directory
 
-Current workflow (updated 2026-09-10; earlier production notes below are historical where superseded):
+Current workflow (cleanup policy updated 2026-09-15; earlier production notes below are historical where superseded):
 
 For what a finished edit must contain, read [the edit spec](../scripts/video/EDIT-SPEC.md); for editing recipes and owner preferences, [the video production README](../scripts/video/README.md).
 For the current session's unfinished work, see [the September 10 handoff](../docs/video-handoff-2026-09-10.md).
 
 1. Prepare one current lesson Markdown, its canonical JPGs, and one self-contained prompt. The live lesson is the content authority. Markdown must include the teaching inside the boards, not just image captions, and every worked-example answer, comparison result, and essential clause as a prose sentence (owner rule 2026-09-11: Notebook speaks prose and skips tables and banners; see "Speak the answers" in the production README). The prompt includes the never-ask-the-viewer and speak-the-result rules; `Prompts/vector-space-video-prompt.txt` is the reference. Avoid Traps has an exact checklist and scene plan in [AVOID-TRAPS-VIDEO-KITS.md](AVOID-TRAPS-VIDEO-KITS.md).
-2. Upload the lesson Markdown and only the JPGs identified as Notebook sources. Do **not** upload production instructions, manifests, or older lesson PDFs. `Master Prompt.md` is retired (archived under `archive/video-specs-retired-2026-09-10/`); every prompt is self-contained. Visible-face boards remain in the course and are inserted after generation; reserve their narration and keep their numbered slots rather than renumbering.
+2. Upload the lesson Markdown and only the JPGs identified as Notebook sources. Do **not** upload production instructions, manifests, or older lesson PDFs. `Master Prompt.md` is retired; every prompt is self-contained. Visible-face boards remain in the course and are inserted after generation; reserve their narration and keep their numbered slots rather than renumbering.
 3. Before generating, confirm **Visible watermarking is off** in the Gemini Notebook profile menu (Ultra account; owner decision 2026-09-11, see EDIT-SPEC §8). Paste the per-lesson prompt into the video customization box. Keep it under **500 words** and include the necessary production rules there. The limit applies to prompts written on or after 2026-09-04; an older, longer prompt is rewritten to the limit when its lesson is next rerolled, not before. Most use `<slug>-video-prompt.txt`; honor a kit's explicitly listed filename when it differs.
 4. Save the raw generation in `Prompts/<slug>-reroll.mp4` for evaluation. Review teaching against the current lesson before changing any live video. Notebook highlights and close visuals are normal post-production replacements. Good narration may be edited and repaired; a lesson change does not automatically require a reroll.
 5. Preserve useful Notebook graphics and motion. Insert exact lesson boards for the teaching spans that benefit from them, with course-native highlights where appropriate, and apply the standard close. Check final-render transition frames and audio joins for flashes, clipped words, and residual breaths. Only after approval replace the existing live filename. Do not change `index.html` as part of materials preparation.
-6. Keep active reroll materials available until the production pass is finished. Do not automatically delete notebooks, candidates, or current source packages. Archive superseded materials recoverably within the requested cleanup scope, recording original paths.
+6. Keep active reroll materials available until the production pass is finished. Do not automatically delete notebooks, candidates, or current source packages. Remove superseded materials within the owner-authorized cleanup scope and record removed paths. Do not create an archive directory.
 
-Owner cleanup clarification (2026-09-10): keep retired boards outside the active
-`lessons/` upload directory. When David asks to delete old video rolls after shipping,
-verify the live replacement first and delete within that authorized scope; he prefers
-rerolling to keeping rejected videos as a donor library. This does not authorize
-automatic deletion of pending review candidates.
+Owner cleanup policy (2026-09-15): the current lesson is the content authority. Keep current finished boards in `course-assets/<lesson>/`, current lesson text in `lessons/`, and active prompts and raw generations in `Prompts/`. Keep live videos and pending video versions in `videos/`. Superseded images are not retained solely because older videos or scripts reference them. Use current lesson boards when updating videos and recheck highlight coordinates. The former `archive/` directory was removed; do not recreate it. Verify replacements before owner-authorized cleanup. Preserve pending review candidates until their production pass is resolved.
 
 Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-Work.md`, `opener-understand` → `lessons/Opener-Understand.md`, `opener-avoid` → `lessons/Opener-Avoid.md`, `opener-embrace` → `lessons/Opener-Embrace.md`, and `opener-build` → `lessons/Opener-Build.md`. The Build Your Skills opener prompt is `Prompts/opener-build-video-prompt.txt`.
 
@@ -24,9 +20,9 @@ Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-
 ## Repository status
 
 - `LESSON_VIDEOS` in `index.html` is the source of truth for standard videos offered in the live course. Inspect the current entries rather than relying on historical lesson counts.
-- A prompt remaining in this directory does not by itself mean its video is pending, current, or unshipped. Prompts may be retained for a re-roll or new production pass; clean shipped source bundles may instead live under `archive/<slug>/`.
+- A prompt remaining in this directory does not by itself mean its video is pending, current, or unshipped. Prompts may be retained for a re-roll or new production pass. Prepare source bundles from current `lessons/` text and `course-assets/` boards.
 - Per-video review state and flags live in the external tracker described below. Check that tracker, the current `LESSON_VIDEOS` entry, the live lesson, and recent commits before deciding what needs production work.
-- **ai-brain-break** (formerly transformers-quiz, replaced 2026-09-11) is a special case outside the standard system: its video supports the TransformerClaimsTryIt quiz in the Layers lesson and is embedded inside that activity, not in WatchOverview. `Prompts/ai-brain-break-source.md` is deliberately false because students are meant to debunk its seven claims; it is exempt from the standard close and does not use the normal lesson source bundle. The old six-claim version is archived in `archive/transformers-quiz/`.
+- **ai-brain-break** (formerly transformers-quiz, replaced 2026-09-11) is a special case outside the standard system: its video supports the TransformerClaimsTryIt quiz in the Layers lesson and is embedded inside that activity, not in WatchOverview. `Prompts/ai-brain-break-source.md` is deliberately false because students are meant to debunk its seven claims; it is exempt from the standard close and does not use the normal lesson source bundle. The old six-claim materials were removed during cleanup.
 
 ## Status tracking
 
@@ -40,7 +36,7 @@ tracker rows.
 
 Evaluation is narration-only (owner rule 2026-09-10): `scripts/video/NARRATION-REVIEW.md`
 is the single authority, with a KEEP / REPAIR / REROLL verdict. The numeric rubric
-and its CSV are retired to `archive/video-specs-retired-2026-09-10/`. Production
+and its CSV are retired and were removed during cleanup. Production
 quality is verified by the ship checklist in `scripts/video/README.md`.
 
 ## Rules learned the hard way

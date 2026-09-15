@@ -8,6 +8,12 @@ cards, status labels, arrows, and takeaway bands are deterministic.
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -113,8 +119,8 @@ CARD_BOARDS = (
             Card("AI Helps Build AI", "The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-accelerants/art-sheet.png",
-        page_output="illustrations/pace-of-change-accelerants-v5.jpg",
-        prep_output="lessons/pace-of-change-2-accelerants.jpg",
+        page_output="course-assets/pace-of-change/pace-of-change-2-accelerants.jpg",
+        prep_output="course-assets/pace-of-change/pace-of-change-2-accelerants.jpg",
         accents=(PURPLE, BLUE, TEAL),
     ),
     CardBoard(
@@ -125,8 +131,8 @@ CARD_BOARDS = (
             Card("Self-Improving AI", "An AI improves its own design. The stronger version then does it again, creating a loop with little or no human direction.", "NOT DEMONSTRATED"),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-ai-improvement/art-sheet.png",
-        page_output="illustrations/pace-of-change-future-research-v5.jpg",
-        prep_output="lessons/pace-of-change-3-future-research.jpg",
+        page_output="course-assets/pace-of-change/pace-of-change-3-future-research.jpg",
+        prep_output="course-assets/pace-of-change/pace-of-change-3-future-research.jpg",
         takeaway="One is human-directed. The other would be a self-reinforcing loop.",
         accents=(TEAL, PURPLE),
     ),
@@ -138,8 +144,8 @@ CARD_BOARDS = (
             Card("Superintelligence (ASI)", "AI exceeding the best humans across nearly every cognitive field. Nobody knows whether it is possible.", "HYPOTHETICAL"),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-ai-capability/art-sheet.png",
-        page_output="illustrations/pace-of-change-future-capability-v5.jpg",
-        prep_output="lessons/pace-of-change-4-future-capability.jpg",
+        page_output="course-assets/pace-of-change/pace-of-change-4-future-capability.jpg",
+        prep_output="course-assets/pace-of-change/pace-of-change-4-future-capability.jpg",
         takeaway="Nobody knows whether AI will reach either milestone.",
         accents=(BLUE, RED),
     ),
@@ -152,8 +158,8 @@ CARD_BOARDS = (
             Card("If AI Surpasses People", "The people setting the rules could be less capable than the system they are trying to control."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-downside-guardrails/art-sheet.png",
-        page_output="illustrations/big-downside-guardrails-v3.jpg",
-        prep_output="lessons/big-downside-1-worries.jpg",
+        page_output="course-assets/big-downside/big-downside-1-guardrails.jpg",
+        prep_output="course-assets/big-downside/big-downside-1-worries.jpg",
         takeaway="The worry grows as capability grows.",
         accents=(PURPLE, BLUE, RED),
     ),
@@ -166,8 +172,8 @@ CARD_BOARDS = (
             Card("Cancer Screening", "In a Swedish trial, AI-supported screening detected more breast cancers in over 100,000 women."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-upside-discovery/art-sheet.png",
-        page_output="illustrations/big-upside-discovery-v3.jpg",
-        prep_output="lessons/big-upside-2-discovery.jpg",
+        page_output="course-assets/big-upside/big-upside-2-discovery.jpg",
+        prep_output="course-assets/big-upside/big-upside-2-discovery.jpg",
         takeaway="AI can search for more possibilities than people can.",
         accents=(PURPLE, BLUE, TEAL),
     ),
@@ -180,8 +186,8 @@ CARD_BOARDS = (
             Card("Eyes and Ears", "AI describes scenes for blind users and captions sound for deaf users."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-upside-help/art-sheet.png",
-        page_output="illustrations/big-upside-help-v3.jpg",
-        prep_output="lessons/big-upside-3-help.jpg",
+        page_output="course-assets/big-upside/big-upside-3-help.jpg",
+        prep_output="course-assets/big-upside/big-upside-3-help.jpg",
         takeaway="The upside is already reaching people.",
         accents=(PURPLE, BLUE, TEAL),
     ),
@@ -193,8 +199,8 @@ CARD_BOARDS = (
             Card("Project Files Wiped", "Google’s Gemini agent wiped out a user’s project files, then apologized for what it had done.", "2025 · GEMINI", "“I have failed you completely and catastrophically.”"),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/rise-agents-rogue/art-sheet.png",
-        page_output="illustrations/rise-of-agents-rogue-v2.jpg",
-        prep_output="lessons/rise-of-agents-4-rogue.jpg",
+        page_output="course-assets/rise-of-agents/rise-of-agents-4-rogue.jpg",
+        prep_output="course-assets/rise-of-agents/rise-of-agents-4-rogue.jpg",
         accents=(PURPLE, BLUE),
     ),
     CardBoard(
@@ -207,8 +213,8 @@ CARD_BOARDS = (
             Card("Work Through Problems", "Break down a problem, compare approaches, and plan next steps."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-four-shapes/art-sheet.png",
-        page_output="illustrations/work-changes-strengths-v2.jpg",
-        prep_output="lessons/work-changes-1-strengths.jpg",
+        page_output="course-assets/work-changes/work-changes-1-strengths.jpg",
+        prep_output="course-assets/work-changes/work-changes-1-strengths.jpg",
         accents=(BLUE, AMBER, PURPLE, TEAL),
         art_files=(
             "scripts/video/assets/work-with-ai/card-illustrations/transform.png",
@@ -225,8 +231,8 @@ CARD_BOARDS = (
             Card("Augment", "AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-automate-augment/art-sheet.png",
-        page_output="illustrations/work-changes-automate-augment-v3.jpg",
-        prep_output="lessons/work-changes-3-concepts.jpg",
+        page_output="course-assets/work-changes/work-changes-3-automate-augment.jpg",
+        prep_output="course-assets/work-changes/work-changes-3-concepts.jpg",
         takeaway="The work still has your name on it. You own the outcome.",
         accents=(PURPLE, TEAL),
     ),
@@ -239,8 +245,8 @@ CARD_BOARDS = (
             Card("Meaningful Work", "AI can absorb busy work, leaving more time to investigate, decide, and recommend."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-what-changes/art-sheet.png",
-        page_output="illustrations/work-changes-what-changes-v3.jpg",
-        prep_output="lessons/work-changes-4-what-changes.jpg",
+        page_output="course-assets/work-changes/work-changes-4-what-changes.jpg",
+        prep_output="course-assets/work-changes/work-changes-4-what-changes.jpg",
         accents=(PURPLE, BLUE, TEAL),
     ),
     CardBoard(
@@ -253,8 +259,8 @@ CARD_BOARDS = (
             Card("Permanent Jobs", "Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/data-footprint/art-sheet.png",
-        page_output="illustrations/data-centers-footprint-v2.jpg",
-        prep_output="lessons/data-centers-2-footprint.jpg",
+        page_output="course-assets/data-centers/data-centers-2-footprint.jpg",
+        prep_output="course-assets/data-centers/data-centers-2-footprint.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
 )
@@ -271,8 +277,8 @@ FLOW_BOARDS = (
             Card("Call Back", "Hang up. Call the person back on the real number you already have."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-downside-voice-clone/art-sheet.png",
-        page_output="illustrations/big-downside-voice-clone-v2.jpg",
-        prep_output="lessons/big-downside-3-voice-clone.jpg",
+        page_output="course-assets/big-downside/big-downside-4-voice-clone.jpg",
+        prep_output="course-assets/big-downside/big-downside-3-voice-clone.jpg",
         accents=(PURPLE, BLUE, RED, TEAL),
     ),
 )
@@ -594,7 +600,7 @@ def save_pair(image: Image.Image, page_path: str, prep_path: str) -> None:
     prep = ROOT / prep_path
     page.parent.mkdir(parents=True, exist_ok=True)
     prep.parent.mkdir(parents=True, exist_ok=True)
-    image.save(page, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     print(f"wrote {page.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")

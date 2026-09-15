@@ -11,6 +11,12 @@ pulling back for "Creativity is not a job title…"; Four Ways to Think Creative
 is a set of habits…") and dives per way, pulling back for "These four habits widen your options…". Four pauses at idea
 boundaries only. Standard close; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -22,7 +28,7 @@ import cv2
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/creative-thinking-1.mp4'
 OUT = ROOT / 'video-audit/creative-thinking-repair-2026-09-12'; DEST = ROOT / 'videos/creative-thinking-v3.mp4'
-B = {k: ROOT / f'lessons/creative-thinking-{k}.jpg' for k in ('1-professions', '2-practice')}
+B = {k: asset_path('lessons', f'creative-thinking-{k}.jpg') for k in ('1-professions', '2-practice')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

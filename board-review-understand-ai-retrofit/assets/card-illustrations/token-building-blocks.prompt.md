@@ -1,9 +1,9 @@
 # Token building blocks illustration
 
 Edited using the built-in image_gen tool on 2026-09-06.
-Source: `illustrations/tokens-verified.png`.
+Source: `course-assets/tokens/tokens-verified.png`.
 Output: `board-review-understand-ai-retrofit/assets/card-illustrations/token-building-blocks.png`.
-Final board: `lessons/tokens-building-blocks-editorial.jpg`.
+Final board: `course-assets/tokens/tokens-building-blocks-editorial.jpg`.
 Board renderer: `render_token_building_blocks` in `scripts/video/render_understand_ai_retrofit_review.py`.
 
 ## Prompt

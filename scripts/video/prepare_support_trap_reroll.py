@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 """Prepare Support Trap reroll JPGs without modifying page assets or videos."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 import hashlib,json,shutil
 from pathlib import Path
 from PIL import Image,ImageDraw
@@ -69,19 +81,19 @@ def main():
     audit=ROOT/"video-audit/support-trap-reroll-materials-2026-09-07"
     audit.mkdir(parents=True,exist_ok=True)
     html=(ROOT/"index.html").read_text()
-    protected=[ROOT/"index.html",ROOT/"videos/support-trap.mp4"]+[ROOT/"illustrations"/s for _,s,_ in SOURCES]
+    protected=[ROOT/"index.html",ROOT/"videos/support-trap.mp4"]+[asset_path('illustrations', s) for _,s,_ in SOURCES]
     original={str(p):sha(p) for p in protected}
     rows=[]
     for name,source,upload in SOURCES:
-        src=ROOT/"illustrations"/source;target=ROOT/"lessons"/name
-        assert "illustrations/"+source in html
+        src=asset_path('illustrations', source);target=asset_path('lessons', name)
+        assert asset_path("illustrations", source).relative_to(ROOT).as_posix() in html
         shutil.copy2(src,target)
         with Image.open(target) as im:w,h=im.size
         rows.append(dict(file=str(target.relative_to(ROOT)),source=str(src.relative_to(ROOT)),
                          notebook_upload=upload,sha256=sha(target),source_sha256=sha(src),width=w,height=h))
     im,geometry=render_comparison()
-    path=ROOT/"lessons/support-trap-1-comparison-notebook.jpg"
-    im.save(path,quality=95,subsampling=0,optimize=True)
+    path=ROOT/"course-assets/support-trap/support-trap-1-comparison-notebook.jpg"
+    save_course_image(im, path,quality=95,subsampling=0,optimize=True)
     rows.insert(1,dict(file=str(path.relative_to(ROOT)),source="scripts/video/prepare_support_trap_reroll.py",
                       notebook_upload=True,sha256=sha(path),width=im.width,height=im.height,
                       purpose="Face-free upload surrogate; replace with illustrated comparison in final video.",
@@ -89,7 +101,7 @@ def main():
     pill,sticky=close_board_copy("supporttrap")
     md=ROOT/"lessons/support-trap.md";prompt=ROOT/"Prompts/support-trap-video-prompt.txt"
     assert pill in md.read_text() and sticky in md.read_text()
-    close=ROOT/"lessons/support-trap-4-close.jpg"
+    close=ROOT/"course-assets/support-trap/support-trap-4-close.jpg"
     with Image.open(close) as im:
         assert im.size==(3840,2160)
     rows.append(dict(file=str(close.relative_to(ROOT)),source="index.html:CLOSE_BOARDS.supporttrap",
@@ -113,6 +125,6 @@ def main():
         d.text((x+8,y+8),Path(row["file"]).name,fill="black")
         d.text((x+8,y+28),"UPLOAD" if row["notebook_upload"] else "POST ONLY",fill="black")
         sheet.paste(img,(x+8,y+58))
-    sheet.save(audit/"contact-sheet.jpg",quality=90)
+    save_course_image(sheet, audit/"contact-sheet.jpg",quality=90)
     print(json.dumps({"prompt_words":words,"md_words":entry["markdown_words"],"boards":rows},ensure_ascii=False,indent=2))
 if __name__=="__main__":main()

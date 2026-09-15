@@ -13,6 +13,12 @@ The shipped ``videos/big-downside.mp4`` is never overwritten. Review output is
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -42,14 +48,14 @@ TEAL = "#0e8f86"
 RED = "#c41f28"
 
 BOARDS = {
-    "guardrails": ROOT / "lessons/big-downside-1-worries.jpg",
-    "jailbreak": ROOT / "lessons/big-downside-2-jailbreak.jpg",
-    "policy": ROOT / "lessons/big-downside-2b-policy-puppetry.jpg",
-    "voice": ROOT / "lessons/big-downside-3-voice-clone.jpg",
-    "goal": ROOT / "lessons/big-downside-4-goal.jpg",
-    "safety": ROOT / "lessons/big-downside-5-safety.jpg",
-    "quote": ROOT / "lessons/big-downside-6-quote.jpg",
-    "close": ROOT / "lessons/big-downside-6-close.jpg",
+    "guardrails": asset_path('lessons', 'big-downside-1-worries.jpg'),
+    "jailbreak": ROOT / "course-assets/big-downside/big-downside-2-jailbreak.jpg",
+    "policy": asset_path('lessons', 'big-downside-2b-policy-puppetry.jpg'),
+    "voice": asset_path('lessons', 'big-downside-3-voice-clone.jpg'),
+    "goal": asset_path('lessons', 'big-downside-4-goal.jpg'),
+    "safety": asset_path('lessons', 'big-downside-5-safety.jpg'),
+    "quote": asset_path('lessons', 'big-downside-6-quote.jpg'),
+    "close": ROOT / "course-assets/big-downside/big-downside-6-close.jpg",
 }
 
 

@@ -343,6 +343,7 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
         let url = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try jpeg.write(to: url)
+        try finalizeCourseCredit(url)
         print("Built \(url.path)")
     }
 }
@@ -396,8 +397,8 @@ func renderThreeReads() throws {
     drawCheckBand("Each pass updates the meaning until it clicks.")
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/understand-ai/layers-1-three-reads-alternative.jpg",
-        "lessons/layers-1-three-reads.jpg",
-        "illustrations/layers-three-reads.jpg"
+        "course-assets/layers/layers-1-three-reads.jpg",
+        "course-assets/layers/layers-three-reads.jpg"
     ])
 }
 
@@ -434,8 +435,8 @@ func renderWhyDozens() throws {
     drawCheckBand("More depth leaves room for deeper meaning.")
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/understand-ai/layers-3-why-dozens-alternative.jpg",
-        "lessons/layers-3-why-dozens.jpg",
-        "illustrations/layers-why-dozens.jpg"
+        "course-assets/layers/layers-3-why-dozens.jpg",
+        "course-assets/layers/layers-why-dozens.jpg"
     ])
 }
 
@@ -477,8 +478,8 @@ func renderLayerResolution() throws {
     drawCheckBand("Each layer moves IT closer to what it means.")
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/understand-ai/layers-3-resolves-it-alternative.jpg",
-        "lessons/layers-3-resolves-it.jpg",
-        "illustrations/layers-resolves-it.jpg"
+        "course-assets/layers/layers-3-resolves-it.jpg",
+        "course-assets/layers/layers-3-resolves-it.jpg"
     ])
 }
 
@@ -488,4 +489,16 @@ if CommandLine.arguments.dropFirst().first == "resolution" {
     try renderThreeReads()
     try renderLayerResolution()
     try renderWhyDozens()
+}
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
 }

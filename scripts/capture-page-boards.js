@@ -31,7 +31,7 @@ const getJSON = (p) => new Promise((res, rej) => {
 const BOARDS = [
   // Welcome uses the same navy-and-gold creed treatment as the five opener lessons.
   // Matching the eyebrow and closing keeps the full shared OpenerCreed wrapper.
-  { section: "welcome", out: "welcome-1-why-go-deeper.jpg", width: 660,
+  { section: "welcome", out: "welcome-1-why-go-deeper.jpg", retainedSource: true, width: 660,
     find: ["WHY GO DEEPER?", "Everyone has AI.", "Be Smarter Than the Tool."] },
   { section: "welcome", out: "welcome-2-your-path.jpg", width: 720,
     find: ["Here’s your path.", "Work", "Build", "personal edge."] },
@@ -41,23 +41,26 @@ const BOARDS = [
     find: ["Your course toolkit", "A computer", "ChatGPT for Teens", "Google account"] },
   // Same Illustration-wrapper trick as welcome-1: lead with the eyebrow or the capture
   // collapses to the bare serif lines and loses the peach band the reader sees.
-  { section: "openerworkwith", out: "opener-work-1-refrain.jpg", width: 740,
+  { section: "openerworkwith", out: "opener-work-1-refrain.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES AI USE GOOD?", "Don’t just ask.", "It multiplies it."] },
-  // Third instance of the same trick. This board shipped as bare serif lines on the
-  // generic white composition card — no eyebrow, no peach band — because it was cut
-  // with capture-board.sh instead of from the page. Section id is openerfoundations.
-  { section: "openerfoundations", out: "opener-understand-1-kind.jpg", width: 740,
+  // Understand AI displays its retained video JPG with the shared crop-and-extend
+  // treatment. The original HTML remains available as the narrow-screen fallback.
+  { section: "openerfoundations", out: "opener-understand-1-kind.jpg", retainedSource: true, width: 740,
     find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "it’s its own kind of thing."] },
   // Avoid Traps uses the same shared OpenerCreed component. Its archived August 7
   // JPEG still has the retired peach/serif treatment, while the live lesson now
   // renders the navy-and-gold creed. Capture the live component as the video source.
-  { section: "openerprotect", out: "opener-avoid-1-traps.jpg", width: 740,
+  { section: "openerprotect", out: "opener-avoid-1-traps.jpg", retainedSource: true, width: 740,
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
-  // Embrace the Future uses the same shared navy-and-gold OpenerCreed treatment.
-  // Its video kit still contained the retired peach/serif capture, so always source
-  // this board directly from the live lesson component.
-  { section: "openerrealworld", out: "opener-embrace-1-voices.jpg", width: 902, vw: 960,
+  // Embrace the Future displays its retained video JPG with the shared crop-and-
+  // extend treatment. Keep the canonical source protected from recapture.
+  { section: "openerrealworld", out: "opener-embrace-1-voices.jpg", retainedSource: true, width: 902, vw: 960,
     find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
+  // Build Your Skills now displays this retained video JPG with the shared crop-and-
+  // extend treatment. Keep the catalogue entry so filtered capture runs explicitly
+  // report that the canonical source is protected instead of silently omitting it.
+  { section: "openerskills", out: "opener-build-1-creed.jpg", retainedSource: true, width: 902, vw: 960,
+    find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
   // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
@@ -73,14 +76,9 @@ const BOARDS = [
   // One More Thing teaching boards are deterministic Editorial assets. Do not
   // recapture the accessible HTML fallbacks and overwrite the canonical images.
 
-  // NO CLOSE BOARDS BELONG IN THIS FILE (2026-07-30). Every close board in the
-  // catalogue is generated from CLOSE_BOARDS by scripts/video/make_close_board.py,
-  // the owner standard of 2026-07-18: 3840x2160, pill auto-fitted to 0.563 of frame
-  // width. opener-work-3-close, training-close and where-ai-works-best-5-close used
-  // to be captured here at 560/704 and were removed, because a capture at a fixed
-  // stage cannot hold the pill fraction constant across different pill lengths --
-  // which is the whole point of the standard. Re-adding one silently downgrades that
-  // board to 1600x900 and knocks its pill off 56%.
+  // NO CLOSE BOARDS BELONG IN THIS FILE. Canonical white-background closing JPGs
+  // are rendered from CloseBoard and CLOSE_BOARDS by generate-closing-boards.cjs.
+  // Future video builds consume those same assets through make_close_board.py.
 
 
   // tokens: the UN grid, the lesson's own answer to "why chunks at all". It was
@@ -101,12 +99,6 @@ const BOARDS = [
   // boards match the page design).
   { section: "tokens", out: "tokens-2-tokenization.jpg", width: 640, wrapUp: 1,
     find: ["no AI involved", "the space before a word"] },
-
-  // critical-thinking: the kit board was titles-only ("Five habits. Each one is a
-  // question you ask.") so the video recited five question names and taught none of
-  // them. This is the lesson's own block, each habit with the reason under it.
-  { section: "critical", out: "critical-thinking-4-five-questions.jpg", width: 1180, vw: 1280,
-    find: ["Is it actually right?", "What\u2019s my call?", "the consequences are yours"] },
 
   // evaluate-the-results: same problem, but the lesson block is too tall for one
   // frame, so it splits the way the lesson reads. Steps 1-3 are the seconds-long
@@ -166,13 +158,13 @@ const BOARDS = [
   // so late editorial changes (Doubter, Context Window, updated jailbreak copy,
   // and the Unexpected Results heading) cannot drift from the video kit.
   // Loudest Voices board 1 is the approved static Editorial Explainer at
-  // lessons/loudest-voices-1-three-voices.jpg. Do not recapture it from the page.
+  // course-assets/loudest-voices/loudest-voices-1-three-voices.jpg. Do not recapture it from the page.
   { section: "whatpeoplesay", out: "loudest-voices-2-missed-calls.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["People won’t shop online", "No chance for the iPhone", "Flying cars, any decade now"] },
   // Pace of Change board 1 is the approved static utility board in
-  // lessons/pace-of-change-1-three-years.jpg. Do not recapture it from the page.
+  // course-assets/pace-of-change/pace-of-change-1-three-years.jpg. Do not recapture it from the page.
   // Pace of Change board 2 is the approved illustration-first “Why so fast?”
-  // board in lessons/pace-of-change-2-accelerants.jpg. Do not recapture the
+  // board in course-assets/pace-of-change/pace-of-change-2-accelerants.jpg. Do not recapture the
   // live ComparisonCards here or a batch run will overwrite that video source.
   // Big Downside boards 2, 4, and 5 are approved static boards. Their page and
   // video-source copies are generated together; recapturing would reintroduce
@@ -266,6 +258,12 @@ const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){
     // kits without touching boards from the rest of the course.
     if (process.env.SECTION_FILTER &&
         !process.env.SECTION_FILTER.split(",").includes(b.section)) continue;
+    // This board is already the canonical image used by both page and video.
+    // Recapturing its responsive page crop would invalidate the video highlights.
+    if (b.retainedSource) {
+      console.log(`  ${b.out}: retaining existing canonical image; no recapture`);
+      continue;
+    }
     // Reload per board: composing moves the element out of the document.
     await send("Page.navigate", { url: `http://127.0.0.1:${PORT}/index.html?print=lesson:${b.section}` });
     await sleep(2800);

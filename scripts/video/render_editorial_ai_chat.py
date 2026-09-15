@@ -3,6 +3,18 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -263,11 +275,11 @@ def render(board: Board) -> Image.Image:
 def main() -> None:
     for index, board in enumerate(BOARDS, start=1):
         image = render(board)
-        page_output = ROOT / f"illustrations/next-level-moves-{board.slug}-v2.jpg"
-        prep_output = ROOT / f"lessons/ai-tips-{index}-{board.slug}.jpg"
+        page_output = asset_path('illustrations', f"next-level-moves-{board.slug}-v2.jpg")
+        prep_output = asset_path('lessons', f"ai-tips-{index}-{board.slug}.jpg")
         page_output.parent.mkdir(parents=True, exist_ok=True)
         prep_output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(page_output, quality=95, subsampling=0, optimize=True)
+        save_course_image(image, page_output, quality=95, subsampling=0, optimize=True)
         shutil.copyfile(page_output, prep_output)
         print(f"wrote {page_output.relative_to(ROOT)} ({image.width}x{image.height})")
         print(f"copied byte-identically to {prep_output.relative_to(ROOT)}")

@@ -77,7 +77,7 @@ def main():
  pause('Settled closing hold',2.4)
  total=cursor;data=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(data.tobytes())
- paths={k:ROOT/('lessons/transformer-'+s+'-editorial.jpg') for k,s in {'problems':'context-problems','before':'before-transformers','reads':'how-transformer-reads','operations':'attention-transformation','resolve':'resolves-meaning','order':'word-order'}.items()};paths['close']=OUT/'close.png'
+ paths={k:ROOT/('course-assets/transformer/transformer-'+s+'-editorial.jpg') for k,s in {'problems':'context-problems','before':'before-transformers','reads':'how-transformer-reads','operations':'attention-transformation','resolve':'resolves-meaning','order':'word-order'}.items()};paths['close']=OUT/'close.png'
  images={k:cv2.imread(str(p)) for k,p in paths.items()};assert all(x is not None for x in images.values())
  BLUE='#1652f0';GREEN='#0f7a4a';PURPLE='#4f2fc4';TEAL='#0e8f86';NEUTRAL='#6e51ff'
  def board_state(t,f):

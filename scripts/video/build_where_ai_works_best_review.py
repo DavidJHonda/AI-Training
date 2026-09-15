@@ -22,9 +22,9 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/where-ai-works-best-1.mp4'
 SRC2 = ROOT / 'Prompts/where-ai-works-best-2.mp4'
 OUT = ROOT / 'video-audit/where-ai-works-best-repair-2026-09-14'; DEST = ROOT / 'videos/where-ai-works-best-v2.mp4'
-B = {'built': ROOT / 'illustrations/where-ai-works-best.jpg', 'reshape': ROOT / 'illustrations/where-ai-works-best-1-transform.jpg',
-     'explore': ROOT / 'illustrations/where-ai-works-best-2-variation.jpg', 'find': ROOT / 'illustrations/where-ai-works-best-3-compression.jpg',
-     'problems': ROOT / 'illustrations/where-ai-works-best-4-reasoning.jpg'}
+B = {'built': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-1-built-this-course.jpg', 'reshape': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-2-reshape.jpg',
+     'explore': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-3-explore.jpg', 'find': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-4-find.jpg',
+     'problems': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-5-problems.jpg'}
 
 # Board geometry (image px, shared template; measured 2026-09-14 by dark-pixel row projection, see REVIEW.md):
 # what-it-does = label + paragraph above the divider; example rows include the bullet dot; why-it-fits = label + text

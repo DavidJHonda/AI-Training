@@ -264,6 +264,7 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
         let url = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try jpeg.write(to: url)
+        try finalizeCourseCredit(url)
         print("Built \(url.path)")
     }
 }
@@ -271,10 +272,11 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
 func promoteMechanismsBoard() throws {
     let source = repoRoot.appendingPathComponent("board-review-first-four/alternatives/avoid-traps/training-bias-1-mechanisms-alternative.jpg")
     let data = try Data(contentsOf: source)
-    for relativePath in ["illustrations/training-bias-mechanisms.jpg", "lessons/training-bias-1-mechanisms-board.jpg"] {
+    for relativePath in ["course-assets/training-bias/training-bias-mechanisms.jpg", "course-assets/training-bias/training-bias-1-mechanisms-board.jpg"] {
         let output = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: output.deletingLastPathComponent(), withIntermediateDirectories: true)
         try data.write(to: output)
+        try finalizeCourseCredit(output)
         print("Built \(output.path)")
     }
 }
@@ -308,11 +310,23 @@ func renderQuestionsBoard() throws {
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/avoid-traps/training-bias-2-questions-alternative.jpg",
         "board-review-first-four/current-selected/avoid-traps/training-bias-2-questions.jpg",
-        "illustrations/training-bias-questions.jpg",
-        "lessons/training-bias-2-questions.jpg",
-        "lessons/training-bias-2-questions-board.jpg"
+        "course-assets/training-bias/training-bias-questions.jpg",
+        "course-assets/training-bias/training-bias-2-questions.jpg",
+        "course-assets/training-bias/training-bias-2-questions-board.jpg"
     ])
 }
 
 try promoteMechanismsBoard()
 try renderQuestionsBoard()
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
+}

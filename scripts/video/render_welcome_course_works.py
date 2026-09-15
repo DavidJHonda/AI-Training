@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -19,7 +25,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE_OUT = ROOT / "lessons" / "welcome-2-how-to-take-course-page.jpg"
+PAGE_OUT = ROOT / "course-assets/welcome/welcome-2-how-to-take-course-page.jpg"
 REVIEW_OUT = ROOT / "board-review-welcome" / "welcome-course-works-flow.jpg"
 
 WIDTH = 1600
@@ -218,7 +224,7 @@ def main() -> None:
     image = render()
     PAGE_OUT.parent.mkdir(parents=True, exist_ok=True)
     REVIEW_OUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(PAGE_OUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUT, REVIEW_OUT)
     print(f"Wrote {PAGE_OUT} ({image.width}x{image.height})")
     print(f"Copied byte-identically to {REVIEW_OUT}")

@@ -32,8 +32,8 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/which-app-1.mp4'
 SRC2 = ROOT / 'Prompts/which-app-2.mp4'
 OUT = ROOT / 'video-audit/which-app-repair-2026-09-15'; DEST = ROOT / 'videos/your-home-base-v1.mp4'   # the lesson's new slug (retitled 2026-09-15); rolls and boards keep the which-app slug until the kit is re-slugged
-B = {'big-three': ROOT / 'illustrations/which-app-big-three-v2.jpg', 'home-base': ROOT / 'illustrations/which-app-pick-home-base-v2.jpg',
-     'how-we-used': ROOT / 'illustrations/which-app-how-we-used-big-three-v2.jpg'}
+B = {'big-three': ROOT / 'course-assets/your-home-base/which-app-1-big-three.jpg', 'home-base': ROOT / 'course-assets/your-home-base/which-app-2-home-base.jpg',
+     'how-we-used': ROOT / 'course-assets/your-home-base/which-app-3-how-we-used.jpg'}
 GAIN2 = 1.2   # roll 2 -18.31 dBFS median speech vs roll 1 -17.09
 
 def columns(path, ncols):

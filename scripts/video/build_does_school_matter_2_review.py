@@ -9,6 +9,12 @@ ringed at "The tool may be identical…") over Notebook's own Luke-and-Nate diag
 Today (2x2, dense, dive per card, pull-back, banner). Six pauses at idea boundaries. Notebook's drawings kept elsewhere; no
 photographs; standard close from the pause before the closing lines; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -18,7 +24,7 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-school-matter-2.mp4'
 OUT = ROOT / 'video-audit/does-school-matter-repair-2026-09-14'; DEST = ROOT / 'videos/does-school-matter-v2.mp4'
-B = {k: ROOT / f'lessons/does-school-matter-{k}.jpg' for k in ('1-same-tool', '2-future')}
+B = {k: asset_path('lessons', f'does-school-matter-{k}.jpg') for k in ('1-same-tool', '2-future')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

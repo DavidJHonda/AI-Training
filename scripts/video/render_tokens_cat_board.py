@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Render the standardized human-versus-token-ID board for Tokens."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -130,15 +136,15 @@ def takeaway(draw, text):
 
 def save(image):
     outputs = [
-        "lessons/tokens-3-cat.jpg",
-        "illustrations/tokens-3-cat.jpg",
+        "course-assets/tokens/tokens-3-cat.jpg",
+        "course-assets/tokens/tokens-3-cat.jpg",
         "board-review-first-four/current-selected/understand-ai/tokens-3-cat.jpg",
         "board-review-first-four/alternatives/understand-ai/tokens-3-cat-alternative.jpg",
     ]
     for relative in outputs:
         output = ROOT / relative
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=95, subsampling=0)
+        save_course_image(image, output, quality=95, subsampling=0)
         print(f"Built {output}")
 
 

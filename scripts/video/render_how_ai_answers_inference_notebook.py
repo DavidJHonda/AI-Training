@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Render a person-free inference recap for the Notebook upload materials."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 from PIL import Image, ImageDraw
 from editorial_typography import draw_board_title, face
 from editorial_takeaway import draw_takeaway_band
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / 'lessons/how-ai-answers-inference-notebook.jpg'
+DEST = ROOT / 'course-assets/how-ai-answers/how-ai-answers-inference-notebook.jpg'
 INK, BODY = '#0e0a1f', '#3a3550'
 PURPLE, BLUE, TEAL, GREEN = '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a'
 
@@ -65,7 +71,7 @@ def render():
     draw_takeaway_band(image, top=872, left=40, right=1560,
         text='Inference is the process AI uses to generate an answer one token at a time.',
         font=face('medium', 32))
-    image.save(DEST, quality=95, subsampling=0)
+    save_course_image(image, DEST, quality=95, subsampling=0)
     print(DEST)
 
 

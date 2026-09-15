@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -38,8 +44,8 @@ ART_WASH_OPACITY = 0.10
 ART_BORDER_OPACITY = 0.22
 
 ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/honesty-integrity/art-sheet.png"
-PAGE_OUTPUT = ROOT / "illustrations/honesty-integrity-best-practices-flow-v2.jpg"
-PREP_OUTPUT = ROOT / "lessons/honesty-and-privacy-2-best-practices.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-2-best-practices.jpg"
+PREP_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-2-best-practices.jpg"
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:
@@ -230,7 +236,7 @@ def main() -> None:
     image = render()
     PAGE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     PREP_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUTPUT, PREP_OUTPUT)
     print(f"wrote {PAGE_OUTPUT.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {PREP_OUTPUT.relative_to(ROOT)}")

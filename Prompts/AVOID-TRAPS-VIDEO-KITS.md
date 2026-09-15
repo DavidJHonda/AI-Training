@@ -25,79 +25,79 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 - Prompt: `Prompts/opener-avoid-video-prompt.txt`
 - Markdown: `lessons/Opener-Avoid.md`
 - Notebook sources:
-  1. `lessons/opener-avoid-1-traps.jpg`
-  2. `lessons/opener-avoid-3-map.jpg`
-  3. `lessons/opener-avoid-4-close.jpg`
+  1. `course-assets/avoid-traps-opener/opener-avoid-1-traps.jpg`
+  2. `course-assets/avoid-traps-opener/opener-avoid-3-map.jpg`
+  3. `course-assets/avoid-traps-opener/opener-avoid-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/opener-avoid-2-read-water.jpg`
+  - `course-assets/avoid-traps-opener/opener-avoid-2-read-water.jpg`
 
 ## Hallucination
 
 - Prompt: `Prompts/hallucination-video-prompt.txt`
 - Markdown: `lessons/hallucination.md`
 - Notebook sources:
-  1. `lessons/hallucination-1-example.jpg`
-  2. `lessons/hallucination-2-why.jpg`
+  1. `course-assets/hallucination/hallucination-1-example.jpg`
+  2. `course-assets/hallucination/hallucination-2-why.jpg`
   3. `lessons/hallucination-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/hallucination-3-real-text.jpg`
+  - `course-assets/hallucination/hallucination-3-real-text.jpg`
 
 ## Training Bias
 
 - Prompt: `Prompts/training-bias-video-prompt.txt`
 - Markdown: `lessons/training-bias.md`
 - Notebook sources:
-  1. `lessons/training-bias-2-mechanisms.jpg`
-  2. `lessons/training-bias-3-questions.jpg`
-  3. `lessons/training-bias-4-stale.jpg`
-  4. `lessons/training-bias-5-rag.jpg`
-  5. `lessons/training-bias-6-close.jpg`
+  1. `course-assets/training-bias/training-bias-2-mechanisms.jpg`
+  2. `course-assets/training-bias/training-bias-3-questions.jpg`
+  3. `course-assets/training-bias/training-bias-4-stale.jpg`
+  4. `course-assets/training-bias/training-bias-5-rag.jpg`
+  5. `course-assets/training-bias/training-bias-6-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/training-bias-1-wrong-pattern.jpg`
+  - `course-assets/training-bias/training-bias-1-wrong-pattern.jpg`
 
 ## Document Trap
 
 - Prompt: `Prompts/document-trap-video-prompt.txt`
 - Markdown: `lessons/document-trap.md`
 - Notebook sources:
-  1. `lessons/document-trap-2-flow.jpg`
-  2. `lessons/document-trap-3-moves.jpg`
-  3. `lessons/document-trap-4-close.jpg`
+  1. `course-assets/document-trap/document-trap-2-flow.jpg`
+  2. `course-assets/document-trap/document-trap-3-moves.jpg`
+  3. `course-assets/document-trap/document-trap-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/document-trap-1-uploaded.jpg`
+  - `course-assets/document-trap/document-trap-1-uploaded.jpg`
 
 ## Mind Trap
 
 - Prompt: `Prompts/mind-trap-video-prompt.txt`
 - Markdown: `lessons/mind-trap.md`
 - Notebook sources:
-  1. `lessons/mind-trap-2-eliza.jpg`
-  2. `lessons/mind-trap-3-close.jpg`
+  1. `course-assets/mind-trap/mind-trap-2-eliza.jpg`
+  2. `course-assets/mind-trap/mind-trap-3-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/mind-trap-1-comparison.jpg`
+  - `course-assets/mind-trap/mind-trap-1-comparison.jpg`
 
 ## Flattery Trap
 
 - Prompt: `Prompts/flattery-trap-video-prompt.txt`
 - Markdown: `lessons/flattery-trap.md`
 - Notebook sources:
-  1. `lessons/flattery-trap-2-praise-loop.jpg`
-  2. `lessons/flattery-trap-3-sycophancy.jpg`
-  3. `lessons/flattery-trap-4-five-moves.jpg`
-  4. `lessons/flattery-trap-5-close.jpg`
+  1. `course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg`
+  2. `course-assets/flattery-trap/flattery-trap-3-sycophancy.jpg`
+  3. `course-assets/flattery-trap/flattery-trap-4-five-moves.jpg`
+  4. `course-assets/flattery-trap/flattery-trap-5-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/flattery-trap-1-comparison.jpg`
+  - `course-assets/flattery-trap/flattery-trap-1-comparison.jpg`
 
 ## Engagement Trap
 
 - Prompt: `Prompts/engagement-trap-video-prompt.txt`
 - Markdown: `lessons/engagement-trap.md`
 - Notebook sources:
-  1. `lessons/engagement-trap-1-comparison.jpg`
-  2. `lessons/engagement-trap-2-scroll.jpg`
-  3. `lessons/engagement-trap-4-close.jpg`
+  1. `course-assets/engagement-trap/engagement-trap-1-comparison.jpg`
+  2. `course-assets/engagement-trap/engagement-trap-2-scroll.jpg`
+  3. `course-assets/engagement-trap/engagement-trap-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/engagement-trap-3-stop.jpg`
+  - `course-assets/engagement-trap/engagement-trap.jpg`
 
 ## Support Trap
 
@@ -106,12 +106,12 @@ Rebuilt 2026-09-07. Target 4:00–4:45, with a 460-word prompt and expanded teac
 - Prompt: `Prompts/support-trap-video-prompt.txt`
 - Markdown: `lessons/support-trap.md`
 - Notebook sources:
-  1. `lessons/support-trap-1-comparison-notebook.jpg`
-  2. `lessons/support-trap-2-role.jpg`
-  3. `lessons/support-trap-3-danger.jpg`
-  4. `lessons/support-trap-4-close.jpg`
+  1. `course-assets/support-trap/support-trap-1-comparison-notebook.jpg`
+  2. `course-assets/support-trap/support-trap-2-role.jpg`
+  3. `course-assets/support-trap/support-trap-3-danger.jpg`
+  4. `course-assets/support-trap/support-trap-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/support-trap-1-comparison.jpg`
+  - `course-assets/support-trap/support-trap-1-comparison.jpg`
 
 The comparison Notebook version retains the illustrated lesson board's words, order, colors, and conclusion but omits both photographs. This is an intentional upload-only variant, not a replacement for the on-page board. Replace it with the illustrated version in post. The other boards match the page; the current close is retained. Do not upload the PDF, old videos, or this checklist.
 
@@ -122,17 +122,17 @@ Rebuild only this kit with `scripts/video/prepare_support_trap_reroll.py`. The e
 - Prompt: `Prompts/fake-trap-video-prompt.txt`
 - Markdown: `lessons/fake-trap.md`
 - Notebook sources:
-  1. `lessons/fake-trap-2-reasons.jpg`
-  2. `lessons/fake-trap-4-checks.jpg`
-  3. `lessons/fake-trap-5-close.jpg`
+  1. `course-assets/fake-trap/fake-trap-2-reasons.jpg`
+  2. `course-assets/fake-trap/fake-trap-4-checks.jpg`
+  3. `course-assets/fake-trap/fake-trap-5-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `lessons/fake-trap-1-comparison.jpg`
-  - `lessons/fake-trap-3-source.jpg`
+  - `course-assets/fake-trap/fake-trap-1-comparison.jpg`
+  - `course-assets/fake-trap/fake-trap.jpg`
 
 ## Provenance, cleanup, and post-production
 
 - `Prompts/AVOID-TRAPS-SOURCE-MANIFEST.json` records the exact lesson asset, hashes, dimensions, upload status, and prompt word count. Current JPG originals are copied byte-for-byte; Fake Trap's reasons PNG is converted to a high-quality JPG at its original dimensions. Closing text comes directly from `index.html`'s `CLOSE_BOARDS`.
-- Superseded video-source images move to `archive/video-materials/avoid-traps-2026-09-04/obsolete/lessons/`. `MOVED-FILES.json` records each original path for recovery. Replaced canonical images are backed up separately under `replaced/`. No live video, page, or original illustration is removed.
+- Use the current lesson boards in `course-assets/` and current Markdown in `lessons/`. Remove superseded materials within owner-authorized cleanup scope; do not create archive copies. Historical move records in the source manifest describe removed files, not available upload sources. The old `prepare_avoid_traps_kits.py` workflow is retired because its source mappings and archive behavior are obsolete.
 - Markdown includes the teaching inside boards as text. Regenerating a plain DOM export alone may omit that text or collapse list formatting; check it against the actual board before replacing these reviewed files.
 - In post, insert the exact withheld face boards and replace native Notebook highlights. Highlight complete cards, bubbles, or banners at their true boundaries; subsection highlights inherit the containing box's full horizontal bounds. Use the element's locked accent, protect all text, and maintain balanced vertical clearance.
 - Check every edit boundary frame-by-frame in the final render for old-graphic flashes, and listen across each audio cut for clipped words, duplicate breaths, or abrupt transitions. Report timestamps from the final candidate, not the uncut source. Follow `scripts/video/RETROFIT-PLAYBOOK.md` for the full procedure.

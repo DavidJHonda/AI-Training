@@ -10,6 +10,12 @@ Three Moves Worth Your Energy (three card rings, banner). Four pauses at idea bo
 near-verbatim paraphrase, prefaced by "The cultural conversation around AI is deafening right now" (no gap to cut on).
 Standard close; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/what-you-can-control-1.mp4'
 SRC2 = ROOT / 'Prompts/what-you-can-control-2.mp4'
 OUT = ROOT / 'video-audit/what-you-can-control-repair-2026-09-13'; DEST = ROOT / 'videos/what-you-can-control-v2.mp4'
-B = {k: ROOT / f'lessons/what-you-can-control-{k}.jpg' for k in ('1-hands', '2-three-moves')}
+B = {k: asset_path('lessons', f'what-you-can-control-{k}.jpg') for k in ('1-hands', '2-three-moves')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

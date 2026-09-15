@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-2.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
 OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14'; DEST = ROOT / 'videos/opener-work-v2.mp4'
-B = {'same-tool': ROOT / 'illustrations/opener-work.jpg', 'map': ROOT / 'illustrations/opener-work-section-map.jpg'}
+B = {'same-tool': ROOT / 'course-assets/work-with-ai-opener/opener-work-2-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/opener-work-3-section-map.jpg'}
 
 # Section-map geometry (image px on the 1600x871 board; measured 2026-09-14, see REVIEW.md): each row = number circle + title + description,
 # inside the white card's rails; dividers between rows are excluded.

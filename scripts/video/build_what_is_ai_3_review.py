@@ -17,7 +17,7 @@ import cv2, numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/what-is-ai-1.mp4'
 OUT = ROOT / 'video-audit/what-is-ai-repair-2026-09-13'; DEST = ROOT / 'videos/what-is-ai-v3.mp4'
-B = {'desk': ROOT / 'lessons/what-is-ai-ask-the-desk.jpg', 'types': ROOT / 'lessons/what-is-ai-1-types.jpg', 'picks': ROOT / 'lessons/what-is-ai-2-same-goal.jpg'}
+B = {'desk': ROOT / 'course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg', 'types': ROOT / 'course-assets/what-is-ai/what-is-ai-1-types.jpg', 'picks': ROOT / 'course-assets/what-is-ai/what-is-ai-2-same-goal.jpg'}
 
 def white_cards(path, min_y=0):
     """Whole-card boxes: white panels on the lavender board, card top found by walking up until a real gap."""

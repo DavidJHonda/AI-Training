@@ -22,8 +22,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 RAT = Path("/private/tmp/rat-story-clean.mp4")
 OLD = ROOT / "videos/unexpected-results.mp4"
-BOARD = ROOT / "lessons/unexpected-results-1-plans.jpg"
-CLOSE = ROOT / "lessons/unexpected-results-2-close.jpg"
+BOARD = ROOT / "course-assets/unexpected-results/unexpected-results-1-plans.jpg"
+CLOSE = ROOT / "course-assets/unexpected-results/unexpected-results-2-close.jpg"
 OUTPUT = ROOT / "videos/unexpected-results-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 

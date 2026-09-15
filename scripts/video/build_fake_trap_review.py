@@ -11,10 +11,10 @@ OUT=ROOT/'Prompts/fake-trap-patched.mp4'
 SOURCES=[ROOT/'Prompts/fake-trap.mp4',ROOT/'videos/fake-trap.mp4']
 P,B,A,T,R='#4f2fc4','#1652f0','#a9760c','#0e8f86','#c41f28'
 H='#6e51ff' # Standard neutral-purple outline for takeaway banners.
-BOARDS={'compare':ROOT/'illustrations/fake-trap-comparison-v2.jpg','motives':ROOT/'illustrations/fake-trap-four-reasons-v3.png','source':ROOT/'illustrations/fake-trap-source-v2.jpg','checks':ROOT/'illustrations/fake-trap-three-checks-v2.jpg'}
+BOARDS={'compare':ROOT/'course-assets/fake-trap/fake-trap-comparison-v2.jpg','motives':ROOT/'course-assets/fake-trap/fake-trap-four-reasons-v3.png','source':ROOT/'course-assets/fake-trap/fake-trap.jpg','checks':ROOT/'course-assets/fake-trap/fake-trap-4-checks.jpg'}
 HOCKEY=AUDIT/'assets/hockey-celebration-v2.png'
 EMOTION=AUDIT/'assets/pause-before-sharing-v2.png'
-CLOSE=ROOT/'lessons/fake-trap-5-close.jpg'
+CLOSE=ROOT/'course-assets/fake-trap/fake-trap-5-close.jpg'
 chunks=[]
 def keep(src,a,b,board=None,label='native',rect=None,color=P,camera=None,move=0):
     chunks.append(dict(src=src,a=at(a),b=at(b),board=board,label=label,rect=rect,color=color,camera=camera,move=move))

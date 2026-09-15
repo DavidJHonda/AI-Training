@@ -209,6 +209,7 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
         let url = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try jpeg.write(to: url)
+        try finalizeCourseCredit(url)
         print("Built \(url.path)")
     }
 }
@@ -216,10 +217,11 @@ func save(_ image: NSImage, relativePaths: [String]) throws {
 func promoteWhyBoard() throws {
     let source = repoRoot.appendingPathComponent("board-review-first-four/alternatives/avoid-traps/hallucination-1-why-alternative.jpg")
     let data = try Data(contentsOf: source)
-    for relativePath in ["illustrations/hallucination-why.jpg", "lessons/hallucination-1-why.jpg"] {
+    for relativePath in ["course-assets/hallucination/hallucination-why.jpg", "course-assets/hallucination/hallucination-1-why.jpg"] {
         let output = repoRoot.appendingPathComponent(relativePath)
         try FileManager.default.createDirectory(at: output.deletingLastPathComponent(), withIntermediateDirectories: true)
         try data.write(to: output)
+        try finalizeCourseCredit(output)
         print("Built \(output.path)")
     }
 }
@@ -252,10 +254,22 @@ func renderTypesBoard() throws {
     drawCheckBand("Not every wrong answer is a hallucination.")
     try save(image, relativePaths: [
         "board-review-first-four/alternatives/avoid-traps/hallucination-2-types-alternative.jpg",
-        "illustrations/hallucination-types.jpg",
-        "lessons/hallucination-2-types.jpg"
+        "course-assets/hallucination/hallucination-types.jpg",
+        "course-assets/hallucination/hallucination-2-types.jpg"
     ])
 }
 
 try promoteWhyBoard()
 try renderTypesBoard()
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
+}

@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render the high-contrast Outside the Window lesson board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -158,13 +170,13 @@ def main():
     alternative = ALT_OUT / "context-window-2-outside-alternative.jpg"
     targets = [
         alternative,
-        REPO / "illustrations" / "context-window-outside.jpg",
-        REPO / "lessons" / "context-window-2-outside.jpg",
+        REPO / "course-assets/context-window/context-window-outside.jpg",
+        asset_path('lessons', "context-window-2-outside.jpg"),
         REPO / "board-review-first-four" / "current-selected" / "work-with-ai" / "context-window-2-outside.jpg",
     ]
     for target in targets:
         target.parent.mkdir(parents=True, exist_ok=True)
-        image.save(target, quality=95, subsampling=0)
+        save_course_image(image, target, quality=95, subsampling=0)
         print(f"Built {target}")
 
 

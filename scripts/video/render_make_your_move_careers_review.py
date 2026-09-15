@@ -3,6 +3,18 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from dataclasses import dataclass
 from pathlib import Path
 import shutil
@@ -198,15 +210,15 @@ def render(title: str, careers: tuple[Career, ...]) -> Image.Image:
 def main() -> None:
     REVIEW.mkdir(parents=True, exist_ok=True)
     published = (
-        (ROOT / "illustrations/make-your-move-careers-1-v2.jpg", ROOT / "lessons/make-your-move-1-careers-a.jpg"),
-        (ROOT / "illustrations/make-your-move-careers-2-v2.jpg", ROOT / "lessons/make-your-move-1-careers-b.jpg"),
+        (ROOT / "course-assets/make-your-move/make-your-move-2-careers-a.jpg", asset_path('lessons', 'make-your-move-1-careers-a.jpg')),
+        (ROOT / "course-assets/make-your-move/make-your-move-2-careers-b.jpg", asset_path('lessons', 'make-your-move-1-careers-b.jpg')),
     )
     for (title, filename, careers), (page_path, prep_path) in zip(BOARDS, published):
         image = render(title, careers)
         path = REVIEW / filename
         page_path.parent.mkdir(parents=True, exist_ok=True)
         prep_path.parent.mkdir(parents=True, exist_ok=True)
-        image.save(page_path, quality=95, subsampling=0, optimize=True)
+        save_course_image(image, page_path, quality=95, subsampling=0, optimize=True)
         shutil.copyfile(page_path, prep_path)
         shutil.copyfile(page_path, path)
         print(f"wrote {page_path.relative_to(ROOT)} ({image.width}x{image.height})")

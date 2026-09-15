@@ -41,7 +41,7 @@ def replacements():
         leg = common.make_leg(name, ROOT / asset, tuple(points), tuple(states))
         result.append((points[0], points[-1], leg))
     # Whole bubbles/banner, not estimated text rectangles.
-    add('example', 'illustrations/hallucination-example-v2.jpg',
+    add('example', 'course-assets/hallucination/hallucination-1-example.jpg',
         (0, at(1), at(9.1), at(34.25), at(45.8), 1908), (
             ('full', None, VP, None, 0),
             ('your-full-prompt', (605,203,1520,338), VP, None, 0),
@@ -49,7 +49,7 @@ def replacements():
             ('full-takeaway', (40,697,1560,786), VP, None, 24),
             ('example-in-context', None, VP, None, 0)))
     # Four complete illustrated steps. Keep all text vertically in frame.
-    add('why', 'illustrations/hallucination-why-v2.jpg',
+    add('why', 'course-assets/hallucination/hallucination-2-why.jpg',
         (1908, at(69.3), 2475, at(90.5), at(99.6), 3576), (
             ('full', None, VP, None, 0),
             ('learns-from-text', (56,164,362,794), P, (209,479,1200), 24),
@@ -57,14 +57,14 @@ def replacements():
             ('keeps-answering', (844,164,1150,794), T, (997,479,1200), 24),
             ('probable-not-true', (1234,164,1548,794), A, (1391,479,1200), 24)))
     # Native pizza and search scenes stay. Replace the entire Reddit graphic.
-    add('real-text', 'illustrations/hallucination-real-text-v3.jpg',
+    add('real-text', 'course-assets/hallucination/hallucination-3-real-text.jpg',
         (4092, at(140.5), 4342), (
             ('full-illustration', None, VP, None, 0),
             ('full-takeaway', (40,1187,1560,1276), VP, None, 0)))
     # Canonical bounds come from board-review-hallucination/geometry.json.
     geometry = json.loads((ROOT/'board-review-hallucination/geometry.json').read_text())
     rects = [tuple(s['complete_step_bounds']) for s in geometry['steps']]
-    add('check-claim', 'illustrations/hallucination-check-claim-v1.jpg',
+    add('check-claim', 'course-assets/hallucination/hallucination-4-check-claim.jpg',
         (4968, at(169.4), at(187.35), at(205.05), at(222.35), CLOSE_START), (
             ('full', None, VP, None, 0),
             ('notice-the-claim', rects[0], P, (285,446.5,1050), 24),
@@ -104,7 +104,7 @@ def main():
                     'rect':state.ring,'color':state.color,'camera':state.camera,
                     'color_source':'neutral_video_purple' if state.color==VP else 'card_locked_accent'})
                 cursor += state.frames
-        close = cv2.imread(str(ROOT/'lessons/hallucination-5-close.jpg'))
+        close = cv2.imread(str(ROOT/'course-assets/hallucination/hallucination-5-close.jpg'))
         close_png = work/'close.png'
         cv2.imwrite(str(close_png), cv2.resize(close,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close'] = close_png

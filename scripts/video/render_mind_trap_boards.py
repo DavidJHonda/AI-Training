@@ -4,6 +4,12 @@
 Owns v3 comparison and v4 ELIZA exports; older assets stay for legacy recipes.
 Preserves the existing structured comparison and two-card teaching copy.
 """
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 from PIL import Image
 from render_avoid_traps_editorial import CompareSide, Pair, render_comparison, save_pair
@@ -34,7 +40,7 @@ def main():
         scenario_label="YOU",
     )
     save_pair(comparison, Pair(
-        "illustrations/mind-trap-comparison-v3.jpg", "lessons/mind-trap-1-comparison.jpg",
+        "course-assets/mind-trap/mind-trap-comparison-v3.jpg", "course-assets/mind-trap/mind-trap-1-comparison.jpg",
     ))
     # Reorder intact native artwork panels with their copy and accent colors.
     root = Path(__file__).resolve().parents[2]
@@ -44,7 +50,7 @@ def main():
     reordered = Image.new('RGB', art.size)
     reordered.paste(art.crop((half, 0, art.width, art.height)), (0, 0))
     reordered.paste(art.crop((0, 0, half, art.height)), (art.width-half, 0))
-    reordered.save(art_path.with_name('art-sheet-ai-first.png'))
+    save_course_image(reordered, art_path.with_name('art-sheet-ai-first.png'))
     eliza = CardBoard(
         "mind-eliza", "Why AI Feels Like Somebody", (
             Card("AI Sounds Like One",
@@ -55,7 +61,7 @@ def main():
         "", "", "Sounding human does not make AI human.", (PURPLE, TEAL),
     )
     save_pair(render_card_board(eliza), Pair(
-        "illustrations/mind-trap-eliza-effect-v4.jpg", "lessons/mind-trap-2-eliza.jpg",
+        "course-assets/mind-trap/mind-trap-2-eliza.jpg", "course-assets/mind-trap/mind-trap-2-eliza.jpg",
     ))
 
 

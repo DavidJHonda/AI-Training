@@ -2,8 +2,8 @@
 
 Generated with the built-in image-generation tool. The two source images below were supplied as identity and visual-style references only, not edit targets:
 
-- `illustrations/welcome.jpg`
-- `illustrations/does-school-matter.jpg`
+- `course-assets/welcome/welcome.jpg`
+- `course-assets/beyond-the-average/does-school-matter.jpg`
 
 All selected images use a 3:2 landscape composition and were exported as 1200×800 JPEGs. Shared direction: preserve Luke (light-brown curly hair, green hockey jersey 4) and Nate (dark curly hair, green hockey jersey 96); exactly two people; warm cinematic editorial photorealism; tactile brass-and-glass educational machinery where appropriate; forest green, cream, and amber; believable faces and hands; one clear teaching idea; no technology-company branding, CEO hats, watermarks, humanoid robots, brains, or dense infographic text.
 

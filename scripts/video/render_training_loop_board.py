@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Render the opening Training Loop board in the shared course standard."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -107,15 +113,15 @@ def takeaway(draw, text):
 
 def save(image):
     outputs = [
-        "lessons/training-loop.jpg",
-        "illustrations/training-loop.jpg",
+        "course-assets/training/training-loop.jpg",
+        "course-assets/training/training-loop.jpg",
         "board-review-first-four/current-selected/understand-ai/training-loop.jpg",
         "board-review-first-four/alternatives/understand-ai/training-loop-alternative.jpg",
     ]
     for relative in outputs:
         output = ROOT / relative
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=95, subsampling=0)
+        save_course_image(image, output, quality=95, subsampling=0)
         print(f"Built {output}")
 
 

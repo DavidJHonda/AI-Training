@@ -30,7 +30,7 @@ def rounded_ring(image, top_left, bottom_right, radius=14, thickness=6):
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", default="lessons/welcome-1-why-go-deeper.jpg")
+    parser.add_argument("--image", default="course-assets/welcome/welcome-1-why-go-deeper.jpg")
     parser.add_argument("--output-dir", default="/tmp/welcome-opening-highlights")
     args = parser.parse_args()
 

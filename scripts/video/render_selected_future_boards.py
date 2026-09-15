@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Render the selected Pace, Downside, and Upside lesson boards."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -38,7 +44,7 @@ def save_all(image: Image.Image, relative_paths: list[str]) -> None:
     for relative_path in relative_paths:
         output = ROOT / relative_path
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=94, subsampling=0)
+        save_course_image(image, output, quality=94, subsampling=0)
         print(output.relative_to(ROOT))
 
 
@@ -252,7 +258,7 @@ def render_guardrail_challenge() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
-        "illustrations/big-downside-guardrails.jpg",
+        "course-assets/big-downside/big-downside-guardrails.jpg",
     ])
 
 
@@ -304,8 +310,8 @@ def _render_hassabis_timeline_legacy() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-hassabis-timeline-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-2-hassabis-timeline.jpg",
-        "illustrations/big-upside-hassabis-timeline.jpg",
-        "lessons/big-upside-1-hassabis.jpg",
+        "course-assets/big-upside/big-upside-hassabis-timeline.jpg",
+        "course-assets/big-upside/big-upside-1-hassabis.jpg",
     ])
 
 
@@ -318,8 +324,8 @@ def render_hassabis_timeline() -> None:
 
     save_pair(
         render_utility_hassabis_timeline(),
-        "illustrations/big-upside-hassabis-timeline.jpg",
-        "lessons/big-upside-1-hassabis.jpg",
+        "course-assets/big-upside/big-upside-hassabis-timeline.jpg",
+        "course-assets/big-upside/big-upside-1-hassabis.jpg",
     )
 
 
@@ -355,7 +361,7 @@ def render_upside_discovery() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
-        "illustrations/big-upside-discovery.jpg",
+        "course-assets/big-upside/big-upside-discovery.jpg",
     ])
 
 
@@ -391,7 +397,7 @@ def render_upside_help() -> None:
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
         "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
-        "illustrations/big-upside-help.jpg",
+        "course-assets/big-upside/big-upside-help.jpg",
     ])
 
 

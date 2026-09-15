@@ -30,8 +30,11 @@ sleep 3
 node scripts/capture-page-boards.js "$PORT" "$DBG" "$TMP"
 
 for png in "$TMP"/*.png; do
-  out="lessons/$(basename "${png%.png}").jpg"
+  [[ -f "$png" ]] || continue  # A retained-image-only selection creates no captures.
+  out="$(python3 scripts/video/course_asset_paths.py lessons "$(basename "${png%.png}").jpg")"
+  mkdir -p "$(dirname "$out")"
   sips -s format jpeg -s formatOptions 88 "$png" --out "$out" >/dev/null
+  bash scripts/finalize-course-asset.sh "$out"
   echo "  wrote $out  ($(sips -g pixelWidth -g pixelHeight "$out" | awk '/pixel/{printf "%s ", $2}'))"
 done
 echo "Eyeball both before committing."

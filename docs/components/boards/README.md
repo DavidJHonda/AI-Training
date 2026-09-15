@@ -161,8 +161,8 @@ arbitrary canvas height to make the copy fit.
 Use for a direct comparison or for two related choices that deserve equal visual
 weight. The approved reference boards are:
 
-- `illustrations/your-choices-choose-tool-v4.jpg`
-- `illustrations/your-choices-choose-how-v8.png`
+- `course-assets/your-choices/your-choices-1-choose-tool.jpg`
+- `course-assets/your-choices/your-choices-choose-how-v8.png`
 
 At the current copy length, the reference canvas is 1600×880. Canvas height remains
 derived from the longest card copy rather than selected independently.
@@ -196,17 +196,17 @@ not three evidence cards. Height does not determine the family.
 
 Approved layout references, checked against the on-page assets:
 
-- What Is AI?: `lessons/what-is-ai-2-same-goal.jpg`.
-- Flattery Trap: `illustrations/flattery-trap-comparison-v2.jpg`.
-- Support Trap: `illustrations/support-trap-comparison-v2.jpg`.
+- What Is AI?: `course-assets/what-is-ai/what-is-ai-2-same-goal.jpg`.
+- Flattery Trap: `course-assets/flattery-trap/flattery-trap-comparison-v2.jpg`.
+- Support Trap: `course-assets/support-trap/support-trap-comparison-v2.jpg`.
 
 These share a scenario, two illustrated white columns, small category pills,
 40 px headings, small structural labels, readable body text, and a compact
 gold takeaway. Flattery and Support use whitespace between subsections; What
 Is AI uses subtle rules for conversational turns. Both treatments are valid.
 The approved Does AI Think implementation is
-`illustrations/does-ai-think-side-by-side-v2.jpg`. It uses the unified-card
-variant established by `illustrations/what-you-can-control-hands-v2.jpg`: the
+`course-assets/does-ai-think/does-ai-think-2-side-by-side.jpg`. It uses the unified-card
+variant established by `course-assets/what-you-can-control/what-you-can-control-1-hands.jpg`: the
 two full-bleed images touch, both columns share one white content card, and the
 five category labels appear as bold inline lead-ins on the left side of the
 aligned comparison rows. Use this variant
@@ -266,11 +266,11 @@ Author at 1600 px wide; derive height from the content:
 Use for three parallel categories, stages, or judgment levels. The approved
 reference boards are:
 
-- `illustrations/honesty-use-ai-help-follow-rules.png`
-- `illustrations/privacy-how-much-share-v6.jpg`
-- `illustrations/people-skills-why-matter-v2.jpg`
-- `illustrations/make-your-move-careers-1-v2.jpg`
-- `illustrations/make-your-move-careers-2-v2.jpg`
+- `course-assets/honesty-and-privacy/honesty-use-ai-help-follow-rules.png`
+- `course-assets/honesty-and-privacy/honesty-and-privacy-3-privacy.jpg`
+- `course-assets/people-skills/people-skills-1-why-matter.jpg`
+- `course-assets/make-your-move/make-your-move-2-careers-a.jpg`
+- `course-assets/make-your-move/make-your-move-2-careers-b.jpg`
 
 Approved three-card examples currently range from 742 to 790 px tall. The height is
 always derived from the longest card copy rather than selected independently.
@@ -296,13 +296,13 @@ always derived from the longest card copy rather than selected independently.
 Use for four parallel practices, categories, or judgments that need more copy and
 visual space than four cards across can provide. The approved reference boards are:
 
-- `illustrations/people-skills-four-ways-v2.jpg`
-- `illustrations/creative-thinking-professions-v2.jpg`
-- `illustrations/creative-thinking-practice-v2.jpg`
-- `illustrations/be-curious-four-ways-v2.jpg`
-- `illustrations/be-flexible-four-steps-v3.jpg`
-- `illustrations/make-your-move-skills.jpg`
-- `illustrations/make-your-move-actions.jpg`
+- `course-assets/people-skills/people-skills-2-four-ways.jpg`
+- `course-assets/creative-thinking/creative-thinking-1-professions.jpg`
+- `course-assets/creative-thinking/creative-thinking-2-practice.jpg`
+- `course-assets/curious-and-flexible/curious-and-flexible-1-stay-curious.jpg`
+- `course-assets/curious-and-flexible/curious-and-flexible-2-be-flexible.jpg`
+- `course-assets/make-your-move/make-your-move-3-skills.jpg`
+- `course-assets/make-your-move/make-your-move-4-actions.jpg`
 
 The original People Skills reference canvas is 1600×1379. Current approved examples
 range from 1297 to 1475 px tall because canvas height is derived from the longest
@@ -335,7 +335,7 @@ Use when three parallel cards each need substantial context, evidence, quotation
 or qualifications that cannot remain readable in `EE-3FB`. The canonical reference
 board is:
 
-- `illustrations/loudest-voices-experts-v2.jpg`
+- `course-assets/loudest-voices/loudest-voices-1-experts.jpg`
 
 The current reference board is 1600×1563 px. Its height is derived from the deepest card,
 not a fixed long-board canvas. This is a deliberate evidence format, not a way to
@@ -382,7 +382,7 @@ avoid editing ordinary card copy.
 #### Shared rules for `EE-2FB`, `EE-3FB`, `EE-4FB`, and `EE-LONG`
 
 - Create purpose-built internal artwork in the approved soft 3D editorial language
-  established by `illustrations/creative-thinking-professions-v2.jpg`. Compose each
+  established by `course-assets/creative-thinking/creative-thinking-1-professions.jpg`. Compose each
   scene for its final card frame, using its assigned accent as the native material,
   lighting, and environment color.
 - Do not retrofit legacy artwork by cropping out a fragment, stretching it into the
@@ -465,7 +465,7 @@ not a board-specific footer.
 Use for an ordered process in which the direction, handoff, or return path is part
 of the lesson. The approved reference board is:
 
-- `illustrations/rise-of-agents-flow-v2.jpg`
+- `course-assets/rise-of-agents/rise-of-agents-3-loop.jpg`
 
 The Rise of Agents reference uses four steps, but the format may use three to five
 steps when the renderer recalculates the column centers and 16:9 illustration width
@@ -527,10 +527,10 @@ exchange, a revised prompt, or the point where a human should question, verify, 
 stop. Do not use it merely to make ordinary exposition look like a chat app. The
 approved reference boards are:
 
-- `illustrations/next-level-moves-summer-business-v2.jpg`
-- `illustrations/next-level-moves-profit-v2.jpg`
-- `illustrations/next-level-moves-college-v2.jpg`
-- `illustrations/next-level-moves-iteration-v2.jpg`
+- `course-assets/next-level-moves/next-level-moves-1-summer-business.jpg`
+- `course-assets/next-level-moves/next-level-moves-2-profit.jpg`
+- `course-assets/next-level-moves/next-level-moves-3-college.jpg`
+- `course-assets/next-level-moves/next-level-moves-4-iteration.jpg`
 
 - Use the standard 1600 px lavender `#eae7fd` frame with 22 px radius and 40 px
   outer padding.

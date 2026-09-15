@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Render the One More Thing probability board for page and video use."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 from shutil import copy2
 
@@ -144,14 +150,14 @@ def render() -> None:
         text="The best chance is not a guarantee.", font=face("medium", 32),
     )
 
-    page_path = ROOT / "illustrations/one-more-thing-same-odds-v2.jpg"
-    video_path = ROOT / "lessons/one-more-thing-1-draws.jpg"
+    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg"
+    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg"
     review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/01-five-draws.jpg"
     for path in (page_path, video_path, review_path):
         path.parent.mkdir(parents=True, exist_ok=True)
 
     rgb = image.convert("RGB")
-    rgb.save(page_path, quality=95, subsampling=0, optimize=True)
+    save_course_image(rgb, page_path, quality=95, subsampling=0, optimize=True)
     copy2(page_path, video_path)
     copy2(page_path, review_path)
     print(page_path.relative_to(ROOT))

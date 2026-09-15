@@ -4,6 +4,12 @@
 Keep current board pixels and useful Notebook scenes. Authorized narration cuts
 and measured room-tone pauses use a frame/sample-aligned edit timeline.
 """
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 import argparse
 import hashlib
@@ -51,7 +57,7 @@ def overview():
         d.text((cx,533),title,font=face('bold',36),fill=color,anchor='mm')
         for i,line in enumerate(lines):
             d.text((cx,638+i*48),line,font=face('medium',34),fill='#3a3550',anchor='mm')
-    im.save(OUT/'phase-overview.png')
+    save_course_image(im, OUT/'phase-overview.png')
 
 
 def main():
@@ -118,12 +124,12 @@ def main():
     overview()
     assert close_board_copy('training')==('AI learns from examples and feedback.','Guess. Check. Adjust. Repeat.')
     assets={
-        'setup':ROOT/'lessons/training-before-starts-editorial.jpg',
-        'loop':ROOT/'lessons/training-loop-editorial.jpg',
+        'setup':ROOT/'course-assets/training/training-before-starts-editorial.jpg',
+        'loop':ROOT/'course-assets/training/training-loop-editorial.jpg',
         'overview':OUT/'phase-overview.png',
-        'pretraining':ROOT/'lessons/training-pretraining-editorial.jpg',
-        'instruction':ROOT/'lessons/training-instruction-tuning-editorial.jpg',
-        'preference':ROOT/'lessons/training-preference-tuning-editorial.jpg',
+        'pretraining':ROOT/'course-assets/training/training-pretraining-editorial.jpg',
+        'instruction':ROOT/'course-assets/training/training-instruction-tuning-editorial.jpg',
+        'preference':ROOT/'course-assets/training/training-preference-tuning-editorial.jpg',
         'close':OUT/'close.png',
     }
     bases={};layouts={};boards={}

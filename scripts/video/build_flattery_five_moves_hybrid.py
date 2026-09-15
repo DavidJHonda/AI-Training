@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """Owner-approved five-move donor integration. Review candidate, never live."""
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 import json, subprocess, hashlib
 from pathlib import Path
 import cv2
@@ -17,7 +23,7 @@ FF=common.FFMPEG
 at=common.at
 P,A,B,T='#4f2fc4','#a9760c','#1652f0','#0e8f86'
 sources=[RAW,DONOR]
-boards={k:ROOT/'illustrations'/f'flattery-trap-{s}-v2.jpg' for k,s in [('gatsby','comparison'),('loop','praise-loop'),('quote','sycophancy'),('moves','five-moves')]}
+boards={k:asset_path('illustrations', f'flattery-trap-{s}-v2.jpg') for k,s in [('gatsby','comparison'),('loop','praise-loop'),('quote','sycophancy'),('moves','five-moves')]}
 states={0:[],1:[]}
 
 def add(src,start,end,board,label,rect=None,color=P,camera=None,move=0):
@@ -115,7 +121,7 @@ def main():
             rect=v.project_rect(v.map_rect(s['rect'],ox,oy),cam)
             v.rounded_ring(out,rect,v.hex_bgr(s['color']),radius=18,thickness=5)
         return out
-    close=cv2.imread(str(ROOT/'lessons/flattery-trap-5-close.jpg'))
+    close=cv2.imread(str(ROOT/'course-assets/flattery-trap/flattery-trap-5-close.jpg'))
     close=cv2.resize(close,(1600,900),interpolation=cv2.INTER_AREA)
     def render_close(frame):
         # Same fixed close framing and timing as common.render_close.

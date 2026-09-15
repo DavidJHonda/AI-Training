@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Render a full-scale close board png for the Ken Burns close treatment
-(owner standard 2026-07-18; first shipped: tokens, then the composed-close
-retrofit). Reproduces the app's CloseBoard (index.html) at 3840x2160 — 3x of
-frame size, so zoompan up to 1.2x never upscales — with the pill auto-sized
-toward the Gemini Notebook native close scale (pill ~56% of frame width, measured
-from the transformer close). Short pill texts hit the font cap first and land
-narrower, matching how the engine renders its own short closes (which-app).
+"""Prepare a full-frame close image for future video builds.
+
+For --lesson, this uses the lesson's canonical white-background closing JPG—the
+same asset shown on the course page—and centers it at its native 3x CSS scale on
+a 3840x2160 video canvas. Existing finished videos are not rebuilt.
+
+The legacy --pill mode remains available for one-off boards that are not course
+lesson closings.
 
 Usage:
   .video-venv/bin/python scripts/video/make_close_board.py \
@@ -20,6 +21,7 @@ fractional pts drop a frame at concat):
 """
 import argparse
 import html
+import os
 import subprocess
 import sys
 import tempfile
@@ -86,6 +88,7 @@ def pill_frac(png):
 
 
 INDEX = Path(__file__).resolve().parents[2] / "index.html"
+ROOT = INDEX.parent
 
 
 def close_board_copy(section_id):
@@ -109,20 +112,60 @@ def close_board_copy(section_id):
     return row.group(1), row.group(2)
 
 
+def close_board_asset(section_id):
+    """Read the canonical asset path from index.html's CLOSE_BOARD_ASSETS."""
+    import re
+    src = INDEX.read_text(encoding="utf-8")
+    match = re.search(r"CLOSE_BOARD_ASSETS\s*=\s*\{(.*?)\n\};", src, re.S)
+    if not match:
+        sys.exit("could not locate CLOSE_BOARD_ASSETS in index.html")
+    row = re.search(
+        r'\b%s:\s*\{\s*src:\s*"([^"]+)"' % re.escape(section_id),
+        match.group(1))
+    if not row:
+        sys.exit(f"no CLOSE_BOARD_ASSETS entry for '{section_id}'")
+    asset_root = Path(os.environ.get("CLOSE_BOARD_ASSET_ROOT", ROOT))
+    return asset_root / row.group(1)
+
+
+def compose_canonical_for_video(source, output, bg):
+    import cv2
+    import numpy as np
+    image = cv2.imread(str(source))
+    if image is None:
+        sys.exit(f"canonical closing image is missing: {source}")
+    height, width = image.shape[:2]
+    if width > 3840 or height > 2160:
+        sys.exit(f"canonical closing image is too large for the video canvas: {width}x{height}")
+    color = bg.lstrip("#")
+    if len(color) != 6:
+        sys.exit(f"invalid background color: {bg}")
+    rgb = tuple(int(color[i:i + 2], 16) for i in (0, 2, 4))
+    canvas = np.full((2160, 3840, 3), rgb[::-1], dtype=np.uint8)
+    x = (3840 - width) // 2
+    y = (2160 - height) // 2 - 60
+    canvas[y:y + height, x:x + width] = image
+    if not cv2.imwrite(str(output), canvas):
+        sys.exit(f"could not write {output}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--lesson", help="lesson id: take pill/sticky verbatim from "
                                      "index.html CLOSE_BOARDS (preferred — never retype copy)")
     ap.add_argument("--pill")
     ap.add_argument("--sticky", default="")
-    ap.add_argument("--bg", default="#f6f5fb")
+    ap.add_argument("--bg", default="#ffffff")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     if args.lesson:
         args.pill, args.sticky = close_board_copy(args.lesson)
-        print(f"copy from CLOSE_BOARDS[{args.lesson}]:\n  pill:   {args.pill}\n"
-              f"  sticky: {args.sticky}")
+        source = close_board_asset(args.lesson)
+        compose_canonical_for_video(source, args.out, args.bg)
+        print(f"canonical close from {source}\n  pill:   {args.pill}\n"
+              f"  sticky: {args.sticky}\n  wrote:  {args.out}")
+        return
     elif not args.pill:
         ap.error("either --lesson (preferred) or --pill is required")
     elif "'" in args.pill or "'" in args.sticky:

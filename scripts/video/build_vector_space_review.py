@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 """Vector Space 1 repair, selective current boards and source graphics. Review only."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import json,hashlib,subprocess,wave,argparse
 import cv2,numpy as np,imageio_ffmpeg
@@ -27,7 +39,7 @@ def sentence():
     d.text((x+ww/2,y+33),p[0],font=f(47),fill='white',anchor='mm')
    else:d.text((x,y),p,font=f(66),fill='#100b27')
    x+=ww
- im.save(OUT/'sentence.png')
+ save_course_image(im, OUT/'sentence.png')
 class Reader:
  def __init__(self,p):self.c=cv2.VideoCapture(str(p));self.n=-1;self.im=None
  def at(self,n):
@@ -83,7 +95,7 @@ def main():
  keep('1',225.8,226.966667,'Sit close together','close')
  pause(3,'Settled closing message',226.933333)
  total=cursor;writewav(OUT/'edited.wav',np.concatenate(parts))
- assets={k:ROOT/'illustrations'/n for k,n in {'cities':'vector-space-cities.jpg','newcities':'vector-space-cities-closest.jpg','taste':'vector-space-taste-profile.jpg','neighborhoods':'vector-space-neighborhoods.jpg','mystery':'vector-space-closest-drink.jpg','context':'vector-space.jpg'}.items()};assets.update(sentence=OUT/'sentence.png',close=OUT/'close.png');images={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(i is not None for i in images.values())
+ assets={k:asset_path('illustrations', n) for k,n in {'cities':'vector-space-cities.jpg','newcities':'vector-space-cities-closest.jpg','taste':'vector-space-taste-profile.jpg','neighborhoods':'vector-space-neighborhoods.jpg','mystery':'vector-space-closest-drink.jpg','context':'vector-space.jpg'}.items()};assets.update(sentence=OUT/'sentence.png',close=OUT/'close.png');images={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(i is not None for i in images.values())
  events=[]
  def ev(t,key,label,rect=None,col='#6e51ff'):
   events.append(dict(source_frame=fr(t),board=key,label=label,marks=[] if rect is None else [dict(rect=rect,highlight_color=col,highlight_source='neutral_video_purple' if col=='#6e51ff' else 'card_locked_accent')]))

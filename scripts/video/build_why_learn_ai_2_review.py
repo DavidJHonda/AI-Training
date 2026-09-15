@@ -15,6 +15,12 @@ sentence. Four pauses at idea boundaries. The roll's four stock photographs (vin
 the White House) are replaced by Notebook drawings borrowed from the LIVE video of this lesson (Layout Ready Macintosh;
 gear, bolt, globe; the Winning the Race document), picture only, under the roll's own narration. Corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -31,7 +37,7 @@ LIVE = ROOT / 'videos/why-learn-ai.mp4'   # protected only (the shipped file)
 DRAWINGS = ROOT / 'archive/why-learn-ai/why-learn-ai-live-before-2026-09-13.mp4'
 SRC1 = ROOT / 'Prompts/why-learn-ai-1.mp4'   # roll 1: the richer Where AI Already Lives walk (best-of plan, comparison REVIEW.md, 2026-09-14)
 OUT = ROOT / 'video-audit/why-learn-ai-repair-2026-09-13'; DEST = ROOT / 'videos/why-learn-ai-v4.mp4'   # v3 shipped 2026-09-13; v4 = v3 + the roll 1 graft
-B = {k: ROOT / f'lessons/why-learn-ai-{k}.jpg' for k in ('1-press', '1-everyday', '2-thrive')}
+B = {k: asset_path('lessons', f'why-learn-ai-{k}.jpg') for k in ('1-press', '1-everyday', '2-thrive')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

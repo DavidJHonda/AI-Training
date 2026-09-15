@@ -10,10 +10,10 @@ AUDIT=ROOT/'video-audit/support-trap-reroll-repair-2026-09-07'
 OUT=ROOT/'Prompts/support-trap-reroll-patched.mp4'
 SOURCE=ROOT/'Prompts/support-trap-reroll.mp4'
 P,B,A,T,R,H='#4f2fc4','#1652f0','#a9760c','#0e8f86','#c41f28','#6e51ff'
-BOARDS={'compare':ROOT/'illustrations/support-trap-comparison-v2.jpg',
-'role':ROOT/'illustrations/support-trap-real-vs-missing-v2.jpg',
-'danger':ROOT/'illustrations/support-trap-danger-v2.jpg'}
-CLOSE=ROOT/'lessons/support-trap-4-close.jpg'
+BOARDS={'compare':ROOT/'course-assets/support-trap/support-trap-comparison-v2.jpg',
+'role':ROOT/'course-assets/support-trap/support-trap-2-role.jpg',
+'danger':ROOT/'course-assets/support-trap/support-trap-3-danger.jpg'}
+CLOSE=ROOT/'course-assets/support-trap/support-trap-4-close.jpg'
 chunks=[]
 def keep(a,b,board=None,label='native',rect=None,color=H,camera=None,move=0):
     chunks.append(dict(src=0,a=at(a),b=at(b),board=board,label=label,rect=rect,color=color,camera=camera,move=move))

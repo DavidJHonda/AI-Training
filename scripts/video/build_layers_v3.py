@@ -62,7 +62,7 @@ def main():
  pause('Settled standard close',162.133333)
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
- paths={'horse':ROOT/'lessons/layers-horse-three-reads-editorial.jpg','stack':ROOT/'lessons/layers-inside-layer-editorial.jpg','it':ROOT/'illustrations/layers-resolves-it.jpg','close':OUT/'close.png'}
+ paths={'horse':ROOT/'course-assets/layers/layers-horse-three-reads-editorial.jpg','stack':ROOT/'course-assets/layers/layers-inside-layer-editorial.jpg','it':ROOT/'course-assets/layers/layers-3-resolves-it.jpg','close':OUT/'close.png'}
  images={k:cv2.imread(str(p)) for k,p in paths.items()};assert all(x is not None for x in images.values())
  events=[]
  def ev(t,key,label,rect=None,color='#6e51ff'):

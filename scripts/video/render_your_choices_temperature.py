@@ -3,6 +3,18 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 import shutil
 from pathlib import Path
 
@@ -70,18 +82,18 @@ def add_shadow(image: Image.Image, box: tuple[int, int, int, int]) -> None:
 
 
 def save_pair(image: Image.Image) -> None:
-    page = ROOT / "illustrations/your-choices-temperature-v1.jpg"
-    prep = ROOT / "lessons/your-choices-3-temperature.jpg"
+    page = ROOT / "course-assets/your-choices/your-choices-temperature-v1.jpg"
+    prep = asset_path('lessons', 'your-choices-3-temperature.jpg')
     page.parent.mkdir(parents=True, exist_ok=True)
     prep.parent.mkdir(parents=True, exist_ok=True)
     flattened = Image.new("RGB", image.size, FRAME)
     flattened.paste(image, mask=image.getchannel("A"))
-    flattened.save(page, quality=94, subsampling=0, optimize=True)
+    save_course_image(flattened, page, quality=94, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     # Keep the migrated lesson assets in sync; retain legacy video source names.
     for relative in (
-        "illustrations/one-more-thing-temperature.jpg",
-        "lessons/one-more-thing-2-temperature.jpg",
+        "course-assets/one-more-thing/one-more-thing-2-temperature.jpg",
+        "course-assets/one-more-thing/one-more-thing-2-temperature.jpg",
         "board-review-understand-ai-retrofit/boards/one-more-thing/02-temperature.jpg",
     ):
         destination = ROOT / relative

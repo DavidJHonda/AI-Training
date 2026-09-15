@@ -16,6 +16,12 @@ uniform window per board; rings are drawn post-crop at 5px in each card's locked
 Pauses: 1.0s matched room tone at 47.83, 81.90, 145.93, 170.87 (visual held). Standard close.
 Audio outside the pauses is the source audio.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import json, hashlib, subprocess, wave, argparse, sys
 import cv2, numpy as np, imageio_ffmpeg
@@ -26,7 +32,7 @@ OUT = ROOT / 'video-audit/how-ai-answers-repair-2026-09-11'
 DEST = ROOT / 'videos/how-ai-answers-v5.mp4'
 KB = ROOT / 'scripts/video/ken_burns_path.py'
 PY = ROOT / '.video-venv/bin/python'
-ILL = ROOT / 'illustrations'
+ILL = asset_dir('illustrations')
 FPS = 30; SR = 48000; W = 1280; H = 720; SPF = SR // FPS
 PURPLE, BLUE, TEAL, GREEN, NEUTRAL = '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a', '#6e51ff'
 RING_PX, MARGIN, TR, PULL = 5, 40, 24, 30  # margin: frame clearance around a dive's ring (spec minimum 24)
@@ -171,7 +177,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True); (OUT / 'preview').mkdir(exist_ok=True)
     ff = imageio_ffmpeg.get_ffmpeg_exe()
-    assets = {k: ILL / f for k, f in dict(b1='how-ai-answers-before-answer-begins-v2.jpg', b2='how-ai-answers-where-answer-begins-v2.jpg',
+    assets = {k: ILL / f for k, f in dict(b1='how-ai-answers-before-answer-begins.jpg', b2='how-ai-answers-where-answer-begins.jpg',
                                            b3='how-ai-answers-token-by-token.jpg', b4='how-ai-answers.jpg').items()}
     protected = [SRC, ROOT / 'videos/how-ai-answers.mp4', ROOT / 'lessons/how-ai-answers.md', *assets.values()]
     hashes = {str(p): sha(p) for p in protected}

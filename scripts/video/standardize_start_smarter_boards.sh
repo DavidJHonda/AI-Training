@@ -126,8 +126,10 @@ render_why_board() {
   rm -f "$temp_png"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-2-thrive-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-thrive.jpg"
-  cp "$output" "$repo_root/illustrations/why-learn-ai-thrive.jpg"
-  cp "$output" "$repo_root/lessons/why-learn-ai-2-thrive.jpg"
+  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
+  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
   echo "Built $output"
 }
 
@@ -183,8 +185,10 @@ render_llm_board() {
   rm -f "$temp_png"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/what-is-ai-3-llm-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/what-is-ai-llm.jpg"
-  cp "$output" "$repo_root/illustrations/what-is-ai-llm.jpg"
-  cp "$output" "$repo_root/lessons/what-is-ai-3-llm.jpg"
+  cp "$output" "$repo_root/course-assets/what-is-ai/what-is-ai-llm.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/what-is-ai/what-is-ai-llm.jpg"
+  cp "$output" "$repo_root/course-assets/what-is-ai/what-is-ai-3-llm.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/what-is-ai/what-is-ai-3-llm.jpg"
   echo "Built $output"
 }
 
@@ -247,8 +251,10 @@ render_school_board() {
   rm -f "$temp_png"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-1-two-skills-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-two-skills.jpg"
-  cp "$output" "$repo_root/illustrations/does-school-matter-two-skills.jpg"
-  cp "$output" "$repo_root/lessons/does-school-matter-1-two-skills.jpg"
+  cp "$output" "$repo_root/course-assets/beyond-the-average/does-school-matter-two-skills.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/beyond-the-average/does-school-matter-two-skills.jpg"
+  cp "$output" "$repo_root/course-assets/beyond-the-average/does-school-matter-1-two-skills.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/beyond-the-average/does-school-matter-1-two-skills.jpg"
   echo "Built $output"
 }
 
@@ -256,11 +262,14 @@ render_study_board() {
   # The old raster contained essential 18–22 px copy. Preserve the code-native
   # readability rebuild; regenerate it with render_readability_gap_boards.py.
   local output="$output_root/learn-with-ai-study-tools.jpg"
-  cp "$repo_root/illustrations/learn-with-ai-study-tools.jpg" "$output"
+  cp "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-tools.jpg" "$output"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$output"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/learn-with-ai-1-study-tools-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg"
-  cp "$output" "$repo_root/illustrations/learn-with-ai-study-tools.jpg"
-  cp "$output" "$repo_root/lessons/learn-with-ai-1-study-tools.jpg"
+  cp "$output" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-tools.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-tools.jpg"
+  cp "$output" "$repo_root/course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg"
 }
 
 # Crop only the existing content stage. Titles and legacy footer treatments are

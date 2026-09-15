@@ -7,8 +7,8 @@ Use case: identity-preserve
 Asset type: supporting character artwork for a 1600×900 educational course roadmap
 board
 
-Input images: `illustrations/welcome.jpg` and
-`illustrations/does-school-matter.jpg` were used as identity and uniform references.
+Input images: `course-assets/welcome/welcome.jpg` and
+`course-assets/beyond-the-average/does-school-matter.jpg` were used as identity and uniform references.
 Luke has light-brown tight curls and green hockey jersey 4. Nate has dark curls and
 green hockey jersey 96.
 

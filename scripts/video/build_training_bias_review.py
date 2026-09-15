@@ -4,6 +4,12 @@
 Sentence cuts use word alignment and measured quiet frames. Board intervals
 follow visual scene boundaries independently of narration. No invented board.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import json
 import subprocess
@@ -31,7 +37,7 @@ def replacements():
     result=[]
     def add(name, asset, points, states):
         points=tuple(at(t) for t in points)
-        item=common.make_leg(name, ROOT/'illustrations'/asset, points, tuple(states))
+        item=common.make_leg(name, asset_path('illustrations', asset), points, tuple(states))
         result.append((points[0],points[-1],item))
     add('wrong-pattern','training-bias-pattern-v2.jpg',
         (15.1,23.7,28.466667),(
@@ -98,7 +104,7 @@ def main():
                 cursor+=state.frames
         close_start=CUTS[-1][1]
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'lessons/training-bias-6-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/training-bias/training-bias-6-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

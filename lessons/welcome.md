@@ -31,12 +31,4 @@ steps.](welcome-2-your-path.jpg)
 
 ![How the Course Works. Watch or Read: after this Welcome, each lesson begins with a short video. The video and written lesson cover the same material. Choose either. Do the Activity: finish the activity at the end of each lesson. TRY ITs are short exercises inside the course. LABs take you into AI to practice what you’ve learned. Mark It Complete: at the bottom of the lesson, select the Mark as complete button. That records the lesson as complete and moves you forward. The progress bar counts completed lessons. Continue returns you to the first lesson you haven’t completed. Use the navigation bar to revisit lessons. Completed lessons show a checkmark.](welcome-2-how-to-take-course-page.jpg)
 
-## TOOLS NEEDED
-
-### Your course toolkit
-
-Nothing to install. No paid plan required.
-
-- **A computer:** Best for the labs. Use a laptop or desktop computer for hands-on activities.
-- **ChatGPT for Teens:** Free account and your main lab tool. Ages 13 to 17 are automatically placed in the teen experience.
-- **Google account:** Free account used to create a Gemini Notebook.
+![Your Course Toolkit. Your Course Toolkit A Computer Is Best You’ll work hands-on with AI throughout this course. A laptop or desktop will give you the best experience. A phone works too, but some LABs will be harder to complete. ChatGPT for Teens ChatGPT is the main AI tool for this course. The free version is enough. If you’re under 18, get permission from a parent or legal guardian before signing up. Eligible teens enter the protected teen experience automatically. A Google Account A free account works. You’ll use it to create a Gemini Notebook. Access through a school account may depend on your school’s settings. USING ANOTHER AI APP? Gemini can complete many general chat exercises, but its screens and features will differ. Some LABs require the specific tool named in their instructions. Claude.ai requires users to be 18 or older. Always use your own account.](welcome-3-course-toolkit.png)

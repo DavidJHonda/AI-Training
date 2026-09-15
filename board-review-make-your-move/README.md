@@ -17,15 +17,15 @@ accent, 10% wash, and 22% border requirements.
 
 ## Installed files
 
-- Page: `illustrations/make-your-move-careers-1-v2.jpg`
-- Page: `illustrations/make-your-move-careers-2-v2.jpg`
+- Page: `course-assets/make-your-move/make-your-move-2-careers-a.jpg`
+- Page: `course-assets/make-your-move/make-your-move-2-careers-b.jpg`
 - Video prep: `lessons/make-your-move-1-careers-a.jpg`
 - Video prep: `lessons/make-your-move-1-careers-b.jpg`
 
 ## Artwork generation
 
 The six source scenes in `assets/` were created with the built-in image generator
-using `illustrations/work-changes.jpg` as the identity and photographic-style
+using `course-assets/work-changes/work-changes.jpg` as the identity and photographic-style
 reference. Every prompt asked for a 16:9 future-career scene in which an AI screen
 handles the listed support tasks while Nate and Luke visibly perform the profession’s
 human-owned work. The role-specific prompts covered medical care, classroom

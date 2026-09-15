@@ -3,6 +3,18 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 import math
 import json
 import shutil
@@ -3042,7 +3054,7 @@ def render_inside_real_model(source: Path, out_path: Path) -> None:
 
 def save(image: Image.Image, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    image.save(out_path, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, out_path, quality=95, subsampling=0, optimize=True)
     print(f"wrote {out_path.relative_to(ROOT)} ({image.width}x{image.height})")
 
 
@@ -3135,7 +3147,7 @@ def render_all() -> None:
         board_path("transformer", "01-context-problems.jpg"),
     )
     render_before_transformers(
-        ROOT / "illustrations" / "transformer-1-before.jpg",
+        ROOT / "course-assets/transformer/transformer-1-before.jpg",
         board_path("transformer", "02-before-transformers.jpg"),
     )
     render_transformer_reads_whole_message(board_path("transformer", "02-how-ai-reads.jpg"))
@@ -3185,7 +3197,7 @@ def render_all() -> None:
     render_answer_token_by_token(board_path("how-ai-answers", "04-token-by-token.jpg"))
     render_shell(
         "Score Every Token: The Name Slot",
-        ROOT / "lessons/how-ai-answers-8-ranked-list.jpg",
+        asset_path('lessons', 'how-ai-answers-8-ranked-list.jpg'),
         board_path("how-ai-answers", "05-name-slot.jpg"),
         crop_box=(.12, .23, .90, .87),
     )
@@ -3197,13 +3209,13 @@ def render_all() -> None:
     # One More Thing
     five_draws_path = board_path("one-more-thing", "01-five-draws.jpg")
     five_draws_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "lessons/one-more-thing-1-draws.jpg", five_draws_path)
+    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg", five_draws_path)
     memory_path = board_path("one-more-thing", "02-two-sides-chat.jpg")
     memory_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "lessons/one-more-thing-2-two-sides.jpg", memory_path)
+    shutil.copy2(asset_path('lessons', 'one-more-thing-2-two-sides.jpg'), memory_path)
     math_path = board_path("one-more-thing", "03-the-math.jpg")
     math_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "lessons/one-more-thing-3-bill.jpg", math_path)
+    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-3-bill.jpg", math_path)
     render_teaching(
         "Every Time You Hit Send",
         teaching / "every-time-you-hit-send.png",
@@ -3231,7 +3243,7 @@ def make_contact_sheets() -> None:
             sheet.paste(fit, (x, y))
             draw.text((x, y - 10), path.name, font=face("bold", 18), fill=INK, anchor="ls")
         out = contact_dir / f"{lesson_dir.name}.jpg"
-        sheet.save(out, quality=92, subsampling=0, optimize=True)
+        save_course_image(sheet, out, quality=92, subsampling=0, optimize=True)
         print(f"wrote {out.relative_to(ROOT)}")
 
 

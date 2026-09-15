@@ -9,6 +9,14 @@ with the locked Editorial typography.
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+    from .course_asset_paths import asset_path
+except ImportError:
+    from course_credit import save_course_image
+    from course_asset_paths import asset_path
+
+
 import shutil
 import sys
 from dataclasses import dataclass, replace
@@ -46,7 +54,7 @@ def save_pair(image: Image.Image, pair: Pair) -> None:
     prep = ROOT / pair.prep
     page.parent.mkdir(parents=True, exist_ok=True)
     prep.parent.mkdir(parents=True, exist_ok=True)
-    image.save(page, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     print(f"wrote {page.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")
@@ -77,7 +85,7 @@ def render_card_board_with_panel_order(board: CardBoard, order: tuple[int, ...])
         sheet.paste(panel, (left, top))
     with TemporaryDirectory(prefix="avoid-traps-art-") as temp_dir:
         temp_path = Path(temp_dir) / "art-sheet.png"
-        sheet.save(temp_path)
+        save_course_image(sheet, temp_path)
         return render_card_board(replace(board, art_sheet=str(temp_path)))
 
 
@@ -197,6 +205,15 @@ def build_art_sheets() -> dict[str, str]:
             )
         sheets[key] = str(path.relative_to(ROOT))
     return sheets
+
+
+def copy_selected_feature(source: str, prep_name: str) -> None:
+    """Reuse the approved complete illustration without adding a second frame."""
+    source_path = ROOT / source
+    destination = asset_path("lessons", prep_name)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if source_path.resolve() != destination.resolve():
+        shutil.copyfile(source_path, destination)
 
 
 def render_feature(title: str, source: str, takeaway: str, accent: str = PURPLE) -> Image.Image:
@@ -629,7 +646,7 @@ def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         render_card_board(eliza),
-        Pair("illustrations/mind-trap-eliza-effect-v2.jpg", "lessons/avoid-traps-13-eliza.jpg"),
+        Pair("course-assets/mind-trap/mind-trap-eliza-effect-v2.jpg", "course-assets/mind-trap/avoid-traps-13-eliza.jpg"),
     )
 
     comparison = render_comparison(
@@ -664,7 +681,7 @@ def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         comparison,
-        Pair("illustrations/mind-trap-comparison-v2.jpg", "lessons/avoid-traps-12-mind-comparison.jpg"),
+        Pair("course-assets/mind-trap/mind-trap-comparison-v2.jpg", "course-assets/mind-trap/avoid-traps-12-mind-comparison.jpg"),
     )
 
 
@@ -687,7 +704,7 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         render_flow_board_with_title_size(praise_flow, 31),
-        Pair("illustrations/flattery-trap-praise-loop-v2.jpg", "lessons/avoid-traps-15-praise-loop.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg", "course-assets/flattery-trap/avoid-traps-15-praise-loop.jpg"),
     )
 
     comparison = render_comparison(
@@ -722,16 +739,16 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         comparison,
-        Pair("illustrations/flattery-trap-comparison-v2.jpg", "lessons/avoid-traps-14-flattery-comparison.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-comparison-v2.jpg", "course-assets/flattery-trap/avoid-traps-14-flattery-comparison.jpg"),
     )
 
     save_pair(
         render_sycophancy_example(),
-        Pair("illustrations/flattery-trap-sycophancy-v2.jpg", "lessons/avoid-traps-16-sycophancy.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-3-sycophancy.jpg", "course-assets/flattery-trap/avoid-traps-16-sycophancy.jpg"),
     )
     save_pair(
         render_five_moves(),
-        Pair("illustrations/flattery-trap-five-moves-v2.jpg", "lessons/avoid-traps-16a-five-moves.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-4-five-moves.jpg", "course-assets/flattery-trap/avoid-traps-16a-five-moves.jpg"),
     )
 
 
@@ -739,7 +756,7 @@ def render_engagement_trap_boards() -> None:
     """Render only the three Engagement Trap boards and their lesson copies."""
     save_pair(
         render_engagement_comparison(),
-        Pair("illustrations/engagement-trap-comparison-v2.jpg", "lessons/engagement-trap-1-comparison.jpg"),
+        Pair("course-assets/engagement-trap/engagement-trap-1-comparison.jpg", "course-assets/engagement-trap/engagement-trap-1-comparison.jpg"),
     )
     scroll_comparison = CardBoard(
         "engagement-scroll",
@@ -762,17 +779,9 @@ def render_engagement_trap_boards() -> None:
     )
     save_pair(
         render_card_board(scroll_comparison),
-        Pair("illustrations/engagement-trap-scroll-v2.jpg", "lessons/avoid-traps-17a-scroll.jpg"),
+        Pair("course-assets/engagement-trap/engagement-trap-2-scroll.jpg", "course-assets/engagement-trap/avoid-traps-17a-scroll.jpg"),
     )
-    save_pair(
-        render_feature(
-            "AI Won’t Quit for You",
-            "illustrations/engagement-trap-clean-v2.png",
-            "The skill is knowing when you already have what you came for.",
-            AMBER,
-        ),
-        Pair("illustrations/engagement-trap-stop-v2.jpg", "lessons/avoid-traps-18-stop.jpg"),
-    )
+    copy_selected_feature("course-assets/engagement-trap/engagement-trap.jpg", "avoid-traps-18-stop.jpg")
 
 
 def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair], ...]:
@@ -782,13 +791,13 @@ def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair]
             Card("What Can Be Real", "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation."),
             Card("What Is Missing", "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow."),
         ), art["support"], "", "", "Use AI to prepare for people, not replace them.", (TEAL, RED)),
-         Pair("illustrations/support-trap-real-vs-missing-v2.jpg", "lessons/avoid-traps-20-support-role.jpg")),
+         Pair("course-assets/support-trap/support-trap-2-role.jpg", "course-assets/support-trap/avoid-traps-20-support-role.jpg")),
         (CardBoard("support-danger", "If Someone May Be in Immediate Danger", (
             Card("Leave the Chat", "Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger."),
             Card("Do It Now", "Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility."),
             Card("Tell Anyway", "Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy."),
         ), art["danger"], "", "", "In danger, the next move must reach a person who can act.", (RED, RED, RED)),
-         Pair("illustrations/support-trap-danger-v2.jpg", "lessons/avoid-traps-21-danger.jpg")),
+         Pair("course-assets/support-trap/support-trap-3-danger.jpg", "course-assets/support-trap/avoid-traps-21-danger.jpg")),
     )
 
 
@@ -817,25 +826,24 @@ def main() -> None:
     )
     save_pair(
         render_chat(hallucination_example),
-        Pair("illustrations/hallucination-example-v2.jpg", "lessons/avoid-traps-2-hallucination-example.jpg"),
+        Pair("course-assets/hallucination/hallucination-1-example.jpg", "course-assets/hallucination/avoid-traps-2-hallucination-example.jpg"),
     )
 
     save_pair(
         render_hallucination_convergence(art["hallucination_why"], art["hallucination_types"]),
-        Pair("illustrations/hallucination-why-v2.jpg", "lessons/avoid-traps-2a-why.jpg"),
+        Pair("course-assets/hallucination/hallucination-2-why.jpg", "course-assets/hallucination/avoid-traps-2a-why.jpg"),
     )
 
+    copy_selected_feature("course-assets/avoid-traps-opener/opener-avoid.jpg", "avoid-traps-1-read-water.jpg")
+    copy_selected_feature("course-assets/fake-trap/fake-trap.jpg", "avoid-traps-23-source.jpg")
+
     feature_boards = (
-        ("Read the Water", "illustrations/opener-avoid.jpg", "The safest move is to notice the current before it pulls you in.", PURPLE,
-         Pair("illustrations/opener-avoid-editorial-v2.jpg", "lessons/avoid-traps-1-read-water.jpg")),
-        ("Real Text. Wrong Meaning.", "illustrations/hallucination-real-text.png", "The Reddit comment was real. The cooking advice was not.", AMBER,
-         Pair("illustrations/hallucination-real-text-v2.jpg", "lessons/avoid-traps-3-real-text.jpg")),
-        ("Wrong Pattern. Wrong Answer.", "illustrations/training-bias.jpg", "A model can learn the background instead of the thing that matters.", TEAL,
-         Pair("illustrations/training-bias-pattern-v2.jpg", "lessons/avoid-traps-5-wrong-pattern.jpg")),
-        ("", "illustrations/document-trap.jpg", "AI may answer from only part of the file.", BLUE,
-         Pair("illustrations/document-trap-uploaded-v2.jpg", "lessons/avoid-traps-10-uploaded.jpg")),
-        ("Check the Source, Not the Pixels", "illustrations/fake-trap.jpg", "Move the test away from appearance and toward independent evidence.", TEAL,
-         Pair("illustrations/fake-trap-source-v2.jpg", "lessons/avoid-traps-23-source.jpg")),
+        ("Real Text. Wrong Meaning.", "course-assets/hallucination/hallucination-real-text.png", "The Reddit comment was real. The cooking advice was not.", AMBER,
+         Pair("course-assets/hallucination/hallucination-real-text-v2.jpg", "course-assets/hallucination/avoid-traps-3-real-text.jpg")),
+        ("Wrong Pattern. Wrong Answer.", "course-assets/training-bias/training-bias.jpg", "A model can learn the background instead of the thing that matters.", TEAL,
+         Pair("course-assets/training-bias/training-bias-pattern-v2.jpg", "course-assets/training-bias/avoid-traps-5-wrong-pattern.jpg")),
+        ("", "course-assets/document-trap/document-trap.jpg", "AI may answer from only part of the file.", BLUE,
+         Pair("course-assets/document-trap/document-trap-uploaded-v2.jpg", "course-assets/document-trap/avoid-traps-10-uploaded.jpg")),
     )
     for title, source, takeaway, accent, pair in feature_boards:
         save_pair(render_feature(title, source, takeaway, accent), pair)
@@ -847,32 +855,32 @@ def main() -> None:
             Card("Blended Fact", "Real facts combined in a way that creates a false conclusion."),
             Card("Misread Source", "The source is real, but the model read it wrong."),
         ), art["hallucination_types"], "", "", "Not every wrong answer is a hallucination.", (PURPLE, BLUE, AMBER, TEAL)),
-         Pair("illustrations/hallucination-types-v2.jpg", "lessons/avoid-traps-3-hallucination-types.jpg")),
+         Pair("course-assets/hallucination/hallucination-types-v2.jpg", "course-assets/hallucination/avoid-traps-3-hallucination-types.jpg")),
         (CardBoard("rag-limits", "How RAG Works", (
             Card("Retrieve", "The system finds information connected to your question."),
             Card("Add to Context", "The retrieved material joins the information AI can use."),
             Card("Generate", "The model uses that material while it writes the answer."),
         ), art["rag"], "", "", "RAG gives AI more to read. It does not guarantee truth.", (PURPLE, BLUE, TEAL)),
-         Pair("illustrations/training-bias-rag-v2.jpg", "lessons/avoid-traps-8a-rag.jpg")),
+         Pair("course-assets/training-bias/training-bias-5-rag.jpg", "course-assets/training-bias/avoid-traps-8a-rag.jpg")),
         (CardBoard("bias-mechanisms", "How Skewed Data Distorts the Picture", (
             Card("Defaults", "Common cases appear often, so the model treats them as the standard answer."),
             Card("Blind Spots", "Rare cases barely appear, so the model learns less about them."),
             Card("Wrong Patterns", "A clue works during training, so the model learns the clue instead of the concept."),
         ), art["bias_mechanisms"], "", "", "The model repeats the shape of its data.", (PURPLE, BLUE, AMBER)),
-         Pair("illustrations/training-bias-mechanisms-v2.jpg", "lessons/avoid-traps-6-bias-mechanisms.jpg")),
+         Pair("course-assets/training-bias/training-bias-2-mechanisms.jpg", "course-assets/training-bias/avoid-traps-6-bias-mechanisms.jpg")),
         (CardBoard("bias-questions", "Three Questions That Reveal Bias", (
             Card("Ask What’s Missing", "“What’s missing from this answer?”"),
             Card("Ask for Exceptions", "“Show me examples that don’t fit the pattern you just gave.”"),
             Card("Remove the Famous", "“Answer again, leaving out the most famous examples.”"),
         ), art["bias_questions"], "", "", "The model often has the rest of the picture. It just doesn’t lead with it.", (PURPLE, BLUE, AMBER)),
-         Pair("illustrations/training-bias-questions-v2.jpg", "lessons/avoid-traps-7-bias-questions.jpg")),
+         Pair("course-assets/training-bias/training-bias-3-questions.jpg", "course-assets/training-bias/avoid-traps-7-bias-questions.jpg")),
         (CardBoard("document-moves", "", (
             Card("Name the Section", "Use the document’s own headings and keywords."),
             Card("Ask One Thing", "Give retrieval one clear target at a time."),
             Card("Share What Matters", "Paste the exact passage or upload only the relevant section."),
             Card("Ask for the Quote", "Ask AI to quote the exact passage, then compare it with the original."),
         ), art["document_moves"], "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER)),
-         Pair("illustrations/document-trap-moves-v2.jpg", "lessons/avoid-traps-11-document-moves.jpg")),
+         Pair("course-assets/document-trap/document-trap-moves-v2.jpg", "course-assets/document-trap/avoid-traps-11-document-moves.jpg")),
         *support_trap_card_specs(art),
         (CardBoard("fake-reasons", "Why Some Fakes Aren’t Friendly", (
             Card("Money", "Outrage gets clicks, and clicks pay."),
@@ -880,13 +888,13 @@ def main() -> None:
             Card("Fame", "A viral clip means followers. It does not have to be true to travel."),
             Card("Cruelty", "Some fakes exist to humiliate one person, especially at school."),
         ), art["fake_reasons"], "", "", "A fake is built to get something back.", (PURPLE, BLUE, AMBER, RED)),
-         Pair("illustrations/fake-trap-four-reasons-v2.jpg", "lessons/avoid-traps-24-fake-reasons.jpg")),
+         Pair("course-assets/fake-trap/fake-trap-four-reasons-v2.jpg", "course-assets/fake-trap/avoid-traps-24-fake-reasons.jpg")),
         (CardBoard("fake-checks", "Move the Test Off the Image", (
             Card("Source", "Who posted it? Do they have a reason and a way to know?"),
             Card("Context", "What happened before and after? What important details are missing?"),
             Card("Corroboration", "Can an independent source confirm the same event or claim?"),
         ), art["fake_checks"], "", "", "Verify somewhere the sender does not control.", (PURPLE, BLUE, TEAL)),
-         Pair("illustrations/fake-trap-three-checks-v2.jpg", "lessons/avoid-traps-25-fake-checks.jpg")),
+         Pair("course-assets/fake-trap/fake-trap-4-checks.jpg", "course-assets/fake-trap/avoid-traps-25-fake-checks.jpg")),
     )
     for board, pair in cards:
         rendered = (
@@ -902,7 +910,7 @@ def main() -> None:
             Card("Search", "Look for pieces that match the question by keywords and meaning."),
             Card("Load", "Put the selected pieces into the context window for AI to use."),
         ), art["document_flow"], "", "", (PURPLE, BLUE, TEAL), takeaway="Search decides which parts reach the answer."),
-         Pair("illustrations/document-trap-flow-v2.jpg", "lessons/avoid-traps-9-document-flow.jpg")),
+         Pair("course-assets/document-trap/document-trap-flow-v2.jpg", "course-assets/document-trap/avoid-traps-9-document-flow.jpg")),
     )
     for board, pair in flows:
         save_pair(render_flow_board(board), pair)
@@ -913,7 +921,7 @@ def main() -> None:
         Turn("YOU", "Search the web and check the date. Was he the first pick in the 2025 NBA draft?"),
         Turn("AI", "Yes. Dallas selected Cooper Flagg with the first pick in 2025. My earlier answer relied on older information."),
     ), "When the date matters, verify with a current source.")
-    save_pair(render_chat(stale), Pair("illustrations/training-bias-stale-chat-v2.jpg", "lessons/avoid-traps-8-stale.jpg"))
+    save_pair(render_chat(stale), Pair("course-assets/training-bias/training-bias-4-stale.jpg", "course-assets/training-bias/avoid-traps-8-stale.jpg"))
 
     comparisons = (
         ("Supportive Words versus Support", "“I’ve been eating lunch alone for like two weeks.”", (
@@ -922,14 +930,14 @@ def main() -> None:
             CompareSide("AI", "The Chatbot", "“I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?”",
                         (("FOUND", "Caring words."), ("TOMORROW", "It cannot show up."), ("CHANGED", "Nothing outside the chat.")), AMBER),
         ), "scripts/video/assets/editorial-avoid-traps/comparisons/support-words-vs-action.png", "Supportive language is not the same as support.",
-         Pair("illustrations/support-trap-comparison-v2.jpg", "lessons/avoid-traps-19-support-comparison.jpg")),
+         Pair("course-assets/support-trap/support-trap-comparison-v2.jpg", "course-assets/support-trap/avoid-traps-19-support-comparison.jpg")),
         ("The Same Clip. Two Eras.", "A friend sends a video of your principal announcing that school is closed next week.", (
             CompareSide("BEFORE AI", "Does It Look Real?", "You study the face, voice, and hallway. Everything looks right.",
                         (("CHECKED", "Face and voice."), ("MATCHED", "How the principal talks."), ("VERDICT", "Real.")), AMBER),
             CompareSide("THE AI ERA", "Where Is It From?", "You ignore the pixels and check the trail. Nothing appears on the school website.",
                         (("SKIPPED", "Face and voice."), ("CHECKED", "The source that would know."), ("VERDICT", "Unverified.")), BLUE),
         ), "scripts/video/assets/editorial-avoid-traps/comparisons/fake-two-tests.png", "Appearance can mislead. The source trail can be checked.",
-         Pair("illustrations/fake-trap-comparison-v2.jpg", "lessons/avoid-traps-22-fake-comparison.jpg")),
+         Pair("course-assets/fake-trap/fake-trap-comparison-v2.jpg", "course-assets/fake-trap/avoid-traps-22-fake-comparison.jpg")),
     )
     for title, scenario, sides, source, takeaway, pair in comparisons:
         save_pair(render_comparison(title, scenario, sides, source, takeaway), pair)

@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-4.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
 OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14b'; DEST = ROOT / 'videos/opener-work-v5.mp4'   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
-B = {'refrain': ROOT / 'lessons/opener-work-1-refrain.jpg', 'same-tool': ROOT / 'illustrations/opener-work.jpg', 'map': ROOT / 'illustrations/opener-work-section-map.jpg'}
+B = {'refrain': ROOT / 'course-assets/work-with-ai-opener/opener-work-1-refrain.jpg', 'same-tool': ROOT / 'course-assets/work-with-ai-opener/opener-work-2-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/opener-work-3-section-map.jpg'}
 GOLD = '#eccf6b'   # the creed card's own accent (Build opener precedent)
 ROWS = {'know': [100, 145, 1500, 305], 'use': [100, 335, 1500, 497], 'think': [100, 527, 1500, 690]}   # section map, measured 2026-09-14
 LINES = [[90, 349, 1509, 409], [90, 421, 1509, 490], [90, 495, 1509, 555], [90, 563, 1509, 624]]   # refrain card lines (navy card 60-1539 x 232-669; text rows 361-397, 433-478, 507-543, 575-612)

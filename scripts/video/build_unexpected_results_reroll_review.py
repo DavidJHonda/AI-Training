@@ -26,8 +26,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/unexpected-results.mp4"
 DONOR = ROOT / "videos/unexpected-results-v2.mp4"
-BOARD = ROOT / "lessons/unexpected-results-1-plans.jpg"
-CLOSE = ROOT / "lessons/unexpected-results-2-close.jpg"
+BOARD = ROOT / "course-assets/unexpected-results/unexpected-results-1-plans.jpg"
+CLOSE = ROOT / "course-assets/unexpected-results/unexpected-results-2-close.jpg"
 OUTPUT = ROOT / "videos/unexpected-results-v3.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 

@@ -46,7 +46,7 @@ def main():
  pause(3,'Settled standard close',246.433333)
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
- assets={'chat':ROOT/'lessons/tokens-using-ai-feels-like-editorial.jpg','blocks':ROOT/'lessons/tokens-building-blocks-editorial.jpg','send':ROOT/'lessons/tokens-how-tokenization-works-editorial.jpg','cat':ROOT/'lessons/tokens-cat-token-id-editorial.jpg','examples':ROOT/'lessons/tokens-how-ai-splits-text-verified-editorial.jpg','whole':OUT/'assets/whole-and-part.png','math':OUT/'assets/words-to-math.png','close':OUT/'close-corrected.png'}
+ assets={'chat':ROOT/'course-assets/tokens/tokens-using-ai-feels-like-editorial.jpg','blocks':ROOT/'course-assets/tokens/tokens-building-blocks-editorial.jpg','send':ROOT/'course-assets/tokens/tokens-how-tokenization-works-editorial.jpg','cat':ROOT/'course-assets/tokens/tokens-cat-token-id-editorial.jpg','examples':ROOT/'course-assets/tokens/tokens-how-ai-splits-text-verified-editorial.jpg','whole':OUT/'assets/whole-and-part.png','math':OUT/'assets/words-to-math.png','close':OUT/'close-corrected.png'}
  images={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(im is not None for im in images.values())
  def mark(rect,col=PURPLE):return dict(rect=rect,highlight_color=col,highlight_source='neutral_video_purple' if col==PURPLE else 'card_locked_accent')
  events=[]

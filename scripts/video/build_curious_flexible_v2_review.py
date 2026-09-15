@@ -8,6 +8,12 @@ bars, dense: Stay Curious arrives at its intro sentence ("This board outlines fo
 Be Flexible arrives at its intro ("Finding a new tool is only the first step…") and dives per step, pulling back for
 "Curiosity uncovers new possibilities…". Four pauses at idea boundaries only. Standard close; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -18,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/curious-and-flexible-2.mp4'
 SRC1 = ROOT / 'Prompts/curious-and-flexible-1.mp4'   # roll 1: its ending (2:04.2-2:20.0) is grafted in for the hand-off
 OUT = ROOT / 'video-audit/curious-and-flexible-repair-2026-09-12'; DEST = ROOT / 'videos/curious-and-flexible-v5.mp4'
-B = {k: ROOT / f'lessons/curious-and-flexible-{k}.jpg' for k in ('1-stay-curious', '2-be-flexible')}
+B = {k: asset_path('lessons', f'curious-and-flexible-{k}.jpg') for k in ('1-stay-curious', '2-be-flexible')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

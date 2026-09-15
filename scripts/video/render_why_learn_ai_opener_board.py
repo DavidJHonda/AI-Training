@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Place Why Learn AI's printing-press artwork in the standard teaching-board shell."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -17,7 +23,7 @@ from editorial_typography import draw_board_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-art-v2.png"
-OUTPUT = ROOT / "illustrations" / "why-learn-ai-press-v2.jpg"
+OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-1-press.jpg"
 REVIEW_OUTPUT = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-v2.jpg"
 
 WIDTH = 1600
@@ -70,7 +76,7 @@ def main() -> None:
     image = render()
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     REVIEW_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(OUTPUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(OUTPUT, REVIEW_OUTPUT)
     print(f"Wrote {OUTPUT} ({image.width}x{image.height})")
     print(f"Copied byte-identically to {REVIEW_OUTPUT}")

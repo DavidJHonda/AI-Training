@@ -11,5 +11,6 @@ output="$repo_root/board-review-first-four/alternatives/start-smarter/what-is-ai
 bash "$repo_root/scripts/video/standardize_start_smarter_boards.sh" >/dev/null
 mkdir -p "$(dirname "$output")"
 cp "$standardized" "$output"
+bash "$repo_root/scripts/finalize-course-asset.sh" "$output"
 
 echo "Built $output"

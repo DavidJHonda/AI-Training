@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import math
 import shutil
 import sys
@@ -50,7 +56,7 @@ def mix(color: str, opacity: float, backdrop: str = WHITE) -> tuple[int, int, in
 
 def save(image: Image.Image, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    image.convert("RGB").save(path, quality=95, subsampling=0, optimize=True)
+    save_course_image(image.convert("RGB"), path, quality=95, subsampling=0, optimize=True)
     print(f"wrote {path.relative_to(ROOT)}")
 
 
@@ -531,7 +537,7 @@ def render_all() -> None:
         board_path("context-window", "01-same-question-different-answers.jpg"),
         "Same prompt. Different context. Different suggestion.",
     )
-    render_teaching_board("What the Model Can See", ROOT / "illustrations/context-window-1.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
+    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-window/context-window-2-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
     render_four_cards("Outside the Window", [
         base.Card("Older Chats", "A new conversation starts cold unless the app saved a note about it.", PURPLE, "transcript"),
         base.Card("Unsent Web Pages", "Search works only when the app fetches a page and puts its text into the window.", BLUE, "search"),

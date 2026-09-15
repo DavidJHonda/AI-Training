@@ -10,19 +10,19 @@ let vectorSpaceBoard = CommandLine.arguments.contains("--vector-space")
 let outputPaths = firstBoard
     ? [
         "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-two-vector-alternative.jpg",
-        "illustrations/embeddings-taste-two.jpg",
-        "lessons/embeddings-1-taste-two.jpg"
+        "course-assets/embeddings/embeddings-taste-two.jpg",
+        "course-assets/embeddings/embeddings-1-taste-two.jpg"
     ]
     : vectorSpaceBoard
     ? [
         "board-review-first-four/alternatives/understand-ai/vector-space-taste-profile-alternative.jpg",
-        "illustrations/vector-space-taste-profile.jpg",
-        "lessons/vector-space-2-taste.jpg"
+        "course-assets/vector-space/vector-space-2-taste.jpg",
+        "course-assets/vector-space/vector-space-2-taste.jpg"
     ]
     : [
         "board-review-first-four/alternatives/understand-ai/embeddings-taste-profile-vector-alternative.jpg",
-        "illustrations/embeddings-taste-three.jpg",
-        "lessons/embeddings-2-taste-three.jpg"
+        "course-assets/embeddings/embeddings-taste-three.jpg",
+        "course-assets/embeddings/embeddings-2-taste-three.jpg"
     ]
 let outputURLs = outputPaths.map { repoRoot.appendingPathComponent($0) }
 
@@ -270,5 +270,18 @@ guard let tiff = image.tiffRepresentation,
 for outputURL in outputURLs {
     try FileManager.default.createDirectory(at: outputURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     try jpeg.write(to: outputURL)
+    try finalizeCourseCredit(outputURL)
     print("Built \(outputURL.path)")
+}
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
 }

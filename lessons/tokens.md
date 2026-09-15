@@ -30,9 +30,9 @@ Instead of giving every word its own number, AI uses reusable pieces of text cal
 
 ### Board 2: Building Blocks for Language
 
-**Image file:** `tokens-building-blocks-notebook.jpg`
+**Image file:** `tokens-building-blocks-editorial.jpg`
 
-![Building Blocks for Language](tokens-building-blocks-notebook.jpg)
+![Building Blocks for Language](tokens-building-blocks-editorial.jpg)
 
 **Teaching content:**
 

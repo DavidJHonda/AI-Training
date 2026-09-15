@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -20,7 +26,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "board-review-why-learn-ai" / "where-ai-already-lives.jpg"
-PAGE_OUTPUT = ROOT / "lessons" / "why-learn-ai-1-everyday.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-1-everyday.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"
@@ -200,7 +206,7 @@ def main() -> None:
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     PAGE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     image = render()
-    image.save(PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUTPUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUTPUT, OUTPUT)
     print(f"Wrote {PAGE_OUTPUT} ({image.width}x{image.height})")
     print(f"Wrote {OUTPUT} ({image.width}x{image.height})")

@@ -28,7 +28,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
     (OUT/'states').mkdir(parents=True,exist_ok=True)
     previous=json.loads((PREV/'edit-manifest.json').read_text())
-    protected=[ROOT/'videos/transformer.mp4',ROOT/'videos/transformer-v5.mp4',ROOT/'videos/transformer-v4.mp4',ROOT/'Prompts/transformer-1.mp4',ROOT/'Prompts/transformer-2.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md',ROOT/'lessons/transformer-word-order-editorial.jpg']
+    protected=[ROOT/'videos/transformer.mp4',ROOT/'videos/transformer-v5.mp4',ROOT/'videos/transformer-v4.mp4',ROOT/'Prompts/transformer-1.mp4',ROOT/'Prompts/transformer-2.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md',ROOT/'course-assets/transformer/transformer-word-order-editorial.jpg']
     hashes={str(p):sha(p) for p in protected}
     audio={'v5':wav(PREV/'edited.wav'),'live':wav(OUT/'live.wav')}
     def speech_rms(a):
@@ -62,7 +62,7 @@ def main():
     keep('v5',243.4666666667,251.1333333333,'Preserved v5 closing narration and camera','v5')
     data=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
     with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(data.tobytes())
-    board=cv2.imread(str(ROOT/'lessons/transformer-word-order-editorial.jpg'));h,w=board.shape[:2];scale=min(1210/w,660/h);x=(1280-w*scale)/2;y=(720-h*scale)/2
+    board=cv2.imread(str(ROOT/'course-assets/transformer/transformer-word-order-editorial.jpg'));h,w=board.shape[:2];scale=min(1210/w,660/h);x=(1280-w*scale)/2;y=(720-h*scale)/2
     plain=cv2.warpAffine(board,np.float32([[scale,0,x],[0,scale,y]]),(1280,720),flags=cv2.INTER_AREA,borderMode=cv2.BORDER_CONSTANT,borderValue=(251,245,246))
     frames={'establish':plain}
     for label,rect in [('positions',[816,299,1560,760]),('takeaway',[40,800,1560,889])]:

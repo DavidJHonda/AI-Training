@@ -155,7 +155,7 @@ dedupe"):
   the move the whole course has been pointing at. Now we name it." Unique.
 - **THE EXPERT PARADOX / LAYERS box** — "The floor" / "The middle" / "The edge" three-tier framing.
   Unique, no duplicate found.
-- **Illustration** (`illustrations/your-edge.jpg`) and its two following paragraphs (the
+- **Illustration** (`course-assets/shared/your-edge.jpg`) and its two following paragraphs (the
   "wait-until-you're-an-expert" trap; AI-related roles built on depth; "So is every other job worth
   doing"). Unique.
 - **"1. What do I use AI for?"** — cites `whatitdoesbest` and `thoughtpartner` by name (intentional
@@ -321,7 +321,7 @@ wholesale."
 
 **(c) Everything else → park**
 
-- Illustration (`illustrations/when-ai-judges-you.jpg`) and its alt text (masked AI judge with a
+- Illustration (`course-assets/shared/when-ai-judges-you.jpg`) and its alt text (masked AI judge with a
   gavel, scoring housing/jobs/school admissions on zip code, grades, attendance, credit score). New
   art will be needed for whichever half absorbs this material; park the alt text as a starting
   reference.

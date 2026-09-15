@@ -1,9 +1,9 @@
 # Video grader changelog
 
 Numeric grading is retired. The current evaluation authority is
-`NARRATION-REVIEW.md`. Historical grader files remain unchanged so prior decisions
-can be reconstructed; r4, r5, the r5 migration audit, the challenger intake, and
-the rubric CSV live in `archive/video-specs-retired-2026-09-10/`.
+`NARRATION-REVIEW.md`. The historical r4/r5 grader files, migration audit, challenger intake, and
+rubric CSV were removed with the archive on 2026-09-15. The changelog below
+records their history; use the current narration review and ship checklist.
 
 ## Narration review, 2026-09-10
 

@@ -41,7 +41,7 @@ def main():
     parser.add_argument(
         "--comparison",
         type=Path,
-        default=Path("illustrations/transformer-reading-comparison.jpg"),
+        default=Path("course-assets/transformer/transformer-reading-comparison.jpg"),
     )
     args = parser.parse_args()
 

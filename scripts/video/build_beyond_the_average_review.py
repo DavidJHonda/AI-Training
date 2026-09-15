@@ -31,7 +31,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-school-matter-1.mp4'
 SRC2 = ROOT / 'Prompts/does-school-matter-2.mp4'   # roll 2: the lesson's framing of the Same Tool board ("The difference is what you add…")
 OUT = ROOT / 'video-audit/beyond-the-average-repair-2026-09-14'; DEST = ROOT / 'videos/beyond-the-average-v5.mp4'   # v1: one-student-beats-the-other narration under the board, banner clipped by the zoom; v2: the board ran 0:55-1:23 (David: too long); v3: Notebook's own diagrams carry roll 1's lines; v4: the foundational-mechanics passage cut (David: 1:22-1:34); v5: the close end moved into the silence (v4 clipped the last word)
-B = {'same-tool': ROOT / 'illustrations/does-school-matter-same-tool-v1.jpg', 'future': ROOT / 'illustrations/does-school-matter-future-v3.jpg'}
+B = {'same-tool': ROOT / 'course-assets/beyond-the-average/does-school-matter-1-same-tool.jpg', 'future': ROOT / 'course-assets/beyond-the-average/does-school-matter-2-future.jpg'}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

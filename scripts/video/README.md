@@ -12,6 +12,14 @@ board treatment, rings, pauses, close); `NARRATION-REVIEW.md` governs evaluation
 preparation. Dated owner corrections supersede older recipes below. The current
 2026-09-10 handoff is `docs/video-handoff-2026-09-10.md` (repository-relative path).
 
+## Asset retention (owner rule, 2026-09-15)
+
+Use the current lesson boards in `course-assets/<lesson>/` for future video updates. Keep current lesson Markdown in `lessons/`, active prompts and raw generations in `Prompts/`, and finished or pending video versions in `videos/`. Do not recreate `archive/` or retain obsolete images solely for old videos or highlight plans. Verify replacements and preserve pending candidates before owner-authorized cleanup. Temporary render outputs may be used during an active edit; they are not a permanent donor library. The former archive directory and its historical source bundles have been removed.
+
+### Review material cleanup (2026-09-15)
+
+`illustrations/` and `video-audit-current/` have been removed. Use `course-assets/<lesson>/` for current boards. Keep `video-audit/` working material only while it supports unfinished edits or their dependencies. Once an edit is resolved, remove superseded frames, audio snippets, contact sheets, and reports within owner-authorized cleanup scope. Do not preserve finished audit bundles as a permanent archive. See `docs/review-directory-cleanup.json` for the retained pending-work folders from this cleanup.
+
 ## Source and editing workflow (owner observations, 2026-09-08)
 
 Apply these observations when rebuilding lesson video prompts and preparing new rolls:
@@ -148,7 +156,7 @@ None of them affects the narration verdict; all of them block a ship.
 - **Restraint**: no legible profanity, no depiction of a real person, no
   self-harm, restricted medical, or red-staining imagery.
 - **Stock**: no Getty, watermark, or unlicensed asset. Cropping a watermark is
-  not a repair. Course assets from `illustrations/` and `lessons/` are always fine.
+  not a repair. Use the approved current lesson assets from `course-assets/<lesson>/`.
   Gemini's own corner mark (bottom-right "Gemini Notebook", every roll since
   2026-09-10) counts: `gemini_mark.py` cleans it in the render; check the corner
   on several kept Notebook frames of the final file (`corner-check.jpg`).
@@ -409,9 +417,11 @@ so any splice needs exactly ONE re-encode pass:
 - **Never borrow drawings from `videos/<slug>.mp4` (2026-09-14, Why Learn AI v4):** `keep(..., video_src=)`
   frame numbers are tied to one specific file. The live filename changes contents at every ship, so a
   build that borrowed from "the live video" on 2026-09-13 borrowed from v3 itself a day later and put the
-  Winning the Race drawing under the steam-engine narration. Borrow from an archived copy with a dated
-  name (`archive/<slug>/<slug>-live-before-<date>.mp4`, restorable with `git show <commit>:videos/<slug>.mp4`),
-  assert it exists at the top of the build, and list it in `protected`.
+  Winning the Race drawing under the steam-engine narration. Use a stable, explicitly selected source for the active edit, record its hash,
+  assert it exists at the top of the build, and list it in `protected`. If an old
+  tracked version is needed, recover that specific version from Git into a temporary
+  working directory. Do not recreate `archive/` or retain old donor copies after
+  the authorized cleanup. Use current lesson boards for new board inserts.
 
 - **cv2 `CAP_PROP_POS_MSEC` seeks return WRONG frames on these mp4s.** All mapping
   must be sequential decode (`cap.read()` loop). frames.py and scenes.py already

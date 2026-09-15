@@ -7,8 +7,8 @@ import Foundation
 let repoRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let outputPaths = [
     "board-review-first-four/alternatives/understand-ai/how-ai-answers-last-token-alternative.jpg",
-    "illustrations/how-ai-answers-last-token.jpg",
-    "lessons/how-ai-answers-last-token.jpg"
+    "course-assets/how-ai-answers/how-ai-answers-last-token.jpg",
+    "course-assets/how-ai-answers/how-ai-answers-last-token.jpg"
 ]
 
 let width: CGFloat = 1600
@@ -251,5 +251,18 @@ for relativePath in outputPaths {
     let outputURL = repoRoot.appendingPathComponent(relativePath)
     try FileManager.default.createDirectory(at: outputURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     try jpeg.write(to: outputURL)
+    try finalizeCourseCredit(outputURL)
     print("Built \(outputURL.path)")
+}
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
 }

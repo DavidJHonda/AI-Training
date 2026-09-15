@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -88,8 +94,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/people-skills-why-matter/art-sheet.png",
-        page_output="illustrations/people-skills-why-matter-v2.jpg",
-        prep_output="lessons/people-skills-1-why-matter.jpg",
+        page_output="course-assets/people-skills/people-skills-1-why-matter.jpg",
+        prep_output="course-assets/people-skills/people-skills-1-why-matter.jpg",
         accents=(PURPLE, BLUE, TEAL),
     ),
     Board(
@@ -114,8 +120,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/creative-thinking-professions/art-sheet.png",
-        page_output="illustrations/creative-thinking-professions-v2.jpg",
-        prep_output="lessons/creative-thinking-1-professions.jpg",
+        page_output="course-assets/creative-thinking/creative-thinking-1-professions.jpg",
+        prep_output="course-assets/creative-thinking/creative-thinking-1-professions.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -140,8 +146,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/creative-thinking-practice/art-sheet.png",
-        page_output="illustrations/creative-thinking-practice-v2.jpg",
-        prep_output="lessons/creative-thinking-2-practice.jpg",
+        page_output="course-assets/creative-thinking/creative-thinking-2-practice.jpg",
+        prep_output="course-assets/creative-thinking/creative-thinking-2-practice.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -166,8 +172,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-curious-four-ways/art-sheet.png",
-        page_output="illustrations/be-curious-four-ways-v2.jpg",
-        prep_output="lessons/curious-and-flexible-1-stay-curious.jpg",
+        page_output="course-assets/curious-and-flexible/curious-and-flexible-1-stay-curious.jpg",
+        prep_output="course-assets/curious-and-flexible/curious-and-flexible-1-stay-curious.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -192,8 +198,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/be-flexible-four-steps/art-sheet.png",
-        page_output="illustrations/be-flexible-four-steps-v3.jpg",
-        prep_output="lessons/curious-and-flexible-2-be-flexible.jpg",
+        page_output="course-assets/curious-and-flexible/curious-and-flexible-2-be-flexible.jpg",
+        prep_output="course-assets/curious-and-flexible/curious-and-flexible-2-be-flexible.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -218,8 +224,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-skills/art-sheet.png",
-        page_output="illustrations/make-your-move-skills.jpg",
-        prep_output="lessons/make-your-move-2-skills.jpg",
+        page_output="course-assets/make-your-move/make-your-move-3-skills.jpg",
+        prep_output="course-assets/make-your-move/make-your-move-2-skills.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
@@ -244,8 +250,8 @@ BOARDS = (
             ),
         ),
         art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-actions/art-sheet.png",
-        page_output="illustrations/make-your-move-actions.jpg",
-        prep_output="lessons/make-your-move-3-actions.jpg",
+        page_output="course-assets/make-your-move/make-your-move-4-actions.jpg",
+        prep_output="course-assets/make-your-move/make-your-move-3-actions.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
 )
@@ -454,7 +460,7 @@ def main() -> None:
         prep_output = ROOT / board.prep_output
         page_output.parent.mkdir(parents=True, exist_ok=True)
         prep_output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(page_output, quality=95, subsampling=0, optimize=True)
+        save_course_image(image, page_output, quality=95, subsampling=0, optimize=True)
         shutil.copyfile(page_output, prep_output)
         print(f"wrote {page_output.relative_to(ROOT)} ({image.width}x{image.height})")
         print(f"copied byte-identically to {prep_output.relative_to(ROOT)}")

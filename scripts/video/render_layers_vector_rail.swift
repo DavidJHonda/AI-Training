@@ -9,8 +9,8 @@ let inputURL = repoRoot.appendingPathComponent("board-review-first-four/.pre-boa
 let outputURLs = [
     repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-alternative.jpg"),
     repoRoot.appendingPathComponent("board-review-first-four/alternatives/understand-ai/layers-2-inside-vector-rail-alternative.jpg"),
-    repoRoot.appendingPathComponent("lessons/layers-2-inside.jpg"),
-    repoRoot.appendingPathComponent("illustrations/layers-inside.jpg")
+    repoRoot.appendingPathComponent("course-assets/layers/layers-2-inside.jpg"),
+    repoRoot.appendingPathComponent("course-assets/layers/layers-inside.jpg")
 ]
 
 let width: CGFloat = 1600
@@ -143,5 +143,18 @@ guard let tiff = image.tiffRepresentation,
 
 for outputURL in outputURLs {
     try jpeg.write(to: outputURL)
+    try finalizeCourseCredit(outputURL)
     print("Built \(outputURL.path)")
+}
+
+// Ensure freshly rendered canonical boards retain the approved website footer.
+func finalizeCourseCredit(_ url: URL) throws {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/bin/bash")
+    task.arguments = [FileManager.default.currentDirectoryPath + "/scripts/finalize-course-asset.sh", url.path]
+    try task.run()
+    task.waitUntilExit()
+    if task.terminationStatus != 0 {
+        throw NSError(domain: "CourseCredit", code: Int(task.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "Credit finalization failed for " + url.path])
+    }
 }

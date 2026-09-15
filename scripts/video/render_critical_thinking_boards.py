@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Render the three coordinated teaching boards for Critical Thinking."""
+"""Render the two current text-based Critical Thinking boards. The finished reaction illustration and closing board are maintained separately."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 
 from pathlib import Path
 
@@ -111,28 +117,18 @@ def frame(title, takeaway=None, dense=False):
     return image, draw
 
 
-def equation_card(draw, box, label, fill=PALE, outline=RULE, text_fill=CARD_TITLE):
-    rounded(draw, box, 18, fill, outline, 2)
-    centered(
-        draw,
-        ((box[0] + box[2]) / 2, (box[1] + box[3]) / 2),
-        label,
-        font("bold", 36),
-        text_fill,
-    )
 
 
 def save(image, stem):
     outputs = [
-        f"lessons/{stem}.jpg",
-        f"illustrations/{stem}.jpg",
+        f"course-assets/critical-thinking/{stem}.jpg",
         f"board-review-first-four/current-selected/work-with-ai/{stem}.jpg",
         f"board-review-first-four/alternatives/work-with-ai/{stem}-alternative.jpg",
     ]
     for relative in outputs:
         output = ROOT / relative
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=95, subsampling=0)
+        save_course_image(image, output, quality=95, subsampling=0)
         print(f"Built {output}")
 
 
@@ -179,7 +175,7 @@ def render_course_equation():
         font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
     )
 
-    save(image, "critical-thinking-1-equation-v3")
+    save(image, "critical-thinking-1-equation")
 
 
 def definition_card(draw, box, title, text, fill=PALE, outline=RULE, title_fill=CARD_TITLE):
@@ -189,76 +185,14 @@ def definition_card(draw, box, title, text, fill=PALE, outline=RULE, title_fill=
     centered_block(draw, (box[0] + 38, box[1] + 108, box[2] - 38, box[3] - 28), text, font("medium", 28))
 
 
-def inline_definition_card(draw, box, title, first_line, second_line):
-    rounded(draw, box, 16, PALE, RULE, 2)
-    title_face = font("bold", 28)
-    body_face = font("medium", 28)
-    title_text = f"{title} "
-    body_text = f"— {first_line}"
-    title_width = draw.textlength(title_text, font=title_face)
-    body_width = draw.textlength(body_text, font=body_face)
-    start_x = (box[0] + box[2] - title_width - body_width) / 2
-    first_y = (box[1] + box[3]) / 2 - 22
-    draw.text((start_x, first_y), title_text, font=title_face, fill=CARD_TITLE, anchor="lm")
-    draw.text((start_x + title_width, first_y), body_text, font=body_face, fill=BODY, anchor="lm")
-    centered(draw, ((box[0] + box[2]) / 2, first_y + 46), second_line, body_face, BODY)
 
 
-def render_one_more_equation():
-    image, draw = frame("One more equation", "AI gives answers. You own the thinking.")
-
-    equation_card(draw, (170, 250, 500, 366), "Critical")
-    centered(draw, (560, 308), "+", font("heavy", 36), PURPLE)
-    equation_card(draw, (620, 250, 950, 366), "Thinking")
-    centered(draw, (1010, 308), "=", font("heavy", 36), MUTED)
-    rounded(draw, (1070, 250, 1430, 366), 18, PURPLE)
-    centered(draw, (1250, 308), "A+", font("heavy", 44), WHITE)
-
-    inline_definition_card(
-        draw,
-        (120, 476, 780, 660),
-        "Critical",
-        "Don’t take things at face value. False",
-        "claims rarely announce themselves.",
-    )
-    inline_definition_card(
-        draw,
-        (820, 476, 1480, 660),
-        "Thinking",
-        "Analyze, question, and evaluate",
-        "before deciding what to believe or do.",
-    )
-    save(image, "critical-thinking-2-one-more")
 
 
-def reaction_card(draw, box, label, text, fill, outline):
-    rounded(draw, box, 16, fill, outline, 2)
-    centered(draw, ((box[0] + box[2]) / 2, box[1] + 48), label, font("heavy", 25), outline)
-    draw.line((box[0] + 40, box[1] + 88, box[2] - 40, box[1] + 88), fill=outline, width=2)
-    centered_block(draw, (box[0] + 42, box[1] + 112, box[2] - 42, box[3] - 30), text, font("medium", 29), BODY, 10)
 
 
-def reaction_overlay(draw, box, label, text, fill, outline):
-    rounded(draw, box, 16, fill, outline, 2)
-    centered(draw, ((box[0] + box[2]) / 2, box[1] + 30), label, font("heavy", 25), outline)
-    centered(draw, ((box[0] + box[2]) / 2, box[1] + 73), text, font("demi", 29), NAVY)
 
 
-def render_critical_thinking_in_action():
-    image, draw = frame(
-        "Slim by Chocolate!",
-        "Pause when a claim sounds exactly like what you want to believe.",
-    )
-
-    source = Image.open(ROOT / "illustrations/critical-thinking.jpg").convert("RGB")
-    photo = source.crop((0, 100, 1200, 541)).resize((1360, 500), Image.Resampling.LANCZOS)
-    mask = Image.new("L", photo.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, photo.width, photo.height), radius=16, fill=255)
-    image.paste(photo, (120, 202), mask)
-
-    reaction_overlay(draw, (150, 590, 750, 696), "FACE VALUE", "Sounds great. I believe it.", RED_PALE, RED)
-    reaction_overlay(draw, (850, 590, 1450, 696), "CRITICAL THINKING", "Wait. What’s behind the claim?", GREEN_PALE, GREEN)
-    save(image, "critical-thinking-3-two-reactions")
 
 
 def render_five_habits():
@@ -304,13 +238,11 @@ def render_five_habits():
         text="Each habit is a question you ask.",
         font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
     )
-    save(image, "critical-thinking-4-five-habits-v3")
+    save(image, "critical-thinking-3-five-habits")
 
 
 def main():
     render_course_equation()
-    render_one_more_equation()
-    render_critical_thinking_in_action()
     render_five_habits()
 
 

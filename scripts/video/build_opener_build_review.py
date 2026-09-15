@@ -17,7 +17,7 @@ import cv2
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-build-reroll-1.mp4'
 OUT = ROOT / 'video-audit/opener-build-repair-2026-09-11'; DEST = ROOT / 'videos/opener-build-v2.mp4'
-CREED = ROOT / 'lessons/opener-build-1-creed.jpg'; MAP = ROOT / 'lessons/opener-build-2-map.jpg'
+CREED = ROOT / 'course-assets/build-your-skills-opener/opener-build-1-creed.jpg'; MAP = ROOT / 'course-assets/build-your-skills-opener/opener-build-2-map.jpg'
 GOLD = '#eccf6b'   # the creed card's own accent (its label color)
 
 # creed lines (image px, xyxy): ink bounds + 14px pad; card is x 72-1527, y 230-669

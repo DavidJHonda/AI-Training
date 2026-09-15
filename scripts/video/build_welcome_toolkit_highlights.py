@@ -19,7 +19,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--image",
-        default="lessons/welcome-3-what-youll-need.jpg",
+        default="course-assets/welcome/welcome-3-what-youll-need.jpg",
     )
     parser.add_argument(
         "--output-dir",

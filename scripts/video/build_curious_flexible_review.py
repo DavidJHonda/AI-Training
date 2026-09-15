@@ -57,9 +57,9 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "curious": ROOT / "lessons/curious-and-flexible-1-stay-curious.jpg",
-    "flexible": ROOT / "lessons/curious-and-flexible-2-be-flexible.jpg",
-    "close": ROOT / "lessons/curious-and-flexible-3-close.jpg",
+    "curious": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-1-stay-curious.jpg",
+    "flexible": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-2-be-flexible.jpg",
+    "close": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-3-close.jpg",
 }
 
 # Canonical outer card geometry, measured from the supplied board renders.

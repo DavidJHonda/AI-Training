@@ -21,7 +21,7 @@
 # Example (transformer problems board):
 #   bash scripts/capture-board.sh attention \
 #     --find "Different Meanings||Pronouns||See the problem?" \
-#     --out lessons/transformer-problems.jpg \
+#     --out course-assets/transformer/transformer-problems.jpg \
 #     --title "Two problems the words around a word have to solve"
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -41,6 +41,16 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 [[ -n "$FIND" && -n "$OUT" ]] || { echo "--find and --out are required" >&2; exit 1; }
+
+# These are retained video-source boards. Their exact bytes and highlight geometry
+# are production inputs, while the lesson now displays a non-destructive crop of the
+# same file. Refuse any generic recapture whose output basename would overwrite one.
+case "$(basename "$OUT")" in
+  welcome-1-why-go-deeper.jpg|opener-work-1-refrain.jpg|opener-understand-1-kind.jpg|opener-avoid-1-traps.jpg|opener-embrace-1-voices.jpg|opener-build-1-creed.jpg)
+    echo "Refusing to overwrite retained video-source board: $OUT" >&2
+    exit 1
+    ;;
+esac
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER_PID=$!

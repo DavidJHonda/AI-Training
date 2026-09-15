@@ -15,7 +15,7 @@ import cv2, numpy as np, imageio_ffmpeg
 ROOT = Path(__file__).resolve().parents[2]; OUT = ROOT / 'video-audit/creative-thinking-repair-2026-09-12'
 LIVE = ROOT / 'videos/creative-thinking.mp4'; DEST = ROOT / 'videos/creative-thinking-v4.mp4'
 PY = ROOT / '.video-venv/bin/python'; KB = ROOT / 'scripts/video/ken_burns_path.py'; FF = imageio_ffmpeg.get_ffmpeg_exe()
-ASSETS = {'1-professions': ROOT / 'lessons/creative-thinking-1-professions.jpg', '2-practice': ROOT / 'lessons/creative-thinking-2-practice.jpg'}
+ASSETS = {'1-professions': ROOT / 'course-assets/creative-thinking/creative-thinking-1-professions.jpg', '2-practice': ROOT / 'course-assets/creative-thinking/creative-thinking-2-practice.jpg'}
 fit_w = lambda w, h: max(w * W / (W - 2 * (RING_PX + DIVE_MARGIN)), h * W / (H - 2 * (RING_PX + DIVE_MARGIN)))
 
 def main():

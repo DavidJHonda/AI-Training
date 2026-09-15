@@ -3,6 +3,18 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 import shutil
 from pathlib import Path
 
@@ -219,9 +231,9 @@ def render() -> Image.Image:
 
 def main() -> None:
     image = render()
-    page_output = ROOT / "illustrations/context-window-head-start-v1.jpg"
-    lesson_output = ROOT / "lessons/context-window-head-start-v1.jpg"
-    image.save(page_output, quality=95, subsampling=0, optimize=True)
+    page_output = ROOT / "course-assets/context-window/context-window-3-head-start.jpg"
+    lesson_output = asset_path('lessons', 'context-window-head-start-v1.jpg')
+    save_course_image(image, page_output, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page_output, lesson_output)
     print(f"wrote {page_output.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {lesson_output.relative_to(ROOT)}")

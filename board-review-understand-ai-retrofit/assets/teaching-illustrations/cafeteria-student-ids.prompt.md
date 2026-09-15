@@ -1,6 +1,6 @@
 # Cafeteria student-ID illustration
 
-Generated using the built-in image generation tool. Edit target: `illustrations/embeddings.jpg`. The original is preserved. Title and banner are added by `render_student_id_board` using the shared editorial typography and takeaway helpers.
+Generated using the built-in image generation tool. Edit target: `course-assets/embeddings/embeddings.jpg`. The original is preserved. Title and banner are added by `render_student_id_board` using the shared editorial typography and takeaway helpers.
 
 Use case: precise-object-edit.
 Asset type: cafeteria photograph for an AI literacy lesson.

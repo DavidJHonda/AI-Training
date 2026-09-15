@@ -122,8 +122,10 @@ render_questions_board() {
   "$ffmpeg" -loglevel error -y -i "$temp_png" \
     -frames:v 1 -update 1 -q:v 2 "$output"
   rm -f "$temp_png"
-  cp "$output" "$repo_root/illustrations/questions-matter-answers-cheap.jpg"
-  cp "$output" "$repo_root/lessons/questions-matter-1-answers-cheap.jpg"
+  cp "$output" "$repo_root/course-assets/questions-matter/questions-matter-answers-cheap.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/questions-matter/questions-matter-answers-cheap.jpg"
+  cp "$output" "$repo_root/course-assets/questions-matter/questions-matter-1-answers-cheap.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/questions-matter/questions-matter-1-answers-cheap.jpg"
   cp "$output" "$repo_root/board-review-first-four/current-selected/work-with-ai/questions-matter-1-answers-cheap.jpg"
   echo "Built $output"
 }

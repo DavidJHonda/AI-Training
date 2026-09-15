@@ -11,6 +11,12 @@ Chinese Room (uploaded; replaces Notebook's callout render; four rings, one per 
 (faces; not uploaded; inserted over Notebook's own comparison matrix; five row rings and the banner). Six pauses at idea
 boundaries. Notebook's drawings elsewhere are kept; no photographs; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-ai-think-2.mp4'
 SRC1 = ROOT / 'Prompts/does-ai-think-1.mp4'   # roll 1: its verbatim closing lines (2:35.9-2:41.5) become the close audio
 OUT = ROOT / 'video-audit/does-ai-think-repair-2026-09-13'; DEST = ROOT / 'videos/does-ai-think-v3.mp4'
-B = {k: ROOT / f'lessons/does-ai-think-{k}.jpg' for k in ('1-chinese-room', '2-side-by-side')}
+B = {k: asset_path('lessons', f'does-ai-think-{k}.jpg') for k in ('1-chinese-room', '2-side-by-side')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

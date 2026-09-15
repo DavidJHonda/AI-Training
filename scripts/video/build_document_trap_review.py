@@ -4,6 +4,12 @@
 Narration and visual boundaries are independent. The live opening restores the
 tournament setup. Lesson boards are used without video-only explanatory captions.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import json
 import subprocess
@@ -53,7 +59,7 @@ def replacements():
     result=[]
     def add(name,asset,points,states):
         points=tuple(at(t) for t in points)
-        item=common.make_leg(name,ROOT/'illustrations'/asset,points,tuple(states))
+        item=common.make_leg(name,asset_path('illustrations', asset),points,tuple(states))
         result.append((points[0],points[-1],item))
     add('flow','document-trap-flow-v3.jpg',
         (67.5,80.0,87.55,100.45,113.65,124.866667),(
@@ -75,7 +81,7 @@ def replacements():
 def render_live_opening(work):
     # Preserve the live story and its regular-season/tournament graphics.
     # Cover its system-error title before its first frame with the lesson art.
-    board=common.make_leg('uploaded',ROOT/'illustrations/document-trap-uploaded-v3.jpg',
+    board=common.make_leg('uploaded',ROOT/'course-assets/document-trap/document-trap-uploaded-v3.jpg',
         (LIVE_BOARD_START,at(60.2),LIVE_END),(
             ('full',None,VP,None,0),
             ('full-takeaway',UPLOADED_BANNER,VP,None,0)))
@@ -128,7 +134,7 @@ def main():
                 cursor+=state.frames
         close_start=CLOSE_START
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'lessons/document-trap-4-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/document-trap/document-trap-4-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'
@@ -175,7 +181,7 @@ def main():
         'cuts':[{'source_start':0,'source_end':REROLL_RESUME/30,'output_frame':LIVE_END}]+
                [{'source_start':a/30,'source_end':b/30,'output_frame':mapped(a)} for a,b in CUTS],
         'replacements':[{'name':item.name,'asset':str(item.board),'source_start':a/30,'source_end':b/30} for a,b,item in items],
-        'uploaded_asset':'illustrations/document-trap-uploaded-v3.jpg',
+        'uploaded_asset':'course-assets/document-trap/document-trap-uploaded-v3.jpg',
         'states':states,'boundaries':boundaries,'live_video_modified':False}
     (AUDIT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     command=[sys.executable,str(ROOT/'scripts/video/transition_guard.py'),str(OUTPUT)]

@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Render a person-free Notebook source board; preserve the illustrated lesson asset."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 from PIL import Image, ImageDraw
 from editorial_typography import draw_board_title, draw_inner_title, face
 from editorial_takeaway import draw_takeaway_band
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / 'lessons/tokens-building-blocks-notebook.jpg'
+DEST = ROOT / 'course-assets/tokens/tokens-building-blocks-notebook.jpg'
 INK, MUTED = '#0e0a1f', '#716b84'
 PURPLE, BLUE, TEAL = '#4f2fc4', '#1652f0', '#0e8f86'
 
@@ -46,7 +52,7 @@ def render():
               font=face('medium', 27), fill=MUTED, anchor='mm')
     draw_takeaway_band(image, top=772, left=40, right=1560,
                        text='Reuse the pieces. Build more words.', font=face('medium', 32))
-    image.save(DEST, quality=95, subsampling=0)
+    save_course_image(image, DEST, quality=95, subsampling=0)
     print(DEST)
 
 

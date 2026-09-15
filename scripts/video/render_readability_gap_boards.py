@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Rebuild legacy raster boards whose teaching copy fell below the type floor."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -106,7 +112,7 @@ def save(image, paths):
     for relative in paths:
         output = ROOT / relative
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=94, subsampling=0)
+        save_course_image(image, output, quality=94, subsampling=0)
         print(f"Built {output}")
 
 
@@ -152,7 +158,7 @@ def render_document_chunks():
                 rounded(draw, (x0 + 304, 510 + row * 53, x1 - 46, 548 + row * 53), 8, "#e5f4f1" if row == 1 else WHITE, TEAL if row == 1 else RULE, 2)
     save(image, [
         "board-review-first-four/alternatives/avoid-traps/document-trap-1-chunks-alternative.jpg",
-        "lessons/document-trap-1-chunks.jpg",
+        "course-assets/document-trap/document-trap-1-chunks.jpg",
     ])
 
 
@@ -296,8 +302,8 @@ def render_study_tools():
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-1-study-tools-alternative.jpg",
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg",
         "board-review-first-four/standardized/start-smarter/learn-with-ai-study-tools.jpg",
-        "illustrations/learn-with-ai-study-tools.jpg",
-        "lessons/learn-with-ai-1-study-tools.jpg",
+        "course-assets/learn-with-ai/learn-with-ai-study-tools.jpg",
+        "course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg",
     ])
 
 

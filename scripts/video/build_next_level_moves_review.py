@@ -7,6 +7,12 @@ Four chat boards (all compact, rings only; owner call 2026-09-11: no dives on ch
 Notebook's paraphrase card) with the banner ringed; Notebook's section intros kept; standard close
 from the engine close's arrival cut. No narration cuts.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -17,7 +23,7 @@ import cv2, numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/next-level-moves-reroll-2.mp4'
 OUT = ROOT / 'video-audit/next-level-moves-repair-2026-09-11'; DEST = ROOT / 'videos/next-level-moves-v3.mp4'
-B = {k: ROOT / f'lessons/next-level-moves-{k}.jpg' for k in ('1-summer-business', '2-profit', '3-college', '4-iteration')}
+B = {k: asset_path('lessons', f'next-level-moves-{k}.jpg') for k in ('1-summer-business', '2-profit', '3-college', '4-iteration')}
 
 def bubbles(path, card_top=128):
     """Speech-bubble boxes (image px, xyxy) traced from the bubble itself: locate each dark text block,

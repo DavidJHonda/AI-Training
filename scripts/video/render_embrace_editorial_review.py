@@ -9,6 +9,12 @@ approved course formats exactly.
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -55,10 +61,10 @@ from render_embrace_editorial_batch import (
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW = ROOT / "board-review-embrace-editorial"
-JAILBREAK_PAGE_OUTPUT = "illustrations/big-downside-jailbreak-v2.jpg"
-JAILBREAK_PREP_OUTPUT = "lessons/big-downside-2-jailbreak.jpg"
-GPS_AGENT_PAGE_OUTPUT = "illustrations/rise-of-agents-gps-agent-v2.jpg"
-GPS_AGENT_PREP_OUTPUT = "lessons/rise-of-agents-1-gps.jpg"
+JAILBREAK_PAGE_OUTPUT = "course-assets/big-downside/big-downside-2-jailbreak.jpg"
+JAILBREAK_PREP_OUTPUT = "course-assets/big-downside/big-downside-2-jailbreak.jpg"
+GPS_AGENT_PAGE_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg"
+GPS_AGENT_PREP_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg"
 
 
 @dataclass(frozen=True)
@@ -266,7 +272,7 @@ def render_jailbreak_feature() -> Image.Image:
     draw.rounded_rectangle((0, 0, width - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, "Why Jailbreaks Keep Appearing")
 
-    source = Image.open(ROOT / "illustrations/big-downside-2.jpg").convert("RGB")
+    source = Image.open(ROOT / "course-assets/big-downside/big-downside-2.jpg").convert("RGB")
     art = cover(source, (art_width, art_height))
     image.paste(art, (art_left, art_top), rounded_mask((art_width, art_height), CARD_RADIUS))
     draw = ImageDraw.Draw(image)
@@ -332,7 +338,7 @@ def render_gps_agent_feature() -> Image.Image:
         outline="#d7d2e8",
         width=1,
     )
-    source = Image.open(ROOT / "illustrations/rise-of-agents.jpg").convert("RGB")
+    source = Image.open(ROOT / "course-assets/rise-of-agents/rise-of-agents.jpg").convert("RGB")
     art = cover(source, (stage_width, art_height))
     image.paste(art, (stage_left, stage_top), top_round_mask((stage_width, art_height), CARD_RADIUS))
     draw = ImageDraw.Draw(image)
@@ -582,7 +588,7 @@ def render_first_assignment_long() -> Image.Image:
     draw.text((72, scenario_top + 22), "THE ASSIGNMENT", font=scenario_label_font, fill=PURPLE)
     multiline(draw, (72, scenario_top + 58), scenario_lines, scenario_font, BODY, 45)
 
-    source = Image.open(ROOT / "illustrations/work-changes.jpg").convert("RGB")
+    source = Image.open(ROOT / "course-assets/work-changes/work-changes.jpg").convert("RGB")
     source_width, source_height = source.size
     half_width = source_width // 2
     crop_height = round(half_width * 9 / 16)
@@ -675,8 +681,8 @@ CARD_BOARDS = (
             ),
         ),
         art_sheet="board-review-embrace-editorial/assets/failed-predictions/art-sheet.png",
-        page_output="illustrations/loudest-voices-missed-predictions-v2.jpg",
-        prep_output="lessons/loudest-voices-2-missed-calls.jpg",
+        page_output="course-assets/loudest-voices/loudest-voices-2-missed-predictions.jpg",
+        prep_output="course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
         takeaway="The future is hard to predict because people change the result.",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
@@ -730,7 +736,7 @@ FLOW_BOARDS = (
 def save(image, filename: str) -> None:
     REVIEW.mkdir(parents=True, exist_ok=True)
     path = REVIEW / filename
-    image.save(path, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, path, quality=95, subsampling=0, optimize=True)
     print(f"wrote {path.relative_to(ROOT)} ({image.width}x{image.height})")
 
 

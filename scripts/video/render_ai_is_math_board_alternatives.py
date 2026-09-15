@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render the approved AI Is Math boards and their lesson-page copies."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -58,8 +70,8 @@ def rounded(draw, box, radius, fill, outline=None, width=1):
 def save_board(image, review_name, illustration_name, lesson_name):
     outputs = [
         OUT / review_name,
-        ROOT / "illustrations" / illustration_name,
-        ROOT / "lessons" / lesson_name,
+        asset_path('illustrations', illustration_name),
+        asset_path('lessons', lesson_name),
     ]
     current_selection = (
         ROOT
@@ -70,7 +82,7 @@ def save_board(image, review_name, illustration_name, lesson_name):
         outputs.append(current_selection)
     for output in outputs:
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=94, subsampling=0)
+        save_course_image(image, output, quality=94, subsampling=0)
         print(f"Built {output}")
 
 

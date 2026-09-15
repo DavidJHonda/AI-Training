@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Render the Questions Matter value-shift comparison board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -116,16 +128,16 @@ def main():
     draw_arrow(draw, (800, 516))
 
     alternative = OUT / "questions-matter-2-value-alternative.jpg"
-    image.save(alternative, quality=95, subsampling=0)
+    save_course_image(image, alternative, quality=95, subsampling=0)
 
     targets = [
-        REPO / "illustrations" / "questions-matter-value-shift.jpg",
-        REPO / "lessons" / "questions-matter-2-value.jpg",
+        REPO / "course-assets/questions-matter/questions-matter-value-shift.jpg",
+        asset_path('lessons', "questions-matter-2-value.jpg"),
         REPO / "board-review-first-four" / "current-selected" / "work-with-ai" / "questions-matter-2-value.jpg",
     ]
     for target in targets:
         target.parent.mkdir(parents=True, exist_ok=True)
-        image.save(target, quality=95, subsampling=0)
+        save_course_image(image, target, quality=95, subsampling=0)
     print(f"Built {alternative}")
 
 

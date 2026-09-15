@@ -11,6 +11,12 @@ rows as spoken, banner ringed). Each board arrives at the start of its own spoke
 at idea boundaries (ten), never inside a board (owner rule 2026-09-12). Standard close from the engine card's
 arrival; Notebook's drawn scenes elsewhere kept (no archival photographs); corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,7 +26,7 @@ import cv2, numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/honesty-and-privacy-2.mp4'
 OUT = ROOT / 'video-audit/honesty-and-privacy-repair-2026-09-12'; DEST = ROOT / 'videos/honesty-and-privacy-v4.mp4'
-B = {k: ROOT / f'lessons/honesty-and-privacy-{k}.jpg' for k in ('1-school', '2-best-practices', '3-privacy', '4-share-only')}
+B = {k: asset_path('lessons', f'honesty-and-privacy-{k}.jpg') for k in ('1-school', '2-best-practices', '3-privacy', '4-share-only')}
 
 def cards(path, n_expected):
     """Whole-card boxes (image + white text panel) on a lavender board: white panels locate the columns, the first row

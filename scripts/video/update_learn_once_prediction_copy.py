@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """Update the Prediction copy on the approved Learn Once board."""
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -9,10 +21,10 @@ from editorial_typography import face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "illustrations/ai-is-different-learn-once.jpg"
+SOURCE = ROOT / "course-assets/ai-is-different/ai-is-different-2-learn-once.jpg"
 OUTPUTS = (
     SOURCE,
-    ROOT / "lessons/ai-is-different-learn-once.jpg",
+    asset_path('lessons', 'ai-is-different-2-learn-once.jpg'),
 )
 
 
@@ -28,7 +40,7 @@ def main() -> None:
 
     for output in OUTPUTS:
         output.parent.mkdir(parents=True, exist_ok=True)
-        image.save(output, quality=95, subsampling=0, optimize=True)
+        save_course_image(image, output, quality=95, subsampling=0, optimize=True)
         print(f"Wrote {output}")
 
 

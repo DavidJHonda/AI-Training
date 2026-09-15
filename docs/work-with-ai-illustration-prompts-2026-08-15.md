@@ -1,6 +1,6 @@
 # Work With AI illustration prompts — 2026-08-15
 
-Generated with the built-in OpenAI image-generation tool. For every image, `illustrations/welcome.jpg` and `illustrations/does-school-matter.jpg` were supplied only as identity and visual-style references for Luke and Nate. The outputs were saved as non-destructive `-v2.jpg` assets at 1200×800.
+Generated with the built-in OpenAI image-generation tool. For every image, `course-assets/welcome/welcome.jpg` and `course-assets/beyond-the-average/does-school-matter.jpg` were supplied only as identity and visual-style references for Luke and Nate. The outputs were saved as non-destructive `-v2.jpg` assets at 1200×800.
 
 ## Opener — Work With AI
 

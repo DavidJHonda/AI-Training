@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """Embeddings 2 repair; current assets, outline-only emphasis, separate review output."""
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 import argparse,json,hashlib,subprocess,wave
 import cv2,numpy as np,imageio_ffmpeg
@@ -40,7 +46,7 @@ def graphics():
     d.text((775,y),'→',font=face('medium',40),fill='#706987',anchor='mm')
     d.text((1140,y-16),'[ …, …, … ]',font=face('bold',38),fill=col,anchor='mm')
     d.text((1140,y+30),'A row of learned numbers',font=face('medium',25),fill='#3a3550',anchor='mm')
-  im.save(OUT/(name+'.png'))
+  save_course_image(im, OUT/(name+'.png'))
 
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
@@ -83,7 +89,7 @@ def main():
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
  graphics();assert close_board_copy('embeddings')==('AI uses numbers to work with meaning.','Those numbers help AI recognize similarities and differences.')
- assets={'intro':OUT/'intro.png','pieces':OUT/'pieces.png','student':ROOT/'lessons/embeddings-student-id-editorial.jpg','ratings':ROOT/'lessons/embeddings-meaning-row-editorial.jpg','citrus':ROOT/'lessons/embeddings-new-dimension-editorial.jpg','comparison':ROOT/'lessons/embeddings-taste-test-to-ai-editorial.jpg','table':ROOT/'lessons/embeddings-inside-real-model-editorial.jpg','close':OUT/'close-final.png'}
+ assets={'intro':OUT/'intro.png','pieces':OUT/'pieces.png','student':ROOT/'course-assets/embeddings/embeddings-student-id-editorial.jpg','ratings':ROOT/'course-assets/embeddings/embeddings-meaning-row-editorial.jpg','citrus':ROOT/'course-assets/embeddings/embeddings-new-dimension-editorial.jpg','comparison':ROOT/'course-assets/embeddings/embeddings-taste-test-to-ai-editorial.jpg','table':ROOT/'course-assets/embeddings/embeddings-inside-real-model-editorial.jpg','close':OUT/'close-final.png'}
  boards={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(v is not None for v in boards.values())
  def mark(r,c=PURPLE):return dict(rect=r,highlight_color=c,highlight_source='neutral_video_purple' if c==PURPLE else 'card_locked_accent')
  events=[]

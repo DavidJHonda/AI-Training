@@ -28,6 +28,8 @@ You’re now smarter than the tool.
 
 Your completion date
 
+BESMARTERTHANTHETOOL.COM
+
 Luke O’Brien
 
 ## Instructor

@@ -3,7 +3,7 @@
 Edited with the built-in image_gen tool on 2026-09-06.
 Source: `inside-real-model-summary.png` in this directory.
 Output: `embedding-lookup-only.png` in this directory.
-Final board: `lessons/embeddings-inside-real-model-editorial.jpg`.
+Final board: `course-assets/embeddings/embeddings-inside-real-model-editorial.jpg`.
 Renderer: `render_inside_real_model` in `scripts/video/render_understand_ai_retrofit_review.py`.
 
 ## Prompt

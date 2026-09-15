@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -11,7 +17,7 @@ import render_opener_section_maps as section_maps
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "board-review-welcome" / "welcome-path-seven-stages.jpg"
-PAGE_OUT = ROOT / "lessons" / "welcome-2-your-path.jpg"
+PAGE_OUT = ROOT / "course-assets/welcome/welcome-2-your-path.jpg"
 
 
 BOARD = section_maps.MapBoard(
@@ -67,7 +73,7 @@ def main() -> None:
     )
     image = section_maps.render(BOARD)
     PAGE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    image.save(PAGE_OUT, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, PAGE_OUT, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(PAGE_OUT, OUT)
     print(f"Wrote {PAGE_OUT} ({image.width}x{image.height})")
     print(f"Copied byte-identically to {OUT}")

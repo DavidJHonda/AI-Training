@@ -82,9 +82,9 @@ def main():
         w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(final_audio.tobytes())
 
     assets={
-        'probability':ROOT/'lessons/one-more-thing-1-draws.jpg',
-        'temperature':ROOT/'lessons/one-more-thing-2-temperature.jpg',
-        'math':ROOT/'lessons/one-more-thing-3-bill.jpg',
+        'probability':ROOT/'course-assets/one-more-thing/one-more-thing-1-draws.jpg',
+        'temperature':ROOT/'course-assets/one-more-thing/one-more-thing-2-temperature.jpg',
+        'math':ROOT/'course-assets/one-more-thing/one-more-thing-3-bill.jpg',
         'close':ROOT/'archive/video-materials/understand-ai-2026-09-09/obsolete/lessons/one-more-thing-4-close.jpg',
     }
     # Archived standalone closing capture visually verified against current CLOSE_BOARDS.

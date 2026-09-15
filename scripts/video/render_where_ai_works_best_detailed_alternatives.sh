@@ -133,8 +133,10 @@ publish_board() {
   local canonical_name="$2"
   local source="$output_dir/$source_name"
 
-  cp "$source" "$repo_root/illustrations/$canonical_name"
-  cp "$source" "$repo_root/lessons/$canonical_name"
+  cp "$source" "$(python3 "$repo_root/scripts/video/course_asset_paths.py" illustrations "$canonical_name")"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$(python3 "$repo_root/scripts/video/course_asset_paths.py" illustrations "$canonical_name")"
+  cp "$source" "$(python3 "$repo_root/scripts/video/course_asset_paths.py" lessons "$canonical_name")"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$(python3 "$repo_root/scripts/video/course_asset_paths.py" lessons "$canonical_name")"
   cp "$source" "$repo_root/board-review-first-four/current-selected/work-with-ai/$canonical_name"
 }
 

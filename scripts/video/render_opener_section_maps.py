@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 import sys
 from dataclasses import dataclass
@@ -74,8 +80,8 @@ BOARDS = (
             Row("Use It Well", "The moves that get a better answer, and a look at what the model actually reads when you ask."),
             Row("Think Before You Trust", "What to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use."),
         ),
-        page_output="illustrations/opener-work-section-map.jpg",
-        prep_output="lessons/opener-work-2-section.jpg",
+        page_output="course-assets/work-with-ai-opener/opener-work-3-section-map.jpg",
+        prep_output="course-assets/work-with-ai-opener/opener-work-2-section.jpg",
         review_output="board-review-first-four/current-selected/work-with-ai/opener-work-2-section.jpg",
     ),
     MapBoard(
@@ -89,8 +95,8 @@ BOARDS = (
             Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
             Row("How AI Builds an Answer", "How AI builds an answer, why answers vary, and how much math it takes."),
         ),
-        page_output="illustrations/opener-understand-section-map.jpg",
-        prep_output="lessons/opener-understand-2-map.jpg",
+        page_output="course-assets/understand-ai-opener/opener-understand-2-map.jpg",
+        prep_output="course-assets/understand-ai-opener/opener-understand-2-map.jpg",
         review_output="board-review-first-four/current-selected/understand-ai/opener-understand-2-map.jpg",
     ),
     MapBoard(
@@ -102,8 +108,8 @@ BOARDS = (
             Row("Traps in You", "The traps that work on you instead of the answer. Helpful, agreeable, and engaging can make AI easy to use and easy to fall for."),
             Row("Traps from the World", "The trap that comes looking for you. Other people’s AI can put fakes in front of you so convincing that seeing is no longer proof."),
         ),
-        page_output="illustrations/opener-avoid-section-map.jpg",
-        prep_output="lessons/opener-avoid-2-map.jpg",
+        page_output="course-assets/avoid-traps-opener/opener-avoid-3-map.jpg",
+        prep_output="course-assets/avoid-traps-opener/opener-avoid-2-map.jpg",
         review_output="board-review-first-four/current-selected/avoid-traps/opener-avoid-2-map.jpg",
     ),
     MapBoard(
@@ -115,8 +121,8 @@ BOARDS = (
             Row("Monsters and Open Water", "The honest case for worry alongside the real-world upside that has already happened."),
             Row("Where It Lands on You", "How AI acts, how work may change, the bill for all that math, and what history teaches about predictions."),
         ),
-        page_output="illustrations/opener-embrace-section-map.jpg",
-        prep_output="lessons/opener-embrace-2-map.jpg",
+        page_output="course-assets/embrace-the-future-opener/opener-embrace-2-map.jpg",
+        prep_output="course-assets/embrace-the-future-opener/opener-embrace-2-map.jpg",
         review_output="board-review-first-four/current-selected/embrace-the-future/opener-embrace-2-map.jpg",
     ),
     MapBoard(
@@ -128,8 +134,8 @@ BOARDS = (
             Row("Skills That Grow in Value", "People skills help you work with others. Creative thinking helps you find the better angle."),
             Row("Stay Flexible. Make Your Move.", "Keep learning as AI changes, then turn your interests into action by building skills and making something real."),
         ),
-        page_output="illustrations/opener-build-section-map.jpg",
-        prep_output="lessons/opener-build-2-map.jpg",
+        page_output="course-assets/build-your-skills-opener/opener-build-2-map.jpg",
+        prep_output="course-assets/build-your-skills-opener/opener-build-2-map.jpg",
         review_output="board-review-first-four/current-selected/build-your-skills/opener-build-2-map.jpg",
     ),
 )
@@ -220,7 +226,7 @@ def save(board: MapBoard, image: Image.Image) -> None:
     review = ROOT / board.review_output
     for path in (page, prep, review):
         path.parent.mkdir(parents=True, exist_ok=True)
-    image.save(page, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     shutil.copyfile(page, review)
     print(f"wrote {page.relative_to(ROOT)} ({image.width}x{image.height})")

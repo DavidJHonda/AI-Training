@@ -21,7 +21,7 @@ Notebook highlight on any board in the candidate.
 ## 2. Every course board is the current page asset
 
 Wherever the roll shows a lesson board, the candidate shows the exact current
-asset from `illustrations/` or `lessons/` as referenced by `index.html`, never
+asset from `course-assets/<lesson>/` as referenced by `index.html`, never
 Notebook's rendering of it, however close it looks. The replacement starts at
 the source's own visual cut into the board and ends where narration leaves it
 (sequential frame decode; never narration timing alone). A face-free upload

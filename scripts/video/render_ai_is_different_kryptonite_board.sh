@@ -95,8 +95,10 @@ filter+=",drawtext=fontfile='$takeaway_font':text='Trained behavior is harder to
   -frames:v 1 -update 1 -q:v 2 "$output"
 rm -f "$temp_png"
 
-cp "$output" "$repo_root/illustrations/ai-is-different-kryptonite.jpg"
-cp "$output" "$repo_root/lessons/ai-is-different-3-kryptonite.jpg"
+cp "$output" "$repo_root/course-assets/ai-is-different/ai-is-different-kryptonite.jpg"
+bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/ai-is-different/ai-is-different-kryptonite.jpg"
+cp "$output" "$repo_root/course-assets/ai-is-different/ai-is-different-3-kryptonite.jpg"
+bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/ai-is-different/ai-is-different-3-kryptonite.jpg"
 cp "$output" "$repo_root/board-review-first-four/current-selected/work-with-ai/ai-is-different-3-kryptonite.jpg"
 
 echo "Built $output"

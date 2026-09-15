@@ -61,7 +61,7 @@ def main():
  def clean(f):
   out=f.copy();region=out[688:718,1145:1279];m=np.zeros(region.shape[:2],np.uint8);m[5:25,5:129]=mask
   out[688:718,1145:1279]=cv2.inpaint(region,m,3,cv2.INPAINT_TELEA);return out
- images={'opening':clean(native_stills[0]),'explain':clean(native_stills[fr(36.9)]),'confused':clean(donor),'hood':cv2.imread(str(ROOT/'illustrations/opener-understand-under-hood-v3.jpg')),'map':cv2.imread(str(ROOT/'illustrations/opener-understand-section-map.jpg')),'close':cv2.imread(str(OUT/'close.png'))}
+ images={'opening':clean(native_stills[0]),'explain':clean(native_stills[fr(36.9)]),'confused':clean(donor),'hood':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/opener-understand-under-hood-v3.jpg')),'map':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/opener-understand-2-map.jpg')),'close':cv2.imread(str(OUT/'close.png'))}
  for name in ['opening','explain','confused']:cv2.imwrite(str(OUT/(name+'.png')),images[name])
  events=[]
  def ev(t,key,label,rect=None,color=None,view=None):events.append(dict(source_frame=fr(t),board=key,label=label,marks=[] if rect is None else [dict(rect=rect,highlight_color=color,highlight_source='card_locked_accent' if color!='#6e51ff' else 'neutral_video_purple')],view=view))

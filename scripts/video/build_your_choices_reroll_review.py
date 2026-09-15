@@ -10,6 +10,12 @@ The source reroll is never overwritten.
 
 from __future__ import annotations
 
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
+
 from pathlib import Path
 import hashlib
 import shutil
@@ -48,10 +54,10 @@ AMBER = "#a9760c"
 RED = "#c41f28"
 
 BOARDS = {
-    "tool": ROOT / "lessons/your-choices-1-app-model.jpg",
-    "method": ROOT / "lessons/your-choices-2-reasoning-research.jpg",
-    "temperature": ROOT / "lessons/your-choices-3-temperature.jpg",
-    "close": ROOT / "lessons/your-choices-4-close.jpg",
+    "tool": asset_path('lessons', 'your-choices-1-app-model.jpg'),
+    "method": asset_path('lessons', 'your-choices-2-reasoning-research.jpg'),
+    "temperature": asset_path('lessons', 'your-choices-3-temperature.jpg'),
+    "close": ROOT / "course-assets/your-choices/your-choices-4-close.jpg",
 }
 
 

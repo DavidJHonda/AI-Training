@@ -10,6 +10,12 @@ Training Works (four steps + banner), How AI Learns Patterns (two cards; leaves 
 its own cut). Notebook's animated odds chart and autoregressive drawings are kept. Six pauses at idea boundaries.
 Standard close from the last cut; corner mark cleaned in render.
 """
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 from pathlib import Path
 import argparse, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-an-llm-works-2.mp4'
 SRC1 = ROOT / 'Prompts/how-an-llm-works-1.mp4'   # roll 1: its "Over billions of examples… commonly misspell words" line (1:44.2-1:54.95) replaces roll 2's garbled sentence, audio only
 OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-13'; DEST = ROOT / 'videos/how-an-llm-works-v4.mp4'
-B = {k: ROOT / f'lessons/how-an-llm-works-{k}.jpg' for k in ('1-llm', '2-learn-once', '3-training', '4-patterns')}
+B = {k: asset_path('lessons', f'how-an-llm-works-{k}.jpg') for k in ('1-llm', '2-learn-once', '3-training', '4-patterns')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()

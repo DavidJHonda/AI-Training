@@ -4,6 +4,12 @@
 The illustration itself is an unchanged crop of the approved gaze-corrected
 asset. Only its surrounding board layout is authored by the standard renderer.
 """
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
 from pathlib import Path
 from PIL import Image
 from render_avoid_traps_editorial import render_feature, save_pair, Pair
@@ -17,7 +23,7 @@ def main():
         image = Image.open(APPROVED).convert('RGB')
         assert image.size == (1386, 1135)
         # Actual inner illustration edges, excluding the generated outer frame.
-        image.crop((33, 107, 1351, 985)).save(ART)
+        save_course_image(image.crop((33, 107, 1351, 985)), ART)
     board = render_feature(
         'AI Won’t Quit for You', str(ART),
         'The skill is knowing when you already have what you came for.',
@@ -25,8 +31,8 @@ def main():
     # Check the authored background before JPEG encoding.
     for point in ((20,100),(20,500),(20,1100),(800,20)):
         assert board.getpixel(point) == (234,231,253)
-    save_pair(board, Pair('illustrations/engagement-trap-stop-v2.jpg',
-                          'lessons/engagement-trap-3-stop.jpg'))
+    save_pair(board, Pair('course-assets/engagement-trap/engagement-trap.jpg',
+                          'course-assets/engagement-trap/engagement-trap-3-stop.jpg'))
 
 if __name__ == '__main__':
     main()

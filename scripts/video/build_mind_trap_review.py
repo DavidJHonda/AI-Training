@@ -55,7 +55,7 @@ def replacements():
         points=tuple(at(t) for t in points)
         item=common.make_leg(name,asset,points,tuple(states))
         result.append((points[0],points[-1],item))
-    comparison=ROOT/'illustrations/mind-trap-comparison-v3.jpg'
+    comparison=ROOT/'course-assets/mind-trap/mind-trap-comparison-v3.jpg'
     add('college-ai',comparison,(24.633333,27.0,40.0),(
         ('full-comparison',None,VP,None,0),
         ('ai-answer',(816,271,1560,1014),A,(1188,642,1450),24)))
@@ -71,7 +71,7 @@ def replacements():
         ('push-to-machine',None,VP,(680,425,1320),165),
         ('pan-to-printout',None,VP,(1032,520,1250),180),
         ('printed-conversation',None,VP,(1126,540,1080),140)))
-    add('eliza-effect',ROOT/'illustrations/mind-trap-eliza-effect-v4.jpg',
+    add('eliza-effect',ROOT/'course-assets/mind-trap/mind-trap-2-eliza.jpg',
         (136.533333,145.96,158.12,169.1),(
         ('full-two-part-explanation',None,VP,None,0),
         ('human-language',(40,127,784,676),P,None,0),
@@ -129,7 +129,7 @@ def main():
                 cursor+=state.frames
         close_start=at(222.6)
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'lessons/mind-trap-3-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/mind-trap/mind-trap-3-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

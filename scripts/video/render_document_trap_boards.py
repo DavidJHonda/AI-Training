@@ -15,10 +15,10 @@ from render_embrace_editorial_batch import (
 def main():
     save_pair(
         render_feature(
-            "An Incomplete Answer", "illustrations/document-trap.jpg",
+            "An Incomplete Answer", "course-assets/document-trap/document-trap.jpg",
             "Uploading a file doesn’t mean AI has read it all.", BLUE,
         ),
-        Pair("illustrations/document-trap-uploaded-v3.jpg", "lessons/document-trap-1-uploaded.jpg"),
+        Pair("course-assets/document-trap/document-trap-uploaded-v3.jpg", "course-assets/document-trap/document-trap-1-uploaded.jpg"),
     )
     save_pair(
         render_flow_board(FlowBoard(
@@ -30,7 +30,7 @@ def main():
             "", "", (PURPLE, BLUE, TEAL),
             takeaway="Search decides which parts reach the answer.",
         )),
-        Pair("illustrations/document-trap-flow-v3.jpg", "lessons/document-trap-2-flow.jpg"),
+        Pair("course-assets/document-trap/document-trap-2-flow.jpg", "course-assets/document-trap/document-trap-2-flow.jpg"),
     )
     save_pair(
         render_card_board(CardBoard(
@@ -42,7 +42,7 @@ def main():
             ), "scripts/video/assets/editorial-avoid-traps/document-moves/art-sheet.png",
             "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER),
         )),
-        Pair("illustrations/document-trap-moves-v3.jpg", "lessons/document-trap-3-moves.jpg"),
+        Pair("course-assets/document-trap/document-trap-3-moves.jpg", "course-assets/document-trap/document-trap-3-moves.jpg"),
     )
 
 

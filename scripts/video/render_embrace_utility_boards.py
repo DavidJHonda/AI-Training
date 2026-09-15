@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -97,7 +103,7 @@ def save_pair(image: Image.Image, page_relative: str, prep_relative: str) -> Non
     prep.parent.mkdir(parents=True, exist_ok=True)
     flattened = Image.new("RGB", image.size, LAVENDER)
     flattened.paste(image, mask=image.getchannel("A"))
-    flattened.save(page, quality=95, subsampling=0, optimize=True)
+    save_course_image(flattened, page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     print(f"wrote {page.relative_to(ROOT)} ({flattened.width}x{flattened.height})")
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")
@@ -307,28 +313,28 @@ def render_hassabis_timeline() -> Image.Image:
 def main() -> None:
     save_pair(
         render_three_years(),
-        "illustrations/pace-of-change-three-years-v2.jpg",
-        "lessons/pace-of-change-1-three-years.jpg",
+        "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
+        "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
     )
     save_pair(
         render_jailbreak(),
-        "illustrations/big-downside-policy-puppetry-v2.jpg",
-        "lessons/big-downside-2b-policy-puppetry.jpg",
+        "course-assets/big-downside/big-downside-3-policy-puppetry.jpg",
+        "course-assets/big-downside/big-downside-2b-policy-puppetry.jpg",
     )
     save_pair(
         render_goal_test(),
-        "illustrations/big-downside-goal-test-v2.jpg",
-        "lessons/big-downside-4-goal.jpg",
+        "course-assets/big-downside/big-downside-5-goal-test.jpg",
+        "course-assets/big-downside/big-downside-4-goal.jpg",
     )
     save_pair(
         render_safety_timeline(),
-        "illustrations/big-downside-safety-timeline-v2.jpg",
-        "lessons/big-downside-5-safety.jpg",
+        "course-assets/big-downside/big-downside-6-safety-timeline.jpg",
+        "course-assets/big-downside/big-downside-5-safety.jpg",
     )
     save_pair(
         render_hassabis_timeline(),
-        "illustrations/big-upside-hassabis-timeline.jpg",
-        "lessons/big-upside-1-hassabis.jpg",
+        "course-assets/big-upside/big-upside-hassabis-timeline.jpg",
+        "course-assets/big-upside/big-upside-1-hassabis.jpg",
     )
 
 

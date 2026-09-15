@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
-"""Sync Avoid Traps video JPGs to current lesson assets and record provenance.
+"""Retired Avoid Traps preparation script.
 
-Run --sync --render-closes after exporting the nine lesson Markdown files.
-Run --archive-obsolete after inspecting the resulting manifest and contact sheets.
-No live lesson, illustration, or video is changed. Old unused lesson JPGs move to
-archive/video-materials/avoid-traps-2026-09-04, with a recoverable move manifest.
+This historical script uses obsolete source mappings and archive behavior.
+Prepare uploads from current lesson text and boards using Prompts/README.md.
 """
+
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
+try:
+    from .course_asset_paths import asset_path, asset_dir
+except ImportError:
+    from course_asset_paths import asset_path, asset_dir
+
 import argparse
 import hashlib
 import json
@@ -26,7 +36,7 @@ REPORT = ROOT / "Prompts/AVOID-TRAPS-SOURCE-MANIFEST.json"
 KITS = [
     ("opener-avoid", "openerprotect", "Opener-Avoid", [
         ("1-traps", None, True),
-        ("2-read-water", "opener-avoid-editorial-v2.jpg", False),
+        ("2-read-water", "opener-avoid.jpg", False),
         ("3-map", "opener-avoid-section-map.jpg", True),
         ("4-close", "close", True),
     ]),
@@ -65,7 +75,7 @@ KITS = [
     ("engagement-trap", "engagementtrap", "engagement-trap", [
         ("1-comparison", "engagement-trap-comparison-v2.jpg", True),
         ("2-scroll", "engagement-trap-scroll-v2.jpg", True),
-        ("3-stop", "engagement-trap-stop-v2.jpg", False),
+        ("3-stop", "engagement-trap.jpg", False),
         ("4-close", "close", True),
     ]),
     ("support-trap", "supporttrap", "support-trap", [
@@ -79,7 +89,7 @@ KITS = [
     ("fake-trap", "faketrap", "fake-trap", [
         ("1-comparison", "fake-trap-comparison-v2.jpg", False),
         ("2-reasons", "fake-trap-four-reasons-v3.png", True),
-        ("3-source", "fake-trap-source-v2.jpg", False),
+        ("3-source", "fake-trap.jpg", False),
         ("4-checks", "fake-trap-three-checks-v2.jpg", True),
         ("5-close", "close", True),
     ]),
@@ -91,6 +101,7 @@ def sha(path):
 
 
 def backup(path):
+    raise RuntimeError("Archive backups are retired; follow the current cleanup policy in Prompts/README.md.")
     if path.exists():
         target = ARCHIVE / "replaced" / path.relative_to(ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -99,6 +110,7 @@ def backup(path):
 
 
 def main():
+    raise SystemExit("Retired workflow: use current lessons/ text and course-assets/ boards; follow Prompts/README.md. Do not recreate archive/.")
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sync", action="store_true")
     ap.add_argument("--render-closes", action="store_true")
@@ -115,9 +127,9 @@ def main():
                  "prompt": str(prompt.relative_to(ROOT)),
                  "prompt_words": len(prompt.read_text().split()), "boards": []}
         for suffix, source_name, upload in boards:
-            target = ROOT / f"lessons/{slug}-{suffix}.jpg"
+            target = asset_path('lessons', f"{slug}-{suffix}.jpg")
             canonical.add(target)
-            source = ROOT / "illustrations" / source_name if source_name not in (None, "close") else None
+            source = asset_path('illustrations', source_name) if source_name not in (None, "close") else None
             if source:
                 assert str(source.relative_to(ROOT)) in html, f"Not used on page: {source}"
                 assert source.is_file(), source
@@ -167,7 +179,7 @@ def main():
         rows.append(entry)
     obsolete, retained = [], []
     prefixes = tuple(x[0] + "-" for x in KITS) + ("avoid-traps-",)
-    for path in sorted((ROOT / "lessons").iterdir()):
+    for path in sorted((asset_dir('lessons')).iterdir()):
         if path.suffix.lower() not in (".jpg", ".jpeg", ".png") or not path.name.startswith(prefixes) or path in canonical:
             continue
         if path.name in html:
@@ -191,7 +203,7 @@ def main():
         sheet = Image.new("RGB", (1280, 1410), "white")
         for i, panel in enumerate(panels[start:start+6]):
             sheet.paste(panel, ((i%2)*640, (i//2)*470))
-        sheet.save(qa / f"sheet-{start//6+1:02}.jpg", quality=92)
+        save_course_image(sheet, qa / f"sheet-{start//6+1:02}.jpg", quality=92)
     print(json.dumps({"lessons":len(rows), "boards":len(canonical), "upload":sum(b[2] for k in KITS for b in k[3]), "post_only":sum(not b[2] for k in KITS for b in k[3]), "obsolete":len(obsolete), "retained_page_dependencies":retained, "contact_sheets":str(qa)}))
 
 

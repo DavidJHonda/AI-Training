@@ -10,7 +10,7 @@ const fs = require("fs");
 const { execFileSync } = require("child_process");
 const PORT = process.argv[2] || "8765";
 const DBG = process.argv[3] || "9333";
-const OUT = process.argv[4] || "lessons";
+const OUT = process.argv[4] || "tmp/lesson-pdfs";
 const only = process.argv.slice(5);
 const BASE = "http://127.0.0.1:" + PORT + "/index.html";
 const WIDTH = 960; // CSS px the lesson lays out at (paperWidth = WIDTH/96 in)

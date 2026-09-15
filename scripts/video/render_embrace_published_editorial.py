@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from .course_credit import save_course_image
+except ImportError:
+    from course_credit import save_course_image
+
+
 import shutil
 from pathlib import Path
 
@@ -24,7 +30,7 @@ def save_pair(image, page_name: str, prep_name: str) -> None:
     prep = ROOT / prep_name
     page.parent.mkdir(parents=True, exist_ok=True)
     prep.parent.mkdir(parents=True, exist_ok=True)
-    image.save(page, quality=95, subsampling=0, optimize=True)
+    save_course_image(image, page, quality=95, subsampling=0, optimize=True)
     shutil.copyfile(page, prep)
     print(f"wrote {page.relative_to(ROOT)} ({image.width}x{image.height})")
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")
@@ -34,33 +40,33 @@ def main() -> None:
     missed_predictions, four_famous_plans = CARD_BOARDS
     save_pair(
         render_card_board(missed_predictions),
-        "illustrations/loudest-voices-missed-predictions-v2.jpg",
-        "lessons/loudest-voices-2-missed-calls.jpg",
+        "course-assets/loudest-voices/loudest-voices-2-missed-predictions.jpg",
+        "course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
     )
     save_pair(
         render_card_board(four_famous_plans),
-        "illustrations/unexpected-results-plans-v2.jpg",
-        "lessons/unexpected-results-1-plans.jpg",
+        "course-assets/unexpected-results/unexpected-results-1-plans.jpg",
+        "course-assets/unexpected-results/unexpected-results-1-plans.jpg",
     )
     save_pair(
         render_jailbreak_feature(),
-        "illustrations/big-downside-jailbreak-v2.jpg",
-        "lessons/big-downside-2-jailbreak.jpg",
+        "course-assets/big-downside/big-downside-2-jailbreak.jpg",
+        "course-assets/big-downside/big-downside-2-jailbreak.jpg",
     )
     save_pair(
         render_gps_agent_feature(),
-        "illustrations/rise-of-agents-gps-agent-v2.jpg",
-        "lessons/rise-of-agents-1-gps.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
     )
     save_pair(
         render_chatbot_agent_long(),
-        "illustrations/rise-of-agents-chatbot-agent-v2.jpg",
-        "lessons/rise-of-agents-2-highlights.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-2-chatbot-vs-agent.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-2-highlights.jpg",
     )
     save_pair(
         render_first_assignment_long(),
-        "illustrations/work-changes-assignment-v2.jpg",
-        "lessons/work-changes-2-assignment.jpg",
+        "course-assets/work-changes/work-changes-2-assignment.jpg",
+        "course-assets/work-changes/work-changes-2-assignment.jpg",
     )
 
 

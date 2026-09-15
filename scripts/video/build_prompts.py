@@ -161,7 +161,7 @@ Close on board 3: "A pattern machine, not a thinker." over "Once you see that, i
            "The person in the room is an ordinary figure with no identifiable face, and depicts no real named person."))
 
 # ------------------------------------------------------------------ Work With AI
-add("which-app", title="Which App?", lo=3.5, hi=4, boards=True,
+add("which-app", title="Your Home Base", lo=3.5, hi=4, boards=True,
     body="""
 Attached boards in order: 1 the big three side by side, 2 how we used each app, 3 the close.
 

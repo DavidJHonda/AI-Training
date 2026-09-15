@@ -777,16 +777,16 @@ Before approval, confirm:
 1. Identify the teaching beat and choose a family with the decision guide.
 2. Draft the shortest complete copy that preserves the lesson meaning.
 3. Build and review the board before adding it to the lesson.
-4. Install the exact approved asset in both canonical locations when shared.
+4. Install the exact approved asset in `course-assets/<lesson>/`; use that same file for the lesson and video preparation.
 5. Update the on-page reference and cache marker.
 6. Verify at the authored 1600 px width, inside a 16:9 video frame, and at the 880 px
    lesson-page display size.
-7. Update the video edit tracker and renderer ownership notes.
+7. Update the shared video tracker and relevant renderer notes.
 8. Recheck Notebook compatibility before preparing source materials.
 
 ## Superseded guidance
 
-The older specification in `board-review-first-four/PROMPT-SPECS.md` remains useful
-as project history and for board-specific copy, but its universal canvas color,
-title placement, body geometry, people policy, and automatic template assumptions
-are no longer authoritative. This file governs new board decisions.
+The historical board-review workspaces were removed during the September 15, 2026
+cleanup. Their universal canvas color, title placement, body geometry, people
+policy, and automatic template assumptions are superseded. This file governs new
+board decisions; current lesson assets live in `course-assets/<lesson>/`.

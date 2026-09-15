@@ -3,7 +3,7 @@
 Current workflow (cleanup policy updated 2026-09-15; earlier production notes below are historical where superseded):
 
 For what a finished edit must contain, read [the edit spec](../scripts/video/EDIT-SPEC.md); for editing recipes and owner preferences, [the video production README](../scripts/video/README.md).
-For the current session's unfinished work, see [the September 10 handoff](../docs/video-handoff-2026-09-10.md).
+For unfinished work, check the current tracker and the retained lesson review in `video-audit/`. At the September 15 cleanup, separate candidates remained for Your Home Base, Beyond the Average, and the Work With AI opener; verify their current status before editing or shipping.
 
 1. Prepare one current lesson Markdown, its canonical JPGs, and one self-contained prompt. The live lesson is the content authority. Markdown must include the teaching inside the boards, not just image captions, and every worked-example answer, comparison result, and essential clause as a prose sentence (owner rule 2026-09-11: Notebook speaks prose and skips tables and banners; see "Speak the answers" in the production README). The prompt includes the never-ask-the-viewer and speak-the-result rules; `Prompts/vector-space-video-prompt.txt` is the reference. Avoid Traps has an exact checklist and scene plan in [AVOID-TRAPS-VIDEO-KITS.md](AVOID-TRAPS-VIDEO-KITS.md).
 2. Upload the lesson Markdown and only the JPGs identified as Notebook sources. Do **not** upload production instructions, manifests, or older lesson PDFs. `Master Prompt.md` is retired; every prompt is self-contained. Visible-face boards remain in the course and are inserted after generation; reserve their narration and keep their numbered slots rather than renumbering.

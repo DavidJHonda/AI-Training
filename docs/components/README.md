@@ -33,13 +33,11 @@ they should not function as decorative witnesses beside an explanation.
 
 - Live page behavior: `index.html`
 - Current lesson architecture and working agreements: `briefing.md`
-- Canonical on-page board assets: `illustrations/`
-- Canonical video-prep boards: `lessons/`
-- Board/video synchronization: `board-review-first-four/VIDEO-EDIT-TRACKER.md`
+- Canonical lesson and video-preparation board assets: `course-assets/<lesson>/`
+- Board/video synchronization: current lesson assets, the shared video tracker, and `scripts/video/RETROFIT-PLAYBOOK.md`
 
-When the same board appears on the page and in video preparation, both copies should
-be byte-identical. The course should never maintain two visually different versions
-of the same teaching beat.
+Use the same current board file for the lesson and future video updates. Do not
+maintain separate page and video-preparation copies of the same teaching beat.
 
 ## Course tokens
 

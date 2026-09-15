@@ -9,8 +9,7 @@ composite, and the Work With AI challenger round).
 Start here when continuing video work in a new assistant session. This file governs
 production recipes; `EDIT-SPEC.md` is the contract every candidate must meet (scope,
 board treatment, rings, pauses, close); `NARRATION-REVIEW.md` governs evaluation; `Prompts/README.md` governs upload
-preparation. Dated owner corrections supersede older recipes below. The current
-2026-09-10 handoff is `docs/video-handoff-2026-09-10.md` (repository-relative path).
+preparation. Dated owner corrections supersede older recipes below. Check the current tracker and the retained lesson review in `video-audit/` for unfinished work; old handoffs are not current status.
 
 ## Asset retention (owner rule, 2026-09-15)
 
@@ -18,7 +17,7 @@ Use the current lesson boards in `course-assets/<lesson>/` for future video upda
 
 ### Review material cleanup (2026-09-15)
 
-`illustrations/` and `video-audit-current/` have been removed. Use `course-assets/<lesson>/` for current boards. Keep `video-audit/` working material only while it supports unfinished edits or their dependencies. Once an edit is resolved, remove superseded frames, audio snippets, contact sheets, and reports within owner-authorized cleanup scope. Do not preserve finished audit bundles as a permanent archive. See `docs/review-directory-cleanup.json` for the retained pending-work folders from this cleanup.
+`illustrations/` and `video-audit-current/` have been removed. Use `course-assets/<lesson>/` for current boards. Keep `video-audit/` working material only while it supports unfinished edits or their dependencies. Once an edit is resolved, remove superseded frames, audio snippets, contact sheets, and reports within owner-authorized cleanup scope. Do not preserve finished audit bundles as a permanent archive. At the September 15 cleanup, the pending candidate reviews were `video-audit/which-app-repair-2026-09-15/REVIEW.md` (Your Home Base), `video-audit/beyond-the-average-repair-2026-09-14/REVIEW.md`, and `video-audit/opener-work-repair-2026-09-14b/REVIEW.md`. Their comparison folders and referenced dependencies were retained. Verify current status before later cleanup.
 
 ## Source and editing workflow (owner observations, 2026-09-08)
 

@@ -1,6 +1,7 @@
-# Beyond the Average (whybother; formerly Does School Matter?) v4: review candidate (2026-09-14 PM, EDIT-SPEC build)
+# Beyond the Average (whybother; formerly Does School Matter?) v5: review candidate (2026-09-14 PM, EDIT-SPEC build)
 
-**Candidate:** `videos/beyond-the-average-v4.mp4` (2:50.9, 5128 frames, 30 fps). v4 = v3 with a third cut, David's note on v3 ("1:22 to
+**Candidate:** `videos/beyond-the-average-v5.mp4` (2:51.4, 5143 frames, 30 fps). v5 = v4 with the closing audio carried to 202.0 (v4 ended
+it at 201.5 and clipped the last word; "average" runs to 201.68 at −45 dB, David 2026-09-14). v4 = v3 with a third cut, David's note on v3 ("1:22 to
 1:34. It feels like we can delete this video."): source 100.9–113.17, "School forces you to learn the foundational mechanics of how things
 work. Instead of receiving a finished summary, you investigate the individual pieces to understand why they fit together. It provides a
 sandbox for active practice." Notebook's busy foundational-mechanics diagram (four boxes, WHY hub, testing frame), drawn for that
@@ -22,7 +23,7 @@ the lesson's framing; roll 1's 53.3–72.75 is replaced by roll 2's line under t
 material, but your unique subject knowledge and practiced problem-solving take the work further." (roll 2 55.10–64.3, −0.95 dB),
 and the board holds still, full, banner visible (no camera walk); (2) the tall What to Start Building Today board's banner sat on the
 frame's bottom edge and the opening push clipped it; `editspec_build.compose` now gives tall boards a 4% stage margin above and below,
-and dense boards open static (no push on a full board). v1–v3 superseded. Named for the lesson's new title (David retitled the
+and dense boards open static (no push on a full board). v1–v4 superseded. Named for the lesson's new title (David retitled the
 lesson 2026-09-14; the page's `whybother` entry and its board assets still carry the old slug, to be re-slugged at ship).
 **Live video and lesson unchanged** (`videos/does-school-matter.mp4`, `lessons/does-school-matter.md`, both board assets hash-verified).
 **Build:** `scripts/video/build_beyond_the_average_review.py`. **Manifest:** `edit-manifest.json` here.
@@ -59,21 +60,21 @@ board run: What to Start Building Today, 52.7 s (Notebook drew nothing inside it
 
 ## Verification (ship checklist)
 
-Run on the 21:39 render (v4).
+Run on the 21:47 render (v5).
 
-1. Decoded frames 5128 = plan; audio 170.944 s (one AAC frame over plan). Each leg decoded its span exactly.
+1. Decoded frames 5143 = plan; audio 171.435 s (one AAC frame over plan). Each leg decoded its span exactly.
 2. `transition_guard.py` passed all 6 declared boundaries (1659, 1947, 2481, 2893, 3172, 4783); `boundary-pairs.jpg` inspected: 2481 is
    Notebook's pen drawing, first frame after its cut; 1946 is
    the full board, 1947 the fully drawn New Average diagram; a frame strip of 1947–2451 shows the three diagram states arriving on
    Notebook's own morphs, none entered blank or mid-draw.
-3. Pauses on the final file (silencedetect −35 dB): 13.48–15.15, 54.07–55.67, 81.55–82.77, 158.37–159.66; close hold 166.92–170.94.
+3. Pauses on the final file (silencedetect −35 dB): 13.48–15.15, 54.07–55.67, 81.55–82.77, 158.37–159.66; close hold 167.11–171.43 (speech runs to 167.11 at −45 dB; the word is whole).
 4. Settled ring frames inspected (`states-future.jpg`): the board opens full with the banner clear of the frame edge, each dive lands on
    the named card, banner edge to edge at the end; `states-same-tool.jpg`: full board, still.
 4b. Protected files (live video, lesson text, roll 2, both boards) hash-verified unchanged after the render.
 5. Joins re-transcribed on the final file: "…find a way to take it further." 53.64 → pause → "The difference is what you add. AI provides
    raw material, but your unique subject knowledge and practiced problem-solving take the work further." 55.70–64.0 → "In a future where
    everyone has the same software…" 65.06; "…develop those assets." 80.90 → pause → "You write essays, solve difficult math equations…"
-   82.66; "…go deep into it." 95.96 → "Technology will change…" 96.80; close verbatim 159.18–166.52. Floors into each onset −50 dB or lower, no cliff.
+   82.66; "…go deep into it." 95.96 → "Technology will change…" 96.80; close verbatim 158.50–167.11. Floors into each onset −50 dB or lower, no cliff.
 6. Corner mark: 1625 frames paper-cloned, 1169 inpainted, 0 declined; `corner-check.jpg` clean.
 7. Standard close from output frame 4783; `last-frame.jpg` is the close board (copy from CLOSE_BOARDS[whybother]).
 

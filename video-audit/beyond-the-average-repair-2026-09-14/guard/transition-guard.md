@@ -1,8 +1,8 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/beyond-the-average-v4.mp4`
-- Decoded frames: 5128
+- Video: `videos/beyond-the-average-v5.mp4`
+- Decoded frames: 5143
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED
 

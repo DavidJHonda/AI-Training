@@ -4,13 +4,14 @@
 Base: Prompts/does-school-matter-1.mp4 (3:25; the fullest of four rolls: every beat taught, Board 2 read in full, close verbatim; the
 Same Tool board line "The tool may be the same. What you bring to it is yours." is never spoken by any roll and is accepted as the
 board's own text). Plan: video-audit/does-school-matter-comparison-2026-09-14b/REVIEW.md.
-Output: videos/beyond-the-average-v1.mp4 (the new title's slug). Audit: video-audit/beyond-the-average-repair-2026-09-14/.
+Output: videos/beyond-the-average-v3.mp4 (the new title's slug). Audit: video-audit/beyond-the-average-repair-2026-09-14/.
 Two cuts approved by David 2026-09-14: 89.55-101.0 ("Education is a process designed to build the human differentiators that an
 algorithm cannot replace. It shifts the focus away from simply finding the right answer and toward the capacity to improve upon it.")
 and 126.9-132.0 ("You develop a level of specialized expertise that a generalized AI lacks."). No grafts.
 Boards (page assets): Same Tool. Different Advantage. (faces; not uploaded; arrives at "Consider two students starting with the same
-AI-generated answer", camera walk to the second student at "One of these students takes the work further", back to full at "In a
-future where everyone has the same software"; leaves at the first cut); What to Start Building Today (2x2, dense; arrives at "This
+AI-generated answer"; v2+: still, full, under roll 2's grafted "The difference is what you add…" only; v3: leaves as roll 1
+resumes at "In a future where everyone has the same software", where Notebook's own New Average / Differentiation Gap / Where Real
+Value Is Built diagrams run under roll 1 to the first cut); What to Start Building Today (2x2, dense; arrives at "This
 roadmap shows the four specific pillars", dive per card as named, pull back for "By focusing on these four pillars, school helps you
 build what takes you beyond the new average"). Notebook's drawings elsewhere are kept (laptop thinker, phone with code, classroom,
 developer and coworker diagram, data center, hand writing "AI Generated", brain and marked-up page, engine diagrams, calculus page,
@@ -25,7 +26,7 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-school-matter-1.mp4'
 SRC2 = ROOT / 'Prompts/does-school-matter-2.mp4'   # roll 2: the lesson's framing of the Same Tool board ("The difference is what you add…")
-OUT = ROOT / 'video-audit/beyond-the-average-repair-2026-09-14'; DEST = ROOT / 'videos/beyond-the-average-v2.mp4'   # v1 reviewed by David 2026-09-14 (one-student-beats-the-other narration under the board; banner clipped by the zoom)
+OUT = ROOT / 'video-audit/beyond-the-average-repair-2026-09-14'; DEST = ROOT / 'videos/beyond-the-average-v3.mp4'   # v1: one-student-beats-the-other narration under the board, banner clipped by the zoom; v2: the board ran 0:55-1:23 (David: too long); v3: Notebook's own diagrams carry roll 1's lines
 B = {'same-tool': ROOT / 'illustrations/does-school-matter-same-tool-v1.jpg', 'future': ROOT / 'illustrations/does-school-matter-future-v3.jpg'}
 
 def main():
@@ -46,12 +47,12 @@ def main():
     b.keep(0, S1, 'Notebook: laptop thinker, phone with code, classroom'); b.pause(30, 'Pause: into the dream job')
     b.keep(S1, T_IN, 'Notebook: developer and coworker diagram, data center, hand writing "AI Generated"'); b.pause(30, 'Pause: into the two students')
     b.graft(SRC2, R2_LINE[0], R2_LINE[1], 'Roll 2 audio: "The difference is what you add…" under the Same Tool board', 'roll2-difference', picture_from=T_IN, gain_db=-0.95, visual='same-tool')   # roll 2 -17.3 dBFS vs roll 1 -18.3
-    b.keep(R1_RESUME, CUT1[0], 'B1 Same Tool: "In a future where everyone has the same software…" through "…develop those assets."', 'same-tool'); b.pause(30, 'Pause: into "School forces you to learn…" (the cut sat here)')
+    b.keep(R1_RESUME, CUT1[0], 'Notebook: "The New Average" two-student stacks morphing into "The Differentiation Gap" (value delta arrow), dissolving to "Where Real Value Is Built" (school: structured time and space) as the cards draw in; roll 1\'s own synced diagrams under "In a future where everyone has the same software…" through "…develop those assets."'); b.pause(30, 'Pause: into "School forces you to learn…" (the cut sat here)')   # v3: the board leaves with the graft line (David on v2: 0:55-1:23 on one illustration is too long)
     b.keep(CUT1[1], CUT2[0], 'Notebook: brain and marked-up page, engine diagrams, calculus page, the meeting, microscope')
     b.keep(CUT2[1], F_IN, 'Notebook: microscope, "Smarter than the tool" card')
     b.keep(F_IN, F_OUT, 'B2 What to Start Building Today', 'future'); b.pause(30, 'Pause: before the closing lines')
     b.mark_close_start(); b.close(F_OUT, CLOSE_END); b.finish_audio()
-    b.board('same-tool', B['same-tool'], T_IN, CUT1[0], 'compact', [], min_open=0, push=False)   # full board, still, banner visible throughout (David: no zoom on a full board)
+    b.board('same-tool', B['same-tool'], T_IN, R1_RESUME, 'compact', [], min_open=0, push=False)   # full board, still, banner visible throughout (David: no zoom on a full board); only the graft's picture_from span is used
     T = lambda label, at, r, c: dict(label=label, at=at, rects=[r], cam=r, color=c, radius=18)
     c4 = cards_grid(B['future'], 4)
     b.board('future', B['future'], F_IN, F_OUT, 'dense',

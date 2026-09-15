@@ -8,7 +8,7 @@ A snapshot of the current structure, in delivery order. Each lesson is `Displaye
 
 56 lessons across 7 section groups. Group tabs, lesson-node maps, course progress totals, and print-group membership derive from `SECTION_GROUPS`; do not hand-maintain a second routed list.
 
-- **Start Smarter (8):** Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (llms), How an LLM Works (aihistory), Does AI Think? (doesaithink), What You Can Control (control), Does School Matter? (whybother), Learn with AI (studying)
+- **Start Smarter (8):** Welcome (welcome), Why Learn AI? (whydeeper), What Is AI? (llms), How an LLM Works (aihistory), Does AI Think? (doesaithink), What You Can Control (control), Beyond the Average (whybother), Learn with AI (studying)
 - **Work With AI (9):** Opener (openerworkwith), AI is Different (aivscode), Where AI Works Best (whatitdoesbest), Which App? (modelselection), Questions Matter (questionsvaluable), Art of Prompting (prompting), Context Window (prompt), Evaluate the Results (evaluating), Critical Thinking (critical)
 - **Understand AI (10):** Opener (openerfoundations), Training (training), AI is Math (aiismath), Tokens (tokens), Embeddings: Meaning as Numbers (embeddings), Transformer (attention), Layers (layers), Vector Space (vectorspace), How AI Answers (prediction), One More Thing (inference)
 - **Avoid Traps (9):** Opener (openerprotect), Hallucination (hallucination), Training Bias (trainingbias), Document Trap (documenttrap), Mind Trap (mindtrap), Flattery Trap (flattery), Engagement Trap (engagementtrap), Support Trap (supporttrap), Fake Trap (faketrap)

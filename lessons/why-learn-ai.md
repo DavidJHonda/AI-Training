@@ -22,7 +22,7 @@ AI isn’t something you go visit. It’s already in the apps on your phone, the
 
 **Image file:** `why-learn-ai-1-everyday.jpg`
 
-![Where AI Already Lives](why-learn-ai-1-everyday.jpg)
+![Where AI Already Lives](why-learn-ai-1-everyday.png)
 
 **Teaching content:**
 

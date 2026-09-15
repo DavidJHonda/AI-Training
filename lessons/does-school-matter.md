@@ -1,6 +1,6 @@
 ## START SMARTER
 
-# Does School Matter?
+# Beyond the Average
 
 A lot of people your age are quietly asking the same thing. If AI can answer anything, do you even need school anymore? Why sit through years of classes when the tool spits out the answer in seconds?
 

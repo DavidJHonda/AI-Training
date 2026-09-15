@@ -5,7 +5,8 @@ Base: Prompts/opener-work-4.mp4 (3:08; REROLL on the verbatim refrain and close,
 video-audit/opener-work-comparison-2026-09-14b/REVIEW.md). Donor: Prompts/close-opener-work.mp4 ("Don't just use AI, work with it."
 33.2-35.7; "AI doesn't replace your thinking, it multiplies it." 65.8-68.8), +1.0 dB to roll 4's level.
 Output: videos/opener-work-v4.mp4 (v2 was roll 2 + donor; v3 covered Notebook's map-section diagrams with the board). Audit: video-audit/opener-work-repair-2026-09-14b/.
-Two cuts approved by David 2026-09-14: 24.6-34.8 ("Real utility requires you to take the lead… cannot define the why of the work for
+Three cuts approved by David 2026-09-14: 143.35-150.1 ("This requires you to independently verify the factual accuracy of any claims or
+data the AI provides.", stronger than the course; Notebook's VERIFY ACCURACY card goes with it), 24.6-34.8 ("Real utility requires you to take the lead… cannot define the why of the work for
 you.", invented) and everything after "…how you apply the tool." (167.4-188, the paraphrased close, replaced by the donor lines).
 Boards (page assets): What Makes AI Use Good? (the refrain capture; roll 4 paraphrases each line over it, rings per line at the
 paraphrase onsets; out on Notebook's cut 18.23); Same Tool. Different Results. (faces; not uploaded; arrives on Notebook's cut 55.53 at
@@ -24,7 +25,7 @@ from build_where_ai_works_best_review import photo_walk
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-4.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
-OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14b'; DEST = ROOT / 'videos/opener-work-v4.mp4'   # v3 reviewed by David 2026-09-14 (flash at :26; board covered Notebook's diagrams 1:00-2:40)
+OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14b'; DEST = ROOT / 'videos/opener-work-v5.mp4'   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
 B = {'refrain': ROOT / 'lessons/opener-work-1-refrain.jpg', 'same-tool': ROOT / 'illustrations/opener-work.jpg', 'map': ROOT / 'illustrations/opener-work-section-map.jpg'}
 GOLD = '#eccf6b'   # the creed card's own accent (Build opener precedent)
 ROWS = {'know': [100, 145, 1500, 305], 'use': [100, 335, 1500, 497], 'think': [100, 527, 1500, 690]}   # section map, measured 2026-09-14
@@ -46,7 +47,8 @@ def main():
     # aim 1:54.63-2:10.80; VERIFY ACCURACY 2:23.53-2:30.27; evaluation and verification 2:30.27-2:41.73).
     M1, M1_OUT = 2005, 2253              # "To build those mechanics… Step one is knowing what it's for." (Know What It's For rings 72.70)
     M2, M2_OUT = 3067, 3439              # "Once you have the right tool, we move to step two. Use it well… extract a high-quality answer" (rings 105.06)
-    M3, M3_OUT = 3924, 4306              # "Step three covers what happens after… Think before you trust… objective truth." (rings 134.70)
+    M3, M3_OUT = 3924, fr(143.35)        # "Step three covers what happens after… Think before you trust… objective truth." (rings 134.70); cut A at the trough after "truth." (-67 dB)
+    CUT3 = (M3_OUT, fr(150.1))           # David 2026-09-14: cut "This requires you to independently verify the factual accuracy of any claims or data the AI provides." (143.5-149.5; stronger than the course teaches); Notebook's VERIFY ACCURACY card, drawn for that line, goes with it; resume before "Finally" (150.3; trough -68 dB)
     M4 = 4852                            # "As the bottom of our roadmap shows, the final result depends entirely on how you apply the tool." (banner from the first frame)
     CUT2 = fr(167.4)                     # after "…how you apply the tool." (166.68; trough 167.24-167.55); the paraphrased close is removed
     GRAFT_A, GRAFT_B = (990, 1080), (1971, 2069)   # donor spans as in v2
@@ -59,7 +61,7 @@ def main():
     b.keep(M2, M2_OUT, 'B3 map: Use It Well', 'map-2')
     b.keep(M2_OUT, M3, 'Notebook: model perception, precision aim')
     b.keep(M3, M3_OUT, 'B3 map: Think Before You Trust', 'map-3')
-    b.keep(M3_OUT, M4, 'Notebook: VERIFY ACCURACY card, evaluation and verification')
+    b.keep(CUT3[1], M4, 'Notebook: evaluation and verification diagram (picture from its cut 4508; the resumed audio starts 5 frames before it)', video_from=4508, video_end=M4)
     b.keep(M4, CUT2, 'B3 map: banner', 'map-4')
     b.mark_close_start(); b.pause(30, 'Pause: before the closing lines (close board)')
     b.graft(DONOR, GRAFT_A[0], GRAFT_A[1], 'Donor: "Don\'t just use AI, work with it."', 'donor-a', picture_from=CUT2 - 100, gain_db=1.0, visual='close')
@@ -81,7 +83,7 @@ def main():
     b.render_legs()
     for k in b.boards: b.state_sheet(k)
     b.make_close('openerworkwith')
-    b.manifest({'narration_cuts_source_frames': [list(CUT1), [CUT2, 5639]], 'donor_frames': {'a': list(GRAFT_A), 'b': list(GRAFT_B)}, 'rows': ROWS, 'refrain_lines': LINES})
+    b.manifest({'narration_cuts_source_frames': [list(CUT1), list(CUT3), [CUT2, 5639]], 'donor_frames': {'a': list(GRAFT_A), 'b': list(GRAFT_B)}, 'rows': ROWS, 'refrain_lines': LINES})
     print('Prepared', b.total, f'{b.total / 30:.2f}s', {k: (v['src_in'], v['src_out'], v['full_view_frames']) for k, v in b.boards.items()}, 'close', b.close_start, flush=True)
     if args.prepare_only: return
     b.render(); print(DEST)

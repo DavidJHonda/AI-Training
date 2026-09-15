@@ -1,8 +1,8 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/opener-work-v4.mp4`
-- Decoded frames: 5149
+- Video: `videos/opener-work-v5.mp4`
+- Decoded frames: 4946
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED
 
@@ -16,7 +16,7 @@
 - PASS — f2841 `splice-2841` — [`boundary-002841-splice-2841.jpg`](boundary-002841-splice-2841.jpg)
 - PASS — f3213 `splice-3213` — [`boundary-003213-splice-3213.jpg`](boundary-003213-splice-3213.jpg)
 - PASS — f3698 `splice-3698` — [`boundary-003698-splice-3698.jpg`](boundary-003698-splice-3698.jpg)
-- PASS — f4080 `splice-4080` — [`boundary-004080-splice-4080.jpg`](boundary-004080-splice-4080.jpg)
-- PASS — f4626 `splice-4626` — [`boundary-004626-splice-4626.jpg`](boundary-004626-splice-4626.jpg)
-- PASS — f4796 `splice-4796` — [`boundary-004796-splice-4796.jpg`](boundary-004796-splice-4796.jpg)
-- PASS — f4826 `splice-4826` — [`boundary-004826-splice-4826.jpg`](boundary-004826-splice-4826.jpg)
+- PASS — f4074 `splice-4074` — [`boundary-004074-splice-4074.jpg`](boundary-004074-splice-4074.jpg)
+- PASS — f4423 `splice-4423` — [`boundary-004423-splice-4423.jpg`](boundary-004423-splice-4423.jpg)
+- PASS — f4593 `splice-4593` — [`boundary-004593-splice-4593.jpg`](boundary-004593-splice-4593.jpg)
+- PASS — f4623 `splice-4623` — [`boundary-004623-splice-4623.jpg`](boundary-004623-splice-4623.jpg)

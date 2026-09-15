@@ -145,7 +145,10 @@ class Build:
     # ---------------- boards
     def compose(self, asset, key):
         board = cv2.imread(str(asset)); bh, bw = board.shape[:2]
-        cw = max(bw, int(bh * 16 / 9)); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2
+        if bh * 16 / 9 > bw:   # tall board: 4% stage above and below so the banner never sits on the frame edge (owner report 2026-09-14, Beyond the Average)
+            cw = -(-int(round(bh * 1.08)) * 16 // 9); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2   # ch derived from cw so the full 16:9 window never exceeds the canvas
+        else:
+            cw = max(bw, int(bh * 16 / 9)); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2
         ox, oy = (cw - bw) // 2, (ch - bh) // 2; bg = tuple(int(v) for v in board[4, 4])
         # The page renders boards with rounded corners; the exported JPG flattens the matte outside those corners to
         # whatever the page background was (white, or a dark shade), which then reads as gray smudges at the board's
@@ -195,7 +198,7 @@ class Build:
         else:
             dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in targets)
             est = max(first, 2 * FPS)   # spec rule 3: named at once -> the ring pops in the full view and the dive waits
-            beats = [dict(label='establish', frames=est, **{'from': full}, to=[cw / 2, ch / 2, cw * 0.97])]; cursor = est
+            beats = [dict(label='establish', frames=est, **{'from': full}, to=full)]; cursor = est   # static full view (owner rule 2026-09-14: no zoom while the full board is shown)
             for i, t in enumerate(targets):
                 c = sh(t['cam']); cam = [c[0] + c[2] / 2, c[1] + c[3] / 2, dive_w]
                 nxt = on(targets[i + 1]['at']) if i + 1 < len(targets) else (on(pullback_at) if pullback_at else n)

@@ -4,6 +4,12 @@
 v5 (2026-09-16, board refresh): the v4 assembly with the current course-assets boards, which carry the site URL at the bottom (same
 dimensions as the boards v4 used, so every card rect and ring onset is unchanged), and the canonical close. No audio change. Framing
 kept at v4 parity (tall_margin off).
+v6 (2026-09-16, David: "The Learn Once. Answer Every Word. box shows the sections… we don't refer back to it"): the Learn Once board
+returns at each of the four section entries with that step ringed (01 Training purple, 02 Patterns purple, 03 Probability amber, 04
+Prediction amber), riding the existing pause plus the first 1.5 s of the section's intro sentence, then the section's own board or
+drawing follows; the Training and Patterns boards arrive 1.5 s later than in v5, the Probability and Prediction drawings start on their
+own cuts and run 1.5 s behind the audio, clamped at their span's end. Also the 2:44 flash: the roll 1 graft's picture now holds the
+pattern-architecture card (video_end=4852) instead of running 12 frames into the math-and-grammar drawing before the pause.
 
 Base: Prompts/how-an-llm-works-2.mp4 (4:36, REPAIR under NARRATION-REVIEW). Output: Prompts/how-an-llm-works-v4.mp4 (v3 carried a garbled "architecture" at 2:33.5 source; roll 1's clean line is grafted under roll 2's own picture, owner report 2026-09-13; v2 cut to Notebook's pattern-engine drawing while it was still fading in from blank paper; owner report 2026-09-13).
 Audit: video-audit/how-an-llm-works-repair-2026-09-13/.
@@ -29,7 +35,7 @@ from build_honesty_privacy_review import cards
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-an-llm-works-2.mp4'
 SRC1 = ROOT / 'Prompts/how-an-llm-works-1.mp4'   # roll 1: its "Over billions of examples… commonly misspell words" line (1:44.2-1:54.95) replaces roll 2's garbled sentence, audio only
-OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-16'; DEST = ROOT / 'Prompts/how-an-llm-works-v5.mp4'   # v4 shipped 2026-09-13; v5 = v4 with the URL-bearing boards
+OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-16'; DEST = ROOT / 'Prompts/how-an-llm-works-v6.mp4'   # v4 shipped 2026-09-13; v5 = v4 with the URL-bearing boards; v6 = v5 + Learn Once callbacks at each section and the 2:44 flash fixed
 B = {k: asset_path('lessons', f'how-an-llm-works-{k}.jpg') for k in ('1-llm', '2-learn-once', '3-training', '4-patterns')}
 
 def main():
@@ -51,12 +57,23 @@ def main():
     CLOSE_END = fr(272.6)                  # "One word at a time." ends 272.19
     b.keep(B1, fr(36.3), 'B1 what is an LLM', '1-llm'); b.pause(30, 'Pause: into how it turns words into an answer'); b.keep(fr(36.3), B1_OUT, 'B1 tail', '1-llm')
     b.keep(B1_OUT, B2, 'Notebook: core processing engine drawing')
-    b.keep(B2, B2_OUT, 'B2 two phases, learn once', '2-learn-once'); b.pause(30, 'Pause: into training')
-    b.keep(B3, B3_OUT, 'B3 four training steps', '3-training'); b.pause(30, 'Pause: into patterns')
-    b.keep(B4, B4_OUT, 'B4 familiar pattern, patterns everywhere', '4-patterns')
-    b.graft(SRC1, GRAFT1[0], GRAFT1[1], 'Roll 1 audio over roll 2 pattern-engine and math-and-grammar drawings (replaces the garbled sentence)', 'roll1-patterns-line', picture_from=DRAWING_SOLID); b.pause(30, 'Pause: into probability')
-    b.keep(CUTA[1], fr(218.8), 'Notebook: animated odds chart, network drawing'); b.pause(30, 'Pause: into prediction')
-    b.keep(fr(218.8), CUTB[0], 'Notebook: autoregressive drawings, phone loop'); b.pause(30, 'Pause: before the closing message')
+    CB = 45   # each callback holds 1.5 s into the section's intro sentence (plus the pause before it)
+    M1 = (fr(84.4), fr(84.6), fr(86.1))     # 01 Training: ring from 0.2 s before the pause, through it, 1.5 s into "We can see how the AI teaches itself…"
+    M2 = (fr(128.9), fr(129.1), fr(130.6))  # 02 Patterns: same shape into "If I say peanut butter and blank…"
+    M3 = (CUTA[1] - 6, CUTA[1], CUTA[1] + CB) # 03 Probability: 6 silent roll 2 frames (170.38-170.95 is silence) before the pause, like the others, then 1.5 s into "This chart illustrates…"
+    M4 = (fr(218.6), fr(218.8), fr(218.8) + CB)   # 04 Prediction: into "Probability handles one word at a time."
+    b.keep(B2, M1[0], 'B2 two phases, learn once', '2-learn-once'); b.keep(M1[0], M1[1], 'Callback 01 Training (ring up before the pause)', 'map-1'); b.pause(30, 'Pause: into training (callback held)')
+    b.keep(M1[1], M1[2], 'Callback 01 Training under "We can see how the AI teaches itself"', 'map-1')
+    b.keep(M1[2], M2[0], 'B3 four training steps', '3-training'); b.keep(M2[0], M2[1], 'Callback 02 Patterns (ring up before the pause)', 'map-2'); b.pause(30, 'Pause: into patterns (callback held)')
+    b.keep(M2[1], M2[2], 'Callback 02 Patterns under "If I say peanut butter and blank"', 'map-2')
+    b.keep(M2[2], B4_OUT, 'B4 familiar pattern, patterns everywhere', '4-patterns')
+    b.graft(SRC1, GRAFT1[0], GRAFT1[1], 'Roll 1 audio over roll 2 pattern-engine drawing and pattern-architecture card (replaces the garbled sentence); the card holds from 4852', 'roll1-patterns-line', picture_from=DRAWING_SOLID, video_end=4852)
+    b.keep(M3[0], M3[1], 'Callback 03 Probability (ring up on 6 silent frames before the pause)', 'map-3'); b.pause(30, 'Pause: into probability (callback held)')
+    b.keep(M3[1], M3[2], 'Callback 03 Probability under "This chart illustrates"', 'map-3')
+    b.keep(M3[2], M4[0], 'Notebook: animated odds chart, network drawing (picture from its cut 5128, 1.5 s behind the audio, clamped)', video_from=CUTA[1], video_end=M4[0])
+    b.keep(M4[0], M4[1], 'Callback 04 Prediction (ring up before the pause)', 'map-4'); b.pause(30, 'Pause: into prediction (callback held)')
+    b.keep(M4[1], M4[2], 'Callback 04 Prediction under "Probability handles one word at a time"', 'map-4')
+    b.keep(M4[2], CUTB[0], 'Notebook: autoregressive drawings, phone loop (picture from 218.8, 1.5 s behind the audio, clamped)', video_from=M4[1], video_end=CUTB[0]); b.pause(30, 'Pause: before the closing message')
     b.mark_close_start(); b.close(CUTB[1], CLOSE_END); b.finish_audio()
     T = lambda label, at, r, c: dict(label=label, at=at, rects=[r], cam=r, color=c, radius=18)
     c1 = cards(B['1-llm'], 3); c4 = cards(B['4-patterns'], 2)
@@ -64,14 +81,16 @@ def main():
     STEPS = [[60, 168, 400, 665], [440, 168, 780, 665], [820, 168, 1160, 665], [1200, 168, 1540, 665]]
     b.board('1-llm', B['1-llm'], B1, B1_OUT, 'compact',
         [T('Large', 6.87, c1[0], BLUE), T('Language', 13.69, c1[1], TEAL), T('Model', 18.22, c1[2], PURPLE)], banner_at=28.09, min_open=0, push=False)
-    b.board('2-learn-once', B['2-learn-once'], B2, B2_OUT, 'compact',
+    b.board('2-learn-once', B['2-learn-once'], B2, M1[0], 'compact',
         [T('01 Training', 53.02, LEARN['training'], PURPLE), T('02 Patterns', 61.50, LEARN['patterns'], PURPLE), T('03 Probability', 65.67, LEARN['probability'], AMBER), T('04 Prediction', 73.0, LEARN['prediction'], AMBER)],
         banner_at=76.73, min_open=0, push=False)
-    b.board('3-training', B['3-training'], B3, B3_OUT, 'compact',
+    for key, span, label, rect, col in (('map-1', M1, '01 Training', LEARN['training'], PURPLE), ('map-2', M2, '02 Patterns', LEARN['patterns'], PURPLE), ('map-3', M3, '03 Probability', LEARN['probability'], AMBER), ('map-4', M4, '04 Prediction', LEARN['prediction'], AMBER)):
+        b.board(key, B['2-learn-once'], span[0], span[2], 'compact', [T(label, span[0] / 30, rect, col)], min_open=0, push=False)   # the callback: Learn Once with one step ringed from the leg's first frame
+    b.board('3-training', B['3-training'], M1[2], M2[0], 'compact',
         [T('Read', 91.03, STEPS[0], PURPLE), T('Guess', 97.66, STEPS[1], BLUE), T('Check', 105.91, STEPS[2], TEAL), T('Adjust', 111.17, STEPS[3], GREEN)],
         banner_at=119.28, min_open=0, push=False)
-    b.board('4-patterns', B['4-patterns'], B4, B4_OUT, 'compact',
-        [T('One familiar pattern', 129.41, c4[0], PURPLE), T('Patterns are everywhere', 141.55, c4[1], TEAL)], min_open=0, push=False)
+    b.board('4-patterns', B['4-patterns'], M2[2], B4_OUT, 'compact',
+        [T('One familiar pattern', M2[2] / 30, c4[0], PURPLE), T('Patterns are everywhere', 141.55, c4[1], TEAL)], min_open=0, push=False)   # the first ring pops as the board arrives (1.2 s after its onset, behind the 02 callback)
     b.render_legs()
     for k in b.boards: b.state_sheet(k)
     b.make_close('aihistory')

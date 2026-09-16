@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """How an LLM Works from roll 2 under EDIT-SPEC.md (2026-09-13). Review only.
 
-Base: Prompts/how-an-llm-works-2.mp4 (4:36, REPAIR under NARRATION-REVIEW). Output: videos/how-an-llm-works-v4.mp4 (v3 carried a garbled "architecture" at 2:33.5 source; roll 1's clean line is grafted under roll 2's own picture, owner report 2026-09-13; v2 cut to Notebook's pattern-engine drawing while it was still fading in from blank paper; owner report 2026-09-13).
+v5 (2026-09-16, board refresh): the v4 assembly with the current course-assets boards, which carry the site URL at the bottom (same
+dimensions as the boards v4 used, so every card rect and ring onset is unchanged), and the canonical close. No audio change. Framing
+kept at v4 parity (tall_margin off).
+
+Base: Prompts/how-an-llm-works-2.mp4 (4:36, REPAIR under NARRATION-REVIEW). Output: Prompts/how-an-llm-works-v4.mp4 (v3 carried a garbled "architecture" at 2:33.5 source; roll 1's clean line is grafted under roll 2's own picture, owner report 2026-09-13; v2 cut to Notebook's pattern-engine drawing while it was still fading in from blank paper; owner report 2026-09-13).
 Audit: video-audit/how-an-llm-works-repair-2026-09-13/.
 Two narration cuts (2:41.5-2:50.93 "matching and retrieving… genuine comprehension", resuming on Notebook's chart cut;
 4:16.5-4:26.4 "An LLM is not magic…", which was Notebook narrating a stale close-board copy). Four boards, all compact
@@ -25,12 +29,13 @@ from build_honesty_privacy_review import cards
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-an-llm-works-2.mp4'
 SRC1 = ROOT / 'Prompts/how-an-llm-works-1.mp4'   # roll 1: its "Over billions of examples… commonly misspell words" line (1:44.2-1:54.95) replaces roll 2's garbled sentence, audio only
-OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-13'; DEST = ROOT / 'videos/how-an-llm-works-v4.mp4'
+OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-16'; DEST = ROOT / 'Prompts/how-an-llm-works-v5.mp4'   # v4 shipped 2026-09-13; v5 = v4 with the URL-bearing boards
 B = {k: asset_path('lessons', f'how-an-llm-works-{k}.jpg') for k in ('1-llm', '2-learn-once', '3-training', '4-patterns')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/how-an-llm-works.mp4', ROOT / 'lessons/how-an-llm-works.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/how-an-llm-works/how-an-llm-works.mp4', SRC1, *B.values()])
+    b.tall_margin = False   # board swap on the shipped v4: keep v4's edge-to-edge framing of the two tall boards
     b.load_audio([(6.32, 6.87), (13.26, 13.69), (17.82, 18.22), (27.65, 28.09), (36.07, 36.65), (52.66, 53.02), (61.19, 61.50), (65.39, 65.67), (76.36, 76.73), (84.33, 84.93),
                   (90.68, 91.03), (97.14, 97.66), (105.52, 105.91), (110.81, 111.17), (118.98, 119.28), (128.84, 129.41), (140.86, 141.55), (149.65, 150.27), (161.19, 161.78),
                   (170.38, 170.95), (218.58, 219.04), (256.32, 256.70), (266.20, 266.56), (272.19, 275.69)])

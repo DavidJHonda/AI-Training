@@ -1,10 +1,10 @@
-# Why Learn AI? v6: board refresh candidate (2026-09-16, narrow visual repair)
+# Why Learn AI? v6: SHIPPED 2026-09-16 (board refresh, narrow visual repair)
 
 **Candidate:** `Prompts/why-learn-ai-v6.mp4` (3:57.23, 7117 frames, 30 fps). v6 = v5 with the regenerated closing JPG (David, 2026-09-16 09:39; the hairline is gone); v5 superseded, otherwise identical (frame diff v5→v6: nothing outside the close, re-encode noise under 0.3 elsewhere). **Scope:** narrow visual repair of the shipped v4
 (`course-assets/why-learn-ai/why-learn-ai.mp4`, sha256 210df1e1ac04c1ed…): the two boards David named, Where AI Already Lives and Why
 You'll Thrive in the AI Future, are replaced by the current course-assets versions, which carry the site URL at the bottom. Same
 pixel dimensions as the boards v4 used (1600x788 and 1600x958), so every card rectangle, camera window, and ring onset is unchanged.
-No narration, pause, or timing change. **Live video unchanged.** **Build:** `scripts/video/build_why_learn_ai_2_review.py` (the v4
+No narration, pause, or timing change. **Shipped 2026-09-16** as `course-assets/why-learn-ai/why-learn-ai.mp4` (cache key 20260916ship1); v6 candidate removed from Prompts/. **Build:** `scripts/video/build_why_learn_ai_2_review.py` (the v4
 assembly re-run from the pristine sources with the new boards). **Manifest:** `edit-manifest.json` here.
 
 ## Sources (hash-verified before and after the render)

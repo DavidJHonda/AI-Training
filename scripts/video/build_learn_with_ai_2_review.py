@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Learn with AI from roll 1 under EDIT-SPEC.md (2026-09-14). Review only.
 
+v6 (2026-09-16, board refresh): the v5 assembly with the current course-assets boards, which carry the site URL at the bottom (same
+dimensions as the boards v5 used, so every card rect, section rect, dive window, and ring onset is unchanged), and the canonical close.
+No audio change. Framing kept at v5 parity (tall_margin off).
+
 v5 (2026-09-14, EDIT-SPEC 8b on David's note that the boards run from 0:57 to the close): Notebook's chat sketch held under the study-tool
 intro, its source-grounded diagram under the Gemini Notebook intro, and its files-to-sticky-notes drawing as the hand-off into the four
 moves; each board now arrives 3 s before its first ring. Audio unchanged from v4.
@@ -8,7 +12,7 @@ v4 (2026-09-14, beat-by-beat rule): two roll 2 grafts under Which Study Tool: it
 replaces roll 1's (73.0-85.4), and its takeaway line "Avoiding that trap relies entirely on choosing the tool that matches how you
 need to learn." (90.9-95.4) is added after the Exploration card, where roll 1's cut aside used to be; rings follow roll 2's onsets.
 
-Base: Prompts/learn-with-ai-1.mp4 (3:45, REPAIR under NARRATION-REVIEW). Output: videos/learn-with-ai-v3.mp4 (v2's catch ring clipped the Exploration card's third line; owner report 2026-09-14).
+Base: Prompts/learn-with-ai-1.mp4 (3:45, REPAIR under NARRATION-REVIEW). Output: Prompts/learn-with-ai-v3.mp4 (v2's catch ring clipped the Exploration card's third line; owner report 2026-09-14).
 Audit: video-audit/learn-with-ai-repair-2026-09-14/.
 Cuts: 1:50.8-2:00.83 ("Selecting the wrong column… hours of preparation", resuming on Notebook's EXAM F cut) and
 3:33.3-3:36.0 ("The overarching rule for all of this is simple"). Roll 1's garbled move two ("Add your [moats]…", 2:50.4-3:00.9)
@@ -34,12 +38,13 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/learn-with-ai-1.mp4'
 SRC2 = ROOT / 'Prompts/learn-with-ai-2.mp4'
-OUT = ROOT / 'video-audit/learn-with-ai-repair-2026-09-14'; DEST = ROOT / 'videos/learn-with-ai-v5.mp4'   # v3 shipped 2026-09-14; v4 = v3 + two roll 2 grafts under Which Study Tool; v5 = v4 + Notebook drawings between the boards (EDIT-SPEC 8b, David 2026-09-14)
+OUT = ROOT / 'video-audit/learn-with-ai-repair-2026-09-16'; DEST = ROOT / 'Prompts/learn-with-ai-v6.mp4'   # v5 shipped 2026-09-14; v6 = v5 with the URL-bearing boards   # v3 shipped 2026-09-14; v4 = v3 + two roll 2 grafts under Which Study Tool; v5 = v4 + Notebook drawings between the boards (EDIT-SPEC 8b, David 2026-09-14)
 B = {k: asset_path('lessons', f'learn-with-ai-{k}.jpg') for k in ('1-study-tools', '2-how-it-works', '3-four-moves')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/learn-with-ai.mp4', SRC2, ROOT / 'lessons/learn-with-ai.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/learn-with-ai/learn-with-ai.mp4', SRC2, *B.values()])
+    b.tall_margin = False   # board swap on the shipped v5: keep v5's framing of the two tall boards
     b.load_audio([(21.76, 22.11), (38.42, 39.01), (54.36, 54.96), (60.89, 61.27), (72.63, 73.07), (79.12, 79.48), (85.86, 86.19), (91.72, 92.06), (97.37, 97.72), (103.46, 103.78),
                   (110.59, 111.01), (120.47, 120.92), (130.05, 130.50), (137.86, 138.17), (146.22, 146.79), (154.20, 154.73), (159.45, 159.97), (169.82, 170.42), (180.88, 181.37),
                   (194.02, 194.62), (205.62, 206.08), (213.13, 213.50), (215.80, 216.10), (221.26, 224.56)])

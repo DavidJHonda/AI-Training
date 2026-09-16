@@ -3,7 +3,11 @@
 
 v4 (2026-09-16, board refresh): the v3 assembly with the current course-assets boards, which carry the site URL at the bottom
 (same dimensions as the boards v3 used, so every card rect, section rect, and ring onset is unchanged), and the regenerated close.
-No audio change. Framing kept at v3 parity (tall_margin off).
+Framing kept at v3 parity (tall_margin off).
+v5 (2026-09-16): David's notes on v4: cut output 0:56-1:01 = source 54.8-59.2, "To use it well, we need to understand the different
+ways this tool is applied." (troughs 54.62-54.94 / 59.0-59.4); the pause before "Different AI systems are built for different jobs"
+stays; the picture after the pause starts on Notebook's cut to its number-2 drawing (1784) so no frames of the cut sentence's scene
+show. THE JOB rings on the Two Ways board sat on the label (top 640 vs label rows 642-656); top raised to 622.
 
 Base: Prompts/what-is-ai-1.mp4 (2:55, REPAIR under NARRATION-REVIEW; closing lines a near-verbatim paraphrase, owner's call).
 Output: Prompts/what-is-ai-v3.mp4 (v2 ringed whole cards; owner call 2026-09-13: ring each card's sections as they are spoken, the scenario box, and the PICKS / CREATES headers so the left-right structure is on screen). Audit: video-audit/what-is-ai-repair-2026-09-13/.
@@ -20,7 +24,7 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/what-is-ai-1.mp4'
-OUT = ROOT / 'video-audit/what-is-ai-repair-2026-09-16'; DEST = ROOT / 'Prompts/what-is-ai-v4.mp4'   # v3 shipped 2026-09-13; v4 = v3 with the URL-bearing boards
+OUT = ROOT / 'video-audit/what-is-ai-repair-2026-09-16'; DEST = ROOT / 'Prompts/what-is-ai-v5.mp4'   # v3 shipped 2026-09-13; v4 = v3 with the URL-bearing boards; v5 = v4 + one narration cut and the THE JOB rings lowered off their labels (David 2026-09-16)
 B = {'desk': ROOT / 'course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg', 'types': ROOT / 'course-assets/what-is-ai/what-is-ai-types.jpg', 'picks': ROOT / 'course-assets/what-is-ai/what-is-ai-same-goal.jpg'}
 
 def white_cards(path, min_y=0):
@@ -53,8 +57,9 @@ def main():
     b.keep(0, DESK, 'Notebook: notebook and pencil, desk and backpack')
     b.keep(DESK, DESK_OUT, 'B desk: ask AI, a numbered list', 'desk')
     b.keep(DESK_OUT, fr(21.5), 'Notebook: pyramids to Berlin Wall'); b.pause(30, 'Pause: into what AI is')
-    b.keep(fr(21.5), fr(59.2), 'Notebook: brain, capabilities cards, conversation vs server, laptop list, pyramids laptop'); b.pause(30, 'Pause: into two kinds')
-    b.keep(fr(59.2), TYPES, 'Notebook: the number 2, catalog and prompt sketch')
+    CUT1 = (fr(54.8), fr(59.2))            # "To use it well, we need to understand the different ways this tool is applied." (54.92-58.86); David 2026-09-16
+    b.keep(fr(21.5), CUT1[0], 'Notebook: brain, capabilities cards, conversation vs server, laptop list, pyramids laptop'); b.pause(30, 'Pause: into two kinds (the cut sat here)')
+    b.keep(CUT1[1], TYPES, 'Notebook: the number 2, catalog and prompt sketch (picture from its cut 1784, skipping 8 frames of the cut sentence\'s scene)', video_from=1784, video_end=TYPES)
     b.keep(TYPES, fr(121.6), 'B types: two kinds, banner', 'types'); b.pause(30, 'Pause: into the scenario'); b.keep(fr(121.6), TYPES_OUT, 'B types tail', 'types')
     b.keep(PICKS, PICKS_OUT, 'B picks: scenario both ways, banner', 'picks'); b.pause(30, 'Pause: before the closing message')
     b.mark_close_start(); b.close(PICKS_OUT, CLOSE_END); b.finish_audio()
@@ -64,7 +69,7 @@ def main():
     b.board('desk', B['desk'], DESK, DESK_OUT, 'compact', [], min_open=0, push=False)
     # section boxes inside each card (image px), measured from the divider rules; word onsets from small.en
     def sec(card, y0, y1): return [card[0] + 15, y0, card[2] - 15, y1]
-    TY = dict(header=(558, 632), job=(640, 727), how=(746, 937), examples=(956, 1095))
+    TY = dict(header=(558, 632), job=(622, 727), how=(746, 937), examples=(956, 1095))   # job top 622: the THE JOB label occupies rows 642-656; at 640 the ring cut through it (David 2026-09-16)
     types_targets = []
     for card, col, t in ((ct[0], BLUE, dict(header=69.86, job=72.36, how=77.00, examples=82.50)), (ct[1], PURPLE, dict(header=89.28, job=91.60, how=96.34, examples=110.50))):
         for k in ('header', 'job', 'how', 'examples'): types_targets.append(T(k, t[k], sec(card, *TY[k]), col))

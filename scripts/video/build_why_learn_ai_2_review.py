@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Why Learn AI? from the Historical Shift roll under EDIT-SPEC.md (2026-09-13). Review only.
 
+v5 (2026-09-16, board refresh): the same assembly as v4 with the current course-assets boards, which now carry the site URL at the
+bottom (same 1600x788 / 1600x958 dimensions, so every card rect, camera window, and ring onset is unchanged). No audio change.
+
 v4 (2026-09-14, beat-by-beat rule): roll 1's Where AI Already Lives walk (40.2-95.3; every row with its job and all its examples,
 ending on the banner line) replaces roll 2's compressed version (36.8-70.9) under the board; the five dives and the banner follow
 roll 1's onsets; roll 1 lowered 2.24 dB to roll 2's speech level. See the comparison REVIEW.md best-of plan.
 
 Base: Prompts/why-learn-ai-2.mp4 (copy of Prompts/Why_Learn_AI__The_Historical_Shift.mp4, 3:40, REPAIR under
-NARRATION-REVIEW). Output: videos/why-learn-ai-v3.mp4 (v2 carried four stock photographs; owner call 2026-09-13: replaced by drawings borrowed from the live video). Audit: video-audit/why-learn-ai-repair-2026-09-13/.
+NARRATION-REVIEW). Output: Prompts/why-learn-ai-v3.mp4 (v2 carried four stock photographs; owner call 2026-09-13: replaced by drawings borrowed from the live video). Audit: video-audit/why-learn-ai-repair-2026-09-13/.
 One narration cut (3:23.0-3:31.8 "We are looking at a massive economic… one simple truth", which also removes the engine's
 close card). Boards: AI Is the Press (faces; not uploaded; compact, still) over "You face two choices… take your place",
 keeping Notebook's scribe drawings before it and its Gutenberg press diagram after; Where AI Already Lives (five cards,
@@ -29,20 +32,22 @@ from build_honesty_privacy_review import cards
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/why-learn-ai-2.mp4'
-LIVE = ROOT / 'videos/why-learn-ai.mp4'   # protected only (the shipped file)
-# Picture-only borrows come from the July live video, NOT from videos/why-learn-ai.mp4: that path became v3 itself when v3 shipped on
+LIVE = ROOT / 'course-assets/why-learn-ai/why-learn-ai.mp4'   # protected only (the shipped file)
+# Picture-only borrows come from the July live video, NOT from course-assets/why-learn-ai/why-learn-ai.mp4: that path became v3 itself when v3 shipped on
 # 2026-09-13, and the first v4 render borrowed frames from v3 (the Winning the Race drawing showed under the steam-engine narration;
 # David 2026-09-14, "the video after 3:00 doesn't match"). The archived copy is gitignored; restore it with
-#   git show 13e9d84:videos/why-learn-ai.mp4 > archive/why-learn-ai/why-learn-ai-live-before-2026-09-13.mp4
-DRAWINGS = ROOT / 'archive/why-learn-ai/why-learn-ai-live-before-2026-09-13.mp4'
+#   git show 13e9d84:videos/why-learn-ai.mp4 > video-audit/why-learn-ai-repair-2026-09-16/donor-live-before-2026-09-13.mp4
+# (archive/ was removed in the 2026-09-15 cleanup and is not recreated; the donor snapshot lives in the active audit dir, gitignored)
+DRAWINGS = ROOT / 'video-audit/why-learn-ai-repair-2026-09-16/donor-live-before-2026-09-13.mp4'
 SRC1 = ROOT / 'Prompts/why-learn-ai-1.mp4'   # roll 1: the richer Where AI Already Lives walk (best-of plan, comparison REVIEW.md, 2026-09-14)
-OUT = ROOT / 'video-audit/why-learn-ai-repair-2026-09-13'; DEST = ROOT / 'videos/why-learn-ai-v4.mp4'   # v3 shipped 2026-09-13; v4 = v3 + the roll 1 graft
+OUT = ROOT / 'video-audit/why-learn-ai-repair-2026-09-16'; DEST = ROOT / 'Prompts/why-learn-ai-v5.mp4'   # v3 shipped 2026-09-13; v4 (= v3 + the roll 1 graft) shipped 2026-09-14; v5 = v4 with the URL-bearing boards
 B = {k: asset_path('lessons', f'why-learn-ai-{k}.jpg') for k in ('1-press', '1-everyday', '2-thrive')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
     assert DRAWINGS.exists(), f'{DRAWINGS} missing: git show 13e9d84:videos/why-learn-ai.mp4 > {DRAWINGS}'
     b = Build(ROOT, SRC, OUT, DEST, protected=[LIVE, DRAWINGS, SRC1, ROOT / 'lessons/why-learn-ai.md', *B.values()])
+    b.tall_margin = False   # v5 is a board swap on the shipped v4: keep v4's edge-to-edge framing of the tall press and thrive boards (the 4% stage margin postdates v4)
     b.load_audio([(13.90, 14.22), (23.86, 24.33), (36.48, 36.85), (40.28, 40.61), (53.84, 54.17), (63.87, 64.46), (70.58, 70.91), (111.60, 112.03),
                   (114.46, 114.94), (123.14, 123.75), (133.27, 133.86), (143.19, 143.55), (150.45, 151.04), (202.21, 203.25), (211.15, 211.94), (216.28, 219.75)])
     PRESS, PRESS_OUT = fr(13.9), 727        # "You face two choices…" through "…take your place." (Notebook's choice cards 578-727 replaced; its press diagram from 727 kept)

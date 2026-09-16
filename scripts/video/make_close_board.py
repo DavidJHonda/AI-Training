@@ -141,6 +141,20 @@ def compose_canonical_for_video(source, output, bg):
     if len(color) != 6:
         sys.exit(f"invalid background color: {bg}")
     rgb = tuple(int(color[i:i + 2], 16) for i in (0, 2, 4))
+    # Scale the canonical JPG so its pill spans the house fraction of the frame (TARGET, the
+    # same sizing the legacy renderer converged on), keeping the asset's own proportions. At
+    # native size the 1206px page capture filled a third of the 4K frame (Why Learn AI v5,
+    # 2026-09-16: the close came out at a third of the shipped v4's size).
+    dark = (image.sum(axis=2) < 300); cols = dark.any(axis=0)
+    if cols.any():
+        x0, x1 = int(np.argmax(cols)), len(cols) - int(np.argmax(cols[::-1]))
+        scale = TARGET * 3840 / (x1 - x0)
+    else:
+        scale = 1.0
+    scale = min(scale, 3840 / width, 2160 / height)
+    if abs(scale - 1.0) > 1e-3:
+        image = cv2.resize(image, (round(width * scale), round(height * scale)), interpolation=cv2.INTER_CUBIC if scale > 1 else cv2.INTER_AREA)
+        height, width = image.shape[:2]
     canvas = np.full((2160, 3840, 3), rgb[::-1], dtype=np.uint8)
     x = (3840 - width) // 2
     y = (2160 - height) // 2 - 60

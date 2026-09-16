@@ -145,7 +145,7 @@ class Build:
     # ---------------- boards
     def compose(self, asset, key):
         board = cv2.imread(str(asset)); bh, bw = board.shape[:2]
-        if bh * 16 / 9 > bw:   # tall board: 4% stage above and below so the banner never sits on the frame edge (owner report 2026-09-14, Beyond the Average)
+        if bh * 16 / 9 > bw and getattr(self, 'tall_margin', True):   # tall board: 4% stage above and below so the banner never sits on the frame edge (owner report 2026-09-14, Beyond the Average). A build may set b.tall_margin = False to reproduce a pre-2026-09-14 framing exactly (narrow board swaps on shipped videos).
             cw = -(-int(round(bh * 1.08)) * 16 // 9); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2   # ch derived from cw so the full 16:9 window never exceeds the canvas
         else:
             cw = max(bw, int(bh * 16 / 9)); cw += cw % 2; ch = -(-cw * 9 // 16); ch += ch % 2

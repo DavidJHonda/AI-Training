@@ -1,12 +1,18 @@
-# Understand AI opener v6: review candidate (2026-09-16, the What Kind of Thing Is AI? board added, the current section map; visual-only retrofit of the shipped v4)
+# Understand AI opener v7: review candidate (2026-09-16, the What Kind of Thing Is AI? card as the page frames it, the current section map, one phrase cut; retrofit of the shipped v4)
 
-**Candidate:** `Prompts/understand-ai-opener-v6.mp4` (2:34.60, 4638 frames, 30 fps). v6 = v5 plus the current section-map render (David: "We want
-the current board."); v5 superseded. **Scope** (David: "The live video is the base. We need to
+**Candidate:** `Prompts/understand-ai-opener-v7.mp4` (2:32.93, 4588 frames, 30 fps). v7 = v6 with David's two notes: (1) the card is shown
+as the page frames it: the page crops the 1600x900 JPG to the navy card (OpenerNavyBoard, board 80,300–1520,600); v5/v6 showed the whole
+canvas, so the card read as a thin band. The video now uses a 16:9 crop of the same JPG, [40,22,1560,877], centering the card at 94% of
+the frame width (`canvas-kind-crop.png`, a temporary canvas of the canonical asset; nothing redrawn). (2) "As you move through the
+course," (141.10–142.36) is cut, live frames 4231–4281, from the end of the pause to the trough before "you'll" (142.48–142.78, −46 to
+−61 dB); the sentence resumes "you'll see that each topic builds directly on the one before it.", re-transcribed clean on the finished
+file ("…how much math goes into it." 139.40 → pause → "You'll see that each topic…" 140.98). The audio is now edited, so the mux takes
+the build's edited track rather than v4's stream. v6 = v5 plus the current section-map render (David: "We want the current board."); v5 and v6 superseded. **Scope** (David: "The live video is the base. We need to
 add the board that appears in the lesson. The rest might be okay as is."): narrow visual repair of the shipped v4
 (`course-assets/understand-ai-opener/understand-ai-opener.mp4`, sha256 e657b34b984d7ceb…). **Source limitation, disclosed:** the raw
 rolls (`Prompts/understand-opener-3/4.mp4`) no longer exist, so the build takes the finished v4 as its picture source, replaces two spans,
 and muxes v4's original audio stream back in untouched. Outside the two spans the picture is one more encoding generation of v4 (mean
-per-pixel difference under 3, visually identical). **Live video unchanged.** **Build:** `scripts/video/build_opener_understand_v6_retrofit.py`.
+per-pixel difference under 3, visually identical). **Live video unchanged.** **Build:** `scripts/video/build_opener_understand_v7_retrofit.py`.
 **Manifest:** `edit-manifest.json` here.
 
 ## The three changed spans
@@ -32,16 +38,18 @@ Everything else is v4's picture: Notebook's drawings, the Under the Hood board w
 
 ## Verification (narrow-repair checks, Edit Spec section 10)
 
-1. Decoded frames 4638 = plan = v4; duration 2:34.60 = v4; audio stream MD5 identical to v4 (50dcb41df44eb9479cf15519d7645073).
-2. `transition_guard.py` passed all three declared boundaries (352, 2451, 4410); `boundary-pairs.jpg` inspected: the card's last frame to
+1. Decoded frames 4588 = plan (v4's 4638 minus the 50-frame cut); audio 152.939 s. Audio changed only at the cut (Build's 5 ms room-tone
+   crossfades); every other span is v4's audio sample for sample.
+2. `transition_guard.py` passed all three declared boundaries (352, 2451, 4360); `boundary-pairs.jpg` inspected: the card's last frame to
    Notebook's expert drawing on its own first frame; the reassurance drawing to the map's full view; the map's takeaway frame to the close.
-3. No pause or audio edits (the audio is v4's stream, copied).
+3. Pauses on the final file (silencedetect −35 dB): 29.48–30.77, 35.31–36.65, 64.86–66.35, 80.49–81.89, 139.61–141.13, 144.04–145.50; close
+   hold 149.20–152.94. The pause before the cut phrase now leads straight into "you'll see"; no pause added.
 4. Ring states inspected (`states-kind.jpg`; `states/topic-*.jpg` and `states/map-takeaway.jpg` for the map): each gold ring traces one line
    of the card; each map ring traces its row, the takeaway ring the full banner; frame-by-frame comparison of the map span against the live
    file shows only the title and banner differing (mean per-pixel difference under 3).
 5. The card is compact and still; the other boards' treatment as v4.
-6. Not auditioned by ear: nothing new to hear.
+6. Not auditioned by ear: David should listen to 2:19–2:22 (the cut seam).
 7. Nothing left undone in scope.
 
 **At ship:** move to `course-assets/understand-ai-opener/understand-ai-opener.mp4`, new cache key on the `openerfoundations` entry
-(currently `20260910repair1`), duration pill unchanged (3 min).
+(currently `20260910repair1`), duration pill unchanged (3 min; 2:33).

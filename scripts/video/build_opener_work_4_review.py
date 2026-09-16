@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Work With AI opener from roll 4 under EDIT-SPEC.md (2026-09-14 PM). Review only.
 
+v6 (2026-09-16, board refresh): the v5 assembly with the current course-assets boards (the refrain capture and the Same Tool illustration
+are byte-identical to v5's; the section map is a new render with a left-aligned title and a full-width banner, row rects measured
+identical) and the canonical close. No audio change. Framing at v5 parity (tall_margin off).
+
 Base: Prompts/opener-work-4.mp4 (3:08; REROLL on the verbatim refrain and close, the best narration of five rolls; best-of plan in
 video-audit/opener-work-comparison-2026-09-14b/REVIEW.md). Donor: Prompts/close-opener-work.mp4 ("Don't just use AI, work with it."
 33.2-35.7; "AI doesn't replace your thinking, it multiplies it." 65.8-68.8), +1.0 dB to roll 4's level.
-Output: videos/opener-work-v4.mp4 (v2 was roll 2 + donor; v3 covered Notebook's map-section diagrams with the board). Audit: video-audit/opener-work-repair-2026-09-14b/.
+Output: Prompts/work-with-ai-opener-v4.mp4 (v2 was roll 2 + donor; v3 covered Notebook's map-section diagrams with the board). Audit: video-audit/opener-work-repair-2026-09-14b/.
 Three cuts approved by David 2026-09-14: 143.35-150.1 ("This requires you to independently verify the factual accuracy of any claims or
 data the AI provides.", stronger than the course; Notebook's VERIFY ACCURACY card goes with it), 24.6-34.8 ("Real utility requires you to take the lead… cannot define the why of the work for
 you.", invented) and everything after "…how you apply the tool." (167.4-188, the paraphrased close, replaced by the donor lines).
@@ -25,15 +29,16 @@ from build_where_ai_works_best_review import photo_walk
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-4.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
-OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14b'; DEST = ROOT / 'videos/opener-work-v5.mp4'   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
-B = {'refrain': ROOT / 'course-assets/work-with-ai-opener/opener-work-1-refrain.jpg', 'same-tool': ROOT / 'course-assets/work-with-ai-opener/opener-work-2-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/opener-work-3-section-map.jpg'}
+OUT = ROOT / 'video-audit/opener-work-repair-2026-09-16'; DEST = ROOT / 'Prompts/work-with-ai-opener-v6.mp4'   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
+B = {'refrain': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-refrain.jpg', 'same-tool': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg'}
 GOLD = '#eccf6b'   # the creed card's own accent (Build opener precedent)
 ROWS = {'know': [100, 145, 1500, 305], 'use': [100, 335, 1500, 497], 'think': [100, 527, 1500, 690]}   # section map, measured 2026-09-14
 LINES = [[90, 349, 1509, 409], [90, 421, 1509, 490], [90, 495, 1509, 555], [90, 563, 1509, 624]]   # refrain card lines (navy card 60-1539 x 232-669; text rows 361-397, 433-478, 507-543, 575-612)
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/opener-work.mp4', ROOT / 'lessons/Opener-Work.md', DONOR, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener.mp4', DONOR, *B.values()])
+    b.tall_margin = False   # v5 parity for the tall Same Tool illustration
     b.load_audio([(2.11, 2.51), (5.73, 6.02), (10.52, 11.04), (13.25, 13.57), (17.86, 18.35), (19.95, 20.21), (24.32, 24.59), (27.12, 27.46), (34.79, 35.22),
                   (42.62, 43.02), (49.38, 49.72), (55.35, 55.71), (57.57, 58.01), (60.07, 60.57), (66.38, 66.93), (72.04, 72.59), (101.83, 102.26), (130.17, 130.71),
                   (134.26, 134.59), (143.12, 143.51), (149.84, 150.19), (161.28, 161.82), (167.24, 167.55), (184.36, 188.04)])

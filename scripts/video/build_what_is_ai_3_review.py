@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """What Is AI? from the second reroll's roll 1 under EDIT-SPEC.md (2026-09-13). Review only.
 
+v4 (2026-09-16, board refresh): the v3 assembly with the current course-assets boards, which carry the site URL at the bottom
+(same dimensions as the boards v3 used, so every card rect, section rect, and ring onset is unchanged), and the regenerated close.
+No audio change. Framing kept at v3 parity (tall_margin off).
+
 Base: Prompts/what-is-ai-1.mp4 (2:55, REPAIR under NARRATION-REVIEW; closing lines a near-verbatim paraphrase, owner's call).
-Output: videos/what-is-ai-v3.mp4 (v2 ringed whole cards; owner call 2026-09-13: ring each card's sections as they are spoken, the scenario box, and the PICKS / CREATES headers so the left-right structure is on screen). Audit: video-audit/what-is-ai-repair-2026-09-13/.
+Output: Prompts/what-is-ai-v3.mp4 (v2 ringed whole cards; owner call 2026-09-13: ring each card's sections as they are spoken, the scenario box, and the PICKS / CREATES headers so the left-right structure is on screen). Audit: video-audit/what-is-ai-repair-2026-09-13/.
 No narration cuts. Three boards, all compact and still: Ask the Desk (faces; not uploaded) over Notebook's torn "Ask the Desk /
 Ask AI" card while the narrator says AI answers with a list; Two Ways You Already Use AI and One Picks. One Creates. replacing
 Notebook's renders, each with a ring per card and the banner. Four pauses at idea boundaries. Standard close from Notebook's
@@ -16,8 +20,8 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/what-is-ai-1.mp4'
-OUT = ROOT / 'video-audit/what-is-ai-repair-2026-09-13'; DEST = ROOT / 'videos/what-is-ai-v3.mp4'
-B = {'desk': ROOT / 'course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg', 'types': ROOT / 'course-assets/what-is-ai/what-is-ai-1-types.jpg', 'picks': ROOT / 'course-assets/what-is-ai/what-is-ai-2-same-goal.jpg'}
+OUT = ROOT / 'video-audit/what-is-ai-repair-2026-09-16'; DEST = ROOT / 'Prompts/what-is-ai-v4.mp4'   # v3 shipped 2026-09-13; v4 = v3 with the URL-bearing boards
+B = {'desk': ROOT / 'course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg', 'types': ROOT / 'course-assets/what-is-ai/what-is-ai-types.jpg', 'picks': ROOT / 'course-assets/what-is-ai/what-is-ai-same-goal.jpg'}
 
 def white_cards(path, min_y=0):
     """Whole-card boxes: white panels on the lavender board, card top found by walking up until a real gap."""
@@ -39,7 +43,8 @@ def white_cards(path, min_y=0):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/what-is-ai.mp4', ROOT / 'lessons/what-is-ai.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/what-is-ai/what-is-ai.mp4', *B.values()])
+    b.tall_margin = False   # board swap on the shipped v3: keep v3's edge-to-edge framing (the 4% stage margin postdates it)
     b.load_audio([(21.28, 21.73), (59.01, 59.42), (69.47, 69.84), (88.71, 89.33), (115.50, 115.89), (121.35, 121.85), (128.18, 128.52), (140.16, 140.68), (159.37, 159.90), (164.85, 165.29), (172.11, 175.52)])
     DESK, DESK_OUT = 370, 574              # Ask the Desk: over Notebook's torn card (0:12.33-0:19.13) under "But if you ask an AI, it immediately generates…"
     TYPES, TYPES_OUT = 2019, 3654          # Two Ways: from Notebook's board cut (1:07.30, "This board breaks down…") to its cut to the next board (2:01.80)

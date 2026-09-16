@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """What You Can Control from roll 1 under EDIT-SPEC.md (2026-09-13). Review only.
 
-Base: Prompts/what-you-can-control-1.mp4 (3:22, REPAIR under NARRATION-REVIEW). Output: videos/what-you-can-control-v2.mp4.
+v3 (2026-09-16, board refresh): the v2 assembly with the current course-assets boards, which carry the site URL at the bottom (same
+dimensions as the boards v2 used, so every row rect, card rect, and ring onset is unchanged), and the canonical close. No audio change.
+Framing kept at v2 parity (tall_margin off).
+
+Base: Prompts/what-you-can-control-1.mp4 (3:22, REPAIR under NARRATION-REVIEW). Output: Prompts/what-you-can-control-v2.mp4.
 Audit: video-audit/what-you-can-control-repair-2026-09-13/.
 Roll 1's garbled opening triple (0:13.1-0:31.6, "trust [unintelligible] online") is replaced, audio only, by roll 2's clean
 line (0:08.4-0:20.9, +2 dB to match) under roll 1's own city and cooling-tower drawings. Two cuts of inflated asides
@@ -25,12 +29,13 @@ from build_honesty_privacy_review import cards
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/what-you-can-control-1.mp4'
 SRC2 = ROOT / 'Prompts/what-you-can-control-2.mp4'
-OUT = ROOT / 'video-audit/what-you-can-control-repair-2026-09-13'; DEST = ROOT / 'videos/what-you-can-control-v2.mp4'
+OUT = ROOT / 'video-audit/what-you-can-control-repair-2026-09-16'; DEST = ROOT / 'Prompts/what-you-can-control-v3.mp4'   # v2 shipped 2026-09-14; v3 = v2 with the URL-bearing boards
 B = {k: asset_path('lessons', f'what-you-can-control-{k}.jpg') for k in ('1-hands', '2-three-moves')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/what-you-can-control.mp4', ROOT / 'lessons/what-you-can-control.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/what-you-can-control/what-you-can-control.mp4', SRC2, *B.values()])
+    b.tall_margin = False   # board swap on the shipped v2: keep v2's edge-to-edge framing of the two tall boards
     b.load_audio([(12.75, 13.30), (31.31, 31.97), (41.03, 41.69), (48.89, 49.38), (70.96, 71.49), (81.94, 82.57), (86.31, 86.96), (120.27, 120.92), (131.43, 131.90),
                   (137.11, 137.62), (150.14, 150.68), (165.58, 166.11), (177.72, 178.08), (182.02, 182.41), (187.95, 188.52), (198.82, 202.20)])
     GARBLE = (fr(13.1), fr(31.6))          # roll 1: "AI is also actively shifting… trust [garble] online."

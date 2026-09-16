@@ -1,6 +1,7 @@
-# Does AI Think? v4: board refresh candidate (2026-09-16, visual-only retrofit of the shipped v3)
+# Does AI Think? v5: board refresh candidate (2026-09-16, visual-only retrofit of the shipped v3)
 
-**Candidate:** `Prompts/does-ai-think-v4.mp4` (3:40.00, 6600 frames, 30 fps). **Scope:** narrow visual repair of the shipped v3
+**Candidate:** `Prompts/does-ai-think-v5.mp4` (3:40.00, 6600 frames, 30 fps). v5 replaces v4's four rings on the full Chinese Room board
+with a camera walk (David: "we definitely need to zoom in and pan to elements as spoken"); v4 superseded. **Scope:** narrow visual repair of the shipped v3
 (`course-assets/does-ai-think/does-ai-think.mp4`, sha256 e71f1b610fc45e59…): the two course boards are replaced by the current course-assets
 versions and the close by the canonical closing JPG. **Source limitation, disclosed:** the raw rolls (`Prompts/does-ai-think-1.mp4`, `-2.mp4`)
 no longer exist, so the v3 assembly could not be re-run from pristine sources. This build takes the finished v3 as its picture source,
@@ -12,9 +13,13 @@ spans is therefore one more encoding generation of v3 (mean per-pixel difference
 
 - **The Chinese Room** is a NEW asset: `does-ai-think-chinese-room.jpg` (6a3159d52a…, 1600x1310, with a title, banner, and URL line); v3
   used the bare 1536x1024 illustration (b6154b3b87…). The illustration sits inside the new board scaled 0.990 x 0.988 at offset (40, 128),
-  confirmed by measuring the "To anyone outside" panel at both sizes (v3 [20,743,427,999] → new [60,862,463,1115]). The four step-callout
-  rects are v3's mapped through that transform: [60,158,466,410], [60,415,466,627], [60,637,466,850], [60,859,466,1116]. Purple for
-  steps 1–3, neutral for "To anyone outside", as v3.
+  confirmed by measuring the "To anyone outside" panel at both sizes (v3 [20,743,427,999] → new [60,862,463,1115]). Treatment: a camera
+  walk with no rings (illustration-board rule): the full board while the narrator sets up the room (0:46–0:57, 11 s), then 1.2 s glides
+  to callout 1 at "Step one" (57.68), callout 2 at "Step two" (64.06), the wall chart at "look up the whole phrase on their giant wall
+  chart" (70.04), callout 3 at "Step three" (72.94), callout 4 at "To anyone outside" (81.24), the person at the desk at "but inside the
+  room, the reality is different" (85.54), and back to the full board at "yet they still understand absolutely zero Chinese" (91.30),
+  holding full through the pause. Windows are widened to 16:9 and clamped to the illustration ([40,128,1560,1266]); each callout fills
+  the frame at about 2.4x, text fully legible (`states-1-chinese-room.jpg`, walk frames inspected on the output).
 - **When You Think / What AI Does**: `does-ai-think-side-by-side.jpg` (c9ff37bef3…, 1600x1556, URL line); v3 used 8475f2729c… at the same
   size. Text rows and separator rules measured identical, so the five row rects and the banner are v3's.
 - **Close:** `does-ai-think-close.jpg` (c49e10885e…, 1434x597, bottom rows are the sticky's shadow) via `make_close_board.py --lesson doesaithink`.
@@ -28,9 +33,9 @@ spans is therefore one more encoding generation of v3 (mean per-pixel difference
 1. Decoded frames 6600 = plan = v3; duration 3:40.00 = v3; audio stream MD5 identical to v3 (5f0479ae23637b7f24240f229dfe4e0f).
 2. `transition_guard.py` passed all 5 declared boundaries (1389, 2876, 3669, 5847, 6312); `boundary-pairs.jpg` inspected.
 3. No pause or audio edits (the audio is v3's stream, copied).
-4. Ring states inspected (`states-1-chinese-room.jpg`, `states-2-side-by-side.jpg`): each Chinese Room ring traces its callout on the new
-   board; the five row rings and the banner as v3; the URL line under each banner, clear of the banner ring.
-5. Density (both compact, still) and full-view opens as v3.
+4. Walk frames inspected on the output (every move lands on its element, the pull-back ends full before the pause); ring states
+   inspected (`states-2-side-by-side.jpg`): the five row rings and the banner as v3; the URL line under the banner, clear of the ring.
+5. The Chinese Room opens whole for 11 s before its first move; the comparison board is compact and still, as v3.
 6. Not auditioned by ear: nothing new to hear.
 7. Nothing left undone in scope. Pre-existing: v3's own narration and drawings are unchanged.
 

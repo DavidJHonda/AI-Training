@@ -11,18 +11,23 @@ rows and separators measured identical), so its five row rects are v3's. Ring on
 timeline (B1 −7.7 s, B2 −5.7 s; "Step one" 57.68 / "Step two" 64.20 / "When it comes to meaning" 129.90 / "The outputs might look" 184.58
 re-heard on the finished file). Output board spans [1389, 2876) and [3669, 5847), close from 6312 (the v3 cut list). Framing at v3
 parity (tall_margin off). Corner cleaning off (v3 is already clean).
+v5: the Chinese Room is a camera walk (no rings; illustration-board rule): full board while the room is set up, then the camera
+visits callout 1 at "Step one", callout 2 at "Step two", the wall chart at "look up the whole phrase on their giant wall chart",
+callout 3 at "Step three", callout 4 at "To anyone outside", the person at the desk at "but inside the room, the reality is
+different", and pulls back to the full board at "yet they still understand absolutely zero Chinese", holding full through the pause.
 """
 from pathlib import Path
 import argparse, subprocess, sys, hashlib
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from editspec_build import Build, fr, PURPLE, GREEN, NEUTRAL
+from build_where_ai_works_best_review import photo_walk
 import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
 LIVE = ROOT / 'course-assets/does-ai-think/does-ai-think.mp4'    # the shipped v3, sha256 e71f1b610fc45e59…
 OUT = ROOT / 'video-audit/does-ai-think-repair-2026-09-16'
-RENDER = OUT / 'v4-render.mp4'                                    # picture + re-encoded audio (discarded)
-DEST = ROOT / 'Prompts/does-ai-think-v4.mp4'                      # picture from RENDER + v3's audio stream, copied
+RENDER = OUT / 'v5-render.mp4'                                    # picture + re-encoded audio (discarded)
+DEST = ROOT / 'Prompts/does-ai-think-v5.mp4'   # v4 (rings on the full Chinese Room board) superseded: David 2026-09-16, "zoom in and pan to elements as spoken"                      # picture from RENDER + v3's audio stream, copied
 B = {'1-chinese-room': ROOT / 'course-assets/does-ai-think/does-ai-think-chinese-room.jpg', '2-side-by-side': ROOT / 'course-assets/does-ai-think/does-ai-think-side-by-side.jpg'}
 TOTAL = 6600
 B1, B1_OUT = 1389, 2876
@@ -44,8 +49,15 @@ def main():
     STEPS = [[60, 158, 466, 410], [60, 415, 466, 627], [60, 637, 466, 850], [60, 859, 466, 1116]]   # v3's [[20,30,430,285],[20,290,430,505],[20,515,430,730],[20,740,430,1000]] mapped into the new board
     ROWS = [[60, 672, 1540, 800], [60, 815, 1540, 942], [60, 958, 1540, 1085], [60, 1102, 1540, 1228], [60, 1245, 1540, 1372]]   # unchanged
     d1, d2 = (B1 - 1620) / 30, (B2 - 3840) / 30   # roll-2 seconds -> output seconds
-    b.board('1-chinese-room', B['1-chinese-room'], B1, B1_OUT, 'compact',
-        [T('Step 1', 65.19 + d1, STEPS[0], PURPLE), T('Step 2', 71.75 + d1, STEPS[1], PURPLE), T('Step 3', 80.70 + d1, STEPS[2], PURPLE), T('To anyone outside', 88.96 + d1, STEPS[3], NEUTRAL)], min_open=0, push=False)
+    photo_walk(b, '1-chinese-room', B['1-chinese-room'], B1, B1_OUT, [   # onsets re-heard on the finished file
+        ('step 1 callout', 57.68, 36, [50, 150, 560, 420]),
+        ('step 2 callout', 64.06, 36, [50, 405, 560, 640]),
+        ('the wall chart', 70.04, 36, [940, 230, 1560, 620]),           # "look up the whole phrase on their giant wall chart"
+        ('step 3 callout', 72.94, 36, [50, 628, 560, 860]),
+        ('to anyone outside callout', 81.24, 36, [50, 850, 560, 1125]),
+        ('the person at the desk', 85.54, 45, [620, 380, 1560, 1140]),  # "but inside the room, the reality is different"
+        ('full illustration', 91.30, 45, 'full')],                      # "yet they still understand absolutely zero Chinese"; full through the pause
+        photo=[40, 128, 1560, 1266])
     b.board('2-side-by-side', B['2-side-by-side'], B2, B2_OUT, 'compact',
         [T('Meaning', 135.64 + d2, ROWS[0], GREEN), T('Experience', 145.70 + d2, ROWS[1], GREEN), T('Word choice', 156.01 + d2, ROWS[2], GREEN), T('Beauty', 165.18 + d2, ROWS[3], GREEN), T('Uncertainty', 176.92 + d2, ROWS[4], GREEN)],
         banner_at=190.31 + d2, min_open=0, push=False)

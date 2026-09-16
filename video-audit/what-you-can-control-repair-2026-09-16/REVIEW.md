@@ -1,10 +1,10 @@
-# What You Can Control v3: board refresh candidate (2026-09-16, narrow visual repair)
+# What You Can Control v3: SHIPPED 2026-09-16 (board refresh, narrow visual repair)
 
 **Candidate:** `Prompts/what-you-can-control-v3.mp4` (3:03.60, 5508 frames, 30 fps). **Scope:** narrow visual repair of the shipped v2
 (`course-assets/what-you-can-control/what-you-can-control.mp4`, sha256 f6ccc2f3738f18d8…): both course boards are replaced by the current
 course-assets versions, which carry the site URL at the bottom. Same pixel dimensions as the boards v2 used (1600x1340 and 1600x948),
 so every row rectangle, card rectangle, and ring onset is unchanged. The close uses the current canonical closing JPG. No narration,
-pause, or timing change. **Live video unchanged.** **Build:** `scripts/video/build_what_you_can_control_2_review.py` (the v2 assembly
+pause, or timing change. **Shipped 2026-09-16** as `course-assets/what-you-can-control/what-you-can-control.mp4` (cache key 20260916ship1); the v3 candidate removed from Prompts/. **Build:** `scripts/video/build_what_you_can_control_2_review.py` (the v2 assembly
 re-run with the new boards, `tall_margin` off for v2-parity framing). **Manifest:** `edit-manifest.json` here.
 
 ## Sources (hash-verified before and after the render)

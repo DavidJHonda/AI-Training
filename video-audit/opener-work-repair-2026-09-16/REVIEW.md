@@ -1,4 +1,4 @@
-# Work With AI opener v7: review candidate (2026-09-16, the approved v5 assembly on the current boards, one more cut)
+# Work With AI opener v7: SHIPPED 2026-09-16 (the approved v5 assembly on the current boards, one more cut)
 
 **Candidate:** `Prompts/work-with-ai-opener-v7.mp4` (2:37.90, 4737 frames, 30 fps). v7 = v6 plus a fourth cut approved by David
 2026-09-16: source 95.25–102.23, "If you skip this phase, you risk using the wrong tool for the job, which leads to frustration before
@@ -8,7 +8,7 @@ tool" on Notebook's own cut, as before. The join re-transcribed on the finished 
 "Once you have the right tool, we move to step two…" 87.80, floor −59 dB in the gap, no pause inserted. v6 superseded. **Scope of v6:** the v5 candidate of 2026-09-14
 (`video-audit/opener-work-repair-2026-09-14b/REVIEW.md`: roll 4 base, three approved cuts, the two donor closing lines) rebuilt from the
 same pristine sources with the current course-assets boards and the canonical closing JPG. No pause or timing change beyond the cut above.
-**The live video is still the July file** (`course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, sha256 f78a30541f917913…, 2:10);
+**Shipped 2026-09-16** as `course-assets/work-with-ai-opener/work-with-ai-opener.mp4` (cache key 20260916ship1, pill 3 min); the July file it replaced was (`course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, sha256 f78a30541f917913…, 2:10);
 v5 was never shipped, so this candidate replaces it. **Build:** `scripts/video/build_opener_work_4_review.py`. **Manifest:** `edit-manifest.json` here.
 
 ## Sources (hash-verified before and after the render)

@@ -1,8 +1,13 @@
-# Work With AI opener v6: review candidate (2026-09-16, the approved v5 assembly on the current boards)
+# Work With AI opener v7: review candidate (2026-09-16, the approved v5 assembly on the current boards, one more cut)
 
-**Candidate:** `Prompts/work-with-ai-opener-v6.mp4` (2:44.87, 4946 frames, 30 fps). **Scope:** the v5 candidate of 2026-09-14
+**Candidate:** `Prompts/work-with-ai-opener-v7.mp4` (2:37.90, 4737 frames, 30 fps). v7 = v6 plus a fourth cut approved by David
+2026-09-16: source 95.25–102.23, "If you skip this phase, you risk using the wrong tool for the job, which leads to frustration before
+the work even begins." (invented by roll 4; troughs 95.08–95.44 / 101.84–102.22). Notebook's tool-mismatch sketch, drawn for that
+line, goes with it; the picture runs from the tool-selection sketch straight to the section map arriving at "Once you have the right
+tool" on Notebook's own cut, as before. The join re-transcribed on the finished file: "…how its specific interface works." 86.74 →
+"Once you have the right tool, we move to step two…" 87.80, floor −59 dB in the gap, no pause inserted. v6 superseded. **Scope of v6:** the v5 candidate of 2026-09-14
 (`video-audit/opener-work-repair-2026-09-14b/REVIEW.md`: roll 4 base, three approved cuts, the two donor closing lines) rebuilt from the
-same pristine sources with the current course-assets boards and the canonical closing JPG. No narration, pause, or timing change.
+same pristine sources with the current course-assets boards and the canonical closing JPG. No pause or timing change beyond the cut above.
 **The live video is still the July file** (`course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, sha256 f78a30541f917913…, 2:10);
 v5 was never shipped, so this candidate replaces it. **Build:** `scripts/video/build_opener_work_4_review.py`. **Manifest:** `edit-manifest.json` here.
 
@@ -19,19 +24,21 @@ v5 was never shipped, so this candidate replaces it. **Build:** `scripts/video/b
 
 - Section map legs: the title's position and the banner's width; mean per-pixel difference under 1.8.
 - Output 4600–4945 (the close): the canonical closing JPG on a white stage at the house pill size, where v5 had the legacy rendered pill.
-- Everywhere else re-encode noise only. Audio stream MD5 identical to v5 (ab7114a119407125f069f791167b41ea); duration and frame count identical.
+- Everywhere else re-encode noise only (measured on v6; v7 then removes 209 frames at the cut).
 
 ## Verification (Edit Spec section 10)
 
-1. Decoded frames 4946 = plan = v5; audio 164.885 s; each leg decoded its span exactly.
-2. `transition_guard.py` passed all 11 declared boundaries (577, 794, 1410, 1779, 2027, 2841, 3213, 3698, 4074, 4423, 4623); `boundary-pairs.jpg` inspected.
-3. No pause edits; the v5 pauses stand (v5 review, item 3).
+1. Decoded frames 4737 = plan (v5's 4946 minus the 209-frame cut); audio 157.909 s; each leg decoded its span exactly.
+2. `transition_guard.py` passed all 11 declared boundaries (577, 794, 1410, 1779, 2027, 2632, 3004, 3489, 3865, 4214, 4414); `boundary-pairs.jpg`
+   inspected: at 2632 the tool-selection sketch cuts to the section map's first frame, no stale frame.
+3. Pauses on the final file (silencedetect −35 dB): 17.86–19.35, 25.32–26.69, 57.84–59.39, 145.97–147.33; close hold 153.73–157.91. The
+   new join carries no inserted pause.
 4. Ring states inspected (`states-refrain.jpg`, `states-map-1..4.jpg`): the refrain line rings, the three row rings, and the banner ring edge
    to edge on the wider banner; Same Tool walk keyframes as v5.
 5. Density and full-view opens as v5.
-6. Not auditioned by ear: nothing new to hear; the audio is bit-identical to v5. v5's own listening list still applies if unheard: 24.5–27
-   (the first cut), 134.5–136.5 (the verify cut), 152–161 (the donor's two lines), 0–17 (the paraphrased refrain over the board).
+6. Not auditioned by ear: David should listen to 1:26–1:29 (the new cut). v5's own list still applies if unheard: 24.5–27 (the first
+   cut), 2:07–2:09 (the verify cut), 2:25–2:34 (the donor's two lines), 0–17 (the paraphrased refrain over the board).
 7. Nothing left undone in scope.
 
 **At ship:** move to `course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, new cache key on the `openerworkwith` entry (currently `?v=2`),
-duration pill 2 min → 3 min (2:45).
+duration pill 2 min → 3 min (2:38).

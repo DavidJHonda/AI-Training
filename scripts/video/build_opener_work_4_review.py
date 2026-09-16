@@ -4,6 +4,9 @@
 v6 (2026-09-16, board refresh): the v5 assembly with the current course-assets boards (the refrain capture and the Same Tool illustration
 are byte-identical to v5's; the section map is a new render with a left-aligned title and a full-width banner, row rects measured
 identical) and the canonical close. No audio change. Framing at v5 parity (tall_margin off).
+v7 (2026-09-16): fourth cut, 95.25-102.23, "If you skip this phase, you risk using the wrong tool for the job, which leads to
+frustration before the work even begins." (invented; troughs 95.08-95.44 / 101.84-102.22); Notebook's tool-mismatch sketch, drawn for
+it, goes with it; the map board arrives at "Once you have the right tool" on Notebook's cut 3067 as before.
 
 Base: Prompts/opener-work-4.mp4 (3:08; REROLL on the verbatim refrain and close, the best narration of five rolls; best-of plan in
 video-audit/opener-work-comparison-2026-09-14b/REVIEW.md). Donor: Prompts/close-opener-work.mp4 ("Don't just use AI, work with it."
@@ -29,7 +32,7 @@ from build_where_ai_works_best_review import photo_walk
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-4.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
-OUT = ROOT / 'video-audit/opener-work-repair-2026-09-16'; DEST = ROOT / 'Prompts/work-with-ai-opener-v6.mp4'   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
+OUT = ROOT / 'video-audit/opener-work-repair-2026-09-16'; DEST = ROOT / 'Prompts/work-with-ai-opener-v7.mp4'   # v7: the invented wrong-tool warning cut (David 2026-09-16)   # v3: flash at :26, board covered Notebook's diagrams; v4: fixed; v5: the over-strong verify sentence cut (David 2026-09-14)
 B = {'refrain': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-refrain.jpg', 'same-tool': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg'}
 GOLD = '#eccf6b'   # the creed card's own accent (Build opener precedent)
 ROWS = {'know': [100, 145, 1500, 305], 'use': [100, 335, 1500, 497], 'think': [100, 527, 1500, 690]}   # section map, measured 2026-09-14
@@ -51,6 +54,7 @@ def main():
     # diagram spans (system architectures / logic patterns / tool selection / tool mismatch 1:15.10-1:42.23; model perception / precision
     # aim 1:54.63-2:10.80; VERIFY ACCURACY 2:23.53-2:30.27; evaluation and verification 2:30.27-2:41.73).
     M1, M1_OUT = 2005, 2253              # "To build those mechanics… Step one is knowing what it's for." (Know What It's For rings 72.70)
+    CUT4 = (fr(95.25), 3067)             # v7: "If you skip this phase… before the work even begins." removed; resumes on the map board's cut
     M2, M2_OUT = 3067, 3439              # "Once you have the right tool, we move to step two. Use it well… extract a high-quality answer" (rings 105.06)
     M3, M3_OUT = 3924, fr(143.35)        # "Step three covers what happens after… Think before you trust… objective truth." (rings 134.70); cut A at the trough after "truth." (-67 dB)
     CUT3 = (M3_OUT, fr(150.1))           # David 2026-09-14: cut "This requires you to independently verify the factual accuracy of any claims or data the AI provides." (143.5-149.5; stronger than the course teaches); Notebook's VERIFY ACCURACY card, drawn for that line, goes with it; resume before "Finally" (150.3; trough -68 dB)
@@ -62,7 +66,7 @@ def main():
     b.keep(CUT1[1], T_IN, 'Notebook: Same Tool title card, phones and sandwich, blurry vs crisp', video_from=1055, video_end=T_IN)   # picture from Notebook's cut to the title card (1055), not the 5 frames of its diagram after the pause (David: flash at :26)
     b.keep(T_IN, S3, 'B2 Same Tool. Different Results. (camera walk)', 'same-tool'); b.pause(30, 'Pause: into the section map'); b.keep(S3, T_OUT, 'B2 tail (covers Notebook to its cut)', 'same-tool')
     b.keep(M1, M1_OUT, 'B3 map: intro, Know What It\'s For', 'map-1')
-    b.keep(M1_OUT, M2, 'Notebook: system architectures, logic patterns, tool selection, tool mismatch')
+    b.keep(M1_OUT, CUT4[0], 'Notebook: system architectures, logic patterns, tool selection (the tool-mismatch sketch leaves with the cut)')
     b.keep(M2, M2_OUT, 'B3 map: Use It Well', 'map-2')
     b.keep(M2_OUT, M3, 'Notebook: model perception, precision aim')
     b.keep(M3, M3_OUT, 'B3 map: Think Before You Trust', 'map-3')
@@ -88,7 +92,7 @@ def main():
     b.render_legs()
     for k in b.boards: b.state_sheet(k)
     b.make_close('openerworkwith')
-    b.manifest({'narration_cuts_source_frames': [list(CUT1), list(CUT3), [CUT2, 5639]], 'donor_frames': {'a': list(GRAFT_A), 'b': list(GRAFT_B)}, 'rows': ROWS, 'refrain_lines': LINES})
+    b.manifest({'narration_cuts_source_frames': [list(CUT1), list(CUT4), list(CUT3), [CUT2, 5639]], 'donor_frames': {'a': list(GRAFT_A), 'b': list(GRAFT_B)}, 'rows': ROWS, 'refrain_lines': LINES})
     print('Prepared', b.total, f'{b.total / 30:.2f}s', {k: (v['src_in'], v['src_out'], v['full_view_frames']) for k, v in b.boards.items()}, 'close', b.close_start, flush=True)
     if args.prepare_only: return
     b.render(); print(DEST)

@@ -1,4 +1,4 @@
-# Understand AI opener v7: review candidate (2026-09-16, the What Kind of Thing Is AI? card as the page frames it, the current section map, one phrase cut; retrofit of the shipped v4)
+# Understand AI opener v7: SHIPPED 2026-09-16 ( the What Kind of Thing Is AI? card as the page frames it, the current section map, one phrase cut; retrofit of the shipped v4)
 
 **Candidate:** `Prompts/understand-ai-opener-v7.mp4` (2:32.93, 4588 frames, 30 fps). v7 = v6 with David's two notes: (1) the card is shown
 as the page frames it: the page crops the 1600x900 JPG to the navy card (OpenerNavyBoard, board 80,300–1520,600); v5/v6 showed the whole
@@ -12,7 +12,7 @@ add the board that appears in the lesson. The rest might be okay as is."): narro
 (`course-assets/understand-ai-opener/understand-ai-opener.mp4`, sha256 e657b34b984d7ceb…). **Source limitation, disclosed:** the raw
 rolls (`Prompts/understand-opener-3/4.mp4`) no longer exist, so the build takes the finished v4 as its picture source, replaces two spans,
 and muxes v4's original audio stream back in untouched. Outside the two spans the picture is one more encoding generation of v4 (mean
-per-pixel difference under 3, visually identical). **Live video unchanged.** **Build:** `scripts/video/build_opener_understand_v7_retrofit.py`.
+per-pixel difference under 3, visually identical). **Shipped 2026-09-16** as `course-assets/understand-ai-opener/understand-ai-opener.mp4` (cache key 20260916ship1, pill 3 min); the v7 candidate removed from Prompts/. **Build:** `scripts/video/build_opener_understand_v7_retrofit.py`.
 **Manifest:** `edit-manifest.json` here.
 
 ## The three changed spans

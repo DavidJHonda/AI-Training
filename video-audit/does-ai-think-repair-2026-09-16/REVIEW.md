@@ -1,4 +1,4 @@
-# Does AI Think? v5: board refresh candidate (2026-09-16, visual-only retrofit of the shipped v3)
+# Does AI Think? v5: SHIPPED 2026-09-16 (board refresh, visual-only retrofit of v3)
 
 **Candidate:** `Prompts/does-ai-think-v5.mp4` (3:40.00, 6600 frames, 30 fps). v5 replaces v4's four rings on the full Chinese Room board
 with a camera walk (David: "we definitely need to zoom in and pan to elements as spoken"); v4 superseded. **Scope:** narrow visual repair of the shipped v3
@@ -7,7 +7,7 @@ versions and the close by the canonical closing JPG. **Source limitation, disclo
 no longer exist, so the v3 assembly could not be re-run from pristine sources. This build takes the finished v3 as its picture source,
 replaces the board and close spans with new legs, and muxes v3's original audio stream back in untouched. The picture outside the changed
 spans is therefore one more encoding generation of v3 (mean per-pixel difference about 2.6, visually identical; frame pairs inspected).
-**Live video unchanged.** **Build:** `scripts/video/build_does_ai_think_3_retrofit.py`. **Manifest:** `edit-manifest.json` here.
+**Shipped 2026-09-16** as `course-assets/does-ai-think/does-ai-think.mp4` (cache key 20260916ship1); the v5 candidate removed from Prompts/. **Build:** `scripts/video/build_does_ai_think_3_retrofit.py`. **Manifest:** `edit-manifest.json` here.
 
 ## Boards and geometry
 

@@ -1,4 +1,4 @@
-# Learn with AI v7: board refresh candidate (2026-09-16, narrow visual repair; Which Study Tool now dense)
+# Learn with AI v7: SHIPPED 2026-09-16 (board refresh; Which Study Tool dense)
 
 **Candidate:** `Prompts/learn-with-ai-v7.mp4` (3:40.43, 6613 frames, 30 fps). v7 = v6 with Which Study Tool for the Job? treated as dense
 (David: "It's dense enough for us to zoom and pan"): the full board for 3 s, a dive to the complete Focus card as its header rings, the
@@ -10,7 +10,7 @@ frames are not reused); v6's two compact legs are gone. v6 superseded. **Scope:*
 versions, which carry the site URL at the bottom, and the close by the canonical closing JPG. Same pixel dimensions as the boards v5 used
 (1600x1345, 1600x844, 1600x1507); every card rect, section rect, and ring onset is v5's, and the How Gemini Notebook Works and Your Four Moves
 treatments are unchanged. No narration, pause, or
-timing change. **Live video unchanged.** **Build:** `scripts/video/build_learn_with_ai_2_review.py` (the v5 assembly re-run from the pristine
+timing change. **Shipped 2026-09-16** as `course-assets/learn-with-ai/learn-with-ai.mp4` (cache key 20260916ship1); the v7 candidate removed from Prompts/. **Build:** `scripts/video/build_learn_with_ai_2_review.py` (the v5 assembly re-run from the pristine
 rolls with the new boards, `tall_margin` off for v5-parity framing). **Manifest:** `edit-manifest.json` here.
 
 ## Sources (hash-verified before and after the render)

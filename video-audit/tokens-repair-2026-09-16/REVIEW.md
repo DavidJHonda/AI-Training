@@ -1,4 +1,4 @@
-# Tokens v8: board refresh candidate (2026-09-16, visual-only retrofit of the shipped v7)
+# Tokens v8: SHIPPED 2026-09-16 (board refresh, visual-only retrofit of v7)
 
 **Candidate:** `Prompts/tokens-v8.mp4` (3:37.60, 6528 frames, 30 fps). **Scope** (David: "take the live version and use the current boards and
 closing message"): narrow visual repair of the shipped v7 (`course-assets/tokens/tokens.mp4`, sha256 f7db1df1b0cf2634…). The five course
@@ -7,7 +7,7 @@ boards are re-rendered from the current course-assets JPGs (`tokens-using-ai-fee
 eaaed22d19…; the site URL line is the difference from the renders v7 carried), and the close is the canonical closing JPG (`tokens-close.jpg`,
 01dd3cb70d…, 1332x597, bottom rows clean). **Source limitation, disclosed:** the roll behind v7 no longer exists, so the build takes the
 finished v7 as its picture source and muxes v7's audio stream back in untouched. Outside the changed spans the picture is one more encoding
-generation of v7 (mean per-pixel difference under 3, visually identical). **Live video unchanged.** **Build:** `scripts/video/build_tokens_v8_retrofit.py`.
+generation of v7 (mean per-pixel difference under 3, visually identical). **Shipped 2026-09-16** as `course-assets/tokens/tokens.mp4` (cache key 20260916ship1, pill 4 min); the v8 candidate removed from Prompts/. **Build:** `scripts/video/build_tokens_v8_retrofit.py`.
 **Manifest:** `edit-manifest.json` here.
 
 ## What was reproduced

@@ -1,6 +1,6 @@
-# Why Learn AI? v5: board refresh candidate (2026-09-16, narrow visual repair)
+# Why Learn AI? v6: board refresh candidate (2026-09-16, narrow visual repair)
 
-**Candidate:** `Prompts/why-learn-ai-v5.mp4` (3:57.23, 7117 frames, 30 fps). **Scope:** narrow visual repair of the shipped v4
+**Candidate:** `Prompts/why-learn-ai-v6.mp4` (3:57.23, 7117 frames, 30 fps). v6 = v5 with the regenerated closing JPG (David, 2026-09-16 09:39; the hairline is gone); v5 superseded, otherwise identical (frame diff v5→v6: nothing outside the close, re-encode noise under 0.3 elsewhere). **Scope:** narrow visual repair of the shipped v4
 (`course-assets/why-learn-ai/why-learn-ai.mp4`, sha256 210df1e1ac04c1ed…): the two boards David named, Where AI Already Lives and Why
 You'll Thrive in the AI Future, are replaced by the current course-assets versions, which carry the site URL at the bottom. Same
 pixel dimensions as the boards v4 used (1600x788 and 1600x958), so every card rectangle, camera window, and ring onset is unchanged.
@@ -14,7 +14,7 @@ assembly re-run from the pristine sources with the new boards). **Manifest:** `e
   (`git show 13e9d84:videos/why-learn-ai.mp4`, sha256 75f8bb010119d51b…; gitignored, not an archive directory).
 - Boards: `course-assets/why-learn-ai/why-learn-ai-everyday.jpg` (13648c4900…, 1600x788, URL line), `why-learn-ai-thrive.jpg`
   (ff2274fc18…, 1600x958, URL line), `why-learn-ai-press.jpg` (43a9730c99…, unchanged from v4).
-- Close: `course-assets/why-learn-ai/why-learn-ai-close.jpg` via `make_close_board.py --lesson whydeeper` (CLOSE_BOARD_ASSETS).
+- Close: `course-assets/why-learn-ai/why-learn-ai-close.jpg` (3266e6541e80…, 1203x597, regenerated 2026-09-16, bottom rows pure white) via `make_close_board.py --lesson whydeeper` (CLOSE_BOARD_ASSETS).
 
 ## What changed against the live v4 (frame diff, every 10th frame)
 
@@ -42,9 +42,8 @@ assembly re-run from the pristine sources with the new boards). **Manifest:** `e
    line is visible at every full view and clear of the banner ring.
 5. Density and full-view opens unchanged from v4.
 6. Not auditioned by ear: nothing new to hear; the audio is bit-identical to the shipped file.
-7. **Known defect in the current close asset, outside this scope:** `why-learn-ai-close.jpg` carries a faint hairline across its bottom
-   edge (a page-capture artifact from `scripts/generate-closing-boards.cjs`), visible under the sticky in the close. The spec says not
-   to alter the canonical asset; fix the generator and regenerate the close JPG, then rebuild, or accept it.
+7. The v5 close carried a faint hairline from the then-current closing JPG (a page-capture artifact); David regenerated the asset and v6
+   uses it. Close frames inspected: pill at the house size, white stage, no line. Nothing left undone in scope.
 
 **At ship:** move to `course-assets/why-learn-ai/why-learn-ai.mp4`, new cache key on the `whydeeper` entry (currently `20260914ship1`),
 duration pill unchanged (4 min).

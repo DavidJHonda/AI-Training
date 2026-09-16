@@ -1,4 +1,4 @@
-# What Is AI? v5: board refresh candidate (2026-09-16, narrow repair with one approved cut)
+# What Is AI? v5: SHIPPED 2026-09-16 (board refresh, one approved cut)
 
 **Candidate:** `Prompts/what-is-ai-v5.mp4` (2:56.6, 5298 frames, 30 fps). v5 = v4 plus David's two notes (2026-09-16): (1) output
 0:56–1:01 cut = source 54.8–59.2, "To use it well, we need to understand the different ways this tool is applied." (troughs 54.62–54.94
@@ -11,7 +11,7 @@ rings on the Two Ways board cut through their label (ring top 640 vs label rows 
 Already Use AI and One Picks. One Creates., are replaced by the current course-assets versions, which carry the site URL at the bottom.
 Same pixel dimensions as the boards v3 used (1600x1302 and 1600x1550), so every card rectangle, section rectangle, and ring onset is
 unchanged. Ask the Desk is byte-identical to v3's. The close uses the current canonical closing JPG. No narration, pause, or timing
-change beyond the one cut above. **Live video unchanged.** **Build:** `scripts/video/build_what_is_ai_3_review.py` (the v3 assembly re-run with the new boards,
+change beyond the one cut above. **Shipped 2026-09-16** as `course-assets/what-is-ai/what-is-ai.mp4` (cache key 20260916ship1, pill 3 min); the v5 candidate removed from Prompts/. **Build:** `scripts/video/build_what_is_ai_3_review.py` (the v3 assembly re-run with the new boards,
 `tall_margin` off for v3-parity framing). **Manifest:** `edit-manifest.json` here.
 
 ## Sources (hash-verified before and after the render)

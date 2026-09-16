@@ -1,4 +1,4 @@
-# AI Is Math v4: board refresh candidate (2026-09-16, visual-only retrofit of the shipped v3)
+# AI Is Math v4: SHIPPED 2026-09-16 (board refresh, visual-only retrofit of v3)
 
 **Candidate:** `Prompts/ai-is-math-v4.mp4` (3:30.33, 6310 frames, 30 fps). **Scope** (David: "use the new boards into the video, including
 the closing message"): narrow visual repair of the shipped v3 (`course-assets/ai-is-math/ai-is-math.mp4`, sha256 50092ad96ef22b7f…). The
@@ -7,7 +7,7 @@ four course boards are re-rendered from the current course-assets JPGs (`ai-is-m
 v3 carried the pre-attribution renders with mint-tinted cards), and the close is the canonical closing JPG (`ai-is-math-close.jpg`,
 0376001ccd…, 1494x600). **Source limitation, disclosed:** the roll behind v3 no longer exists, so the build takes the finished v3 as its
 picture source and muxes v3's audio stream back in untouched. Outside the changed spans the picture is one more encoding generation of v3
-(mean per-pixel difference under 2.7, visually identical). **Live video unchanged.** **Build:** `scripts/video/build_ai_is_math_v4_retrofit.py`.
+(mean per-pixel difference under 2.7, visually identical). **Shipped 2026-09-16** as `course-assets/ai-is-math/ai-is-math.mp4` (cache key 20260916ship1, pill 4 min); the v4 candidate removed from Prompts/. **Build:** `scripts/video/build_ai_is_math_v4_retrofit.py`.
 **Manifest:** `edit-manifest.json` here.
 
 ## What was reproduced

@@ -83,9 +83,9 @@ class Build:
         data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
         row = dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual)
         if video_from is not None:
-            assert visual == 'source'; row['video_start'] = video_from
-            if video_src is not None: row['video_src'] = str(video_src)
-            if video_end is not None: row['video_end'] = video_end
+            row['video_start'] = video_from   # for a board leg (2026-09-16, Learn with AI v7): the leg frame to start from, so one dense leg can carry a graft whose picture would otherwise reuse frames
+            if video_src is not None: assert visual == 'source'; row['video_src'] = str(video_src)
+            if video_end is not None: assert visual == 'source'; row['video_end'] = video_end
         self.rows.append(row); self.parts.append(data); self.cursor += e - s
     def pause(self, n, label):
         self.rows.append(dict(kind='room_tone', start_frame=self.cursor, end_frame=self.cursor + n, label=label))
@@ -290,7 +290,8 @@ class Build:
                         elif how == 'inpaint': inpainted += 1
                         else: declined.append(dict(output_frame=f, source_frame=sf))
                 else:
-                    im = legs[row['visual']].at(sf - spans[row['visual']]['src_in'])
+                    lf = (row['video_start'] + f - row['start_frame']) if 'video_start' in row else sf
+                    im = legs[row['visual']].at(lf - spans[row['visual']]['src_in'])
             p.stdin.write(im.tobytes()); last = im
         p.stdin.close(); assert p.wait() == 0
         m = json.load(open(self.out / 'edit-manifest.json')); m['render_sha256'] = sha(self.dest)

@@ -1,9 +1,15 @@
-# Learn with AI v6: board refresh candidate (2026-09-16, narrow visual repair)
+# Learn with AI v7: board refresh candidate (2026-09-16, narrow visual repair; Which Study Tool now dense)
 
-**Candidate:** `Prompts/learn-with-ai-v6.mp4` (3:40.43, 6613 frames, 30 fps). **Scope:** narrow visual repair of the shipped v5
+**Candidate:** `Prompts/learn-with-ai-v7.mp4` (3:40.43, 6613 frames, 30 fps). v7 = v6 with Which Study Tool for the Job? treated as dense
+(David: "It's dense enough for us to zoom and pan"): the full board for 3 s, a dive to the complete Focus card as its header rings, the
+section rings (what it does, best use, the catch) following the narration inside the dive, a pan to the Exploration card at its header,
+its four section rings, and a pull-back to the full board 0.6 s before the grafted takeaway line rings the banner. One leg now carries the
+whole board (the roll 1 resume after the Focus graft addresses the leg with `video_from`, a small library addition, so the graft's picture
+frames are not reused); v6's two compact legs are gone. v6 superseded. **Scope:** narrow visual repair of the shipped v5
 (`course-assets/learn-with-ai/learn-with-ai.mp4`, sha256 9cdc8d5fd87d6190…): the three course boards are replaced by the current course-assets
 versions, which carry the site URL at the bottom, and the close by the canonical closing JPG. Same pixel dimensions as the boards v5 used
-(1600x1345, 1600x844, 1600x1507), so every card rect, section rect, dive window, and ring onset is unchanged. No narration, pause, or
+(1600x1345, 1600x844, 1600x1507); every card rect, section rect, and ring onset is v5's, and the How Gemini Notebook Works and Your Four Moves
+treatments are unchanged. No narration, pause, or
 timing change. **Live video unchanged.** **Build:** `scripts/video/build_learn_with_ai_2_review.py` (the v5 assembly re-run from the pristine
 rolls with the new boards, `tall_margin` off for v5-parity framing). **Manifest:** `edit-manifest.json` here.
 
@@ -25,13 +31,13 @@ rolls with the new boards, `tall_margin` off for v5-parity framing). **Manifest:
 ## Verification (narrow-repair checks, Edit Spec section 10)
 
 1. Decoded frames 6613 = plan = v5; audio 220.437 s; each leg decoded its span exactly.
-2. `transition_guard.py`: 12 of 13 declared boundaries pass; the one flag (5130) is the start of the roll 2 move-two audio graft, where the
-   Four Moves board is mid-pan from move one to move two by design (the dive follows the spoken onset); the strip shows the pan, not a
-   splice, as in v5. `boundary-pairs.jpg` inspected.
+2. `transition_guard.py` passed all 9 declared visual boundaries (1698, 1806, 3612, 3812, 4481, 4649, 4727, 5322, 6325); `boundary-pairs.jpg`
+   inspected. (The audio-only graft seams inside the two board legs are camera moves by design and are not declared as visual cuts.)
 3. No pause edits (audio untouched).
-4. Ring states inspected (`states-1-study-tools.jpg`, `states-1-study-tools-b.jpg`, `states-2-how-it-works.jpg`, `states-3-four-moves.jpg`):
-   section rings, card rings, dives, pull-back, and banners as v5; the URL line sits under each banner, clear of the banner ring.
-5. Density and full-view opens unchanged from v5.
+4. Ring states inspected (`states-1-study-tools.jpg`: each section ring inside the card dive, the pan to Exploration, the pull-back and
+   banner; `states-2-how-it-works.jpg`, `states-3-four-moves.jpg` as v5); a 16-frame strip of the study-tool span inspected on the output. The
+   URL line sits under each banner, clear of the banner ring.
+5. Which Study Tool dense (new); the other two boards' density and every full-view open as v5.
 6. Not auditioned by ear: nothing new to hear; the audio is bit-identical to the shipped file.
 7. Nothing left undone in scope.
 

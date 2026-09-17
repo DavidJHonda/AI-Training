@@ -1,6 +1,6 @@
 # Work With AI opener v2: review candidate (2026-09-14, EDIT-SPEC build)
 
-**Candidate:** `videos/opener-work-v2.mp4` (2:35.1, 4652 frames, 30 fps). **Live video and lesson unchanged** (`videos/opener-work.mp4`,
+**Candidate:** `Prompts/work-with-ai-opener-v2.mp4` (2:35.1, 4652 frames, 30 fps). **Live video and lesson unchanged** (`course-assets/work-with-ai-opener/work-with-ai-opener.mp4`,
 `lessons/Opener-Work.md`, both board assets and the donor roll hash-verified after the render).
 **Build:** `scripts/video/build_opener_work_review.py`. **Manifest:** `edit-manifest.json` here.
 **Narration status:** roll 2 was REROLL under `video-audit/opener-work-comparison-2026-09-14/REVIEW.md` solely for the missing close lines.

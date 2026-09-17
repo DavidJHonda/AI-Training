@@ -1,6 +1,6 @@
 # Where AI Works Best: roll comparison (2026-09-14, NARRATION-REVIEW)
 
-Live page (whatitdoesbest) read 2026-09-14 against lessons/where-ai-works-best.md: page prose, the four strength cards (why / what it does / examples), and the vast-exposure close all match. The four takeaway lines ("Your material. A more useful form." etc.) live on the board images, not in page prose; the Markdown carries them, so no materials bug. The live video (videos/where-ai-works-best.mp4, Sept 5) speaks "can try is not built for" only mid-sentence ("This final graphic highlights our core rule, can try is not built for. Just because a system attempts…"), so it is a weaker donor than roll 2 below.
+Live page (whatitdoesbest) read 2026-09-14 against lessons/where-ai-works-best.md: page prose, the four strength cards (why / what it does / examples), and the vast-exposure close all match. The four takeaway lines ("Your material. A more useful form." etc.) live on the board images, not in page prose; the Markdown carries them, so no materials bug. The live video (course-assets/where-ai-works-best/where-ai-works-best.mp4, Sept 5) speaks "can try is not built for" only mid-sentence ("This final graphic highlights our core rule, can try is not built for. Just because a system attempts…"), so it is a weaker donor than roll 2 below.
 
 Re-listened with small.en word timestamps: roll 1 4:30–4:46, roll 1 3:58–4:10 ("code brackets" is really spoken; the engine drew a "Code Brackets" card at 4:04), roll 2 1:23–1:35, roll 2 3:06–3:16, live video last 30 s.
 

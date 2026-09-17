@@ -1,31 +1,76 @@
-# Edit spec: what every repair candidate must contain (owner rules, 2026-09-11)
+# Edit spec: scope and production standards
 
-Read this before building any candidate. It is the contract for a finished edit;
-`README.md` holds the recipes and tooling, `NARRATION-REVIEW.md` judges the
-narration, and the ship checklist in `README.md` is the final verification.
-When these disagree, this file wins for build scope and board treatment.
+Updated 2026-09-15. [README](README.md) is the shared workflow and shipping
+checklist; [Narration Review](NARRATION-REVIEW.md) owns teaching verdicts;
+[Technical Recipes](TECHNICAL-RECIPES.md) holds implementation details.
+This file owns build scope and board/audio treatment.
 
-## 1. Scope: a candidate is a complete edit
+## 1. Scope: full production or narrow repair
 
-A repair request names what prompted the build ("the inference board and the
-pauses"). The build still applies every rule below to the whole video: every
-course board, every idea boundary, the close. Never hand over a candidate with
-one board fixed and the others left as Gemini Notebook rendered them. If a rule
-cannot be met, say so in the review record; do not silently narrow the scope.
+A **full production pass** prepares a raw roll or unfinished edit for shipping.
+Apply the standards below throughout the candidate, preserving compliant spans
+rather than rebuilding them unnecessarily.
 
-"Every board" means every board complies, not every board is rebuilt. Boards that
-already shipped under this spec stay as they are when a later build only touches
-audio or another span. What is never allowed is a Notebook rendering or a
-Notebook highlight on any board in the candidate.
+A **narrow repair** fixes the named issue in an existing video. Keep unaffected
+teaching, audio, visuals, and timing unchanged unless the requested fix requires
+an identified dependency. A visual-only repair does not authorize new pauses,
+audio cleanup, narration changes, or a course-wide redesign.
+
+State the scope in the edit plan. If the request names a specific defect, treat
+it as a narrow repair; if it asks for a complete production edit, apply the full
+pass. Identify necessary related changes before building. Complete authorized
+work and report unrelated defects separately; propose a broader pass instead of
+silently expanding the task. Reuse approval already given for the same work.
+
+Every changed span must meet the applicable standards below. A narrow candidate
+may retain known pre-existing defects outside scope, but the review must list
+them and must not label it ready to ship. All standard videos must satisfy the
+whole-file ship checklist before publication. Passing that checklist is separate
+from the owner's authorization to publish.
+
+## 1b. Review the board plan before the first build (owner rule, 2026-09-16)
+
+Include a brief board-highlighting and camera plan with the video evaluation.
+Inspect the current assets and follow the actual narration. Present one row per
+board in scope, using its exact title; for a narrow repair, list only affected
+boards and preserve previously approved treatment elsewhere.
+
+| Board | Highlighting sequence | Camera | Reason or exception |
+|---|---|---|---|
+| <exact title> | <whole card, then named sections as spoken; or whole card throughout; or unmarked> | <full board; or full view then complete-card zoom> | <brief reason, only where useful> |
+
+- Brief examples supporting one idea normally use a whole-card outline throughout
+  that card's explanation. Numbered items alone do not require separate rings.
+- When narration meaningfully explains distinct sections, introduce the whole card
+  with its outline, then replace that outline with one around the named section
+  as it is spoken. Follow sections, not individual sentences. Use one outline at
+  a time unless the narration explicitly compares multiple targets.
+- Apply the full-board opening and compact/dense rules below. Zoom only when it
+  materially improves readability, keeping the complete active card visible,
+  including its illustration, title, and bottom section. Tall cards may gain little
+  from a zoom. Flag uncertain framing for a preview rather than promising a benefit.
+- Identify unusual treatments and their reasons. Do not add pauses to accommodate
+  outline changes or camera motion.
+
+Present this with proposed narration changes and selective pauses as ONE edit
+plan for David's approval before the first build. Analysis, timing measurements,
+and previews needed to make that plan reviewable can proceed. Once approved,
+execute the plan without asking again unless a material change becomes necessary.
+Existing approval of the same treatment remains valid. The plan is a production
+proposal, not a factor in the narration verdict or authorization to publish.
 
 ## 2. Every course board is the current page asset
 
 Wherever the roll shows a lesson board, the candidate shows the exact current
-asset from `course-assets/<lesson>/` as referenced by `index.html`, never
+JPG asset from `course-assets/<lesson>/` as referenced by `index.html`, never
 Notebook's rendering of it, however close it looks. The replacement starts at
 the source's own visual cut into the board and ends where narration leaves it
 (sequential frame decode; never narration timing alone). A face-free upload
 variant is never the shipped visual; the illustrated page board replaces it.
+Use the existing JPG directly; do not recreate its HTML or reflow its text.
+A temporary padded video canvas may fit the asset to 16:9 without changing the
+canonical file. Recheck highlight coordinates when an asset changes. Current
+assets, rather than superseded copies retained for old videos, govern new inserts.
 
 ## 3. Open at full view
 
@@ -81,38 +126,51 @@ full view, and the ring traces the bubble's own border, not the text inside it.
 - Rings start at the spoken onset of their target and replace one another
   unless narration explicitly combines points. A board discussed only as a
   whole stays unmarked.
-- Mechanism: capture once, unmarked (`RECTS_ONLY=1`), and let
-  `ken_burns_path.py` draw rings from the rectangles. Never bake rings into a
-  capture.
+- Mechanism: use the unmarked canonical JPG, record complete component bounds
+  in its image coordinates, and let `ken_burns_path.py` draw rings after cropping.
+  For a temporary padded canvas, translate bounds by the exact placement offset.
+  Never bake rings into the asset. Browser capture is only a fallback for a live
+  component that has no canonical image; see the retrofit playbook.
 
-## 6. Pauses: one second between ideas
+## 6. Pauses: selective breathing room (owner rule, 2026-09-15)
 
-Gemini Notebook runs ideas together. Insert one second of matched room tone at
-each boundary between distinct ideas. Not after every sentence.
+This replaces the automatic one-second pause at every major idea boundary.
+Review transitions by listening: add a pause only when the narration moves on
+before a student has time to absorb the preceding point. Preserve transitions
+that already feel natural. A new heading, section, or board is a place to review,
+not an instruction to add silence.
 
-Judge the boundary from the lesson's structure, not from the Markdown's board
-blocks (owner rule 2026-09-12): a pause belongs where the page starts a new
-section or a new idea (a new heading, the hook giving way to the teaching, the
-move from one board's subject to the next, the move into the summary, before the
-closing lines). Inside a board there are no pauses: not between its introduction
-and its first item, not between items, not before its takeaway banner. Those are
-parts of one box, and the narrator's own breath is enough. When in doubt, the
-question is "is a different idea starting here?", not "is a different part of the
-board starting here?".
+A substantial conclusion, a demanding example, or a clear change of subject may
+benefit from breathing room. Closely connected points usually do not. Do not
+routinely pause between a board's introduction and its first item, between its
+cards, or before its takeaway. Judge comprehension and flow, not box structure.
 
-- Tone is mirror-tiled from the roll's own pause, seeded at the median level of
-  the source's pauses, with short crossfades. Never digital zero.
-- The current visual holds through the pause; the next visual begins with the
-  next spoken idea.
-- Measure each pause in the final encoded file with `silencedetect`; the quiet
-  interval must be at least one second.
+Before building, include proposed pause locations in the edit plan for David's
+review. For each, give the source timestamp, a brief reason, the existing natural
+gap, the proposed total gap, and how much time would be added. Account for the
+natural gap already present; never automatically add a full second on top of it.
+There is no universal one-second minimum. Once the plan is approved, execute it
+without asking again unless the pause plan materially changes.
+
+- Use matched room tone from the source with short crossfades, not digital zero.
+  Preserve complete words and natural breaths.
+- Hold the relevant preceding visual through the pause; begin the next visual
+  with the next spoken idea.
+- Measure edited pauses in the final encoded file with `silencedetect` and
+  report their actual intervals against the approved plan. Listen through each
+  transition to confirm it helps comprehension without dragging or creating an
+  audible noise-floor cliff. State any listening that remains undone.
 
 ## 7. The standard close
 
-Every video ends on the app close board inserted in post: copy taken
-programmatically from `CLOSE_BOARDS` (`make_close_board.py --lesson`), 48-frame
-hold, 150-frame push to 1.2x, settled hold. Notebook's close and outro are
-always removed. The close board is the literal last frame.
+Use the current canonical closing JPG referenced by the page. For a video canvas,
+`make_close_board.py --lesson <lesson-id>` reads that asset through
+`CLOSE_BOARD_ASSETS` and reads its matching closing copy from `CLOSE_BOARDS`; do not retype or
+recreate the pill/sticky, change the white background, or alter its proportions.
+The standard motion is a 48-frame hold, 150-frame push to 1.2x, and a settled hold
+at 30fps. Longer narration adds hold time, not more zoom. Preserve compliant closes
+in narrow repairs. Replace Notebook's close/outro in full production; the course
+close is the literal final frame. The AI Brain Break activity is exempt.
 
 ## 8. Everything else stays Notebook
 
@@ -199,20 +257,26 @@ narration, level-matched, and are listed for listening.
 names a beat that the alternate roll teaches better, the candidate carries that
 beat as an audio graft from the alternate roll, by default under the course board
 that beat belongs to: the board leg is sized to the grafted audio and its rings
-follow the alternate roll's onsets. The plan (quoted pairs, timestamps, the roll
-taken) is the approval; the report lists every graft with its output timestamps
+follow the alternate roll's onsets. David's approval of the plan (quoted pairs,
+timestamps, and selected roll) authorizes these grafts. The report lists every
+graft with its output timestamps
 for listening. A beat that would have to sit under Notebook's own drawing is
 grafted only when the scene can carry it without an orphan beat; otherwise it is
 reported as richer-but-not-grafted.
 
 ## 10. Before handing over
 
-The review record (`video-audit/<slug>-repair-<date>/REVIEW.md`) states:
+The review record (`video-audit/<slug>-repair-<date>/REVIEW.md`) states the scope,
+source identities, changed spans, and whether it is a narrow repair or a full pass.
+For a narrow repair, apply the checks below to the changed spans and affected joins;
+report broader checks not performed and any known pre-existing defects. A full pass
+also completes the whole-file ship checklist.
 
 1. Decoded frame count equals the plan; each leg decodes its span exactly.
 2. `transition_guard.py` passed every declared boundary, and the strips were
    inspected: the first frame after each boundary is already the destination.
-3. Every pause measured in the final file.
+3. Each edited pause measured against the approved selective-pause plan, with
+   listening checks and any unverified transitions reported.
 4. Every settled ring frame inspected at full resolution: right card, complete
    card inside the ring, nothing clipped, 5 px stroke at wide and dive cameras.
 5. Every board's density decision and full-view open confirmed by frame.

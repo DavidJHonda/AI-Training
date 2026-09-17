@@ -57,7 +57,7 @@ BOARDS = {
     "tool": asset_path('lessons', 'your-choices-1-app-model.jpg'),
     "method": asset_path('lessons', 'your-choices-2-reasoning-research.jpg'),
     "temperature": asset_path('lessons', 'your-choices-3-temperature.jpg'),
-    "close": ROOT / "course-assets/your-choices/your-choices-4-close.jpg",
+    "close": ROOT / "course-assets/your-choices/your-choices-close.jpg",
 }
 
 

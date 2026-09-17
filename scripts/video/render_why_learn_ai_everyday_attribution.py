@@ -6,7 +6,7 @@ from course_credit import finalize
 ROOT=Path(__file__).resolve().parents[2]
 
 def main():
-    board=ROOT / "course-assets/why-learn-ai/why-learn-ai-1-everyday.jpg"
+    board=ROOT / "course-assets/why-learn-ai/why-learn-ai-everyday.jpg"
     finalize(board)
     review=ROOT / "board-review-why-learn-ai/where-ai-already-lives.jpg"
     review.parent.mkdir(parents=True,exist_ok=True)

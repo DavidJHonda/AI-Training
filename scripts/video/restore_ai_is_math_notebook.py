@@ -5,8 +5,8 @@ import hashlib,json,subprocess
 import cv2,numpy as np,imageio_ffmpeg
 ROOT=Path(__file__).resolve().parents[2]
 AUDIT=ROOT/'video-audit/ai-is-math-original-visuals-2026-09-09'
-PRIOR=ROOT/'videos/ai-is-math-v2.mp4'
-DEST=ROOT/'videos/ai-is-math-v3.mp4'
+PRIOR=ROOT/'Prompts/ai-is-math-v2.mp4'
+DEST=ROOT/'Prompts/ai-is-math-v3.mp4'
 BASE=ROOT/'video-audit/ai-is-math-repair-2026-09-09'
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -15,7 +15,7 @@ def main():
  AUDIT.mkdir(exist_ok=True)
  m=json.loads((BASE/'edit-manifest.json').read_text());source=Path(m['source'])
  assert not DEST.exists()
- protected={str(p):sha(p) for p in [PRIOR,source,ROOT/'videos/ai-is-math.mp4']}
+ protected={str(p):sha(p) for p in [PRIOR,source,ROOT/'course-assets/ai-is-math/ai-is-math.mp4']}
  # Include the full preceding visual hold, so no custom board returns in the pauses.
  spans=[dict(start=4480,end=5025,first_source_frame=4604,label='Original conversation and conditional-probability graphics'),dict(start=5760,end=6070,first_source_frame=6115,label='Original next-word prediction animation')]
  def source_at(f):

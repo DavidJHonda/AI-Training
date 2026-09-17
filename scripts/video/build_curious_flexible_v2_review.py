@@ -2,7 +2,7 @@
 """Curious & Flexible from roll 2 under EDIT-SPEC.md (2026-09-12). Review only.
 
 Base: Prompts/curious-and-flexible-2.mp4 (3:34, REPAIR under NARRATION-REVIEW; ampersand-free copy of
-Prompts/curious-&-flexible-2.mp4). Output: videos/curious-and-flexible-v5.mp4 (v4's hand-off replaced by roll 1's ending, a graft with its own Adaptive System diagram, owner call 2026-09-12; v3 framed the first-row cards text-only, detector fix 2026-09-12; v2 cut the "passive filters" span and jumped board to board; owner call 2026-09-12: keep it, Notebook's sketch is the transition). Audit: video-audit/curious-and-flexible-repair-2026-09-12/.
+Prompts/curious-&-flexible-2.mp4). Output: Prompts/curious-and-flexible-v5.mp4 (v4's hand-off replaced by roll 1's ending, a graft with its own Adaptive System diagram, owner call 2026-09-12; v3 framed the first-row cards text-only, detector fix 2026-09-12; v2 cut the "passive filters" span and jumped board to board; owner call 2026-09-12: keep it, Notebook's sketch is the transition). Audit: video-audit/curious-and-flexible-repair-2026-09-12/.
 One narration cut (3:15.9-3:25.9 "The technology we use will continue to shift… shown on screen"). Two tall 2x2 boards on the house side
 bars, dense: Stay Curious arrives at its intro sentence ("This board outlines four simple habits…") and dives per habit;
 Be Flexible arrives at its intro ("Finding a new tool is only the first step…") and dives per step, pulling back for
@@ -23,12 +23,12 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/curious-and-flexible-2.mp4'
 SRC1 = ROOT / 'Prompts/curious-and-flexible-1.mp4'   # roll 1: its ending (2:04.2-2:20.0) is grafted in for the hand-off
-OUT = ROOT / 'video-audit/curious-and-flexible-repair-2026-09-12'; DEST = ROOT / 'videos/curious-and-flexible-v5.mp4'
+OUT = ROOT / 'video-audit/curious-and-flexible-repair-2026-09-12'; DEST = ROOT / 'Prompts/curious-and-flexible-v5.mp4'
 B = {k: asset_path('lessons', f'curious-and-flexible-{k}.jpg') for k in ('1-stay-curious', '2-be-flexible')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/curious-and-flexible.mp4', ROOT / 'lessons/curious-and-flexible.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/curious-and-flexible/curious-and-flexible.mp4', ROOT / 'lessons/curious-and-flexible.md', *B.values()])
     b.load_audio([(28.91, 29.48), (54.49, 54.89), (112.01, 112.52), (123.17, 123.91), (195.62, 196.15), (205.56, 206.01), (211.26, 214.55)])
     B1, B1_OUT = fr(54.7), 3372            # Stay Curious: intro "This board outlines…" (Notebook cut 1644) to Notebook's own cut at 1:52.40
     B2, B2_OUT = 3718, fr(185.5)           # Be Flexible: intro "Finding a new tool is only the first step…" through "…keep your old method if it does not."

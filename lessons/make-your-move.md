@@ -8,9 +8,9 @@ That is where you are now with AI. You have learned the fundamentals and built i
 
 ### Board 1: A Note from Nate and Luke
 
-**Image file:** `make-your-move-1-note.jpg`
+**Image file:** `make-your-move-note.jpg`
 
-![A Note from Nate and Luke](make-your-move-1-note.jpg)
+![A Note from Nate and Luke](make-your-move-note.jpg)
 
 **Teaching content:**
 
@@ -22,9 +22,9 @@ If you’re thinking about how AI might change careers, you’re not alone. But 
 
 ### Board 2a: How AI Might Change Careers (1 of 2)
 
-**Image file:** `make-your-move-2-careers-a.jpg`
+**Image file:** `make-your-move-doctors-teachers-lawyers.jpg`
 
-![How AI Might Change Careers, part one](make-your-move-2-careers-a.jpg)
+![How AI Might Change Careers, part one](make-your-move-doctors-teachers-lawyers.jpg)
 
 **Teaching content:**
 
@@ -36,9 +36,9 @@ Lawyer. AI may help search cases, summarize documents, and help produce early dr
 
 ### Board 2b: How AI Might Change Careers (2 of 2)
 
-**Image file:** `make-your-move-2-careers-b.jpg`
+**Image file:** `make-your-move-electricians-designers-entrepreneurs.jpg`
 
-![How AI Might Change Careers, part two](make-your-move-2-careers-b.jpg)
+![How AI Might Change Careers, part two](make-your-move-electricians-designers-entrepreneurs.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ In every example above, AI may take on more tasks, but people are responsible fo
 
 ### Board 3: Four Skills to Build
 
-**Image file:** `make-your-move-3-skills.jpg`
+**Image file:** `make-your-move-skills.jpg`
 
-![Four Skills to Build](make-your-move-3-skills.jpg)
+![Four Skills to Build](make-your-move-skills.jpg)
 
 **Teaching content:**
 
@@ -74,9 +74,9 @@ You do not need to choose your entire future today. These four moves work whethe
 
 ### Board 4: Moves to Make
 
-**Image file:** `make-your-move-4-actions.jpg`
+**Image file:** `make-your-move-actions.jpg`
 
-![Moves to Make](make-your-move-4-actions.jpg)
+![Moves to Make](make-your-move-actions.jpg)
 
 **Teaching content:**
 
@@ -90,9 +90,9 @@ Step into responsibility: join a club, volunteer, organize something, help lead 
 
 ### Board 5: Close
 
-**Image file:** `make-your-move-4-close.jpg`
+**Image file:** `make-your-move-close.jpg`
 
-![Close board](make-your-move-4-close.jpg)
+![Close board](make-your-move-close.jpg)
 
 ## Closing Message
 

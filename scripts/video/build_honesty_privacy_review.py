@@ -2,7 +2,7 @@
 """Honesty & Privacy from roll 2 under EDIT-SPEC.md (2026-09-12). Review only.
 
 Base: Prompts/honesty-and-privacy-2.mp4 (3:48, KEEP under NARRATION-REVIEW; ampersand-free copy of
-Prompts/honesty-&-privacy-2.mp4). Output: videos/honesty-and-privacy-v4.mp4 (v2 had eight same-box pauses; v3 showed the JPG corner matte at the board bottoms; both owner reports 2026-09-12). Audit: video-audit/honesty-and-privacy-repair-2026-09-12/.
+Prompts/honesty-&-privacy-2.mp4). Output: Prompts/honesty-and-privacy-v4.mp4 (v2 had eight same-box pauses; v3 showed the JPG corner matte at the board bottoms; both owner reports 2026-09-12). Audit: video-audit/honesty-and-privacy-repair-2026-09-12/.
 No narration cuts. Four boards, all compact: Using AI in School and How Much Should You Share (three cards, rings in each
 heading's accent), When AI Help Is Allowed (faces; not uploaded; inserted over Notebook's 1-2-3 collage span, three step
 columns ringed purple/blue/teal, banner ringed), Share Only What AI Needs (six numbered callouts ringed with their legend
@@ -25,7 +25,7 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/honesty-and-privacy-2.mp4'
-OUT = ROOT / 'video-audit/honesty-and-privacy-repair-2026-09-12'; DEST = ROOT / 'videos/honesty-and-privacy-v4.mp4'
+OUT = ROOT / 'video-audit/honesty-and-privacy-repair-2026-09-12'; DEST = ROOT / 'Prompts/honesty-and-privacy-v4.mp4'
 B = {k: asset_path('lessons', f'honesty-and-privacy-{k}.jpg') for k in ('1-school', '2-best-practices', '3-privacy', '4-share-only')}
 
 def cards(path, n_expected):
@@ -45,7 +45,7 @@ def cards(path, n_expected):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/honesty-and-privacy.mp4', ROOT / 'lessons/honesty-and-privacy.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/honesty-and-privacy/honesty-and-privacy.mp4', ROOT / 'lessons/honesty-and-privacy.md', *B.values()])
     b.load_audio([(13.02, 13.62), (22.18, 22.67), (31.77, 32.33), (55.15, 55.94), (63.11, 63.58), (73.37, 73.78), (88.52, 89.07), (97.27, 97.73),
                   (114.06, 114.68), (118.93, 119.55), (123.87, 124.35), (143.78, 144.35), (154.80, 155.53), (159.79, 160.24), (171.31, 171.86),
                   (175.21, 175.90), (188.25, 188.91), (207.70, 208.34), (219.02, 219.43)])

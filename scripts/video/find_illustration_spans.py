@@ -7,7 +7,7 @@ engine's crops, zooms, camera moves, and overlaid borders.
 
 Usage:
   .video-venv/bin/python scripts/video/find_illustration_spans.py \
-      videos/lesson.mp4 old-illustration.jpg [--stride 10]
+      course-assets/lesson/lesson.mp4 old-illustration.jpg [--stride 10]
 """
 
 import argparse

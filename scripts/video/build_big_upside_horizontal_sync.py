@@ -17,8 +17,8 @@ import build_big_upside_review as base
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "videos/big-upside.mp4"
-OUTPUT = ROOT / "videos/big-upside-v7.mp4"
+SOURCE = ROOT / "course-assets/big-upside/big-upside.mp4"
+OUTPUT = ROOT / "Prompts/big-upside-v7.mp4"
 
 
 def at(seconds: float) -> int:

@@ -14,9 +14,9 @@ Think of a big warehouse packed with thousands of specialized chips, called GPUs
 
 ### Board 1: Inside a Data Center
 
-**Image file:** `data-centers-1-data-center.jpg`
+**Image file:** `data-centers-data-center.jpg`
 
-![Inside a Data Center](data-centers-1-data-center.jpg)
+![Inside a Data Center](data-centers-data-center.jpg)
 
 **Teaching content:**
 
@@ -28,9 +28,9 @@ Somebody pays for all that arithmetic.
 
 ### Board 2: The Footprint Has Four Parts
 
-**Image file:** `data-centers-2-footprint.jpg`
+**Image file:** `data-centers-physical-footprint.jpg`
 
-![The Footprint Has Four Parts](data-centers-2-footprint.jpg)
+![The Footprint Has Four Parts](data-centers-physical-footprint.jpg)
 
 **Teaching content:**
 
@@ -56,9 +56,9 @@ None of this is a reason to feel guilty hitting send. It’s a reason to be one 
 
 ### Close
 
-**Image file:** `data-centers-3-close.jpg`
+**Image file:** `data-centers-close.jpg`
 
-![Close board](data-centers-3-close.jpg)
+![Close board](data-centers-close.jpg)
 
 ## Closing Message
 

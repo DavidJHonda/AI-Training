@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/which-app-v1.mp4`
+- Video: `Prompts/which-app-v1.mp4`
 - Decoded frames: 6885
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

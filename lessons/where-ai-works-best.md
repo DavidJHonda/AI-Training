@@ -8,9 +8,9 @@ We saw this firsthand building this course. AI coded every page and every intera
 
 ### Board 1: AI Helped Us Build This Course
 
-**Image file:** `where-ai-works-best-1-built-this-course.jpg`
+**Image file:** `where-ai-works-best-built-this-course.jpg`
 
-![AI Helped Us Build This Course](where-ai-works-best-1-built-this-course.jpg)
+![AI Helped Us Build This Course](where-ai-works-best-built-this-course.jpg)
 
 **Teaching content:**
 
@@ -22,9 +22,9 @@ Here are four strengths you can put to work. AI is strongest when the job has on
 
 ### Board 2: Reshape Your Material
 
-**Image file:** `where-ai-works-best-2-reshape.jpg`
+**Image file:** `where-ai-works-best-reshape.jpg`
 
-![Reshape Your Material](where-ai-works-best-2-reshape.jpg)
+![Reshape Your Material](where-ai-works-best-reshape.jpg)
 
 **Teaching content:**
 
@@ -38,9 +38,9 @@ Your material. A more useful form.
 
 ### Board 3: Explore Possibilities
 
-**Image file:** `where-ai-works-best-3-explore.jpg`
+**Image file:** `where-ai-works-best-explore.jpg`
 
-![Explore Possibilities](where-ai-works-best-3-explore.jpg)
+![Explore Possibilities](where-ai-works-best-explore.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ More possibilities. You choose the direction.
 
 ### Board 4: Find What Matters
 
-**Image file:** `where-ai-works-best-4-find.jpg`
+**Image file:** `where-ai-works-best-find.jpg`
 
-![Find What Matters](where-ai-works-best-4-find.jpg)
+![Find What Matters](where-ai-works-best-find.jpg)
 
 **Teaching content:**
 
@@ -70,9 +70,9 @@ A lot to read. A clearer place to focus.
 
 ### Board 5: Work Through Problems
 
-**Image file:** `where-ai-works-best-5-problems.jpg`
+**Image file:** `where-ai-works-best-problems.jpg`
 
-![Work Through Problems](where-ai-works-best-5-problems.jpg)
+![Work Through Problems](where-ai-works-best-problems.jpg)
 
 **Teaching content:**
 
@@ -92,9 +92,9 @@ Seeing many examples helps AI get started. But it doesn’t guarantee the answer
 
 ### Close
 
-**Image file:** `where-ai-works-best-6-close.jpg`
+**Image file:** `where-ai-works-best-close.jpg`
 
-![Close board](where-ai-works-best-6-close.jpg)
+![Close board](where-ai-works-best-close.jpg)
 
 ## Closing Message
 

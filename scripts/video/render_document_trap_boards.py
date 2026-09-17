@@ -18,7 +18,7 @@ def main():
             "An Incomplete Answer", "course-assets/document-trap/document-trap.jpg",
             "Uploading a file doesn’t mean AI has read it all.", BLUE,
         ),
-        Pair("course-assets/document-trap/document-trap-uploaded-v3.jpg", "course-assets/document-trap/document-trap-1-uploaded.jpg"),
+        Pair("course-assets/document-trap/document-trap-uploaded-v3.jpg", "course-assets/document-trap/document-trap-uploaded.jpg"),
     )
     save_pair(
         render_flow_board(FlowBoard(
@@ -30,7 +30,7 @@ def main():
             "", "", (PURPLE, BLUE, TEAL),
             takeaway="Search decides which parts reach the answer.",
         )),
-        Pair("course-assets/document-trap/document-trap-2-flow.jpg", "course-assets/document-trap/document-trap-2-flow.jpg"),
+        Pair("course-assets/document-trap/document-trap-flow.jpg", "course-assets/document-trap/document-trap-flow.jpg"),
     )
     save_pair(
         render_card_board(CardBoard(
@@ -42,7 +42,7 @@ def main():
             ), "scripts/video/assets/editorial-avoid-traps/document-moves/art-sheet.png",
             "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER),
         )),
-        Pair("course-assets/document-trap/document-trap-3-moves.jpg", "course-assets/document-trap/document-trap-3-moves.jpg"),
+        Pair("course-assets/document-trap/document-trap-moves.jpg", "course-assets/document-trap/document-trap-moves.jpg"),
     )
 
 

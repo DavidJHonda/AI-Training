@@ -126,10 +126,10 @@ render_why_board() {
   rm -f "$temp_png"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-2-thrive-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/why-learn-ai-thrive.jpg"
-  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
-  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
-  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
-  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
+  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-thrive.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-thrive.jpg"
+  cp "$output" "$repo_root/course-assets/why-learn-ai/why-learn-ai-thrive.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/why-learn-ai/why-learn-ai-thrive.jpg"
   echo "Built $output"
 }
 
@@ -268,8 +268,8 @@ render_study_board() {
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg"
   cp "$output" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-tools.jpg"
   bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-tools.jpg"
-  cp "$output" "$repo_root/course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg"
-  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg"
+  cp "$output" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-toolkit.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/learn-with-ai/learn-with-ai-study-toolkit.jpg"
 }
 
 # Crop only the existing content stage. Titles and legacy footer treatments are

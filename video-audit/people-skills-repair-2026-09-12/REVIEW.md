@@ -1,8 +1,8 @@
 # People Skills v3 (2026-09-12) — candidate review kit
 
 Source: Prompts/people-skills-1.mp4 (roll 1, REPAIR under NARRATION-REVIEW; comparison in
-video-audit/people-skills-comparison-2026-09-12/REVIEW.md). Candidate: videos/people-skills-v3.mp4, 5199 frames, 2:53.30 (v2 superseded: it held the unmarked four-ways board under the "AI can suggest" line; owner call, Notebook's own scene carries that line now).
-Build: scripts/video/build_people_skills_review.py (editspec_build). Live file videos/people-skills.mp4 untouched.
+video-audit/people-skills-comparison-2026-09-12/REVIEW.md). Candidate: Prompts/people-skills-v3.mp4, 5199 frames, 2:53.30 (v2 superseded: it held the unmarked four-ways board under the "AI can suggest" line; owner call, Notebook's own scene carries that line now).
+Build: scripts/video/build_people_skills_review.py (editspec_build). Live file course-assets/people-skills/people-skills.mp4 untouched.
 
 ## Edit
 - Narration cuts (both in measured silence): 2:28.2–2:37.3 ("These four steps take passive observation… only take you
@@ -25,4 +25,4 @@ Build: scripts/video/build_people_skills_review.py (editspec_build). Live file v
 - The two cut seams (output ~2:31 and ~2:41) and the opening line "understand what the people around us needed" (0:16).
 
 ## Shipped
-2026-09-12: v3 approved ("ship it"); copied to videos/people-skills.mp4, cache key 20260912ship1, candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.
+2026-09-12: v3 approved ("ship it"); copied to course-assets/people-skills/people-skills.mp4, cache key 20260912ship1, candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.

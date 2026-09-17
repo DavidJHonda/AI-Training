@@ -19,8 +19,8 @@ from editorial_typography import face
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "scripts/video/assets/evaluate-results/move-base.jpg"
-PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-4-move.jpg"
-LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-4-move.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-move.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-move.jpg"
 
 WHITE = "#ffffff"
 BODY = "#3a3550"

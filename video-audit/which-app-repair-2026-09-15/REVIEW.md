@@ -1,9 +1,9 @@
 # Your Home Base (modelselection; retitled from Which App? 2026-09-15) v1: review candidate (2026-09-15, EDIT-SPEC best-of build from roll 1 + roll 2)
 
-**Candidate:** `videos/your-home-base-v1.mp4` (renamed from which-app-v1 at the retitle) (3:49.5, 6885 frames, 30 fps). Roll 1 is the base; roll 2 donates the Gemini card and Board 3's
+**Candidate:** `Prompts/your-home-base-v1.mp4` (renamed from which-app-v1 at the retitle) (3:49.5, 6885 frames, 30 fps). Roll 1 is the base; roll 2 donates the Gemini card and Board 3's
 columns, per David 2026-09-15 ("Agree with delete of 'Warning tone'. And, using the Gemini narration from Roll 2. And, use the Board 3
 from Roll 2."). Comparison and plan: `video-audit/which-app-comparison-2026-09-15/REVIEW.md`.
-**Live video and lesson unchanged** (`videos/your-home-base.mp4`, formerly which-app.mp4, hash-verified; `lessons/which-app.md` is mid-edit for the attribution boards and
+**Live video and lesson unchanged** (`course-assets/your-home-base/your-home-base.mp4`, formerly which-app.mp4, hash-verified; `lessons/which-app.md` is mid-edit for the attribution boards and
 was not protected). **Build:** `scripts/video/build_which_app_review.py`. **Manifest:** `edit-manifest.json` here.
 **Narration status:** roll 1 REPAIR (the leak and the filler cut here; Gemini's name and question now roll 2's, as written). Every hard
 requirement met: three apps with companies, In-N-Out and McDonald's as written, each app by board name with its question as written,
@@ -68,4 +68,4 @@ Run on the 10:14 render.
 **Not auditioned by ear.** David should listen to 1:53–2:13 (the Gemini grafts in and out; roll 2's voice level against roll 1's), 2:57–2:59
 (the "Warning tone." cut), 3:17–3:20 ("brainstorming, reviewing lessons": roll 1 into roll 2 mid-list), and 3:21–3:37 (roll 2's three
 "Claude" mentions).
-**At ship:** move to `videos/your-home-base.mp4`, new cache key on the `modelselection` entry, duration pill 4 min (3:50). Board illustrations and kit files still carry the which-app slug (re-slug after the attribution pass lands). Live video unchanged until then.
+**At ship:** move to `course-assets/your-home-base/your-home-base.mp4`, new cache key on the `modelselection` entry, duration pill 4 min (3:50). Board illustrations and kit files still carry the which-app slug (re-slug after the attribution pass lands). Live video unchanged until then.

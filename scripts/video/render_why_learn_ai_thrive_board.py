@@ -27,7 +27,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 ROOT = Path(__file__).resolve().parents[2]
 ASSET_DIR = ROOT / "scripts/video/assets/start-smarter/why-learn-ai-thrive"
 OUTPUT = ROOT / "board-review-why-learn-ai" / "why-youll-thrive.jpg"
-PAGE_OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-thrive.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"

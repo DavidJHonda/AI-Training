@@ -16,7 +16,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "videos/flattery-trap.mp4"
+SOURCE = ROOT / "course-assets/flattery-trap/flattery-trap.mp4"
 OUTPUT = ROOT / "Prompts/flattery-trap-patched.mp4"
 PLANS = [
     ROOT / "scripts/video/paths/flattery-trap-comparison-current.json",

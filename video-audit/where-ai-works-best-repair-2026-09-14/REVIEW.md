@@ -1,7 +1,7 @@
 # Where AI Works Best v2: review candidate (2026-09-14, EDIT-SPEC build)
 
-**Candidate:** `videos/where-ai-works-best-v2.mp4` (4:52.8, 8783 frames, 30 fps). **Live video and lesson unchanged**
-(`videos/where-ai-works-best.mp4`, `lessons/where-ai-works-best.md`, all five board assets hash-verified after the render).
+**Candidate:** `Prompts/where-ai-works-best-v2.mp4` (4:52.8, 8783 frames, 30 fps). **Live video and lesson unchanged**
+(`course-assets/where-ai-works-best/where-ai-works-best.mp4`, `lessons/where-ai-works-best.md`, all five board assets hash-verified after the render).
 **Build:** `scripts/video/build_where_ai_works_best_review.py`. **Manifest:** `edit-manifest.json` here.
 **Narration verdict:** roll 1 REPAIR under NARRATION-REVIEW (`video-audit/where-ai-works-best-comparison-2026-09-14/REVIEW.md`);
 this edit performs that repair, so the candidate's narration is KEEP once the graft is heard.

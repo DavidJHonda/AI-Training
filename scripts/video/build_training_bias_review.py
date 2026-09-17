@@ -79,7 +79,7 @@ def main():
     AUDIT.mkdir(parents=True,exist_ok=True)
     assert common.frame_count(SOURCE)==END
     original_hash=common.file_md5(SOURCE)
-    live=ROOT/'videos/training-bias.mp4'
+    live=ROOT/'course-assets/training-bias/training-bias.mp4'
     live_hash=common.file_md5(live)
     items=replacements()
     expected=mapped(END)
@@ -104,7 +104,7 @@ def main():
                 cursor+=state.frames
         close_start=CUTS[-1][1]
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'course-assets/training-bias/training-bias-6-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/training-bias/training-bias-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

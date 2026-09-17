@@ -40,7 +40,7 @@ def main():
         scenario_label="YOU",
     )
     save_pair(comparison, Pair(
-        "course-assets/mind-trap/mind-trap-comparison-v3.jpg", "course-assets/mind-trap/mind-trap-1-comparison.jpg",
+        "course-assets/mind-trap/mind-trap-comparison-v3.jpg", "course-assets/mind-trap/mind-trap-comparison.jpg",
     ))
     # Reorder intact native artwork panels with their copy and accent colors.
     root = Path(__file__).resolve().parents[2]
@@ -61,7 +61,7 @@ def main():
         "", "", "Sounding human does not make AI human.", (PURPLE, TEAL),
     )
     save_pair(render_card_board(eliza), Pair(
-        "course-assets/mind-trap/mind-trap-2-eliza.jpg", "course-assets/mind-trap/mind-trap-2-eliza.jpg",
+        "course-assets/mind-trap/mind-trap-eliza.jpg", "course-assets/mind-trap/mind-trap-eliza.jpg",
     ))
 
 

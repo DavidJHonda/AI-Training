@@ -17,7 +17,7 @@ import render_opener_section_maps as section_maps
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "board-review-welcome" / "welcome-path-seven-stages.jpg"
-PAGE_OUT = ROOT / "course-assets/welcome/welcome-2-your-path.jpg"
+PAGE_OUT = ROOT / "course-assets/welcome/welcome-where-this-course-takes-you.jpg"
 
 
 BOARD = section_maps.MapBoard(

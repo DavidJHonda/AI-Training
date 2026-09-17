@@ -21,10 +21,10 @@ from editorial_typography import face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "course-assets/ai-is-different/ai-is-different-2-learn-once.jpg"
+SOURCE = ROOT / "course-assets/ai-is-different/ai-is-different-learn-once.jpg"
 OUTPUTS = (
     SOURCE,
-    asset_path('lessons', 'ai-is-different-2-learn-once.jpg'),
+    asset_path('lessons', 'ai-is-different-learn-once.jpg'),
 )
 
 

@@ -18,9 +18,9 @@ Your first choice is the app. The other three choices may or may not appear, dep
 
 ### Board 1: Choose the Tool
 
-**Image file:** `your-choices-1-choose-tool.jpg`
+**Image file:** `your-choices-choose-tool.jpg`
 
-![Choose the Tool](your-choices-1-choose-tool.jpg)
+![Choose the Tool](your-choices-choose-tool.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ Choice 2 is which model. Some apps offer a family of models. Use the everyday mo
 
 ### Board 2: Choose How It Works
 
-**Image file:** `your-choices-2-choose-how.jpg`
+**Image file:** `your-choices-choose-how.jpg`
 
-![Choose How It Works](your-choices-2-choose-how.jpg)
+![Choose How It Works](your-choices-choose-how.jpg)
 
 **Teaching content:**
 
@@ -44,9 +44,9 @@ So the four choices are the app, the model, how much reasoning, and whether to r
 
 ### Board 3: Close
 
-**Image file:** `your-choices-4-close.jpg`
+**Image file:** `your-choices-close.jpg`
 
-![Close board](your-choices-4-close.jpg)
+![Close board](your-choices-close.jpg)
 
 ## Closing Message
 

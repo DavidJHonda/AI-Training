@@ -92,8 +92,8 @@ def save_pair(image: Image.Image) -> None:
     shutil.copyfile(page, prep)
     # Keep the migrated lesson assets in sync; retain legacy video source names.
     for relative in (
-        "course-assets/one-more-thing/one-more-thing-2-temperature.jpg",
-        "course-assets/one-more-thing/one-more-thing-2-temperature.jpg",
+        "course-assets/one-more-thing/one-more-thing-temperature.jpg",
+        "course-assets/one-more-thing/one-more-thing-temperature.jpg",
         "board-review-understand-ai-retrofit/boards/one-more-thing/02-temperature.jpg",
     ):
         destination = ROOT / relative

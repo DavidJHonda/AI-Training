@@ -1,66 +1,82 @@
-# Video Production — Prompts Directory
+# Video generation materials
 
-Current workflow (cleanup policy updated 2026-09-15; earlier production notes below are historical where superseded):
+Current guide, consolidated 2026-09-15. Start with the
+[shared video workflow](../scripts/video/README.md). This page governs preparation;
+[Edit Spec](../scripts/video/EDIT-SPEC.md) governs production and
+[Narration Review](../scripts/video/NARRATION-REVIEW.md) governs teaching verdicts.
+Do not change the live lesson or finished video merely to prepare a source bundle.
 
-For what a finished edit must contain, read [the edit spec](../scripts/video/EDIT-SPEC.md); for editing recipes and owner preferences, [the video production README](../scripts/video/README.md).
-For unfinished work, check the current tracker and the retained lesson review in `video-audit/`. At the September 15 cleanup, separate candidates remained for Your Home Base, Beyond the Average, and the Work With AI opener; verify their current status before editing or shipping.
+## Prepare the source bundle
 
-1. Prepare one current lesson Markdown, its canonical JPGs, and one self-contained prompt. The live lesson is the content authority. Markdown must include the teaching inside the boards, not just image captions, and every worked-example answer, comparison result, and essential clause as a prose sentence (owner rule 2026-09-11: Notebook speaks prose and skips tables and banners; see "Speak the answers" in the production README). The prompt includes the never-ask-the-viewer and speak-the-result rules; `Prompts/vector-space-video-prompt.txt` is the reference. Avoid Traps has an exact checklist and scene plan in [AVOID-TRAPS-VIDEO-KITS.md](AVOID-TRAPS-VIDEO-KITS.md).
-2. Upload the lesson Markdown and only the JPGs identified as Notebook sources. Do **not** upload production instructions, manifests, or older lesson PDFs. `Master Prompt.md` is retired; every prompt is self-contained. Visible-face boards remain in the course and are inserted after generation; reserve their narration and keep their numbered slots rather than renumbering.
-3. Before generating, confirm **Visible watermarking is off** in the Gemini Notebook profile menu (Ultra account; owner decision 2026-09-11, see EDIT-SPEC §8). Paste the per-lesson prompt into the video customization box. Keep it under **500 words** and include the necessary production rules there. The limit applies to prompts written on or after 2026-09-04; an older, longer prompt is rewritten to the limit when its lesson is next rerolled, not before. Most use `<slug>-video-prompt.txt`; honor a kit's explicitly listed filename when it differs.
-4. Save the raw generation in `Prompts/<slug>-reroll.mp4` for evaluation. Review teaching against the current lesson before changing any live video. Notebook highlights and close visuals are normal post-production replacements. Good narration may be edited and repaired; a lesson change does not automatically require a reroll.
-5. Preserve useful Notebook graphics and motion. Insert exact lesson boards for the teaching spans that benefit from them, with course-native highlights where appropriate, and apply the standard close. Check final-render transition frames and audio joins for flashes, clipped words, and residual breaths. Only after approval replace the existing live filename. Do not change `index.html` as part of materials preparation.
-6. Keep active reroll materials available until the production pass is finished. Do not automatically delete notebooks, candidates, or current source packages. Remove superseded materials within the owner-authorized cleanup scope and record removed paths. Do not create an archive directory.
+1. Read the current lesson in `index.html`. Prepare its current Markdown in
+   `lessons/`, the canonical JPGs referenced by the lesson, and one self-contained
+   presentation prompt. Verify actual filenames; old slugs and section kits may
+   predate asset renames.
+2. Markdown must contain the complete teaching in lesson order. Beside each board
+   reference, include its title, filename, definitions, comparisons, steps, and
+   worked examples as ordinary prose. Alt text, tables, and banners alone do not
+   ensure that Notebook speaks their content.
+3. **Speak the answers:** explicitly state each worked-example answer, comparison
+   result, and essential qualifier in a prose sentence. Answer a posed question
+   in the next sentence. The prompt tells the narrator to speak those results and
+   the values needed to understand them, rather than asking viewers to pause or
+   guess. `vector-space-video-prompt.txt` is a reference for this presentation rule.
+4. Upload Markdown and the selected JPGs separately. A Markdown image link does
+   not upload the image. Do not upload production instructions, manifests, old
+   lesson PDFs, or another lesson's style-reference frames as content sources.
+5. Visible-face illustrations may be rejected by Notebook. Keep their approved
+   course JPGs for post-production and reserve their narration in the Markdown.
+   If an illustration-free upload variant is needed, retain the teaching and
+   record which canonical JPG replaces it in the finished video. Do not overwrite
+   the canonical asset or renumber an existing scene plan just for an omission.
 
-Owner cleanup policy (2026-09-15): the current lesson is the content authority. Keep current finished boards in `course-assets/<lesson>/`, current lesson text in `lessons/`, and active prompts and raw generations in `Prompts/`. Keep live videos and pending video versions in `videos/`. Superseded images are not retained solely because older videos or scripts reference them. Use current lesson boards when updating videos and recheck highlight coordinates. The former `archive/` directory was removed; do not recreate it. Verify replacements before owner-authorized cleanup. Preserve pending review candidates until their production pass is resolved.
+## Write the presentation prompt
 
-Opener Markdown filenames are case-sensitive: `opener-work` → `lessons/Opener-Work.md`, `opener-understand` → `lessons/Opener-Understand.md`, `opener-avoid` → `lessons/Opener-Avoid.md`, `opener-embrace` → `lessons/Opener-Embrace.md`, and `opener-build` → `lessons/Opener-Build.md`. The Build Your Skills opener prompt is `Prompts/opener-build-video-prompt.txt`.
+- Keep prompts written or revised now under 500 words. Older longer prompts need
+  updating when next used for a reroll, not as an unrelated cleanup task.
+- The prompt directs coverage, tone, scene presentation, supplied boards, and the
+  ending. Markdown owns teaching content; do not maintain a second copy of every
+  example, number, and board inventory in the prompt.
+- `Master Prompt.md` is retired. Each prompt stands alone and names its Markdown
+  source. Most use `<slug>-video-prompt.txt`; honor a kit's verified filename.
+- Show changed scene-by-scene directions to David before generation. Preserve
+  approval already given for the same plan.
+- Secure complete teaching; requested runtime is only a guide. Prefer enough
+  narration to edit over an attractive but incomplete short version.
+- Require drawn scenes rather than stock photos, no extra chapter/lesson-number
+  cards, and the current closing lines spoken verbatim. Put precise labels in
+  printed text elements, not handwriting inside drawings. Static complete layouts
+  usually work better than elaborate timed reveals.
+- On-screen wording may be paraphrased or cropped. Required teaching must be spoken;
+  course boards and the standard closing visual are replaced in post-production.
+- Use current JPGs without changing layout or dimensions for the generator. Any
+  necessary padded upload canvas is temporary and maps back to the canonical asset.
 
+## Generate and hand off
 
-## Repository status
+Before generating, follow the visible engine-mark setting in Edit Spec section 8.
+Paste the prompt into the video customization field, not into an uploaded source.
+Save the raw roll in `Prompts/<slug>-reroll.mp4` (then `-reroll-2.mp4`, etc.) and
+review narration before production. Weak Notebook highlights or close visuals are
+editing work, not grounds by themselves to reroll.
 
-- `LESSON_VIDEOS` in `index.html` is the source of truth for standard videos offered in the live course. Inspect the current entries rather than relying on historical lesson counts.
-- A prompt remaining in this directory does not by itself mean its video is pending, current, or unshipped. Prompts may be retained for a re-roll or new production pass. Prepare source bundles from current `lessons/` text and `course-assets/` boards.
-- Per-video review state and flags live in the external tracker described below. Check that tracker, the current `LESSON_VIDEOS` entry, the live lesson, and recent commits before deciding what needs production work.
-- **ai-brain-break** (formerly transformers-quiz, replaced 2026-09-11) is a special case outside the standard system: its video supports the TransformerClaimsTryIt quiz in the Layers lesson and is embedded inside that activity, not in WatchOverview. `Prompts/ai-brain-break-source.md` is deliberately false because students are meant to debunk its seven claims; it is exempt from the standard close and does not use the normal lesson source bundle. The old six-claim materials were removed during cleanup.
+Pauses are decided during editing under Edit Spec section 6. Propose timestamps,
+reasons, existing gaps, target total gaps, and added time. Do not automatically
+add one second at every new idea or board.
 
-## Status tracking
+Use the shared workflow for status, shipping, and retention. A prompt's presence
+does not establish whether its video is pending or shipped. Do not delete raw
+rolls, active candidates, or source bundles automatically. Do not recreate archives.
 
-Per-video production and review status lives in the shared Google Sheet
-["AI-Training — Video Tracker"](https://docs.google.com/spreadsheets/d/16RXfX9awLA8Idu83OBN97bCrMiTzyEOFO4MBpvPWXO8/edit).
-The tracker is authoritative for workflow state and review flags; `LESSON_VIDEOS` is
-authoritative for which standard videos the live course offers. Repository files are
-the production artifacts, and Git history records past changes and intake decisions.
-David maintains the tracker himself (2026-09-10); Claude does not draft or post
-tracker rows.
+## Source filename and activity exceptions
 
-Evaluation is narration-only (owner rule 2026-09-10): `scripts/video/NARRATION-REVIEW.md`
-is the single authority, with a KEEP / REPAIR / REROLL verdict. The numeric rubric
-and its CSV are retired and were removed during cleanup. Production
-quality is verified by the ship checklist in `scripts/video/README.md`.
+Opener Markdown filenames are case-sensitive:
+`Opener-Work.md`, `Opener-Understand.md`, `Opener-Avoid.md`,
+`Opener-Embrace.md`, and `Opener-Build.md` in `lessons/`.
+The Build Your Skills opener prompt is `opener-build-video-prompt.txt`.
+Section kits (for example [Avoid Traps](AVOID-TRAPS-VIDEO-KITS.md)) provide
+lesson-specific source lists; reconcile them with current page references.
 
-## Rules learned the hard way
-
-- **The per-lesson .md is REQUIRED — never drop it from the sources** (A/B test, how-an-llm-works, 2026-07-07). Without it the engine backfills vocabulary from its own ML knowledge ("N-Gram Association Map", "Hypothesis/Validation/Adjustment", "Prior Tokens/Context Trigger") and invents MORE statistics, and the video ran longer, not shorter. The .md is what grounds narration in the lesson's vocabulary; repetition is fixed by fewer, longer-held board scenes, not by removing sources.
-
-- **Preserve useful Notebook graphics (owner rule, 2026-09-10; supersedes the July board-for-every-beat directive).** Keep original graphics and motion wherever they support the narration. Show an existing course board for the specific comparison, numbers, sequence, or takeaway that benefits from it, then return to useful source visuals. A board need not occupy the whole explanation. Record the concrete defect or teaching benefit before replacing a source span. Do not invent course-style boards solely for the video; use Notebook-style illustrations when a new replacement graphic is needed. The standard course close remains required. See `scripts/video/README.md` for the editing rule.
-- **A board must teach, not merely label.** Cover its title and read one row aloud: if the row only names a concept, the narration still has to supply the reason. Before authoring a new board, check whether the current lesson page already contains the structured explanation and capture that live element when it does. For a video-only beat without a suitable page element, use a Notebook-style illustration instead of inventing a course board.
-
-- **Canonical content-board walk (owner rule, updated 2026-09-01).** Use the exact current lesson board. A compact or lighter-text board remains fully visible while the active item receives the course-native highlight. A dense or text-heavy board begins full-frame, dives to the complete active card or section, and pans smoothly to the next complete area. Never crop inside a card. Gemini Notebook's native highlighting is disposable raw material: ignore it when evaluating whether a roll teaches the lesson, inventory its spans, and always replace it in post with the course outline-only treatment. A raw roll never fails or earns a re-roll because of Notebook highlighting alone. The no-Notebook-highlight rule becomes a ship requirement only after the replacement pass. The implementation and verification procedure is in `scripts/video/RETROFIT-PLAYBOOK.md`.
-
-- **Video boards must stay consistent with the page — content, not just design** (owner rule, made explicit 2026-08-05). A shipped video's board goes stale the moment its lesson box is edited: same-looking board, outdated words (caught twice in the 2026-08-04 audits — critical-thinking still spoke a cut example, opener-work carried old bridge copy). Two obligations follow: any board audit diffs the video board's TEXT against the current page, and any lesson-box edit flags that lesson's video for a board re-check. The leg-swap procedure in `scripts/video/RETROFIT-PLAYBOOK.md` is the standard fix; no re-roll is needed.
-- **Source boards are the ACTUAL lesson boards, not recomposed variants** (owner rule, 2026-08-04). Capture the board as it renders in the app — same layout, same headline situation, no added titles, and **at the lesson's own width, never resized**: a different band width re-wraps every line of text, so the student sees one board in the lesson and a different one in the video (owner-flagged twice on evaluate-the-results). The mechanics: `capture_board_states.js` with `WRAP_UP=1` (keeps the ShowcaseBox/NumberedRows wrapper) and `BANDW 0` (pins the app column width — 902px, derived from the shell's 1080 cap; the constant lives in the script). Recomposed versions drift from the lesson and created issues at intake. Emphasis is not the capture's job either: highlight tours and Ken Burns passes are added in post after the roll ships, so the source board needs no built-in variant styling. (The older one-off course-board recipe is superseded by the 2026-09-10 Notebook-style replacement rule.)
-- **The shipped close visual never comes from the engine** (owner rule, 2026-08-04). The attached close board's job is anchoring the closing NARRATION verbatim; whatever the engine renders for the close is replaced in post with the app close board + Ken Burns push-in — the standard-close section at the top of `scripts/video/README.md` is the spec (welcome.mp4 is the reference; critical-thinking's marker-stroke redraw is the counterexample). Judge a roll's close by its narration and timing, not its visual.
-
-- **David reviews the scene-by-scene directions before any generation.** Whenever a prompt's SCENE BREAKDOWN changes (new lesson, board swap, hardening), present the scene list for his review before he generates. This catches structural problems automation misses — e.g., a board that already contains content a later scene restates (which-app v1's repetition: the big-three board ends with the three "asks" questions, and the old Scene 3 showed the same three questions again as stickies).
-
-- The **prompt box is the high-authority channel**; source documents are treated as content. Never move the script into a source (tested: it leaks — the video illustrates the spec).
-- **NotebookLM source bundles must not include person-forward illustrations, especially images with visible faces.** The service can reject these image sources whether the depicted person is real or fictional. Keep them on the course page when they belong there, but leave them out of the NotebookLM upload set, mark them post-production only, and keep their numbered slots. Reserve a coherent narration span for each omitted board. A distant figure with no visible face (Data Centers) and abstract person icons (Work Changes) have uploaded successfully. This rule was applied to Loudest Voices, Pace of Change, Big Upside, Rise of Agents, and Unexpected Results on 2026-08-25. The four earlier affected prompts (questions-matter, ai-is-different, where-ai-works-best, and which-app) remain in describe-the-scene mode until replacement sources exist.
-- **Lesson-box jpgs are the best video source yet** (questions-matter pilot, 2026-07-06): a 1600x900 capture of a lesson card grid, composed on the page-background color with text clear of the 16:9 crop zone, reproduced pixel-crisp. Use this for any verbatim-critical scene; capture via headless browser at deviceScaleFactor 4 (the capture script's setting; the pilot used 2x). The engine may add its own emphasis, but none of that highlighting ships; rebuild the walk in post with the course-native treatment. When the board IS a lesson element, `scripts/capture-board.sh` does this composition for you (run by hand, never automatic — see its header); composed variants that exist on no page still need a one-off page.
-- **The engine can insert its own mid-video chapter cards** (welcome intake, 2026-07-07): an ~8s off-prompt segment — invented neural-net diagram b-roll, then a dark "Lesson 1: Architecture" title card — appeared at ~1:00, right where narration promises "the real machinery," despite NO TITLE CARD and ONLY THE SCENES LISTED. Ban it by name: rule 3 in every prompt now lists "chapter-title" among forbidden extra scenes, and rule 1 in welcome additionally bans mid-video chapter/lesson-number cards explicitly. Watch for it at topic-shift moments in narration.
-- **The engine can insert Getty stock photos despite the master-prompt ban.** When narration names real people or places (Socrates, Einstein, Athens), it may cut to watermarked archival photographs. Reinforce per-prompt: name the figures and require they be drawn.
-- **Illustration-as-source works on the new engine, full-bleed only** (does-ai-think canary, 2026-07-06; supersedes the Jul-4 "four tests, four redraws" finding). Referencing an attached illustration by filename reproduces it with near-perfect fidelity and no leakage into other scenes — but always full-frame: "framed inset on light canvas" and added-label instructions are ignored, and the 3:2 image is cropped to 16:9, clipping edge text mid-word. If an illustration will be a video source, keep critical text out of the outer ~15% or export a 16:9 variant, and put any required caption in the narration, not the scene spec.
-- **Never embed style-reference frames or illustration images in any source**; they get re-rendered as content scenes (a style frame from another lesson showed up mid-video) and induce fake "reference sheet" annotations.
-- **Never ask for text inside a drawing** — it renders as gibberish handwriting. Verbatim text goes in separate pills, stickies, or black-ink printed labels.
-- On-screen text specs are directional: the generator paraphrases labels even when told "verbatim." The narrative arc carries the exact content.
-- Prefer static scenes over timed reveals: draw complex layouts complete and let narration walk them.
+`ai-brain-break-source.md` is deliberately false for the Layers debunking activity.
+It is exempt from the ordinary lesson source bundle and standard close. Do not
+apply this exception to standard lesson videos.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """How AI Answers repair candidate under EDIT-SPEC.md (2026-09-11): every board, pauses, close.
 
-Base: Prompts/how-ai-answers.mp4 (untouched). Output: videos/how-ai-answers-v4.mp4 (review only; v3 had B4 dense, owner asked for compact).
+Base: Prompts/how-ai-answers.mp4 (untouched). Output: Prompts/how-ai-answers-v4.mp4 (review only; v3 had B4 dense, owner asked for compact).
 Audit: video-audit/how-ai-answers-repair-2026-09-11/
 
 Boards (source cuts measured by sequential decode; each replaced from its own cut):
@@ -29,7 +29,7 @@ import cv2, numpy as np, imageio_ffmpeg
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/how-ai-answers.mp4'
 OUT = ROOT / 'video-audit/how-ai-answers-repair-2026-09-11'
-DEST = ROOT / 'videos/how-ai-answers-v5.mp4'
+DEST = ROOT / 'Prompts/how-ai-answers-v5.mp4'
 KB = ROOT / 'scripts/video/ken_burns_path.py'
 PY = ROOT / '.video-venv/bin/python'
 ILL = asset_dir('illustrations')
@@ -179,7 +179,7 @@ def main():
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     assets = {k: ILL / f for k, f in dict(b1='how-ai-answers-before-answer-begins.jpg', b2='how-ai-answers-where-answer-begins.jpg',
                                            b3='how-ai-answers-token-by-token.jpg', b4='how-ai-answers.jpg').items()}
-    protected = [SRC, ROOT / 'videos/how-ai-answers.mp4', ROOT / 'lessons/how-ai-answers.md', *assets.values()]
+    protected = [SRC, ROOT / 'course-assets/how-ai-answers/how-ai-answers.mp4', ROOT / 'lessons/how-ai-answers.md', *assets.values()]
     hashes = {str(p): sha(p) for p in protected}
 
     # ---- audio

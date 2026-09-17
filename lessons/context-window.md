@@ -6,11 +6,13 @@ When you type 2 + 2 on the calculator on your phone, you always get 4. Same inpu
 
 ### Board 1: Same Question. Different Answers.
 
-**Image file:** `context-window-1-same-question.jpg`
+**Image file:** `context-window-same-question.jpg`
 
-![Same Question. Different Answers.](context-window-1-same-question.jpg)
+![Same Question. Different Answers.](context-window-same-question.jpg)
 
 **Teaching content:**
+
+**Required narration:** Speak the question, Luke’s complete response, Nate’s complete response, and “Same question. Different context. Different answer.” exactly as written below. Do not shorten or summarize either response; the practical cost and budget cautions are part of the example.
 
 The question: “What car should I buy after I graduate from college?”
 
@@ -34,11 +36,13 @@ What do you call everything the model can see when it answers your question? The
 
 ### Board 2: The Context Window
 
-**Image file:** `context-window-2-five-sources.jpg`
+**Image file:** `context-window-five-sources.jpg`
 
-![The Context Window](context-window-2-five-sources.jpg)
+![The Context Window](context-window-five-sources.jpg)
 
 **Teaching content:**
+
+**Required narration:** Use the attached `context-window-five-sources.jpg` while naming all five sources: your current prompt, earlier messages and answers, Personalization, Saved Memory, and Projects. Keep this explanation in one uninterrupted span.
 
 Five cards feed the context window. From this chat: your current prompt, plus earlier messages and answers. Personalization and memory: Personalization, and Saved Memory. Project context: Projects. The context window is the information available for this answer.
 
@@ -46,11 +50,13 @@ The illustration includes three new concepts. Here’s an explanation.
 
 ### Board 3: Give AI a Head Start
 
-**Image file:** `context-window-3-head-start.jpg`
+**Image file:** `context-window-head-start.jpg`
 
-![Give AI a Head Start](context-window-3-head-start.jpg)
+![Give AI a Head Start](context-window-head-start.jpg)
 
 **Teaching content:**
+
+**Required narration:** Explain all three concepts and speak the example for each one. Showing an example on the board without explaining it does not count.
 
 Personalization: tell the app what you’re into and how you like your answers. These preferences help it give answers that fit you. Example: “I’m learning to code. Explain things in plain language, and explain new coding terms.”
 
@@ -64,11 +70,13 @@ That’s what gets in. Here’s what doesn’t get in automatically.
 
 ### Board 4: Outside the Window
 
-**Image file:** `context-window-4-outside.jpg`
+**Image file:** `context-window-outside-the-window.jpg`
 
-![Outside the Window](context-window-4-outside.jpg)
+![Outside the Window](context-window-outside-the-window.jpg)
 
 **Teaching content:**
+
+**Required narration:** Teach all four categories and both ways information can be brought in where the text gives two options. In particular, a web page can be shared or retrieved by the app, and a computer file can be uploaded or made available through app access.
 
 Older chats: the model doesn’t see every conversation you’ve had. The app has to bring relevant information into this one.
 
@@ -82,15 +90,17 @@ If it isn’t in the context window, the model can’t see it.
 
 ## The Forgetting Problem
 
-Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat.
+Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat so the new task begins with a clean context. A fresh chat does not increase or reset the model’s context-window limit.
 
 ### Close
 
-**Image file:** `context-window-5-close.jpg`
+**Image file:** `context-window-close.jpg`
 
-![Close board](context-window-5-close.jpg)
+![Close board](context-window-close.jpg)
 
 ## Closing Message
+
+**Required narration:** Speak the following two lines exactly as written, in this order, with no narration afterward.
 
 With the right context, AI gives better answers.
 

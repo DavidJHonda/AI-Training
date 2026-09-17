@@ -15,8 +15,8 @@ import imageio_ffmpeg
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "videos/opener-embrace.mp4"
-OUTPUT = ROOT / "videos/opener-embrace-v2.mp4"
+SOURCE = ROOT / "course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4"
+OUTPUT = ROOT / "Prompts/embrace-the-future-opener-v2.mp4"
 VOICES_PLAN = ROOT / "scripts/video/paths/opener-embrace-voices-current.json"
 MAP_PLAN = ROOT / "scripts/video/paths/opener-embrace-map-current.json"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()

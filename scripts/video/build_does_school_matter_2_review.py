@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Does School Matter? from roll 2 under EDIT-SPEC.md (2026-09-14). Review only.
 
-Base: Prompts/does-school-matter-2.mp4 (3:09, REPAIR under NARRATION-REVIEW). Output: videos/does-school-matter-v2.mp4.
+Base: Prompts/does-school-matter-2.mp4 (3:09, REPAIR under NARRATION-REVIEW). Output: Prompts/beyond-the-average-v2.mp4.
 Audit: video-audit/does-school-matter-repair-2026-09-14/.
 Two cuts ("But here is the friction… over the other." 0:35.2-0:45.37, resuming on Notebook's New Baseline cut; "Four key pillars
 of future-proof skills." 2:20.6-2:23.7). Two boards: Same Tool. Different Advantage. (faces; not uploaded; compact, still; banner
@@ -23,12 +23,12 @@ from build_people_skills_review import cards_grid
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-school-matter-2.mp4'
-OUT = ROOT / 'video-audit/does-school-matter-repair-2026-09-14'; DEST = ROOT / 'videos/does-school-matter-v2.mp4'
+OUT = ROOT / 'video-audit/does-school-matter-repair-2026-09-14'; DEST = ROOT / 'Prompts/beyond-the-average-v2.mp4'
 B = {k: asset_path('lessons', f'does-school-matter-{k}.jpg') for k in ('1-same-tool', '2-future')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/does-school-matter.mp4', ROOT / 'lessons/does-school-matter.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/beyond-the-average/beyond-the-average.mp4', ROOT / 'lessons/does-school-matter.md', *B.values()])
     b.load_audio([(13.10, 13.63), (34.84, 35.48), (44.78, 45.42), (53.71, 54.18), (78.34, 78.80), (91.33, 91.79), (98.37, 98.82), (135.90, 136.33), (140.51, 140.78),
                   (143.48, 143.90), (151.12, 151.69), (158.81, 159.23), (166.46, 166.86), (174.40, 174.79), (178.04, 178.37), (185.37, 188.57)])
     CUTA = (fr(35.2), 1361)                # "But here is the friction… neither of you has an advantage over the other."; resumes on Notebook's New Baseline cut (0:45.37)

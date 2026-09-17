@@ -1,6 +1,7 @@
 """Resolve course image paths without coupling build scripts to folder layout.
 
 The migration manifest distinguishes same-named assets from the two old folders.
+Current descriptive filenames resolve directly. Original aliases remain supported.
 New generated assets use the lesson prefix map; new lessons should extend that map.
 """
 from functools import lru_cache
@@ -18,15 +19,26 @@ def _manifest():
 def _paths():
     return {row['old']: row['new'] for row in _manifest()['assets']}
 
+@lru_cache(maxsize=1)
+def _canonical_paths():
+    paths = {}
+    for section in ("assets", "generated_assets"):
+        for row in _manifest().get(section, []):
+            name = Path(row["new"]).name
+            if name in paths and paths[name] != row["new"]:
+                raise ValueError("Ambiguous canonical asset filename: " + name)
+            paths[name] = row["new"]
+    return paths
+
 def asset_path(origin, filename):
-    """Return the absolute path for an original folder and preserved filename."""
+    """Return the absolute path for a current filename or original folder alias."""
     filename = str(filename)
     if Path(filename).name != filename:
         raise ValueError('Expected a filename, not a path: ' + filename)
     key = origin + '/' + filename
     if any(row['old'] == key for row in _manifest().get('retired_assets', [])):
         raise ValueError('Retired source asset: ' + key + '. Use a current lesson board instead.')
-    relative = _paths().get(key)
+    relative = _canonical_paths().get(filename) or _paths().get(key)
     if relative is None:
         prefixes = _manifest()['prefixes']
         stem = Path(filename).stem

@@ -20,8 +20,8 @@ from editorial_typography import face
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "scripts/video/assets/evaluate-results/quick-pass-base.jpg"
-PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-1-quick-pass.jpg"
-LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-1-quick-pass.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-quick-pass.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-quick-pass.jpg"
 
 WHITE = "#ffffff"
 BODY = "#3a3550"

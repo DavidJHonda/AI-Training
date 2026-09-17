@@ -1,3 +1,5 @@
+> **Lesson updated 2026-09-16 after this review:** The page, source Markdown, overview JPG, and generation prompt now use **Learn First** and **Answer One Word at a Time**, with Training/Patterns and Probability/Prediction as supporting concepts, not four numbered steps. The overview no longer has numbered circles or vertical step arrows. This v6 review describes the prior lesson and is not a current-content approval. Re-evaluate narration against the updated Markdown and recheck all overview highlight coordinates before the next build. Existing videos were not modified by the lesson update.
+
 # How an LLM Works v6: review candidate (2026-09-16; board refresh + Learn Once callbacks + the 2:44 flash)
 
 **Candidate:** `Prompts/how-an-llm-works-v6.mp4` (4:22.90, 7887 frames, 30 fps). v6 = v5 (the URL-bearing boards and the canonical close

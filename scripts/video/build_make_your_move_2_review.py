@@ -40,7 +40,7 @@ CUTS = ((3789, 4164), (8769, 8895), (8982, 9051))
 BOARDS = {key: asset_path('lessons', f'make-your-move-{suffix}.jpg') for key, suffix in (
     ('a', '1-careers-a'), ('b', '1-careers-b'),
     ('skills', '2-skills'), ('actions', '3-actions'), ('close', '4-close'))}
-BOARDS['note'] = ROOT / 'course-assets/make-your-move/make-your-move-1-note.jpg'
+BOARDS['note'] = ROOT / 'course-assets/make-your-move/make-your-move-note.jpg'
 COLORS = ('#4f2fc4', '#1652f0', '#0e8f86', '#a9760c')
 CAREERS = ((40, 127, 525, 941), (557, 127, 1043, 941), (1075, 127, 1560, 941))
 CARDS = ((40, 127, 784, 718), (816, 127, 1560, 718),

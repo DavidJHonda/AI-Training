@@ -14,9 +14,9 @@ Those choices shape much of how each app differs: how it feels, what it’s good
 
 ### Board 1: The Big Three, Side by Side
 
-**Image file:** `which-app-1-big-three.jpg`
+**Image file:** `your-home-base-big-three.jpg`
 
-![The Big Three, Side by Side](which-app-1-big-three.jpg)
+![The Big Three, Side by Side](your-home-base-big-three.jpg)
 
 **Teaching content:**
 
@@ -38,9 +38,9 @@ For this course, ChatGPT is your hands-on home base. Learn it well: its settings
 
 ### Board 2: Pick a Home Base. Learn It Deeply.
 
-**Image file:** `which-app-2-home-base.jpg`
+**Image file:** `your-home-base-home-base.jpg`
 
-![Pick a Home Base. Learn It Deeply.](which-app-2-home-base.jpg)
+![Pick a Home Base. Learn It Deeply.](your-home-base-home-base.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ Several AI apps helped bring this course to life. Sometimes different apps handl
 
 ### Board 3: How We Used the Big Three
 
-**Image file:** `which-app-3-how-we-used.jpg`
+**Image file:** `your-home-base-how-we-used.jpg`
 
-![How We Used the Big Three](which-app-3-how-we-used.jpg)
+![How We Used the Big Three](your-home-base-how-we-used.jpg)
 
 **Teaching content:**
 
@@ -68,9 +68,9 @@ Gemini, information and videos: finding current information with Gemini; creatin
 
 ### Close
 
-**Image file:** `which-app-4-close.jpg`
+**Image file:** `your-home-base-close.jpg`
 
-![Close board](which-app-4-close.jpg)
+![Close board](your-home-base-close.jpg)
 
 ## Closing Message
 

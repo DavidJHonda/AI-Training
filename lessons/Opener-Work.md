@@ -4,9 +4,9 @@
 
 ### Board 1: What Makes AI Use Good?
 
-**Image file:** `opener-work-1-refrain.jpg`
+**Image file:** `work-with-ai-opener-refrain.jpg`
 
-![What Makes AI Use Good?](opener-work-1-refrain.jpg)
+![What Makes AI Use Good?](work-with-ai-opener-refrain.jpg)
 
 **Teaching content:**
 
@@ -24,9 +24,9 @@ Here’s what most people miss: two people can use the same AI and get very diff
 
 ### Board 2: Same Tool. Different Results.
 
-**Image file:** `opener-work-2-same-tool.jpg`
+**Image file:** `work-with-ai-opener-same-tool.jpg`
 
-![Same Tool. Different Results.](opener-work-2-same-tool.jpg)
+![Same Tool. Different Results.](work-with-ai-opener-same-tool.jpg)
 
 **Teaching content:**
 
@@ -34,9 +34,9 @@ Two people, two identical phones, one sandwich. One rushed, blurry picture. One 
 
 ### Board 3: Work With AI, the Section Map
 
-**Image file:** `opener-work-3-section-map.jpg`
+**Image file:** `work-with-ai-opener-section-map.jpg`
 
-![Work With AI: the section map](opener-work-3-section-map.jpg)
+![Work With AI: the section map](work-with-ai-opener-section-map.jpg)
 
 **Teaching content:**
 
@@ -52,9 +52,9 @@ Third, Think Before You Trust: what to do with the answer that comes back. Quest
 
 ### Board 4: Close
 
-**Image file:** `opener-work-4-close.jpg`
+**Image file:** `work-with-ai-opener-close.jpg`
 
-![Close board](opener-work-4-close.jpg)
+![Close board](work-with-ai-opener-close.jpg)
 
 ## Closing Message
 

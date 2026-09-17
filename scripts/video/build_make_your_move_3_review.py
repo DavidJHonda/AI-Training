@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Make Your Move from roll 1 under EDIT-SPEC.md (2026-09-12). Review only.
 
-Base: Prompts/make-your-move-1.mp4 (6:28, REPAIR under NARRATION-REVIEW). Output: videos/make-your-move-v4.mp4 (v3 ran boards wall-to-wall from 1:12 to the close; owner call 2026-09-12: break them up with Notebook's own drawings).
+Base: Prompts/make-your-move-1.mp4 (6:28, REPAIR under NARRATION-REVIEW). Output: Prompts/make-your-move-v4.mp4 (v3 ran boards wall-to-wall from 1:12 to the close; owner call 2026-09-12: break them up with Notebook's own drawings).
 Audit: video-audit/make-your-move-repair-2026-09-12/.
 Five narration cuts of accurate but inflated summaries (~62s). Five boards: the note (faces; compact, still, over Notebook's
 "Message from the Creators" card), the two career boards (faces; three cards each, dense), Four Skills to Build and
@@ -24,12 +24,12 @@ from build_people_skills_review import cards_grid
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/make-your-move-1.mp4'
-OUT = ROOT / 'video-audit/make-your-move-repair-2026-09-12'; DEST = ROOT / 'videos/make-your-move-v4.mp4'
+OUT = ROOT / 'video-audit/make-your-move-repair-2026-09-12'; DEST = ROOT / 'Prompts/make-your-move-v4.mp4'
 B = {k: asset_path('lessons', f'make-your-move-{k}.jpg') for k in ('1-note', '2-careers-a', '2-careers-b', '3-skills', '4-actions')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/make-your-move.mp4', ROOT / 'lessons/make-your-move.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/make-your-move/make-your-move.mp4', ROOT / 'lessons/make-your-move.md', *B.values()])
     b.load_audio([(35.62, 36.02), (61.29, 61.72), (70.90, 71.59), (87.77, 88.48), (141.28, 142.18), (154.75, 155.35), (204.99, 205.55), (218.55, 219.04),
                   (281.29, 281.72), (291.95, 292.45), (355.17, 355.67), (372.66, 373.05), (384.40, 387.89)])
     B1 = fr(35.8)                          # note: from the silence before "Before we go any further…" (Notebook's creators card cut 1078)

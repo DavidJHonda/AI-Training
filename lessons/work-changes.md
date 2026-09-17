@@ -12,9 +12,9 @@ To understand this, let’s review two concepts you already learned. First: AI i
 
 ### Board 1: Four AI Strengths at Work
 
-**Image file:** `work-changes-1-strengths.jpg`
+**Image file:** `work-changes-four-shapes-of-ai-work.jpg`
 
-![Four AI Strengths at Work](work-changes-1-strengths.jpg)
+![Four AI Strengths at Work](work-changes-four-shapes-of-ai-work.jpg)
 
 **Teaching content:**
 
@@ -28,9 +28,9 @@ Here’s the same job before AI and with AI. AI can give you more time for the i
 
 ### Board 2: Your First Assignment
 
-**Image file:** `work-changes-2-assignment.jpg`
+**Image file:** `work-changes-assignment.jpg`
 
-![Your First Assignment](work-changes-2-assignment.jpg)
+![Your First Assignment](work-changes-assignment.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ There are two terms you’ll hear that describe how AI is changing the nature of
 
 ### Board 3: Two Ways AI Changes the Work
 
-**Image file:** `work-changes-3-automate-augment.jpg`
+**Image file:** `work-changes-automation-and-augmentation.jpg`
 
-![Two Ways AI Changes the Work](work-changes-3-automate-augment.jpg)
+![Two Ways AI Changes the Work](work-changes-automation-and-augmentation.jpg)
 
 **Teaching content:**
 
@@ -68,9 +68,9 @@ Put automation and augmentation together, and three changes show up across almos
 
 ### Board 4: What Changes with AI
 
-**Image file:** `work-changes-4-what-changes.jpg`
+**Image file:** `work-changes-productivity-and-possibilities.jpg`
 
-![What Changes with AI](work-changes-4-what-changes.jpg)
+![What Changes with AI](work-changes-productivity-and-possibilities.jpg)
 
 **Teaching content:**
 
@@ -90,9 +90,9 @@ You already know what you must do. Learn. And learn more. And you’re in the be
 
 ### Close
 
-**Image file:** `work-changes-5-close.jpg`
+**Image file:** `work-changes-close.jpg`
 
-![Close board](work-changes-5-close.jpg)
+![Close board](work-changes-close.jpg)
 
 ## Closing Message
 

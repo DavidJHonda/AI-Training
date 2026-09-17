@@ -303,7 +303,7 @@ def render_study_tools():
         "board-review-first-four/alternatives/start-smarter/learn-with-ai-study-tools.jpg",
         "board-review-first-four/standardized/start-smarter/learn-with-ai-study-tools.jpg",
         "course-assets/learn-with-ai/learn-with-ai-study-tools.jpg",
-        "course-assets/learn-with-ai/learn-with-ai-1-study-tools.jpg",
+        "course-assets/learn-with-ai/learn-with-ai-study-toolkit.jpg",
     ])
 
 

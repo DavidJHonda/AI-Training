@@ -533,7 +533,7 @@ def render_five_moves() -> Image.Image:
 
     draw_takeaway_band(image, top=footer_top, left=40, right=1560,
                        text="Ask AI to improve the work, not approve of you.",
-                       font=face("bold", TAKEAWAY_TEXT_SIZE))
+                       font=face("medium", TAKEAWAY_TEXT_SIZE))
     return image
 
 
@@ -704,7 +704,7 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         render_flow_board_with_title_size(praise_flow, 31),
-        Pair("course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg", "course-assets/flattery-trap/avoid-traps-15-praise-loop.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg", "course-assets/flattery-trap/avoid-traps-15-praise-loop.jpg"),
     )
 
     comparison = render_comparison(
@@ -744,11 +744,11 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
 
     save_pair(
         render_sycophancy_example(),
-        Pair("course-assets/flattery-trap/flattery-trap-3-sycophancy.jpg", "course-assets/flattery-trap/avoid-traps-16-sycophancy.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-sycophancy.jpg", "course-assets/flattery-trap/avoid-traps-16-sycophancy.jpg"),
     )
     save_pair(
         render_five_moves(),
-        Pair("course-assets/flattery-trap/flattery-trap-4-five-moves.jpg", "course-assets/flattery-trap/avoid-traps-16a-five-moves.jpg"),
+        Pair("course-assets/flattery-trap/flattery-trap-five-moves.jpg", "course-assets/flattery-trap/avoid-traps-16a-five-moves.jpg"),
     )
 
 
@@ -756,7 +756,7 @@ def render_engagement_trap_boards() -> None:
     """Render only the three Engagement Trap boards and their lesson copies."""
     save_pair(
         render_engagement_comparison(),
-        Pair("course-assets/engagement-trap/engagement-trap-1-comparison.jpg", "course-assets/engagement-trap/engagement-trap-1-comparison.jpg"),
+        Pair("course-assets/engagement-trap/engagement-trap-comparison.jpg", "course-assets/engagement-trap/engagement-trap-comparison.jpg"),
     )
     scroll_comparison = CardBoard(
         "engagement-scroll",
@@ -779,9 +779,9 @@ def render_engagement_trap_boards() -> None:
     )
     save_pair(
         render_card_board(scroll_comparison),
-        Pair("course-assets/engagement-trap/engagement-trap-2-scroll.jpg", "course-assets/engagement-trap/avoid-traps-17a-scroll.jpg"),
+        Pair("course-assets/engagement-trap/engagement-trap-scroll.jpg", "course-assets/engagement-trap/avoid-traps-17a-scroll.jpg"),
     )
-    copy_selected_feature("course-assets/engagement-trap/engagement-trap.jpg", "avoid-traps-18-stop.jpg")
+    copy_selected_feature("course-assets/engagement-trap/engagement-trap-stopping-point.jpg", "avoid-traps-18-stop.jpg")
 
 
 def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair], ...]:
@@ -791,13 +791,13 @@ def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair]
             Card("What Can Be Real", "A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation."),
             Card("What Is Missing", "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow."),
         ), art["support"], "", "", "Use AI to prepare for people, not replace them.", (TEAL, RED)),
-         Pair("course-assets/support-trap/support-trap-2-role.jpg", "course-assets/support-trap/avoid-traps-20-support-role.jpg")),
+         Pair("course-assets/support-trap/support-trap-role.jpg", "course-assets/support-trap/avoid-traps-20-support-role.jpg")),
         (CardBoard("support-danger", "If Someone May Be in Immediate Danger", (
             Card("Leave the Chat", "Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger."),
             Card("Do It Now", "Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility."),
             Card("Tell Anyway", "Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy."),
         ), art["danger"], "", "", "In danger, the next move must reach a person who can act.", (RED, RED, RED)),
-         Pair("course-assets/support-trap/support-trap-3-danger.jpg", "course-assets/support-trap/avoid-traps-21-danger.jpg")),
+         Pair("course-assets/support-trap/support-trap-danger.jpg", "course-assets/support-trap/avoid-traps-21-danger.jpg")),
     )
 
 
@@ -826,16 +826,16 @@ def main() -> None:
     )
     save_pair(
         render_chat(hallucination_example),
-        Pair("course-assets/hallucination/hallucination-1-example.jpg", "course-assets/hallucination/avoid-traps-2-hallucination-example.jpg"),
+        Pair("course-assets/hallucination/hallucination-example.jpg", "course-assets/hallucination/avoid-traps-2-hallucination-example.jpg"),
     )
 
     save_pair(
         render_hallucination_convergence(art["hallucination_why"], art["hallucination_types"]),
-        Pair("course-assets/hallucination/hallucination-2-why.jpg", "course-assets/hallucination/avoid-traps-2a-why.jpg"),
+        Pair("course-assets/hallucination/hallucination-why-ai-makes-things-up.jpg", "course-assets/hallucination/avoid-traps-2a-why.jpg"),
     )
 
-    copy_selected_feature("course-assets/avoid-traps-opener/opener-avoid.jpg", "avoid-traps-1-read-water.jpg")
-    copy_selected_feature("course-assets/fake-trap/fake-trap.jpg", "avoid-traps-23-source.jpg")
+    copy_selected_feature("course-assets/avoid-traps-opener/avoid-traps-opener-read-the-water.jpg", "avoid-traps-1-read-water.jpg")
+    copy_selected_feature("course-assets/fake-trap/fake-trap-follow-the-source.jpg", "avoid-traps-23-source.jpg")
 
     feature_boards = (
         ("Real Text. Wrong Meaning.", "course-assets/hallucination/hallucination-real-text.png", "The Reddit comment was real. The cooking advice was not.", AMBER,
@@ -861,19 +861,19 @@ def main() -> None:
             Card("Add to Context", "The retrieved material joins the information AI can use."),
             Card("Generate", "The model uses that material while it writes the answer."),
         ), art["rag"], "", "", "RAG gives AI more to read. It does not guarantee truth.", (PURPLE, BLUE, TEAL)),
-         Pair("course-assets/training-bias/training-bias-5-rag.jpg", "course-assets/training-bias/avoid-traps-8a-rag.jpg")),
+         Pair("course-assets/training-bias/training-bias-rag.jpg", "course-assets/training-bias/avoid-traps-8a-rag.jpg")),
         (CardBoard("bias-mechanisms", "How Skewed Data Distorts the Picture", (
             Card("Defaults", "Common cases appear often, so the model treats them as the standard answer."),
             Card("Blind Spots", "Rare cases barely appear, so the model learns less about them."),
             Card("Wrong Patterns", "A clue works during training, so the model learns the clue instead of the concept."),
         ), art["bias_mechanisms"], "", "", "The model repeats the shape of its data.", (PURPLE, BLUE, AMBER)),
-         Pair("course-assets/training-bias/training-bias-2-mechanisms.jpg", "course-assets/training-bias/avoid-traps-6-bias-mechanisms.jpg")),
+         Pair("course-assets/training-bias/training-bias-how-bias-happens.jpg", "course-assets/training-bias/avoid-traps-6-bias-mechanisms.jpg")),
         (CardBoard("bias-questions", "Three Questions That Reveal Bias", (
             Card("Ask What’s Missing", "“What’s missing from this answer?”"),
             Card("Ask for Exceptions", "“Show me examples that don’t fit the pattern you just gave.”"),
             Card("Remove the Famous", "“Answer again, leaving out the most famous examples.”"),
         ), art["bias_questions"], "", "", "The model often has the rest of the picture. It just doesn’t lead with it.", (PURPLE, BLUE, AMBER)),
-         Pair("course-assets/training-bias/training-bias-3-questions.jpg", "course-assets/training-bias/avoid-traps-7-bias-questions.jpg")),
+         Pair("course-assets/training-bias/training-bias-questions-to-ask.jpg", "course-assets/training-bias/avoid-traps-7-bias-questions.jpg")),
         (CardBoard("document-moves", "", (
             Card("Name the Section", "Use the document’s own headings and keywords."),
             Card("Ask One Thing", "Give retrieval one clear target at a time."),
@@ -894,7 +894,7 @@ def main() -> None:
             Card("Context", "What happened before and after? What important details are missing?"),
             Card("Corroboration", "Can an independent source confirm the same event or claim?"),
         ), art["fake_checks"], "", "", "Verify somewhere the sender does not control.", (PURPLE, BLUE, TEAL)),
-         Pair("course-assets/fake-trap/fake-trap-4-checks.jpg", "course-assets/fake-trap/avoid-traps-25-fake-checks.jpg")),
+         Pair("course-assets/fake-trap/fake-trap-checks.jpg", "course-assets/fake-trap/avoid-traps-25-fake-checks.jpg")),
     )
     for board, pair in cards:
         rendered = (
@@ -921,7 +921,7 @@ def main() -> None:
         Turn("YOU", "Search the web and check the date. Was he the first pick in the 2025 NBA draft?"),
         Turn("AI", "Yes. Dallas selected Cooper Flagg with the first pick in 2025. My earlier answer relied on older information."),
     ), "When the date matters, verify with a current source.")
-    save_pair(render_chat(stale), Pair("course-assets/training-bias/training-bias-4-stale.jpg", "course-assets/training-bias/avoid-traps-8-stale.jpg"))
+    save_pair(render_chat(stale), Pair("course-assets/training-bias/training-bias-stale.jpg", "course-assets/training-bias/avoid-traps-8-stale.jpg"))
 
     comparisons = (
         ("Supportive Words versus Support", "“I’ve been eating lunch alone for like two weeks.”", (

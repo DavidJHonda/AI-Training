@@ -11,9 +11,9 @@ OUT=ROOT/'Prompts/support-trap-reroll-patched.mp4'
 SOURCE=ROOT/'Prompts/support-trap-reroll.mp4'
 P,B,A,T,R,H='#4f2fc4','#1652f0','#a9760c','#0e8f86','#c41f28','#6e51ff'
 BOARDS={'compare':ROOT/'course-assets/support-trap/support-trap-comparison-v2.jpg',
-'role':ROOT/'course-assets/support-trap/support-trap-2-role.jpg',
-'danger':ROOT/'course-assets/support-trap/support-trap-3-danger.jpg'}
-CLOSE=ROOT/'course-assets/support-trap/support-trap-4-close.jpg'
+'role':ROOT/'course-assets/support-trap/support-trap-role.jpg',
+'danger':ROOT/'course-assets/support-trap/support-trap-danger.jpg'}
+CLOSE=ROOT/'course-assets/support-trap/support-trap-close.jpg'
 chunks=[]
 def keep(a,b,board=None,label='native',rect=None,color=H,camera=None,move=0):
     chunks.append(dict(src=0,a=at(a),b=at(b),board=board,label=label,rect=rect,color=color,camera=camera,move=move))
@@ -61,7 +61,7 @@ pause(228-(at(218.866667)-at(212.9)),'closing-settle','close')
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def main():
     AUDIT.mkdir(parents=True,exist_ok=True);(AUDIT/'qa').mkdir(exist_ok=True)
-    protected={str(p):sha(p) for p in [SOURCE,ROOT/'videos/support-trap.mp4',*BOARDS.values(),CLOSE]}
+    protected={str(p):sha(p) for p in [SOURCE,ROOT/'course-assets/support-trap/support-trap.mp4',*BOARDS.values(),CLOSE]}
     canvases={k:v.build_canvas(p) for k,p in BOARDS.items()}
     close=cv2.resize(cv2.imread(str(CLOSE)),(1600,900),interpolation=cv2.INTER_AREA)
     needed=set()

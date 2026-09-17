@@ -6,9 +6,9 @@ The AI argument is getting louder and louder. Why? Because the technology is adv
 
 ### Board 1: ChatGPT: 2023 vs. 2026
 
-**Image file:** `pace-of-change-1-three-years.jpg`
+**Image file:** `pace-of-change-three-years.jpg`
 
-![ChatGPT: 2023 vs. 2026](pace-of-change-1-three-years.jpg)
+![ChatGPT: 2023 vs. 2026](pace-of-change-three-years.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ Three concepts are driving the acceleration, and you already understand the firs
 
 ### Board 2: Why So Fast?
 
-**Image file:** `pace-of-change-2-accelerants.jpg`
+**Image file:** `pace-of-change-what-speeds-it-up.jpg`
 
-![Why So Fast?](pace-of-change-2-accelerants.jpg)
+![Why So Fast?](pace-of-change-what-speeds-it-up.jpg)
 
 **Teaching content:**
 
@@ -50,9 +50,9 @@ What does the future of AI look like? There are four key ideas driving the AI co
 
 ### Board 3: Could AI Improve Itself?
 
-**Image file:** `pace-of-change-3-future-research.jpg`
+**Image file:** `pace-of-change-could-ai-improve-itself.jpg`
 
-![Could AI Improve Itself?](pace-of-change-3-future-research.jpg)
+![Could AI Improve Itself?](pace-of-change-could-ai-improve-itself.jpg)
 
 **Teaching content:**
 
@@ -64,9 +64,9 @@ One is human-directed. The other would be a self-reinforcing loop.
 
 ### Board 4: How Far Can AI Go?
 
-**Image file:** `pace-of-change-4-future-capability.jpg`
+**Image file:** `pace-of-change-how-far-can-ai-go.jpg`
 
-![How Far Can AI Go?](pace-of-change-4-future-capability.jpg)
+![How Far Can AI Go?](pace-of-change-how-far-can-ai-go.jpg)
 
 **Teaching content:**
 
@@ -78,9 +78,9 @@ Nobody knows whether AI will reach either milestone.
 
 ### Close
 
-**Image file:** `pace-of-change-5-close.jpg`
+**Image file:** `pace-of-change-close.jpg`
 
-![Close board](pace-of-change-5-close.jpg)
+![Close board](pace-of-change-close.jpg)
 
 ## Closing Message
 

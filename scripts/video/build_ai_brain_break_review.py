@@ -4,7 +4,7 @@
 Quiz video: no course boards, no standard close (exempt). Edits: a one-second matched-tone pause at each of
 the six claim boundaries (each on the roll's own scene cut, inside a measured silence); the Notebook
 branding after the last line is cut and the pasta illustration is held for two seconds. No narration
-changes. Output: videos/ai-brain-break-v1.mp4. Audit: video-audit/ai-brain-break-2026-09-11/.
+changes. Output: Prompts/ai-brain-break-v1.mp4. Audit: video-audit/ai-brain-break-2026-09-11/.
 """
 from pathlib import Path
 import argparse, sys
@@ -13,11 +13,11 @@ from editspec_build import Build, fr
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/quiz-final.mp4'
-OUT = ROOT / 'video-audit/ai-brain-break-2026-09-11'; DEST = ROOT / 'videos/ai-brain-break-v1.mp4'
+OUT = ROOT / 'video-audit/ai-brain-break-2026-09-11'; DEST = ROOT / 'Prompts/ai-brain-break-v1.mp4'
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/transformers-quiz.mp4', ROOT / 'Prompts/ai-brain-break-source.md'])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/layers/ai-brain-break.mp4', ROOT / 'Prompts/ai-brain-break-source.md'])
     sil = [(20.18, 20.83), (40.79, 41.45), (62.12, 62.80), (108.37, 108.89), (141.80, 142.37), (177.93, 178.60)]
     b.load_audio(sil)
     P = [fr(t) for t in (20.5, 41.1, 62.45, 108.6, 142.1, 178.3)]   # inside each silence, just before the roll's own cut

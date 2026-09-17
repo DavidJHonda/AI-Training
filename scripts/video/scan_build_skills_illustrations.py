@@ -1,4 +1,5 @@
 from pathlib import Path
+from course_video_paths import current_video_path
 import cv2,numpy as np,json,hashlib,concurrent.futures
 from PIL import Image,ImageDraw
 R=Path('/Users/davidobrien/Developer/AI-Training');A=R/'video-audit/build-skills-illustration-sync-2026-09-09'
@@ -12,7 +13,7 @@ def scan(slug):
         im=cv2.imread(e['backup']);scale=900/im.shape[1];small=cv2.resize(im,None,fx=scale,fy=scale)
         kp,desc=sift.detectAndCompute(cv2.cvtColor(small,cv2.COLOR_BGR2GRAY),None)
         features.append((e,scale,kp,desc,[]))
-    video=R/'videos'/f'{slug}.mp4';cap=cv2.VideoCapture(str(video));fps=cap.get(cv2.CAP_PROP_FPS);n=0;samples=[]
+    video=current_video_path(slug);cap=cv2.VideoCapture(str(video));fps=cap.get(cv2.CAP_PROP_FPS);n=0;samples=[]
     while cap.grab():
         if n%15==0:
             _,frame=cap.retrieve();k2,d2=sift.detectAndCompute(cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY),None)

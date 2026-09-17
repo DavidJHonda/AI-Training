@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build Your Skills opener from reroll 1 under EDIT-SPEC.md (2026-09-11). Review only.
 
-Base: Prompts/opener-build-reroll-1.mp4 (2:37). Output: videos/opener-build-v2.mp4.
+Base: Prompts/opener-build-reroll-1.mp4 (2:37). Output: Prompts/build-your-skills-opener-v2.mp4.
 Audit: video-audit/opener-build-repair-2026-09-11/.
 Boards: creed (source 0-473) and section map (2151-3618), both compact, held still, rings post-crop.
 Narration cuts (David-approved): 1:30.3-1:40.35 "AI cannot navigate... collaboration." replaced by a 1s pause;
@@ -16,8 +16,8 @@ import cv2
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-build-reroll-1.mp4'
-OUT = ROOT / 'video-audit/opener-build-repair-2026-09-11'; DEST = ROOT / 'videos/opener-build-v2.mp4'
-CREED = ROOT / 'course-assets/build-your-skills-opener/opener-build-1-creed.jpg'; MAP = ROOT / 'course-assets/build-your-skills-opener/opener-build-2-map.jpg'
+OUT = ROOT / 'video-audit/opener-build-repair-2026-09-11'; DEST = ROOT / 'Prompts/build-your-skills-opener-v2.mp4'
+CREED = ROOT / 'course-assets/build-your-skills-opener/build-your-skills-opener-creed.jpg'; MAP = ROOT / 'course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg'
 GOLD = '#eccf6b'   # the creed card's own accent (its label color)
 
 # creed lines (image px, xyxy): ink bounds + 14px pad; card is x 72-1527, y 230-669
@@ -27,7 +27,7 @@ ROW1, ROW2, ROW3 = [102, 139, 1498, 305], [102, 331, 1498, 455], [102, 482, 1498
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/opener-build.mp4', ROOT / 'lessons/Opener-Build.md', CREED, MAP])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/build-your-skills-opener/build-your-skills-opener.mp4', ROOT / 'lessons/Opener-Build.md', CREED, MAP])
     b.load_audio([(25.81, 26.58), (71.11, 71.81), (90.00, 90.59), (100.03, 100.67), (126.60, 127.17), (147.19, 147.64)])
     CREED_IN, CREED_OUT = 0, 473
     P1 = fr(26.2); P2 = fr(71.4); MAP_IN = 2151; CUT_A, CUT_B = fr(90.3), fr(100.35); MAP_OUT = 3618; P3 = fr(126.9)

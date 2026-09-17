@@ -6,9 +6,9 @@ Pretend you’re a scribe in the 1450s. All day, you hand-copy the king’s proc
 
 ### Board 1: AI Is the Press
 
-**Image file:** `why-learn-ai-1-press.jpg`
+**Image file:** `why-learn-ai-press.jpg`
 
-![AI Is the Press](why-learn-ai-1-press.jpg)
+![AI Is the Press](why-learn-ai-press.jpg)
 
 **Teaching content:**
 
@@ -20,9 +20,9 @@ AI isn’t something you go visit. It’s already in the apps on your phone, the
 
 ### Board 2: Where AI Already Lives
 
-**Image file:** `why-learn-ai-1-everyday.jpg`
+**Image file:** `why-learn-ai-everyday.jpg`
 
-![Where AI Already Lives](why-learn-ai-1-everyday.jpg)
+![Where AI Already Lives](why-learn-ai-everyday.jpg)
 
 **Teaching content:**
 
@@ -38,9 +38,9 @@ Before personal computers, becoming a designer meant years at a drafting table l
 
 ### Board 3: Why You’ll Thrive in the AI Future
 
-**Image file:** `why-learn-ai-2-thrive.jpg`
+**Image file:** `why-learn-ai-thrive.jpg`
 
-![Why You’ll Thrive in the AI Future](why-learn-ai-2-thrive.jpg)
+![Why You’ll Thrive in the AI Future](why-learn-ai-thrive.jpg)
 
 **Teaching content:**
 
@@ -62,9 +62,9 @@ In July 2025, the White House released an official national strategy document, W
 
 ### Close
 
-**Image file:** `why-learn-ai-3-close.jpg`
+**Image file:** `why-learn-ai-close.jpg`
 
-![Close board](why-learn-ai-3-close.jpg)
+![Close board](why-learn-ai-close.jpg)
 
 ## Closing Message
 

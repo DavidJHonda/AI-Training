@@ -1,6 +1,6 @@
 # Work With AI opener v5: review candidate (2026-09-14 PM, EDIT-SPEC build from roll 4)
 
-**Candidate:** `videos/opener-work-v5.mp4` (2:44.9, 4946 frames, 30 fps). v5 = v4 with one more cut (David: "Is that claim too strong? It's not
+**Candidate:** `Prompts/work-with-ai-opener-v5.mp4` (2:44.9, 4946 frames, 30 fps). v5 = v4 with one more cut (David: "Is that claim too strong? It's not
 how we teach it."): 143.35–150.1, "This requires you to independently verify the factual accuracy of any claims or data the AI
 provides." The course teaches question it, verify it when it matters, decide; roll 4 made verification a blanket rule. Notebook's VERIFY
 ACCURACY card, drawn for that line, goes with it; "…rather than accepting it as an objective truth." now runs into "Finally, you have to
@@ -12,7 +12,7 @@ showed those: board 66.8–75.1 (intro, Know What It's For), diagrams 75.1–102
 tool mismatch), board 102.2–114.6 (Use It Well), diagrams 114.6–130.8 (model perception, precision aim), board 130.8–143.5 (Think
 Before You Trust), diagrams 150.1–161.7 (evaluation and verification; the VERIFY ACCURACY card left with the cut), board 161.7–167.4 (banner). Longest board
 run is now 12.7 s. v3 superseded; v2 (roll 2 + donor) superseded earlier.
-**Live video and lesson unchanged** (`videos/opener-work.mp4`, `lessons/Opener-Work.md`, the three boards and the donor roll
+**Live video and lesson unchanged** (`course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, `lessons/Opener-Work.md`, the three boards and the donor roll
 hash-verified after the render). **Build:** `scripts/video/build_opener_work_4_review.py`. **Manifest:** `edit-manifest.json` here.
 **Narration status:** roll 4 was REROLL on the verbatim refrain and close (`video-audit/opener-work-comparison-2026-09-14b/REVIEW.md`),
 the fifth roll to decline them; David's call 2026-09-14 ("Yes. Build it."): stop rolling, build from roll 4 with the donor close and the two
@@ -34,7 +34,7 @@ cuts below. The refrain stays roll 4's paraphrase, spoken over the refrain board
 
 | Board | Output frames | Arrives | Rings (spoken onset, source s) | Leaves |
 | --- | --- | --- | --- | --- |
-| What Makes AI Use Good? (`lessons/opener-work-1-refrain.jpg`, compact, still) | 0–577 | frame 0, replacing Notebook's render of the same card | gold rings per line at the paraphrase: "Don't just ask. Aim." at "You aim your requests" 6.12; "Don't just copy. Check." at "you verify the output" 7.48; "Don't just use AI. Work with it." at "you treat it as a collaboration" 9.12; the closing line at "The final line captures the central goal" 11.00 | Notebook's cut (18.23) to blank canvas |
+| What Makes AI Use Good? (`lessons/work-with-ai-opener-refrain.jpg`, compact, still) | 0–577 | frame 0, replacing Notebook's render of the same card | gold rings per line at the paraphrase: "Don't just ask. Aim." at "You aim your requests" 6.12; "Don't just copy. Check." at "you verify the output" 7.48; "Don't just use AI. Work with it." at "you treat it as a collaboration" 9.12; the closing line at "The final line captures the central goal" 11.00 | Notebook's cut (18.23) to blank canvas |
 | Same Tool. Different Results. (faces; not uploaded) | 1410–1779 | Notebook's cut 55.53, "The hardware in their hands never changed" | camera walk: full → the two photo panels at "The same principle applies to AI" (57.44) → full at "…is what turns a confusing response into a sharp, professional result" (62.36); Notebook's title card, phones-and-sandwich and blurry-vs-crisp drawings stay before it | Notebook's cut (66.83) to its map render, replaced |
 | Work With AI section map (compact, still), four legs | 1779–2027, 2841–3213, 3698–4080, 4626–4796 | "To build those mechanics, we use a three-part roadmap" (66.90) | Know What It's For at "Step one is knowing what it's for" 72.70 (purple); Use It Well at "use it well" 105.06 (blue); Think Before You Trust at 134.70 (teal); cut after "…objective truth." (143.35) and Notebook's evaluation diagram from its cut (150.27) under "Finally, you have to decide…"; banner at "As the bottom of our roadmap shows" 161.78 | the cut after "…how you apply the tool." (167.4) |
 

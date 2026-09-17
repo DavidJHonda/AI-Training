@@ -74,7 +74,7 @@ def sha(path):
 def main():
     AUDIT.mkdir(parents=True,exist_ok=True)
     (AUDIT/'qa').mkdir(exist_ok=True)
-    protected={str(p):sha(p) for p in [RAW,DONOR,ROOT/'videos/flattery-trap.mp4']}
+    protected={str(p):sha(p) for p in [RAW,DONOR,ROOT/'course-assets/flattery-trap/flattery-trap.mp4']}
     # Atomic shot replacement: inspect source sequentially, no timestamp seeks.
     cap=cv2.VideoCapture(str(RAW)); mirror=None; title=None
     for f in range(at(136.5)+1):
@@ -121,7 +121,7 @@ def main():
             rect=v.project_rect(v.map_rect(s['rect'],ox,oy),cam)
             v.rounded_ring(out,rect,v.hex_bgr(s['color']),radius=18,thickness=5)
         return out
-    close=cv2.imread(str(ROOT/'course-assets/flattery-trap/flattery-trap-5-close.jpg'))
+    close=cv2.imread(str(ROOT/'course-assets/flattery-trap/flattery-trap-close.jpg'))
     close=cv2.resize(close,(1600,900),interpolation=cv2.INTER_AREA)
     def render_close(frame):
         # Same fixed close framing and timing as common.render_close.

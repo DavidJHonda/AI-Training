@@ -9,6 +9,7 @@ reliable on a STATIC span and needs eyeballing on a MOVING one.
 Sequential decode only (CAP_PROP_POS_MSEC seeks lie on these mp4s).
 """
 import sys
+from course_video_paths import current_video_path
 
 import cv2
 
@@ -70,7 +71,7 @@ def profile(path, a, b):
 
 print(f"{'slug':22} {'span':>13}  {'mean':>6} {'max':>6} {'moving%':>8}  verdict")
 for slug, a, b, what in TARGETS:
-    d = profile(f"videos/{slug}.mp4", a, b)
+    d = profile(str(current_video_path(slug)), a, b)
     if not d:
         print(f"{slug:22} {a:>5}-{b:<7} NO FRAMES"); continue
     mean = sum(d) / len(d)

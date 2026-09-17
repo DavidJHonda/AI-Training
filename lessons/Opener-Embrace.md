@@ -18,9 +18,9 @@ Think back to history class. Centuries ago, mapmakers sometimes filled waters th
 
 ### Board 1: The Edge of the Map
 
-**Image file:** `opener-embrace-1-edge-of-the-map.jpg`
+**Image file:** `embrace-the-future-opener-edge-of-the-map.jpg`
 
-![The Edge of the Map](opener-embrace-1-edge-of-the-map.jpg)
+![The Edge of the Map](embrace-the-future-opener-edge-of-the-map.jpg)
 
 **Teaching content:**
 
@@ -34,9 +34,9 @@ This section takes both views of the map seriously: the monsters and the open wa
 
 ### Board 2: Embrace the Future, the Section Map
 
-**Image file:** `opener-embrace-2-map.jpg`
+**Image file:** `embrace-the-future-opener-section-map.jpg`
 
-![Embrace the Future, the Section Map](opener-embrace-2-map.jpg)
+![Embrace the Future, the Section Map](embrace-the-future-opener-section-map.jpg)
 
 **Teaching content:**
 
@@ -52,9 +52,9 @@ Take both views of the map seriously.
 
 ### Close
 
-**Image file:** `opener-embrace-3-close.jpg`
+**Image file:** `embrace-the-future-opener-close.jpg`
 
-![Close board](opener-embrace-3-close.jpg)
+![Close board](embrace-the-future-opener-close.jpg)
 
 ## Closing Message
 

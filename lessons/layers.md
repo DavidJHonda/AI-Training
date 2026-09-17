@@ -6,9 +6,9 @@ Have you ever read a passage in English class that only made sense after a few r
 
 ### Board 1: “The Horse Raced Past the Barn Fell”
 
-**Image file:** `layers-horse-three-reads-editorial.jpg`
+**Image file:** `layers-horse-three-reads.jpg`
 
-![“The Horse Raced Past the Barn Fell”](layers-horse-three-reads-editorial.jpg)
+![“The Horse Raced Past the Barn Fell”](layers-horse-three-reads.jpg)
 
 **Teaching content:**
 
@@ -26,9 +26,9 @@ The whole stack of layers is called a **neural network**.
 
 ### Board 2: How Layers Update the Numbers
 
-**Image file:** `layers-inside-layer-editorial.jpg`
+**Image file:** `layers-inside-layer.jpg`
 
-![How Layers Update the Numbers](layers-inside-layer-editorial.jpg)
+![How Layers Update the Numbers](layers-inside-layer.jpg)
 
 **Teaching content:**
 
@@ -51,9 +51,9 @@ Now follow one word, **IT**, as its numbers change from layer to layer.
 
 ### Board 3: How AI Connects ‘IT’ to ‘CAT’
 
-**Image file:** `layers-3-resolves-it.jpg`
+**Image file:** `layers-resolves-it.jpg`
 
-![How AI Connects ‘IT’ to ‘CAT’](layers-3-resolves-it.jpg)
+![How AI Connects ‘IT’ to ‘CAT’](layers-resolves-it.jpg)
 
 **Teaching content:**
 

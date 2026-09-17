@@ -32,6 +32,13 @@ def paint_credit(image, spec):
     if tuple(spec['size']) != image.size:
         raise ValueError(f"Board dimensions changed: expected {spec['size']}, got {image.size}. Review the credit placement before rebuilding.")
     result = image.convert('RGB').copy()
+    # A small number of boards need a larger footer repair before the credit is
+    # drawn. Keeping that approved patch in the policy makes the cleanup survive
+    # future renders without changing the board geometry or teaching content.
+    if 'footer_cleanup_box' in spec:
+        fx0,fy0,fx1,fy1 = spec['footer_cleanup_box']
+        footer = Image.frombytes('RGB', (fx1-fx0,fy1-fy0), zlib.decompress(base64.b64decode(spec['footer_background_rgb_zlib'])))
+        result.paste(footer,(fx0,fy0))
     x0,y0,x1,y1 = spec['clear_box']
     patch = Image.frombytes('RGB', (x1-x0,y1-y0), zlib.decompress(base64.b64decode(spec['background_rgb_zlib'])))
     result.paste(patch,(x0,y0))

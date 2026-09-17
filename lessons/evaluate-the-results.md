@@ -14,9 +14,9 @@ Start with these three steps before you use an AI answer.
 
 ### Board 1: The Quick Pass
 
-**Image file:** `evaluate-the-results-1-quick-pass.jpg`
+**Image file:** `evaluate-the-results-quick-pass.jpg`
 
-![The Quick Pass](evaluate-the-results-1-quick-pass.jpg)
+![The Quick Pass](evaluate-the-results-quick-pass.jpg)
 
 **Teaching content:**
 
@@ -34,9 +34,9 @@ Some answers need a closer look. These three questions help you decide.
 
 ### Board 2: Do You Need to Dig Deeper?
 
-**Image file:** `evaluate-the-results-2-decide.jpg`
+**Image file:** `evaluate-the-results-decide.jpg`
 
-![Do You Need to Dig Deeper?](evaluate-the-results-2-decide.jpg)
+![Do You Need to Dig Deeper?](evaluate-the-results-decide.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ When an answer needs a closer look, choose the checks that fit the task.
 
 ### Board 3: Dig Deeper
 
-**Image file:** `evaluate-the-results-3-dig.jpg`
+**Image file:** `evaluate-the-results-dig.jpg`
 
-![Dig Deeper](evaluate-the-results-3-dig.jpg)
+![Dig Deeper](evaluate-the-results-dig.jpg)
 
 **Teaching content:**
 
@@ -78,9 +78,9 @@ Now decide what to do with the answer.
 
 ### Board 4: Make Your Move
 
-**Image file:** `evaluate-the-results-4-move.jpg`
+**Image file:** `evaluate-the-results-move.jpg`
 
-![Make Your Move](evaluate-the-results-4-move.jpg)
+![Make Your Move](evaluate-the-results-move.jpg)
 
 **Teaching content:**
 
@@ -94,9 +94,9 @@ The tool answers. You evaluate.
 
 ### Board 5: Check Before You Use
 
-**Image file:** `evaluate-the-results-5-check-before-use.jpg`
+**Image file:** `evaluate-the-results-check-before-use.jpg`
 
-![Check Before You Use](evaluate-the-results-5-check-before-use.jpg)
+![Check Before You Use](evaluate-the-results-check-before-use.jpg)
 
 **Teaching content:**
 
@@ -106,9 +106,9 @@ The answer is not the evidence.
 
 ### Close
 
-**Image file:** `evaluate-the-results-6-close.jpg`
+**Image file:** `evaluate-the-results-close.jpg`
 
-![Close board](evaluate-the-results-6-close.jpg)
+![Close board](evaluate-the-results-close.jpg)
 
 ## Closing Message
 

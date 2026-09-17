@@ -8,9 +8,9 @@ These two examples show how the surrounding words, or **context**, shape meaning
 
 ### Board 1: Two Problems Context Must Solve
 
-**Image file:** `transformer-context-problems-editorial.jpg`
+**Image file:** `transformer-context-problems.jpg`
 
-![Two Problems Context Must Solve](transformer-context-problems-editorial.jpg)
+![Two Problems Context Must Solve](transformer-context-problems.jpg)
 
 **Teaching content:**
 
@@ -32,9 +32,9 @@ Our human brains see the right meaning instantly from the surrounding words. For
 
 ### Board 2: How Earlier AI Read Text
 
-**Image file:** `transformer-before-transformers-editorial.jpg`
+**Image file:** `transformer-before-transformers.jpg`
 
-![How Earlier AI Read Text](transformer-before-transformers-editorial.jpg)
+![How Earlier AI Read Text](transformer-before-transformers.jpg)
 
 **Teaching content:**
 
@@ -52,9 +52,9 @@ The Transformer reads your whole message at once. In our example, **IT** can dra
 
 ### Board 3: How a Transformer Reads a Sentence
 
-**Image file:** `transformer-how-transformer-reads-editorial.jpg`
+**Image file:** `transformer-how-transformer-reads.jpg`
 
-![How a Transformer Reads a Sentence](transformer-how-transformer-reads-editorial.jpg)
+![How a Transformer Reads a Sentence](transformer-how-transformer-reads.jpg)
 
 **Teaching content:**
 
@@ -68,9 +68,9 @@ Reading your whole message at once is only the start. AI needs to figure out whi
 
 ### Board 4: How Context Changes the Numbers
 
-**Image file:** `transformer-attention-transformation-editorial.jpg`
+**Image file:** `transformer-attention-transformation.jpg`
 
-![How Context Changes the Numbers](transformer-attention-transformation-editorial.jpg)
+![How Context Changes the Numbers](transformer-attention-transformation.jpg)
 
 **Teaching content:**
 
@@ -87,9 +87,9 @@ Now let’s return to our two examples.
 
 ### Board 5: How the Transformer Resolves Meaning
 
-**Image file:** `transformer-resolves-meaning-editorial.jpg`
+**Image file:** `transformer-resolves-meaning.jpg`
 
-![How the Transformer Resolves Meaning](transformer-resolves-meaning-editorial.jpg)
+![How the Transformer Resolves Meaning](transformer-resolves-meaning.jpg)
 
 **Teaching content:**
 
@@ -114,9 +114,9 @@ Reading everything at once creates a problem that reading in order never had. Co
 
 ### Board 6: How a Transformer Keeps Words in Order
 
-**Image file:** `transformer-word-order-editorial.jpg`
+**Image file:** `transformer-word-order.jpg`
 
-![How a Transformer Keeps Words in Order](transformer-word-order-editorial.jpg)
+![How a Transformer Keeps Words in Order](transformer-word-order.jpg)
 
 **Teaching content:**
 

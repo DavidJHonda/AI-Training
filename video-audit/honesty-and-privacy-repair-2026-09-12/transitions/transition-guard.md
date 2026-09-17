@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/honesty-and-privacy-v4.mp4`
+- Video: `Prompts/honesty-and-privacy-v4.mp4`
 - Decoded frames: 7200
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

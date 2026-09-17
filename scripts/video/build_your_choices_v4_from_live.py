@@ -14,7 +14,7 @@ from editspec_build import sha, readwav, writewav, W, H, FPS, SR, SPF
 import cv2, numpy as np, imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]; OUT = ROOT / 'video-audit/your-choices-repair-2026-09-11'
-LIVE = ROOT / 'videos/your-choices.mp4'; DEST = ROOT / 'videos/your-choices-v4.mp4'
+LIVE = ROOT / 'course-assets/your-choices/your-choices.mp4'; DEST = ROOT / 'Prompts/your-choices-v4.mp4'
 PY = ROOT / '.video-venv/bin/python'; KB = ROOT / 'scripts/video/ken_burns_path.py'; FF = imageio_ffmpeg.get_ffmpeg_exe()
 DROP = {'Pause: board 1 full view', 'Pause: into which model', 'Pause: board 2 full view', 'Pause: into research'}
 

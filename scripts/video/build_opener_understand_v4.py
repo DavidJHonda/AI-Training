@@ -5,7 +5,7 @@ import sys,json,wave,hashlib,subprocess,argparse
 import numpy as np,cv2,imageio_ffmpeg
 from build_one_more_thing_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/opener-understand-original-visuals-2026-09-10'
-SRC=ROOT/'Prompts/understand-opener-3.mp4';DONOR=ROOT/'Prompts/understand-opener-4.mp4';DEST=ROOT/'videos/opener-understand-v4.mp4'
+SRC=ROOT/'Prompts/understand-opener-3.mp4';DONOR=ROOT/'Prompts/understand-opener-4.mp4';DEST=ROOT/'Prompts/understand-ai-opener-v4.mp4'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*30)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -20,7 +20,7 @@ def grab(path,frames):
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
- protected=[SRC,DONOR,ROOT/'videos/opener-understand-v3.mp4',ROOT/'videos/opener-understand.mp4',ROOT/'index.html',ROOT/'lessons/Opener-Understand.md']
+ protected=[SRC,DONOR,ROOT/'Prompts/understand-ai-opener-v3.mp4',ROOT/'course-assets/understand-ai-opener/understand-ai-opener.mp4',ROOT/'index.html',ROOT/'lessons/Opener-Understand.md']
  hashes={str(p):sha(p) for p in protected}
  with wave.open(str(OUT/'source.wav')) as w:audio=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(float)
  seed=audio[int(155.9*SR):int(156.1*SR)].copy();seed-=seed.mean();loop=np.r_[seed,seed[::-1]]
@@ -61,7 +61,7 @@ def main():
  def clean(f):
   out=f.copy();region=out[688:718,1145:1279];m=np.zeros(region.shape[:2],np.uint8);m[5:25,5:129]=mask
   out[688:718,1145:1279]=cv2.inpaint(region,m,3,cv2.INPAINT_TELEA);return out
- images={'opening':clean(native_stills[0]),'explain':clean(native_stills[fr(36.9)]),'confused':clean(donor),'hood':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/opener-understand-under-hood-v3.jpg')),'map':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/opener-understand-2-map.jpg')),'close':cv2.imread(str(OUT/'close.png'))}
+ images={'opening':clean(native_stills[0]),'explain':clean(native_stills[fr(36.9)]),'confused':clean(donor),'hood':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/understand-ai-opener-under-hood.jpg')),'map':cv2.imread(str(ROOT/'course-assets/understand-ai-opener/understand-ai-opener-section-map.jpg')),'close':cv2.imread(str(OUT/'close.png'))}
  for name in ['opening','explain','confused']:cv2.imwrite(str(OUT/(name+'.png')),images[name])
  events=[]
  def ev(t,key,label,rect=None,color=None,view=None):events.append(dict(source_frame=fr(t),board=key,label=label,marks=[] if rect is None else [dict(rect=rect,highlight_color=color,highlight_source='card_locked_accent' if color!='#6e51ff' else 'neutral_video_purple')],view=view))
@@ -121,7 +121,7 @@ def main():
  (OUT/'edit-manifest.json').write_text(json.dumps(m,indent=2));print('Prepared',total,total/30,flush=True)
  if args.prepare_only:return
  assert not DEST.exists(),DEST
- ff=imageio_ffmpeg.get_ffmpeg_exe();p=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(ROOT/'videos/opener-understand-v3.mp4'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
+ ff=imageio_ffmpeg.get_ffmpeg_exe();p=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(ROOT/'Prompts/understand-ai-opener-v3.mp4'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
  cap=cv2.VideoCapture(str(SRC));idx=-1;frame=None;j=0;native=0
  for f in range(total):
   if f<close_start:

@@ -5,7 +5,7 @@ import json,wave,hashlib,subprocess,argparse
 import cv2,numpy as np,imageio_ffmpeg
 from build_one_more_thing_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'video-audit/layers-repair-2026-09-10';DEST=ROOT/'videos/layers-v3.mp4'
+OUT=ROOT/'video-audit/layers-repair-2026-09-10';DEST=ROOT/'Prompts/layers-v3.mp4'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*FPS)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -23,7 +23,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
  src={n:ROOT/f'Prompts/layers-{n}.mp4' for n in [1,2]}
- protected=[*src.values(),ROOT/'videos/layers-v2.mp4',ROOT/'videos/layers.mp4',ROOT/'index.html',ROOT/'lessons/layers.md']
+ protected=[*src.values(),ROOT/'Prompts/layers-v2.mp4',ROOT/'course-assets/layers/layers.mp4',ROOT/'index.html',ROOT/'lessons/layers.md']
  hashes={str(p):sha(p) for p in protected};audio={n:readwav(OUT/f'source-{n}.wav') for n in [1,2]}
  seed=audio[1][round(112.68*SR):round(112.86*SR)].copy();seed-=seed.mean();assert np.std(seed)>1
  loop=np.r_[seed,seed[::-1]]
@@ -62,7 +62,7 @@ def main():
  pause('Settled standard close',162.133333)
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
- paths={'horse':ROOT/'course-assets/layers/layers-horse-three-reads-editorial.jpg','stack':ROOT/'course-assets/layers/layers-inside-layer-editorial.jpg','it':ROOT/'course-assets/layers/layers-3-resolves-it.jpg','close':OUT/'close.png'}
+ paths={'horse':ROOT/'course-assets/layers/layers-horse-three-reads.jpg','stack':ROOT/'course-assets/layers/layers-inside-layer.jpg','it':ROOT/'course-assets/layers/layers-resolves-it.jpg','close':OUT/'close.png'}
  images={k:cv2.imread(str(p)) for k,p in paths.items()};assert all(x is not None for x in images.values())
  events=[]
  def ev(t,key,label,rect=None,color='#6e51ff'):
@@ -131,7 +131,7 @@ def main():
   # Remove only the generated corner wordmark; no course or stock asset is cropped.
   f=frame.copy();roi=f[691:712,1145:1276];mask=cv2.imread(str(OUT/'corner-glyph-mask.png'),cv2.IMREAD_GRAYSCALE)
   f[691:712,1145:1276]=cv2.inpaint(roi,mask,3,cv2.INPAINT_TELEA);return f
- ff=imageio_ffmpeg.get_ffmpeg_exe();p=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(ROOT/'videos/layers-v2.mp4'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
+ ff=imageio_ffmpeg.get_ffmpeg_exe();p=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(ROOT/'Prompts/layers-v2.mp4'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
  j=0;native=0
  for f in range(total):
   if f<close_start:

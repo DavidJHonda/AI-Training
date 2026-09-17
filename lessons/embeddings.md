@@ -8,9 +8,9 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 ### Board 1: An ID Identifies You. It Doesn’t Describe You.
 
-**Image file:** `embeddings-student-id-editorial.jpg`
+**Image file:** `embeddings-student-id.jpg`
 
-![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id-editorial.jpg)
+![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id.jpg)
 
 **Teaching content:**
 
@@ -24,9 +24,9 @@ Imagine you and your friends rate Coke and coffee on six characteristics: Sweet,
 
 ### Board 2: Meaning Becomes an Ordered Row of Numbers
 
-**Image file:** `embeddings-meaning-row-editorial.jpg`
+**Image file:** `embeddings-meaning-row.jpg`
 
-![Meaning Becomes an Ordered Row of Numbers](embeddings-meaning-row-editorial.jpg)
+![Meaning Becomes an Ordered Row of Numbers](embeddings-meaning-row.jpg)
 
 **Teaching content:**
 
@@ -55,9 +55,9 @@ To tell them apart, you add a seventh dimension, **Citrus**. In your ratings, Pe
 
 ### Board 3: One New Dimension Separates Similar Meanings
 
-**Image file:** `embeddings-new-dimension-editorial.jpg`
+**Image file:** `embeddings-new-dimension.jpg`
 
-![One New Dimension Separates Similar Meanings](embeddings-new-dimension-editorial.jpg)
+![One New Dimension Separates Similar Meanings](embeddings-new-dimension.jpg)
 
 **Teaching content:**
 
@@ -79,9 +79,9 @@ AI also uses numbers to represent meaning. Just as each drink has a numerical pr
 
 ### Board 4: From Taste Ratings to AI Embeddings
 
-**Image file:** `embeddings-taste-test-to-ai-editorial.jpg`
+**Image file:** `embeddings-taste-test-to-ai.jpg`
 
-![From Taste Ratings to AI Embeddings](embeddings-taste-test-to-ai-editorial.jpg)
+![From Taste Ratings to AI Embeddings](embeddings-taste-test-to-ai.jpg)
 
 **Teaching content:**
 
@@ -101,9 +101,9 @@ What happens when you type “cat” into AI? Follow its token ID to the matchin
 
 ### Board 5: Inside a Real Model
 
-**Image file:** `embeddings-inside-real-model-editorial.jpg`
+**Image file:** `embeddings-inside-real-model.jpg`
 
-![Inside a Real Model](embeddings-inside-real-model-editorial.jpg)
+![Inside a Real Model](embeddings-inside-real-model.jpg)
 
 **Teaching content:**
 

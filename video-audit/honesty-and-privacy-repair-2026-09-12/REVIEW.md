@@ -2,8 +2,8 @@
 
 Source: Prompts/honesty-&-privacy-2.mp4 (roll 2, KEEP under NARRATION-REVIEW; comparison in
 video-audit/honesty-and-privacy-comparison-2026-09-12/REVIEW.md), built from the ampersand-free copy
-Prompts/honesty-and-privacy-2.mp4. Candidate: videos/honesty-and-privacy-v4.mp4, 7200 frames, 4:00.00 (v2 superseded: eight pauses inside boards; v3 superseded: JPG corner matte showed at the board bottoms; both owner reports 2026-09-12, fixed in the shared module).
-Build: scripts/video/build_honesty_privacy_review.py (editspec_build). Live file videos/honesty-and-privacy.mp4 untouched.
+Prompts/honesty-and-privacy-2.mp4. Candidate: Prompts/honesty-and-privacy-v4.mp4, 7200 frames, 4:00.00 (v2 superseded: eight pauses inside boards; v3 superseded: JPG corner matte showed at the board bottoms; both owner reports 2026-09-12, fixed in the shared module).
+Build: scripts/video/build_honesty_privacy_review.py (editspec_build). Live file course-assets/honesty-and-privacy/honesty-and-privacy.mp4 untouched.
 
 ## Edit
 - No narration cuts. Ten room-tone pauses, each at a new idea (hook -> honesty question, into each board's section, into
@@ -35,4 +35,4 @@ Build: scripts/video/build_honesty_privacy_review.py (editspec_build). Live file
   the close line "Two AI habits" (base.en misheard it, small.en confirms).
 
 ## Shipped
-2026-09-12: v4 approved ("ship it"); copied to videos/honesty-and-privacy.mp4 (the lesson entry was comingSoon; now wired with cache key 20260912ship1), candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.
+2026-09-12: v4 approved ("ship it"); copied to course-assets/honesty-and-privacy/honesty-and-privacy.mp4 (the lesson entry was comingSoon; now wired with cache key 20260912ship1), candidate and both Prompts rolls deleted. Receipt: shipping-receipt.json.

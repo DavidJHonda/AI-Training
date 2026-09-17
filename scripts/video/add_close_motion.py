@@ -14,7 +14,7 @@ drop a frame at concat. Frame counts are verified by DECODE, not container
 metadata, and the audio stream md5 must come out bit-identical.
 
 Usage:
-  .video-venv/bin/python scripts/video/add_close_motion.py videos/foo.mp4
+  .video-venv/bin/python scripts/video/add_close_motion.py course-assets/foo/foo.mp4
   # options: --out PATH  --board PNG  --span-start FRAME  --threshold 0.35
 """
 import argparse

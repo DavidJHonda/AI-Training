@@ -26,7 +26,7 @@ Five big ideas to take with you. Keep them handy whenever you work with AI.
 
 ## FIVE BIG IDEAS TO TAKE WITH YOU
 
-![Five Big Ideas to Take With You keepsake poster](../course-assets/finish-smarter-opener/five-big-ideas-keepsake.png)
+![Five Big Ideas to Take With You keepsake poster](../course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.jpg)
 
 AI predicts. It doesn’t think.
 

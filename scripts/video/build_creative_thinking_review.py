@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Creative Thinking from roll 1 under EDIT-SPEC.md (2026-09-12). Review only.
 
-Base: Prompts/creative-thinking-1.mp4 (3:03, REPAIR under NARRATION-REVIEW). Output: videos/creative-thinking-v3.mp4 (v2 resumed the first cut 8 frames before Notebook's scene cut and flashed the previous drawing; owner report 2026-09-12).
+Base: Prompts/creative-thinking-1.mp4 (3:03, REPAIR under NARRATION-REVIEW). Output: Prompts/creative-thinking-v3.mp4 (v2 resumed the first cut 8 frames before Notebook's scene cut and flashed the previous drawing; owner report 2026-09-12).
 Audit: video-audit/creative-thinking-repair-2026-09-12/.
 Three narration cuts (0:23.0-0:29.5 "Creativity isn't some mystical state of mind…"; 1:45.9-1:49.95 "We have reached a
 point…"; 2:51.5-2:55.1 "This final image summarizes…", which also removes the engine's close card). The archival
@@ -27,12 +27,12 @@ import cv2
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/creative-thinking-1.mp4'
-OUT = ROOT / 'video-audit/creative-thinking-repair-2026-09-12'; DEST = ROOT / 'videos/creative-thinking-v3.mp4'
+OUT = ROOT / 'video-audit/creative-thinking-repair-2026-09-12'; DEST = ROOT / 'Prompts/creative-thinking-v3.mp4'
 B = {k: asset_path('lessons', f'creative-thinking-{k}.jpg') for k in ('1-professions', '2-practice')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/creative-thinking.mp4', ROOT / 'lessons/creative-thinking.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/creative-thinking/creative-thinking.mp4', ROOT / 'lessons/creative-thinking.md', *B.values()])
     b.load_audio([(22.67, 23.37), (29.19, 29.87), (59.92, 60.50), (98.91, 99.64), (105.67, 106.26), (109.78, 110.12), (121.17, 121.65),
                   (124.91, 125.26), (171.27, 171.72), (174.97, 175.29), (179.31, 182.79)])
     CUTA = (fr(23.0), 894)                 # "Creativity isn't some mystical state of mind… problem solving."; resumes on Notebook's scene cut (0:29.77, inside the 29.19-29.87 silence)

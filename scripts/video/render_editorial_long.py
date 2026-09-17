@@ -22,7 +22,7 @@ from render_embrace_editorial_review import render_extended_voices
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE_OUTPUT = ROOT / "course-assets/loudest-voices/loudest-voices-1-experts.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/loudest-voices/loudest-voices-experts.jpg"
 PREP_OUTPUT = asset_path('lessons', 'loudest-voices-1-three-voices.jpg')
 
 

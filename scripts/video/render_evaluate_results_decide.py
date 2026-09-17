@@ -26,8 +26,8 @@ from editorial_typography import (
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "scripts/video/assets/evaluate-results/decide-base.jpg"
-PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-2-decide.jpg"
-LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-2-decide.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-decide.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/evaluate-the-results/evaluate-the-results-decide.jpg"
 
 FRAME = "#eae7fd"
 WHITE = "#ffffff"

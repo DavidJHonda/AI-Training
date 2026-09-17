@@ -4,7 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = process.env.COURSE_RENDER_ROOT || path.resolve(__dirname, '../..');
-const source = path.join(root, 'course-assets/welcome/welcome-3-course-toolkit.png');
+const source = path.join(root, 'course-assets/welcome/welcome-course-toolkit.jpg');
 const output = path.resolve(process.argv[2] || source);
 if (!fs.existsSync(source)) throw new Error('The finished Welcome toolkit board is missing: ' + source);
 if (output !== path.resolve(source)) {

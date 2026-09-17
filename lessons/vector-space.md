@@ -12,9 +12,9 @@ Imagine these are the only three cities on our map.
 
 ### Board 1: Three Cities, Two Coordinates Each
 
-**Image file:** `vector-space-1-cities.jpg`
+**Image file:** `vector-space-cities.jpg`
 
-![Three Cities, Two Coordinates Each](vector-space-1-cities.jpg)
+![Three Cities, Two Coordinates Each](vector-space-cities.jpg)
 
 **Teaching content:**
 
@@ -35,9 +35,9 @@ Someone hands you two sets of coordinates. For each position, which of the three
 
 ### Board 2: Use the Map to Find the Closest City
 
-**Image file:** `vector-space-1-cities-closest.jpg`
+**Image file:** `vector-space-cities-closest.jpg`
 
-![Use the Map to Find the Closest City](vector-space-1-cities-closest.jpg)
+![Use the Map to Find the Closest City](vector-space-cities-closest.jpg)
 
 **Teaching content:**
 
@@ -68,9 +68,9 @@ These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each d
 
 ### Board 3: Three Drinks, Seven Dimensions Each
 
-**Image file:** `vector-space-2-taste.jpg`
+**Image file:** `vector-space-taste.jpg`
 
-![Three Drinks, Seven Dimensions Each](vector-space-2-taste.jpg)
+![Three Drinks, Seven Dimensions Each](vector-space-taste.jpg)
 
 **Teaching content:**
 
@@ -142,9 +142,9 @@ On its own, **IT** could refer to many things. As the layers process this senten
 
 ### Board 6: How Context Changes IT’s Position
 
-**Image file:** `vector-space-4-meaning-map.jpg`
+**Image file:** `vector-space-meaning-map.jpg`
 
-![How Context Changes IT’s Position](vector-space-4-meaning-map.jpg)
+![How Context Changes IT’s Position](vector-space-meaning-map.jpg)
 
 **Teaching content:**
 

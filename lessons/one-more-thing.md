@@ -14,9 +14,9 @@ But having the highest probability doesn’t guarantee selection. A 22% probabil
 
 ### Board 1: Same Probabilities, Different Choices
 
-**Image file:** `one-more-thing-1-draws.jpg`
+**Image file:** `one-more-thing-draws.jpg`
 
-![Same Probabilities, Different Choices](one-more-thing-1-draws.jpg)
+![Same Probabilities, Different Choices](one-more-thing-draws.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ Start with the same probabilities. Watch how they change with temperature.
 
 ### Board 2: How Temperature Changes the Odds
 
-**Image file:** `one-more-thing-2-temperature.jpg`
+**Image file:** `one-more-thing-temperature.jpg`
 
-![How Temperature Changes the Odds](one-more-thing-2-temperature.jpg)
+![How Temperature Changes the Odds](one-more-thing-temperature.jpg)
 
 **Teaching content:**
 
@@ -77,9 +77,9 @@ To picture the scale, imagine a model that uses one trillion weights for each to
 
 ### Board 3: The Math Adds Up Fast
 
-**Image file:** `one-more-thing-3-bill.jpg`
+**Image file:** `one-more-thing-bill.jpg`
 
-![The Math Adds Up Fast](one-more-thing-3-bill.jpg)
+![The Math Adds Up Fast](one-more-thing-bill.jpg)
 
 **Teaching content:**
 

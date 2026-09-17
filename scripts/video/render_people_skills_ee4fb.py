@@ -26,8 +26,8 @@ ART_SHEET = (
     ROOT
     / "scripts/video/assets/people-skills-ee4fb/art-sheet-v2.png"
 )
-PAGE_OUTPUT = ROOT / "course-assets/people-skills/people-skills-2-four-ways.jpg"
-PREP_OUTPUT = ROOT / "course-assets/people-skills/people-skills-2-four-ways.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/people-skills/people-skills-four-ways.jpg"
+PREP_OUTPUT = ROOT / "course-assets/people-skills/people-skills-four-ways.jpg"
 REVIEW_OUTPUT = ROOT / "board-review-first-four/alternatives/build-your-skills/people-skills-four-ways-ee4fb-review.jpg"
 
 WIDTH = 1600

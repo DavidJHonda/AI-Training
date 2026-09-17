@@ -5,7 +5,7 @@ Base: Prompts/which-app-1.mp4 (3:37; plain voice, In-N-Out and McDonald's named,
 (5:13; REROLL as a base, but RICH on the Gemini card and on Board 3's columns), +1.2 dB to roll 1's level (-18.31 vs -17.09 dBFS).
 Plan: video-audit/which-app-comparison-2026-09-15/REVIEW.md. David 2026-09-15: "Agree with delete of 'Warning tone'. And, using the
 Gemini narration from Roll 2. And, use the Board 3 from Roll 2."
-Output: videos/your-home-base-v1.mp4. Audit: video-audit/which-app-repair-2026-09-15/.
+Output: Prompts/your-home-base-v1.mp4. Audit: video-audit/which-app-repair-2026-09-15/.
 Cuts (roll 1): 2:54.6-2:56.0 "Warning tone." (a stage direction spoken aloud); 1:16.1-1:19.2 "Each app brings a specific mission to
 your workflow." (filler, banned word). Grafts (roll 2 audio under our boards): Gemini card, two pieces around roll 1's own "Its main
 advantage shows up when your work connects to the Google tools you already use on a daily basis" ("Gemini takes a different approach.
@@ -31,9 +31,9 @@ from build_where_ai_works_best_review import photo_walk
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/which-app-1.mp4'
 SRC2 = ROOT / 'Prompts/which-app-2.mp4'
-OUT = ROOT / 'video-audit/which-app-repair-2026-09-15'; DEST = ROOT / 'videos/your-home-base-v1.mp4'   # the lesson's new slug (retitled 2026-09-15); rolls and boards keep the which-app slug until the kit is re-slugged
-B = {'big-three': ROOT / 'course-assets/your-home-base/which-app-1-big-three.jpg', 'home-base': ROOT / 'course-assets/your-home-base/which-app-2-home-base.jpg',
-     'how-we-used': ROOT / 'course-assets/your-home-base/which-app-3-how-we-used.jpg'}
+OUT = ROOT / 'video-audit/which-app-repair-2026-09-15'; DEST = ROOT / 'Prompts/your-home-base-v1.mp4'   # the lesson's new slug (retitled 2026-09-15); rolls and boards keep the which-app slug until the kit is re-slugged
+B = {'big-three': ROOT / 'course-assets/your-home-base/your-home-base-big-three.jpg', 'home-base': ROOT / 'course-assets/your-home-base/your-home-base-home-base.jpg',
+     'how-we-used': ROOT / 'course-assets/your-home-base/your-home-base-how-we-used.jpg'}
 GAIN2 = 1.2   # roll 2 -18.31 dBFS median speech vs roll 1 -17.09
 
 def columns(path, ncols):
@@ -64,7 +64,7 @@ def columns(path, ncols):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/your-home-base.mp4', SRC2, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/your-home-base/your-home-base.mp4', SRC2, *B.values()])
     b.load_audio([(0.00, 0.29), (4.82, 5.35), (9.21, 9.65), (10.95, 11.20), (12.46, 13.08), (16.31, 16.65), (21.10, 21.74), (23.39, 23.89), (28.20, 28.56), (35.18, 35.63),
                   (39.45, 39.79), (42.03, 42.33), (46.35, 46.87), (49.26, 49.59), (52.91, 53.18), (60.67, 61.11), (64.30, 64.59), (67.87, 68.54), (72.74, 73.22), (75.95, 76.46),
                   (78.94, 79.61), (82.58, 82.97), (87.19, 87.50), (91.04, 91.82), (94.70, 95.12), (97.82, 98.67), (100.51, 101.05), (106.68, 107.29), (111.08, 111.37),

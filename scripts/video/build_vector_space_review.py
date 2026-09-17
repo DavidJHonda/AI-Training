@@ -17,7 +17,7 @@ import json,hashlib,subprocess,wave,argparse
 import cv2,numpy as np,imageio_ffmpeg
 from PIL import Image,ImageDraw,ImageFont
 from build_one_more_thing_review_repair import ring
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/vector-space-repair-2026-09-10';DEST=ROOT/'videos/vector-space-v2.mp4'
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/vector-space-repair-2026-09-10';DEST=ROOT/'Prompts/vector-space-v2.mp4'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*30)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -49,7 +49,7 @@ class Reader:
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args();(OUT/'states').mkdir(exist_ok=True);sentence()
  sources={'1':ROOT/'Prompts/vector-space-1.mp4','2':ROOT/'Prompts/vector-space-2.mp4'}
- protected=[*sources.values(),ROOT/'videos/vector-space.mp4',ROOT/'lessons/vector-space.md'];hashes={str(p):sha(p) for p in protected}
+ protected=[*sources.values(),ROOT/'course-assets/vector-space/vector-space.mp4',ROOT/'lessons/vector-space.md'];hashes={str(p):sha(p) for p in protected}
  audio={n:readwav(OUT/f'source-{n}.wav') for n in sources};audio['usually']=readwav(OUT/'usually-donor.wav')
  # Quiet room tone from the first roll, selected automatically outside word intervals.
  words=json.loads((ROOT/'video-audit/vector-space-comparison-2026-09-10/verification-transcripts/vector-space-1.json').read_text())['words']
@@ -177,7 +177,7 @@ def main():
  for i,e in enumerate(schedule):
   if i and e['board']!=schedule[i-1]['board']:boundaries[e['start_frame']]=e['label']
  boundaries[close_start]='Standard close'
- m=dict(output=str(DEST),fps=30,total_frames=total,duration=total/30,close_start_frame=close_start,timeline=rows,states=schedule,boundaries=[dict(frame=f,label=l) for f,l in sorted(boundaries.items())],protected_hashes=hashes,board_assets={k:dict(path=str(p),sha256=sha(p)) for k,p in assets.items()},outline_checks=checks,audio=dict(sample_rate=SR,room_tone_source=[tone_start,tone_start+.1],crossfade_ms=5,version2_gain=gain2,usually_gain=gainu,usually_donor_source=str(ROOT/'videos/make-your-move.mp4'),usually_donor_seconds=[245.633333,246.066667]),close_camera=dict(prehold_frames=48,push_frames=150,zoom_endpoint=1.2,settled_frames=total-close_start-198),scope='Review only; live unchanged')
+ m=dict(output=str(DEST),fps=30,total_frames=total,duration=total/30,close_start_frame=close_start,timeline=rows,states=schedule,boundaries=[dict(frame=f,label=l) for f,l in sorted(boundaries.items())],protected_hashes=hashes,board_assets={k:dict(path=str(p),sha256=sha(p)) for k,p in assets.items()},outline_checks=checks,audio=dict(sample_rate=SR,room_tone_source=[tone_start,tone_start+.1],crossfade_ms=5,version2_gain=gain2,usually_gain=gainu,usually_donor_source=str(ROOT/'course-assets/make-your-move/make-your-move.mp4'),usually_donor_seconds=[245.633333,246.066667]),close_camera=dict(prehold_frames=48,push_frames=150,zoom_endpoint=1.2,settled_frames=total-close_start-198),scope='Review only; live unchanged')
  (OUT/'edit-manifest.json').write_text(json.dumps(m,indent=2));print('Prepared',total,total/30,flush=True)
  if args.prepare_only:return
  assert not DEST.exists();ff=imageio_ffmpeg.get_ffmpeg_exe();p=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(OUT/'edited.wav'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)

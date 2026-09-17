@@ -20,7 +20,7 @@ Think about driving a car. You can get good at it without ever opening the hood.
 
 ### Board 1: Under the Hood
 
-**Course image (post-production only; not a Notebook upload):** `opener-understand-under-hood-v3.jpg`
+**Course image (post-production only; not a Notebook upload):** `understand-ai-opener-under-hood.jpg`
 
 **Teaching content:**
 
@@ -32,9 +32,9 @@ This section takes you inside the machine, one piece at a time. Some of this wil
 
 ### Board 2: Understand AI
 
-**Image file:** `opener-understand-2-map.jpg`
+**Image file:** `understand-ai-opener-section-map.jpg`
 
-![Understand AI](opener-understand-2-map.jpg)
+![Understand AI](understand-ai-opener-section-map.jpg)
 
 **Teaching content:**
 

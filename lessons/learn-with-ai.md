@@ -18,9 +18,9 @@ The first move is choosing which kind of AI to aim at the job. There’s a simpl
 
 ### Board 1: Which Study Tool for the Job?
 
-**Image file:** `learn-with-ai-1-study-tools.jpg`
+**Image file:** `learn-with-ai-study-toolkit.jpg`
 
-![Which Study Tool for the Job?](learn-with-ai-1-study-tools.jpg)
+![Which Study Tool for the Job?](learn-with-ai-study-toolkit.jpg)
 
 **Teaching content:**
 
@@ -36,9 +36,9 @@ Use Gemini Notebook as your main study tool when you’re studying from class ma
 
 ### Board 2: How Gemini Notebook Works
 
-**Image file:** `learn-with-ai-2-how-it-works.jpg`
+**Image file:** `learn-with-ai-how-it-works.jpg`
 
-![How Gemini Notebook Works](learn-with-ai-2-how-it-works.jpg)
+![How Gemini Notebook Works](learn-with-ai-how-it-works.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ Turn your class materials into the study tools you need.
 
 ### Board 3: Your Four Moves for Gemini Notebook
 
-**Image file:** `learn-with-ai-3-four-moves.jpg`
+**Image file:** `learn-with-ai-four-moves.jpg`
 
-![Your Four Moves for Gemini Notebook](learn-with-ai-3-four-moves.jpg)
+![Your Four Moves for Gemini Notebook](learn-with-ai-four-moves.jpg)
 
 **Teaching content:**
 
@@ -66,9 +66,9 @@ Use AI to strengthen the learning, not skip it.
 
 ### Close
 
-**Image file:** `learn-with-ai-4-close.jpg`
+**Image file:** `learn-with-ai-close.jpg`
 
-![Close board](learn-with-ai-4-close.jpg)
+![Close board](learn-with-ai-close.jpg)
 
 ## Closing Message
 

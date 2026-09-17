@@ -44,8 +44,8 @@ ART_WASH_OPACITY = 0.10
 ART_BORDER_OPACITY = 0.22
 
 ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/honesty-integrity/art-sheet.png"
-PAGE_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-2-best-practices.jpg"
-PREP_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-2-best-practices.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-best-practices.jpg"
+PREP_OUTPUT = ROOT / "course-assets/honesty-and-privacy/honesty-and-privacy-best-practices.jpg"
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:

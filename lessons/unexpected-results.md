@@ -22,9 +22,9 @@ Once you see that shape, you find it everywhere. Four famous plans, and where ea
 
 ### Board 1: The Biggest Results Were Never the Plan
 
-**Image file:** `unexpected-results-1-plans.jpg`
+**Image file:** `unexpected-results-plans.jpg`
 
-![The Biggest Results Were Never the Plan](unexpected-results-1-plans.jpg)
+![The Biggest Results Were Never the Plan](unexpected-results-plans.jpg)
 
 **Teaching content:**
 
@@ -46,9 +46,9 @@ You do not need to predict the future perfectly. You need to recognize uncertain
 
 ### Close
 
-**Image file:** `unexpected-results-2-close.jpg`
+**Image file:** `unexpected-results-close.jpg`
 
-![Close board](unexpected-results-2-close.jpg)
+![Close board](unexpected-results-close.jpg)
 
 ## Closing Message
 

@@ -5,7 +5,7 @@ Base: Prompts/opener-work-2.mp4 (2:39; REROLL under NARRATION-REVIEW only becaus
 Donor: Prompts/close-opener-work.mp4, the narration-only roll from lessons/opener-work-donor.md: it speaks "Don't just use AI,
 work with it." (33.2-35.7) and "AI doesn't replace your thinking, it multiplies it." (65.8-68.8; the lesson says "It doesn't",
 David's call 2026-09-14 to take the line as spoken rather than splice a single word). Donor +1.1 dB to match roll 2's speech level.
-Output: videos/opener-work-v2.mp4. Audit: video-audit/opener-work-repair-2026-09-14/.
+Output: Prompts/work-with-ai-opener-v2.mp4. Audit: video-audit/opener-work-repair-2026-09-14/.
 One approved narration cut (David, 2026-09-14): roll 2's 140.3-155.7 "You remain the ultimate editor. The user bears total
 responsibility for the final product. Focus on the instruction on the screen. Work in active partnership with the AI. Your personal
 insight provides the direction while the machine provides the scale." (invented; the last sentence paraphrased the close) is replaced
@@ -28,8 +28,8 @@ from build_where_ai_works_best_review import photo_walk
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/opener-work-2.mp4'
 DONOR = ROOT / 'Prompts/close-opener-work.mp4'
-OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14'; DEST = ROOT / 'videos/opener-work-v2.mp4'
-B = {'same-tool': ROOT / 'course-assets/work-with-ai-opener/opener-work-2-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/opener-work-3-section-map.jpg'}
+OUT = ROOT / 'video-audit/opener-work-repair-2026-09-14'; DEST = ROOT / 'Prompts/work-with-ai-opener-v2.mp4'
+B = {'same-tool': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg', 'map': ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg'}
 
 # Section-map geometry (image px on the 1600x871 board; measured 2026-09-14, see REVIEW.md): each row = number circle + title + description,
 # inside the white card's rails; dividers between rows are excluded.
@@ -37,7 +37,7 @@ ROWS = {'know': [100, 145, 1500, 305], 'use': [100, 335, 1500, 497], 'think': [1
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/opener-work.mp4', ROOT / 'lessons/Opener-Work.md', DONOR, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/work-with-ai-opener/work-with-ai-opener.mp4', ROOT / 'lessons/Opener-Work.md', DONOR, *B.values()])
     b.load_audio([(2.41, 2.86), (5.00, 5.53), (7.91, 8.47), (12.50, 12.94), (15.05, 15.51), (18.71, 19.33), (24.22, 24.65), (28.15, 28.68), (31.04, 31.48),
                   (36.99, 37.62), (53.92, 54.33), (57.18, 57.58), (66.38, 66.91), (72.47, 73.06), (96.26, 96.90), (120.69, 121.14), (123.24, 123.68),
                   (132.93, 133.61), (137.22, 137.68), (140.16, 140.61), (155.79, 159.29)])

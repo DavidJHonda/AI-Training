@@ -45,9 +45,9 @@ def frame_count(path: Path) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--v2", default="video-audit/review-31/videos/transformer-v2.mp4")
+    parser.add_argument("--v2", default="video-audit/review-31/Prompts/transformer-v2.mp4")
     parser.add_argument("--reroll", default="Prompts/transformer-reroll.mp4")
-    parser.add_argument("--output", default="video-audit/review-31/videos/transformer-v3-spine.mp4")
+    parser.add_argument("--output", default="video-audit/review-31/Prompts/transformer-v3-spine.mp4")
     args = parser.parse_args()
 
     root = Path.cwd().resolve()

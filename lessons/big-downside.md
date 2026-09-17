@@ -22,9 +22,9 @@ The harder question is whether guardrails will work as AI systems become far mor
 
 ### Board 1: The Guardrail Challenge Gets Harder
 
-**Image file:** `big-downside-1-guardrails.jpg`
+**Image file:** `big-downside-safety-guardrails.jpg`
 
-![The Guardrail Challenge Gets Harder](big-downside-1-guardrails.jpg)
+![The Guardrail Challenge Gets Harder](big-downside-safety-guardrails.jpg)
 
 **Teaching content:**
 
@@ -44,9 +44,9 @@ Guardrails are supposed to catch this, but they do not always work. Attackers lo
 
 ### Board 2: Why Jailbreaks Keep Appearing
 
-**Image file:** `big-downside-2-jailbreak.jpg`
+**Image file:** `big-downside-jailbreak.jpg`
 
-![Why Jailbreaks Keep Appearing](big-downside-2-jailbreak.jpg)
+![Why Jailbreaks Keep Appearing](big-downside-jailbreak.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ A massive guardrail wall has many guarded paths. Defenders must protect every pa
 
 ### Board 3: A Jailbreak
 
-**Image file:** `big-downside-3-policy-puppetry.jpg`
+**Image file:** `big-downside-policy-puppetry.jpg`
 
-![A Jailbreak](big-downside-3-policy-puppetry.jpg)
+![A Jailbreak](big-downside-policy-puppetry.jpg)
 
 **Teaching content:**
 
@@ -68,9 +68,9 @@ Jailbreaking is not always necessary. A scammer can combine ordinary AI abilitie
 
 ### Board 4: How the Voice-Clone Scam Works
 
-**Image file:** `big-downside-4-voice-clone.jpg`
+**Image file:** `big-downside-voice-cloning.jpg`
 
-![How the Voice-Clone Scam Works](big-downside-4-voice-clone.jpg)
+![How the Voice-Clone Scam Works](big-downside-voice-cloning.jpg)
 
 **Teaching content:**
 
@@ -84,9 +84,9 @@ Bad actors mean to cause harm. But AI can also go wrong when nobody means any ha
 
 ### Board 5: The Test That Reached the Internet
 
-**Image file:** `big-downside-5-goal-test.jpg`
+**Image file:** `big-downside-goal-test.jpg`
 
-![The Test That Reached the Internet](big-downside-5-goal-test.jpg)
+![The Test That Reached the Internet](big-downside-goal-test.jpg)
 
 **Teaching content:**
 
@@ -98,9 +98,9 @@ Safeguards and rules often arrive after a new technology is already in use. With
 
 ### Board 6: Technology First. Safety Later.
 
-**Image file:** `big-downside-6-safety-timeline.jpg`
+**Image file:** `big-downside-safety-timeline.jpg`
 
-![Technology First. Safety Later.](big-downside-6-safety-timeline.jpg)
+![Technology First. Safety Later.](big-downside-safety-timeline.jpg)
 
 **Teaching content:**
 
@@ -116,9 +116,9 @@ In 2026, more than a thousand employees at leading AI companies, including Anthr
 
 ### Close
 
-**Image file:** `big-downside-6-close.jpg`
+**Image file:** `big-downside-close.jpg`
 
-![Close board](big-downside-6-close.jpg)
+![Close board](big-downside-close.jpg)
 
 ## Closing Message
 

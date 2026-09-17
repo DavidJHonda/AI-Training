@@ -18,61 +18,62 @@ const OUTPUT_REPORT = OUTPUT_ROOT === ROOT
   : path.join(OUTPUT_ROOT, "closing-board-generation.json");
 const lessonArg = process.argv.indexOf("--lesson");
 const ONLY_SECTION = lessonArg >= 0 ? process.argv[lessonArg + 1] : null;
+const ONLY_SECTIONS = ONLY_SECTION ? new Set(ONLY_SECTION.split(",").filter(Boolean)) : null;
 
 const ASSETS = {
-  welcome: "course-assets/welcome/welcome-4-close.jpg",
-  whydeeper: "course-assets/why-learn-ai/why-learn-ai-3-close.jpg",
-  llms: "course-assets/what-is-ai/what-is-ai-4-close.jpg",
-  aihistory: "course-assets/how-an-llm-works/how-an-llm-works-5-close.jpg",
-  doesaithink: "course-assets/does-ai-think/does-ai-think-3-close.jpg",
-  control: "course-assets/what-you-can-control/what-you-can-control-3-close.jpg",
-  whybother: "course-assets/beyond-the-average/does-school-matter-3-close.jpg",
-  studying: "course-assets/learn-with-ai/learn-with-ai-4-close.jpg",
-  openerworkwith: "course-assets/work-with-ai-opener/opener-work-4-close.jpg",
-  aivscode: "course-assets/ai-is-different/ai-is-different-6-close.jpg",
-  whatitdoesbest: "course-assets/where-ai-works-best/where-ai-works-best-6-close.jpg",
-  modelselection: "course-assets/your-home-base/which-app-4-close.jpg",
-  questionsvaluable: "course-assets/questions-matter/questions-matter-4-close.jpg",
-  prompting: "course-assets/art-of-prompting/art-of-prompting-3-close.jpg",
-  prompt: "course-assets/context-window/context-window-5-close.jpg",
-  evaluating: "course-assets/evaluate-the-results/evaluate-the-results-6-close.jpg",
-  critical: "course-assets/critical-thinking/critical-thinking-4-close.jpg",
-  openerfoundations: "course-assets/understand-ai-opener/opener-understand-3-close.jpg",
+  welcome: "course-assets/welcome/welcome-close.jpg",
+  whydeeper: "course-assets/why-learn-ai/why-learn-ai-close.jpg",
+  llms: "course-assets/what-is-ai/what-is-ai-close.jpg",
+  aihistory: "course-assets/how-an-llm-works/how-an-llm-works-close.jpg",
+  doesaithink: "course-assets/does-ai-think/does-ai-think-close.jpg",
+  control: "course-assets/what-you-can-control/what-you-can-control-close.jpg",
+  whybother: "course-assets/beyond-the-average/beyond-the-average-close.jpg",
+  studying: "course-assets/learn-with-ai/learn-with-ai-close.jpg",
+  openerworkwith: "course-assets/work-with-ai-opener/work-with-ai-opener-close.jpg",
+  aivscode: "course-assets/ai-is-different/ai-is-different-close.jpg",
+  whatitdoesbest: "course-assets/where-ai-works-best/where-ai-works-best-close.jpg",
+  modelselection: "course-assets/your-home-base/your-home-base-close.jpg",
+  questionsvaluable: "course-assets/questions-matter/questions-matter-close.jpg",
+  prompting: "course-assets/art-of-prompting/art-of-prompting-close.jpg",
+  prompt: "course-assets/context-window/context-window-close.jpg",
+  evaluating: "course-assets/evaluate-the-results/evaluate-the-results-close.jpg",
+  critical: "course-assets/critical-thinking/critical-thinking-close.jpg",
+  openerfoundations: "course-assets/understand-ai-opener/understand-ai-opener-close.jpg",
   training: "course-assets/training/training-close.jpg",
-  aiismath: "course-assets/ai-is-math/ai-is-math-6-close.jpg",
-  tokens: "course-assets/tokens/tokens-5-close.jpg",
-  embeddings: "course-assets/embeddings/embeddings-3-close.jpg",
+  aiismath: "course-assets/ai-is-math/ai-is-math-close.jpg",
+  tokens: "course-assets/tokens/tokens-close.jpg",
+  embeddings: "course-assets/embeddings/embeddings-close.jpg",
   attention: "course-assets/transformer/transformer-close.jpg",
-  layers: "course-assets/layers/layers-4-close.jpg",
+  layers: "course-assets/layers/layers-close.jpg",
   vectorspace: "course-assets/vector-space/vector-space-close.jpg",
-  prediction: "course-assets/how-ai-answers/how-ai-answers-9-close.jpg",
-  inference: "course-assets/one-more-thing/one-more-thing-4-close.jpg",
-  openerprotect: "course-assets/avoid-traps-opener/opener-avoid-4-close.jpg",
-  hallucination: "course-assets/hallucination/hallucination-5-close.jpg",
-  trainingbias: "course-assets/training-bias/training-bias-6-close.jpg",
-  documenttrap: "course-assets/document-trap/document-trap-4-close.jpg",
-  mindtrap: "course-assets/mind-trap/mind-trap-3-close.jpg",
-  flattery: "course-assets/flattery-trap/flattery-trap-5-close.jpg",
-  engagementtrap: "course-assets/engagement-trap/engagement-trap-4-close.jpg",
-  supporttrap: "course-assets/support-trap/support-trap-4-close.jpg",
-  faketrap: "course-assets/fake-trap/fake-trap-5-close.jpg",
-  openerrealworld: "course-assets/embrace-the-future-opener/opener-embrace-3-close.jpg",
-  whatpeoplesay: "course-assets/loudest-voices/loudest-voices-3-close.jpg",
-  paceofchange: "course-assets/pace-of-change/pace-of-change-5-close.jpg",
-  bigdownside: "course-assets/big-downside/big-downside-6-close.jpg",
-  bigupside: "course-assets/big-upside/big-upside-4-close.jpg",
-  agents: "course-assets/rise-of-agents/rise-of-agents-5-close.jpg",
-  workchanges: "course-assets/work-changes/work-changes-5-close.jpg",
-  computecost: "course-assets/data-centers/data-centers-3-close.jpg",
-  unexpected: "course-assets/unexpected-results/unexpected-results-2-close.jpg",
-  choosemodel: "course-assets/your-choices/your-choices-4-close.jpg",
-  aitips: "course-assets/next-level-moves/next-level-moves-5-close.jpg",
-  creativethinking: "course-assets/creative-thinking/creative-thinking-3-close.jpg",
-  peopleskills: "course-assets/people-skills/people-skills-3-close.jpg",
-  becurious: "course-assets/curious-and-flexible/curious-and-flexible-3-close.jpg",
-  makeyourmove: "course-assets/make-your-move/make-your-move-4-close.jpg",
-  openerskills: "course-assets/build-your-skills-opener/opener-build-3-close.jpg",
-  integrity: "course-assets/honesty-and-privacy/honesty-and-privacy-5-close.jpg"
+  prediction: "course-assets/how-ai-answers/how-ai-answers-close.jpg",
+  inference: "course-assets/one-more-thing/one-more-thing-close.jpg",
+  openerprotect: "course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg",
+  hallucination: "course-assets/hallucination/hallucination-close.jpg",
+  trainingbias: "course-assets/training-bias/training-bias-close.jpg",
+  documenttrap: "course-assets/document-trap/document-trap-close.jpg",
+  mindtrap: "course-assets/mind-trap/mind-trap-close.jpg",
+  flattery: "course-assets/flattery-trap/flattery-trap-close.jpg",
+  engagementtrap: "course-assets/engagement-trap/engagement-trap-close.jpg",
+  supporttrap: "course-assets/support-trap/support-trap-close.jpg",
+  faketrap: "course-assets/fake-trap/fake-trap-close.jpg",
+  openerrealworld: "course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg",
+  whatpeoplesay: "course-assets/loudest-voices/loudest-voices-close.jpg",
+  paceofchange: "course-assets/pace-of-change/pace-of-change-close.jpg",
+  bigdownside: "course-assets/big-downside/big-downside-close.jpg",
+  bigupside: "course-assets/big-upside/big-upside-close.jpg",
+  agents: "course-assets/rise-of-agents/rise-of-agents-close.jpg",
+  workchanges: "course-assets/work-changes/work-changes-close.jpg",
+  computecost: "course-assets/data-centers/data-centers-close.jpg",
+  unexpected: "course-assets/unexpected-results/unexpected-results-close.jpg",
+  choosemodel: "course-assets/your-choices/your-choices-close.jpg",
+  aitips: "course-assets/next-level-moves/next-level-moves-close.jpg",
+  creativethinking: "course-assets/creative-thinking/creative-thinking-close.jpg",
+  peopleskills: "course-assets/people-skills/people-skills-close.jpg",
+  becurious: "course-assets/curious-and-flexible/curious-and-flexible-close.jpg",
+  makeyourmove: "course-assets/make-your-move/make-your-move-close.jpg",
+  openerskills: "course-assets/build-your-skills-opener/build-your-skills-opener-close.jpg",
+  integrity: "course-assets/honesty-and-privacy/honesty-and-privacy-close.jpg"
 };
 
 function sha256(file) {
@@ -154,9 +155,14 @@ function htmlWithLiveCloseBoards() {
     });
 
     const report = [];
-    const selectedAssets = Object.entries(ASSETS).filter(([section]) => !ONLY_SECTION || section === ONLY_SECTION);
-    if (ONLY_SECTION && !selectedAssets.length) throw new Error(`Unknown closing-board lesson: ${ONLY_SECTION}`);
+    const selectedAssets = Object.entries(ASSETS).filter(([section]) => !ONLY_SECTIONS || ONLY_SECTIONS.has(section));
+    if (ONLY_SECTIONS && selectedAssets.length !== ONLY_SECTIONS.size) {
+      const unknown = [...ONLY_SECTIONS].filter((section) => !ASSETS[section]);
+      throw new Error(`Unknown closing-board lesson${unknown.length === 1 ? "" : "s"}: ${unknown.join(", ")}`);
+    }
     for (const [section, relativePath] of selectedAssets) {
+      const target = path.join(OUTPUT_ROOT, relativePath);
+      const establishedDimensions = fs.existsSync(target) ? jpegDimensions(target) : null;
       await page.goto(`http://127.0.0.1:${PORT}/index.html?print=lesson:${section}`, { waitUntil: "networkidle" });
       await page.evaluate(() => document.fonts.ready);
       const board = page.locator(".close-board:visible").last();
@@ -170,6 +176,25 @@ function htmlWithLiveCloseBoards() {
       });
       const compactWidth = Math.min(before.width, Math.ceil(Math.max(400, ...before.children.map((child) => child.width + 40))));
       await board.evaluate((element, width) => {
+        // Capture the board on an isolated white stage. Chromium rounds an
+        // element screenshot's clip to device pixels; at 3x, that occasionally
+        // included one CSS pixel from the following lesson block. The stage's
+        // white padding makes that rounding harmless without altering the
+        // board's measured dimensions or any content positions.
+        const stage = document.createElement("div");
+        stage.id = "closing-board-capture-stage";
+        Object.assign(stage.style, {
+          position: "fixed",
+          left: "0",
+          top: "0",
+          width: `${width}px`,
+          background: "#ffffff",
+          boxSizing: "content-box",
+          overflow: "hidden",
+          zIndex: "2147483647"
+        });
+        document.body.appendChild(stage);
+        stage.appendChild(element);
         Object.assign(element.style, {
           width: `${width}px`,
           margin: "0 auto",
@@ -191,9 +216,18 @@ function htmlWithLiveCloseBoards() {
           throw new Error(`${section}: compact canvas changed child ${index + 1} from ${JSON.stringify(child)} to ${JSON.stringify(rendered)}`);
         }
       });
-      const target = path.join(OUTPUT_ROOT, relativePath);
+      const canvasWidth = establishedDimensions ? establishedDimensions.width / 3 : after.width;
+      const canvasHeight = establishedDimensions ? establishedDimensions.height / 3 : after.height;
+      if (after.width > canvasWidth + 0.5 || after.height > canvasHeight + 0.5) {
+        throw new Error(`${section}: closing board ${after.width}x${after.height} exceeds its established ${canvasWidth}x${canvasHeight} CSS-pixel canvas`);
+      }
+      const stage = page.locator("#closing-board-capture-stage");
+      await stage.evaluate((element, dimensions) => {
+        element.style.width = `${dimensions.width}px`;
+        element.style.height = `${dimensions.height}px`;
+      }, { width: canvasWidth, height: canvasHeight });
       fs.mkdirSync(path.dirname(target), { recursive: true });
-      await board.screenshot({ path: target, type: "jpeg", quality: 98 });
+      await stage.screenshot({ path: target, type: "jpeg", quality: 98 });
       const dimensions = jpegDimensions(target);
       report.push({ section, src: relativePath, cssWidth: after.width, cssHeight: after.height, width: dimensions.width, height: dimensions.height, bytes: fs.statSync(target).size, sha256: sha256(target) });
       console.log(`${section}: ${relativePath} (${dimensions.width}x${dimensions.height})`);

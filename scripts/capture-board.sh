@@ -46,7 +46,7 @@ done
 # are production inputs, while the lesson now displays a non-destructive crop of the
 # same file. Refuse any generic recapture whose output basename would overwrite one.
 case "$(basename "$OUT")" in
-  welcome-1-why-go-deeper.jpg|opener-work-1-refrain.jpg|opener-understand-1-kind.jpg|opener-avoid-1-traps.jpg|opener-embrace-1-voices.jpg|opener-build-1-creed.jpg)
+  welcome-why-go-deeper.jpg|work-with-ai-opener-refrain.jpg|understand-ai-opener-kind.jpg|avoid-traps-opener-traps.jpg|embrace-the-future-opener-voices.jpg|build-your-skills-opener-creed.jpg)
     echo "Refusing to overwrite retained video-source board: $OUT" >&2
     exit 1
     ;;

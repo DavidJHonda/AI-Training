@@ -2,7 +2,7 @@
 """Where AI Works Best from roll 1 under EDIT-SPEC.md (2026-09-14). Review only.
 
 Base: Prompts/where-ai-works-best-1.mp4 (4:46, REPAIR under NARRATION-REVIEW: every strength taught, the last close
-line paraphrased). Output: videos/where-ai-works-best-v2.mp4. Audit: video-audit/where-ai-works-best-repair-2026-09-14/.
+line paraphrased). Output: Prompts/where-ai-works-best-v2.mp4. Audit: video-audit/where-ai-works-best-repair-2026-09-14/.
 Audio: no narration cut. One audio-only graft: roll 1's paraphrase "Just because it can try a task doesn't mean it was
 built for it." (279.48-282.60) is replaced by roll 2's verbatim "Can try is not built for." (193.56-195.35; donor span
 193.27-195.50 sits inside its silences), +1.7 dB to match roll 1's speech level, under the standard close.
@@ -21,10 +21,10 @@ from editspec_build import Build, fr, BLUE, PURPLE, TEAL, AMBER
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/where-ai-works-best-1.mp4'
 SRC2 = ROOT / 'Prompts/where-ai-works-best-2.mp4'
-OUT = ROOT / 'video-audit/where-ai-works-best-repair-2026-09-14'; DEST = ROOT / 'videos/where-ai-works-best-v2.mp4'
-B = {'built': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-1-built-this-course.jpg', 'reshape': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-2-reshape.jpg',
-     'explore': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-3-explore.jpg', 'find': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-4-find.jpg',
-     'problems': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-5-problems.jpg'}
+OUT = ROOT / 'video-audit/where-ai-works-best-repair-2026-09-14'; DEST = ROOT / 'Prompts/where-ai-works-best-v2.mp4'
+B = {'built': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-built-this-course.jpg', 'reshape': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-reshape.jpg',
+     'explore': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-explore.jpg', 'find': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-find.jpg',
+     'problems': ROOT / 'course-assets/where-ai-works-best/where-ai-works-best-problems.jpg'}
 
 # Board geometry (image px, shared template; measured 2026-09-14 by dark-pixel row projection, see REVIEW.md):
 # what-it-does = label + paragraph above the divider; example rows include the bullet dot; why-it-fits = label + text
@@ -62,7 +62,7 @@ def photo_walk(b, key, asset, src_in, src_out, moves, photo):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/where-ai-works-best.mp4', ROOT / 'lessons/where-ai-works-best.md', SRC2, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/where-ai-works-best/where-ai-works-best.mp4', ROOT / 'lessons/where-ai-works-best.md', SRC2, *B.values()])
     b.load_audio([(11.45, 11.94), (37.28, 37.84), (38.94, 39.49), (46.64, 47.11), (53.43, 53.85), (60.78, 61.21), (102.30, 102.82), (117.14, 117.55),
                   (141.93, 142.62), (147.91, 148.39), (187.11, 187.59), (192.90, 193.33), (231.35, 231.79), (236.73, 237.09), (272.80, 273.18), (276.32, 276.83)])
     S1 = fr(11.6)            # opener -> course story (silence 11.45-11.94); Board 1 arrives here over the engine's "Execution Gap" graphic

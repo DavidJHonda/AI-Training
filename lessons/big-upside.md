@@ -10,9 +10,9 @@ Your body runs on proteins. Think of them as tiny machines. They digest your foo
 
 ### Board 1: The Protein Folding Problem
 
-**Image file:** `big-upside-1-protein.jpg`
+**Image file:** `big-upside-protein.jpg`
 
-![The Protein Folding Problem](big-upside-1-protein.jpg)
+![The Protein Folding Problem](big-upside-protein.jpg)
 
 **Teaching content:**
 
@@ -34,9 +34,9 @@ You learned that AI is a pattern machine. Smart people are pointing AI at proble
 
 ### Board 2: AI Searches Possibilities Humans Cannot
 
-**Image file:** `big-upside-2-discovery.jpg`
+**Image file:** `big-upside-scientific-discovery.jpg`
 
-![AI Searches Possibilities Humans Cannot](big-upside-2-discovery.jpg)
+![AI Searches Possibilities Humans Cannot](big-upside-scientific-discovery.jpg)
 
 **Teaching content:**
 
@@ -50,9 +50,9 @@ AI can search far more possibilities than people can.
 
 ### Board 3: AI Turns Patterns into Practical Help
 
-**Image file:** `big-upside-3-help.jpg`
+**Image file:** `big-upside-practical-help.jpg`
 
-![AI Turns Patterns into Practical Help](big-upside-3-help.jpg)
+![AI Turns Patterns into Practical Help](big-upside-practical-help.jpg)
 
 **Teaching content:**
 
@@ -70,9 +70,9 @@ One more thing about Demis. His story doesn’t start in a lab. It starts with a
 
 ### Close
 
-**Image file:** `big-upside-4-close.jpg`
+**Image file:** `big-upside-close.jpg`
 
-![Close board](big-upside-4-close.jpg)
+![Close board](big-upside-close.jpg)
 
 ## Closing Message
 

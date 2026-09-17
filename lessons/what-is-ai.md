@@ -28,9 +28,9 @@ Different AI systems do different jobs. Let’s look at two kinds you already us
 
 ### Board 2: Two Ways You Already Use AI
 
-**Image file:** `what-is-ai-1-types.jpg`
+**Image file:** `what-is-ai-types.jpg`
 
-![Two Ways You Already Use AI](what-is-ai-1-types.jpg)
+![Two Ways You Already Use AI](what-is-ai-types.jpg)
 
 **Teaching content:**
 
@@ -44,9 +44,9 @@ Here’s what that difference looks like.
 
 ### Board 3: One Picks. One Creates.
 
-**Image file:** `what-is-ai-2-same-goal.jpg`
+**Image file:** `what-is-ai-same-goal.jpg`
 
-![One Picks. One Creates.](what-is-ai-2-same-goal.jpg)
+![One Picks. One Creates.](what-is-ai-same-goal.jpg)
 
 **Teaching content:**
 
@@ -60,9 +60,9 @@ One helps you find something to watch. The other helps you create a story of you
 
 ### Close
 
-**Image file:** `what-is-ai-4-close.jpg`
+**Image file:** `what-is-ai-close.jpg`
 
-![Close board](what-is-ai-4-close.jpg)
+![Close board](what-is-ai-close.jpg)
 
 ## Closing Message
 

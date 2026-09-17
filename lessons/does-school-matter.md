@@ -12,9 +12,9 @@ Here’s the catch: ask AI similar questions, and you often get similar answers.
 
 ### Board 1: Same Tool. Different Advantage.
 
-**Image file:** `does-school-matter-1-same-tool.jpg`
+**Image file:** `beyond-the-average-same-tool.jpg`
 
-![Same Tool. Different Advantage.](does-school-matter-1-same-tool.jpg)
+![Same Tool. Different Advantage.](beyond-the-average-same-tool.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ School is where you get to build what you bring to the work. Learn how things wo
 
 ### Board 2: What to Start Building Today
 
-**Image file:** `does-school-matter-2-future.jpg`
+**Image file:** `beyond-the-average-future.jpg`
 
-![What to Start Building Today](does-school-matter-2-future.jpg)
+![What to Start Building Today](beyond-the-average-future.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ School helps you build what takes you beyond the new average.
 
 ### Close
 
-**Image file:** `does-school-matter-3-close.jpg`
+**Image file:** `beyond-the-average-close.jpg`
 
-![Close board](does-school-matter-3-close.jpg)
+![Close board](beyond-the-average-close.jpg)
 
 ## Closing Message
 

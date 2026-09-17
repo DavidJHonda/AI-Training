@@ -5,7 +5,7 @@ import json,wave,hashlib,subprocess,argparse
 import cv2,numpy as np,imageio_ffmpeg
 from build_one_more_thing_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'video-audit/layers-owner-revisions-2026-09-10';DEST=ROOT/'videos/layers-v4.mp4'
+OUT=ROOT/'video-audit/layers-owner-revisions-2026-09-10';DEST=ROOT/'Prompts/layers-v4.mp4'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*FPS)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -23,7 +23,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
  src={n:ROOT/f'Prompts/layers-{n}.mp4' for n in [1,2]}
- protected=[*src.values(),ROOT/'videos/layers-v3.mp4',ROOT/'videos/layers.mp4',ROOT/'index.html',ROOT/'lessons/layers.md']
+ protected=[*src.values(),ROOT/'Prompts/layers-v3.mp4',ROOT/'course-assets/layers/layers.mp4',ROOT/'index.html',ROOT/'lessons/layers.md']
  hashes={str(p):sha(p) for p in protected};audio={n:readwav(OUT/f'source-{n}.wav') for n in [1,2]}
  seed=audio[1][round(112.68*SR):round(112.86*SR)].copy();seed-=seed.mean();assert np.std(seed)>1
  loop=np.r_[seed,seed[::-1]]
@@ -63,7 +63,7 @@ def main():
  pause('Settled standard close',162.133333)
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
- paths={'horse':ROOT/'course-assets/layers/layers-horse-three-reads-editorial.jpg','stack':ROOT/'course-assets/layers/layers-inside-layer-editorial.jpg','it':ROOT/'course-assets/layers/layers-3-resolves-it.jpg','close':OUT/'close.png','tracing':OUT/'tracing-one-word.png'}
+ paths={'horse':ROOT/'course-assets/layers/layers-horse-three-reads.jpg','stack':ROOT/'course-assets/layers/layers-inside-layer.jpg','it':ROOT/'course-assets/layers/layers-resolves-it.jpg','close':OUT/'close.png','tracing':OUT/'tracing-one-word.png'}
  images={k:cv2.imread(str(p)) for k,p in paths.items()};assert all(x is not None for x in images.values())
  events=[]
  def ev(t,key,label,rect=None,color='#6e51ff'):

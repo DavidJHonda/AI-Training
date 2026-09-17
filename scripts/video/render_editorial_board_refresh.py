@@ -935,9 +935,9 @@ def render_flattery():
     )
     save_all(image, [
         "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
-        "board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg",
+        "board-review-first-four/current-selected/avoid-traps/flattery-trap-cycle-of-praise.jpg",
         "course-assets/flattery-trap/flattery-trap-praise-loop.jpg",
-        "course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg",
+        "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg",
     ])
 
 
@@ -1110,7 +1110,7 @@ def render_work_outcomes():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/work-changes-4-what-changes.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/work-changes-productivity-and-possibilities.jpg",
         "course-assets/work-changes/work-changes-what-changes.jpg",
     ])
 
@@ -1129,7 +1129,7 @@ def render_data_center_footprint():
     )
     save_all(image, [
         "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/data-centers-2-footprint.jpg",
+        "board-review-first-four/current-selected/embrace-the-future/data-centers-physical-footprint.jpg",
         "course-assets/data-centers/data-centers-footprint.jpg",
     ])
 

@@ -6,9 +6,9 @@ What’s an agent? In the spirit of this course, let’s start with an analogy.
 
 ### Board 1: A Chatbot Answers. An Agent Acts.
 
-**Image file:** `rise-of-agents-1-gps.jpg`
+**Image file:** `rise-of-agents-gps.jpg`
 
-![A Chatbot Answers. An Agent Acts.](rise-of-agents-1-gps.jpg)
+![A Chatbot Answers. An Agent Acts.](rise-of-agents-gps.jpg)
 
 **Teaching content:**
 
@@ -22,9 +22,9 @@ Agents are suddenly everywhere, for the obvious reason: they do the work. Now, l
 
 ### Board 2: Ask a Chatbot versus Hire an Agent
 
-**Image file:** `rise-of-agents-2-chatbot-vs-agent.jpg`
+**Image file:** `rise-of-agents-chatbot-vs-agent.jpg`
 
-![Ask a Chatbot versus Hire an Agent](rise-of-agents-2-chatbot-vs-agent.jpg)
+![Ask a Chatbot versus Hire an Agent](rise-of-agents-chatbot-vs-agent.jpg)
 
 **Teaching content:**
 
@@ -40,9 +40,9 @@ Here’s the part many people don’t understand: an agent is not a new kind of 
 
 ### Board 3: What an Agent Does
 
-**Image file:** `rise-of-agents-3-loop.jpg`
+**Image file:** `rise-of-agents-agent-loop.jpg`
 
-![What an Agent Does](rise-of-agents-3-loop.jpg)
+![What an Agent Does](rise-of-agents-agent-loop.jpg)
 
 **Teaching content:**
 
@@ -56,9 +56,9 @@ AI works toward the goal it is given. A basic chatbot usually returns an answer 
 
 ### Board 4: Rogue Agents
 
-**Image file:** `rise-of-agents-4-rogue.jpg`
+**Image file:** `rise-of-agents-rogue.jpg`
 
-![Rogue Agents](rise-of-agents-4-rogue.jpg)
+![Rogue Agents](rise-of-agents-rogue.jpg)
 
 **Teaching content:**
 
@@ -72,9 +72,9 @@ The rule of thumb with agents: they’re great at automating steps, but they are
 
 ### Close
 
-**Image file:** `rise-of-agents-5-close.jpg`
+**Image file:** `rise-of-agents-close.jpg`
 
-![Close board](rise-of-agents-5-close.jpg)
+![Close board](rise-of-agents-close.jpg)
 
 ## Closing Message
 

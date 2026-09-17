@@ -150,8 +150,8 @@ def render() -> None:
         text="The best chance is not a guarantee.", font=face("medium", 32),
     )
 
-    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg"
-    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg"
+    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
+    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
     review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/01-five-draws.jpg"
     for path in (page_path, video_path, review_path):
         path.parent.mkdir(parents=True, exist_ok=True)

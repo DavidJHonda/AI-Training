@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/opener-work-v2.mp4`
+- Video: `Prompts/work-with-ai-opener-v2.mp4`
 - Decoded frames: 4652
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

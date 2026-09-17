@@ -7,8 +7,8 @@ accents for all highlights. The self-referential pre-close narration and the
 extra post-close narration are removed at measured quiet boundaries. The
 canonical lesson close is the literal final frame.
 
-The shipped ``videos/rise-of-agents.mp4`` is never overwritten. Review output
-is ``videos/rise-of-agents-v2.mp4``.
+The shipped ``course-assets/rise-of-agents/rise-of-agents.mp4`` is never overwritten. Review output
+is ``Prompts/rise-of-agents-v2.mp4``.
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/rise-of-agents.mp4"
-OUTPUT = ROOT / "videos/rise-of-agents-v2.mp4"
+OUTPUT = ROOT / "Prompts/rise-of-agents-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -47,11 +47,11 @@ TEAL = "#0e8f86"
 GREEN = "#0f7a4a"
 
 BOARDS = {
-    "gps": ROOT / "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
+    "gps": ROOT / "course-assets/rise-of-agents/rise-of-agents-gps.jpg",
     "comparison": asset_path('lessons', 'rise-of-agents-2-highlights.jpg'),
-    "loop": ROOT / "course-assets/rise-of-agents/rise-of-agents-3-loop.jpg",
-    "rogue": ROOT / "course-assets/rise-of-agents/rise-of-agents-4-rogue.jpg",
-    "close": ROOT / "course-assets/rise-of-agents/rise-of-agents-5-close.jpg",
+    "loop": ROOT / "course-assets/rise-of-agents/rise-of-agents-agent-loop.jpg",
+    "rogue": ROOT / "course-assets/rise-of-agents/rise-of-agents-rogue.jpg",
+    "close": ROOT / "course-assets/rise-of-agents/rise-of-agents-close.jpg",
 }
 
 

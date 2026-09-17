@@ -7,8 +7,8 @@ exact current close replaces the Notebook outro.  Three weak narration spans
 are removed, while the clean induced-demand sentence is borrowed from the
 previous review candidate.
 
-The shipped ``videos/unexpected-results.mp4`` is never overwritten.  Review
-output is ``videos/unexpected-results-v3.mp4``.
+The shipped ``course-assets/unexpected-results/unexpected-results.mp4`` is never overwritten.  Review
+output is ``Prompts/unexpected-results-v3.mp4``.
 """
 
 from __future__ import annotations
@@ -25,10 +25,10 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/unexpected-results.mp4"
-DONOR = ROOT / "videos/unexpected-results-v2.mp4"
-BOARD = ROOT / "course-assets/unexpected-results/unexpected-results-1-plans.jpg"
-CLOSE = ROOT / "course-assets/unexpected-results/unexpected-results-2-close.jpg"
-OUTPUT = ROOT / "videos/unexpected-results-v3.mp4"
+DONOR = ROOT / "Prompts/unexpected-results-v2.mp4"
+BOARD = ROOT / "course-assets/unexpected-results/unexpected-results-plans.jpg"
+CLOSE = ROOT / "course-assets/unexpected-results/unexpected-results-close.jpg"
+OUTPUT = ROOT / "Prompts/unexpected-results-v3.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30

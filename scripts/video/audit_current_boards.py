@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Audit current lesson boards against the rendered course videos.
 
-This is deliberately read-only with respect to ``videos/``. It builds a ledger
+This is deliberately read-only with respect to finished course videos in ``course-assets/``. It builds a ledger
 and visual comparison sheets under ``video-audit/`` so stale boards, missing
 highlight plans, non-native highlight treatments, and inconsistent closing
 frames can be reviewed before any video is regenerated.
@@ -36,10 +36,10 @@ INDEX = ROOT / "index.html"
 PATHS = ROOT / "scripts/video/paths"
 
 IMAGE_RE = re.compile(
-    r"(?:illustrations|lessons)/[A-Za-z0-9._/-]+\.(?:jpg|jpeg|png|webp)", re.I
+    r"course-assets/[A-Za-z0-9._/-]+\.(?:jpg|jpeg|png|webp)", re.I
 )
 VIDEO_RE = re.compile(
-    r"^\s*([A-Za-z0-9_]+):\s*\{\s*src:\s*[\"'](videos/[^\"'?]+\.mp4)(?:\?[^\"']*)?[\"']",
+    r"^\s*([A-Za-z0-9_]+):\s*\{\s*src:\s*[\"'](course-assets/[^\"'?]+\.mp4)(?:\?[^\"']*)?[\"']",
     re.M,
 )
 
@@ -93,6 +93,7 @@ def parse_catalog() -> tuple[dict[str, str], set[str]]:
     text = INDEX.read_text(encoding="utf-8")
     videos = {key: src for key, src in VIDEO_RE.findall(text)}
     images = set(IMAGE_RE.findall(text))
+    images.update("course-assets/training/" + name for name in re.findall(r'board\("([^"\n]+\.jpg)"', text))
     return videos, images
 
 
@@ -109,6 +110,9 @@ def load_plans() -> tuple[dict[str, dict], list[dict]]:
 
 
 def match_video(image: str, video_stems: list[str]) -> str | None:
+    folder = Path(image).parent.name
+    if folder in video_stems:
+        return folder
     stem = Path(image).stem
     matches = [v for v in video_stems if stem == v or stem.startswith(v + "-")]
     return max(matches, key=len) if matches else None
@@ -122,7 +126,7 @@ def is_teaching_board(image: str, video_stem: str | None, in_plan: bool) -> bool
     stem = Path(image).stem
     if stem == video_stem or stem in SCENE_ONLY_STEMS:
         return False
-    return stem.startswith(video_stem + "-")
+    return Path(image).parent.name == video_stem or stem.startswith(video_stem + "-")
 
 
 def choose_plan_frames(plan: dict) -> tuple[int | None, int | None]:

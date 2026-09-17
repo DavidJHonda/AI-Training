@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: FAIL
-- Video: `videos/does-school-matter-v2.mp4`
+- Video: `Prompts/beyond-the-average-v2.mp4`
 - Decoded frames: 5482
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

@@ -11,9 +11,12 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+from editorial_takeaway import TAKEAWAY_TEXT_SIZE, draw_takeaway_band
+from editorial_typography import draw_board_title, face
+
 
 REPO = Path(__file__).resolve().parents[2]
-OUT = REPO / "course-assets/does-ai-think/does-ai-think-2-side-by-side.jpg"
+OUT = REPO / "course-assets/does-ai-think/does-ai-think-side-by-side.jpg"
 ASSET_DIR = REPO / "scripts" / "video" / "assets" / "does-ai-think-unified"
 LEFT_ASSET = ASSET_DIR / "when-you-think.jpg"
 RIGHT_ASSET = ASSET_DIR / "what-ai-does.jpg"
@@ -121,24 +124,12 @@ def preserve_source_scenes():
     save_course_image(source.crop((816, 127, 1560, 544)), RIGHT_ASSET, quality=96, subsampling=0)
 
 
-def takeaway(draw, text):
-    draw.rounded_rectangle((40, 1430, 1560, 1518), radius=16, fill=GOLD)
-    text_width = draw.textlength(text, font=DEMI_32)
-    group_width = 52 + 18 + text_width
-    x = 800 - group_width / 2
-    draw.ellipse((x, 1448, x + 52, 1500), fill=CHECK_PURPLE)
-    draw.line((x + 14, 1474, x + 23, 1483, x + 39, 1464), fill=WHITE, width=6, joint="curve")
-    box = draw.textbbox((0, 0), text, font=DEMI_32)
-    y = 1474 - (box[1] + box[3]) / 2
-    draw.text((x + 70, y), text, font=DEMI_32, fill=NAVY)
-
-
 def main():
     preserve_source_scenes()
 
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
-    draw.text((40, 34), "When You Think. What AI Does.", font=HEAVY_56, fill=NAVY)
+    draw_board_title(draw, "When You Think. What AI Does.")
 
     card = (40, 127, 1560, 1392)
     draw.rounded_rectangle(card, radius=16, fill=WHITE)
@@ -175,7 +166,14 @@ def main():
         if index < len(rows) - 1:
             draw.line((74, y + row_h - 1, 1526, y + row_h - 1), fill=RULE, width=2)
 
-    takeaway(draw, "Similar-looking answers can come from very different processes.")
+    draw_takeaway_band(
+        image,
+        top=1430,
+        left=40,
+        right=1560,
+        text="Similar-looking answers can come from very different processes.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
     save_course_image(image, OUT, quality=95, subsampling=0)
     print(f"Built {OUT}")
 

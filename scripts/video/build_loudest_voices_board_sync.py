@@ -26,8 +26,8 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "videos/loudest-voices.mp4"
-OUTPUT = ROOT / "videos/loudest-voices-v2.mp4"
+SOURCE = ROOT / "course-assets/loudest-voices/loudest-voices.mp4"
+OUTPUT = ROOT / "Prompts/loudest-voices-v2.mp4"
 BOARD_ONE = asset_path('lessons', 'loudest-voices-1-three-voices.jpg')
 BOARD_TWO = asset_path('lessons', 'loudest-voices-2-missed-calls.jpg')
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()

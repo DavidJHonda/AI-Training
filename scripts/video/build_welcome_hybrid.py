@@ -42,8 +42,8 @@ def main() -> None:
     parser.add_argument("--toolkit-clip", required=True)
     parser.add_argument("--opening-states", required=True)
     parser.add_argument("--path-states", required=True)
-    parser.add_argument("--close-board", default="course-assets/welcome/welcome-4-close.jpg")
-    parser.add_argument("--output", default="videos/welcome.mp4")
+    parser.add_argument("--close-board", default="course-assets/welcome/welcome-close.jpg")
+    parser.add_argument("--output", default="course-assets/welcome/welcome.mp4")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 

@@ -21,7 +21,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = Path("/private/tmp/pace-of-change-clean.mp4")
-OUTPUT = ROOT / "videos/pace-of-change-v2.mp4"
+OUTPUT = ROOT / "Prompts/pace-of-change-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -84,7 +84,7 @@ INTRO = Span(0.000, 8.720)
 # duplicate “approaching 2026.” The board itself carries the comparison.
 TABLE = Section(
     "table",
-    ROOT / "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-three-years.jpg",
     (
         Phase((Span(8.720, 13.000), Span(14.100, 17.260)), (38, 27, 700, 102), PURPLE),
         Phase((Span(17.260, 25.960),), (70, 220, 1534, 384), PURPLE, (40, 185, 1560, 390)),
@@ -101,7 +101,7 @@ TABLE = Section(
 # typing speed; the “tool amplifying its own creation” detour is omitted.
 ACCELERANTS = Section(
     "accelerants",
-    ROOT / "course-assets/pace-of-change/pace-of-change-2-accelerants.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-what-speeds-it-up.jpg",
     (
         Phase((Span(85.520, 95.300),), (38, 28, 440, 102), PURPLE),
         Phase((Span(95.300, 102.000),), (40, 124, 527, 734), PURPLE, (40, 124, 527, 734)),
@@ -117,7 +117,7 @@ ACCELERANTS = Section(
 # framing is omitted, while the useful “theoretical threshold” calibration stays.
 RESEARCH = Section(
     "research",
-    ROOT / "course-assets/pace-of-change/pace-of-change-3-future-research.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-could-ai-improve-itself.jpg",
     (
         Phase((Span(159.020, 159.800),), (38, 28, 675, 104), PURPLE),
         Phase((Span(159.800, 173.100),), (40, 124, 785, 762), TEAL, (40, 124, 785, 762)),
@@ -132,7 +132,7 @@ RESEARCH = Section(
 # claims that the ideas are impossible.
 CAPABILITY = Section(
     "capability",
-    ROOT / "course-assets/pace-of-change/pace-of-change-4-future-capability.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-how-far-can-ai-go.jpg",
     (
         Phase((Span(209.300, 210.000),), (38, 28, 630, 104), PURPLE),
         Phase((Span(214.000, 234.040),), (40, 124, 785, 762), BLUE, (40, 124, 785, 762)),
@@ -144,7 +144,7 @@ CAPABILITY = Section(
 
 CLOSE = Section(
     "close",
-    ROOT / "course-assets/pace-of-change/pace-of-change-5-close.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-close.jpg",
     (
         Phase((Span(276.020, 279.620), Span(282.200, 284.360)), None, PURPLE),
     ),

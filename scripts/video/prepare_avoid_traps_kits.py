@@ -36,7 +36,7 @@ REPORT = ROOT / "Prompts/AVOID-TRAPS-SOURCE-MANIFEST.json"
 KITS = [
     ("opener-avoid", "openerprotect", "Opener-Avoid", [
         ("1-traps", None, True),
-        ("2-read-water", "opener-avoid.jpg", False),
+        ("2-read-water", "avoid-traps-opener-read-the-water.jpg", False),
         ("3-map", "opener-avoid-section-map.jpg", True),
         ("4-close", "close", True),
     ]),
@@ -75,7 +75,7 @@ KITS = [
     ("engagement-trap", "engagementtrap", "engagement-trap", [
         ("1-comparison", "engagement-trap-comparison-v2.jpg", True),
         ("2-scroll", "engagement-trap-scroll-v2.jpg", True),
-        ("3-stop", "engagement-trap.jpg", False),
+        ("3-stop", "engagement-trap-stopping-point.jpg", False),
         ("4-close", "close", True),
     ]),
     ("support-trap", "supporttrap", "support-trap", [
@@ -89,7 +89,7 @@ KITS = [
     ("fake-trap", "faketrap", "fake-trap", [
         ("1-comparison", "fake-trap-comparison-v2.jpg", False),
         ("2-reasons", "fake-trap-four-reasons-v3.png", True),
-        ("3-source", "fake-trap.jpg", False),
+        ("3-source", "fake-trap-follow-the-source.jpg", False),
         ("4-checks", "fake-trap-three-checks-v2.jpg", True),
         ("5-close", "close", True),
     ]),

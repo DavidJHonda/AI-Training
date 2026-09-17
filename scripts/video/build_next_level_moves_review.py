@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Next Level Moves from reroll 2 under EDIT-SPEC.md (2026-09-11). Review only.
 
-Base: Prompts/next-level-moves-reroll-2.mp4 (3:07). Output: videos/next-level-moves-v3.mp4 (v2 had bubble dives and over-wide rings).
+Base: Prompts/next-level-moves-reroll-2.mp4 (3:07). Output: Prompts/next-level-moves-v3.mp4 (v2 had bubble dives and over-wide rings).
 Audit: video-audit/next-level-moves-repair-2026-09-11/.
 Four chat boards (all compact, rings only; owner call 2026-09-11: no dives on chat conversations), each from the roll's own cut and carried through its spoken takeaway (replacing
 Notebook's paraphrase card) with the banner ringed; Notebook's section intros kept; standard close
@@ -22,7 +22,7 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/next-level-moves-reroll-2.mp4'
-OUT = ROOT / 'video-audit/next-level-moves-repair-2026-09-11'; DEST = ROOT / 'videos/next-level-moves-v3.mp4'
+OUT = ROOT / 'video-audit/next-level-moves-repair-2026-09-11'; DEST = ROOT / 'Prompts/next-level-moves-v3.mp4'
 B = {k: asset_path('lessons', f'next-level-moves-{k}.jpg') for k in ('1-summer-business', '2-profit', '3-college', '4-iteration')}
 
 def bubbles(path, card_top=128):
@@ -46,7 +46,7 @@ def bubbles(path, card_top=128):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/next-level-moves.mp4', ROOT / 'lessons/next-level-moves.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/next-level-moves/next-level-moves.mp4', ROOT / 'lessons/next-level-moves.md', *B.values()])
     b.load_audio([(49.56, 50.08), (72.10, 72.50), (84.61, 84.92), (111.48, 112.06), (122.03, 122.71), (142.74, 143.54), (152.97, 153.57), (175.68, 176.24)])
     B1, B1_OUT = 1499, 2171      # summer business, through the takeaway (Notebook "Provide Context First" card replaced)
     B2, B2_OUT = 2545, 3359      # profit, through the takeaway and "This translates abstract math"

@@ -15,7 +15,7 @@ from build_one_more_thing_review_repair import ring
 from make_close_board import close_board_copy
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/embeddings-repair-2026-09-09'
-SOURCE=ROOT/'Prompts/embeddings-2.mp4';DONOR=ROOT/'Prompts/embeddings-1.mp4';DEST=ROOT/'videos/embeddings-v3.mp4'
+SOURCE=ROOT/'Prompts/embeddings-2.mp4';DONOR=ROOT/'Prompts/embeddings-1.mp4';DEST=ROOT/'Prompts/embeddings-v3.mp4'
 FPS,SR,W,H=30,48000,1280,720
 PURPLE,EP,BLUE,TEAL,GREEN,RED,AMBER='#6e51ff','#4f2fc4','#1652f0','#0e8f86','#0f7a4a','#c41f28','#a9760c'
 BG=(251,245,246)
@@ -51,7 +51,7 @@ def graphics():
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  OUT.mkdir(exist_ok=True);(OUT/'states').mkdir(exist_ok=True)
- protected=[SOURCE,DONOR,ROOT/'videos/embeddings.mp4',ROOT/'index.html',ROOT/'lessons/embeddings.md']
+ protected=[SOURCE,DONOR,ROOT/'course-assets/embeddings/embeddings.mp4',ROOT/'index.html',ROOT/'lessons/embeddings.md']
  hashes={str(p.relative_to(ROOT)):sha(p) for p in protected}
  ff=imageio_ffmpeg.get_ffmpeg_exe();audio=wave_data(OUT/'source.wav');donor=wave_data(OUT/'donor.wav')
  seed=audio[round(110.80*SR):round(110.97*SR)].copy();seed-=seed.mean();loop=np.r_[seed,seed[::-1]]
@@ -89,7 +89,7 @@ def main():
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
  graphics();assert close_board_copy('embeddings')==('AI uses numbers to work with meaning.','Those numbers help AI recognize similarities and differences.')
- assets={'intro':OUT/'intro.png','pieces':OUT/'pieces.png','student':ROOT/'course-assets/embeddings/embeddings-student-id-editorial.jpg','ratings':ROOT/'course-assets/embeddings/embeddings-meaning-row-editorial.jpg','citrus':ROOT/'course-assets/embeddings/embeddings-new-dimension-editorial.jpg','comparison':ROOT/'course-assets/embeddings/embeddings-taste-test-to-ai-editorial.jpg','table':ROOT/'course-assets/embeddings/embeddings-inside-real-model-editorial.jpg','close':OUT/'close-final.png'}
+ assets={'intro':OUT/'intro.png','pieces':OUT/'pieces.png','student':ROOT/'course-assets/embeddings/embeddings-student-id.jpg','ratings':ROOT/'course-assets/embeddings/embeddings-meaning-row.jpg','citrus':ROOT/'course-assets/embeddings/embeddings-new-dimension.jpg','comparison':ROOT/'course-assets/embeddings/embeddings-taste-test-to-ai.jpg','table':ROOT/'course-assets/embeddings/embeddings-inside-real-model.jpg','close':OUT/'close-final.png'}
  boards={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(v is not None for v in boards.values())
  def mark(r,c=PURPLE):return dict(rect=r,highlight_color=c,highlight_source='neutral_video_purple' if c==PURPLE else 'card_locked_accent')
  events=[]

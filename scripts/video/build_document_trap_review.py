@@ -23,7 +23,7 @@ ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/'Prompts/document-trap.mp4'
 OUTPUT=ROOT/'Prompts/document-trap-patched.mp4'
 AUDIT=ROOT/'video-audit/document-trap-pause-cut-2026-09-06'
-LIVE=ROOT/'videos/document-trap.mp4'
+LIVE=ROOT/'course-assets/document-trap/document-trap.mp4'
 at=common.at
 LIVE_END=at(65.533333)
 REROLL_RESUME=at(67.5)
@@ -134,7 +134,7 @@ def main():
                 cursor+=state.frames
         close_start=CLOSE_START
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'course-assets/document-trap/document-trap-4-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/document-trap/document-trap-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

@@ -514,12 +514,15 @@ def render_all() -> None:
         base.Card("On Target", "Weak: Which energy drink keeps me awake? Better: How can I fix my sleep schedule before first period?", TEAL, "target"),
         base.Card("Open-Ended", "Weak: Should I join debate? Better: What would debate add to my week, and what would I give up?", AMBER, "light"),
     ]
-    render_four_cards("Four Qualities of a Good Question", qualities, "A good question leaves room for a useful answer.", board_path("questions-matter", "03-four-qualities.jpg"))
+    base.render_cards("Four Qualities of a Good Question", qualities[:2], "A good question leaves room for a useful answer.", board_path("questions-matter", "03a-open-minded-and-specific.jpg"))
+    base.render_cards("Four Qualities of a Good Question, Continued", qualities[2:], "A good question leaves room for a useful answer.", board_path("questions-matter", "03b-on-target-and-open-ended.jpg"))
 
     # Art of Prompting
-    prompting_review = board_path("art-of-prompting", "01-four-qualities-review.jpg")
-    prompting_review.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(board_path("questions-matter", "03-four-qualities.jpg"), prompting_review)
+    prompting_review_a = board_path("art-of-prompting", "01a-four-qualities-review.jpg")
+    prompting_review_b = board_path("art-of-prompting", "01b-four-qualities-review-continued.jpg")
+    prompting_review_a.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(board_path("questions-matter", "03a-open-minded-and-specific.jpg"), prompting_review_a)
+    shutil.copy2(board_path("questions-matter", "03b-on-target-and-open-ended.jpg"), prompting_review_b)
     render_prompt_move("Move 1: Share Your Situation", "A person already knows the background. AI only has what you hand over.", ["Who you are and who the work is for", "What you’re working on and why", "The material itself: your draft, assignment, or numbers"], "Is my intro good?", "I’m writing my Common App essay about how fixing cars with my dad taught me patience. Here’s my opening paragraph: [paragraph]. Does the hook grab attention?", board_path("art-of-prompting", "02-share-situation.jpg"))
     render_prompt_move("Move 2: Describe the Answer You Want", "The model fills in every blank you leave, so describe the target.", ["The shape: a table, list, or steps", "The limits: length, tone, and what to skip", "An example to match or a role to take"], "Write a caption for our lacrosse championship photo.", "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags or emojis. Sound like a senior wrote it.", board_path("art-of-prompting", "03-describe-answer.jpg"))
     render_prompt_move("Move 3: One Job at a Time", "Big work goes in steps. One prompt, one job, so you can check each part before building on it.", [], "Write a five-page Cold War paper with an outline, thesis, research, MLA citations, and a conclusion.", "Step 1: Help me shape a strong thesis for a five-page paper on how the space race reflected Cold War tensions.", board_path("art-of-prompting", "04-one-job.jpg"))
@@ -537,7 +540,7 @@ def render_all() -> None:
         board_path("context-window", "01-same-question-different-answers.jpg"),
         "Same prompt. Different context. Different suggestion.",
     )
-    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-window/context-window-2-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
+    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-window/context-window-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
     render_four_cards("Outside the Window", [
         base.Card("Older Chats", "A new conversation starts cold unless the app saved a note about it.", PURPLE, "transcript"),
         base.Card("Unsent Web Pages", "Search works only when the app fetches a page and puts its text into the window.", BLUE, "search"),

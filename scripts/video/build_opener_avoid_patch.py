@@ -22,7 +22,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "videos/opener-avoid.mp4"
+SOURCE = ROOT / "course-assets/avoid-traps-opener/avoid-traps-opener.mp4"
 OUTPUT = ROOT / "Prompts/opener-avoid-patched.mp4"
 CREED = ROOT / "scripts/video/paths/opener-avoid-creed-highlights.json"
 WATER = ROOT / "scripts/video/paths/opener-avoid-read-water-current.json"

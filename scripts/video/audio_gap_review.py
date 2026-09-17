@@ -8,7 +8,7 @@ WAV clips and a CSV for human KEEP / ATTENUATE / ROOM_TONE decisions.
 
 Usage:
   .video-venv/bin/python scripts/video/audio_gap_review.py \
-    videos/foo.mp4 /tmp/transcripts/foo.json --outdir /tmp/audio-review/foo
+    course-assets/foo/foo.mp4 /tmp/transcripts/foo.json --outdir /tmp/audio-review/foo
 """
 
 from __future__ import annotations

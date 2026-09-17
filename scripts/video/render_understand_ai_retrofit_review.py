@@ -1267,9 +1267,10 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
     title = "How Earlier AI Read Text"
     stage_top = 127
     stage_h = 391
-    banner_h = 136
-    footer_top = stage_top + stage_h + TAKEAWAY_GAP
-    height = footer_top + banner_h + TAKEAWAY_BOTTOM_PADDING
+    # Keep the established 734 px canvas. The former two-line banner used 136
+    # px; the standard 88 px banner releases 48 px for the explanatory line.
+    footer_top = stage_top + stage_h + TAKEAWAY_GAP + 48
+    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
@@ -1286,24 +1287,18 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
         outline=mix(PURPLE, 0.22),
         width=1,
     )
-    # Expanded takeaway uses canonical colors and type with centered text.
-    import editorial_takeaway as takeaway_style
-
-    first_parts = [("We know ", "medium"), ("IT", "bold"), (" refers to ", "medium"), ("CAT", "bold"), (".", "medium")]
-    second = "Earlier AI often struggled to keep that connection, especially in longer passages."
-    second_font = face("medium", 29)
-    first_width = sum(draw.textlength(text, font=face(weight, TAKEAWAY_TEXT_SIZE)) for text, weight in first_parts)
-    second_width = draw.textlength(second, font=second_font)
-    text_width = max(first_width, second_width)
-    assert text_width <= 1440, "Expanded takeaway exceeds its available width"
-    draw.rounded_rectangle((40, footer_top, 1560, footer_top + banner_h), radius=takeaway_style.TAKEAWAY_RADIUS, fill=takeaway_style.GOLD)
-    text_center = WIDTH / 2
-    x = text_center - first_width / 2
-    for text, weight in first_parts:
-        part_font = face(weight, TAKEAWAY_TEXT_SIZE)
-        draw.text((x, footer_top + 44), text, font=part_font, fill=INK, anchor="lm")
-        x += draw.textlength(text, font=part_font)
-    draw.text((text_center, footer_top + 91), second, font=second_font, fill=INK, anchor="mm")
+    explanation = "We know IT refers to CAT."
+    draw.text((WIDTH / 2, footer_top - 38), explanation, font=face("medium", 29), fill=INK, anchor="mm")
+    takeaway = "Earlier AI often struggled to keep that connection, especially in longer passages."
+    assert draw.textlength(takeaway, font=face("medium", TAKEAWAY_TEXT_SIZE)) <= 1400
+    draw_takeaway_band(
+        canvas,
+        top=footer_top,
+        left=40,
+        right=1560,
+        text=takeaway,
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
     save(canvas, out_path)
 
 
@@ -1509,7 +1504,7 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
         left=40,
         right=1560,
         text="Attention and transformation update the numbers at each layer.",
-        font=face("bold", TAKEAWAY_TEXT_SIZE),
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
 
@@ -3209,13 +3204,13 @@ def render_all() -> None:
     # One More Thing
     five_draws_path = board_path("one-more-thing", "01-five-draws.jpg")
     five_draws_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-1-draws.jpg", five_draws_path)
+    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg", five_draws_path)
     memory_path = board_path("one-more-thing", "02-two-sides-chat.jpg")
     memory_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(asset_path('lessons', 'one-more-thing-2-two-sides.jpg'), memory_path)
     math_path = board_path("one-more-thing", "03-the-math.jpg")
     math_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-3-bill.jpg", math_path)
+    shutil.copy2(ROOT / "course-assets/one-more-thing/one-more-thing-bill.jpg", math_path)
     render_teaching(
         "Every Time You Hit Send",
         teaching / "every-time-you-hit-send.png",

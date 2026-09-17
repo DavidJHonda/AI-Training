@@ -18,9 +18,9 @@ Pay attention as AI changes. You do not need to follow every announcement. A few
 
 ### Board 1: Stay Curious
 
-**Image file:** `curious-and-flexible-1-stay-curious.jpg`
+**Image file:** `curious-and-flexible-stay-curious.jpg`
 
-![Stay Curious](curious-and-flexible-1-stay-curious.jpg)
+![Stay Curious](curious-and-flexible-stay-curious.jpg)
 
 **Teaching content:**
 
@@ -38,9 +38,9 @@ Curiosity helps you discover new AI tools and features. Flexibility is what happ
 
 ### Board 2: Be Flexible
 
-**Image file:** `curious-and-flexible-2-be-flexible.jpg`
+**Image file:** `curious-and-flexible-be-flexible.jpg`
 
-![Be Flexible](curious-and-flexible-2-be-flexible.jpg)
+![Be Flexible](curious-and-flexible-be-flexible.jpg)
 
 **Teaching content:**
 
@@ -56,9 +56,9 @@ Curiosity finds the possibility. Flexibility decides whether it belongs in your 
 
 ### Board 3: Close
 
-**Image file:** `curious-and-flexible-3-close.jpg`
+**Image file:** `curious-and-flexible-close.jpg`
 
-![Close board](curious-and-flexible-3-close.jpg)
+![Close board](curious-and-flexible-close.jpg)
 
 ## Closing Message
 

@@ -7,8 +7,8 @@ lesson JPGs replace every teaching-board span and use course-native rings with
 the stored accent color. The close uses the canonical 48-frame prehold,
 150-frame push to 1.2x, and settled final hold.
 
-The shipped ``videos/big-downside.mp4`` is never overwritten. Review output is
-``videos/big-downside-v4.mp4``.
+The shipped ``course-assets/big-downside/big-downside.mp4`` is never overwritten. Review output is
+``Prompts/big-downside-v4.mp4``.
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/big-downside.mp4"
-OUTPUT = ROOT / "videos/big-downside-v4.mp4"
+OUTPUT = ROOT / "Prompts/big-downside-v4.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -49,13 +49,13 @@ RED = "#c41f28"
 
 BOARDS = {
     "guardrails": asset_path('lessons', 'big-downside-1-worries.jpg'),
-    "jailbreak": ROOT / "course-assets/big-downside/big-downside-2-jailbreak.jpg",
+    "jailbreak": ROOT / "course-assets/big-downside/big-downside-jailbreak.jpg",
     "policy": asset_path('lessons', 'big-downside-2b-policy-puppetry.jpg'),
     "voice": asset_path('lessons', 'big-downside-3-voice-clone.jpg'),
     "goal": asset_path('lessons', 'big-downside-4-goal.jpg'),
     "safety": asset_path('lessons', 'big-downside-5-safety.jpg'),
     "quote": asset_path('lessons', 'big-downside-6-quote.jpg'),
-    "close": ROOT / "course-assets/big-downside/big-downside-6-close.jpg",
+    "close": ROOT / "course-assets/big-downside/big-downside-close.jpg",
 }
 
 

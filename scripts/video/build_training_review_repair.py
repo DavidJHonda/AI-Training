@@ -27,7 +27,7 @@ from make_close_board import close_board_copy
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'video-audit/training-repair-2026-09-09'
 SOURCE = ROOT / 'Prompts/training-2.mp4'
-DEST = ROOT / 'videos/training-v2.mp4'
+DEST = ROOT / 'Prompts/training-v2.mp4'
 FPS, SR, W, H = 30, 48000, 1280, 720
 PURPLE, EDITORIAL, BLUE, TEAL, GREEN = '#6e51ff', '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a'
 BG = (251, 245, 246)
@@ -64,7 +64,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
     OUT.mkdir(exist_ok=True);(OUT/'states').mkdir(exist_ok=True)
     ff=imageio_ffmpeg.get_ffmpeg_exe()
-    protected=[ROOT/'videos/training.mp4', ROOT/'Prompts/training-1.mp4', SOURCE, ROOT/'index.html', ROOT/'lessons/training.md']
+    protected=[ROOT/'course-assets/training/training.mp4', ROOT/'Prompts/training-1.mp4', SOURCE, ROOT/'index.html', ROOT/'lessons/training.md']
     protected_hashes={str(p.relative_to(ROOT)):sha(p) for p in protected}
     if not (OUT/'source.wav').exists():
         subprocess.run([ff,'-y','-loglevel','error','-i',str(SOURCE),'-vn','-ac','1','-ar',str(SR),str(OUT/'source.wav')],check=True)
@@ -124,12 +124,12 @@ def main():
     overview()
     assert close_board_copy('training')==('AI learns from examples and feedback.','Guess. Check. Adjust. Repeat.')
     assets={
-        'setup':ROOT/'course-assets/training/training-before-starts-editorial.jpg',
-        'loop':ROOT/'course-assets/training/training-loop-editorial.jpg',
+        'setup':ROOT/'course-assets/training/training-before-starts.jpg',
+        'loop':ROOT/'course-assets/training/training-guess-check-adjust.jpg',
         'overview':OUT/'phase-overview.png',
-        'pretraining':ROOT/'course-assets/training/training-pretraining-editorial.jpg',
-        'instruction':ROOT/'course-assets/training/training-instruction-tuning-editorial.jpg',
-        'preference':ROOT/'course-assets/training/training-preference-tuning-editorial.jpg',
+        'pretraining':ROOT/'course-assets/training/training-pretraining.jpg',
+        'instruction':ROOT/'course-assets/training/training-instruction-tuning.jpg',
+        'preference':ROOT/'course-assets/training/training-preference-tuning.jpg',
         'close':OUT/'close.png',
     }
     bases={};layouts={};boards={}

@@ -18,29 +18,29 @@ So how does an LLM actually turn your words into an answer?
 
 When ChatGPT or Claude write a sentence, they’re running math to predict the likely next words. They aren’t looking up what your words mean; they’re working out which words tend to follow which.
 
-How do they do it? In two phases. Phase one, Learn Once: before you ever use it, the model soaks up patterns from mountains of text. Phase two, Answer Every Word: every time you chat, it uses those patterns to build your answer one word at a time.
+Two ideas explain how an LLM works: learning patterns and using them to build an answer. Before you use it, the model learns patterns during training. When you ask a question, it uses those patterns to build an answer, one word at a time.
 
-### Board 2: Learn Once. Answer Every Word.
+### Board 2: Two Ideas Behind Every Answer
 
 **Image file:** `how-an-llm-works-learn-once.jpg`
 
-![Learn Once. Answer Every Word.](how-an-llm-works-learn-once.jpg)
+![Two Ideas Behind Every Answer.](how-an-llm-works-learn-once.jpg)
 
 **Teaching content:**
 
-Two phases, two steps each. Phase one, Learn Once. Step 01, training: the model learns from enormous amounts of data once, before you use it. Step 02, patterns: training turns those examples into learned numerical patterns.
+Learn First has two connected concepts. Training explains how the model learns: it learns from enormous amounts of data before you use it. Patterns explains what the model learns: training turns examples into learned numerical patterns. Patterns are learned during training, not in a separate step afterward.
 
 Patterns power every answer.
 
-Phase two, Answer Every Word. Step 03, probability: for every next word, the model scores what is most likely. Step 04, prediction: it chooses one likely next word, then runs the process again.
+Answer One Word at a Time has two connected concepts. Probability explains how the model scores possible next words: it uses the words so far to work out how likely each next word is. Prediction explains how it chooses and repeats: it chooses a likely next word, adds it, and runs the process again.
 
-Learn once. Use the patterns for every answer.
+Learn patterns first. Use them to build every answer.
 
-Each phase has two steps, four in all. Learn Once is training and patterns. Answer Every Word is probability and prediction. Below, we follow one example, peanut butter, through all four.
+Let’s follow one example, peanut butter, to see how the model learns a pattern and uses it to build an answer.
 
-## LEARN ONCE, STEP 01: TRAINING
+## LEARN FIRST: TRAINING
 
-The model teaches itself: guess the next word, check, and nudge its numbers toward the right word.
+Let’s start with Learn First. Training is how the model learns. It guesses the next word, checks the example, and adjusts its internal numbers to make the right word more likely.
 
 ### Board 3: How Training Works
 
@@ -54,9 +54,9 @@ Four steps that repeat. Read: the model reads a training example with the answer
 
 Repeat with more examples. The patterns build.
 
-## LEARN ONCE, STEP 02: PATTERNS
+## LEARN FIRST: PATTERNS
 
-So what is it actually learning? Patterns. Here’s one you picked up as a child. Which word comes next? Peanut butter and blank. Jelly. You knew it. So does AI.
+We’re still looking at Learn First. Training is how it learns. Patterns are what it learns. Here’s one you picked up as a child. Which word comes next? Peanut butter and blank. Jelly. You knew it. So does AI.
 
 ### Board 4: How AI Learns Patterns
 
@@ -74,17 +74,33 @@ AI learns patterns by working through billions of examples.
 
 These are easy patterns you already know. AI also learns patterns in places you might not expect: how people explain ideas, ask questions, solve problems, and even misspell words.
 
-## ANSWER EVERY WORD, STEP 03: PROBABILITY
+## ANSWER ONE WORD AT A TIME: PROBABILITY
 
-Training is done. Now the second phase, Answer Every Word, runs every time you chat. AI doesn’t make one guess. It scores every possible next word: a ranked list with a probability on each, and those numbers shift with the surrounding text.
+Now we move to Answer One Word at a Time. The model uses its learned patterns to work out the probabilities for the next word. Those probabilities change with the surrounding text.
+
+### Board 5: Same Word. Different Odds.
+
+**Image file:** `how-an-llm-works-same-word-different-odds.jpg`
+
+![Same Word. Different Odds.](how-an-llm-works-same-word-different-odds.jpg)
+
+**Teaching content:**
 
 Same word, different odds. For “I’d like to buy peanut butter and blank,” the model scores jelly at 41 percent, bread at 27 percent, bananas at 16 percent, and honey at 5 percent. For “I’d like to buy a peanut butter and banana blank,” it scores sandwich at 54 percent, smoothie at 16 percent, toast at 9 percent, and jelly at only 2 percent.
 
 The surrounding words change the odds. In this example, adding “banana” drops the probability of “jelly” from 41 percent to 2 percent.
 
-## ANSWER EVERY WORD, STEP 04: PREDICTION
+## ANSWER ONE WORD AT A TIME: PREDICTION
 
-Probability handled one word. But your answer is hundreds of words long, so the model just repeats the move. Your phone does this when you write a text: it suggests a word, you tap it, it suggests the next.
+The other part of Answer One Word at a Time is prediction. Those probabilities guide its choice of the next word. Then it repeats. Your phone does something similar when you write a text: it suggests a word, you tap it, and it suggests the next.
+
+### Board 6: One Word at a Time
+
+**Image file:** `how-an-llm-works-one-word-at-a-time.jpg`
+
+![One Word at a Time](how-an-llm-works-one-word-at-a-time.jpg)
+
+**Teaching content:**
 
 One word at a time. “I want to buy peanut butter and” leads to jelly. “I want to buy peanut butter and jelly” leads to for. “I want to buy peanut butter and jelly for” leads to lunch. Add a word. Use the updated sentence. Predict again.
 

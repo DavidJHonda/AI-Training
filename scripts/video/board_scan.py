@@ -18,7 +18,7 @@ lead with the likeliest boards. The score ranks, it never filters -- every scene
 lands on a sheet.
 
 Usage:
-  .video-venv/bin/python scripts/video/board_scan.py videos/tokens.mp4 outdir
+  .video-venv/bin/python scripts/video/board_scan.py course-assets/tokens/tokens.mp4 outdir
       [--min-hold 0.8] [--cols 2] [--rows 3]
 """
 import argparse

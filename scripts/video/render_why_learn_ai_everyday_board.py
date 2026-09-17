@@ -26,7 +26,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "board-review-why-learn-ai" / "where-ai-already-lives.jpg"
-PAGE_OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-1-everyday.jpg"
+PAGE_OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-everyday.jpg"
 
 WIDTH = 1600
 FRAME = "#eae7fd"

@@ -6,9 +6,9 @@
 
 ### Board 1: You Use Words. AI Uses Numbers.
 
-**Image file:** `tokens-using-ai-feels-like-editorial.jpg`
+**Image file:** `tokens-using-ai-feels-like.jpg`
 
-![You Use Words. AI Uses Numbers.](tokens-using-ai-feels-like-editorial.jpg)
+![You Use Words. AI Uses Numbers.](tokens-using-ai-feels-like.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ Instead of giving every word its own number, AI uses reusable pieces of text cal
 
 ### Board 2: Building Blocks for Language
 
-**Image file:** `tokens-building-blocks-editorial.jpg`
+**Image file:** `tokens-building-blocks.jpg`
 
-![Building Blocks for Language](tokens-building-blocks-editorial.jpg)
+![Building Blocks for Language](tokens-building-blocks.jpg)
 
 **Teaching content:**
 
@@ -50,9 +50,9 @@ These vocabularies can be large: ChatGPT’s holds about **200,000** tokens and 
 
 ### Board 3: What Happens When You Hit Send
 
-**Image file:** `tokens-how-tokenization-works-editorial.jpg`
+**Image file:** `tokens-how-tokenization-works.jpg`
 
-![What Happens When You Hit Send](tokens-how-tokenization-works-editorial.jpg)
+![What Happens When You Hit Send](tokens-how-tokenization-works.jpg)
 
 **Teaching content:**
 
@@ -72,9 +72,9 @@ For the word **unbelievable**, this cl100k_base example uses:
 
 ### Board 4: Humans See a Cat. AI Starts With a Token ID.
 
-**Image file:** `tokens-cat-token-id-editorial.jpg`
+**Image file:** `tokens-cat-token-id.jpg`
 
-![Humans See a Cat. AI Starts With a Token ID.](tokens-cat-token-id-editorial.jpg)
+![Humans See a Cat. AI Starts With a Token ID.](tokens-cat-token-id.jpg)
 
 **Teaching content:**
 
@@ -88,9 +88,9 @@ All the text you send to AI gets split into tokens. Here are some examples.
 
 ### Board 5: How AI Splits Text Into Tokens
 
-**Image file:** `tokens-how-ai-splits-text-verified-editorial.jpg`
+**Image file:** `tokens-how-ai-splits-text.jpg`
 
-![How AI Splits Text Into Tokens](tokens-how-ai-splits-text-verified-editorial.jpg)
+![How AI Splits Text Into Tokens](tokens-how-ai-splits-text.jpg)
 
 **Teaching content:**
 

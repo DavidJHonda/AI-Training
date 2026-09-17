@@ -19,7 +19,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW_OUTPUT = ROOT / "board-review-what-is-ai/same-question-two-kinds.jpg"
-LESSON_OUTPUT = ROOT / "course-assets/what-is-ai/what-is-ai-2-same-goal.jpg"
+LESSON_OUTPUT = ROOT / "course-assets/what-is-ai/what-is-ai-same-goal.jpg"
 
 WIDTH = 1600
 HEIGHT = 1550

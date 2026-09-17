@@ -22,7 +22,7 @@ import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = Path("/private/tmp/rat-story-clean.mp4")
-OUTPUT = ROOT / "videos/tail-of-hanoi-v2.mp4"
+OUTPUT = ROOT / "Prompts/tail-of-hanoi-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30

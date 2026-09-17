@@ -1,8 +1,8 @@
 # Does School Matter? v2 (2026-09-14) — candidate review kit
 
 Source: Prompts/does-school-matter-2.mp4 (roll 2, REPAIR under NARRATION-REVIEW; comparison in
-video-audit/does-school-matter-comparison-2026-09-14/REVIEW.md). Candidate: videos/does-school-matter-v2.mp4, 5482 frames, 3:02.73.
-Build: scripts/video/build_does_school_matter_2_review.py. Live file videos/does-school-matter.mp4 untouched.
+video-audit/does-school-matter-comparison-2026-09-14/REVIEW.md). Candidate: Prompts/beyond-the-average-v2.mp4, 5482 frames, 3:02.73.
+Build: scripts/video/build_does_school_matter_2_review.py. Live file course-assets/beyond-the-average/beyond-the-average.mp4 untouched.
 
 ## Edit
 - Two cuts (in measured silence): 0:35.2–0:45.37 ("But here is the friction… neither of you has an advantage over the other",

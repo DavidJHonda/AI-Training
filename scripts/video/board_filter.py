@@ -20,7 +20,7 @@ missed board costs a finding and a wrong tile costs nothing.
 Sequential decode only (CAP_PROP_POS_MSEC seeks lie on these mp4s).
 
 Usage:
-  .video-venv/bin/python scripts/video/board_filter.py videos/tokens.mp4 outdir
+  .video-venv/bin/python scripts/video/board_filter.py course-assets/tokens/tokens.mp4 outdir
 """
 import argparse
 import os

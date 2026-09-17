@@ -97,7 +97,7 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
-    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0, visual='source', video_end=None):
+    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0, visual='source', video_end=None, reuse_leg=False):
         """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
         picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
         roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
@@ -119,25 +119,31 @@ class Build:
                 assert visual == 'source'; self.rows[-1]['video_start'] = picture_from; self.rows[-1]['video_end'] = video_end
             self.parts.append(data); self.cursor += e - s; return
         mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])
-        p = subprocess.Popen([self.ff, '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-c:v', 'ffv1', '-level', '3', str(leg)], stdin=subprocess.PIPE)
-        cap = cv2.VideoCapture(str(src2)); i = -1; frames = []
-        while i + 1 < e:
-            ok, im = cap.read(); assert ok, ('graft source too short', i); i += 1
-            if i < s: continue
-            assert im.shape[:2] == (H, W), im.shape; frames.append(im)
         cover = None
-        if cover_intro:
-            g = [cv2.cvtColor(cv2.resize(f, (160, 90)), cv2.COLOR_BGR2GRAY).astype('int32') for f in frames[:91]]
-            cuts = [k for k in range(1, len(g)) if abs(g[k] - g[k - 1]).mean() > 12]
-            if cuts:
-                cover = cuts[0]; frames[:cover] = [frames[cover].copy() for _ in range(cover)]
-        for k, im in enumerate(frames):
-            im, how = clean_frame(im, mask)
-            if how == 'clone': counts['cloned_frames'] += 1
-            elif how == 'inpaint': counts['inpainted_frames'] += 1
-            else: counts['declined'].append(s + k)
-            p.stdin.write(im.tobytes())
-        p.stdin.close(); assert p.wait() == 0
+        if reuse_leg:
+            assert leg.exists(), f'prepared graft leg is missing: {leg}'
+            cap = cv2.VideoCapture(str(leg)); count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)); cap.release()
+            assert count >= e - s, (leg, count, e - s)
+            counts['reused_prepared_leg'] = True
+        else:
+            p = subprocess.Popen([self.ff, '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', 'pipe:0', '-c:v', 'ffv1', '-level', '3', str(leg)], stdin=subprocess.PIPE)
+            cap = cv2.VideoCapture(str(src2)); i = -1; frames = []
+            while i + 1 < e:
+                ok, im = cap.read(); assert ok, ('graft source too short', i); i += 1
+                if i < s: continue
+                assert im.shape[:2] == (H, W), im.shape; frames.append(im)
+            if cover_intro:
+                g = [cv2.cvtColor(cv2.resize(f, (160, 90)), cv2.COLOR_BGR2GRAY).astype('int32') for f in frames[:91]]
+                cuts = [k for k in range(1, len(g)) if abs(g[k] - g[k - 1]).mean() > 12]
+                if cuts:
+                    cover = cuts[0]; frames[:cover] = [frames[cover].copy() for _ in range(cover)]
+            for k, im in enumerate(frames):
+                im, how = clean_frame(im, mask)
+                if how == 'clone': counts['cloned_frames'] += 1
+                elif how == 'inpaint': counts['inpainted_frames'] += 1
+                else: counts['declined'].append(s + k)
+                p.stdin.write(im.tobytes())
+            p.stdin.close(); assert p.wait() == 0
         self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), src_in=s, src_out=e, corner_mark=counts, intro_cover_frames=cover)
         self.rows.append(dict(kind='source', source_start=s, source_end=e, start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=key, graft_source=str(src2)))
         self.parts.append(data); self.cursor += e - s

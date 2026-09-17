@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Your Choices from roll 1 under EDIT-SPEC.md (2026-09-11). Review only.
 
-Base: Prompts/your-choices-1.mp4 (3:12, REPAIR under NARRATION-REVIEW). Output: videos/your-choices-v3.mp4.
+Base: Prompts/your-choices-1.mp4 (3:12, REPAIR under NARRATION-REVIEW). Output: Prompts/your-choices-v3.mp4.
 Audit: video-audit/your-choices-repair-2026-09-11/.
 Two narration cuts (0:55.85-1:04.23 "Understanding these initial parameters…"; 2:45.25-2:54.80 "Mastering these
 engine settings…"). Two boards, both compact (two cards each, legible at 720p; board 1 held still, owner call 2026-09-12; board 2 push capped so its rings stay in frame): Choose the Tool from Notebook's
@@ -22,7 +22,7 @@ from editspec_build import Build, fr, PURPLE, BLUE, TEAL, AMBER
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/your-choices-1.mp4'
-OUT = ROOT / 'video-audit/your-choices-repair-2026-09-11'; DEST = ROOT / 'videos/your-choices-v3.mp4'
+OUT = ROOT / 'video-audit/your-choices-repair-2026-09-11'; DEST = ROOT / 'Prompts/your-choices-v3.mp4'
 B = {k: asset_path('lessons', f'your-choices-{k}.jpg') for k in ('1-choose-tool', '2-choose-how')}
 # whole-card boxes (image + text panel), measured from the page assets: x 41-783 / 817-1559
 CARDS1 = [[41, 127, 783, 797], [817, 127, 1559, 797]]
@@ -30,7 +30,7 @@ CARDS2 = [[41, 127, 782, 841], [817, 127, 1558, 841]]
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/your-choices.mp4', ROOT / 'lessons/your-choices.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/your-choices/your-choices.mp4', ROOT / 'lessons/your-choices.md', *B.values()])
     b.load_audio([(7.83, 8.39), (38.10, 38.73), (55.57, 56.12), (63.77, 64.25), (69.16, 69.56), (86.23, 86.73), (116.06, 116.58),
                   (122.71, 123.31), (144.79, 145.36), (165.02, 165.46), (174.43, 174.81), (180.52, 181.12)])
     CUT1 = (fr(55.85), 1927)          # "Understanding these initial parameters…" through "…first prompt."; 1927 = frame before Notebook's board-1 cut (1928)

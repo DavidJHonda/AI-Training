@@ -62,7 +62,7 @@ components, return to the complete unmarked board.
 ```json
 {
   "lesson_id": "example",
-  "video_file": "videos/example.mp4",
+  "video_file": "course-assets/example/example.mp4",
   "board_order": 2,
   "board_asset": "lessons/example-2-board.jpg",
   "board_sha256": "<sha256>",

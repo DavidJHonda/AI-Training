@@ -71,7 +71,7 @@ def replacements():
         ('push-to-machine',None,VP,(680,425,1320),165),
         ('pan-to-printout',None,VP,(1032,520,1250),180),
         ('printed-conversation',None,VP,(1126,540,1080),140)))
-    add('eliza-effect',ROOT/'course-assets/mind-trap/mind-trap-2-eliza.jpg',
+    add('eliza-effect',ROOT/'course-assets/mind-trap/mind-trap-eliza.jpg',
         (136.533333,145.96,158.12,169.1),(
         ('full-two-part-explanation',None,VP,None,0),
         ('human-language',(40,127,784,676),P,None,0),
@@ -96,7 +96,7 @@ def main():
     (AUDIT/'assets').mkdir(parents=True,exist_ok=True)
     assert common.frame_count(SOURCE)==END
     original_hash=common.file_md5(SOURCE)
-    live=ROOT/'videos/mind-trap.mp4'
+    live=ROOT/'course-assets/mind-trap/mind-trap.mp4'
     live_hash=common.file_md5(live)
     items=replacements()
     expected=mapped(END)
@@ -129,7 +129,7 @@ def main():
                 cursor+=state.frames
         close_start=at(222.6)
         close_png=work/'close.png'
-        close_image=cv2.imread(str(ROOT/'course-assets/mind-trap/mind-trap-3-close.jpg'))
+        close_image=cv2.imread(str(ROOT/'course-assets/mind-trap/mind-trap-close.jpg'))
         cv2.imwrite(str(close_png),cv2.resize(close_image,(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv'

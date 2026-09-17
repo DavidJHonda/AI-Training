@@ -82,10 +82,10 @@ def main():
         w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(final_audio.tobytes())
 
     assets={
-        'probability':ROOT/'course-assets/one-more-thing/one-more-thing-1-draws.jpg',
-        'temperature':ROOT/'course-assets/one-more-thing/one-more-thing-2-temperature.jpg',
-        'math':ROOT/'course-assets/one-more-thing/one-more-thing-3-bill.jpg',
-        'close':ROOT/'archive/video-materials/understand-ai-2026-09-09/obsolete/lessons/one-more-thing-4-close.jpg',
+        'probability':ROOT/'course-assets/one-more-thing/one-more-thing-draws.jpg',
+        'temperature':ROOT/'course-assets/one-more-thing/one-more-thing-temperature.jpg',
+        'math':ROOT/'course-assets/one-more-thing/one-more-thing-bill.jpg',
+        'close':ROOT/'archive/video-materials/understand-ai-2026-09-09/obsolete/lessons/one-more-thing-close.jpg',
     }
     # Archived standalone closing capture visually verified against current CLOSE_BOARDS.
     from make_close_board import close_board_copy
@@ -171,7 +171,7 @@ def main():
             m['output_rect']=[round(v,2) for v in rr];m['ring_width']=5
         name=row['label'];states[name]=im
         cv2.imwrite(str(OUT/'states'/f'{name}.png'),im)
-    dest=ROOT/('videos/one-more-thing-v4.mp4' if args.engaging_visuals else 'videos/one-more-thing-v2.mp4')
+    dest=ROOT/('Prompts/one-more-thing-v4.mp4' if args.engaging_visuals else 'Prompts/one-more-thing-v2.mp4')
     visual_clips=[]
     if args.engaging_visuals:
         # Ranges use original narration time; the dial is borrowed from an
@@ -202,7 +202,7 @@ def main():
         cv2.imwrite(str(OUT/f'states-sheet-{page//9}.jpg'),cv2.vconcat([cv2.hconcat(cells[n:n+3]) for n in range(0,len(cells),3)]))
     print(f'Prepared {len(schedule)} states; {total} frames; {total/FPS:.2f}s',flush=True)
     if args.prepare_only:return
-    audio_input=ROOT/'videos/one-more-thing-v2.mp4' if args.engaging_visuals else OUT/'edited.wav'
+    audio_input=ROOT/'Prompts/one-more-thing-v2.mp4' if args.engaging_visuals else OUT/'edited.wav'
     audio_codec=['-c:a','copy'] if args.engaging_visuals else ['-c:a','aac','-b:a','192k']
     proc=subprocess.Popen([ffmpeg,'-y','-hide_banner','-loglevel','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(audio_input),'-map','0:v','-map','1:a','-c:v','libx264','-preset','fast','-crf','17','-pix_fmt','yuv420p',*audio_codec,'-movflags','+faststart',str(dest)],stdin=subprocess.PIPE)
     capture=cv2.VideoCapture(str(source)) if visual_clips else None

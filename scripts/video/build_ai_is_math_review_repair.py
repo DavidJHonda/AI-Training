@@ -27,7 +27,7 @@ from make_close_board import close_board_copy
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'video-audit/ai-is-math-repair-2026-09-09'
 SOURCE = ROOT / 'Prompts/AI_is_Math__The_Secret_of_Conditional_Probability.mp4'
-DEST = ROOT / 'videos/ai-is-math-v2.mp4'
+DEST = ROOT / 'Prompts/ai-is-math-v2.mp4'
 FPS, SR, W, H = 30, 48000, 1280, 720
 PURPLE, EDITORIAL, BLUE, TEAL, GREEN = '#6e51ff', '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a'
 BG = (251, 245, 246)
@@ -78,7 +78,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
     OUT.mkdir(exist_ok=True);(OUT/'states').mkdir(exist_ok=True)
     ff=imageio_ffmpeg.get_ffmpeg_exe()
-    protected=[ROOT/'videos/ai-is-math.mp4', ROOT/'Prompts/AI_is_Math.mp4', SOURCE, ROOT/'index.html', ROOT/'lessons/ai-is-math.md']
+    protected=[ROOT/'course-assets/ai-is-math/ai-is-math.mp4', ROOT/'Prompts/AI_is_Math.mp4', SOURCE, ROOT/'index.html', ROOT/'lessons/ai-is-math.md']
     protected_hashes={str(p.relative_to(ROOT)):sha(p) for p in protected}
     if not (OUT/'source.wav').exists():
         subprocess.run([ff,'-y','-loglevel','error','-i',str(SOURCE),'-vn','-ac','1','-ar',str(SR),str(OUT/'source.wav')],check=True)
@@ -131,10 +131,10 @@ def main():
     overview()
     assert close_board_copy('aiismath')==('AI builds answers with probabilities.','One prediction at a time.')
     assets={
-        'formula':ROOT/'course-assets/ai-is-math/ai-is-math-the-math-editorial.jpg',
-        'coins':ROOT/'course-assets/ai-is-math/ai-is-math-two-coins-editorial.jpg',
-        'clue':ROOT/'course-assets/ai-is-math/ai-is-math-conditional-probability-editorial.jpg',
-        'dog':ROOT/'course-assets/ai-is-math/ai-is-math-what-comes-next-editorial.jpg',
+        'formula':ROOT/'course-assets/ai-is-math/ai-is-math-the-math.jpg',
+        'coins':ROOT/'course-assets/ai-is-math/ai-is-math-two-coins.jpg',
+        'clue':ROOT/'course-assets/ai-is-math/ai-is-math-conditional-probability.jpg',
+        'dog':ROOT/'course-assets/ai-is-math/ai-is-math-what-comes-next.jpg',
         'bridge':OUT/'bridge.png',
         'loop-start':OUT/'loop-start.png',
         'loop-added':OUT/'loop-added.png',

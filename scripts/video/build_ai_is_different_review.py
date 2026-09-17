@@ -5,7 +5,7 @@ Base: Prompts/ai-is-different-1.mp4 (5:17; REROLL under NARRATION-REVIEW for the
 Prompts/close-ai-is-different.mp4, which speaks the two close lines together, verbatim ("AI's foundation gives it new superpowers.
 Those superpowers come with kryptonite." 38.4-43.1). David's call 2026-09-14: build roll 1 with the donor close; the Superman/
 Kryptonite setup and "the difference shows up everywhere" stay unspoken (both accepted). Donor -0.75 dB to match roll 1.
-Output: videos/ai-is-different-v5.mp4 (v2 reviewed by David; v3 his four notes; v4 grafts roll 2's Kryptonite stories under the board per the
+Output: Prompts/ai-is-different-v5.mp4 (v2 reviewed by David; v3 his four notes; v4 grafts roll 2's Kryptonite stories under the board per the
 beat-by-beat rule, comparison REVIEW.md best-of plan). Audit: video-audit/ai-is-different-repair-2026-09-14/.
 Narration cuts (David 2026-09-14, on v2): "AI is the necessary tool for messy, open-ended jobs where writing strict rules is impossible."
 (242.0-247.3, already covered) and both summary sentences after "harmless one." (302.66-313.22); the donor lines close the video under
@@ -30,14 +30,14 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/ai-is-different-1.mp4'
 DONOR = ROOT / 'Prompts/close-ai-is-different.mp4'
 SRC2 = ROOT / 'Prompts/ai-is-different-2.mp4'   # alternate roll: richer Kryptonite stories (best-of plan, comparison REVIEW.md)
-OUT = ROOT / 'video-audit/ai-is-different-repair-2026-09-14'; DEST = ROOT / 'videos/ai-is-different-v5.mp4'   # v2 reviewed; v3 his four notes; v4 the roll 2 Kryptonite graft; v5 removes an 8-frame diagram flash at 4:06 (David)
-B = {'rules': ROOT / 'course-assets/ai-is-different/ai-is-different-1-rules.jpg', 'learn': ROOT / 'course-assets/ai-is-different/ai-is-different-2-learn-once.jpg',
-     'rvp': ROOT / 'course-assets/ai-is-different/ai-is-different-3-rules-vs-patterns.jpg', 'structured': ROOT / 'course-assets/ai-is-different/ai-is-different-4-structured.jpg',
-     'kryp': ROOT / 'course-assets/ai-is-different/ai-is-different-5-kryptonite.jpg'}
+OUT = ROOT / 'video-audit/ai-is-different-repair-2026-09-14'; DEST = ROOT / 'Prompts/ai-is-different-v5.mp4'   # v2 reviewed; v3 his four notes; v4 the roll 2 Kryptonite graft; v5 removes an 8-frame diagram flash at 4:06 (David)
+B = {'rules': ROOT / 'course-assets/ai-is-different/ai-is-different-rules.jpg', 'learn': ROOT / 'course-assets/ai-is-different/ai-is-different-learn-once.jpg',
+     'rvp': ROOT / 'course-assets/ai-is-different/ai-is-different-rules-vs-patterns.jpg', 'structured': ROOT / 'course-assets/ai-is-different/ai-is-different-structured.jpg',
+     'kryp': ROOT / 'course-assets/ai-is-different/ai-is-different-weak-spots.jpg'}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/ai-is-different.mp4', ROOT / 'lessons/ai-is-different.md', DONOR, SRC2, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/ai-is-different/ai-is-different.mp4', ROOT / 'lessons/ai-is-different.md', DONOR, SRC2, *B.values()])
     b.load_audio([(5.83, 6.53), (13.27, 14.15), (27.43, 28.15), (54.25, 54.81), (61.12, 61.62), (96.55, 97.21), (127.55, 127.93), (130.64, 131.10),
                   (176.58, 177.17), (191.26, 191.68), (225.98, 226.36), (248.15, 248.77), (261.26, 262.07), (281.82, 282.58), (308.54, 309.26)])
     S1 = fr(13.5)                  # hook -> "To understand the difference" (silence 13.27-14.15; Notebook's cut to the code monitor follows at 13.97)

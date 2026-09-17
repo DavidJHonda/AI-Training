@@ -4,7 +4,7 @@
 Base: Prompts/does-school-matter-1.mp4 (3:25; the fullest of four rolls: every beat taught, Board 2 read in full, close verbatim; the
 Same Tool board line "The tool may be the same. What you bring to it is yours." is never spoken by any roll and is accepted as the
 board's own text). Plan: video-audit/does-school-matter-comparison-2026-09-14b/REVIEW.md.
-Output: videos/beyond-the-average-v5.mp4 (the new title's slug). Audit: video-audit/beyond-the-average-repair-2026-09-14/.
+Output: Prompts/beyond-the-average-v5.mp4 (the new title's slug). Audit: video-audit/beyond-the-average-repair-2026-09-14/.
 Two cuts approved by David 2026-09-14: 89.55-101.0 ("Education is a process designed to build the human differentiators that an
 algorithm cannot replace. It shifts the focus away from simply finding the right answer and toward the capacity to improve upon it.")
 and 126.9-132.0 ("You develop a level of specialized expertise that a generalized AI lacks."). Third cut, David 2026-09-14 on v3 ("1:22 to 1:34.
@@ -30,12 +30,12 @@ from build_people_skills_review import cards_grid
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-school-matter-1.mp4'
 SRC2 = ROOT / 'Prompts/does-school-matter-2.mp4'   # roll 2: the lesson's framing of the Same Tool board ("The difference is what you add…")
-OUT = ROOT / 'video-audit/beyond-the-average-repair-2026-09-14'; DEST = ROOT / 'videos/beyond-the-average-v5.mp4'   # v1: one-student-beats-the-other narration under the board, banner clipped by the zoom; v2: the board ran 0:55-1:23 (David: too long); v3: Notebook's own diagrams carry roll 1's lines; v4: the foundational-mechanics passage cut (David: 1:22-1:34); v5: the close end moved into the silence (v4 clipped the last word)
-B = {'same-tool': ROOT / 'course-assets/beyond-the-average/does-school-matter-1-same-tool.jpg', 'future': ROOT / 'course-assets/beyond-the-average/does-school-matter-2-future.jpg'}
+OUT = ROOT / 'video-audit/beyond-the-average-repair-2026-09-14'; DEST = ROOT / 'Prompts/beyond-the-average-v5.mp4'   # v1: one-student-beats-the-other narration under the board, banner clipped by the zoom; v2: the board ran 0:55-1:23 (David: too long); v3: Notebook's own diagrams carry roll 1's lines; v4: the foundational-mechanics passage cut (David: 1:22-1:34); v5: the close end moved into the silence (v4 clipped the last word)
+B = {'same-tool': ROOT / 'course-assets/beyond-the-average/beyond-the-average-same-tool.jpg', 'future': ROOT / 'course-assets/beyond-the-average/beyond-the-average-future.jpg'}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/does-school-matter.mp4', SRC2, ROOT / 'lessons/does-school-matter.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/beyond-the-average/beyond-the-average.mp4', SRC2, ROOT / 'lessons/does-school-matter.md', *B.values()])
     b.load_audio([(3.84, 4.42), (10.42, 10.72), (13.48, 14.15), (20.84, 21.31), (29.19, 29.61), (42.08, 42.48), (49.18, 49.62), (53.07, 53.63), (57.48, 57.88),
                   (72.36, 72.88), (80.11, 80.71), (85.16, 85.51), (89.39, 89.76), (100.47, 100.99), (121.60, 122.03), (126.66, 127.19), (131.68, 132.17),
                   (141.60, 142.04), (148.12, 148.77), (157.42, 157.85), (167.96, 168.41), (177.92, 178.30), (187.88, 188.24), (193.94, 194.23), (201.68, 205.03)])

@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/people-skills-v3.mp4`
+- Video: `Prompts/people-skills-v3.mp4`
 - Decoded frames: 5199
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

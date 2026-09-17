@@ -313,22 +313,22 @@ def render_hassabis_timeline() -> Image.Image:
 def main() -> None:
     save_pair(
         render_three_years(),
-        "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
-        "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
+        "course-assets/pace-of-change/pace-of-change-three-years.jpg",
+        "course-assets/pace-of-change/pace-of-change-three-years.jpg",
     )
     save_pair(
         render_jailbreak(),
-        "course-assets/big-downside/big-downside-3-policy-puppetry.jpg",
+        "course-assets/big-downside/big-downside-policy-puppetry.jpg",
         "course-assets/big-downside/big-downside-2b-policy-puppetry.jpg",
     )
     save_pair(
         render_goal_test(),
-        "course-assets/big-downside/big-downside-5-goal-test.jpg",
+        "course-assets/big-downside/big-downside-goal-test.jpg",
         "course-assets/big-downside/big-downside-4-goal.jpg",
     )
     save_pair(
         render_safety_timeline(),
-        "course-assets/big-downside/big-downside-6-safety-timeline.jpg",
+        "course-assets/big-downside/big-downside-safety-timeline.jpg",
         "course-assets/big-downside/big-downside-5-safety.jpg",
     )
     save_pair(

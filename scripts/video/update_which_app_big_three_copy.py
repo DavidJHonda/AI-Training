@@ -15,8 +15,8 @@ from editorial_typography import face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE = ROOT / "course-assets/your-home-base/which-app-1-big-three.jpg"
-PREP = ROOT / "course-assets/your-home-base/which-app-1-big-three.jpg"
+PAGE = ROOT / "course-assets/your-home-base/your-home-base-big-three.jpg"
+PREP = ROOT / "course-assets/your-home-base/your-home-base-big-three.jpg"
 BODY = "#3a3550"
 WHITE = "#ffffff"
 

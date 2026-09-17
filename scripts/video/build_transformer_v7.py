@@ -7,7 +7,7 @@ from build_one_more_thing_review_repair import ring
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/transformer-full-2026-09-10/v7'
-DEST=ROOT/'videos/transformer-v7.mp4'
+DEST=ROOT/'Prompts/transformer-v7.mp4'
 PREV=OUT.parent/'v5'
 FPS=30; SR=48000
 def fr(t): return round(t*FPS)
@@ -28,7 +28,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
     (OUT/'states').mkdir(parents=True,exist_ok=True)
     previous=json.loads((PREV/'edit-manifest.json').read_text())
-    protected=[ROOT/'videos/transformer.mp4',ROOT/'videos/transformer-v5.mp4',ROOT/'videos/transformer-v4.mp4',ROOT/'videos/transformer-v6.mp4',ROOT/'Prompts/transformer-1.mp4',ROOT/'Prompts/transformer-2.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md',ROOT/'course-assets/transformer/transformer-word-order-editorial.jpg']
+    protected=[ROOT/'course-assets/transformer/transformer.mp4',ROOT/'Prompts/transformer-v5.mp4',ROOT/'Prompts/transformer-v4.mp4',ROOT/'Prompts/transformer-v6.mp4',ROOT/'Prompts/transformer-1.mp4',ROOT/'Prompts/transformer-2.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md',ROOT/'course-assets/transformer/transformer-word-order.jpg']
     hashes={str(p):sha(p) for p in protected}
     audio={'v5':wav(PREV/'edited.wav'),'live':wav(OUT.parent/'v6/live.wav')}
     def speech_rms(a):
@@ -63,7 +63,7 @@ def main():
     keep('v5',243.4666666667,251.1333333333,'Preserved v5 closing narration and camera','v5')
     data=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
     with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(data.tobytes())
-    board=cv2.imread(str(ROOT/'course-assets/transformer/transformer-word-order-editorial.jpg'));h,w=board.shape[:2];scale=min(1210/w,660/h);x=(1280-w*scale)/2;y=(720-h*scale)/2
+    board=cv2.imread(str(ROOT/'course-assets/transformer/transformer-word-order.jpg'));h,w=board.shape[:2];scale=min(1210/w,660/h);x=(1280-w*scale)/2;y=(720-h*scale)/2
     plain=cv2.warpAffine(board,np.float32([[scale,0,x],[0,scale,y]]),(1280,720),flags=cv2.INTER_AREA,borderMode=cv2.BORDER_CONSTANT,borderValue=(251,245,246))
     frames={'establish':plain}
     for label,rect in [('positions',[816,299,1560,760]),('takeaway',[40,800,1560,889])]:
@@ -75,11 +75,11 @@ def main():
     highlight_frame=name_row['start_frame']+fr(2.6)
     benefit_row=rows[-3];takeaway_frame=benefit_row['start_frame']+fr(3.8)
     boundaries += [dict(frame=highlight_frame,label='Highlight position stamps'),dict(frame=takeaway_frame,label='Highlight order takeaway')]
-    m=dict(output=str(DEST),source=str(ROOT/'videos/transformer-v5.mp4'),donor=str(ROOT/'videos/transformer.mp4'),fps=30,duration=cursor/30,total_frames=cursor,close_start_frame=close_start,timeline=rows,protected_hashes=hashes,boundaries=sorted(boundaries,key=lambda b:b['frame']),audio=dict(live_gain=gain,room_tone_source=[98.07,98.17],crossfade_ms=5),inherited_manifest=str(PREV/'edit-manifest.json'),inherited_prefix_frames=fr(211.3),narration_cuts_live=[[228,235.8333333333],[246.1666666667,253.0333333333]],removed_v6_frames=[6339,6542],scope='Review only; live and previous candidates unchanged')
+    m=dict(output=str(DEST),source=str(ROOT/'Prompts/transformer-v5.mp4'),donor=str(ROOT/'course-assets/transformer/transformer.mp4'),fps=30,duration=cursor/30,total_frames=cursor,close_start_frame=close_start,timeline=rows,protected_hashes=hashes,boundaries=sorted(boundaries,key=lambda b:b['frame']),audio=dict(live_gain=gain,room_tone_source=[98.07,98.17],crossfade_ms=5),inherited_manifest=str(PREV/'edit-manifest.json'),inherited_prefix_frames=fr(211.3),narration_cuts_live=[[228,235.8333333333],[246.1666666667,253.0333333333]],removed_v6_frames=[6339,6542],scope='Review only; live and previous candidates unchanged')
     (OUT/'edit-manifest.json').write_text(json.dumps(m,indent=2));print('Prepared',cursor,cursor/30,'live gain',gain,flush=True)
     if args.prepare_only:return
     assert not DEST.exists(),DEST
-    readers={'v5':Reader(ROOT/'videos/transformer-v5.mp4'),'live':Reader(OUT.parent/'v6/live-cfr.mp4')}
+    readers={'v5':Reader(ROOT/'Prompts/transformer-v5.mp4'),'live':Reader(OUT.parent/'v6/live-cfr.mp4')}
     ff=imageio_ffmpeg.get_ffmpeg_exe()
     proc=subprocess.Popen([ff,'-v','error','-f','rawvideo','-pix_fmt','bgr24','-s','1280x720','-r','30','-i','pipe:0','-i',str(OUT/'edited.wav'),'-map','0:v','-map','1:a','-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
     ri=0;last=None

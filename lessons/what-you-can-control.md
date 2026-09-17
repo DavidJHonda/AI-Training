@@ -10,9 +10,9 @@ So here’s the question worth asking: what’s in your hands, and what isn’t?
 
 ### Board 1: What’s in Your Hands?
 
-**Image file:** `what-you-can-control-1-hands.jpg`
+**Image file:** `what-you-can-control-in-your-hands.jpg`
 
-![What’s in Your Hands?](what-you-can-control-1-hands.jpg)
+![What’s in Your Hands?](what-you-can-control-in-your-hands.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ That right column isn’t a feeling, it’s a to-do list. Three moves worth your
 
 ### Board 2: Three Moves Worth Your Energy
 
-**Image file:** `what-you-can-control-2-three-moves.jpg`
+**Image file:** `what-you-can-control-three-choices.jpg`
 
-![Three Moves Worth Your Energy](what-you-can-control-2-three-moves.jpg)
+![Three Moves Worth Your Energy](what-you-can-control-three-choices.jpg)
 
 **Teaching content:**
 
@@ -46,9 +46,9 @@ Put your effort where it changes your outcome.
 
 ### Close
 
-**Image file:** `what-you-can-control-3-close.jpg`
+**Image file:** `what-you-can-control-close.jpg`
 
-![Close board](what-you-can-control-3-close.jpg)
+![Close board](what-you-can-control-close.jpg)
 
 ## Closing Message
 

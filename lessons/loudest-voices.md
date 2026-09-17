@@ -8,9 +8,9 @@ How about this? Let’s ask the people who make AI for a living. Same field. Sam
 
 ### Board 1: Even the Experts Don’t Know
 
-**Image file:** `loudest-voices-1-experts.jpg`
+**Image file:** `loudest-voices-experts.jpg`
 
-![Even the Experts Don’t Know](loudest-voices-1-experts.jpg)
+![Even the Experts Don’t Know](loudest-voices-experts.jpg)
 
 **Teaching content:**
 
@@ -32,9 +32,9 @@ Every big technology arrives with confident predictions from the smartest people
 
 ### Board 2: This Has Happened Before
 
-**Image file:** `loudest-voices-2-missed-predictions.jpg`
+**Image file:** `loudest-voices-missed-predictions.jpg`
 
-![This Has Happened Before](loudest-voices-2-missed-predictions.jpg)
+![This Has Happened Before](loudest-voices-missed-predictions.jpg)
 
 **Teaching content:**
 
@@ -56,9 +56,9 @@ Because the future is hard to predict. A technology becomes the future only when
 
 ### Close
 
-**Image file:** `loudest-voices-3-close.jpg`
+**Image file:** `loudest-voices-close.jpg`
 
-![Close board](loudest-voices-3-close.jpg)
+![Close board](loudest-voices-close.jpg)
 
 ## Closing Message
 

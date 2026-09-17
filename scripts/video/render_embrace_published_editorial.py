@@ -40,33 +40,33 @@ def main() -> None:
     missed_predictions, four_famous_plans = CARD_BOARDS
     save_pair(
         render_card_board(missed_predictions),
-        "course-assets/loudest-voices/loudest-voices-2-missed-predictions.jpg",
+        "course-assets/loudest-voices/loudest-voices-missed-predictions.jpg",
         "course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
     )
     save_pair(
         render_card_board(four_famous_plans),
-        "course-assets/unexpected-results/unexpected-results-1-plans.jpg",
-        "course-assets/unexpected-results/unexpected-results-1-plans.jpg",
+        "course-assets/unexpected-results/unexpected-results-plans.jpg",
+        "course-assets/unexpected-results/unexpected-results-plans.jpg",
     )
     save_pair(
         render_jailbreak_feature(),
-        "course-assets/big-downside/big-downside-2-jailbreak.jpg",
-        "course-assets/big-downside/big-downside-2-jailbreak.jpg",
+        "course-assets/big-downside/big-downside-jailbreak.jpg",
+        "course-assets/big-downside/big-downside-jailbreak.jpg",
     )
     save_pair(
         render_gps_agent_feature(),
-        "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
-        "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-gps.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-gps.jpg",
     )
     save_pair(
         render_chatbot_agent_long(),
-        "course-assets/rise-of-agents/rise-of-agents-2-chatbot-vs-agent.jpg",
+        "course-assets/rise-of-agents/rise-of-agents-chatbot-vs-agent.jpg",
         "course-assets/rise-of-agents/rise-of-agents-2-highlights.jpg",
     )
     save_pair(
         render_first_assignment_long(),
-        "course-assets/work-changes/work-changes-2-assignment.jpg",
-        "course-assets/work-changes/work-changes-2-assignment.jpg",
+        "course-assets/work-changes/work-changes-assignment.jpg",
+        "course-assets/work-changes/work-changes-assignment.jpg",
     )
 
 

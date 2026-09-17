@@ -12,6 +12,9 @@ from shutil import copy2
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from editorial_takeaway import TAKEAWAY_TEXT_SIZE, draw_takeaway_band
+from editorial_typography import draw_board_title, face
+
 
 ROOT = Path(__file__).resolve().parents[2]
 W, H = 1600, 890
@@ -164,7 +167,7 @@ def dog_chat_art(width: int) -> Image.Image:
 def render() -> None:
     image = Image.new("RGBA", (W, H), FRAME)
     draw = ImageDraw.Draw(image)
-    tracked_text(draw, (40, 31), "The Math Adds Up Fast", 56, INK, -0.03)
+    draw_board_title(draw, "The Math Adds Up Fast")
 
     card_specs = [
         ((40, 118, 525, 722), BLUE, BLUE_ART, "One Token", "One trip through our example model’s trillion weights", "≈ 2 trillion calculations", one_token_art(485)),
@@ -185,20 +188,17 @@ def render() -> None:
         draw.text((x0 + 34, y0 + 536), number, font=font(29, "Bold"), fill=accent)
         draw.rounded_rectangle(box, radius=14, outline=tint(accent, 0.22), width=1)
 
-    banner = (40, 762, 1560, 850)
-    draw.rounded_rectangle(banner, radius=14, fill=GOLD)
-    takeaway = "Even a short answer takes trillions of calculations."
-    takeaway_face = font(32, "Medium")
-    takeaway_w = draw.textbbox((0, 0), takeaway, font=takeaway_face)[2]
-    group_w = 44 + 24 + takeaway_w
-    icon_x, icon_y = (W - group_w) / 2 + 22, 806
-    draw.ellipse((icon_x - 22, icon_y - 22, icon_x + 22, icon_y + 22), fill=PURPLE)
-    draw.line((icon_x - 11, icon_y, icon_x - 2, icon_y + 9), fill=WHITE, width=5)
-    draw.line((icon_x - 2, icon_y + 9, icon_x + 14, icon_y - 11), fill=WHITE, width=5)
-    draw.text((icon_x + 46, icon_y), takeaway, font=takeaway_face, fill=INK, anchor="lm")
+    draw_takeaway_band(
+        image,
+        top=762,
+        left=40,
+        right=1560,
+        text="Even a short answer takes trillions of calculations.",
+        font=face("medium", TAKEAWAY_TEXT_SIZE),
+    )
 
-    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-3-bill.jpg"
-    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-3-bill.jpg"
+    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-bill.jpg"
+    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-bill.jpg"
     review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/03-the-math.jpg"
     for path in (page_path, video_path, review_path):
         path.parent.mkdir(parents=True, exist_ok=True)

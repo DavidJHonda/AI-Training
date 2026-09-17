@@ -25,9 +25,9 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 - Prompt: `Prompts/opener-avoid-video-prompt.txt`
 - Markdown: `lessons/Opener-Avoid.md`
 - Notebook sources:
-  1. `course-assets/avoid-traps-opener/opener-avoid-1-traps.jpg`
-  2. `course-assets/avoid-traps-opener/opener-avoid-3-map.jpg`
-  3. `course-assets/avoid-traps-opener/opener-avoid-4-close.jpg`
+  1. `course-assets/avoid-traps-opener/avoid-traps-opener-traps.jpg`
+  2. `course-assets/avoid-traps-opener/avoid-traps-opener-section-map.jpg`
+  3. `course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `course-assets/avoid-traps-opener/opener-avoid-2-read-water.jpg`
 
@@ -36,8 +36,8 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 - Prompt: `Prompts/hallucination-video-prompt.txt`
 - Markdown: `lessons/hallucination.md`
 - Notebook sources:
-  1. `course-assets/hallucination/hallucination-1-example.jpg`
-  2. `course-assets/hallucination/hallucination-2-why.jpg`
+  1. `course-assets/hallucination/hallucination-example.jpg`
+  2. `course-assets/hallucination/hallucination-why-ai-makes-things-up.jpg`
   3. `lessons/hallucination-4-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `course-assets/hallucination/hallucination-3-real-text.jpg`
@@ -47,57 +47,57 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 - Prompt: `Prompts/training-bias-video-prompt.txt`
 - Markdown: `lessons/training-bias.md`
 - Notebook sources:
-  1. `course-assets/training-bias/training-bias-2-mechanisms.jpg`
-  2. `course-assets/training-bias/training-bias-3-questions.jpg`
-  3. `course-assets/training-bias/training-bias-4-stale.jpg`
-  4. `course-assets/training-bias/training-bias-5-rag.jpg`
-  5. `course-assets/training-bias/training-bias-6-close.jpg`
+  1. `course-assets/training-bias/training-bias-how-bias-happens.jpg`
+  2. `course-assets/training-bias/training-bias-questions-to-ask.jpg`
+  3. `course-assets/training-bias/training-bias-stale.jpg`
+  4. `course-assets/training-bias/training-bias-rag.jpg`
+  5. `course-assets/training-bias/training-bias-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/training-bias/training-bias-1-wrong-pattern.jpg`
+  - `course-assets/training-bias/training-bias-wrong-pattern.jpg`
 
 ## Document Trap
 
 - Prompt: `Prompts/document-trap-video-prompt.txt`
 - Markdown: `lessons/document-trap.md`
 - Notebook sources:
-  1. `course-assets/document-trap/document-trap-2-flow.jpg`
-  2. `course-assets/document-trap/document-trap-3-moves.jpg`
-  3. `course-assets/document-trap/document-trap-4-close.jpg`
+  1. `course-assets/document-trap/document-trap-flow.jpg`
+  2. `course-assets/document-trap/document-trap-moves.jpg`
+  3. `course-assets/document-trap/document-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/document-trap/document-trap-1-uploaded.jpg`
+  - `course-assets/document-trap/document-trap-uploaded.jpg`
 
 ## Mind Trap
 
 - Prompt: `Prompts/mind-trap-video-prompt.txt`
 - Markdown: `lessons/mind-trap.md`
 - Notebook sources:
-  1. `course-assets/mind-trap/mind-trap-2-eliza.jpg`
-  2. `course-assets/mind-trap/mind-trap-3-close.jpg`
+  1. `course-assets/mind-trap/mind-trap-eliza.jpg`
+  2. `course-assets/mind-trap/mind-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/mind-trap/mind-trap-1-comparison.jpg`
+  - `course-assets/mind-trap/mind-trap-comparison.jpg`
 
 ## Flattery Trap
 
 - Prompt: `Prompts/flattery-trap-video-prompt.txt`
 - Markdown: `lessons/flattery-trap.md`
 - Notebook sources:
-  1. `course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg`
-  2. `course-assets/flattery-trap/flattery-trap-3-sycophancy.jpg`
-  3. `course-assets/flattery-trap/flattery-trap-4-five-moves.jpg`
-  4. `course-assets/flattery-trap/flattery-trap-5-close.jpg`
+  1. `course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg`
+  2. `course-assets/flattery-trap/flattery-trap-sycophancy.jpg`
+  3. `course-assets/flattery-trap/flattery-trap-five-moves.jpg`
+  4. `course-assets/flattery-trap/flattery-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/flattery-trap/flattery-trap-1-comparison.jpg`
+  - `course-assets/flattery-trap/flattery-trap-comparison.jpg`
 
 ## Engagement Trap
 
 - Prompt: `Prompts/engagement-trap-video-prompt.txt`
 - Markdown: `lessons/engagement-trap.md`
 - Notebook sources:
-  1. `course-assets/engagement-trap/engagement-trap-1-comparison.jpg`
-  2. `course-assets/engagement-trap/engagement-trap-2-scroll.jpg`
-  3. `course-assets/engagement-trap/engagement-trap-4-close.jpg`
+  1. `course-assets/engagement-trap/engagement-trap-comparison.jpg`
+  2. `course-assets/engagement-trap/engagement-trap-scroll.jpg`
+  3. `course-assets/engagement-trap/engagement-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/engagement-trap/engagement-trap.jpg`
+  - `course-assets/engagement-trap/engagement-trap-stopping-point.jpg`
 
 ## Support Trap
 
@@ -107,11 +107,11 @@ Rebuilt 2026-09-07. Target 4:00–4:45, with a 460-word prompt and expanded teac
 - Markdown: `lessons/support-trap.md`
 - Notebook sources:
   1. `course-assets/support-trap/support-trap-1-comparison-notebook.jpg`
-  2. `course-assets/support-trap/support-trap-2-role.jpg`
-  3. `course-assets/support-trap/support-trap-3-danger.jpg`
-  4. `course-assets/support-trap/support-trap-4-close.jpg`
+  2. `course-assets/support-trap/support-trap-role.jpg`
+  3. `course-assets/support-trap/support-trap-danger.jpg`
+  4. `course-assets/support-trap/support-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/support-trap/support-trap-1-comparison.jpg`
+  - `course-assets/support-trap/support-trap-comparison.jpg`
 
 The comparison Notebook version retains the illustrated lesson board's words, order, colors, and conclusion but omits both photographs. This is an intentional upload-only variant, not a replacement for the on-page board. Replace it with the illustrated version in post. The other boards match the page; the current close is retained. Do not upload the PDF, old videos, or this checklist.
 
@@ -122,12 +122,12 @@ Rebuild only this kit with `scripts/video/prepare_support_trap_reroll.py`. The e
 - Prompt: `Prompts/fake-trap-video-prompt.txt`
 - Markdown: `lessons/fake-trap.md`
 - Notebook sources:
-  1. `course-assets/fake-trap/fake-trap-2-reasons.jpg`
-  2. `course-assets/fake-trap/fake-trap-4-checks.jpg`
-  3. `course-assets/fake-trap/fake-trap-5-close.jpg`
+  1. `course-assets/fake-trap/fake-trap-reasons.jpg`
+  2. `course-assets/fake-trap/fake-trap-checks.jpg`
+  3. `course-assets/fake-trap/fake-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/fake-trap/fake-trap-1-comparison.jpg`
-  - `course-assets/fake-trap/fake-trap.jpg`
+  - `course-assets/fake-trap/fake-trap-comparison.jpg`
+  - `course-assets/fake-trap/fake-trap-follow-the-source.jpg`
 
 ## Provenance, cleanup, and post-production
 

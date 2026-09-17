@@ -9,7 +9,7 @@ strips around each splice boundary.
 
 Usage:
   .video-venv/bin/python scripts/video/splice_integrity.py \
-    videos/foo.mp4 videos/foo-v2.mp4 --span 120:420 --span 900:1100 \
+    course-assets/foo/foo.mp4 Prompts/foo-v2.mp4 --span 120:420 --span 900:1100 \
     --outdir /tmp/splice-review/foo
 """
 

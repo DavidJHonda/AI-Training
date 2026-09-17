@@ -12,9 +12,9 @@ AI is an incredibly powerful tool for learning. But there’s a difference betwe
 
 ### Board 1: Using AI in School
 
-**Image file:** `honesty-and-privacy-1-school.jpg`
+**Image file:** `honesty-and-privacy-school.jpg`
 
-![Using AI in School](honesty-and-privacy-1-school.jpg)
+![Using AI in School](honesty-and-privacy-school.jpg)
 
 **Teaching content:**
 
@@ -28,9 +28,9 @@ When it’s okay to use AI in class, there are a few smart guidelines to follow.
 
 ### Board 2: When AI Help Is Allowed
 
-**Image file:** `honesty-and-privacy-2-best-practices.jpg`
+**Image file:** `honesty-and-privacy-best-practices.jpg`
 
-![When AI Help Is Allowed](honesty-and-privacy-2-best-practices.jpg)
+![When AI Help Is Allowed](honesty-and-privacy-best-practices.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ Giving AI useful context can improve its answer. But this makes privacy difficul
 
 ### Board 3: How Much Should You Share?
 
-**Image file:** `honesty-and-privacy-3-privacy.jpg`
+**Image file:** `honesty-and-privacy-privacy.jpg`
 
-![How much should you share?](honesty-and-privacy-3-privacy.jpg)
+![How much should you share?](honesty-and-privacy-privacy.jpg)
 
 **Teaching content:**
 
@@ -66,9 +66,9 @@ Picture this. You snap a quick photo of your math homework so AI can help with o
 
 ### Board 4: Share Only What AI Needs
 
-**Image file:** `honesty-and-privacy-4-share-only.jpg`
+**Image file:** `honesty-and-privacy-share-only.jpg`
 
-![Share Only What AI Needs](honesty-and-privacy-4-share-only.jpg)
+![Share Only What AI Needs](honesty-and-privacy-share-only.jpg)
 
 **Teaching content:**
 
@@ -88,9 +88,9 @@ If you shared a password or security code, deleting the chat isn’t enough. Go 
 
 ### Board 5: Close
 
-**Image file:** `honesty-and-privacy-5-close.jpg`
+**Image file:** `honesty-and-privacy-close.jpg`
 
-![Close board](honesty-and-privacy-5-close.jpg)
+![Close board](honesty-and-privacy-close.jpg)
 
 ## Closing Message
 

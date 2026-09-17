@@ -27,9 +27,9 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-LIVE = ROOT / "videos/work-changes.mp4"
+LIVE = ROOT / "course-assets/work-changes/work-changes.mp4"
 REROLL = ROOT / "Prompts/work-changes.mp4"
-OUTPUT = ROOT / "videos/work-changes-v2.mp4"
+OUTPUT = ROOT / "Prompts/work-changes-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -42,11 +42,11 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "strengths": ROOT / "course-assets/work-changes/work-changes-1-strengths.jpg",
-    "assignment": ROOT / "course-assets/work-changes/work-changes-2-assignment.jpg",
+    "strengths": ROOT / "course-assets/work-changes/work-changes-four-shapes-of-ai-work.jpg",
+    "assignment": ROOT / "course-assets/work-changes/work-changes-assignment.jpg",
     "concepts": asset_path('lessons', 'work-changes-3-concepts.jpg'),
-    "changes": ROOT / "course-assets/work-changes/work-changes-4-what-changes.jpg",
-    "close": ROOT / "course-assets/work-changes/work-changes-5-close.jpg",
+    "changes": ROOT / "course-assets/work-changes/work-changes-productivity-and-possibilities.jpg",
+    "close": ROOT / "course-assets/work-changes/work-changes-close.jpg",
 }
 
 

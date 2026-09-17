@@ -7,7 +7,7 @@ import build_support_trap_reroll_review as b
 v=b.v
 A=R/'video-audit/avoid-traps-illustration-sync-2026-09-08/support-trap-pilot'
 A.mkdir(parents=True,exist_ok=False)
-live=R/'videos/support-trap.mp4'
+live=R/'course-assets/support-trap/support-trap.mp4'
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 live_hash=sha(live)
 previous=json.loads((R/'video-audit/support-trap-secrecy-repair-2026-09-08/manifest.json').read_text())

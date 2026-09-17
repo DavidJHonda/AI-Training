@@ -2,7 +2,7 @@
 """Vector Space candidate from roll 4 under EDIT-SPEC.md (2026-09-11). Review only.
 
 Base: Prompts/vector-space-4.mp4 (or Prompts/vector-space-4-clean.mp4 if a watermark pass produced it).
-Output: videos/vector-space-v3.mp4. Audit: video-audit/vector-space-repair-2026-09-11/.
+Output: Prompts/vector-space-v3.mp4. Audit: video-audit/vector-space-repair-2026-09-11/.
 Six boards from their own source cuts; Notebook scenes between them kept; seven pauses; standard close.
 """
 
@@ -20,7 +20,7 @@ import cv2
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/vector-space-4-clean.mp4'
 if not SRC.exists(): SRC = ROOT / 'Prompts/vector-space-4.mp4'
-OUT = ROOT / 'video-audit/vector-space-repair-2026-09-11'; DEST = ROOT / 'videos/vector-space-v3.mp4'
+OUT = ROOT / 'video-audit/vector-space-repair-2026-09-11'; DEST = ROOT / 'Prompts/vector-space-v3.mp4'
 ILL = asset_dir('illustrations')
 ORANGE = '#b96108'  # the boards' own NEW POSITION / MYSTERY DRINK callout accent (sampled from the asset border)
 A = dict(cities=ILL / 'vector-space-cities.jpg', closest=ILL / 'vector-space-cities-closest.jpg', taste=ILL / 'vector-space-taste-profile.jpg',
@@ -37,7 +37,7 @@ PLQ_START, PLQ_LAYERS, PLQ_UPD = [99, 780, 324, 858], [510, 791, 841, 839], [929
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/vector-space.mp4', ROOT / 'lessons/vector-space.md', *A.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/vector-space/vector-space.mp4', ROOT / 'lessons/vector-space.md', *A.values()])
     b.load_audio([(24.93, 25.56), (71.42, 72.01), (116.54, 117.35), (145.54, 146.17), (181.66, 182.11), (188.98, 189.56), (216.44, 217.00)])
     # source cuts (sequential decode) and pause points (inside measured silences)
     B1, B2, B3, B4, B5, B6 = 765, 1351, 2491, 3520, 4389, 6002

@@ -24,7 +24,7 @@ def replacements():
     def add(name,asset,points,states):
         p=tuple(at(t) for t in points)
         result.append((p[0],p[-1],common.make_leg(name,asset,p,tuple(states))))
-    compare=ROOT/'course-assets/engagement-trap/engagement-trap-1-comparison.jpg'
+    compare=ROOT/'course-assets/engagement-trap/engagement-trap-comparison.jpg'
     # Exact upper portion of the lesson board: keep both turns readable without
     # clipping the neighboring prompt or displaying fragments of the outcomes.
     chat= AUDIT/'assets/comparison-chat-only.png'
@@ -36,7 +36,7 @@ def replacements():
         ('establish',None,VP,None,0),
         ('you-stop',(40,740,784,1340),B,(800,1104,1680),30),
         ('the-trap',(816,740,1560,1340),A,(800,1104,1680),0)))
-    add('infinite-scroll',ROOT/'course-assets/engagement-trap/engagement-trap-2-scroll.jpg',
+    add('infinite-scroll',ROOT/'course-assets/engagement-trap/engagement-trap-scroll.jpg',
         (149.366667,153.4,164.2,179.5,186.166667),(
         ('establish',None,VP,None,0),
         ('before-scroll',(40,127,784,718),B,None,0),
@@ -53,7 +53,7 @@ def replacements():
     cv2.imwrite(str(asset),frame)
     add('native-ribbon',asset,(216.133333,221.466667),(
         ('native-ribbon',None,VP,(640,360,1250),150),))
-    add('deliberate-stop',ROOT/'course-assets/engagement-trap/engagement-trap.jpg',
+    add('deliberate-stop',ROOT/'course-assets/engagement-trap/engagement-trap-stopping-point.jpg',
         (249.8,272.766667),(
         ('full-illustration-title-and-banner',None,VP,None,0),))
     # Audio shoulders precede the source visual cuts by 4 and 6 frames.
@@ -81,7 +81,7 @@ def main():
     assert common.frame_count(SOURCE)==8480
     sourcehash=common.file_md5(SOURCE)
     approvedhash=common.file_md5(APPROVED)
-    live=ROOT/'videos/engagement-trap.mp4';livehash=common.file_md5(live)
+    live=ROOT/'course-assets/engagement-trap/engagement-trap.mp4';livehash=common.file_md5(live)
     items=replacements();expected=mapped(END)
     boundaries={mapped(a):f'audio-cut-{i+1}' for i,(a,b) in enumerate(CUTS)}
     states=[]
@@ -102,7 +102,7 @@ def main():
                 cursor+=state.frames
         close_start=at(272.766667)
         close_png=work/'close.png'
-        cv2.imwrite(str(close_png),cv2.resize(cv2.imread(str(ROOT/'course-assets/engagement-trap/engagement-trap-4-close.jpg')),(1600,900),interpolation=cv2.INTER_AREA))
+        cv2.imwrite(str(close_png),cv2.resize(cv2.imread(str(ROOT/'course-assets/engagement-trap/engagement-trap-close.jpg')),(1600,900),interpolation=cv2.INTER_AREA))
         common.BOARDS['close']=close_png
         close_video=work/'close.mkv';common.render_close(close_video,expected-mapped(close_start))
         renders.append((close_start,END,close_video,expected-mapped(close_start)))

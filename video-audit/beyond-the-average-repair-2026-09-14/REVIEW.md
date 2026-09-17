@@ -1,6 +1,6 @@
 # Beyond the Average (whybother; formerly Does School Matter?) v5: review candidate (2026-09-14 PM, EDIT-SPEC build)
 
-**Candidate:** `videos/beyond-the-average-v5.mp4` (2:51.4, 5143 frames, 30 fps). v5 = v4 with the closing audio carried to 202.0 (v4 ended
+**Candidate:** `Prompts/beyond-the-average-v5.mp4` (2:51.4, 5143 frames, 30 fps). v5 = v4 with the closing audio carried to 202.0 (v4 ended
 it at 201.5 and clipped the last word; "average" runs to 201.68 at −45 dB, David 2026-09-14). v4 = v3 with a third cut, David's note on v3 ("1:22 to
 1:34. It feels like we can delete this video."): source 100.9–113.17, "School forces you to learn the foundational mechanics of how things
 work. Instead of receiving a finished summary, you investigate the individual pieces to understand why they fit together. It provides a
@@ -25,7 +25,7 @@ and the board holds still, full, banner visible (no camera walk); (2) the tall W
 frame's bottom edge and the opening push clipped it; `editspec_build.compose` now gives tall boards a 4% stage margin above and below,
 and dense boards open static (no push on a full board). v1–v4 superseded. Named for the lesson's new title (David retitled the
 lesson 2026-09-14; the page's `whybother` entry and its board assets still carry the old slug, to be re-slugged at ship).
-**Live video and lesson unchanged** (`videos/does-school-matter.mp4`, `lessons/does-school-matter.md`, both board assets hash-verified).
+**Live video and lesson unchanged** (`course-assets/beyond-the-average/beyond-the-average.mp4`, `lessons/does-school-matter.md`, both board assets hash-verified).
 **Build:** `scripts/video/build_beyond_the_average_review.py`. **Manifest:** `edit-manifest.json` here.
 **Narration status:** roll 1 of the second pair (`video-audit/does-school-matter-comparison-2026-09-14b/REVIEW.md`): every beat taught,
 Board 2 read in full, close verbatim; its one hard-requirement miss, the Same Tool board line "The tool may be the same. What you
@@ -80,6 +80,6 @@ Run on the 21:47 render (v5).
 
 **Not auditioned by ear.** David should listen to 53.5–66 (roll 2's line in and out under the board), 80.5–83.5 (the extended cut 1, the
 pause, and "You write essays"), and 95.5–97 (cut 2).
-**At ship:** move to `videos/beyond-the-average.mp4`, point the `whybother` entry at it with a new cache key, duration pill 3 min (2:51),
+**At ship:** move to `course-assets/beyond-the-average/beyond-the-average.mp4`, point the `whybother` entry at it with a new cache key, duration pill 3 min (2:51),
 and re-slug the two board illustrations and the kit files to `beyond-the-average-*` per the naming rule (David's call on timing).
 Live video unchanged until then.

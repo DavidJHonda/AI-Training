@@ -12,9 +12,9 @@ There’s a famous way to picture this, sometimes called the Chinese Room. Imagi
 
 ### Board 1: The Chinese Room
 
-**Image file:** `does-ai-think-1-chinese-room.jpg`
+**Image file:** `does-ai-think-chinese-room.jpg`
 
-![The Chinese Room](does-ai-think-1-chinese-room.jpg)
+![The Chinese Room](does-ai-think-chinese-room.jpg)
 
 **Teaching content:**
 
@@ -26,9 +26,9 @@ The Chinese Room illustrates a distinction: producing an answer and understandin
 
 ### Board 2: When You Think. What AI Does.
 
-**Image file:** `does-ai-think-2-side-by-side.jpg`
+**Image file:** `does-ai-think-side-by-side.jpg`
 
-![When You Think. What AI Does.](does-ai-think-2-side-by-side.jpg)
+![When You Think. What AI Does.](does-ai-think-side-by-side.jpg)
 
 **Teaching content:**
 
@@ -40,9 +40,9 @@ None of this means AI is dumb or useless. It can do impressive work. But an answ
 
 ### Close
 
-**Image file:** `does-ai-think-3-close.jpg`
+**Image file:** `does-ai-think-close.jpg`
 
-![Close board](does-ai-think-3-close.jpg)
+![Close board](does-ai-think-close.jpg)
 
 ## Closing Message
 

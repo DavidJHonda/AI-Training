@@ -56,7 +56,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--image",
-        default="course-assets/welcome/welcome-2-your-path.jpg",
+        default="course-assets/welcome/welcome-where-this-course-takes-you.jpg",
         help="canonical 1600x900 Welcome course-path board",
     )
     parser.add_argument(

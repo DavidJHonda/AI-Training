@@ -31,7 +31,7 @@ def main():
     # Check the authored background before JPEG encoding.
     for point in ((20,100),(20,500),(20,1100),(800,20)):
         assert board.getpixel(point) == (234,231,253)
-    save_pair(board, Pair('course-assets/engagement-trap/engagement-trap.jpg',
+    save_pair(board, Pair('course-assets/engagement-trap/engagement-trap-stopping-point.jpg',
                           'course-assets/engagement-trap/engagement-trap-3-stop.jpg'))
 
 if __name__ == '__main__':

@@ -12,9 +12,9 @@ The core of normal software is something called **Rules**. The best way to under
 
 ### Board 1: Rules Look Like This
 
-**Image file:** `ai-is-different-1-rules.jpg`
+**Image file:** `ai-is-different-rules.jpg`
 
-![Rules Look Like This](ai-is-different-1-rules.jpg)
+![Rules Look Like This](ai-is-different-rules.jpg)
 
 **Teaching content:**
 
@@ -22,21 +22,21 @@ A user enters a password. IF the password matches, THEN open the app. ELSE show 
 
 ## AI IS Based On Patterns
 
-AI is different. A programmer doesn’t write out the rules for every situation. Instead, AI uses patterns it learned during training.
+AI is different. A programmer doesn’t write out the rules for every situation. Instead, AI uses patterns it learned during training. A language model learns patterns first, then uses them to answer one word at a time.
 
-### Board 2: Learn Once. Answer Every Word.
+### Board 2: Two Ideas Behind Every Answer
 
-**Image file:** `ai-is-different-2-learn-once.jpg`
+**Image file:** `ai-is-different-learn-once.jpg`
 
-![Learn Once. Answer Every Word.](ai-is-different-2-learn-once.jpg)
+![Two Ideas Behind Every Answer.](ai-is-different-learn-once.jpg)
 
 **Teaching content:**
 
-Learn once. Step one, Training: the model learns from enormous amounts of data once, before you use it. Step two, Patterns: training turns examples into learned numerical patterns. Those patterns power every answer.
+Learn First: Training is how the model learns from enormous amounts of data before you use it. Patterns are what it learns: training turns examples into learned numerical patterns. Patterns develop during training, not in a separate step afterward. Those patterns power every answer.
 
-Answer every word. Step three, Probability: for every next word, the model scores what is most likely. Step four, Prediction: it chooses one likely next word, then runs the process again.
+Answer One Word at a Time: Probability scores possible next words using the words so far. Prediction chooses a likely next word, adds it, and repeats the process.
 
-Learn once. Use the patterns for every answer.
+Learn patterns first. Use them to build every answer.
 
 That’s the difference: someone writes the rules for ordinary software. AI learns patterns it can use in situations it hasn’t seen before.
 
@@ -54,9 +54,9 @@ Watch what each one does with the same question.
 
 ### Board 3: Rules vs. Patterns
 
-**Image file:** `ai-is-different-3-rules-vs-patterns.jpg`
+**Image file:** `ai-is-different-rules-vs-patterns.jpg`
 
-![Rules vs. Patterns](ai-is-different-3-rules-vs-patterns.jpg)
+![Rules vs. Patterns](ai-is-different-rules-vs-patterns.jpg)
 
 **Teaching content:**
 
@@ -80,9 +80,9 @@ That something was AI. It read the notes, followed the changes, and turned them 
 
 ### Board 4: Structured vs. Unstructured Data
 
-**Image file:** `ai-is-different-4-structured.jpg`
+**Image file:** `ai-is-different-structured.jpg`
 
-![Structured vs. Unstructured Data](ai-is-different-4-structured.jpg)
+![Structured vs. Unstructured Data](ai-is-different-structured.jpg)
 
 **Teaching content:**
 
@@ -108,9 +108,9 @@ Because AI runs on learned patterns and not rules, it’s harder to control. **T
 
 ### Board 5: AI’s Kryptonite
 
-**Image file:** `ai-is-different-5-kryptonite.jpg`
+**Image file:** `ai-is-different-weak-spots.jpg`
 
-![AI’s Kryptonite](ai-is-different-5-kryptonite.jpg)
+![AI’s Kryptonite](ai-is-different-weak-spots.jpg)
 
 **Teaching content:**
 
@@ -130,9 +130,9 @@ AI companies don’t ignore this. During training, they teach AI to avoid harmfu
 
 ### Close
 
-**Image file:** `ai-is-different-6-close.jpg`
+**Image file:** `ai-is-different-close.jpg`
 
-![Close board](ai-is-different-6-close.jpg)
+![Close board](ai-is-different-close.jpg)
 
 ## Closing Message
 

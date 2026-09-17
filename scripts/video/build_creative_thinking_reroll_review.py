@@ -47,9 +47,9 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "professions": ROOT / "course-assets/creative-thinking/creative-thinking-1-professions.jpg",
-    "practice": ROOT / "course-assets/creative-thinking/creative-thinking-2-practice.jpg",
-    "close": ROOT / "course-assets/creative-thinking/creative-thinking-3-close.jpg",
+    "professions": ROOT / "course-assets/creative-thinking/creative-thinking-creative-professions.jpg",
+    "practice": ROOT / "course-assets/creative-thinking/creative-thinking-practice-creativity.jpg",
+    "close": ROOT / "course-assets/creative-thinking/creative-thinking-close.jpg",
 }
 
 # True outer card boundaries on both 1600px-wide four-card boards. These are

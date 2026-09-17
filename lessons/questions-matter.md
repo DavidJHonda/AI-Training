@@ -10,9 +10,9 @@ One example makes the whole idea click. Teachers have been handing out research 
 
 ### Board 1: How Answers Got Easier and Faster
 
-**Image file:** `questions-matter-1-answers-faster.jpg`
+**Image file:** `questions-matter-answers-faster.jpg`
 
-![How Answers Got Easier and Faster](questions-matter-1-answers-faster.jpg)
+![How Answers Got Easier and Faster](questions-matter-answers-faster.jpg)
 
 **Teaching content:**
 
@@ -28,9 +28,9 @@ Half a day, then an hour, now seconds. AI makes answers cheap to get. That does 
 
 ### Board 2: It Changes Where Value Lives
 
-**Image file:** `questions-matter-2-value-lives.jpg`
+**Image file:** `questions-matter-value-lives.jpg`
 
-![It Changes Where Value Lives](questions-matter-2-value-lives.jpg)
+![It Changes Where Value Lives](questions-matter-value-lives.jpg)
 
 **Teaching content:**
 
@@ -46,11 +46,11 @@ Asking good questions is one of humanity’s oldest skills. Socrates taught by d
 
 So what separates a good question from a weak one? Four qualities, and none of them mention AI.
 
-### Board 3: Four Qualities of a Good Question
+### Board 3A: Four Qualities of a Good Question
 
-**Image file:** `questions-matter-3-four-qualities.jpg`
+**Image file:** `questions-matter-open-minded-and-specific.jpg`
 
-![Four Qualities of a Good Question](questions-matter-3-four-qualities.jpg)
+![Four Qualities of a Good Question: Open-Minded and Specific](questions-matter-open-minded-and-specific.jpg)
 
 **Teaching content:**
 
@@ -58,15 +58,21 @@ Open-Minded: you haven’t picked the answer in advance. A leading question isn�
 
 Specific: give enough detail about your situation to get an answer that fits. Weak: “How do I get better at sports?” Better: “I play basketball as a point guard. Sometimes I lose the ball against pressure. What drills fix that?”
 
+### Board 3B: Four Qualities of a Good Question, Continued
+
+**Image file:** `questions-matter-on-target-and-open-ended.jpg`
+
+![Four Qualities of a Good Question, Continued: On Target and Open-Ended](questions-matter-on-target-and-open-ended.jpg)
+
 On Target: ask about the problem you actually need to solve. The first question that comes to mind might miss it. Weak: “What energy drinks work best for staying awake in class?” Better: “I keep falling asleep in first period, even when the class is interesting. What could be making me so tired, and what can I change?”
 
 Open-Ended: invite an explanation, not just a yes or no. Leave room for an answer you didn’t expect. Weak: “Should I join the debate team?” Better: “What would joining debate add to my week, and what would I have to give up for it?”
 
 ### Close
 
-**Image file:** `questions-matter-4-close.jpg`
+**Image file:** `questions-matter-close.jpg`
 
-![Close board](questions-matter-4-close.jpg)
+![Close board](questions-matter-close.jpg)
 
 ## Closing Message
 

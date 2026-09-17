@@ -6,9 +6,9 @@ What you know matters. So does what you do with it. Critical thinking helps you 
 
 ### Board 1: What You Know. How You Think.
 
-**Image file:** `critical-thinking-1-equation.jpg`
+**Image file:** `critical-thinking-equation.jpg`
 
-![What You Know. How You Think.](critical-thinking-1-equation.jpg)
+![What You Know. How You Think.](critical-thinking-equation.jpg)
 
 **Teaching content:**
 
@@ -28,9 +28,9 @@ Did that headline make you pause? That’s critical thinking getting started. Th
 
 ### Board 2: Same Claim. Different Thinking.
 
-**Image file:** `critical-thinking-2-two-reactions.jpg`
+**Image file:** `critical-thinking-two-reactions.jpg`
 
-![Same Claim. Different Thinking.](critical-thinking-2-two-reactions.jpg)
+![Same Claim. Different Thinking.](critical-thinking-two-reactions.jpg)
 
 **Teaching content:**
 
@@ -52,9 +52,9 @@ There are five habits you can build to sharpen your critical thinking. Each one 
 
 ### Board 3: Five Habits of Critical Thinking
 
-**Image file:** `critical-thinking-3-five-habits.jpg`
+**Image file:** `critical-thinking-five-habits.jpg`
 
-![Five Habits of Critical Thinking](critical-thinking-3-five-habits.jpg)
+![Five Habits of Critical Thinking](critical-thinking-five-habits.jpg)
 
 **Teaching content:**
 
@@ -74,9 +74,9 @@ The five questions work on anything you read or hear. Use them with AI, too. AI 
 
 ### Close
 
-**Image file:** `critical-thinking-4-close.jpg`
+**Image file:** `critical-thinking-close.jpg`
 
-![Close board](critical-thinking-4-close.jpg)
+![Close board](critical-thinking-close.jpg)
 
 ## Closing Message
 

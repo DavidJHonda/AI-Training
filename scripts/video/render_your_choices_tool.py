@@ -8,7 +8,7 @@ and reports them without rebuilding or re-encoding them.
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-FINISHED = ['course-assets/your-choices/your-choices-1-choose-tool.jpg']
+FINISHED = ['course-assets/your-choices/your-choices-choose-tool.jpg']
 
 def main():
     for relative in FINISHED:

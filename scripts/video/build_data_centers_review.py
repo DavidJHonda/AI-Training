@@ -10,8 +10,8 @@ scenes.
 Every deleted interval is replaced explicitly in the visual assembly, so no
 frame from an obsolete board or Notebook outro can flash through an audio-only
 cut.  Audio edits begin and end in measured silences, before the next breath or
-word begins.  The shipped ``videos/data-centers.mp4`` is never overwritten;
-review output is ``videos/data-centers-v2.mp4``.
+word begins.  The shipped ``course-assets/data-centers/data-centers.mp4`` is never overwritten;
+review output is ``Prompts/data-centers-v2.mp4``.
 """
 
 from __future__ import annotations
@@ -27,8 +27,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 REROLL = ROOT / "Prompts/data-centers.mp4"
-LIVE = ROOT / "videos/data-centers.mp4"
-OUTPUT = ROOT / "videos/data-centers-v2.mp4"
+LIVE = ROOT / "course-assets/data-centers/data-centers.mp4"
+OUTPUT = ROOT / "Prompts/data-centers-v2.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -43,9 +43,9 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "data_center": ROOT / "course-assets/data-centers/data-centers-1-data-center.jpg",
-    "footprint": ROOT / "course-assets/data-centers/data-centers-2-footprint.jpg",
-    "close": ROOT / "course-assets/data-centers/data-centers-3-close.jpg",
+    "data_center": ROOT / "course-assets/data-centers/data-centers-data-center.jpg",
+    "footprint": ROOT / "course-assets/data-centers/data-centers-physical-footprint.jpg",
+    "close": ROOT / "course-assets/data-centers/data-centers-close.jpg",
 }
 
 

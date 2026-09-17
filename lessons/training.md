@@ -8,9 +8,9 @@ Think about learning to shoot a basketball. You take a shot, check where it goes
 
 ### Board 1: The Training Loop
 
-**Image file:** `training-loop-editorial.jpg`
+**Image file:** `training-guess-check-adjust.jpg`
 
-![The Training Loop](training-loop-editorial.jpg)
+![The Training Loop](training-guess-check-adjust.jpg)
 
 **Teaching content:**
 
@@ -26,9 +26,9 @@ Before training begins, engineers set up the model and gather the data.
 
 ### Board 2: Before Training Starts
 
-**Image file:** `training-before-starts-editorial.jpg`
+**Image file:** `training-before-starts.jpg`
 
-![Before Training Starts](training-before-starts-editorial.jpg)
+![Before Training Starts](training-before-starts.jpg)
 
 **Teaching content:**
 
@@ -36,15 +36,27 @@ Before training begins, engineers set up the model and gather the data.
 
 **Gather the Data:** Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
 
-## THREE PHASES OF TRAINING
+Training does more than teach a model patterns. It also helps the model follow instructions and give more useful answers. We’ll follow the same basketball question through three main phases.
 
-Training has different jobs: learning patterns from data, learning how to answer questions, and improving responses through feedback. We’ll follow three main stages and watch how each shapes the answer to the same question: ‘How do I shoot a basketball?’
+### Board 3: Three Phases of Training
 
-### Board 3: 1 · Pretraining
+**Image file:** `training-three-phases.jpg`
 
-**Image file:** `training-pretraining-editorial.jpg`
+![Three Phases of Training](training-three-phases.jpg)
 
-![1 · Pretraining](training-pretraining-editorial.jpg)
+**Teaching content:**
+
+**The same question:** How do I shoot a basketball?
+
+1. **Pretraining:** Learn patterns from data.
+2. **Instruction Tuning:** Learn to follow instructions.
+3. **Preference Tuning:** Improve responses through feedback.
+
+### Board 4: 1 · Pretraining
+
+**Image file:** `training-pretraining.jpg`
+
+![1 · Pretraining](training-pretraining.jpg)
 
 **Teaching content:**
 
@@ -58,11 +70,11 @@ The model guesses what comes next in vast amounts of text and code, then checks 
 
 **What Still Needs Work:** The model can produce fluent text, but it doesn’t reliably follow your instructions yet.
 
-### Board 4: 2 · Instruction Tuning
+### Board 5: 2 · Instruction Tuning
 
-**Image file:** `training-instruction-tuning-editorial.jpg`
+**Image file:** `training-instruction-tuning.jpg`
 
-![2 · Instruction Tuning](training-instruction-tuning-editorial.jpg)
+![2 · Instruction Tuning](training-instruction-tuning.jpg)
 
 **Teaching content:**
 
@@ -74,11 +86,11 @@ The model guesses what comes next in vast amounts of text and code, then checks 
 
 **What Still Needs Work:** The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.
 
-### Board 5: 3 · Preference Tuning
+### Board 6: 3 · Preference Tuning
 
-**Image file:** `training-preference-tuning-editorial.jpg`
+**Image file:** `training-preference-tuning.jpg`
 
-![3 · Preference Tuning](training-preference-tuning-editorial.jpg)
+![3 · Preference Tuning](training-preference-tuning.jpg)
 
 **Teaching content:**
 

@@ -9,7 +9,7 @@ label_font="/Users/davidobrien/Library/Fonts/AvenirNextforINTUIT-Demi.otf"
 ffmpeg="$repo_root/scripts/video/ffmpeg.sh"
 
 "$ffmpeg" -loglevel error -y \
-  -i "$repo_root/course-assets/why-learn-ai/why-learn-ai-2-thrive.jpg" \
+  -i "$repo_root/course-assets/why-learn-ai/why-learn-ai-thrive.jpg" \
   -i "$repo_root/course-assets/what-is-ai/what-is-ai-llm.jpg" \
   -i "$repo_root/course-assets/does-ai-think/does-ai-think-rulebook.jpg" \
   -i "$repo_root/course-assets/what-you-can-control/what-you-can-control-hands.jpg" \

@@ -23,7 +23,7 @@ from editorial_typography import draw_board_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-art-v2.png"
-OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-1-press.jpg"
+OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-press.jpg"
 REVIEW_OUTPUT = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-v2.jpg"
 
 WIDTH = 1600

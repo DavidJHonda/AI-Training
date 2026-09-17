@@ -24,7 +24,7 @@ def main():
     AUDIT.mkdir(parents=True, exist_ok=True)
     SOURCE.parent.mkdir(parents=True, exist_ok=True)
     if not SOURCE.exists():
-        shutil.copy2(ROOT / 'videos/your-choices.mp4', SOURCE)
+        shutil.copy2(ROOT / 'course-assets/your-choices/your-choices.mp4', SOURCE)
     cap = cv2.VideoCapture(str(SOURCE))
     assert int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) == ORIGINAL_FRAMES
     assert cap.get(cv2.CAP_PROP_FPS) == FPS

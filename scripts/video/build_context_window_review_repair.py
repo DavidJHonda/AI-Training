@@ -16,8 +16,8 @@ import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
-SOURCE = ROOT / "video-audit/review-31/videos/context-window.mp4"
-OUTPUT = ROOT / "video-audit/review-31/videos/context-window.rebuilt.mp4"
+SOURCE = ROOT / "video-audit/review-31/course-assets/context-window/context-window.mp4"
+OUTPUT = ROOT / "video-audit/review-31/Prompts/context-window.rebuilt.mp4"
 FIRST_PLAN = ROOT / "scripts/video/paths/context-window-luke-nate-highlights.json"
 MAIN_PLAN = ROOT / "scripts/video/paths/context-window-tour-v2.json"
 OUTSIDE_PLAN = ROOT / "scripts/video/paths/context-window-outside-highlights.json"

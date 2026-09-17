@@ -84,9 +84,9 @@ AI keeps predicting tokens until it produces a special token that signals the an
 
 ### Board 4: Inference: How AI Builds an Answer
 
-**Image file:** `how-ai-answers-inference-notebook.jpg`
+**Image file:** `how-ai-answers-building-an-answer.jpg`
 
-![Inference: How AI Builds an Answer](how-ai-answers-inference-notebook.jpg)
+![Inference: How AI Builds an Answer](how-ai-answers-building-an-answer.jpg)
 
 **Teaching content:**
 

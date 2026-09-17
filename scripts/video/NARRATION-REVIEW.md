@@ -51,12 +51,30 @@ A review that skips the lesson or the full transcript is not a review.
 
 ## Verdict
 
-- **KEEP**: every essential point TAUGHT, no WRONG. Proceed to production.
-- **REPAIR**: the teaching is complete but one of these applies: removable
-  excess or repetition, a misplaced beat, or a single wrong word or phrase that
-  a coherent donor phrase from existing course narration can replace.
-- **REROLL**: any essential point MISSING or WRONG, or a hard requirement
-  missed. A corrected graphic never fixes spoken teaching.
+Judge the actual candidate, not the version a proposed edit might eventually make.
+Use these criteria (clarified 2026-09-15):
+
+1. **KEEP**: every essential point is RICH or TAUGHT, all hard requirements are met,
+   no factual error remains, and no material narration cut or move is needed.
+   Harmless compression or an optional opportunity
+   to improve an already adequate explanation does not require a repair.
+2. **REPAIR**: a specific, feasible edit to existing audio can resolve every failed
+   point or hard requirement, or remove material excess/repetition or reposition
+   a misplaced beat. Identify exact source words, files, and timestamps. An isolated
+   wrong word/phrase can qualify when a coherent correct donor phrase exists.
+   A THIN or MISSING essential explanation can qualify only when an identified
+   existing roll supplies the complete correct beat and it can be joined coherently.
+   A hoped-for donor, rewritten on-screen text, or an untested synthetic word splice
+   is not a repair plan. Obtain approval for the narration changes before building.
+3. **REROLL**: an essential point is THIN, MISSING, or WRONG, or a hard requirement
+   is missed, and no complete feasible repair using identified existing audio is
+   available. State exactly what the new generation needs to teach.
+
+THIN essential teaching never passes merely because its topic is mentioned.
+A correct graphic cannot fix wrong or absent spoken teaching. A repaired candidate
+must be reviewed again and earn KEEP before shipping. Optional richer donor beats
+may be proposed for a KEEP roll without relabeling adequate teaching as a failure.
+Visual defects and runtime alone do not determine these narration verdicts.
 
 ## Comparing rolls: beat by beat, then a best-of plan (owner rule 2026-09-14)
 
@@ -84,8 +102,8 @@ Rules for the plan:
 - The board leg stretches or shrinks to the grafted audio; its rings follow the
   alternate roll's spoken onsets.
 - Complete and slightly overlong still beats concise and incomplete for the base
-  roll, because excess can be cut and missing narration cannot be added. Visual
-  defects never decide the choice; list them as editing notes.
+  roll, because excess can be cut, while missing narration needs a verified donor
+  or a new generation. Visual defects never decide the choice; list them as editing notes.
 - The owner reads the quoted pairs and arbitrates ties. He does not need to watch
   both rolls; the table is the comparison.
 
@@ -99,22 +117,40 @@ and harmless compression are not Source QA failures.
 ## Not evaluated here
 
 Visual quality, Notebook highlighting, the engine's close, gibberish props,
-animation, style, and runtime. Those belong to the ship checklist in
-`scripts/video/README.md`, which the editor verifies on the finished file.
+animation, style, and runtime do not determine the narration verdict. Their final
+verification belongs to the ship checklist in `scripts/video/README.md`.
+
+The evaluation still includes a proposed board-highlighting and camera plan for
+David's review before editing, following `EDIT-SPEC.md` section 1b. Inspect the
+current board images and actual narration; identify each board's whole-card or
+section-level highlight sequence and full-view or complete-card zoom treatment.
+Flag unusual or uncertain choices with a brief reason. If assets or narration
+cannot be inspected, state that limitation and leave the affected plan provisional.
+Combine this plan with proposed narration changes and selective pauses for one
+approval. Keep these production proposals separate from KEEP / REPAIR / REROLL.
 
 ## Output
 
-Return exactly this block and nothing else:
+Use the per-roll block below. Include every essential point and any material
+problem; there are no numeric scores. Report what was actually heard.
 
 When two or more rolls are reviewed, add one block after the per-roll blocks:
 
 ```text
 BEST-OF PLAN: <slug>
 BASE: <file> (<why>)
-  <teaching point> — roll 1 RICH|TAUGHT|THIN|MISSING @<m:ss> "<quote>" | roll 2 … @<m:ss> "<quote>" — TAKE roll N (under <board> | Notebook scene | not grafted: <why>)
+  <teaching point> — roll 1 RICH|TAUGHT|THIN|MISSING|WRONG @<m:ss> "<quote>" | roll 2 … @<m:ss> "<quote>" — TAKE roll N (under <board> | Notebook scene | not grafted: <why>)
   ...
 GRAFTS: <count>, all under boards | <exceptions>
 ```
+
+After the narration review and any best-of plan, include one proposed edit plan
+for the selected version. Use the board table from Edit Spec section 1b, followed
+by any narration changes and selective pauses (with the required words/timestamps
+and gap measurements). Reuse details already reported rather than duplicating
+them. Clearly distinguish proposed treatment from already-approved treatment.
+If a reroll is needed first, mark timing-dependent choices provisional; finalize
+them against the chosen roll before a build.
 
 Per-roll block:
 
@@ -123,13 +159,14 @@ LESSON: <slug>
 CANDIDATE: <file> (<m:ss>)
 VERDICT: KEEP | REPAIR | REROLL
 TEACHING POINTS:
-  <point> — TAUGHT|THIN|MISSING|WRONG — <timestamp or quote>
+  <point> — RICH|TAUGHT|THIN|MISSING|WRONG — <timestamp or quote>
   ...
 HARD REQUIREMENTS:
   <full term or verbatim line> — MET|MISSED — <timestamp or quote>
 ERRORS: <timestamp — what was said — what the lesson says> | none
 SOURCE_QA: PASS | FAIL — <lesson line and correction>
 ADDITIONS: <accurate additions worth keeping or adding to the lesson> | none
-EDITING NOTES: <replaceable visual defects, excess to cut, pause points> | none
+REPAIR PLAN: <each failed point — proposed cut/move or donor file, exact words, source timestamps, and join feasibility> | none
+EDITING NOTES: <replaceable visual defects, excess to cut, selective pause proposals under Edit Spec section 6> | none
 LISTENING: <what was heard rather than read; anything still unheard>
 ```

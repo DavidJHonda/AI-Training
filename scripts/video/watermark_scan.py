@@ -10,6 +10,7 @@ Validated on: ai-is-math (dark bg, positive), art-of-prompting (pale bg, positiv
 layers f900 (negative).
 """
 import glob, os, sys
+from course_video_paths import current_video_path, current_video_paths
 import cv2
 import numpy as np
 
@@ -54,7 +55,7 @@ TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 def build():
     """Load the template from a COMMITTED asset.
 
-    It used to be extracted live from videos/ai-is-math.mp4 frame 900. That was a
+    It used to be extracted live from course-assets/ai-is-math/ai-is-math.mp4 frame 900. That was a
     landmine: the moment that video's watermark was removed, the template became
     blank, the detector matched nothing, and every video scored 0 hits. The batch
     runner then "verified" 0-hits-before -> 0-hits-after as a pass and installed
@@ -85,11 +86,12 @@ if __name__ == "__main__":
                                 ("POS pale  art-of-prompting f1220", "art-of-prompting", 1220),
                                 ("NEG       layers f900", "layers", 900),
                                 ("NEG       welcome f600", "welcome", 600)]:
-            f = grab(os.path.join(REPO, "videos/%s.mp4" % slug), fr)
+            path = os.path.join(REPO, slug.removeprefix("../") + ".mp4") if slug.startswith("../Prompts/") else str(current_video_path(slug))
+            f = grab(path, fr)
             print("%-36s %.3f" % (label, score(f, tpl)))
         sys.exit()
     rows = []
-    for p in sorted(glob.glob(os.path.join(REPO, "videos/*.mp4"))):
+    for p in map(str, current_video_paths()):
         h, t, mx, first = scan(p, tpl)
         rows.append((h / t if t else 0, mx, h, t, first, os.path.basename(p)[:-4]))
     rows.sort(key=lambda r: -r[0])

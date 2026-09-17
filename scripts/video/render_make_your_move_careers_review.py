@@ -210,8 +210,8 @@ def render(title: str, careers: tuple[Career, ...]) -> Image.Image:
 def main() -> None:
     REVIEW.mkdir(parents=True, exist_ok=True)
     published = (
-        (ROOT / "course-assets/make-your-move/make-your-move-2-careers-a.jpg", asset_path('lessons', 'make-your-move-1-careers-a.jpg')),
-        (ROOT / "course-assets/make-your-move/make-your-move-2-careers-b.jpg", asset_path('lessons', 'make-your-move-1-careers-b.jpg')),
+        (ROOT / "course-assets/make-your-move/make-your-move-doctors-teachers-lawyers.jpg", asset_path('lessons', 'make-your-move-1-careers-a.jpg')),
+        (ROOT / "course-assets/make-your-move/make-your-move-electricians-designers-entrepreneurs.jpg", asset_path('lessons', 'make-your-move-1-careers-b.jpg')),
     )
     for (title, filename, careers), (page_path, prep_path) in zip(BOARDS, published):
         image = render(title, careers)

@@ -9,8 +9,8 @@ Two narration defects are removed: the
 mispronounced name before "a new antibiotic" and the unsupported "life-saving
 answers" sentence. The canonical close is the literal ending.
 
-The shipped ``videos/big-upside.mp4`` is never overwritten. Review output is
-``videos/big-upside-v6.mp4``.
+The shipped ``course-assets/big-upside/big-upside.mp4`` is never overwritten. Review output is
+``Prompts/big-upside-v6.mp4``.
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/big-upside.mp4"
-OUTPUT = ROOT / "videos/big-upside-v6.mp4"
+OUTPUT = ROOT / "Prompts/big-upside-v6.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 FPS = 30
@@ -50,9 +50,9 @@ GREEN = "#087f47"
 
 BOARDS = {
     "timeline": asset_path('lessons', 'big-upside-1-hassabis.jpg'),
-    "discovery": ROOT / "course-assets/big-upside/big-upside-2-discovery.jpg",
-    "help": ROOT / "course-assets/big-upside/big-upside-3-help.jpg",
-    "close": ROOT / "course-assets/big-upside/big-upside-4-close.jpg",
+    "discovery": ROOT / "course-assets/big-upside/big-upside-scientific-discovery.jpg",
+    "help": ROOT / "course-assets/big-upside/big-upside-practical-help.jpg",
+    "close": ROOT / "course-assets/big-upside/big-upside-close.jpg",
 }
 
 

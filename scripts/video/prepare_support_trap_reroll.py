@@ -32,9 +32,9 @@ SIDES=(
 )
 TAKEAWAY="Supportive language is not the same as support."
 SOURCES=(
- ("support-trap-1-comparison.jpg","support-trap-comparison-v2.jpg",False),
- ("support-trap-2-role.jpg","support-trap-real-vs-missing-v2.jpg",True),
- ("support-trap-3-danger.jpg","support-trap-danger-v2.jpg",True),
+ ("support-trap-comparison.jpg","support-trap-comparison-v2.jpg",False),
+ ("support-trap-role.jpg","support-trap-real-vs-missing-v2.jpg",True),
+ ("support-trap-danger.jpg","support-trap-danger-v2.jpg",True),
 )
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def render_comparison():
@@ -81,7 +81,7 @@ def main():
     audit=ROOT/"video-audit/support-trap-reroll-materials-2026-09-07"
     audit.mkdir(parents=True,exist_ok=True)
     html=(ROOT/"index.html").read_text()
-    protected=[ROOT/"index.html",ROOT/"videos/support-trap.mp4"]+[asset_path('illustrations', s) for _,s,_ in SOURCES]
+    protected=[ROOT/"index.html",ROOT/"course-assets/support-trap/support-trap.mp4"]+[asset_path('illustrations', s) for _,s,_ in SOURCES]
     original={str(p):sha(p) for p in protected}
     rows=[]
     for name,source,upload in SOURCES:
@@ -101,7 +101,7 @@ def main():
     pill,sticky=close_board_copy("supporttrap")
     md=ROOT/"lessons/support-trap.md";prompt=ROOT/"Prompts/support-trap-video-prompt.txt"
     assert pill in md.read_text() and sticky in md.read_text()
-    close=ROOT/"course-assets/support-trap/support-trap-4-close.jpg"
+    close=ROOT/"course-assets/support-trap/support-trap-close.jpg"
     with Image.open(close) as im:
         assert im.size==(3840,2160)
     rows.append(dict(file=str(close.relative_to(ROOT)),source="index.html:CLOSE_BOARDS.supporttrap",

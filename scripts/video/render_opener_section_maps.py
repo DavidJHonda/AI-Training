@@ -43,6 +43,9 @@ RULE = "#e6e2f5"
 RAIL = "#d9d2f4"
 SHEET_LEFT = 80
 SHEET_RIGHT = 1520
+TITLE_LEFT = 40
+BANNER_LEFT = 40
+BANNER_RIGHT = 1560
 SHEET_TOP = 127
 TEXT_LEFT = 224
 NUMBER_X = 160
@@ -80,7 +83,7 @@ BOARDS = (
             Row("Use It Well", "The moves that get a better answer, and a look at what the model actually reads when you ask."),
             Row("Think Before You Trust", "What to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use."),
         ),
-        page_output="course-assets/work-with-ai-opener/opener-work-3-section-map.jpg",
+        page_output="course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg",
         prep_output="course-assets/work-with-ai-opener/opener-work-2-section.jpg",
         review_output="board-review-first-four/current-selected/work-with-ai/opener-work-2-section.jpg",
     ),
@@ -95,9 +98,9 @@ BOARDS = (
             Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
             Row("How AI Builds an Answer", "How AI builds an answer, why answers vary, and how much math it takes."),
         ),
-        page_output="course-assets/understand-ai-opener/opener-understand-2-map.jpg",
-        prep_output="course-assets/understand-ai-opener/opener-understand-2-map.jpg",
-        review_output="board-review-first-four/current-selected/understand-ai/opener-understand-2-map.jpg",
+        page_output="course-assets/understand-ai-opener/understand-ai-opener-section-map.jpg",
+        prep_output="course-assets/understand-ai-opener/understand-ai-opener-section-map.jpg",
+        review_output="board-review-first-four/current-selected/understand-ai/understand-ai-opener-section-map.jpg",
     ),
     MapBoard(
         key="avoid-traps",
@@ -108,7 +111,7 @@ BOARDS = (
             Row("Traps in You", "The traps that work on you instead of the answer. Helpful, agreeable, and engaging can make AI easy to use and easy to fall for."),
             Row("Traps from the World", "The trap that comes looking for you. Other people’s AI can put fakes in front of you so convincing that seeing is no longer proof."),
         ),
-        page_output="course-assets/avoid-traps-opener/opener-avoid-3-map.jpg",
+        page_output="course-assets/avoid-traps-opener/avoid-traps-opener-section-map.jpg",
         prep_output="course-assets/avoid-traps-opener/opener-avoid-2-map.jpg",
         review_output="board-review-first-four/current-selected/avoid-traps/opener-avoid-2-map.jpg",
     ),
@@ -121,9 +124,9 @@ BOARDS = (
             Row("Monsters and Open Water", "The honest case for worry alongside the real-world upside that has already happened."),
             Row("Where It Lands on You", "How AI acts, how work may change, the bill for all that math, and what history teaches about predictions."),
         ),
-        page_output="course-assets/embrace-the-future-opener/opener-embrace-2-map.jpg",
-        prep_output="course-assets/embrace-the-future-opener/opener-embrace-2-map.jpg",
-        review_output="board-review-first-four/current-selected/embrace-the-future/opener-embrace-2-map.jpg",
+        page_output="course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg",
+        prep_output="course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg",
+        review_output="board-review-first-four/current-selected/embrace-the-future/embrace-the-future-opener-section-map.jpg",
     ),
     MapBoard(
         key="build-your-skills",
@@ -134,9 +137,9 @@ BOARDS = (
             Row("Skills That Grow in Value", "People skills help you work with others. Creative thinking helps you find the better angle."),
             Row("Stay Flexible. Make Your Move.", "Keep learning as AI changes, then turn your interests into action by building skills and making something real."),
         ),
-        page_output="course-assets/build-your-skills-opener/opener-build-2-map.jpg",
-        prep_output="course-assets/build-your-skills-opener/opener-build-2-map.jpg",
-        review_output="board-review-first-four/current-selected/build-your-skills/opener-build-2-map.jpg",
+        page_output="course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg",
+        prep_output="course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg",
+        review_output="board-review-first-four/current-selected/build-your-skills/build-your-skills-opener-section-map.jpg",
     ),
 )
 
@@ -185,7 +188,9 @@ def render(board: MapBoard) -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_tracked(draw, (SHEET_LEFT, 31), board.title, board_title_font, INK, BOARD_TITLE_TRACKING)
+    # The title and takeaway use the course-wide 40 px board margin. The
+    # internal map sheet deliberately keeps its established 80 px inset.
+    draw_tracked(draw, (TITLE_LEFT, 31), board.title, board_title_font, INK, BOARD_TITLE_TRACKING)
     draw.rounded_rectangle((SHEET_LEFT, SHEET_TOP, SHEET_RIGHT, sheet_bottom), radius=18, fill=WHITE, outline=RULE, width=1)
 
     row_top = SHEET_TOP
@@ -212,8 +217,8 @@ def render(board: MapBoard) -> Image.Image:
     draw_takeaway_band(
         image,
         top=band_top,
-        left=SHEET_LEFT,
-        right=SHEET_RIGHT,
+        left=BANNER_LEFT,
+        right=BANNER_RIGHT,
         text=board.takeaway,
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )

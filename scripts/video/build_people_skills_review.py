@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """People Skills from roll 1 under EDIT-SPEC.md (2026-09-12). Review only.
 
-Base: Prompts/people-skills-1.mp4 (3:05, REPAIR under NARRATION-REVIEW). Output: videos/people-skills-v3.mp4 (v2 held the four-ways board, unmarked, under the "AI can suggest" line; owner call 2026-09-12: let Notebook's own AI Suggestion / Human Execution scene carry that line).
+Base: Prompts/people-skills-1.mp4 (3:05, REPAIR under NARRATION-REVIEW). Output: Prompts/people-skills-v3.mp4 (v2 held the four-ways board, unmarked, under the "AI can suggest" line; owner call 2026-09-12: let Notebook's own AI Suggestion / Human Execution scene carry that line).
 Audit: video-audit/people-skills-repair-2026-09-12/.
 Two narration cuts (2:28.2-2:37.3 "These four steps take passive observation… only take you so far"; 2:44.7-2:53.3
 "Knowing the right words… This final graphic summarizes the rule"). People Skills Matter More (compact, still; three cards, purple/blue/teal) arrives at its intro sentence ("This infographic board outlines…") inside
@@ -25,7 +25,7 @@ import cv2, numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/people-skills-1.mp4'
-OUT = ROOT / 'video-audit/people-skills-repair-2026-09-12'; DEST = ROOT / 'videos/people-skills-v3.mp4'
+OUT = ROOT / 'video-audit/people-skills-repair-2026-09-12'; DEST = ROOT / 'Prompts/people-skills-v3.mp4'
 B = {k: asset_path('lessons', f'people-skills-{k}.jpg') for k in ('1-why-matter', '2-four-ways')}
 
 def cards_grid(path, n_expected):
@@ -54,7 +54,7 @@ def cards_grid(path, n_expected):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/people-skills.mp4', ROOT / 'lessons/people-skills.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/people-skills/people-skills.mp4', ROOT / 'lessons/people-skills.md', *B.values()])
     b.load_audio([(8.19, 8.58), (45.16, 45.57), (55.57, 56.06), (89.14, 89.50), (147.71, 148.60), (157.10, 157.54), (164.31, 165.09), (172.81, 173.46)])
     B1, B1_OUT = fr(55.8), 2683            # People Skills Matter More: intro sentence, three reasons; out at Notebook's own cut (1:29.43) so no zoomed frames leak
     CUT1 = (fr(148.2), fr(157.3))          # "These four steps take passive observation… only take you so far in this process."

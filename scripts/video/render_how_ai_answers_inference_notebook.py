@@ -12,7 +12,7 @@ from editorial_typography import draw_board_title, face
 from editorial_takeaway import draw_takeaway_band
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / 'course-assets/how-ai-answers/how-ai-answers-inference-notebook.jpg'
+DEST = ROOT / 'course-assets/how-ai-answers/how-ai-answers-building-an-answer.jpg'
 INK, BODY = '#0e0a1f', '#3a3550'
 PURPLE, BLUE, TEAL, GREEN = '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a'
 

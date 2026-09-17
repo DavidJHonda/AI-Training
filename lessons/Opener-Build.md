@@ -4,9 +4,9 @@
 
 ### Board 1: What Makes You Valuable?
 
-**Image file:** `opener-build-1-creed.jpg`
+**Image file:** `build-your-skills-opener-creed.jpg`
 
-![What Makes You Valuable?](opener-build-1-creed.jpg)
+![What Makes You Valuable?](build-your-skills-opener-creed.jpg)
 
 **Teaching content:**
 
@@ -20,9 +20,9 @@ This section is about skills like that: the ones you build once and keep forever
 
 ### Board 2: Build Your Skills, the Section Map
 
-**Image file:** `opener-build-2-map.jpg`
+**Image file:** `build-your-skills-opener-section-map.jpg`
 
-![Build Your Skills: the section map](opener-build-2-map.jpg)
+![Build Your Skills: the section map](build-your-skills-opener-section-map.jpg)
 
 **Teaching content:**
 
@@ -42,9 +42,9 @@ Keep one question in mind through the whole section. Everyone will have the same
 
 ### Board 3: Close
 
-**Image file:** `opener-build-3-close.jpg`
+**Image file:** `build-your-skills-opener-close.jpg`
 
-![Close board](opener-build-3-close.jpg)
+![Close board](build-your-skills-opener-close.jpg)
 
 ## Closing Message
 

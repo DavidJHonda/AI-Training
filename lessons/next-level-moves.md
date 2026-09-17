@@ -16,9 +16,9 @@ Work with AI like it’s a two-person group project: you and AI. Ask each other 
 
 ### Board 1: Starting a Summer Business
 
-**Image file:** `next-level-moves-1-summer-business.jpg`
+**Image file:** `next-level-moves-summer-business.jpg`
 
-![Starting a Summer Business](next-level-moves-1-summer-business.jpg)
+![Starting a Summer Business](next-level-moves-summer-business.jpg)
 
 **Teaching content:**
 
@@ -42,9 +42,9 @@ Work with AI in the same way. When something does not make sense, ask it to expl
 
 ### Board 2: Understanding Profit
 
-**Image file:** `next-level-moves-2-profit.jpg`
+**Image file:** `next-level-moves-profit.jpg`
 
-![Understanding Profit](next-level-moves-2-profit.jpg)
+![Understanding Profit](next-level-moves-profit.jpg)
 
 **Teaching content:**
 
@@ -64,9 +64,9 @@ Real life isn’t always that clear. What if you face a big decision or issue, a
 
 ### Board 3: Thinking About College
 
-**Image file:** `next-level-moves-3-college.jpg`
+**Image file:** `next-level-moves-college.jpg`
 
-![Thinking About College](next-level-moves-3-college.jpg)
+![Thinking About College](next-level-moves-college.jpg)
 
 **Teaching content:**
 
@@ -88,9 +88,9 @@ Working with AI follows the same pattern. As you add details, correct weak spots
 
 ### Board 4: From Idea to Business Plan
 
-**Image file:** `next-level-moves-4-iteration.jpg`
+**Image file:** `next-level-moves-iteration.jpg`
 
-![From Idea to Business Plan](next-level-moves-4-iteration.jpg)
+![From Idea to Business Plan](next-level-moves-iteration.jpg)
 
 **Teaching content:**
 
@@ -106,9 +106,9 @@ The difference is the details. In the later round, AI had a real plan to test, s
 
 ### Board 5: Close
 
-**Image file:** `next-level-moves-5-close.jpg`
+**Image file:** `next-level-moves-close.jpg`
 
-![Close board](next-level-moves-5-close.jpg)
+![Close board](next-level-moves-close.jpg)
 
 ## Closing Message
 

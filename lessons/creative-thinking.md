@@ -12,9 +12,9 @@ It’s not just “creative-type” people like artists, writers, and musicians.
 
 ### Board 1: Who Thinks Creatively?
 
-**Image file:** `creative-thinking-1-professions.jpg`
+**Image file:** `creative-thinking-creative-professions.jpg`
 
-![Who Thinks Creatively?](creative-thinking-1-professions.jpg)
+![Who Thinks Creatively?](creative-thinking-creative-professions.jpg)
 
 **Teaching content:**
 
@@ -36,9 +36,9 @@ Creative thinking is not a gift some people receive. It’s a set of habits that
 
 ### Board 2: Four Ways to Think Creatively
 
-**Image file:** `creative-thinking-2-practice.jpg`
+**Image file:** `creative-thinking-practice-creativity.jpg`
 
-![Four Ways to Think Creatively](creative-thinking-2-practice.jpg)
+![Four Ways to Think Creatively](creative-thinking-practice-creativity.jpg)
 
 **Teaching content:**
 
@@ -54,9 +54,9 @@ These four habits widen your options. Then judgment picks the one that fits.
 
 ### Board 3: Close
 
-**Image file:** `creative-thinking-3-close.jpg`
+**Image file:** `creative-thinking-close.jpg`
 
-![Close board](creative-thinking-3-close.jpg)
+![Close board](creative-thinking-close.jpg)
 
 ## Closing Message
 

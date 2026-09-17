@@ -14,9 +14,9 @@ Start with something simple: when every outcome is equally likely, you can calcu
 
 ### Board 1: Standard Probability
 
-**Image file:** `ai-is-math-the-math-editorial.jpg`
+**Image file:** `ai-is-math-the-math.jpg`
 
-![Standard Probability](ai-is-math-the-math-editorial.jpg)
+![Standard Probability](ai-is-math-the-math.jpg)
 
 **Teaching content:**
 
@@ -26,9 +26,9 @@ When every outcome is equally likely:
 
 ### Board 2: Counting the Possibilities
 
-**Image file:** `ai-is-math-two-coins-editorial.jpg`
+**Image file:** `ai-is-math-two-coins.jpg`
 
-![Counting the Possibilities](ai-is-math-two-coins-editorial.jpg)
+![Counting the Possibilities](ai-is-math-two-coins.jpg)
 
 **Teaching content:**
 
@@ -51,9 +51,9 @@ New evidence can change the odds. Conditional probability takes that evidence in
 
 ### Board 3: A Clue Changes the Odds
 
-**Image file:** `ai-is-math-conditional-probability-editorial.jpg`
+**Image file:** `ai-is-math-conditional-probability.jpg`
 
-![A Clue Changes the Odds](ai-is-math-conditional-probability-editorial.jpg)
+![A Clue Changes the Odds](ai-is-math-conditional-probability.jpg)
 
 **Teaching content:**
 
@@ -78,9 +78,9 @@ AI uses conditional probability to build answers. Your question and the words al
 
 ### Board 4: What Comes Next?
 
-**Image file:** `ai-is-math-what-comes-next-editorial.jpg`
+**Image file:** `ai-is-math-what-comes-next.jpg`
 
-![What Comes Next?](ai-is-math-what-comes-next-editorial.jpg)
+![What Comes Next?](ai-is-math-what-comes-next.jpg)
 
 **Teaching content:**
 

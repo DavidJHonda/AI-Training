@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Does AI Think? from roll 2 under EDIT-SPEC.md (2026-09-13). Review only.
 
-Base: Prompts/does-ai-think-2.mp4 (3:58, REPAIR under NARRATION-REVIEW). Output: videos/does-ai-think-v3.mp4 (v2 let nine frames of Notebook's data-center drawing flash between the comparison board and the gears; owner report 2026-09-13).
+Base: Prompts/does-ai-think-2.mp4 (3:58, REPAIR under NARRATION-REVIEW). Output: Prompts/does-ai-think-v3.mp4 (v2 let nine frames of Notebook's data-center drawing flash between the comparison board and the gears; owner report 2026-09-13).
 Audit: video-audit/does-ai-think-repair-2026-09-13/.
 Three narration cuts: 0:44.3-0:54.0 ("The goal here is to uncouple two ideas…"), 3:29.2-3:33.5 ("resist our natural instinct
 to anthropomorphize it"), and everything from 3:38.4 (roll 2's paraphrased close plus Notebook narrating the stale close-board
@@ -25,12 +25,12 @@ from editspec_build import Build, fr, PURPLE, BLUE, TEAL, GREEN, AMBER, NEUTRAL,
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/does-ai-think-2.mp4'
 SRC1 = ROOT / 'Prompts/does-ai-think-1.mp4'   # roll 1: its verbatim closing lines (2:35.9-2:41.5) become the close audio
-OUT = ROOT / 'video-audit/does-ai-think-repair-2026-09-13'; DEST = ROOT / 'videos/does-ai-think-v3.mp4'
+OUT = ROOT / 'video-audit/does-ai-think-repair-2026-09-13'; DEST = ROOT / 'Prompts/does-ai-think-v3.mp4'
 B = {k: asset_path('lessons', f'does-ai-think-{k}.jpg') for k in ('1-chinese-room', '2-side-by-side')}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'videos/does-ai-think.mp4', ROOT / 'lessons/does-ai-think.md', *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/does-ai-think/does-ai-think.mp4', ROOT / 'lessons/does-ai-think.md', *B.values()])
     b.load_audio([(25.46, 25.92), (36.34, 36.70), (44.12, 44.47), (53.84, 54.12), (64.82, 65.19), (71.38, 71.75), (80.36, 80.70), (88.35, 88.96), (102.06, 102.52),
                   (127.84, 128.26), (135.20, 135.64), (145.30, 145.70), (155.52, 156.01), (164.75, 165.18), (176.31, 176.92), (189.87, 190.31), (198.82, 199.53),
                   (208.95, 209.39), (213.34, 213.69), (218.22, 218.54), (235.15, 238.47)])

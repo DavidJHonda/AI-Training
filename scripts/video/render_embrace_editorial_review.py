@@ -61,10 +61,10 @@ from render_embrace_editorial_batch import (
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEW = ROOT / "board-review-embrace-editorial"
-JAILBREAK_PAGE_OUTPUT = "course-assets/big-downside/big-downside-2-jailbreak.jpg"
-JAILBREAK_PREP_OUTPUT = "course-assets/big-downside/big-downside-2-jailbreak.jpg"
-GPS_AGENT_PAGE_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg"
-GPS_AGENT_PREP_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-1-gps.jpg"
+JAILBREAK_PAGE_OUTPUT = "course-assets/big-downside/big-downside-jailbreak.jpg"
+JAILBREAK_PREP_OUTPUT = "course-assets/big-downside/big-downside-jailbreak.jpg"
+GPS_AGENT_PAGE_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-gps.jpg"
+GPS_AGENT_PREP_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-gps.jpg"
 
 
 @dataclass(frozen=True)
@@ -681,7 +681,7 @@ CARD_BOARDS = (
             ),
         ),
         art_sheet="board-review-embrace-editorial/assets/failed-predictions/art-sheet.png",
-        page_output="course-assets/loudest-voices/loudest-voices-2-missed-predictions.jpg",
+        page_output="course-assets/loudest-voices/loudest-voices-missed-predictions.jpg",
         prep_output="course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
         takeaway="The future is hard to predict because people change the result.",
         accents=(PURPLE, BLUE, TEAL, AMBER),

@@ -31,9 +31,9 @@ const getJSON = (p) => new Promise((res, rej) => {
 const BOARDS = [
   // Welcome uses the same navy-and-gold creed treatment as the five opener lessons.
   // Matching the eyebrow and closing keeps the full shared OpenerCreed wrapper.
-  { section: "welcome", out: "welcome-1-why-go-deeper.jpg", retainedSource: true, width: 660,
+  { section: "welcome", out: "welcome-why-go-deeper.jpg", retainedSource: true, width: 660,
     find: ["WHY GO DEEPER?", "Everyone has AI.", "Be Smarter Than the Tool."] },
-  { section: "welcome", out: "welcome-2-your-path.jpg", width: 720,
+  { section: "welcome", out: "welcome-where-this-course-takes-you.jpg", width: 720,
     find: ["Here’s your path.", "Work", "Build", "personal edge."] },
   // The three toolkit cards live in the same lavender ShowcaseBox as the headline.
   // Match the heading plus every card so the capture keeps the complete course setup.
@@ -41,25 +41,25 @@ const BOARDS = [
     find: ["Your course toolkit", "A computer", "ChatGPT for Teens", "Google account"] },
   // Same Illustration-wrapper trick as welcome-1: lead with the eyebrow or the capture
   // collapses to the bare serif lines and loses the peach band the reader sees.
-  { section: "openerworkwith", out: "opener-work-1-refrain.jpg", retainedSource: true, width: 740,
+  { section: "openerworkwith", out: "work-with-ai-opener-refrain.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES AI USE GOOD?", "Don’t just ask.", "It multiplies it."] },
   // Understand AI displays its retained video JPG with the shared crop-and-extend
   // treatment. The original HTML remains available as the narrow-screen fallback.
-  { section: "openerfoundations", out: "opener-understand-1-kind.jpg", retainedSource: true, width: 740,
-    find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "it’s its own kind of thing."] },
+  { section: "openerfoundations", out: "understand-ai-opener-kind.jpg", retainedSource: true, width: 740,
+    find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "It’s its own kind of thing."] },
   // Avoid Traps uses the same shared OpenerCreed component. Its archived August 7
   // JPEG still has the retired peach/serif treatment, while the live lesson now
   // renders the navy-and-gold creed. Capture the live component as the video source.
-  { section: "openerprotect", out: "opener-avoid-1-traps.jpg", retainedSource: true, width: 740,
+  { section: "openerprotect", out: "avoid-traps-opener-traps.jpg", retainedSource: true, width: 740,
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
   // Embrace the Future displays its retained video JPG with the shared crop-and-
   // extend treatment. Keep the canonical source protected from recapture.
-  { section: "openerrealworld", out: "opener-embrace-1-voices.jpg", retainedSource: true, width: 902, vw: 960,
+  { section: "openerrealworld", out: "embrace-the-future-opener-voices.jpg", retainedSource: true, width: 902, vw: 960,
     find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
   // Build Your Skills now displays this retained video JPG with the shared crop-and-
   // extend treatment. Keep the catalogue entry so filtered capture runs explicitly
   // report that the canonical source is protected instead of silently omitting it.
-  { section: "openerskills", out: "opener-build-1-creed.jpg", retainedSource: true, width: 902, vw: 960,
+  { section: "openerskills", out: "build-your-skills-opener-creed.jpg", retainedSource: true, width: 902, vw: 960,
     find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
@@ -106,7 +106,7 @@ const BOARDS = [
   { section: "evaluating", out: "evaluate-the-results-1-steps.jpg", width: 1180, vw: 1280,
     keep: [0, 4],
     find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
-  { section: "evaluating", out: "evaluate-the-results-2-decide.jpg", width: 1180, vw: 1280,
+  { section: "evaluating", out: "evaluate-the-results-decide.jpg", width: 1180, vw: 1280,
     keep: [4, 5],
     find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
 
@@ -169,17 +169,17 @@ const BOARDS = [
   // Big Downside boards 2, 4, and 5 are approved static boards. Their page and
   // video-source copies are generated together; recapturing would reintroduce
   // the legacy live-box typography and overwrite the approved assets.
-  { section: "agents", out: "rise-of-agents-1-gps.jpg", width: 902, vw: 960,
+  { section: "agents", out: "rise-of-agents-gps.jpg", width: 902, vw: 960,
     find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
   { section: "agents", out: "rise-of-agents-2-highlights.jpg", width: 902, vw: 960,
     find: ["You scored 30 points in Friday’s basketball game", "Ask ChatGPT/Claude/Gemini", "Hire an Agent", "Did it all while you were at practice"] },
-  { section: "agents", out: "rise-of-agents-4-rogue.jpg", width: 902, vw: 960,
+  { section: "agents", out: "rise-of-agents-rogue.jpg", width: 902, vw: 960,
     find: ["APRIL 2026 · POCKETOS", "Database and backups deleted", "2025 · GEMINI", "Project files wiped"] },
-  { section: "workchanges", out: "work-changes-1-strengths.jpg", width: 902, vw: 960,
+  { section: "workchanges", out: "work-changes-four-shapes-of-ai-work.jpg", width: 902, vw: 960,
     find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },
-  { section: "workchanges", out: "work-changes-2-assignment.jpg", width: 902, vw: 960,
+  { section: "workchanges", out: "work-changes-assignment.jpg", width: 902, vw: 960,
     find: ["Read the last 500 reviews", "Before AI", "With AI", "The boss loved it"] },
-  { section: "unexpected", out: "unexpected-results-1-plans.jpg", width: 902, vw: 960, wrapUp: 1,
+  { section: "unexpected", out: "unexpected-results-plans.jpg", width: 902, vw: 960, wrapUp: 1,
     find: ["Text messaging", "Cane toads", "Wider highways", "Worse than the prediction"] },
 ];
 

@@ -5,7 +5,7 @@ import json,hashlib,wave,subprocess,argparse
 import cv2,numpy as np,imageio_ffmpeg
 from build_one_more_thing_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/tokens-repair-2026-09-10'
-SOURCE=ROOT/'Prompts/tokens-4.mp4';DEST=ROOT/'videos/tokens-v7.mp4'
+SOURCE=ROOT/'Prompts/tokens-4.mp4';DEST=ROOT/'Prompts/tokens-v7.mp4'
 FPS,SR,W,H=30,48000,1280,720
 BG=(251,245,246);PURPLE='#6e51ff';EP='#4f2fc4';BLUE='#1652f0';TEAL='#0e8f86'
 def fr(t):return round(t*FPS)
@@ -13,7 +13,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
- protected=[SOURCE,ROOT/'videos/tokens.mp4',ROOT/'lessons/tokens.md',ROOT/'Prompts/tokens-video-prompt.txt']
+ protected=[SOURCE,ROOT/'course-assets/tokens/tokens.mp4',ROOT/'lessons/tokens.md',ROOT/'Prompts/tokens-video-prompt.txt']
  hashes={str(p):sha(p) for p in protected}
  with wave.open(str(OUT/'source.wav')) as w:audio=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(float)
  seed=audio[round(189.82*SR):round(189.97*SR)].copy();seed-=seed.mean();loop=np.r_[seed,seed[::-1]]
@@ -46,7 +46,7 @@ def main():
  pause(3,'Settled standard close',246.433333)
  total=cursor;edited=np.clip(np.concatenate(parts),-32768,32767).astype(np.int16)
  with wave.open(str(OUT/'edited.wav'),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(SR);w.writeframes(edited.tobytes())
- assets={'chat':ROOT/'course-assets/tokens/tokens-using-ai-feels-like-editorial.jpg','blocks':ROOT/'course-assets/tokens/tokens-building-blocks-editorial.jpg','send':ROOT/'course-assets/tokens/tokens-how-tokenization-works-editorial.jpg','cat':ROOT/'course-assets/tokens/tokens-cat-token-id-editorial.jpg','examples':ROOT/'course-assets/tokens/tokens-how-ai-splits-text-verified-editorial.jpg','whole':OUT/'assets/whole-and-part.png','math':OUT/'assets/words-to-math.png','close':OUT/'close-corrected.png'}
+ assets={'chat':ROOT/'course-assets/tokens/tokens-using-ai-feels-like.jpg','blocks':ROOT/'course-assets/tokens/tokens-building-blocks.jpg','send':ROOT/'course-assets/tokens/tokens-how-tokenization-works.jpg','cat':ROOT/'course-assets/tokens/tokens-cat-token-id.jpg','examples':ROOT/'course-assets/tokens/tokens-how-ai-splits-text.jpg','whole':OUT/'assets/whole-and-part.png','math':OUT/'assets/words-to-math.png','close':OUT/'close-corrected.png'}
  images={k:cv2.imread(str(p)) for k,p in assets.items()};assert all(im is not None for im in images.values())
  def mark(rect,col=PURPLE):return dict(rect=rect,highlight_color=col,highlight_source='neutral_video_purple' if col==PURPLE else 'card_locked_accent')
  events=[]

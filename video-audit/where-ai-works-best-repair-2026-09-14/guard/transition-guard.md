@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `videos/where-ai-works-best-v2.mp4`
+- Video: `Prompts/where-ai-works-best-v2.mp4`
 - Decoded frames: 8783
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

@@ -19,7 +19,7 @@ import build_pace_of_change_reroll as base
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = Path("/private/tmp/pace-of-change-clean.mp4")
-OUTPUT = ROOT / "videos/pace-of-change-v3.mp4"
+OUTPUT = ROOT / "Prompts/pace-of-change-v3.mp4"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 Span = base.Span
@@ -29,7 +29,7 @@ Section = base.Section
 
 TABLE = Section(
     "table",
-    ROOT / "course-assets/pace-of-change/pace-of-change-1-three-years.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-three-years.jpg",
     (
         Phase((Span(8.720, 17.260),), (38, 27, 700, 102), base.PURPLE),
         Phase((Span(17.260, 25.960),), (40, 220, 1560, 384), base.PURPLE,
@@ -46,7 +46,7 @@ TABLE = Section(
 
 ACCELERANTS = Section(
     "accelerants",
-    ROOT / "course-assets/pace-of-change/pace-of-change-2-accelerants.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-what-speeds-it-up.jpg",
     (
         Phase((Span(85.520, 95.300),), (38, 28, 440, 102), base.PURPLE),
         Phase((Span(95.300, 102.000),), (40, 124, 525, 734), base.PURPLE,
@@ -62,7 +62,7 @@ ACCELERANTS = Section(
 
 RESEARCH = Section(
     "research",
-    ROOT / "course-assets/pace-of-change/pace-of-change-3-future-research.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-could-ai-improve-itself.jpg",
     (
         Phase((Span(159.020, 159.800),), (38, 28, 675, 104), base.PURPLE),
         Phase((Span(159.800, 173.100),), (40, 124, 784, 762), base.TEAL,
@@ -75,7 +75,7 @@ RESEARCH = Section(
 
 CAPABILITY = Section(
     "capability",
-    ROOT / "course-assets/pace-of-change/pace-of-change-4-future-capability.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-how-far-can-ai-go.jpg",
     (
         Phase((Span(210.000, 214.000),), (38, 28, 630, 104), base.PURPLE),
         Phase((Span(214.000, 234.040),), (40, 124, 784, 762), base.BLUE,
@@ -88,7 +88,7 @@ CAPABILITY = Section(
 
 CLOSE = Section(
     "close",
-    ROOT / "course-assets/pace-of-change/pace-of-change-5-close.jpg",
+    ROOT / "course-assets/pace-of-change/pace-of-change-close.jpg",
     (Phase((Span(276.020, 284.360),), None, base.PURPLE),),
 )
 

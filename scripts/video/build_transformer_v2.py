@@ -4,7 +4,7 @@ from pathlib import Path
 import argparse,json,wave,subprocess,hashlib
 import numpy as np,cv2,imageio_ffmpeg
 from build_one_more_thing_review_repair import ring
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/transformer-repair-2026-09-10';DEST=ROOT/'videos/transformer-v2.mp4'
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/transformer-repair-2026-09-10';DEST=ROOT/'Prompts/transformer-v2.mp4'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*30)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -21,7 +21,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
  sources={n:ROOT/f'Prompts/transformer-{n}.mp4' for n in (1,2)}
- protected=[*sources.values(),ROOT/'videos/transformer.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md']
+ protected=[*sources.values(),ROOT/'course-assets/transformer/transformer.mp4',ROOT/'index.html',ROOT/'lessons/transformer.md']
  hashes={str(p):sha(p) for p in protected};audio={n:wav(OUT/f'source-{n}.wav') for n in (1,2)}
  # Match speech level using clear contiguous explanations, not silence-inclusive averages.
  def speech_rms(x):

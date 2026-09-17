@@ -14,9 +14,9 @@ You learned the four qualities of a good question. Nothing about AI changes them
 
 ### Board 1: Every Strong Prompt Starts With a Good Question
 
-**Image file:** `art-of-prompting-1-good-question.jpg`
+**Image file:** `art-of-prompting-good-question.jpg`
 
-![Every Strong Prompt Starts With a Good Question](art-of-prompting-1-good-question.jpg)
+![Every Strong Prompt Starts With a Good Question](art-of-prompting-good-question.jpg)
 
 **Teaching content:**
 
@@ -28,11 +28,17 @@ A good question is the foundation. Prompting adds the instructions.
 
 Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here’s the secret: you don’t need one. You’re not training to be a prompt engineer. You’re learning to **Be Smarter Than the Tool**.
 
-### Board 2: Four Moves for Better Prompts
+### Board 2A: Four Moves for Better Prompts
 
-**Image file:** `art-of-prompting-2-four-moves.jpg`
+**Image file:** `art-of-prompting-four-moves.jpg`
 
-![Four Moves for Better Prompts](art-of-prompting-2-four-moves.jpg)
+![Four Moves for Better Prompts](art-of-prompting-four-moves.jpg)
+
+### Board 2B: Four Moves for Better Prompts, Continued
+
+**Image file:** `art-of-prompting-four-moves-continued.jpg`
+
+![Four Moves for Better Prompts, Continued](art-of-prompting-four-moves-continued.jpg)
 
 **Teaching content:**
 
@@ -50,9 +56,9 @@ How much packaging does a prompt need? A quick factual question: none, just ask.
 
 ### Close
 
-**Image file:** `art-of-prompting-3-close.jpg`
+**Image file:** `art-of-prompting-close.jpg`
 
-![Close board](art-of-prompting-3-close.jpg)
+![Close board](art-of-prompting-close.jpg)
 
 ## Closing Message
 

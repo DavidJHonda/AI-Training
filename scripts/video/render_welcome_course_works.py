@@ -25,7 +25,7 @@ from editorial_typography import draw_board_title, draw_inner_title, face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE_OUT = ROOT / "course-assets/welcome/welcome-2-how-to-take-course-page.jpg"
+PAGE_OUT = ROOT / "course-assets/welcome/welcome-how-the-course-works.jpg"
 REVIEW_OUT = ROOT / "board-review-welcome" / "welcome-course-works-flow.jpg"
 
 WIDTH = 1600

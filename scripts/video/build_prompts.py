@@ -320,27 +320,15 @@ Close board: "Meaning is a row of numbers." over "Same dimensions for every toke
 
 add("how-an-llm-works", title="How an LLM Works", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 the four-ideas map, 2 training, 3 patterns are everywhere, 4 same word different odds, 5 the three myths, 6 the close.
+Use the current lessons/how-an-llm-works.md and the current JPGs listed in Prompts/how-an-llm-works-upload-files.txt. The Markdown owns the teaching and board order.
 
-Focus: an LLM runs math to predict likely next words — it is not looking up what your words mean, it is working out which words tend to follow which. Two phases: it learns once by soaking up patterns from mountains of text, then every time you chat it uses those patterns to build your answer one word at a time.
+Organize the narration around two ideas: Learn First and Answer One Word at a Time. Training explains how the model learns; Patterns explains what it learns. Probability explains how it scores possible next words; Prediction explains how it chooses a word and repeats. Read all four concept-opening transitions verbatim from the Markdown. Training and Patterns must each say Learn First; Probability and Prediction must each say Answer One Word at a Time. Speak these connections at the section entries, not only at the overview. Do not call them two phases or four numbered steps.
 
-Say up front that we follow ONE example, peanut butter, through all four ideas — and then actually do that.
-
-01 Training, learn once: the model teaches itself — guess the next word, check, and nudge its numbers toward the right word. It reads books, the web, chats and code, more than you could read in a thousand lifetimes. It guesses "Peanut butter and cloud", that's wrong, so it nudges the internal numbers; it corrects to "Peanut butter and jelly", a little more accurate every pass. Repeat that loop billions of times, and that's training.
-
-02 Patterns, learn once: so what is it actually learning? Patterns. Peanut butter and — jelly. You knew it, so does AI. Then the others: twinkle twinkle little star, once upon a time, better late than never. AI didn't memorize these, it absorbed the pattern from billions of examples.
-
-03 Probability, every word: AI doesn't make one guess, it scores every possible next word — a ranked list with a probability on each, and those numbers shift with the surrounding text. Show both odds boards with the lesson's real values: after "peanut butter and", jelly 41%, bread 27%, bananas 16%, honey 5%; after "peanut butter and banana", sandwich 54%, smoothie 16%, toast 9%, jelly 2%. Land it: add the word banana and jelly drops from 41% to 2%.
-
-04 Prediction, every word: probability handled one word, but your answer is hundreds of words long, so the model repeats the move. Your phone does this when you write a text. Walk the chain — jelly, then for, then lunch — with no fixed plan for where the sentence ends up.
-
-Then board 5, the three myths, held while each one is spoken in the lesson's own words: AI isn't magic, it's math working out probabilities; it isn't a person, no thoughts, no understanding, even when it sounds like it has both; it isn't a truth machine, it predicts what sounds likely, so a wrong answer can sound just as confident as a right one. Then the board's own last line: keep those three straight and much of the confusion falls away.
-
-Close board: "Not magic. Not a person. Not a truth machine." over "It's math working out probabilities."
+Teach the peanut butter examples, all comparison results, and the current closing lines from the Markdown. Patterns develop during training, not in a separate step afterward. Do not narrate the LAB.
 """,
-    numbers="The only numbers allowed anywhere are the lesson's own: 41, 27, 16, 5, 54, 16, 9, 2 percent, and 1,000 lifetimes. Never invent a percentage and never animate a counter through values the lesson does not contain.",
-    props="No readable or pseudo-readable text in drawn props — no letter tiles, no pseudo-words, no invented app screens; every readable word must be one the lesson uses.",
-    required='the narrator must speak all three myths aloud in the lesson\'s own wording — "not magic", "not a person", "not a truth machine" — and must keep peanut butter as the example in the Patterns section rather than substituting twinkle-twinkle for it.')
+    numbers="Use only the illustrative probability values in the current Markdown. Never invent a percentage or extra example.",
+    props="No readable or pseudo-readable text in drawn props; every readable word must be one the lesson uses.",
+    required="Speak the four concept-opening transitions from the current Markdown verbatim, including each main idea label at its section entry. Follow the current Markdown's closing lines verbatim.")
 
 add("what-you-can-control", title="What You Can Control", lo=3, hi="3.5", boards=True,
     body="""
@@ -384,7 +372,7 @@ This lesson is about 250 words. Do not pad it. Every scene must come from the te
 
 add("questions-matter", title="Questions Matter", lo=3, hi="3.5", boards=True,
     body="""
-Attached boards in order: 1 how answers got easier and faster, 2 where value lives, 3 the four qualities, 4 the close.
+Attached boards in order: 1 how answers got easier and faster, 2 where value lives, 3 Open-Minded and Specific, 4 On Target and Open-Ended, 5 the close.
 
 Focus: answers got cheap, so the edge moved to the question.
 
@@ -396,7 +384,7 @@ Then the hinge, and say it as written because the whole argument turns on it: AI
 
 Then the three anchors, all three: Socrates taught by doing almost nothing but asking; the scientific method doesn't start with an answer, it starts with a question worth testing; Einstein supposedly said that with an hour to save the world he'd spend the first 55 minutes finding the right question.
 
-Then board 3, and give it more time than anything else in the video. It carries all four qualities, and each one has a reason line and a bad/better pair printed under it. Walk them one at a time and speak the reason before the pair, never the name alone. Open-minded — a leading question isn't research, it's a request for backup: "Homework doesn't help students learn, can you help me prove it?" against "What does the research actually say about homework and learning?" Specific — a question without enough information returns an answer that helps with nothing: "How do I get better at sports?" against the point guard losing the ball against pressure. On target — specific is about how much your question says, on target is about asking the right thing: energy drinks for staying awake against fixing the sleep schedule. Open-ended — a yes-or-no question ends the conversation, an open-ended one starts it: "Should I join the debate team?" against what joining debate would add to your week and what you'd give up.
+Then boards 3 and 4, and give them more time than anything else in the video. Together they carry all four qualities, and each one has a reason line and a bad/better pair printed under it. Walk them one at a time and speak the reason before the pair, never the name alone. Open-minded — a leading question isn't research, it's a request for backup: "Homework doesn't help students learn, can you help me prove it?" against "What does the research actually say about homework and learning?" Specific — a question without enough information returns an answer that helps with nothing: "How do I get better at sports?" against the point guard losing the ball against pressure. On target — specific is about how much your question says, on target is about asking the right thing: energy drinks for staying awake against fixing the sleep schedule. Open-ended — a yes-or-no question ends the conversation, an open-ended one starts it: "Should I join the debate team?" against what joining debate would add to your week and what you'd give up.
 
 Then the closing caveat, said plainly: a better question doesn't make the answer automatically true, it just makes it more focused, more useful, and easier to check.
 
@@ -811,7 +799,7 @@ add("welcome", title="Welcome", lo=2.25, hi="2.75", boards=True,
     duration=("roughly 2 minutes 15 seconds to 2 minutes 45 seconds long. "
               "Do not add material, repetition or filler to reach a minimum runtime"),
     body="""
-Attached boards in order: 1 `welcome-1-why-go-deeper.jpg`, 2 `welcome-2-how-to-take-course.jpg`, 3 `welcome-2-your-path.jpg`, 4 `welcome-3-what-youll-need.jpg`, 5 `welcome-4-close.jpg`.
+Attached boards in order: 1 `welcome-why-go-deeper.jpg`, 2 `welcome-2-how-to-take-course.jpg`, 3 `welcome-where-this-course-takes-you.jpg`, 4 `welcome-3-what-youll-need.jpg`, 5 `welcome-close.jpg`.
 
 Focus: a short orientation. Open on board 1 and speak all four lines in order: everyone has AI, most just press go, few understand it, be smarter than the tool. Then: you're about to learn how the most powerful tool of your lifetime actually works. Not five quick tips. Not yesterday's hype. The real machinery.
 

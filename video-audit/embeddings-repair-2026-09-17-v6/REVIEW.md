@@ -1,4 +1,4 @@
-# Embeddings v6: candidate 2026-09-17 (v5 + camera walk over Inside a Real Model)
+# Embeddings v6: SHIPPED 2026-09-17 (v5 + camera walk over Inside a Real Model)
 
 **Candidate:** `Prompts/embeddings-v6.mp4` (3:58.17, 7145 frames, 30 fps, sha256 40bd17b71fea…). **Scope:** v5
 (`../embeddings-repair-2026-09-17/REVIEW.md`: the five current boards and the canonical close re-rendered into the shipped v4, audio
@@ -39,5 +39,5 @@ move waits until it is fully inside the frame; every settled ring sits at least 
 6. Not auditioned by ear: nothing new to hear.
 7. Nothing left undone in scope. The superseded v5 candidate is still in `Prompts/` for side-by-side; remove both candidates at ship.
 
-**At ship:** copy to `course-assets/embeddings/embeddings.mp4`, new cache key on the `embeddings` entry (currently `20260910repair1`),
+**Shipped 2026-09-17** as `course-assets/embeddings/embeddings.mp4` (cache key 20260917ship1, pill 4 min); both candidates removed from `Prompts/`. Ship recipe was: copy to `course-assets/embeddings/embeddings.mp4`, new cache key on the `embeddings` entry (currently `20260910repair1`),
 duration pill unchanged (4 min), refresh the manifest `video_assets` hash and size, remove `Prompts/embeddings-v5.mp4` and `-v6.mp4`.

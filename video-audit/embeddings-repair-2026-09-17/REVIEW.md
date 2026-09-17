@@ -1,4 +1,4 @@
-# Embeddings v5: candidate 2026-09-17 (board refresh, visual-only retrofit of v4)
+# Embeddings v5: candidate 2026-09-17, SUPERSEDED by v6 the same day (board refresh, visual-only retrofit of v4)
 
 **Candidate:** `Prompts/embeddings-v5.mp4` (3:58.17, 7145 frames, 30 fps). **Scope** (David: "use the current boards in the lesson.
 Replace the existing with those"): narrow visual repair of the shipped v4 (`course-assets/embeddings/embeddings.mp4`, sha256

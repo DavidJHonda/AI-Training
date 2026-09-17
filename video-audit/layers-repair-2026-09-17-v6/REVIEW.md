@@ -1,4 +1,4 @@
-# Layers v6: candidate 2026-09-17 (v5 + one-second pause after "The horse raced past the barn fell.")
+# Layers v6: SHIPPED 2026-09-17 (v5 + one-second pause after "The horse raced past the barn fell.")
 
 **Candidate:** `Prompts/layers-v6.mp4` (2:39.90, 4797 frames, 30 fps, sha256 fbe3017d9037…). **Scope:** v5
 (`../layers-repair-2026-09-17/REVIEW.md`: the three current boards and the canonical close re-rendered into the shipped v4) plus one
@@ -34,5 +34,5 @@ total should be one second instead, the insert shrinks to 8 frames; say so and i
 6. **Not auditioned by ear** (no playback in this runtime): David should listen through 12.0-14.5 s for the pause and the two joins.
 7. Nothing left undone in scope. Pre-existing items from the v5 review stand (two photograph spans, Why Dozens not in the video).
 
-**At ship:** copy to `course-assets/layers/layers.mp4`, new cache key on the `layers` entry (currently `20260910repair1`), duration pill
+**Shipped 2026-09-17** as `course-assets/layers/layers.mp4` (cache key 20260917ship1, pill 3 min); both candidates removed from `Prompts/`. Ship recipe was: copy to `course-assets/layers/layers.mp4`, new cache key on the `layers` entry (currently `20260910repair1`), duration pill
 unchanged (3 min), refresh the manifest `video_assets` hash and size, remove both candidates from `Prompts/`.

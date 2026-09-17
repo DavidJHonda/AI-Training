@@ -1,4 +1,4 @@
-# Layers v5: candidate 2026-09-17 (board refresh, visual-only retrofit of v4)
+# Layers v5: candidate 2026-09-17, SUPERSEDED by v6 the same day (board refresh, visual-only retrofit of v4)
 
 **Candidate:** `Prompts/layers-v5.mp4` (2:38.90, 4767 frames, 30 fps, sha256 6c2d3ca62d10…). **Scope** (David: "run the same process with
 Layers"): narrow visual repair of the shipped v4 (`course-assets/layers/layers.mp4`). The three course boards the video carries are

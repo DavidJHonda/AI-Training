@@ -22,11 +22,24 @@ from editspec_build import Build, fr, PURPLE, BLUE, TEAL, GREEN, AMBER, NEUTRAL
 ROOT = Path(__file__).resolve().parents[2]
 BASE = ROOT / "Prompts/critical-thinking-reroll-4.mp4"
 DONOR = ROOT / "Prompts/critical-thinking-reroll-3.mp4"
+H45_DONOR = DONOR
 AUDIT = ROOT / "video-audit/critical-thinking-repair-2026-09-16"
 DEST = ROOT / "Prompts/critical-thinking-v3.mp4"
 HABITS_BOARD_IN_SECONDS = 125.88
 DONOR_H45_OUT_SECONDS = 170.56
+DONOR_H45_IN_SECONDS = 153.48
+DONOR_H4_ONSET_SECONDS = 154.50
+DONOR_H5_ONSET_SECONDS = 163.12
+DONOR_H45_PULLBACK_SECONDS = 169.14
+DONOR_H45_GAIN_DB = -0.4
 KEEP_LAPTOP_BRIDGE = True
+H45_ROOM_TONE_TAIL_FRAMES = 0
+BASE_SUMMARY_CLEAN_HEAD_FRAMES = 0
+H45_USE_DIGITAL_SILENCE = False
+H45_GRAFT_FADE_TO_SILENCE = False
+H45_DONOR_INCLUDES_SUMMARY = False
+DONOR_SUMMARY_ONSET_SECONDS = None
+H45_SMOOTH_GAP = None
 BOARDS = {
     "equation": ROOT / "course-assets/critical-thinking/critical-thinking-equation.jpg",
     "reactions": ROOT / "course-assets/critical-thinking/critical-thinking-two-reactions.jpg",
@@ -47,6 +60,7 @@ def main():
         DEST,
         protected=[
             DONOR,
+            H45_DONOR,
             ROOT / "index.html",
             ROOT / "lessons/critical-thinking.md",
             ROOT / "Prompts/critical-thinking-video-prompt.txt",
@@ -89,7 +103,7 @@ def main():
     HABITS_IN = fr(HABITS_BOARD_IN_SECONDS)  # quiet boundary after "confirmation bias"
     BASE_H45_IN = fr(156.18)      # start of the clean gap before Habit 4
     BASE_H45_OUT = fr(174.02)     # "These five questions..." onset
-    DONOR_H45 = (fr(153.48), fr(DONOR_H45_OUT_SECONDS))
+    DONOR_H45 = (fr(DONOR_H45_IN_SECONDS), fr(DONOR_H45_OUT_SECONDS))
     HABITS_SUMMARY_OUT = fr(181.24)  # through "with artificial intelligence"
     AI_DIAGRAM_IN = 5461          # 182.033, raw cut to the inaccurate paper
     CLOSE_IN = 5670               # 189.000, raw cut to the close
@@ -97,7 +111,12 @@ def main():
 
     donor_h45_len = DONOR_H45[1] - DONOR_H45[0]
     habits_after_graft = BASE_H45_IN + donor_h45_len
-    habits_virtual_out = habits_after_graft + (HABITS_SUMMARY_OUT - BASE_H45_OUT)
+    summary_audio_in = BASE_H45_OUT + BASE_SUMMARY_CLEAN_HEAD_FRAMES
+    habits_virtual_out = (
+        habits_after_graft
+        if H45_DONOR_INCLUDES_SUMMARY
+        else habits_after_graft + (HABITS_SUMMARY_OUT - summary_audio_in)
+    )
 
     # Board 1 stays intact through the definition and the tool-level takeaway.
     b.keep(0, EQUATION_OUT, "B1 What You Know. How You Think.", "equation")
@@ -119,22 +138,36 @@ def main():
 
     b.keep(HABITS_IN, BASE_H45_IN, "B3 Five Habits through Habit 3", "habits")
     b.graft(
-        DONOR,
+        H45_DONOR,
         DONOR_H45[0],
         DONOR_H45[1],
-        "Reroll 3 audio: complete and correctly worded Habits 4-5",
+        "Alternate-roll audio: complete Habits 4-5",
         "reroll3-habits-4-5",
         picture_from=BASE_H45_IN,
-        gain_db=-0.4,
+        gain_db=DONOR_H45_GAIN_DB,
         visual="habits",
+        fade_end_to_silence=H45_GRAFT_FADE_TO_SILENCE,
     )
-    b.keep(
-        BASE_H45_OUT,
-        HABITS_SUMMARY_OUT,
-        "B3 full-board summary through applying the questions to AI",
-        "habits",
-        video_from=habits_after_graft,
-    )
+    if H45_ROOM_TONE_TAIL_FRAMES and not H45_DONOR_INCLUDES_SUMMARY:
+        b.pause(
+            H45_ROOM_TONE_TAIL_FRAMES,
+            "Clean digital-silence bridge after Habit 5" if H45_USE_DIGITAL_SILENCE else "Clean matched-room-tone bridge after Habit 5",
+            silent=H45_USE_DIGITAL_SILENCE,
+        )
+    if BASE_SUMMARY_CLEAN_HEAD_FRAMES and not H45_DONOR_INCLUDES_SUMMARY:
+        b.pause(
+            BASE_SUMMARY_CLEAN_HEAD_FRAMES,
+            "Clean digital-silence replacement for the base summary false onset" if H45_USE_DIGITAL_SILENCE else "Clean matched-room-tone replacement for the base summary false onset",
+            silent=H45_USE_DIGITAL_SILENCE,
+        )
+    if not H45_DONOR_INCLUDES_SUMMARY:
+        b.keep(
+            summary_audio_in,
+            HABITS_SUMMARY_OUT,
+            "B3 full-board summary through applying the questions to AI",
+            "habits",
+            video_from=habits_after_graft,
+        )
 
     # Replace the inaccurate lorem-style page with reroll 3's accurate AI
     # decision diagram. V4 also removes the short old-laptop bridge that David
@@ -156,6 +189,13 @@ def main():
     b.mark_close_start()
     b.close(CLOSE_IN, CLOSE_OUT)
     b.finish_audio()
+    smoothed_gap = None
+    if H45_SMOOTH_GAP:
+        smoothed_gap = b.smooth_graft_gap(
+            "reroll3-habits-4-5",
+            gain_db=DONOR_H45_GAIN_DB,
+            **H45_SMOOTH_GAP,
+        )
 
     def target(label, at, rect, color, *, cam=None, radius=18):
         return {
@@ -204,11 +244,15 @@ def main():
             target("Habit 1", 133.98, [40, 141, 330, 623], PURPLE, cam=[40, 141, 330, 623]),
             target("Habit 2", 142.30, [347, 141, 638, 623], BLUE, cam=[347, 141, 638, 623]),
             target("Habit 3", 149.98, [655, 141, 946, 623], TEAL, cam=[655, 141, 946, 623]),
-            target("Habit 4", donor_mapped(154.50), [963, 141, 1254, 623], GREEN, cam=[963, 141, 1254, 623]),
-            target("Habit 5", donor_mapped(163.12), [1271, 141, 1560, 623], AMBER, cam=[1271, 141, 1560, 623]),
+            target("Habit 4", donor_mapped(DONOR_H4_ONSET_SECONDS), [963, 141, 1254, 623], GREEN, cam=[963, 141, 1254, 623]),
+            target("Habit 5", donor_mapped(DONOR_H5_ONSET_SECONDS), [1271, 141, 1560, 623], AMBER, cam=[1271, 141, 1560, 623]),
         ],
-        banner_at=habits_after_graft / 30,
-        pullback_at=donor_mapped(169.14),
+        banner_at=(
+            donor_mapped(DONOR_SUMMARY_ONSET_SECONDS)
+            if H45_DONOR_INCLUDES_SUMMARY
+            else habits_after_graft / 30
+        ),
+        pullback_at=donor_mapped(DONOR_H45_PULLBACK_SECONDS),
         banner=[40, 660, 1560, 750],
     )
 
@@ -222,13 +266,22 @@ def main():
     b.manifest({
         "approved_repair_plan": {
             "base": str(BASE),
-            "donor": str(DONOR),
+            "visual_donor": str(DONOR),
+            "habits_4_5_audio_donor": str(H45_DONOR),
             "replaced_base_habits_4_5_frames": [BASE_H45_IN, BASE_H45_OUT],
             "donor_habits_4_5_frames": list(DONOR_H45),
-            "donor_gain_db": -0.4,
+            "donor_gain_db": DONOR_H45_GAIN_DB,
             "habits_board_in_seconds": HABITS_BOARD_IN_SECONDS,
+            "donor_habits_4_5_in_seconds": DONOR_H45_IN_SECONDS,
             "donor_habits_4_5_out_seconds": DONOR_H45_OUT_SECONDS,
             "keep_laptop_bridge": KEEP_LAPTOP_BRIDGE,
+            "habit_5_room_tone_tail_frames": H45_ROOM_TONE_TAIL_FRAMES,
+            "base_summary_clean_head_frames": BASE_SUMMARY_CLEAN_HEAD_FRAMES,
+            "habit_5_gap_uses_digital_silence": H45_USE_DIGITAL_SILENCE,
+            "habit_5_graft_fades_to_silence": H45_GRAFT_FADE_TO_SILENCE,
+            "habits_donor_includes_summary": H45_DONOR_INCLUDES_SUMMARY,
+            "donor_summary_onset_seconds": DONOR_SUMMARY_ONSET_SECONDS,
+            "smoothed_habits_gap": smoothed_gap,
         },
         "selective_pause_plan": [
             {

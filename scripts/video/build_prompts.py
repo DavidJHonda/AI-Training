@@ -322,7 +322,7 @@ add("how-an-llm-works", title="How an LLM Works", lo=3, hi="3.5", boards=True,
     body="""
 Use the current lessons/how-an-llm-works.md and the current JPGs listed in Prompts/how-an-llm-works-upload-files.txt. The Markdown owns the teaching and board order.
 
-Organize the narration around two ideas: Learn First and Answer One Word at a Time. Training explains how the model learns; Patterns explains what it learns. Probability explains how it scores possible next words; Prediction explains how it chooses a word and repeats. Read all four concept-opening transitions verbatim from the Markdown. Training and Patterns must each say Learn First; Probability and Prediction must each say Answer One Word at a Time. Speak these connections at the section entries, not only at the overview. Do not call them two phases or four numbered steps.
+Move through the four section headings in order: Training, Patterns, Probability, and Prediction. Training explains how the model learns; Patterns explains what it learns. Probability explains how it scores possible next words; Prediction explains how it chooses a word and repeats. Do not add umbrella labels above the section headings or call the concepts phases or numbered steps.
 
 Teach the peanut butter examples, all comparison results, and the current closing lines from the Markdown. Patterns develop during training, not in a separate step afterward. Do not narrate the LAB.
 """,

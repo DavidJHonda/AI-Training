@@ -87,9 +87,15 @@ class Build:
             if video_src is not None: assert visual == 'source'; row['video_src'] = str(video_src)
             if video_end is not None: assert visual == 'source'; row['video_end'] = video_end
         self.rows.append(row); self.parts.append(data); self.cursor += e - s
-    def pause(self, n, label):
-        self.rows.append(dict(kind='room_tone', start_frame=self.cursor, end_frame=self.cursor + n, label=label))
-        self.parts.append(self.tone(n * SPF)); self.cursor += n
+    def pause(self, n, label, *, silent=False):
+        self.rows.append(dict(
+            kind='room_tone',
+            start_frame=self.cursor,
+            end_frame=self.cursor + n,
+            label=label,
+            audio_fill='digital_silence' if silent else 'matched_room_tone',
+        ))
+        self.parts.append(np.zeros(n * SPF) if silent else self.tone(n * SPF)); self.cursor += n
     def mark_close_start(self):
         """Start the standard close visual at the current output frame (use at the source cut where the
         engine's own close arrives); subsequent keep()/pause() rows carry the closing audio."""
@@ -97,7 +103,7 @@ class Build:
     def close(self, audio_start, audio_end, tail=CLOSE_TAIL):
         if self.close_start is None: self.close_start = self.cursor
         self.keep(audio_start, audio_end, 'Closing message', 'close'); self.pause(tail, 'Settled close hold')
-    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0, visual='source', video_end=None, reuse_leg=False):
+    def graft(self, src2, s, e, label, key, cover_intro=True, picture_from=None, gain_db=0.0, visual='source', video_end=None, reuse_leg=False, fade_end_to_silence=False):
         """A span [s, e) of frames from a SECOND roll of the same lesson (same Notebook voice), carried with its own
         picture and sound (2026-09-12, Curious & Flexible: roll 1's ending under roll 2's body). Audio is the second
         roll's own, crossfaded into the room tone like keep(); the picture is a leg of that roll's frames with the
@@ -111,9 +117,11 @@ class Build:
         if not wav.exists():
             subprocess.run([self.ff, '-y', '-v', 'error', '-i', str(src2), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_s16le', str(wav)], check=True)
         a2 = readwav(wav); data = a2[s * SPF:e * SPF].copy() * (10 ** (gain_db / 20)); r = np.linspace(0, 1, 240); bed = self.tone(len(data))   # gain_db matches the other roll's speech level (measure both with loudnorm first)
-        data[:240] = data[:240] * r + bed[:240] * (1 - r); data[-240:] = data[-240:] * (1 - r) + bed[-240:] * r
+        data[:240] = data[:240] * r + bed[:240] * (1 - r)
+        end_bed = np.zeros(240) if fade_end_to_silence else bed[-240:]
+        data[-240:] = data[-240:] * (1 - r) + end_bed * r
         if picture_from is not None:
-            self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True, gain_db=gain_db)
+            self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True, gain_db=gain_db, fade_end_to_silence=fade_end_to_silence)
             self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual, graft_audio=str(src2), audio_start=s, audio_end=e))   # visual=<board key>: keep our board leg on screen (picture_from in that leg's source span)
             if video_end is not None:   # 2026-09-16 (How an LLM Works v6): the borrowed picture holds its last frame before this source frame instead of running into the roll's next scene
                 assert visual == 'source'; self.rows[-1]['video_start'] = picture_from; self.rows[-1]['video_end'] = video_end
@@ -149,6 +157,41 @@ class Build:
         self.parts.append(data); self.cursor += e - s
     def finish_audio(self):
         self.total = self.cursor; writewav(self.out / 'edited.wav', np.concatenate(self.parts))
+
+    def smooth_graft_gap(self, key, source_start_seconds, source_end_seconds,
+                         tone_start_seconds, tone_end_seconds, *, fade_ms=50,
+                         gain_db=0.0):
+        """Replace a breath/noise pulse inside a graft with clean donor room tone.
+
+        The interval length is unchanged. Short crossfades preserve the preceding
+        word and following onset without the noise-floor cliff of digital silence.
+        """
+        row = next(r for r in self.rows if r.get('graft_audio') and r.get('label') and key in Path(self.out / f'graft-{key}.wav').name)
+        donor = readwav(self.out / f'graft-{key}.wav')
+        edited_path = self.out / 'edited.wav'
+        edited = readwav(edited_path)
+        source_zero_seconds = row['audio_start'] / FPS
+        output_zero = row['start_frame'] * SPF
+        start = output_zero + round((source_start_seconds - source_zero_seconds) * SR)
+        end = output_zero + round((source_end_seconds - source_zero_seconds) * SR)
+        seed = donor[round(tone_start_seconds * SR):round(tone_end_seconds * SR)].copy()
+        seed -= seed.mean()
+        loop = np.r_[seed, seed[::-1]] * (10 ** (gain_db / 20))
+        replacement = np.resize(loop, end - start)
+        original = edited[start:end].copy()
+        fade = min(round(fade_ms * SR / 1000), (end - start) // 2)
+        ramp = np.linspace(0, 1, fade)
+        replacement[:fade] = original[:fade] * (1 - ramp) + replacement[:fade] * ramp
+        replacement[-fade:] = replacement[-fade:] * (1 - ramp) + original[-fade:] * ramp
+        edited[start:end] = replacement
+        writewav(edited_path, edited)
+        return {
+            'graft_key': key,
+            'source_gap_seconds': [source_start_seconds, source_end_seconds],
+            'tone_source_seconds': [tone_start_seconds, tone_end_seconds],
+            'fade_ms': fade_ms,
+            'output_gap_seconds': [start / SR, end / SR],
+        }
 
     # ---------------- boards
     def compose(self, asset, key):

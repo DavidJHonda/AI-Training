@@ -18,31 +18,15 @@ So how does an LLM actually turn your words into an answer?
 
 When ChatGPT or Claude write a sentence, they’re running math to predict the likely next words. They aren’t looking up what your words mean; they’re working out which words tend to follow which.
 
-Two ideas explain how an LLM works: learning patterns and using them to build an answer. Before you use it, the model learns patterns during training. When you ask a question, it uses those patterns to build an answer, one word at a time.
-
-### Board 2: Two Ideas Behind Every Answer
-
-**Image file:** `how-an-llm-works-learn-once.jpg`
-
-![Two Ideas Behind Every Answer.](how-an-llm-works-learn-once.jpg)
-
-**Teaching content:**
-
-Learn First has two connected concepts. Training explains how the model learns: it learns from enormous amounts of data before you use it. Patterns explains what the model learns: training turns examples into learned numerical patterns. Patterns are learned during training, not in a separate step afterward.
-
-Patterns power every answer.
-
-Answer One Word at a Time has two connected concepts. Probability explains how the model scores possible next words: it uses the words so far to work out how likely each next word is. Prediction explains how it chooses and repeats: it chooses a likely next word, adds it, and runs the process again.
-
-Learn patterns first. Use them to build every answer.
+Before you use it, the model learns patterns during training. When you ask a question, it uses those patterns to build an answer, one word at a time.
 
 Let’s follow one example, peanut butter, to see how the model learns a pattern and uses it to build an answer.
 
-## LEARN FIRST: TRAINING
+## TRAINING
 
-Let’s start with Learn First. Training is how the model learns. It guesses the next word, checks the example, and adjusts its internal numbers to make the right word more likely.
+First, the model needs to learn. That happens during training. It guesses the next word, checks the example, and adjusts its internal numbers to make the right word more likely.
 
-### Board 3: How Training Works
+### Board 2: How Training Works
 
 **Image file:** `how-an-llm-works-training.jpg`
 
@@ -54,11 +38,11 @@ Four steps that repeat. Read: the model reads a training example with the answer
 
 Repeat with more examples. The patterns build.
 
-## LEARN FIRST: PATTERNS
+## PATTERNS
 
-We’re still looking at Learn First. Training is how it learns. Patterns are what it learns. Here’s one you picked up as a child. Which word comes next? Peanut butter and blank. Jelly. You knew it. So does AI.
+What does the model learn during training? Patterns. Here’s one you picked up as a child. Which word comes next?
 
-### Board 4: How AI Learns Patterns
+### Board 3: How AI Learns Patterns
 
 **Image file:** `how-an-llm-works-patterns.jpg`
 
@@ -74,11 +58,11 @@ AI learns patterns by working through billions of examples.
 
 These are easy patterns you already know. AI also learns patterns in places you might not expect: how people explain ideas, ask questions, solve problems, and even misspell words.
 
-## ANSWER ONE WORD AT A TIME: PROBABILITY
+## PROBABILITY
 
-Now we move to Answer One Word at a Time. The model uses its learned patterns to work out the probabilities for the next word. Those probabilities change with the surrounding text.
+Now the model uses those patterns to build your answer. It starts by working out how likely each possible next word is. Those probabilities change with the surrounding text.
 
-### Board 5: Same Word. Different Odds.
+### Board 4: Same Word. Different Odds.
 
 **Image file:** `how-an-llm-works-same-word-different-odds.jpg`
 
@@ -90,11 +74,11 @@ Same word, different odds. For “I’d like to buy peanut butter and blank,” 
 
 The surrounding words change the odds. In this example, adding “banana” drops the probability of “jelly” from 41 percent to 2 percent.
 
-## ANSWER ONE WORD AT A TIME: PREDICTION
+## PREDICTION
 
-The other part of Answer One Word at a Time is prediction. Those probabilities guide its choice of the next word. Then it repeats. Your phone does something similar when you write a text: it suggests a word, you tap it, and it suggests the next.
+Those probabilities guide its choice of the next word. It adds that word, then repeats the process. Your phone does something similar when you write a text: it suggests a word, you tap it, and it suggests the next.
 
-### Board 6: One Word at a Time
+### Board 5: One Word at a Time
 
 **Image file:** `how-an-llm-works-one-word-at-a-time.jpg`
 

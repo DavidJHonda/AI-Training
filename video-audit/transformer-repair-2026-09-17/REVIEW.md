@@ -1,4 +1,4 @@
-# Transformer v8: candidate 2026-09-17 (board refresh, visual-only retrofit of v7)
+# Transformer v8: SHIPPED 2026-09-17 (board refresh, visual-only retrofit of v7)
 
 **Candidate:** `Prompts/transformer-v8.mp4` (4:18.30, 7749 frames, 30 fps, sha256 7d5edfa42ae5…). **Scope** (David: "run the same processing on
 the Transformer video"): narrow visual repair of the shipped v7 (`course-assets/transformer/transformer.mp4`). The six course boards
@@ -43,5 +43,5 @@ The site credit line is the only other board difference.
 7. Nothing left undone in scope. Noted, not acted on: the two tall boards (Two Problems, 1341 px; Resolves Meaning, 1403 px) are shown
    at full view only, with half-board rings, as v5 approved them; their body text is small at that size if a dive is ever wanted.
 
-**At ship:** copy to `course-assets/transformer/transformer.mp4`, new cache key on the `attention` entry (currently `20260910repair1`),
+**Shipped 2026-09-17** as `course-assets/transformer/transformer.mp4` (cache key 20260917ship1, pill 4 min); candidate removed from `Prompts/`. Ship recipe was: copy to `course-assets/transformer/transformer.mp4`, new cache key on the `attention` entry (currently `20260910repair1`),
 duration pill unchanged (4 min), refresh the manifest `video_assets` hash and size, remove the candidate from `Prompts/`.

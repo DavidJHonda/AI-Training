@@ -1066,7 +1066,7 @@ const LESSON_VIDEOS = {
   embeddings: { src: "course-assets/embeddings/embeddings.mp4?v=20260917ship1", duration: "4 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "course-assets/transformer/transformer.mp4?v=20260917ship1", duration: "4 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "course-assets/layers/layers.mp4?v=20260917ship1", duration: "3 min", title: "Meaning builds up, layer by layer — and one box stays blank." },
-  vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20260911ship1", duration: "3 min", title: "Where a token's numbers finally land." },
+  vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20260917ship1", duration: "3 min", title: "Where a token's numbers finally land." },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20260911ship2", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "course-assets/one-more-thing/one-more-thing.mp4", duration: "4 min", title: "Different choices, temperature, and the scale of the math." },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener.mp4?v=2", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
@@ -1282,11 +1282,12 @@ function LessonHeader(props) {
 }
 function SectionKicker(props) {
   var size = props.size === "small" ? "small" : "large";
+  var Tag = props.as || "div";
   var baseStyle = size === "small"
     ? { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em", color: "var(--primary)", margin: "32px 0 5px 0" }
     : { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--primary)", margin: "32px 0 8px 0" };
   var style = props.style ? Object.assign({}, baseStyle, props.style) : baseStyle;
-  return /*#__PURE__*/React.createElement("div", { style: style }, props.children);
+  return /*#__PURE__*/React.createElement(Tag, { style: style }, props.children);
 }
 function ShowcaseBox(props) {
   var outerStyle = props.accessibleOnly
@@ -3501,12 +3502,8 @@ function OpenerFoundationsSection(props) {
 }
 
 function SectionBadge(props) {
-  var E = React.createElement;
   var NAME = { training: "Training", patterns: "Patterns", probability: "Probability", prediction: "Prediction" };
-  var learn = props.active === "training" || props.active === "patterns";
-  return E("h2", { style: { display: "flex", flexDirection: "column", gap: 5, marginTop: 48, marginBottom: 18, fontFamily: "var(--sans)", fontSize: 28, fontWeight: 800, lineHeight: 1.25, color: "var(--ink)" } },
-    E("span", { style: { fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: learn ? "#4f2fc4" : "#b95f06" } }, learn ? "Learn First" : "Answer One Word at a Time"),
-    E("span", null, NAME[props.active]));
+  return /*#__PURE__*/React.createElement(SectionKicker, { as: "h2" }, NAME[props.active]);
 }
 // LAB 02, in How an LLM Works. The lesson explains predict-a-word-then-run-it-again;
 // this is that loop at a size a student can watch. Prediction drives the lab: same
@@ -3567,14 +3564,8 @@ function AIHistorySection(props) {
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "So how does an LLM actually turn your words into an answer?"),
     /*#__PURE__*/React.createElement(BodyP, null, "When ChatGPT or Claude write a sentence, they're running math to predict the likely next words. They aren't looking up what your words mean; they're working out which words tend to follow which."),
-    /*#__PURE__*/React.createElement(BodyP, null, "Two ideas explain how an LLM works: learning patterns and using them to build an answer. Before you use it, the model learns patterns during training. When you ask a question, it uses those patterns to build an answer, one word at a time."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/how-an-llm-works/how-an-llm-works-learn-once.jpg?v=20260916twoideas1",
-      alt: "Two Ideas Behind Every Answer. Learn First: Training explains how the model learns; Patterns explains what it learns. Answer One Word at a Time: Probability scores possible next words; Prediction chooses a likely next word, adds it, and repeats. Patterns power every answer. Learn patterns first. Use them to build every answer.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
-    }),
+    /*#__PURE__*/React.createElement(BodyP, null, "Before you use it, the model learns patterns during training. When you ask a question, it uses those patterns to build an answer, one word at a time."),
     /*#__PURE__*/React.createElement(BodyP, null, "Let’s follow one example, peanut butter, to see how the model learns a pattern and uses it to build an answer."),
-    /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "training" }),
     /*#__PURE__*/React.createElement(BodyP, null, "First, the model needs to learn. That happens during training. It guesses the next word, checks the example, and adjusts its internal numbers to make the right word more likely."),
     /*#__PURE__*/React.createElement("img", {
@@ -3582,7 +3573,6 @@ function AIHistorySection(props) {
       alt: "How Training Works. Read: the model reads a training example with the answer included. Guess: given peanut butter and blank, the model guesses cloud. Check: the example says jelly, and the guess is compared with that word. Adjust: the model’s internal numbers change to make jelly more likely. The flow returns to Read for the next example.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "patterns" }),
     /*#__PURE__*/React.createElement(BodyP, null, "What does the model learn during training? Patterns. Here’s one you picked up as a child. Which word comes next?"),
     /*#__PURE__*/React.createElement("img", {
@@ -3591,7 +3581,6 @@ function AIHistorySection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "These are easy patterns you already know. AI also learns patterns in places you might not expect: how people explain ideas, ask questions, solve problems, and even misspell words."),
-    /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "probability" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Now the model uses those patterns to build your answer. It starts by working out how likely each possible next word is. Those probabilities change with the surrounding text."),
     /*#__PURE__*/React.createElement("img", {
@@ -3600,7 +3589,6 @@ function AIHistorySection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "In this example, adding “banana” drops the probability of “jelly” from 41% to 2%."),
-    /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px solid var(--rule)", margin: "24px 0" } }),
     /*#__PURE__*/React.createElement(SectionBadge, { active: "prediction" }),
     /*#__PURE__*/React.createElement(BodyP, null, "Those probabilities guide its choice of the next word. It adds that word, then repeats the process. Your phone does something similar when you write a text: it suggests a word, you tap it, and it suggests the next."),
     /*#__PURE__*/React.createElement("img", {

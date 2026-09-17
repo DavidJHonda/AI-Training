@@ -1,4 +1,4 @@
-# Vector Space v5: candidate 2026-09-17 (board refresh, visual-only retrofit of the shipped 2026-09-10 file)
+# Vector Space v5: SHIPPED 2026-09-17 (board refresh, visual-only retrofit of the shipped 2026-09-10 file)
 
 **Candidate:** `Prompts/vector-space-v5.mp4` (3:52.90, 6987 frames, 30 fps, sha256 4873fac38f54…). **Scope** (David: "run the process with
 the Vector Space video"): narrow visual repair of the shipped file (`course-assets/vector-space/vector-space.mp4`, the roll-4 candidate
@@ -37,5 +37,5 @@ Every Notebook span is the shipped picture. No dives, so no framing cuts to turn
 6. Not auditioned by ear: nothing new to hear.
 7. Nothing left undone in scope.
 
-**At ship:** copy to `course-assets/vector-space/vector-space.mp4`, new cache key on the `vectorspace` entry (currently `20260911ship1`),
+**Shipped 2026-09-17** as `course-assets/vector-space/vector-space.mp4` (cache key 20260917ship1, pill 3 min); candidate removed from `Prompts/`. Ship recipe was: copy to `course-assets/vector-space/vector-space.mp4`, new cache key on the `vectorspace` entry (currently `20260911ship1`),
 duration pill unchanged (3 min), refresh the manifest `video_assets` hash and size, remove the candidate from `Prompts/`.

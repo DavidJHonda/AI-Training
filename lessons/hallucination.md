@@ -6,7 +6,7 @@
 
 **Image file:** `hallucination-example.jpg`
 
-![Nothing Sounds Wrong](hallucination-example.jpg)
+![Nothing Sounds Wrong](../course-assets/hallucination/hallucination-example.jpg)
 
 **Teaching content:**
 
@@ -30,7 +30,7 @@ The fake study did not come from nowhere. AI knows what a research finding sound
 
 **Image file:** `hallucination-why-ai-makes-things-up.jpg`
 
-![Why Hallucinations Happen](hallucination-why-ai-makes-things-up.jpg)
+![Why Hallucinations Happen](../course-assets/hallucination/hallucination-why-ai-makes-things-up.jpg)
 
 **Teaching content:**
 
@@ -41,19 +41,19 @@ The fake study did not come from nowhere. AI knows what a research finding sound
 
 **Takeaway:** Probable does not equal true.
 
-## Not Every AI Error Is a Hallucination
+### Board 3: Real Text. Wrong Meaning.
+
+**Course image (post-production only; not a Notebook upload):** `hallucination-glue-on-pizza.jpg`
+
+**Teaching content:**
+
+**Not Every AI Error Is a Hallucination**
 
 Hallucination is the term people often use whenever AI gets something wrong. But AI can also get something wrong by misreading a real source.
 
 This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce.
 
 That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant.
-
-### Board 3: Real Text. Wrong Meaning.
-
-**Course image (post-production only; not a Notebook upload):** `hallucination-glue-on-pizza.jpg`
-
-**Teaching content:**
 
 The Reddit comment was real. The cooking advice was not.
 
@@ -69,7 +69,7 @@ Hallucinations do not sound different from everything else AI says. You will not
 
 **Image file:** `hallucination-check-claim.jpg`
 
-![Check the Claim](hallucination-check-claim.jpg)
+![Check the Claim](../course-assets/hallucination/hallucination-check-claim.jpg)
 
 **Teaching content:**
 
@@ -77,7 +77,19 @@ Hallucinations do not sound different from everything else AI says. You will not
 2. **Find the Source.** Look for the original study, article, or document. A citation alone isn’t proof.
 3. **Check the Match.** Does the source exist, and does it actually support what AI said?
 
+**Apply the steps to the examples:**
+
+Start with the Stanford claim. **Notice the Claim:** the answer says a 2022 study of 1,200 high school students found an 18% improvement in recall. Those specific details are what need checking. **Find the Source:** look for the original study, rather than accepting the university name as proof. The study in this lesson's example is invented. **Check the Match:** there is no original study supporting those numbers, so do not repeat them as established facts. In a real search, failing to find a source does not by itself prove a claim false; it means you have not verified it.
+
+Now apply the same steps to the pizza answer. **Notice the Claim:** glue belongs in pizza sauce. **Find the Source:** the answer traces back to a real Reddit comment. **Check the Match:** the comment was a joke, not evidence that glue is a suitable ingredient. Finding real text is not enough; it must support the claim being made.
+
 ## Closing Message
+
+**Image file:** `hallucination-close.jpg`
+
+![Closing Message](../course-assets/hallucination/hallucination-close.jpg)
+
+**Teaching content:**
 
 Hallucinations sound like every other AI answer.
 

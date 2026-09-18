@@ -107,7 +107,10 @@ All paths below are repository-relative. Each named prompt and checklist is in `
 - Boards in lesson order:
   - `data-centers-data-center.jpg` — upload
   - `data-centers-physical-footprint.jpg` — upload
+  - `data-centers-meeting-demand.jpg` — upload
   - `data-centers-close.jpg` — upload
+
+Scene plan (2026-09-18, revised): assumed model calculation → compute for millions of people → warehouse scale → four community effects → three responses to demand → personal perspective → exact close. The page, Markdown, and prompt share the approved opening. No Hit Send board is used. Review highlighting before video edits: whole-card highlights on the community and demand boards, and no highlight on the warehouse illustration or close.
 
 ### unexpected-results
 
@@ -128,12 +131,12 @@ All paths below are repository-relative. Each named prompt and checklist is in `
 - Big Upside: teach proteins once, then Hassabis’s timeline once, then the two three-card boards. The timeline IS on the current lesson and IS uploaded. Preserve all six examples, scientific qualifications, quotation, personal encouragement, and closing lines. The prompt is under 500 words without dropping these requirements.
 - Rise of Agents: 30 points, 50 clips. Narrate review and approval BEFORE publishing. Explain that an agent loop may stop, fail, or need help. Preserve the four-step loop and both rogue-agent stories.
 - Work Changes: keep the full before/after assignment and the automate/augment connection. Speak “in one study” and “certain tasks” with the productivity percentages.
-- Data Centers: use the hypothetical model from `lessons/one-more-thing.md`: one trillion weights used per generated token, roughly two calculations per weight, and 1,000 generated tokens gives approximately two quadrillion calculations. This is not a fixed 2,000-word chat cost. The unsupported fixed 100-septillion training total is removed from the prep. Keep the all-data-centers electricity qualification and distinguish planned projects from operating systems.
+- Data Centers (lesson and prep revised 2026-09-18): the approved opening assumes one trillion weights per generated token, roughly two calculations per weight, and 1,000 generated tokens (around 750 words), yielding about two quadrillion calculations. Preserve the assumption within the explanation, without a separate caveat paragraph. The retired fixed training total and 2,000-word chat claim stay removed. Use the warehouse illustration, community-impact board, Meeting the Demand board, and close. Use “U.S. data centers” for the electricity figures and distinguish additional supply from efficiency. The separate electricity qualifier and nuclear-project examples were removed from both page and narration source.
 - Unexpected Results: retain the rat story and four outcomes. Add the general explanation that extra road space can attract more driving, without treating it as proof of the entire Houston travel-time change. The supporting research citation is verification-only.
 
 ## Prep versus current page
 
-This pass updates prep materials only. `index.html` and all JPGs are unchanged. The prep deliberately clarifies a few statements still present in page prose or board wording: the Data Centers opening totals, the Pace of Change release generalization, and Rise of Agents’ unconditional loop and publishing shorthand. Narration should use the corrected Markdown; do not restore these older statements from screenshots. These page/board differences remain for a separate lesson edit, not a silent source reversion.
+The original batch pass updated prep materials only. Data Centers subsequently received the approved page and board update described above. The prep still clarifies statements present in page prose or board wording for the Pace of Change release generalization and Rise of Agents’ unconditional loop and publishing shorthand. Narration should use the corrected Markdown; do not restore these older statements from screenshots. These page/board differences remain for a separate lesson edit, not a silent source reversion.
 
 ## Production handoff
 

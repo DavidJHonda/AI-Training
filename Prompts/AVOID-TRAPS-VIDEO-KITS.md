@@ -11,7 +11,7 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 | Lesson | Teaching sequence |
 | --- | --- |
 | Opener | Normal-looking failures → rip-current analogy → three groups of traps → close |
-| Hallucination | Fabricated study reveal → four reasons → real Reddit joke misread → trace the source → close |
+| Hallucination | Drawn chat → fabricated study reveal → definition scene → four explanations → uninterrupted pizza/Reddit example → checking mindset → three source-check steps applied to both examples → exact close |
 | Training Bias | Cow/grass shortcut → three distortions → three questions → historical wrong-answer chat and current-source correction → RAG → close |
 | Document Trap | Tournament exception → split/search/load → RAG → four retrieval moves applied to the rulebook → close |
 | Mind Trap | Mom versus chatbot college advice → brief ELIZA → why human language feels human → shared context versus shared experience → movie versus college → keep the decision → close |
@@ -33,7 +33,9 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 
 ## Hallucination
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the opening no longer holds Board 1 for the whole first minute).
+Reviewed against the current page and all five canonical JPGs on 2026-09-18. Corrected Markdown links and the manifest; added the spoken application of all three source-check steps to both examples. The fake study is a deliberately invented example; a failed search alone does not prove a real-world claim false. Removed unsupported blanket claims about AI's intent from the prompt. Pauses remain selective editing decisions.
+
+Scene directions: draw the opening chat before revealing Board 1; leave it for the definition. Teach Board 2's four explanations in order. Reserve one continuous Board 3 span for the pizza question, mistaken answer, real joke, and takeaway. Use the brief checking-mindset scene before Board 4, then narrate the named checks and both applications. Finish on the supplied close with its two lines verbatim. Review changed scene directions before generation and the highlighting plan before first edits. This prep review does not establish a verdict on any existing video.
 
 - Prompt: `Prompts/hallucination-video-prompt.txt`
 - Markdown: `lessons/hallucination.md`

@@ -251,7 +251,7 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="data-footprint",
-        title="The Footprint Has Four Parts",
+        title="What a Data Center Means for Its Neighbors",
         cards=(
             Card("Electricity", "U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7–12% by 2028. In some places, added demand is already raising household bills."),
             Card("Water", "Chips run hot. Some facilities evaporate water to cool them; a large data center can use about a million gallons on a hot day. Others recycle or reuse it."),

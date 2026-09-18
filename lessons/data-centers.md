@@ -2,13 +2,11 @@
 
 # Data Centers
 
-The scale of the math behind AI is almost impossible to grasp. To picture it, imagine a model that uses one trillion weights for each new token it writes. At roughly two calculations per weight, writing about 1,000 tokens across a conversation would take about two quadrillion calculations.
+You type a question, hit send, and an answer starts appearing. Behind that chat, computers in a data center do an enormous amount of math.
 
-That is an illustration of the scale, not a fixed bill for every chat. It counts the tokens AI writes, not all the words you and AI exchange. The model and the amount of text change the total.
+Let’s assume an LLM uses one trillion weights to generate each new token. At roughly two calculations per weight, writing 1,000 tokens, or around 750 words, takes about **two quadrillion calculations**. That’s a 2 followed by 15 zeroes.
 
-And training a large model takes an enormous amount of computation before you ever type a question. There isn’t one calculation total that applies to every model.
-
-That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which AI companies call compute. And they are racing to get more of it.
+**The ability to run that math is called compute.** Now imagine serving millions of people. That’s why AI companies need data centers, and why they are building more of them.
 
 ## WHAT IS A DATA CENTER
 
@@ -22,21 +20,19 @@ Think of a big warehouse packed with thousands of specialized chips, called GPUs
 
 **Teaching content:**
 
-Inside a vast AI data center: rows of server racks stretching to the far wall of a warehouse-sized hall, glowing with blue status lights. A single person walking the main aisle, dwarfed by the racks, is the only human in sight.
+Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city. The scale varies by facility. When you hit send in ChatGPT, a data center answers.
 
-The scale is hard to overstate. A big AI data center covers the ground of several football fields and uses as much electricity as a small city. The companies racing to build them are spending hundreds of billions of dollars a year, so it’s one of the largest construction projects happening anywhere in the world. When you hit send in ChatGPT, a data center answers.
+**Somebody pays for all that arithmetic.** Running those computers affects more than the company using them. It also affects the communities around them.
 
-Somebody pays for all that arithmetic.
-
-### Board 2: The Footprint Has Four Parts
+### Board 2: What a Data Center Means for Its Neighbors
 
 **Image file:** `data-centers-physical-footprint.jpg`
 
-![The Footprint Has Four Parts](../course-assets/data-centers/data-centers-physical-footprint.jpg)
+![What a Data Center Means for Its Neighbors](../course-assets/data-centers/data-centers-physical-footprint.jpg)
 
 **Teaching content:**
 
-Electricity: U.S. data centers used about 4.4 percent of the country’s electricity in 2023, and Berkeley Lab projects 6.7 to 12 percent by 2028. In some places, added demand is already raising household bills.
+Electricity: U.S. data centers used about 4.4 percent of the country’s electricity in 2023, and Berkeley Lab projected 6.7 to 12 percent by 2028. In some places, added demand is already raising household bills.
 
 Water: chips run hot. Some facilities evaporate water to cool them, and a large data center can use about a million gallons on a hot day. Others recycle or reuse it.
 
@@ -44,13 +40,33 @@ Noise: cooling fans run 24 hours a day. In some towns, neighbors have sued over 
 
 Permanent jobs: construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket.
 
-The electricity figures cover all data centers, not AI alone.
+**Scene (your own drawing, no board):**
 
-## SHRINKING THE BILL
+Companies are responding in three ways: arranging more power, improving cooling, and building more efficient chips.
 
-AI companies know all of this, and the race to shrink the bill is real. Microsoft signed a long-term agreement for electricity from a planned restart of a reactor at Three Mile Island to support its data centers. Other companies are betting on new kinds of small reactors. Some cooling systems reuse water in closed loops, reducing how much new water they need. And custom computer chips are being built to squeeze more math out of every watt.
+### Board 3: Meeting the Demand
+
+**Image file:** `data-centers-meeting-demand.jpg`
+
+![Meeting the Demand](../course-assets/data-centers/data-centers-meeting-demand.jpg)
+
+**Teaching content:**
+
+**More Power:** Companies are arranging additional electricity supplies for their data centers.
+
+**Better Cooling:** Some cooling designs reuse water, reducing how much new water they need.
+
+**More Efficient Chips:** Better chips can do more work with each unit of electricity.
+
+**Takeaway:** More power meets demand. Better efficiency reduces the resources needed per task.
+
+**Scene (your own drawing, no board):**
+
+More efficient tasks do not automatically mean a smaller total footprint. If use grows fast enough, total demand can still rise.
 
 ## THE FOOTPRINT, HONESTLY
+
+One request is a small part of the picture. Running these services for millions of people is what makes the infrastructure so large.
 
 Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet.
 

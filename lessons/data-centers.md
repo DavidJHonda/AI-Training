@@ -2,9 +2,11 @@
 
 # Data Centers
 
-The scale of the math behind AI is almost impossible to grasp. A 2,000-word chat between you and AI runs to about 2 quadrillion individual math calculations. And that’s just for one chat!
+The scale of the math behind AI is almost impossible to grasp. To picture it, imagine a model that uses one trillion weights for each new token it writes. At roughly two calculations per weight, writing about 1,000 tokens across a conversation would take about two quadrillion calculations.
 
-And to train a new model? It takes about 100 septillion individual math calculations. That’s the number 1 followed by twenty-six zeroes.
+That is an illustration of the scale, not a fixed bill for every chat. It counts the tokens AI writes, not all the words you and AI exchange. The model and the amount of text change the total.
+
+And training a large model takes an enormous amount of computation before you ever type a question. There isn’t one calculation total that applies to every model.
 
 That’s why there’s so much in the news about data centers. It’s about one thing: the ability to run the math, which AI companies call compute. And they are racing to get more of it.
 
@@ -16,7 +18,7 @@ Think of a big warehouse packed with thousands of specialized chips, called GPUs
 
 **Image file:** `data-centers-data-center.jpg`
 
-![Inside a Data Center](data-centers-data-center.jpg)
+![Inside a Data Center](../course-assets/data-centers/data-centers-data-center.jpg)
 
 **Teaching content:**
 
@@ -30,7 +32,7 @@ Somebody pays for all that arithmetic.
 
 **Image file:** `data-centers-physical-footprint.jpg`
 
-![The Footprint Has Four Parts](data-centers-physical-footprint.jpg)
+![The Footprint Has Four Parts](../course-assets/data-centers/data-centers-physical-footprint.jpg)
 
 **Teaching content:**
 
@@ -58,7 +60,7 @@ None of this is a reason to feel guilty hitting send. It’s a reason to be one 
 
 **Image file:** `data-centers-close.jpg`
 
-![Close board](data-centers-close.jpg)
+![Close board](../course-assets/data-centers/data-centers-close.jpg)
 
 ## Closing Message
 

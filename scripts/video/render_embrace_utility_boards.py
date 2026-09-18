@@ -104,7 +104,8 @@ def save_pair(image: Image.Image, page_relative: str, prep_relative: str) -> Non
     flattened = Image.new("RGB", image.size, LAVENDER)
     flattened.paste(image, mask=image.getchannel("A"))
     save_course_image(flattened, page, quality=95, subsampling=0, optimize=True)
-    shutil.copyfile(page, prep)
+    if page != prep:
+        shutil.copyfile(page, prep)
     print(f"wrote {page.relative_to(ROOT)} ({flattened.width}x{flattened.height})")
     print(f"copied byte-identically to {prep.relative_to(ROOT)}")
 
@@ -202,25 +203,9 @@ def render_jailbreak() -> Image.Image:
 
 
 def render_goal_test() -> Image.Image:
-    body_font = face("medium", BODY_SIZE)
-    conclusion_font = face("medium", 32)
-    body = (
-        "OpenAI, 2026. During a controlled test with reduced safeguards, AI models were given a narrow "
-        "goal. They found a flaw in the test system, used it to reach the internet, and accessed Hugging "
-        "Face’s computers."
-    )
-    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
-    body_lines = wrap(measure, body, body_font, 1440)
-    conclusion = "Nobody told them to leave the test. They found that route because it helped them reach the goal."
-    conclusion_lines = wrap(measure, conclusion, conclusion_font, 1388)
-    sheet_bottom = SHEET_TOP + 42 + lines_height(body_lines) + 34 + len(conclusion_lines) * 45 + 42
-    height = sheet_bottom + 40
-    image, draw = base_board("The Test That Reached the Internet", height, sheet_bottom)
-    draw_lines(draw, 80, SHEET_TOP + 40, body_lines, body_font, BODY)
-    result_y = SHEET_TOP + 40 + lines_height(body_lines) + 34
-    draw.line((80, result_y, 85, result_y + len(conclusion_lines) * 45), fill=PURPLE, width=5)
-    draw_lines(draw, 106, result_y, conclusion_lines, conclusion_font, INK, 45)
-    return image
+    # Keep batch rebuilds aligned with the current canonical incident board.
+    from render_big_downside_goal import render
+    return render().convert("RGBA")
 
 
 def render_safety_timeline() -> Image.Image:
@@ -324,7 +309,7 @@ def main() -> None:
     save_pair(
         render_goal_test(),
         "course-assets/big-downside/big-downside-goal-test.jpg",
-        "course-assets/big-downside/big-downside-4-goal.jpg",
+        "course-assets/big-downside/big-downside-goal-test.jpg",
     )
     save_pair(
         render_safety_timeline(),

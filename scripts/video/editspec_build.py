@@ -215,10 +215,17 @@ class Build:
     def fit_w(w, h):
         return max(w * W / (W - 2 * (RING_PX + DIVE_MARGIN)), h * W / (H - 2 * (RING_PX + DIVE_MARGIN)))
 
-    def board(self, key, asset, src_in, src_out, density, targets, banner_at=None, pullback_at=None, banner=None, min_open=2 * FPS, push=True):
+    def board(self, key, asset, src_in, src_out, density, targets, banner_at=None, pullback_at=None, banner=None,
+              min_open=2 * FPS, push=True, per_target_camera=False, lead_camera=False):
         """targets: list of dicts {label, at (s), rects [xyxy image px, ...], color, cam (xyxy, dense only)}.
         A target with several rects is an explicitly combined point (all ring together).
-        Rings run from `at` until the next target's `at` (or banner_at / the board's end)."""
+        Rings run from `at` until the next target's `at` (or banner_at / the board's end).
+
+        Dense-board options are opt-in so existing builders retain their established motion:
+          * per_target_camera sizes each camera window to its own target instead of sharing one dive width.
+          * lead_camera completes each move at the spoken onset instead of beginning it there.
+          * a target with full_view=True keeps the complete board visible for that state.
+        """
         asset = Path(asset); canvas_path, cw, ch, ox, oy = self.compose(asset, key)
         n = src_out - src_in; on = lambda t: fr(t) - src_in
         sh = lambda r: [r[0] + ox, r[1] + oy, r[2] - r[0], r[3] - r[1]]
@@ -247,16 +254,55 @@ class Build:
                 end_w = min(float(cw), max(end_w, need))
             beats = [dict(label='full-view', frames=n, **{'from': full}, to=[cw / 2, ch / 2, end_w])]
         else:
-            dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in targets)
-            est = max(first, 2 * FPS)   # spec rule 3: named at once -> the ring pops in the full view and the dive waits
-            beats = [dict(label='establish', frames=est, **{'from': full}, to=full)]; cursor = est   # static full view (owner rule 2026-09-14: no zoom while the full board is shown)
-            for i, t in enumerate(targets):
-                c = sh(t['cam']); cam = [c[0] + c[2] / 2, c[1] + c[3] / 2, dive_w]
-                nxt = on(targets[i + 1]['at']) if i + 1 < len(targets) else (on(pullback_at) if pullback_at else n)
-                hold = nxt - cursor - TRANSIT; assert hold > 0, (key, t['label'], hold)
-                beats += [dict(label=f"to-{t['label']}", frames=TRANSIT, to=cam), dict(label=f"hold-{t['label']}", frames=hold, to=cam)]; cursor = nxt
-            if pullback_at:
-                beats += [dict(label='pull-back', frames=PULLBACK, to=full), dict(label='full-hold', frames=n - cursor - PULLBACK, to=full)]
+            framed = [t for t in targets if not t.get('full_view')]
+            dive_w = max(self.fit_w(*sh(t['cam'])[2:]) for t in framed) if framed else float(cw)
+            cams = []
+            for t in targets:
+                if t.get('full_view'):
+                    cams.append(full)
+                    continue
+                c = sh(t['cam'])
+                width = self.fit_w(c[2], c[3]) if per_target_camera else dive_w
+                cams.append([c[0] + c[2] / 2, c[1] + c[3] / 2, width])
+
+            if lead_camera:
+                # Hold the prior state until just before the next spoken onset,
+                # then arrive on the new target exactly when its ring appears.
+                beats, cursor, current, current_label = [], 0, full, 'establish'
+                for t, cam in zip(targets, cams):
+                    # camera_at may lead the ring onset when a source/board cut
+                    # should land on an already-settled crop.  The ring still
+                    # appears only at the spoken `at` timestamp above.
+                    arrival = on(t.get('camera_at', t['at']))
+                    moving = any(abs(a - b) > .01 for a, b in zip(current, cam))
+                    start = max(cursor, arrival - TRANSIT) if moving else arrival
+                    if start > cursor:
+                        beats.append(dict(label=current_label, frames=start - cursor, **({'from': current} if not beats else {}), to=current))
+                    if arrival > start:
+                        beats.append(dict(label=f"to-{t['label']}", frames=arrival - start,
+                                          **({'from': current} if not beats else {}), to=cam))
+                    cursor, current, current_label = arrival, cam, f"hold-{t['label']}"
+                if pullback_at:
+                    arrival = on(pullback_at); start = max(cursor, arrival - PULLBACK)
+                    if start > cursor:
+                        beats.append(dict(label=current_label, frames=start - cursor,
+                                          **({'from': current} if not beats else {}), to=current))
+                    if arrival > start:
+                        beats.append(dict(label='pull-back', frames=arrival - start,
+                                          **({'from': current} if not beats else {}), to=full))
+                    cursor, current, current_label = arrival, full, 'full-hold'
+                if n > cursor:
+                    beats.append(dict(label=current_label, frames=n - cursor,
+                                      **({'from': current} if not beats else {}), to=current))
+            else:
+                est = max(first, 2 * FPS)   # spec rule 3: named at once -> the ring pops in the full view and the dive waits
+                beats = [dict(label='establish', frames=est, **{'from': full}, to=full)]; cursor = est   # static full view (owner rule 2026-09-14: no zoom while the full board is shown)
+                for i, (t, cam) in enumerate(zip(targets, cams)):
+                    nxt = on(targets[i + 1]['at']) if i + 1 < len(targets) else (on(pullback_at) if pullback_at else n)
+                    hold = nxt - cursor - TRANSIT; assert hold > 0, (key, t['label'], hold)
+                    beats += [dict(label=f"to-{t['label']}", frames=TRANSIT, to=cam), dict(label=f"hold-{t['label']}", frames=hold, to=cam)]; cursor = nxt
+                if pullback_at:
+                    beats += [dict(label='pull-back', frames=PULLBACK, to=full), dict(label='full-hold', frames=n - cursor - PULLBACK, to=full)]
         assert sum(b['frames'] for b in beats) == n and all(b['frames'] > 0 for b in beats), key
         spec = dict(image=str(canvas_path), fps=FPS, out_w=W, out_h=H, upscale=3, beats=beats, rings=rings)
         (self.out / f'leg-{key}.json').write_text(json.dumps(spec, indent=1))

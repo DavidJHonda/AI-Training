@@ -40,6 +40,12 @@ Notice: the AI’s words might even be the kinder ones. The difference is what h
 
 **Scene (your own drawing, no board):**
 
+There are three different jobs here. Sometimes the job can end in the chat: putting an ordinary frustration into words may help you cool down before you post something you regret. Not every emotional conversation needs another step.
+
+Sometimes AI helps you get ready for an action. It can help draft a message asking your teacher for an extension, but you still need to send it. It can help you practice telling your mom about your grades, but she still needs to hear from you. Preparing is useful when it leads to the action you needed.
+
+If someone may be unsafe, leave the chat and bring in a person who can act. Do not spend more time polishing a message when someone needs help now.
+
 **Content note:** The next story discusses suicide.
 
 In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie Rottenberg, who had spent months sharing thoughts she hid from the people around her with a ChatGPT persona she called Harry. The chatbot responded with warmth and sometimes encouraged Sophie to seek help. But it could not contact her family, alert her therapist, or bring anyone into the room.

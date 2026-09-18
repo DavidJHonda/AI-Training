@@ -20,7 +20,7 @@ Pay attention as AI changes. You do not need to follow every announcement. A few
 
 **Image file:** `curious-and-flexible-stay-curious.jpg`
 
-![Stay Curious](curious-and-flexible-stay-curious.jpg)
+![Stay Curious](../course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg)
 
 **Teaching content:**
 
@@ -40,7 +40,7 @@ Curiosity helps you discover new AI tools and features. Flexibility is what happ
 
 **Image file:** `curious-and-flexible-be-flexible.jpg`
 
-![Be Flexible](curious-and-flexible-be-flexible.jpg)
+![Be Flexible](../course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg)
 
 **Teaching content:**
 
@@ -58,7 +58,7 @@ Curiosity finds the possibility. Flexibility decides whether it belongs in your 
 
 **Image file:** `curious-and-flexible-close.jpg`
 
-![Close board](curious-and-flexible-close.jpg)
+![Close board](../course-assets/curious-and-flexible/curious-and-flexible-close.jpg)
 
 ## Closing Message
 

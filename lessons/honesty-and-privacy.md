@@ -14,7 +14,7 @@ AI is an incredibly powerful tool for learning. But there’s a difference betwe
 
 **Image file:** `honesty-and-privacy-school.jpg`
 
-![Using AI in School](honesty-and-privacy-school.jpg)
+![Using AI in School](../course-assets/honesty-and-privacy/honesty-and-privacy-school.jpg)
 
 **Teaching content:**
 
@@ -30,7 +30,7 @@ When it’s okay to use AI in class, there are a few smart guidelines to follow.
 
 **Image file:** `honesty-and-privacy-best-practices.jpg`
 
-![When AI Help Is Allowed](honesty-and-privacy-best-practices.jpg)
+![When AI Help Is Allowed](../course-assets/honesty-and-privacy/honesty-and-privacy-best-practices.jpg)
 
 **Teaching content:**
 
@@ -50,7 +50,7 @@ Giving AI useful context can improve its answer. But this makes privacy difficul
 
 **Image file:** `honesty-and-privacy-privacy.jpg`
 
-![How much should you share?](honesty-and-privacy-privacy.jpg)
+![How much should you share?](../course-assets/honesty-and-privacy/honesty-and-privacy-privacy.jpg)
 
 **Teaching content:**
 
@@ -68,13 +68,15 @@ Picture this. You snap a quick photo of your math homework so AI can help with o
 
 **Image file:** `honesty-and-privacy-share-only.jpg`
 
-![Share Only What AI Needs](honesty-and-privacy-share-only.jpg)
+![Share Only What AI Needs](../course-assets/honesty-and-privacy/honesty-and-privacy-share-only.jpg)
 
 **Teaching content:**
 
 A photo of a math worksheet also reveals the student’s name, school and class, locker combination, prescription medication, home address, and a private phone notification.
 
 You meant to share the homework. The whole photo became the prompt.
+
+Before uploading, crop the photo to the problem and remove any identifying details that remain. Check the edited image before you send it. Or type the problem instead.
 
 ## WHY THIS MATTERS
 
@@ -90,7 +92,7 @@ If you shared a password or security code, deleting the chat isn’t enough. Go 
 
 **Image file:** `honesty-and-privacy-close.jpg`
 
-![Close board](honesty-and-privacy-close.jpg)
+![Close board](../course-assets/honesty-and-privacy/honesty-and-privacy-close.jpg)
 
 ## Closing Message
 

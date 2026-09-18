@@ -8,7 +8,7 @@ The AI argument is getting louder and louder. Why? Because the technology is adv
 
 **Image file:** `pace-of-change-three-years.jpg`
 
-![ChatGPT: 2023 vs. 2026](pace-of-change-three-years.jpg)
+![ChatGPT: 2023 vs. 2026](../course-assets/pace-of-change/pace-of-change-three-years.jpg)
 
 **Teaching content:**
 
@@ -22,7 +22,7 @@ Context window. In 2023 the free chatbots most people used could only hold a few
 
 Doing. In 2023 it told you the steps to do a thing, and wished you luck. In 2026 it does the thing. AI agents can even book, build, and fix while you watch.
 
-The AI companies are in a race to dominate the industry, so they release new models every couple of months. Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it. A limitation can disappear quickly, so today’s “no” is not necessarily permanent.
+The AI companies are in a race to dominate the industry, so they release new models every couple of months. New models and app updates can improve what AI does, but not every release improves every task. A limitation can disappear quickly, so today’s “no” is not necessarily permanent.
 
 ## WHY SO FAST?
 
@@ -32,7 +32,7 @@ Three concepts are driving the acceleration, and you already understand the firs
 
 **Image file:** `pace-of-change-what-speeds-it-up.jpg`
 
-![Why So Fast?](pace-of-change-what-speeds-it-up.jpg)
+![Why So Fast?](../course-assets/pace-of-change/pace-of-change-what-speeds-it-up.jpg)
 
 **Teaching content:**
 
@@ -42,17 +42,19 @@ More compute: AI requires lots of chips sitting in data centers. AI companies ar
 
 AI helps build AI: the strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
 
-Slow down and read that third one again. AI is already helping people build better AI.
+That third idea matters. AI is already helping people build better AI.
 
 ## 4 FUTURE IDEAS
 
 What does the future of AI look like? There are four key ideas driving the AI companies forward. One is happening in limited form. The other three describe a proposed process or possible milestones that have not been demonstrated.
 
+The first two ideas concern how AI might improve. The next two concern how capable it might become. These are four ideas to understand, not four steps that are certain to happen in order.
+
 ### Board 3: Could AI Improve Itself?
 
 **Image file:** `pace-of-change-could-ai-improve-itself.jpg`
 
-![Could AI Improve Itself?](pace-of-change-could-ai-improve-itself.jpg)
+![Could AI Improve Itself?](../course-assets/pace-of-change/pace-of-change-could-ai-improve-itself.jpg)
 
 **Teaching content:**
 
@@ -62,11 +64,13 @@ Self-improving AI has not been demonstrated: an AI would improve its own design,
 
 One is human-directed. The other would be a self-reinforcing loop.
 
+Now switch from how AI might improve to how capable it might become.
+
 ### Board 4: How Far Can AI Go?
 
 **Image file:** `pace-of-change-how-far-can-ai-go.jpg`
 
-![How Far Can AI Go?](pace-of-change-how-far-can-ai-go.jpg)
+![How Far Can AI Go?](../course-assets/pace-of-change/pace-of-change-how-far-can-ai-go.jpg)
 
 **Teaching content:**
 
@@ -80,7 +84,7 @@ Nobody knows whether AI will reach either milestone.
 
 **Image file:** `pace-of-change-close.jpg`
 
-![Close board](pace-of-change-close.jpg)
+![Close board](../course-assets/pace-of-change/pace-of-change-close.jpg)
 
 ## Closing Message
 

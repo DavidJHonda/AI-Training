@@ -4,7 +4,7 @@ Initially prepared against the lesson pages on 2026-09-04; individual kits are u
 
 `Master Prompt.md` is retired and is never uploaded. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
 
-Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. Save new raw videos to `Prompts/<slug>-reroll.mp4` for evaluation; do not overwrite the live video before approval.
+Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. Before generation, turn Visible watermarking off as described in Edit Spec section 8. Save new raw videos to `Prompts/<slug>-reroll.mp4`, or the next unused numbered reroll filename. Do not overwrite existing raw rolls or the live video.
 
 ## Scene plan for review
 
@@ -12,13 +12,13 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 | --- | --- |
 | Opener | Normal-looking failures → rip-current analogy → three groups of traps → close |
 | Hallucination | Fabricated study reveal → four reasons → real Reddit joke misread → trace the source → close |
-| Training Bias | Cow/grass shortcut → three distortions → three questions → historical stale-data chat → RAG → close |
+| Training Bias | Cow/grass shortcut → three distortions → three questions → historical wrong-answer chat and current-source correction → RAG → close |
 | Document Trap | Tournament exception → split/search/load → RAG → four retrieval moves applied to the rulebook → close |
-| Mind Trap | Mom versus chatbot college advice → brief ELIZA → why human language feels human → keep the decision → close |
-| Flattery Trap | Gatsby feedback comparison → human-feedback training → brief historical sycophancy failure → five usable feedback moves → close |
+| Mind Trap | Mom versus chatbot college advice → brief ELIZA → why human language feels human → shared context versus shared experience → movie versus college → keep the decision → close |
+| Flattery Trap | Gatsby feedback comparison → human-feedback training → brief historical sycophancy failure → five demonstrated feedback moves with explanations and limits → close |
 | Engagement Trap | Slope question, two endings → infinite scroll removes a decision → deliberately stop or continue → close |
-| Support Trap | Sister versus chatbot at lunch → useful preparation versus missing real support → content note and Sophie story → urgent human-help actions → close |
-| Fake Trap | School-closure clip → harmless versus harmful fakes → four motives → detector limits → independent source checks → help if targeted → close |
+| Support Trap | Sister versus chatbot at lunch → venting, preparation followed by action, and danger needing a person → content note and Sophie story → urgent human-help actions → close |
+| Fake Trap | School-closure clip → harmless versus harmful fakes → four motives → detector limits → three source checks applied to the school-closure clip → help if targeted → close |
 
 ## Opener
 
@@ -120,7 +120,7 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Support Trap
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the lunch comparison's narration reserved for post-production; page-only sentences replace the 2026-09-07 narration expansions).
+Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the lunch comparison's narration reserved for post-production; the activity’s three-way distinction is included before the serious story).
 
 - Prompt: `Prompts/support-trap-video-prompt.txt`
 - Markdown: `lessons/support-trap.md`

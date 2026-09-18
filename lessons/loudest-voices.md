@@ -10,7 +10,7 @@ How about this? Let’s ask the people who make AI for a living. Same field. Sam
 
 **Image file:** `loudest-voices-experts.jpg`
 
-![Even the Experts Don’t Know](loudest-voices-experts.jpg)
+![Even the Experts Don’t Know](../course-assets/loudest-voices/loudest-voices-experts.jpg)
 
 **Teaching content:**
 
@@ -22,7 +22,7 @@ The Worrier is Geoffrey Hinton. He won a Nobel Prize for the ideas that AI runs 
 
 The Doubter is Yann LeCun. He won the Turing Award for helping invent modern AI. He thinks everyone is building AI the wrong way. He says: “LLMs basically are a dead end when it comes to superintelligence,” and “LLMs have a more superficial understanding of the world than a house cat.” But he admits: “I do acknowledge risks. AI is not something that just happens. We build it, we have agency in what it becomes. Hence we control the risks.”
 
-Sources: Amodei, Machines of Loving Grace (2024) and The Adolescence of Technology (2026); Hinton, Ai4 conference (August 2025) and Gitex Europe (2025); LeCun, Financial Times (January 2026) and his own posts (2023).
+**Verification only — do not narrate or display:** Amodei, Machines of Loving Grace (2024) and The Adolescence of Technology (2026); Hinton, Ai4 conference (August 2025) and Gitex Europe (2025); LeCun, Financial Times (January 2026) and his own posts (2023).
 
 None of them has a simple, one-sided view. The Optimist sees danger. The Worrier sees benefits. The Doubter acknowledges risks. That’s the tell: the people who know AI best still don’t know where it’s going. Where AI will be in ten years is a bet.
 
@@ -34,7 +34,7 @@ Every big technology arrives with confident predictions from the smartest people
 
 **Image file:** `loudest-voices-missed-predictions.jpg`
 
-![This Has Happened Before](loudest-voices-missed-predictions.jpg)
+![This Has Happened Before](../course-assets/loudest-voices/loudest-voices-missed-predictions.jpg)
 
 **Teaching content:**
 
@@ -58,7 +58,7 @@ Because the future is hard to predict. A technology becomes the future only when
 
 **Image file:** `loudest-voices-close.jpg`
 
-![Close board](loudest-voices-close.jpg)
+![Close board](../course-assets/loudest-voices/loudest-voices-close.jpg)
 
 ## Closing Message
 

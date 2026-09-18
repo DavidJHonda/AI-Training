@@ -1,21 +1,149 @@
 # Embrace the Future Video Kits
 
-Rebuilt 2026-09-11 under the speak-the-answers method (see `scripts/video/README.md`, "Speak the answers", and `EDIT-SPEC.md`). Every Markdown was rewritten from the live page and the boards as they render today, with each board's text written out as prose beneath its image; every upload copy in `lessons/` is byte-for-byte the page asset. Each prompt is self-contained and under 500 words. Boards with visible faces are never uploaded; the prompt reserves their narration and the real board is inserted in editing. Per-lesson upload checklists: `Prompts/<slug>-upload-files.txt`.
+Prep updated 2026-09-18. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
 
-| Lesson | Markdown | Prompt | Notebook sources | Post-production only (faces) | Status |
-|---|---|---|---|---|---|
-| Opener | `lessons/Opener-Embrace.md` | `Prompts/opener-embrace-video-prompt.txt` | opener-embrace-1-edge-of-the-map, opener-embrace-2-map, opener-embrace-3-close | none | materials ready, roll pending |
-| Loudest Voices | `lessons/loudest-voices.md` | `Prompts/loudest-voices-video-prompt.txt` | loudest-voices-1-experts, loudest-voices-2-missed-predictions, loudest-voices-3-close | none | materials ready, roll pending |
-| Pace Of Change | `lessons/pace-of-change.md` | `Prompts/pace-of-change-video-prompt.txt` | pace-of-change-1-three-years, pace-of-change-2-accelerants, pace-of-change-3-future-research, pace-of-change-4-future-capability, pace-of-change-5-close | none | materials ready, roll pending |
-| Big Downside | `lessons/big-downside.md` | `Prompts/big-downside-video-prompt.txt` | big-downside-1-guardrails, big-downside-3-policy-puppetry, big-downside-4-voice-clone, big-downside-5-goal-test, big-downside-6-safety-timeline, big-downside-6-close | big-downside-2-jailbreak | materials ready, roll pending |
-| Big Upside | `lessons/big-upside.md` | `Prompts/big-upside-video-prompt.txt` | big-upside-2-discovery, big-upside-3-help, big-upside-4-close | big-upside-1-protein | materials ready, roll pending |
-| Rise Of Agents | `lessons/rise-of-agents.md` | `Prompts/rise-of-agents-video-prompt.txt` | rise-of-agents-2-chatbot-vs-agent, rise-of-agents-3-loop, rise-of-agents-4-rogue, rise-of-agents-5-close | rise-of-agents-1-gps | materials ready, roll pending |
-| Work Changes | `lessons/work-changes.md` | `Prompts/work-changes-video-prompt.txt` | work-changes-1-strengths, work-changes-3-automate-augment, work-changes-4-what-changes, work-changes-5-close | work-changes-2-assignment | materials ready, roll pending |
-| Data Centers | `lessons/data-centers.md` | `Prompts/data-centers-video-prompt.txt` | data-centers-1-data-center, data-centers-2-footprint, data-centers-3-close | none | materials ready, roll pending |
-| Unexpected Results | `lessons/unexpected-results.md` | `Prompts/unexpected-results-video-prompt.txt` | unexpected-results-1-plans, unexpected-results-2-close | none | materials ready, roll pending |
+Use current Markdown in `lessons/`, canonical JPGs in each `course-assets/` lesson folder, and the matching prompt and upload checklist in `Prompts/`. Markdown contains the spoken teaching in lesson order; it is not a script for reading production labels. Upload selected JPGs separately. There are no upload JPG copies in `lessons/` or `illustrations/`.
 
-Notes:
-- Big Upside no longer carries the Hassabis timeline board on the page; his story is page prose and is taught from the Markdown. The old `big-upside-1-hassabis.jpg` copy was deleted.
-- Big Downside's "Pacing the Frontier" quote is a text block on the page, not a board; it is in the Markdown as prose. The old `big-downside-6-quote.jpg` copy was deleted.
-- Data Centers board 1 is a photo-style illustration with one distant figure and no visible face. If Notebook rejects it, drop it and roll again; the Markdown carries its description.
-- Retired copies of the September 4 numbered boards were deleted when the upload sets were rebuilt; the page assets in `illustrations/` are the originals.
+## Current source sets
+
+All paths below are repository-relative. Each named prompt and checklist is in `Prompts/`.
+
+### opener-embrace
+
+- Markdown: `lessons/Opener-Embrace.md`
+- Prompt: `opener-embrace-video-prompt.txt`
+- Upload checklist: `opener-embrace-upload-files.txt`
+- Canonical folder: `course-assets/embrace-the-future-opener/`
+- Boards in lesson order:
+  - `embrace-the-future-opener-voices.jpg` — upload
+  - `embrace-the-future-opener-edge-of-the-map.jpg` — upload
+  - `embrace-the-future-opener-section-map.jpg` — upload
+  - `embrace-the-future-opener-close.jpg` — upload
+
+### loudest-voices
+
+- Markdown: `lessons/loudest-voices.md`
+- Prompt: `loudest-voices-video-prompt.txt`
+- Upload checklist: `loudest-voices-upload-files.txt`
+- Canonical folder: `course-assets/loudest-voices/`
+- Boards in lesson order:
+  - `loudest-voices-experts.jpg` — upload
+  - `loudest-voices-missed-predictions.jpg` — upload
+  - `loudest-voices-close.jpg` — upload
+
+### pace-of-change
+
+- Markdown: `lessons/pace-of-change.md`
+- Prompt: `pace-of-change-video-prompt.txt`
+- Upload checklist: `pace-of-change-upload-files.txt`
+- Canonical folder: `course-assets/pace-of-change/`
+- Boards in lesson order:
+  - `pace-of-change-three-years.jpg` — upload
+  - `pace-of-change-what-speeds-it-up.jpg` — upload
+  - `pace-of-change-could-ai-improve-itself.jpg` — upload
+  - `pace-of-change-how-far-can-ai-go.jpg` — upload
+  - `pace-of-change-close.jpg` — upload
+
+### big-downside
+
+- Markdown: `lessons/big-downside.md`
+- Prompt: `big-downside-video-prompt.txt`
+- Upload checklist: `big-downside-upload-files.txt`
+- Canonical folder: `course-assets/big-downside/`
+- Boards in lesson order:
+  - `big-downside-safety-guardrails.jpg` — upload
+  - `big-downside-jailbreak.jpg` — post-production only; reserve narration
+  - `big-downside-policy-puppetry.jpg` — upload
+  - `big-downside-voice-cloning.jpg` — upload
+  - `big-downside-goal-test.jpg` — upload
+  - `big-downside-safety-timeline.jpg` — upload
+  - `big-downside-close.jpg` — upload
+
+### big-upside
+
+- Markdown: `lessons/big-upside.md`
+- Prompt: `big-upside-video-prompt.txt`
+- Upload checklist: `big-upside-upload-files.txt`
+- Canonical folder: `course-assets/big-upside/`
+- Boards in lesson order:
+  - `big-upside-protein.jpg` — post-production only; reserve narration
+  - `big-upside-hassabis-timeline.jpg` — upload
+  - `big-upside-scientific-discovery.jpg` — upload
+  - `big-upside-practical-help.jpg` — upload
+  - `big-upside-close.jpg` — upload
+
+### rise-of-agents
+
+- Markdown: `lessons/rise-of-agents.md`
+- Prompt: `rise-of-agents-video-prompt.txt`
+- Upload checklist: `rise-of-agents-upload-files.txt`
+- Canonical folder: `course-assets/rise-of-agents/`
+- Boards in lesson order:
+  - `rise-of-agents-gps.jpg` — post-production only; reserve narration
+  - `rise-of-agents-chatbot-vs-agent.jpg` — upload
+  - `rise-of-agents-agent-loop.jpg` — upload
+  - `rise-of-agents-rogue.jpg` — upload
+  - `rise-of-agents-close.jpg` — upload
+
+### work-changes
+
+- Markdown: `lessons/work-changes.md`
+- Prompt: `work-changes-video-prompt.txt`
+- Upload checklist: `work-changes-upload-files.txt`
+- Canonical folder: `course-assets/work-changes/`
+- Boards in lesson order:
+  - `work-changes-four-shapes-of-ai-work.jpg` — upload
+  - `work-changes-assignment.jpg` — post-production only; reserve narration
+  - `work-changes-automation-and-augmentation.jpg` — upload
+  - `work-changes-productivity-and-possibilities.jpg` — upload
+  - `work-changes-close.jpg` — upload
+
+### data-centers
+
+- Markdown: `lessons/data-centers.md`
+- Prompt: `data-centers-video-prompt.txt`
+- Upload checklist: `data-centers-upload-files.txt`
+- Canonical folder: `course-assets/data-centers/`
+- Boards in lesson order:
+  - `data-centers-data-center.jpg` — upload
+  - `data-centers-physical-footprint.jpg` — upload
+  - `data-centers-close.jpg` — upload
+
+### unexpected-results
+
+- Markdown: `lessons/unexpected-results.md`
+- Prompt: `unexpected-results-video-prompt.txt`
+- Upload checklist: `unexpected-results-upload-files.txt`
+- Canonical folder: `course-assets/unexpected-results/`
+- Boards in lesson order:
+  - `unexpected-results-plans.jpg` — upload
+  - `unexpected-results-close.jpg` — upload
+
+## Changed teaching and scene directions
+
+- Opener: show the navy “What Everyone’s Saying” board with its four quotes, then the existing map illustration and three-part section map. The added opening-board label does not renumber the existing Board 1 and Board 2 references.
+- Loudest Voices: teach both sides of each expert’s position. References are verification-only, not narration or a source slide.
+- Pace of Change: keep the comparison, three accelerants, improvement-method board, and capability-milestone board in order. Introduce and reconnect the two groups of future ideas; do not turn them into four sequential phases. Avoid claiming every product release improves every task.
+- Big Downside: preserve the revised cyberattack account: reduced safeguards, about 1,200 communicating agents versus about 700 attacking, and attempted record alteration. Cards remain Assignment → Agents Joined Forces → Attack Spread. Keep the incident narration continuous. Research links are verification-only.
+- Big Upside: teach proteins once, then Hassabis’s timeline once, then the two three-card boards. The timeline IS on the current lesson and IS uploaded. Preserve all six examples, scientific qualifications, quotation, personal encouragement, and closing lines. The prompt is under 500 words without dropping these requirements.
+- Rise of Agents: 30 points, 50 clips. Narrate review and approval BEFORE publishing. Explain that an agent loop may stop, fail, or need help. Preserve the four-step loop and both rogue-agent stories.
+- Work Changes: keep the full before/after assignment and the automate/augment connection. Speak “in one study” and “certain tasks” with the productivity percentages.
+- Data Centers: use the hypothetical model from `lessons/one-more-thing.md`: one trillion weights used per generated token, roughly two calculations per weight, and 1,000 generated tokens gives approximately two quadrillion calculations. This is not a fixed 2,000-word chat cost. The unsupported fixed 100-septillion training total is removed from the prep. Keep the all-data-centers electricity qualification and distinguish planned projects from operating systems.
+- Unexpected Results: retain the rat story and four outcomes. Add the general explanation that extra road space can attract more driving, without treating it as proof of the entire Houston travel-time change. The supporting research citation is verification-only.
+
+## Prep versus current page
+
+This pass updates prep materials only. `index.html` and all JPGs are unchanged. The prep deliberately clarifies a few statements still present in page prose or board wording: the Data Centers opening totals, the Pace of Change release generalization, and Rise of Agents’ unconditional loop and publishing shorthand. Narration should use the corrected Markdown; do not restore these older statements from screenshots. These page/board differences remain for a separate lesson edit, not a silent source reversion.
+
+## Production handoff
+
+Follow `Prompts/README.md`, `scripts/video/README.md`, `scripts/video/EDIT-SPEC.md`, and `scripts/video/NARRATION-REVIEW.md`.
+
+- Each prompt stands alone and is under 500 words. Paste it in customization; do not upload it as lesson content.
+- Use drawn scenes rather than stock photos for generated visuals, printed labels, no extra chapter/lesson-number cards, and unchanged, complete supplied boards.
+- Visible-face exclusions are explicit in each checklist. Keep their narration and insert the canonical image in editing. Never recreate the faces.
+- Speak the exact two closing lines. No narration follows them. The standard course closing visual is inserted in editing.
+- Turn visible watermarking off before generation. Save each raw roll under the next unused name.
+- Review changed scene directions before generation. During evaluation, present the proposed box-highlighting plan before edits, under the shared specs. Full-card versus subsection highlighting depends on the spoken explanation; source preparation does not preapprove timings or zooms.
+- Use natural transitions. Decide pauses selectively during editing; do not automatically add one second at each idea or board.
+- Check actual narration after the roll. These sources do not establish a KEEP/REPAIR/REROLL verdict or a shipping status for an existing video.

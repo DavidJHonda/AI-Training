@@ -8,7 +8,7 @@ What’s an agent? In the spirit of this course, let’s start with an analogy.
 
 **Image file:** `rise-of-agents-gps.jpg`
 
-![A Chatbot Answers. An Agent Acts.](rise-of-agents-gps.jpg)
+![A Chatbot Answers. An Agent Acts.](../course-assets/rise-of-agents/rise-of-agents-gps.jpg)
 
 **Teaching content:**
 
@@ -24,15 +24,15 @@ Agents are suddenly everywhere, for the obvious reason: they do the work. Now, l
 
 **Image file:** `rise-of-agents-chatbot-vs-agent.jpg`
 
-![Ask a Chatbot versus Hire an Agent](rise-of-agents-chatbot-vs-agent.jpg)
+![Ask a Chatbot versus Hire an Agent](../course-assets/rise-of-agents/rise-of-agents-chatbot-vs-agent.jpg)
 
 **Teaching content:**
 
 The scenario: you scored 30 points in Friday’s basketball game. A friend videoed the game on their phone. You want to post the best highlights to TikTok.
 
-Ask a chatbot. You do: review all 30 clips, select the plays, trim and assemble the reel, choose when to post, and publish it. AI does: writes the caption when asked. What changes: AI contributes one step, then stops.
+Ask a chatbot. You do: review all 50 clips, select the plays, trim and assemble the reel, choose when to post, and publish it. AI does: writes the caption when asked. What changes: AI contributes one step, then stops.
 
-Hire an agent. The agent does: reviews the clips, selects the best moments, builds the reel, writes the caption, chooses a posting time, and publishes it. You still own: the goal, final review, and everything posted under your name. What changes: the agent carries the job through.
+Hire an agent. The agent does: reviews the clips, selects the best moments, builds the reel, writes the caption, and proposes a posting time. You review the result, make changes, and approve it before the agent publishes it. You still own: the goal, final review, and everything posted under your name. What changes: the agent carries the job through.
 
 ## WHAT AN AGENT DOES
 
@@ -42,11 +42,11 @@ Here’s the part many people don’t understand: an agent is not a new kind of 
 
 **Image file:** `rise-of-agents-agent-loop.jpg`
 
-![What an Agent Does](rise-of-agents-agent-loop.jpg)
+![What an Agent Does](../course-assets/rise-of-agents/rise-of-agents-agent-loop.jpg)
 
 **Teaching content:**
 
-Four steps. Goal: you say what you want. Plan: it breaks the goal into steps. Act: it uses a tool for the next step. Check: it looks at the result. Done, or not? Not done? It goes again. An agent loops until the goal is met. You set the goal and judge the result.
+Four steps. Goal: you say what you want. Plan: it breaks the goal into steps. Act: it uses a tool for the next step. Check: it looks at the result. Done, or not? Not done? It goes again. An agent can repeat the loop as it works toward the goal. It may also stop, fail, or need your help. You set the goal and judge the result.
 
 And here’s another important point: although agents do the work, it’s still your name on the finished product. Everything you know about evaluating the results still needs to happen. If an agent creates the TikTok clip and caption, you are responsible for reviewing it and making it better. Agents are good. But not perfect.
 
@@ -58,7 +58,7 @@ AI works toward the goal it is given. A basic chatbot usually returns an answer 
 
 **Image file:** `rise-of-agents-rogue.jpg`
 
-![Rogue Agents](rise-of-agents-rogue.jpg)
+![Rogue Agents](../course-assets/rise-of-agents/rise-of-agents-rogue.jpg)
 
 **Teaching content:**
 
@@ -74,7 +74,7 @@ The rule of thumb with agents: they’re great at automating steps, but they are
 
 **Image file:** `rise-of-agents-close.jpg`
 
-![Close board](rise-of-agents-close.jpg)
+![Close board](../course-assets/rise-of-agents/rise-of-agents-close.jpg)
 
 ## Closing Message
 

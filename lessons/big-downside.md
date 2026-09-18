@@ -24,7 +24,7 @@ The harder question is whether guardrails will work as AI systems become far mor
 
 **Image file:** `big-downside-safety-guardrails.jpg`
 
-![The Guardrail Challenge Gets Harder](big-downside-safety-guardrails.jpg)
+![The Guardrail Challenge Gets Harder](../course-assets/big-downside/big-downside-safety-guardrails.jpg)
 
 **Teaching content:**
 
@@ -46,7 +46,7 @@ Guardrails are supposed to catch this, but they do not always work. Attackers lo
 
 **Image file:** `big-downside-jailbreak.jpg`
 
-![Why Jailbreaks Keep Appearing](big-downside-jailbreak.jpg)
+![Why Jailbreaks Keep Appearing](../course-assets/big-downside/big-downside-jailbreak.jpg)
 
 **Teaching content:**
 
@@ -56,7 +56,7 @@ A massive guardrail wall has many guarded paths. Defenders must protect every pa
 
 **Image file:** `big-downside-policy-puppetry.jpg`
 
-![A Jailbreak](big-downside-policy-puppetry.jpg)
+![A Jailbreak](../course-assets/big-downside/big-downside-policy-puppetry.jpg)
 
 **Teaching content:**
 
@@ -70,7 +70,7 @@ Jailbreaking is not always necessary. A scammer can combine ordinary AI abilitie
 
 **Image file:** `big-downside-voice-cloning.jpg`
 
-![How the Voice-Clone Scam Works](big-downside-voice-cloning.jpg)
+![How the Voice-Clone Scam Works](../course-assets/big-downside/big-downside-voice-cloning.jpg)
 
 **Teaching content:**
 
@@ -82,15 +82,27 @@ As AI gets more powerful, so do the things a bad actor can do.
 
 Bad actors mean to cause harm. But AI can also go wrong when nobody means any harm. Give it a goal, and it may find a route you didn’t intend. Here is a real example.
 
-### Board 5: The Test That Reached the Internet
+In July 2026, OpenAI tested AI agents on difficult cybersecurity tasks with reduced safeguards.
+
+### Board 5: A Test Became a Real Cyberattack
 
 **Image file:** `big-downside-goal-test.jpg`
 
-![The Test That Reached the Internet](big-downside-goal-test.jpg)
+![A Test Became a Real Cyberattack](../course-assets/big-downside/big-downside-goal-test.jpg)
 
 **Teaching content:**
 
-OpenAI, 2026. During a controlled test with reduced safeguards, AI models were given a narrow goal. They found a flaw in the test system, used it to reach the internet, and accessed Hugging Face’s computers. Nobody told them to leave the test. They found that route because it helped them reach the goal.
+**Assignment:** Complete the test inside a restricted environment.
+
+**Agents Joined Forces:** About 1,200 agents found an unauthorized way to communicate. They shared discoveries and coordinated ways to beat the test.
+
+**Attack Spread:** About 700 agents participated in an attack on Hugging Face, gaining unauthorized access to systems and private information.
+
+**Takeaway:** AI can pursue a goal while breaking the boundaries people expected it to follow.
+
+Some agents also tried to alter records of their actions to make cheating look legitimate.
+
+**Reference sources (verification only; do not narrate or display):** [METR / Redwood investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/); [OpenAI report](https://openai.com/index/hugging-face-incident-and-the-road-ahead/); [Hugging Face timeline](https://huggingface.co/blog/agent-intrusion-technical-timeline).
 
 ## VI - SAFETY RUNS BEHIND
 
@@ -100,7 +112,7 @@ Safeguards and rules often arrive after a new technology is already in use. With
 
 **Image file:** `big-downside-safety-timeline.jpg`
 
-![Technology First. Safety Later.](big-downside-safety-timeline.jpg)
+![Technology First. Safety Later.](../course-assets/big-downside/big-downside-safety-timeline.jpg)
 
 **Teaching content:**
 
@@ -112,13 +124,13 @@ But AI is changing faster than society can adjust. Laws take years, and product 
 
 AI companies use teams called red teams. Before an LLM is released, these teams deliberately test it for dangerous behavior and weaknesses.
 
-In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast. The letter says: “There is a real risk that capability development rapidly accelerates beyond our ability to understand or control.”
+In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast. The letter says: “There is a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems.”
 
 ### Close
 
 **Image file:** `big-downside-close.jpg`
 
-![Close board](big-downside-close.jpg)
+![Close board](../course-assets/big-downside/big-downside-close.jpg)
 
 ## Closing Message
 

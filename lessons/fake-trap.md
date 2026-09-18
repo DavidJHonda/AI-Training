@@ -91,6 +91,8 @@ Fakes can travel quickly when they spike your emotions: outrage, fear, excitemen
 2. **Context.** What happened before and after? What important details are missing?
 3. **Corroboration.** Can an independent source confirm the same event or claim?
 
+Apply all three checks to the school-closure clip. For source, a friend forwarding a video does not tell you who originally posted it. Look for the original announcement from the school. For context, check the date and the full announcement: is it about your school and next week, or an older event? For corroboration, check a separate official school channel or contact the school using details you already trust. Another account reposting the same clip is not independent confirmation. With no confirmation, the claim remains unverified; that does not prove the clip is fake.
+
 **Takeaway:** Verify somewhere the sender does not control.
 
 **Scene (your own drawing, no board):**

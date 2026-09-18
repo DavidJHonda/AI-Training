@@ -6,7 +6,7 @@
 
 **Image file:** `build-your-skills-opener-creed.jpg`
 
-![What Makes You Valuable?](build-your-skills-opener-creed.jpg)
+![What Makes You Valuable?](../course-assets/build-your-skills-opener/build-your-skills-opener-creed.jpg)
 
 **Teaching content:**
 
@@ -22,7 +22,7 @@ This section is about skills like that: the ones you build once and keep forever
 
 **Image file:** `build-your-skills-opener-section-map.jpg`
 
-![Build Your Skills: the section map](build-your-skills-opener-section-map.jpg)
+![Build Your Skills: the section map](../course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg)
 
 **Teaching content:**
 
@@ -34,7 +34,7 @@ Second, skills that grow in value. People skills help you work with others. Crea
 
 Third, stay flexible and make your move. You keep learning as AI changes, then turn your interests into action by building skills and making something real.
 
-**Takeaway:** Three parts: use AI with skill and care, build the skills that grow in value, then make your move.
+**Takeaway:** Build the skills you keep when the tool changes.
 
 ## Keep This Question in Mind
 
@@ -44,7 +44,7 @@ Keep one question in mind through the whole section. Everyone will have the same
 
 **Image file:** `build-your-skills-opener-close.jpg`
 
-![Close board](build-your-skills-opener-close.jpg)
+![Close board](../course-assets/build-your-skills-opener/build-your-skills-opener-close.jpg)
 
 ## Closing Message
 

@@ -11,7 +11,7 @@ Finished videos, boards, and illustrations are grouped by lesson. Lesson text st
 
 ## Videos
 
-Each finished lesson video is `course-assets/<lesson>/<lesson>.mp4`. The Layers activity video is `course-assets/layers/ai-brain-break.mp4`. `index.html` defines the videos students see. Raw generations and pending candidates stay in `Prompts/`; candidates retain their version suffix until approved. The old `videos/` directory is retired.
+Each finished lesson video is `course-assets/<lesson>/<lesson>.mp4`. The Layers activity video (AI Brain Break) lives in its own folder, `course-assets/ai-brain-break/`, with the seven on-screen cards as JPGs. `index.html` defines the videos students see. Raw generations and pending candidates stay in `Prompts/`; candidates retain their version suffix until approved. The old `videos/` directory is retired.
 
 `manifest.json` records the migrated video paths and approved hashes under `video_assets`. When an approved finished video is replaced, update its hash and size in that record.
 

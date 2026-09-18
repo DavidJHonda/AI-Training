@@ -56,7 +56,9 @@ When AI feels like a person, its advice can start to carry the weight of advice 
 
 ## For Decisions That Matter
 
-AI can gather facts, lay out options, and challenge your thinking. But it does not know you or live with the result. Talk it through with people who do. Then make the call.
+AI can gather facts, lay out options, and challenge your thinking. It can use what you share about yourself. That is different from someone who knows you through shared experience and lives with the outcome. Talk important decisions through with people who know you. Then make the call.
+
+Letting AI pick a movie is different from letting it choose your college. For a small choice, you may be happy to take its suggestion. For a decision that can change your life, use its help while keeping the decision yours.
 
 ## Closing Message
 

@@ -64,9 +64,9 @@ You cannot fact-check your way out of this trap because every individual fact ma
 
 Skewed data gives AI a distorted picture. Old data gives it an outdated one.
 
-Training eventually stops. Anything that happens afterward was not part of its training, so it may be missing from the answer. This is a different training-data problem. It is stale information, not a hallucination.
+Training eventually stops. Anything that happens afterward was not part of that training, so it may be missing from the answer. AI can miss information that changed after training. Checking a current source helps you catch an outdated or incorrect answer.
 
-We encountered it while building this course. We asked Claude to check an example sentence from the Tokens lesson:
+We encountered a wrong answer about a current fact while building this course. We asked Claude to check an example sentence from the Tokens lesson:
 
 ### Board 4: Stale Information in Real Life
 
@@ -88,7 +88,7 @@ AI: Yes. Dallas selected Cooper Flagg with the first pick in 2025. My earlier an
 
 **Scene (your own drawing, no board):**
 
-Claude answered from older information without searching first. Once we asked it to check a current source, it corrected itself. When the date matters, that is your move too.
+Claude questioned a correct fact, then corrected its answer after checking a current source. It attributed its mistake to older information, but the conversation alone does not establish the cause. When the date matters, ask AI to verify with a current source.
 
 ## When AI Looks Something Up
 

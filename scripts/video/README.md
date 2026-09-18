@@ -38,7 +38,7 @@ set of global production rules.
 - David maintains the [Video Tracker](https://docs.google.com/spreadsheets/d/16RXfX9awLA8Idu83OBN97bCrMiTzyEOFO4MBpvPWXO8/edit).
   It governs workflow status; do not draft or post tracker rows. If unavailable,
   state that limitation and use verified local artifacts without inventing status.
-- `ai-brain-break.mp4` is an activity inside Layers, not a standard lesson overview.
+- `ai-brain-break.mp4` is an activity inside Layers, not a standard lesson overview; it and its seven cards live in `course-assets/ai-brain-break/`.
   Its deliberately false claims support a debunking exercise; it is exempt from
   the standard close and standard source bundle.
 

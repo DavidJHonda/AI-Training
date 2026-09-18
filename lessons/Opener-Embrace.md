@@ -4,6 +4,14 @@
 
 ## WHAT EVERYONE’S SAYING
 
+### Opening Board: What Everyone’s Saying
+
+**Image file:** `embrace-the-future-opener-voices.jpg`
+
+![What Everyone’s Saying](../course-assets/embrace-the-future-opener/embrace-the-future-opener-voices.jpg)
+
+**Teaching content:**
+
 “It’s going to cure diseases.” “It’s going to take your job.” “It’ll do the boring parts for you.” “It will hurt society.” Who’s right? Nobody knows.
 
 You now know how to use AI, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to Be Smarter Than the Tool. Done.
@@ -20,7 +28,7 @@ Think back to history class. Centuries ago, mapmakers sometimes filled waters th
 
 **Image file:** `embrace-the-future-opener-edge-of-the-map.jpg`
 
-![The Edge of the Map](embrace-the-future-opener-edge-of-the-map.jpg)
+![The Edge of the Map](../course-assets/embrace-the-future-opener/embrace-the-future-opener-edge-of-the-map.jpg)
 
 **Teaching content:**
 
@@ -36,7 +44,7 @@ This section takes both views of the map seriously: the monsters and the open wa
 
 **Image file:** `embrace-the-future-opener-section-map.jpg`
 
-![Embrace the Future, the Section Map](embrace-the-future-opener-section-map.jpg)
+![Embrace the Future, the Section Map](../course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg)
 
 **Teaching content:**
 
@@ -54,7 +62,7 @@ Take both views of the map seriously.
 
 **Image file:** `embrace-the-future-opener-close.jpg`
 
-![Close board](embrace-the-future-opener-close.jpg)
+![Close board](../course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg)
 
 ## Closing Message
 

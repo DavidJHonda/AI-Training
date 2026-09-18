@@ -14,7 +14,7 @@ It’s easy to spot who has great people skills. They’re who you want in your 
 
 **Image file:** `people-skills-why-people-matter.jpg`
 
-![People Skills Matter More](people-skills-why-people-matter.jpg)
+![People Skills Matter More](../course-assets/people-skills/people-skills-why-people-matter.jpg)
 
 **Teaching content:**
 
@@ -30,7 +30,7 @@ You do not need a special class to start. People skills grow through everyday in
 
 **Image file:** `people-skills-four-ways.jpg`
 
-![Four ways to practice people skills](people-skills-four-ways.jpg)
+![Four ways to practice people skills](../course-assets/people-skills/people-skills-four-ways.jpg)
 
 **Teaching content:**
 
@@ -48,7 +48,7 @@ AI can suggest what to say. It cannot understand the person for you, earn someon
 
 **Image file:** `people-skills-close.jpg`
 
-![Close board](people-skills-close.jpg)
+![Close board](../course-assets/people-skills/people-skills-close.jpg)
 
 ## Closing Message
 

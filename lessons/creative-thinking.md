@@ -14,7 +14,7 @@ It’s not just “creative-type” people like artists, writers, and musicians.
 
 **Image file:** `creative-thinking-creative-professions.jpg`
 
-![Who Thinks Creatively?](creative-thinking-creative-professions.jpg)
+![Who Thinks Creatively?](../course-assets/creative-thinking/creative-thinking-creative-professions.jpg)
 
 **Teaching content:**
 
@@ -30,7 +30,7 @@ Creativity is not a job title or a personality trait. It is a habit of thinking 
 
 ## WHY IT MATTERS
 
-AI gives polished answers in seconds. And everyone, using the same AI, gets similar answers. The advantage moves to the person who can notice what is missing, connect ideas from different places, and choose the better direction. That’s creative thinking.
+When everyone has access to polished AI answers, your advantage is noticing what’s missing and choosing a better direction. You can connect ideas from different places and find an angle the answer missed. That’s creative thinking.
 
 Creative thinking is not a gift some people receive. It’s a set of habits that you can improve.
 
@@ -38,7 +38,7 @@ Creative thinking is not a gift some people receive. It’s a set of habits that
 
 **Image file:** `creative-thinking-practice-creativity.jpg`
 
-![Four Ways to Think Creatively](creative-thinking-practice-creativity.jpg)
+![Four Ways to Think Creatively](../course-assets/creative-thinking/creative-thinking-practice-creativity.jpg)
 
 **Teaching content:**
 
@@ -56,7 +56,7 @@ These four habits widen your options. Then judgment picks the one that fits.
 
 **Image file:** `creative-thinking-close.jpg`
 
-![Close board](creative-thinking-close.jpg)
+![Close board](../course-assets/creative-thinking/creative-thinking-close.jpg)
 
 ## Closing Message
 

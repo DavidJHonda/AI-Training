@@ -10,7 +10,7 @@ That is where you are now with AI. You have learned the fundamentals and built i
 
 **Image file:** `make-your-move-note.jpg`
 
-![A Note from Nate and Luke](make-your-move-note.jpg)
+![A Note from Nate and Luke](../course-assets/make-your-move/make-your-move-note.jpg)
 
 **Teaching content:**
 
@@ -24,7 +24,7 @@ If you’re thinking about how AI might change careers, you’re not alone. But 
 
 **Image file:** `make-your-move-doctors-teachers-lawyers.jpg`
 
-![How AI Might Change Careers, part one](make-your-move-doctors-teachers-lawyers.jpg)
+![How AI Might Change Careers, part one](../course-assets/make-your-move/make-your-move-doctors-teachers-lawyers.jpg)
 
 **Teaching content:**
 
@@ -38,7 +38,7 @@ Lawyer. AI may help search cases, summarize documents, and help produce early dr
 
 **Image file:** `make-your-move-electricians-designers-entrepreneurs.jpg`
 
-![How AI Might Change Careers, part two](make-your-move-electricians-designers-entrepreneurs.jpg)
+![How AI Might Change Careers, part two](../course-assets/make-your-move/make-your-move-electricians-designers-entrepreneurs.jpg)
 
 **Teaching content:**
 
@@ -56,7 +56,7 @@ In every example above, AI may take on more tasks, but people are responsible fo
 
 **Image file:** `make-your-move-skills.jpg`
 
-![Four Skills to Build](make-your-move-skills.jpg)
+![Four Skills to Build](../course-assets/make-your-move/make-your-move-skills.jpg)
 
 **Teaching content:**
 
@@ -76,7 +76,7 @@ You do not need to choose your entire future today. These four moves work whethe
 
 **Image file:** `make-your-move-actions.jpg`
 
-![Moves to Make](make-your-move-actions.jpg)
+![Moves to Make](../course-assets/make-your-move/make-your-move-actions.jpg)
 
 **Teaching content:**
 
@@ -92,7 +92,7 @@ Step into responsibility: join a club, volunteer, organize something, help lead 
 
 **Image file:** `make-your-move-close.jpg`
 
-![Close board](make-your-move-close.jpg)
+![Close board](../course-assets/make-your-move/make-your-move-close.jpg)
 
 ## Closing Message
 

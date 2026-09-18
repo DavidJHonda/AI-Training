@@ -61,6 +61,10 @@ When retrieval finds the right passages, AI can answer a specific question in se
 3. **Share What Matters.** Paste the exact passage or upload only the relevant section.
 4. **Ask for the Quote.** Ask AI to quote the exact passage, then compare it with the original.
 
+Apply those moves to the rulebook. Ask: “Look in the tournament section. How many personal fouls are allowed? Quote the rule and any exceptions.” Naming the tournament section gives the search a specific target. Asking only about personal fouls keeps it focused on one question.
+
+If the answer still misses the exception, paste the tournament passage yourself. Now the relevant text is directly in the conversation. Ask AI to quote the rule, then compare the quotation with the original rulebook. In this example, the tournament rule allows six fouls. A quotation is useful because you can check it, not because AI quoted it.
+
 **Takeaway:** Make the right passages easier to find.
 
 **Scene (your own drawing, no board):**

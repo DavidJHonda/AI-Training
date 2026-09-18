@@ -10,6 +10,8 @@ There are four moves: think, learn, start, and iterate.
 
 ## THOUGHT PARTNER
 
+The first move is Think. Use AI as a thought partner.
+
 During that history project, your group brainstormed ideas, asked questions, suggested next steps, and helped one another decide what worked. The group acted as your thought partner.
 
 Work with AI like it’s a two-person group project: you and AI. Ask each other questions and bounce ideas off each other. But remember that you make the final decisions.
@@ -18,7 +20,7 @@ Work with AI like it’s a two-person group project: you and AI. Ask each other 
 
 **Image file:** `next-level-moves-summer-business.jpg`
 
-![Starting a Summer Business](next-level-moves-summer-business.jpg)
+![Starting a Summer Business](../course-assets/next-level-moves/next-level-moves-summer-business.jpg)
 
 **Teaching content:**
 
@@ -36,6 +38,8 @@ Notice what AI did first. It did not hand over a list of jobs. It asked about th
 
 ## LEARN WITH AI
 
+The second move is Learn. Use the conversation to understand something new.
+
 During the history group project, some members probably knew more about the subject than others. If a group member didn’t understand a concept, they asked the group.
 
 Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
@@ -44,7 +48,7 @@ Work with AI in the same way. When something does not make sense, ask it to expl
 
 **Image file:** `next-level-moves-profit.jpg`
 
-![Understanding Profit](next-level-moves-profit.jpg)
+![Understanding Profit](../course-assets/next-level-moves/next-level-moves-profit.jpg)
 
 **Teaching content:**
 
@@ -58,6 +62,8 @@ The student asked for the idea in a situation they already knew, so the numbers 
 
 ## FIND A PLACE TO START
 
+The third move is Start. Ask AI to help you find a place to begin.
+
 For the history project, the teacher gave your group a clear topic, such as “What caused the Civil War?” The group knew where to start.
 
 Real life isn’t always that clear. What if you face a big decision or issue, and don’t even know where to start? In those moments, AI can help. Ask it for the first question.
@@ -66,7 +72,7 @@ Real life isn’t always that clear. What if you face a big decision or issue, a
 
 **Image file:** `next-level-moves-college.jpg`
 
-![Thinking About College](next-level-moves-college.jpg)
+![Thinking About College](../course-assets/next-level-moves/next-level-moves-college.jpg)
 
 **Teaching content:**
 
@@ -80,6 +86,8 @@ The student set the rules: one question at a time, and no recommendation yet. AI
 
 ## ITERATE WITH AI
 
+The fourth move is Iterate. Improve the work through several rounds.
+
 That history group project lasted four weeks. At the end of week one, your project was only average. Each week the group made it better and better. And, by the time you presented it to the class, it was a masterpiece!
 
 That process is called iteration. To iterate means to build something in versions, using each version to improve the next.
@@ -90,7 +98,7 @@ Working with AI follows the same pattern. As you add details, correct weak spots
 
 **Image file:** `next-level-moves-iteration.jpg`
 
-![From Idea to Business Plan](next-level-moves-iteration.jpg)
+![From Idea to Business Plan](../course-assets/next-level-moves/next-level-moves-iteration.jpg)
 
 **Teaching content:**
 
@@ -108,7 +116,7 @@ The difference is the details. In the later round, AI had a real plan to test, s
 
 **Image file:** `next-level-moves-close.jpg`
 
-![Close board](next-level-moves-close.jpg)
+![Close board](../course-assets/next-level-moves/next-level-moves-close.jpg)
 
 ## Closing Message
 

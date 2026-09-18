@@ -24,7 +24,7 @@ Once you see that shape, you find it everywhere. Four famous plans, and where ea
 
 **Image file:** `unexpected-results-plans.jpg`
 
-![The Biggest Results Were Never the Plan](unexpected-results-plans.jpg)
+![The Biggest Results Were Never the Plan](../course-assets/unexpected-results/unexpected-results-plans.jpg)
 
 **Teaching content:**
 
@@ -35,6 +35,10 @@ GPS: built by the U.S. military to guide ships, aircraft, and weapons. Today, it
 Cane toads: Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country. Worse than planned.
 
 Wider highways: to ease congestion, Texas spent 2.8 billion dollars widening Houston’s Katy Freeway. By 2014, one rush-hour trip took 51 percent longer than it had three years earlier. Worse than planned.
+
+Why can a wider road fill up again? More room can encourage more driving. People change their routes, take more trips, or live farther away. The added traffic can use up the extra space. That helps explain why widening alone does not guarantee lasting relief; it is not proof that widening caused the entire change in that one Houston trip.
+
+**Verification only — do not narrate or display:** Duranton and Turner, “The Fundamental Law of Road Congestion: Evidence from US Cities” (2011), https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616. Supports the general explanation of added driving, not the specific Houston percentage.
 
 ## THE ONE SURE THING
 
@@ -48,7 +52,7 @@ You do not need to predict the future perfectly. You need to recognize uncertain
 
 **Image file:** `unexpected-results-close.jpg`
 
-![Close board](unexpected-results-close.jpg)
+![Close board](../course-assets/unexpected-results/unexpected-results-close.jpg)
 
 ## Closing Message
 

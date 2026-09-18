@@ -12,9 +12,7 @@ The fake looks real.
 
 every trap looks fine from the inside.
 
-You just spent a whole section under the hood. Now comes the warning that goes with it: the same machinery that makes AI powerful also fails in specific, predictable ways.
-
-And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.
+The same machinery that makes AI powerful also fails in specific, predictable ways. And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.
 
 Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.
 

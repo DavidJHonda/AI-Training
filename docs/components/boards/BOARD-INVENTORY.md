@@ -23,7 +23,7 @@ a decision map, not an instruction to rebuild every asset.
 | What Is AI? | Editorial Explainer plus story frame | Keep | Preserve the category comparison, movie task, and LLM decoder as different teaching jobs. |
 | How an LLM Works | Worked-example utility | Normalize | Keep the map, loop, odds, and myths; align shell details only when touched. |
 | Does AI Think? | Editorial Explainer: Side-by-Side Comparison (`EE-COMPARE`) plus Chinese Room teaching illustration | Keep | Green/purple illustrated comparison with five aligned labeled rows; shared scenario omitted. |
-| What You Can Control | Friendly Schematic | Keep | Preserve the noise-versus-leverage metaphor and action board. |
+| In Your Hands | Friendly Schematic | Keep | Preserve the noise-versus-leverage metaphor and action board. |
 | Does School Matter? | Friendly Schematic | Keep | Preserve the question, AI answer, judgment flow. |
 | Learn with AI | Editorial comparison | Keep | The source-grounded versus general tutor decision is already clear. |
 

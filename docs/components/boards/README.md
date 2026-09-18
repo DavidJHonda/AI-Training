@@ -101,7 +101,7 @@ more conversational rhythm. They are approachable without becoming childish.
 - Support Trap: real value versus the missing person
 - Does AI Think?: symbols in, rule match, likely reply out
 - Does School Matter?: question, AI answer, judgment
-- What You Can Control: noise versus leverage
+- In Your Hands: noise versus leverage
 
 ### Avoid
 
@@ -206,7 +206,7 @@ gold takeaway. Flattery and Support use whitespace between subsections; What
 Is AI uses subtle rules for conversational turns. Both treatments are valid.
 The approved Does AI Think implementation is
 `course-assets/does-ai-think/does-ai-think-side-by-side.jpg`. It uses the unified-card
-variant established by `course-assets/what-you-can-control/what-you-can-control-in-your-hands.jpg`: the
+variant established by `course-assets/in-your-hands/in-your-hands-in-or-out.jpg`: the
 two full-bleed images touch, both columns share one white content card, and the
 five category labels appear as bold inline lead-ins on the left side of the
 aligned comparison rows. Use this variant

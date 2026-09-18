@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO = Path(__file__).resolve().parents[2]
 ALT_OUT = REPO / "board-review-first-four" / "alternatives" / "start-smarter"
-CANONICAL = REPO / "course-assets/what-you-can-control/what-you-can-control-three-moves.jpg"
+CANONICAL = REPO / "course-assets/in-your-hands/in-your-hands-three-choices.jpg"
 LESSON_COPY = asset_path('lessons', "what-you-can-control-2-moves.jpg")
 FONT_DIR = Path("/Users/davidobrien/Library/Fonts")
 

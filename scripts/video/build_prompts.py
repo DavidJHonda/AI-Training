@@ -330,7 +330,7 @@ Teach the peanut butter examples, all comparison results, and the current closin
     props="No readable or pseudo-readable text in drawn props; every readable word must be one the lesson uses.",
     required="Speak the four concept-opening transitions from the current Markdown verbatim, including each main idea label at its section entry. Follow the current Markdown's closing lines verbatim.")
 
-add("what-you-can-control", title="What You Can Control", lo=3, hi="3.5", boards=True,
+add("what-you-can-control", title="In Your Hands", lo=3, hi="3.5", boards=True,
     body="""
 Attached boards in order: 1 out of/in your hands, 2 the three moves, 3 the close.
 

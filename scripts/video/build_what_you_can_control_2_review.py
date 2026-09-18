@@ -34,7 +34,7 @@ B = {k: asset_path('lessons', f'what-you-can-control-{k}.jpg') for k in ('1-hand
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/what-you-can-control/what-you-can-control.mp4', SRC2, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/in-your-hands/in-your-hands.mp4', SRC2, *B.values()])
     b.tall_margin = False   # board swap on the shipped v2: keep v2's edge-to-edge framing of the two tall boards
     b.load_audio([(12.75, 13.30), (31.31, 31.97), (41.03, 41.69), (48.89, 49.38), (70.96, 71.49), (81.94, 82.57), (86.31, 86.96), (120.27, 120.92), (131.43, 131.90),
                   (137.11, 137.62), (150.14, 150.68), (165.58, 166.11), (177.72, 178.08), (182.02, 182.41), (187.95, 188.52), (198.82, 202.20)])

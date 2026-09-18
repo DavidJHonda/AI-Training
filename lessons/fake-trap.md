@@ -6,15 +6,29 @@ Here’s the strange thing about this trap: you already know it. AI can fake a v
 
 Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
 
-### The same clip. Two eras.
+### Board 1: The Same Clip. Two Eras.
 
-**The scenario:** A friend sends a video of your principal announcing that school is closed next week.
+**Course image (post-production only; not a Notebook upload):** `fake-trap-comparison.jpg`
 
-**Before AI: does it look real?** You study the face, voice, and hallway. Everything looks right. Verdict: real.
+**Teaching content:**
 
-**The AI era: where is it from?** You ignore the pixels and check the trail. Nothing appears on the school website. Verdict: unverified.
+The scenario: A friend sends a video of your principal announcing that school is closed next week.
 
-Appearance can mislead. The source trail can be checked.
+**Before AI: Does It Look Real?** You study the face, voice, and hallway. Everything looks right.
+
+- Checked: Face and voice.
+- Matched: How the principal talks.
+- Verdict: Real.
+
+**The AI era: Where Is It From?** You ignore the pixels and check the trail. Nothing appears on the school website.
+
+- Skipped: Face and voice.
+- Checked: The source that would know.
+- Verdict: Unverified.
+
+**Takeaway:** Appearance can mislead. The source trail can be checked.
+
+**Scene (your own drawing, no board):**
 
 **The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
 
@@ -26,17 +40,22 @@ A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyo
 
 Harmful fakes are usually made to get something back. The goal often comes down to four things:
 
-### Why some fakes aren’t friendly
+### Board 2: Why Some Fakes Aren’t Friendly
 
-Money: outrage gets clicks, and clicks pay.
+**Image file:** `fake-trap-reasons.jpg`
 
-Power: change what people believe and you change how they vote, protest, and spend.
+![Why Some Fakes Aren’t Friendly](fake-trap-reasons.jpg)
 
-Fame: a viral clip means followers, and it does not have to be true to travel.
+**Teaching content:**
 
-Cruelty: some fakes exist to humiliate one person.
+1. **Money.** Outrage gets clicks, and clicks pay.
+2. **Power.** Change what people believe and you change how they vote, protest, and spend.
+3. **Fame.** A viral clip means followers. It does not have to be true to travel.
+4. **Cruelty.** Some fakes exist to humiliate one person, especially at school.
 
-Harmful fakes are made to get something back.
+**Takeaway:** Harmful fakes are made to get something back.
+
+**Scene (your own drawing, no board):**
 
 ## The detector dead end
 
@@ -48,15 +67,33 @@ Don’t let a detector make the decision for you. It looks for patterns that may
 
 The test moves off the image and onto the source, no matter how the fake was made.
 
+### Board 3: Check the Source, Not the Pixels
+
+**Course image (post-production only; not a Notebook upload):** `fake-trap-follow-the-source.jpg`
+
+**Teaching content:**
+
+Check the source, not the pixels.
+
+**Takeaway:** Move the test away from appearance and toward independent evidence.
+
 Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
-### Move the test off the image
+### Board 4: Move the Test Off the Image
 
-1. **Source:** Who posted it? Do they have a reason and a way to know?
-2. **Context:** What happened before and after? What important details are missing?
-3. **Corroboration:** Can an independent source confirm the same event or claim?
+**Image file:** `fake-trap-checks.jpg`
 
-Verify somewhere the sender does not control.
+![Move the Test Off the Image](fake-trap-checks.jpg)
+
+**Teaching content:**
+
+1. **Source.** Who posted it? Do they have a reason and a way to know?
+2. **Context.** What happened before and after? What important details are missing?
+3. **Corroboration.** Can an independent source confirm the same event or claim?
+
+**Takeaway:** Verify somewhere the sender does not control.
+
+**Scene (your own drawing, no board):**
 
 ## One rule under all three checks
 
@@ -71,6 +108,8 @@ If a photo, clip, or account uses your name, don’t handle it alone. Save the u
 If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. NCMEC’s Take It Down and CyberTipline can also help.
 
 You did nothing wrong by being targeted.
+
+## Closing Message
 
 Seeing or hearing isn’t proof anymore.
 

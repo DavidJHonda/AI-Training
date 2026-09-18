@@ -6,9 +6,19 @@ Sometimes AI doesn’t invent anything. Every fact in an answer can be real, but
 
 ## Cows on the beach
 
+### Board 1: Wrong Pattern. Wrong Answer.
+
+**Course image (post-production only; not a Notebook upload):** `training-bias-wrong-pattern.jpg`
+
+**Teaching content:**
+
 Computer-vision researchers saw a famous version of this. A model could recognize cows in familiar photos. Then researchers showed it cows in unusual settings, including a beach, and its performance fell apart. Same animal. Different background.
 
 Most of the cows it learned from appeared on green pasture. The model had picked up a shortcut: green grass means cow. It learned the background along with the animal.
+
+**Takeaway:** A model can learn the background instead of the thing that matters.
+
+**Scene (your own drawing, no board):**
 
 This is training bias. The data showed the model a narrow slice of reality, so the model treated that slice as the whole picture.
 
@@ -16,27 +26,39 @@ Training data can create two different traps. It can be skewed, so AI sees a dis
 
 Skewed data creates three overlapping problems.
 
-### How Skewed Data Distorts the Picture
+### Board 2: How Skewed Data Distorts the Picture
 
-**Defaults** Some cases appear too often in the data. The model treats them as the default.
+**Image file:** `training-bias-how-bias-happens.jpg`
 
-**Blind Spots** Some cases appear too rarely. The model performs worse when those cases come up.
+![How Skewed Data Distorts the Picture](training-bias-how-bias-happens.jpg)
 
-**Wrong Patterns** A wrong clue happens to work in training. The model learns the clue instead of the real concept.
+**Teaching content:**
 
-The model repeats the shape of its data.
+1. **Defaults.** Common cases appear often, so the model treats them as the standard answer.
+2. **Blind Spots.** Rare cases barely appear, so the model learns less about them.
+3. **Wrong Patterns.** A clue works during training, so the model learns the clue instead of the concept.
+
+**Takeaway:** The model repeats the shape of its data.
+
+**Scene (your own drawing, no board):**
 
 These patterns can have real consequences. Researchers have found major accuracy gaps across demographic groups in some facial-analysis systems. Face-recognition errors have even contributed to wrongful arrests. The stakes are much higher than a cow photo.
 
 You cannot fact-check your way out of this trap because every individual fact may be correct. Look for sameness. **When every example looks alike, you are seeing the model’s default, not the world.** When you spot it, three questions can reveal what the first answer left out:
 
-### Three Questions That Reveal Bias
+### Board 3: Three Questions That Reveal Bias
 
-1. What’s missing from this answer?
-2. Show me examples that don’t fit the pattern you just gave.
-3. Answer again, leaving out the most famous examples.
+**Image file:** `training-bias-questions-to-ask.jpg`
 
-The model often has more of the picture. It just doesn’t lead with it.
+![Three Questions That Reveal Bias](training-bias-questions-to-ask.jpg)
+
+**Teaching content:**
+
+1. **Ask What’s Missing.** “What’s missing from this answer?”
+2. **Ask for Exceptions.** “Show me examples that don’t fit the pattern you just gave.”
+3. **Remove the Famous.** “Answer again, leaving out the most famous examples.”
+
+**Takeaway:** The model often has the rest of the picture. It just doesn’t lead with it.
 
 ## When Training Data Gets Old
 
@@ -46,15 +68,25 @@ Training eventually stops. Anything that happens afterward was not part of its t
 
 We encountered it while building this course. We asked Claude to check an example sentence from the Tokens lesson:
 
-### Stale Information in Real Life
+### Board 4: Stale Information in Real Life
 
-**You:** What about ‘Cooper Flagg is an amazing basketball player for the Dallas Mavericks’?
+**Image file:** `training-bias-stale.jpg`
 
-**Claude:** One flag though: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You’d want to verify that before committing it to the course.
+![Stale Information in Real Life](training-bias-stale.jpg)
 
-**You:** Search the web and check the date. Was he the first pick in the 2025 NBA draft?
+**Teaching content:**
 
-**Claude:** Yes. Cooper Flagg was selected first overall by the Dallas Mavericks in the 2025 NBA draft. My earlier doubt came from stale information.
+You: What about “Cooper Flagg is an amazing basketball player for the Dallas Mavericks”?
+
+AI: One flag: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You should verify that.
+
+You: Search the web and check the date. Was he the first pick in the 2025 NBA draft?
+
+AI: Yes. Dallas selected Cooper Flagg with the first pick in 2025. My earlier answer relied on older information.
+
+**Takeaway:** When the date matters, verify with a current source.
+
+**Scene (your own drawing, no board):**
 
 Claude answered from older information without searching first. Once we asked it to check a current source, it corrected itself. When the date matters, that is your move too.
 
@@ -64,15 +96,23 @@ AI does not always have to answer from training alone. It can retrieve outside i
 
 This approach is called Retrieval-Augmented Generation, or RAG:
 
-### How RAG Works
+### Board 5: How RAG Works
+
+**Image file:** `training-bias-rag.jpg`
+
+![How RAG Works](training-bias-rag.jpg)
+
+**Teaching content:**
 
 1. **Retrieve.** The system finds information connected to your question.
 2. **Add to Context.** The retrieved material joins the information AI can use.
 3. **Generate.** The model uses that material while it writes the answer.
 
-RAG gives AI more to read. It does not guarantee truth.
+**Takeaway:** RAG gives AI more to read. It does not guarantee truth.
 
 RAG is especially useful when information changed after training. But it only gives AI more to read. It does not guarantee that the source is reliable or that AI interprets it correctly.
+
+## Closing Message
 
 AI repeats the shape of its data.
 

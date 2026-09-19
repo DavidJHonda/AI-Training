@@ -16,7 +16,7 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 | Document Trap | Tournament exception → split/search/load → RAG → four retrieval moves applied to the rulebook → close |
 | Mind Trap | Mom versus chatbot college advice → brief ELIZA → why human language feels human → shared context versus shared experience → movie versus college → keep the decision → close |
 | Flattery Trap | Gatsby feedback comparison → human-feedback training → brief historical sycophancy failure → five demonstrated feedback moves with explanations and limits → close |
-| Engagement Trap | Slope question, two endings → infinite scroll removes a decision → deliberately stop or continue → close |
+| Engagement Trap | Slope question, two endings → infinite scroll removes a decision → Meta settlement restores limits and pauses → deliberate stopping in AI chat → close |
 | Support Trap | Sister versus chatbot at lunch → venting, preparation followed by action, and danger needing a person → content note and Sophie story → urgent human-help actions → close |
 | Fake Trap | School-closure clip → harmless versus harmful fakes → four motives → detector limits → three source checks applied to the school-closure clip → help if targeted → close |
 
@@ -108,7 +108,7 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Engagement Trap
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the stopping-point board's narration reserved for post-production).
+Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the native-rendered stopping-points board. The illustrated AI stopping-point board remains reserved for post-production.
 
 - Prompt: `Prompts/engagement-trap-video-prompt.txt`
 - Markdown: `lessons/engagement-trap.md`
@@ -116,7 +116,8 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 - Notebook sources:
   1. `course-assets/engagement-trap/engagement-trap-comparison.jpg`
   2. `course-assets/engagement-trap/engagement-trap-scroll.jpg`
-  3. `course-assets/engagement-trap/engagement-trap-close.jpg`
+  3. `course-assets/engagement-trap/engagement-trap-stopping-points.jpg`
+  4. `course-assets/engagement-trap/engagement-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `course-assets/engagement-trap/engagement-trap-stopping-point.jpg` (faces; Board 3 narration reserved in the Markdown)
 

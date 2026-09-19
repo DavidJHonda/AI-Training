@@ -560,7 +560,7 @@ def inward_arrow(draw: ImageDraw.ImageDraw, start: tuple[int, int], end: tuple[i
 def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) -> Image.Image:
     """Render the Hallucination four-step teaching flow."""
     steps = (
-        Card("Learns From the Text It’s Fed", "That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too."),
+        Card("Learns From Training Text", "That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too."),
         Card("One Token at a Time", "It builds its response by predicting which token is likely to come next."),
         Card("Keeps Trying to Answer", "AI is trained to be helpful, so it often keeps going even when it is unsure."),
         Card("Probable ≠ True", "An answer can sound exactly right even when the facts are wrong."),
@@ -579,7 +579,9 @@ def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) 
     title_font = face("bold", CARD_TITLE_SIZE)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     titles = [wrap(measure, step.title, title_font, column_width) for step in steps]
-    max_title_lines = max(len(lines) for lines in titles)
+    # Keep the approved 1600x870 board geometry even when every title fits in
+    # two lines. The reserved third line also preserves the body-copy baseline.
+    max_title_lines = max(3, max(len(lines) for lines in titles))
     title_line_height = 48
     body_y = title_y + max_title_lines * title_line_height + 10
     bodies = [wrap(measure, step.body, body_font, column_width) for step in steps]

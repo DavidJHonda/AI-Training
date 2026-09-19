@@ -66,9 +66,27 @@ AI chat has its own version of the missing page break. The answer ends, but the 
 
 Engagement is not an accident. Tech companies track how often people return, how long they stay, and what keeps them using a product. More engagement can mean more ads, purchases, or subscriptions. It can also turn occasional use into a habit.
 
-AI companies make money in different ways, but they all benefit when AI becomes part of your routine. Helpful follow-up offers make that easy. Every answer can become the beginning of another task.
+The stakes can be much higher than losing track of time. In August 2026, Meta, the company behind Facebook and Instagram, agreed to a settlement of up to $17.1 billion over claims that addictive features harmed children and teens. Meta denied wrongdoing. The agreement also requires changes to U.S. teen accounts.
 
-That does not make every offer a trick. It means you need to decide whether the next step serves your goal or the app’s goal.
+### Board 4: Putting the Stopping Points Back
+
+**Image file:** `engagement-trap-stopping-points.jpg`
+
+![Putting the Stopping Points Back. Daily Limits: a default two-hour daily limit across Facebook and Instagram that only a parent can turn off. Prompts to Pause: prompts appear after every 15 minutes of continuous use and at 60 and 90 minutes of total daily use. Nighttime Blocks: a default block that limits most app use from midnight to 6 a.m. A stopping point gives you a chance to choose.](engagement-trap-stopping-points.jpg)
+
+**Teaching content:**
+
+**Daily Limits:** A default two-hour daily limit across Facebook and Instagram. Only a parent can turn it off.
+
+**Prompts to Pause:** Prompts appear after every 15 minutes of continuous use and at 60 and 90 minutes of total daily use.
+
+**Nighttime Blocks:** A default block limits most app use from midnight to 6 a.m. Direct messages are excluded from the time-limit and nighttime restrictions.
+
+**Takeaway:** A stopping point gives you a chance to choose.
+
+**Sources:** [Meta agreement summary](https://about.fb.com/news/2026/08/agreement-with-state-attorneys-general-supporting-teens/); [Oklahoma attorney general summary](https://oklahoma.gov/oag/news/newsroom/2026/august/drummond-reaches-landmark-settlement-with-meta.html); [settlement agreement](https://oag.ca.gov/system/files/attachments/press-docs/23-05448-ecf-572-1-exhibit-1-mdl-consent-judgment-final-settlment-agreement-fully-executed.pdf)
+
+This settlement concerns social media. The question also matters when you use AI: does the next suggestion help you accomplish your goal, or keep you going after you’ve finished?
 
 ## Closing Message
 

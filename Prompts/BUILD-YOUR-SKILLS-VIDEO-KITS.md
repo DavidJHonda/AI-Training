@@ -1,6 +1,6 @@
 # Build Your Skills Video Kits
 
-Prep updated 2026-09-18. Listed in current course order: Opener → Your Choices → Next Level Moves → Honesty & Privacy → People Skills → Creative Thinking → Curious & Flexible → Make Your Move.
+Prep updated 2026-09-19. Listed in current course order: Opener → Your Choices → Next Level Moves → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curious & Flexible → Make Your Move.
 
 This guide describes source preparation, not current video shipping status. No video was generated, edited, or deployed in this pass. Earlier status labels are not evidence that a finished video matches this source set.
 
@@ -57,6 +57,17 @@ Paths are repository-relative. Prompt and checklist filenames below are inside `
   - `honesty-and-privacy-privacy.jpg` — upload
   - `honesty-and-privacy-share-only.jpg` — upload
   - `honesty-and-privacy-close.jpg` — upload
+
+### wheres-the-line
+
+- Markdown: `lessons/wheres-the-line.md`
+- Prompt: `wheres-the-line-video-prompt.txt`
+- Upload checklist: `wheres-the-line-upload-files.txt`
+- Canonical folder: `course-assets/wheres-the-line/`
+- Boards in lesson order:
+  - `wheres-the-line-two-uses.jpg` — upload
+  - `wheres-the-line-responsible-choice.jpg` — upload
+  - `wheres-the-line-close.jpg` — upload
 
 ### people-skills
 
@@ -124,7 +135,7 @@ This is a prep-only update. `index.html`, JPGs, and videos are unchanged. The Cr
 
 Follow `Prompts/README.md`, `scripts/video/README.md`, `scripts/video/EDIT-SPEC.md`, and `scripts/video/NARRATION-REVIEW.md`.
 
-- All eight prompts are self-contained and under 500 words. Paste the prompt into customization, not the content sources.
+- All nine prompts are self-contained and under 500 words. Paste the prompt into customization, not the content sources.
 - Keep canonical JPG dimensions and layouts unchanged. Use drawn scenes, not stock photos, for generated visuals; use printed labels and no extra chapter/lesson-number cards.
 - Exclude visible-face boards as identified above. Preserve their teaching, do not recreate faces, and insert the real JPGs during editing.
 - Do not narrate filenames, production markers, website credits, references, or URLs. Do not narrate the lab.

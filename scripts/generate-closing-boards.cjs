@@ -73,7 +73,8 @@ const ASSETS = {
   becurious: "course-assets/curious-and-flexible/curious-and-flexible-close.jpg",
   makeyourmove: "course-assets/make-your-move/make-your-move-close.jpg",
   openerskills: "course-assets/build-your-skills-opener/build-your-skills-opener-close.jpg",
-  integrity: "course-assets/honesty-and-privacy/honesty-and-privacy-close.jpg"
+  integrity: "course-assets/honesty-and-privacy/honesty-and-privacy-close.jpg",
+  wherestheline: "course-assets/wheres-the-line/wheres-the-line-close.jpg"
 };
 
 function sha256(file) {

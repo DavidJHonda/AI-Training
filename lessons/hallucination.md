@@ -34,7 +34,7 @@ The fake study did not come from nowhere. AI knows what a research finding sound
 
 **Teaching content:**
 
-1. **Learns From the Text It’s Fed.** That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too.
+1. **Learns From Training Text.** That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too.
 2. **One Token at a Time.** It builds its response by predicting which token is likely to come next.
 3. **Keeps Trying to Answer.** AI is trained to be helpful, so it often keeps going even when it is unsure.
 4. **Probable Does Not Equal True.** An answer can sound exactly right even when the facts are wrong.

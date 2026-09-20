@@ -76,11 +76,11 @@ The stakes can be much higher than losing track of time. In August 2026, Meta, t
 
 **Teaching content:**
 
-**Daily Limits:** A default two-hour daily limit across Facebook and Instagram. Only a parent can turn it off.
+**Daily Limits:** A default two-hour daily limit across Facebook and Instagram that only a parent can turn off.
 
 **Prompts to Pause:** Prompts appear after every 15 minutes of continuous use and at 60 and 90 minutes of total daily use.
 
-**Nighttime Blocks:** A default block limits most app use from midnight to 6 a.m. Direct messages are excluded from the time-limit and nighttime restrictions.
+**Nighttime Blocks:** A default block limits most app use from midnight to 6 a.m.
 
 **Takeaway:** A stopping point gives you a chance to choose.
 

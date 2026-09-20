@@ -22,6 +22,8 @@ DONOR = ROOT / "Prompts/fake-trap-1.mp4"
 LIVE = ROOT / "course-assets/fake-trap/fake-trap.mp4"
 OUT = ROOT / "video-audit/fake-trap-repair-2026-09-18"
 DEST = ROOT / "Prompts/fake-trap-v1.mp4"
+OUT_V2 = ROOT / "video-audit/fake-trap-repair-2026-09-20-v2"
+DEST_V2 = ROOT / "Prompts/fake-trap-v2.mp4"
 
 COMPARISON = ROOT / "course-assets/fake-trap/fake-trap-comparison.jpg"
 REASONS = ROOT / "course-assets/fake-trap/fake-trap-reasons.jpg"
@@ -57,6 +59,13 @@ HOCKEY_DRAWING_IN = 1909                        # 1:03.63, harmless-joke drawing
 # Live-video neutral report/NCMEC diagram, ending before the no-fault scene.
 LIVE_RESOURCE_IN, LIVE_RESOURCE_OUT = 6087, 6306
 
+# Revision 2 user corrections.  The live opening ends on its next scene cut,
+# after the harmless-joke conclusion and before the live motive board.  The
+# NCMEC replacement begins only once both resource labels are fully visible.
+LIVE_OPENING_OUT = 2229                         # 1:14.30
+LIVE_OPENING_GAIN_DB = 0.8
+LIVE_RESOURCE_V2_IN, LIVE_RESOURCE_V2_OUT = 6180, 6300  # 3:26.00-3:30.00
+
 MOTIVES_LEN = MOTIVES_DONOR[1] - MOTIVES_DONOR[0]
 MOTIVES_VIRTUAL_END = REASONS_INTRO_OUT + MOTIVES_LEN
 
@@ -89,17 +98,25 @@ def main() -> None:
         action="store_true",
         help="reuse board and moved-conclusion legs from a prepare-only pass",
     )
+    parser.add_argument(
+        "--revision-v2",
+        action="store_true",
+        help="use the live 0:00-1:14.30 opening and an immediately visible CyberTipline card",
+    )
     args = parser.parse_args()
+
+    out = OUT_V2 if args.revision_v2 else OUT
+    dest = DEST_V2 if args.revision_v2 else DEST
 
     build = Build(
         ROOT,
         SRC,
-        OUT,
-        DEST,
-        protected=[
-            DONOR, LIVE, COMPARISON, REASONS, SOURCE, CHECKS, CLOSE,
-            LESSON, PAGE,
-        ],
+        out,
+        dest,
+        protected=(
+            [DONOR, LIVE, COMPARISON, REASONS, SOURCE, CHECKS, CLOSE, LESSON]
+            + ([] if args.revision_v2 else [PAGE])
+        ),
     )
     build.load_audio([
         (4.70, 5.06), (7.38, 8.04), (12.62, 13.38),
@@ -115,23 +132,43 @@ def main() -> None:
         (234.58, 235.24), (237.30, 238.00), (240.10, 240.62),
     ])
 
-    # Opening and school-closure comparison.
-    build.keep(0, COMPARE_IN, "Notebook drawings: convincing clip and reaction window")
-    build.keep(COMPARE_IN, COMPARE_OUT, "The Same Clip. Two Eras.", "comparison")
-    build.keep(COMPARE_OUT, PHOTO_IN, "Notebook drawings: the two-jawed Fake Trap")
+    if args.revision_v2:
+        # The live opening teaches the school example, both jaws of the trap,
+        # and the harmless-joke distinction more fully.  End on the live scene
+        # cut after “no one is meant to believe it,” then resume candidate 2 in
+        # its quiet scene change before “The danger doesn't come...”.
+        build.graft(
+            LIVE,
+            0,
+            LIVE_OPENING_OUT,
+            "Live-video opening through complete harmless-joke conclusion",
+            "live-opening",
+            cover_intro=False,
+            gain_db=LIVE_OPENING_GAIN_DB,
+        )
+        build.keep(
+            PHOTO_OUT,
+            REASONS_IN,
+            "Candidate-2 deception boundary: danger begins when a lie is believed",
+        )
+    else:
+        # Opening and school-closure comparison.
+        build.keep(0, COMPARE_IN, "Notebook drawings: convincing clip and reaction window")
+        build.keep(COMPARE_IN, COMPARE_OUT, "The Same Clip. Two Eras.", "comparison")
+        build.keep(COMPARE_OUT, PHOTO_IN, "Notebook drawings: the two-jawed Fake Trap")
 
-    # Candidate 2 uses a photo-real trophy here.  Candidate 1 drew the same
-    # harmless-joke idea, so borrow that drawing while retaining candidate 2's
-    # approved narration and timing.
-    build.keep(
-        PHOTO_IN,
-        PHOTO_OUT,
-        "Candidate-1 drawing: harmless hockey joke (covers photo-real trophy)",
-        video_from=HOCKEY_DRAWING_IN,
-        video_src=DONOR,
-        video_end=2488,
-    )
-    build.keep(PHOTO_OUT, REASONS_IN, "Notebook drawing: friends share the joke; deception boundary")
+        # Candidate 2 uses a photo-real trophy here.  Candidate 1 drew the same
+        # harmless-joke idea, so borrow that drawing while retaining candidate
+        # 2's approved narration and timing.
+        build.keep(
+            PHOTO_IN,
+            PHOTO_OUT,
+            "Candidate-1 drawing: harmless hockey joke (covers photo-real trophy)",
+            video_from=HOCKEY_DRAWING_IN,
+            video_src=DONOR,
+            video_end=2488,
+        )
+        build.keep(PHOTO_OUT, REASONS_IN, "Notebook drawing: friends share the joke; deception boundary")
 
     # Candidate 2 introduces the board and its takeaway.  Candidate 1 then
     # supplies the complete four-item teaching beat under the same course board.
@@ -163,13 +200,15 @@ def main() -> None:
     # Candidate 2 displays a web address here despite the generation prompt.
     # Reuse the live video's concise, URL-free report/NCMEC diagram and hold its
     # final resource frame for the last 21 frames of the source span.
+    resource_video_in = LIVE_RESOURCE_V2_IN if args.revision_v2 else LIVE_RESOURCE_IN
+    resource_video_out = LIVE_RESOURCE_V2_OUT if args.revision_v2 else LIVE_RESOURCE_OUT
     build.keep(
         RESOURCE_IN,
         RESOURCE_OUT,
-        "Live-video diagram: platform report and NCMEC resources (covers displayed URL)",
-        video_from=LIVE_RESOURCE_IN,
+        "Live-video diagram: CyberTipline and NCMEC visible at narration onset (covers displayed URL)",
+        video_from=resource_video_in,
         video_src=LIVE,
-        video_end=LIVE_RESOURCE_OUT,
+        video_end=resource_video_out,
     )
     build.keep(RESOURCE_OUT, SAFETY_TO_MOVE, "Notebook drawing: Take It Down and no-fault reassurance")
 
@@ -195,20 +234,21 @@ def main() -> None:
     before_ai = [40, 271, 784, 1302]
     ai_era = [816, 271, 1560, 1302]
     comparison_banner = [40, 1342, 1560, 1430]
-    build.board(
-        "comparison",
-        COMPARISON,
-        COMPARE_IN,
-        COMPARE_OUT,
-        "dense",
-        [
-            target("Before AI: Does It Look Real?", 16.46, before_ai, AMBER, before_ai),
-            target("The AI Era: Where Is It From?", 24.88, ai_era, BLUE, ai_era),
-            target("Appearance can mislead; check the source trail", 27.10, comparison_banner, NEUTRAL, full_view=True),
-        ],
-        per_target_camera=True,
-        lead_camera=True,
-    )
+    if not args.revision_v2:
+        build.board(
+            "comparison",
+            COMPARISON,
+            COMPARE_IN,
+            COMPARE_OUT,
+            "dense",
+            [
+                target("Before AI: Does It Look Real?", 16.46, before_ai, AMBER, before_ai),
+                target("The AI Era: Where Is It From?", 24.88, ai_era, BLUE, ai_era),
+                target("Appearance can mislead; check the source trail", 27.10, comparison_banner, NEUTRAL, full_view=True),
+            ],
+            per_target_camera=True,
+            lead_camera=True,
+        )
 
     # Board 2 (1329x1183): the takeaway is spoken before the four-item donor
     # list, so its banner rings at that spoken onset while the board remains at
@@ -275,7 +315,11 @@ def main() -> None:
 
     build.make_close("faketrap")
     build.manifest({
-        "scope_detail": "Full production review candidate from the user-approved Fake-trap-2 best-of plan; live video and lesson unchanged.",
+        "scope_detail": (
+            "Revision 2 uses the live video's complete opening through the harmless-joke conclusion and aligns the CyberTipline visual with its spoken mention. index.html is excluded from the render-integrity set because an unrelated Where's the Line lesson edit was active concurrently; all video inputs, board assets, and fake-trap.md remain protected."
+            if args.revision_v2 else
+            "Full production review candidate from the user-approved Fake-trap-2 best-of plan; live video and lesson unchanged."
+        ),
         "narration_changes": {
             "candidate1_motives_donor_frames": list(MOTIVES_DONOR),
             "candidate2_thin_motives_removed_frames": [REASONS_INTRO_OUT, THIN_REASONS_OUT],
@@ -283,20 +327,28 @@ def main() -> None:
             "candidate2_conclusion_moved_frames": [EYES_IN, EYES_OUT],
             "candidate2_close_frames": [SAFETY_TO_MOVE, RAW_CLOSE_OUT],
             "donor_gain_db": MOTIVES_GAIN_DB,
+            "live_opening_donor_frames": [0, LIVE_OPENING_OUT] if args.revision_v2 else None,
+            "live_opening_gain_db": LIVE_OPENING_GAIN_DB if args.revision_v2 else None,
         },
         "added_teaching_pauses": [],
-        "photographs_replaced": [
+        "photographs_replaced": ([
+            {
+                "candidate2_frames": [0, PHOTO_OUT],
+                "replacement": "Live-video opening through the complete harmless-joke conclusion",
+                "replacement_frames": [0, LIVE_OPENING_OUT],
+            },
+        ] if args.revision_v2 else [
             {
                 "candidate2_frames": [PHOTO_IN, PHOTO_OUT],
                 "replacement": "Candidate-1 harmless-hockey-joke drawing",
                 "replacement_start_frame": HOCKEY_DRAWING_IN,
             },
-        ],
+        ]),
         "displayed_urls_replaced": [
             {
                 "candidate2_frames": [RESOURCE_IN, RESOURCE_OUT],
-                "replacement": "Live-video URL-free report/NCMEC diagram",
-                "replacement_frames": [LIVE_RESOURCE_IN, LIVE_RESOURCE_OUT],
+                "replacement": "Live-video URL-free report/NCMEC diagram with CyberTipline visible at narration onset",
+                "replacement_frames": [resource_video_in, resource_video_out],
             },
         ],
         "notebook_interleaves": [],
@@ -315,7 +367,7 @@ def main() -> None:
     if args.prepare_only:
         return
     build.render()
-    print(DEST)
+    print(dest)
 
 
 if __name__ == "__main__":

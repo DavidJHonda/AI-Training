@@ -9,10 +9,12 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const boards = [
   {
-    file: "wheres-the-line-two-uses.jpg", format: "EE-2FB", title: "The Choices at DraftKings",
+    file: "wheres-the-line-two-uses.jpg", format: "EE-2FB", title: "How DraftKings Uses AI",
     artSheet: "scripts/video/assets/editorial-full-bleed/wheres-the-line-draftkings/art-sheet.png",
-    cards: [["Promotional Targeting", "DraftKings used AI to predict who would gamble and lose more after receiving free bets and bonuses. Betting habits, account balances, and past losses helped inform the targeting. The company continued developing this promotional technology."], ["Predictive Protection", "Employees developed predictive technology intended to identify people heading toward a gambling problem so the company could intervene earlier. DraftKings declined to deploy it."]],
-    banner: "Choosing the goal and setting the protections are human responsibilities."
+    cards: [
+      ["Targeted Promotions", "DraftKings developed AI to analyze betting habits, account balances, and losses to predict which customers would gamble and lose more after receiving free bets and bonuses.", "DraftKings put the technology into use and continued developing it."],
+      ["Customer Protection", "Employees developed AI to analyze betting patterns and identify people who might be developing a gambling problem, so the company could intervene earlier.", "DraftKings chose not to put this predictive technology into use."]
+    ]
   },
   {
     file: "wheres-the-line-responsible-choice.jpg", format: "EE-4FB", title: "Making the Responsible Choice",
@@ -73,10 +75,13 @@ function editorialHtml(board) {
   .art{display:block;width:744px;height:339px;background-image:url('data:image/png;base64,${artData}');background-size:1488px auto;background-repeat:no-repeat;border-bottom:1px solid rgba(79,47,196,.2);position:relative}.art:after{content:'';position:absolute;inset:0;background:#4f2fc4;opacity:.10}.art0{background-position:0 -169px}.art1{background-position:-744px -169px}.card:nth-child(2) .art{border-color:rgba(15,122,74,.2)}.card:nth-child(2) .art:after{background:#0f7a4a}
   .text{padding:32px 34px 34px}.label{font-size:40px;line-height:48px;letter-spacing:-.02em;font-weight:700;color:#4f2fc4;margin-bottom:14px;white-space:nowrap}.card:nth-child(2) .label{color:#0f7a4a}
   .copy{font-size:29px;line-height:41px;font-weight:500;color:#3a3550}
+  .did{margin-top:22px;padding-top:20px;border-top:1px solid rgba(79,47,196,.18)}.card:nth-child(2) .did{border-top-color:rgba(15,122,74,.18)}
+  .did-label{font-size:22px;line-height:28px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#4f2fc4;margin-bottom:8px}.card:nth-child(2) .did-label{color:#0f7a4a}
   .banner{margin-top:40px;background:#ffe39a;border-radius:14px;height:88px;display:flex;align-items:center;justify-content:center;gap:24px;text-align:center;font-size:32px;line-height:1.4;font-weight:500;white-space:nowrap}
   .check{width:44px;height:44px;border-radius:50%;background:#4f2fc4;color:white;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;flex:none}
   .credit{font-size:20px;line-height:24px;min-height:24px;font-weight:500;color:#615b78;text-align:right;margin-top:6px}
-  </style></head><body><div class="board"><h1>${board.title}</h1><div class="grid">${board.cards.map((c,i)=>`<div class="card"><div class="art art${i}"></div><div class="text"><div class="label">${c[0]}</div><div class="copy">${c[1]}</div></div></div>`).join('')}</div><div class="banner"><span class="check">✓</span>${board.banner}</div><div class="credit">${credit}</div></div></body></html>`;
+  .grid + .credit{margin-top:14px}
+  </style></head><body><div class="board"><h1>${board.title}</h1><div class="grid">${board.cards.map((c,i)=>`<div class="card"><div class="art art${i}"></div><div class="text"><div class="label">${c[0]}</div><div class="copy">${c[1]}</div>${c[2]?`<div class="did"><div class="did-label">What They Did</div><div class="copy">${c[2]}</div></div>`:''}</div></div>`).join('')}</div>${board.banner?`<div class="banner"><span class="check">✓</span>${board.banner}</div>`:''}<div class="credit">${credit}</div></div></body></html>`;
 }
 
 function fourCardFullBleedHtml(board) {

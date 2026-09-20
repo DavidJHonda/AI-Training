@@ -2,56 +2,46 @@
 
 # Where’s the Line?
 
-AI can do remarkable things. But people remain responsible for how it is used and what happens as a result.
+AI can do remarkable things. But, to borrow a line from a famous document, **we the people** are responsible for how we use it.
 
-That responsibility goes beyond checking an answer or writing a better prompt. It includes deciding what we ask AI to accomplish and considering who could be affected.
+That’s not just writing better prompts and evaluating its answer. It goes much deeper than that. It includes what we ask AI to do and who could be affected.
 
-That’s **ethics: thinking through what you should do and how your decisions affect other people.**
+There’s a word for this you’ve heard: **ethics.** It means thinking through what you should do and how your decisions affect other people.
 
 ## CASE STUDY: ONLINE GAMBLING
 
 DraftKings is an online gambling platform where customers play casino games and make sports bets. The company earns money when customers lose.
 
-That creates an ethical tension. Encouraging customers to keep playing can increase revenue. But some people struggle to control their gambling, with serious consequences for their finances and relationships. When should a company stop encouraging someone to play?
+This business model isn’t unique to DraftKings. Traditional casinos also benefit when customers keep playing. But some people struggle to control their betting. Gambling addiction is a recognized mental health condition that can seriously affect their lives.
 
 ## WHY IS THIS IN YOUR AI COURSE?
 
-AI can identify patterns in betting behavior, including how often customers play, how much they bet, and how much they lose. Those patterns can help predict which customers would gamble and lose more after receiving a promotion.
+Customers leave a digital record of their betting activity when they use DraftKings. AI can analyze that record to identify patterns in how often they play, how much they bet, and how much they lose.
 
-Similar data can also help identify people who may be developing a gambling problem, creating an opportunity to intervene earlier.
+Here’s a thought. What if DraftKings could use those patterns to predict which customers would gamble and lose more after receiving a promotion? It could then send those customers an offer like “Place a bet today and get bonus bets.”
 
-What responsibility does a company have when it can use customer data both to encourage more gambling and to recognize possible harm? What protections should it require, even if they reduce revenue?
+Here’s another thought. What if they could use the same patterns to identify people who might be developing a gambling problem and offer help instead of a promotion?
+
+This creates an ethical question: when should DraftKings stop encouraging someone to play if continued gambling could cause harm?
 
 The New York Times investigated these choices at DraftKings. Here’s what it reported.
 
-### Board 1: The Choices at DraftKings
+### Board 1: How DraftKings Uses AI
 
 **Image file:** `wheres-the-line-two-uses.jpg`
 
-![The Choices at DraftKings](../course-assets/wheres-the-line/wheres-the-line-two-uses.jpg)
+![How DraftKings Uses AI](../course-assets/wheres-the-line/wheres-the-line-two-uses.jpg)
 
 **Teaching content:** According to New York Times reporting:
 
-- **Promotional Targeting:** DraftKings used AI to predict who would gamble and lose more after receiving free bets and bonuses. Betting habits, account balances, and past losses helped inform the targeting. The company continued developing this promotional technology.
-- **Predictive Protection:** Employees developed predictive technology intended to identify people heading toward a gambling problem so the company could intervene earlier. DraftKings declined to deploy it.
-
-**Takeaway:** Choosing the goal and setting the protections are human responsibilities.
+- **Targeted Promotions:** DraftKings developed AI to analyze betting habits, account balances, and losses to predict which customers would gamble and lose more after receiving free bets and bonuses. *What they did:* DraftKings put the technology into use and continued developing it.
+- **Customer Protection:** Employees developed AI to analyze betting patterns and identify people who might be developing a gambling problem, so the company could intervene earlier. *What they did:* DraftKings chose not to put this predictive technology into use.
 
 DraftKings disputes targeting customers based on losses. It says it already monitors risky behavior and found insufficient evidence to support the proposed predictive safeguards.
 
-## WHAT ETHICS ASKS
-
-Accuracy, profitability, and usefulness matter, but none of them proves that a use of AI is responsible. Laws and company policies set some boundaries. They do not answer every decision. Even a worthwhile goal requires attention to the consequences.
-
-A system can accomplish its assigned goal while harming people. Choosing the goal and setting the protections are human responsibilities.
-
-Responsibility belongs to the people who choose the goal, build the system, buy it, approve it, and decide how it will be used. You may face those decisions in your career even if you never write an AI model.
-
-People can reasonably disagree about a decision. Strong reasoning still has to consider who is affected, what evidence supports the choice, and what consequences could follow.
-
 ## TURN JUDGMENT INTO ACTION
 
-Four moves make responsible judgment concrete:
+A system can accomplish its assigned goal while harming people. Four moves make responsible judgment concrete:
 
 ### Board 2: Making the Responsible Choice
 
@@ -68,35 +58,34 @@ Four moves make responsible judgment concrete:
 
 A responsible decision considers the people who live with it.
 
-Applied to the DraftKings story, a team would need to consider customers who may be vulnerable, explain promotional offers honestly, evaluate whether safeguards reduce harm, and monitor what happens after the system is launched. No single technical fix guarantees a responsible result. The team has to keep watching the consequences and respond to them.
+## TRY IT: DOES IT CROSS THE LINE?
 
-## TRY IT: WOULD YOU APPROVE IT?
+These fictional scenarios describe ways AI could be used. For each one, decide whether it crosses an ethical line. Then consider another angle.
 
-The scenarios below are fictional. They are not additional allegations about named companies.
+For each scenario, choose one:
 
-For each scenario, use the four moves to choose:
+- Crosses the line
+- Doesn’t cross the line
+- It depends
 
-- Approve
-- Approve with changes
-- Do not approve
+Choosing an answer immediately shows that scenario’s “Something to consider.” The same feedback appears for every answer, and you can change your choice at any time. Responses are not scored or marked correct or incorrect.
 
-Then answer: **Why? What would you need to know or change?**
-
-If you choose Approve with changes, propose a specific protection, explanation, review process, or boundary. There is no score or predetermined correct answer, but some decisions are better supported than others.
-
-1. **Who Gets an Interview?** An AI ranks applicants using patterns from past successful hires. Applicants from unfamiliar schools rarely reach the shortlist. Your manager proposes automatically rejecting low-ranked applicants.
-   - Consider the applicants who may be excluded and ask what evidence shows the ranking predicts future success. A concrete protection could be human review of rejections, regular checks of who gets screened out, and a way for applicants to challenge mistakes.
-2. **The Right Offer. For Whom?** A lending model identifies people with rising credit card balances who are likely to accept a loan. Some could replace expensive debt with cheaper borrowing. Others could struggle with another payment. Your manager wants to launch because the predicted acceptance rate is high.
-   - Acceptance does not show that the loan helps the customer. Compare its total cost with the debt it may replace, explain the terms clearly, test who benefits or struggles, and make declining easy. Then monitor whether the offer creates financial harm.
-3. **Keeping Someone Playing.** A gaming company identifies players likely to make a purchase after losing. Your team proposes sending a limited-time offer immediately after a loss.
-   - Consider players who may feel pressured after losing. Ask what evidence shows the offer is helpful, explain it honestly, and propose a boundary such as avoiding loss-triggered offers or limiting their timing. Monitor whether the system increases harmful behavior.
-4. **Spotting Trouble Early.** A bank’s AI identifies spending patterns that may indicate financial trouble. Evaluate two actions separately:
-   - **Private warning and offer of help.** A warning may help, but a false alert can create stress. Explain why the person received it, test the signal’s accuracy, offer useful choices, and give the customer a way to correct the record. Monitor whether warnings help without creating unnecessary harm.
-   - **Automatic credit-limit cut.** A limit cut can remove credit when someone needs it and may make their finances worse. Ask what evidence justifies automatic action, require meaningful notice and human review, provide an appeal, and monitor the consequences for customers.
-
-After each decision, open “Something to consider” and compare its reasoning with yours.
-
-You may not write the algorithm. You might choose the goal, approve the campaign, buy the system, or decide what happens after an alert. Those choices carry responsibility.
+1. **Another Bet.** An online gambling app uses AI to predict which customers will gamble and lose more after receiving a bonus. It sends those customers offers encouraging them to keep playing.
+   - *Something to consider:* Customers can choose whether to accept an offer. But the app knows something about their behavior and uses it to encourage more gambling. What responsibility comes with that knowledge?
+2. **A Different Fare.** A ride-sharing app uses AI to predict that customers traveling from expensive neighborhoods will pay more. It charges them a higher fare, even when distance, traffic, and driver availability are comparable.
+   - *Something to consider:* The ride costs the company about the same to provide. The higher price reflects what it thinks the customer will accept. Is that reasonable pricing, or does it cross a line? Does the neighborhood reliably tell it what someone can afford?
+3. **The Right Moment.** A gaming app uses AI to predict when a player is frustrated after several losses. At that moment, it offers a paid upgrade that promises a better chance of winning. The offer expires in five minutes.
+   - *Something to consider:* The upgrade might help the player win. But the app chooses a moment when frustration could make them more likely to spend, then adds time pressure. Would your answer change if the same upgrade were always available at the same price?
+4. **The Right Offer. For Whom?** A lender uses AI to identify people with rising credit card balances who are likely to accept a loan. It sends them personalized offers. The loan could lower their borrowing costs, or leave them with more debt they cannot afford.
+   - *Something to consider:* Predicting who will accept a loan doesn’t establish whether it will help them. What should the lender check before sending the offer? Would your answer change if the loan reduced their total costs and had payments they could afford?
+5. **The Endless Scroll.** A social media app notices that a student spends more time watching videos about academic stress and failure. Its AI recommends more of those videos because they keep the student watching.
+   - *Something to consider:* Watching longer tells the app that the content holds someone’s attention. Does it tell the app that the content helps them? What responsibility does the company have if its recommendations make someone feel worse?
+6. **The Hidden Screen.** A university uses AI to rank applications. During testing, it finds that applicants from certain rural areas receive lower scores than applicants with similar qualifications elsewhere. The university continues using the rankings because they save time.
+   - *Something to consider:* The rankings save time, but the university has found a difference that needs explaining. What should it investigate before continuing? Should applicants know AI helped evaluate them and have a way to challenge the result?
+7. **The Watching Eye.** A school installs AI-powered cameras that analyze students’ facial expressions and body language to estimate whether they are paying attention. Students flagged as distracted more than three times in a week face disciplinary action.
+   - *Something to consider:* Looking away doesn’t necessarily mean someone has stopped listening. Should a prediction about attention lead to punishment? Would your answer change if the system helped teachers adjust a lesson without identifying individual students?
+8. **The Borrowed Style.** A student club uses AI to create posters in a local artist’s recognizable style instead of hiring the artist. The club openly says the posters are AI-generated, but it never asks the artist’s permission.
+   - *Something to consider:* The club saves money and is honest about using AI. The artist receives no payment or say in the decision. Where would you draw the line between taking inspiration and using someone’s creative identity?
 
 ### Board 3: Close
 
@@ -104,9 +93,9 @@ You may not write the algorithm. You might choose the goal, approve the campaign
 
 ## Closing Message
 
-Choose the goal. Consider the consequences.
+We the People Make the Call.
 
-What AI helps you accomplish affects other people.
+What should AI do? That’s our responsibility.
 
 ## Source record
 

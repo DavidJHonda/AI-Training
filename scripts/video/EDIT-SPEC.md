@@ -117,7 +117,12 @@ full view, and the ring traces the bubble's own border, not the text inside it.
 - Outline only, drawn after the camera crop at a constant 5 px, rounded
   corners. No fills, tints, chips, or Notebook washes anywhere in the candidate.
 - One ring per point being made. A whole-card ring traces the card's outer
-  boundary. A component ring inside a card sits at least 16 px inside the card,
+  boundary. On a board whose cards are columns inside one white content box
+  (Why Hallucinations Happen, Check the Claim), the ring runs the full height of
+  that white box, top edge to bottom edge, not the height of the text (owner
+  rule 2026-09-21, Hallucination v10). Navy refrain boards (Traps Ahead, the
+  creeds) ring each line in the creed gold `#f2cf5b`, tight to the text
+  (owner rule 2026-09-21, Avoid Traps opener v6). A component ring inside a card sits at least 16 px inside the card,
   clear of dividers and arrows, sharing the card's rails when sections stack.
 - Color comes from the card's locked accent token (green `#0f7a4a`, teal
   `#0e8f86`, blue `#1652f0`, editorial purple `#4f2fc4`, amber `#a9760c`, red

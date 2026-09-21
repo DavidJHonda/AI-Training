@@ -37,6 +37,8 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 
 ## Hallucination
 
+**v11 SHIPPED 2026-09-21** (cache key 20260921ship2, pill 5 min): roll 1 of 2026-09-21 as the whole narration (two cuts: a 'banner' lead-in and a post-close sentence); canonical Boards 1, 2, 4 with full-height card rings; the post-only pizza board walked twice (also covers Notebook's fabricated Reddit screenshots); Why board's arrows changed to the Check the Claim style. Review: `video-audit/hallucination-comparison-2026-09-21/`.
+
 Reviewed against the current page and all five canonical JPGs on 2026-09-18. Corrected Markdown links and the manifest; added the spoken application of all three source-check steps to both examples. The fake study is a deliberately invented example; a failed search alone does not prove a real-world claim false. Removed unsupported blanket claims about AI's intent from the prompt. Pauses remain selective editing decisions.
 
 Scene directions: draw the opening chat before revealing Board 1; leave it for the definition. Teach Board 2's four explanations in order. Reserve one continuous Board 3 span for the pizza question, mistaken answer, real joke, and takeaway. Use the brief checking-mindset scene before Board 4, then narrate the named checks and both applications. Finish on the supplied close with its two lines verbatim. Review changed scene directions before generation and the highlighting plan before first edits. This prep review does not establish a verdict on any existing video.

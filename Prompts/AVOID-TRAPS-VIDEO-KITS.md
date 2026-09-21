@@ -137,18 +137,20 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Fake Trap
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; both face boards taught over drawn scenes and reserved in the Markdown; Scene labels move the definition, detector, and one-rule passages off the boards).
+Materials test, 2026-09-20 (owner request after the narration-source review): the kit is rebuilt on the 2026-09-11 Build Your Skills recipe that produced the shipped run. The Markdown is a clean lesson (Board / Image file / Teaching content only; no Scene, Takeaway, or post-production labels; banner lines carried as plain sentences). The prompt carries the VOICE block, a required-verbatim list, and a beat spine. Both face boards are uploaded as text-only variants (photo panels removed) so their teaching sits on a picture instead of an invented scene; the canonical boards replace them in post. Baseline for the comparison: `Prompts/fake-trap-v3.mp4`, reviewed in `video-audit/fake-trap-materials-test-2026-09-20/REVIEW.md`.
 
 - Prompt: `Prompts/fake-trap-video-prompt.txt`
 - Markdown: `lessons/fake-trap.md`
 - Upload checklist: `Prompts/fake-trap-upload-files.txt`
 - Notebook sources:
-  1. `course-assets/fake-trap/fake-trap-reasons.jpg`
-  2. `course-assets/fake-trap/fake-trap-checks.jpg`
-  3. `course-assets/fake-trap/fake-trap-close.jpg`
+  1. `Prompts/fake-trap-comparison-faceless.jpg` (upload variant of the Board 1 comparison board, photos removed)
+  2. `course-assets/fake-trap/fake-trap-reasons.jpg`
+  3. `Prompts/fake-trap-follow-the-source-faceless.jpg` (upload variant of the Board 3 board, photo removed)
+  4. `course-assets/fake-trap/fake-trap-checks.jpg`
+  5. `course-assets/fake-trap/fake-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/fake-trap/fake-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
-  - `course-assets/fake-trap/fake-trap-follow-the-source.jpg` (faces; Board 3 narration reserved in the Markdown)
+  - `course-assets/fake-trap/fake-trap-comparison.jpg` (faces; replaces the faceless variant in the edit)
+  - `course-assets/fake-trap/fake-trap-follow-the-source.jpg` (faces; replaces the faceless variant in the edit)
 
 ## Provenance, cleanup, and post-production
 

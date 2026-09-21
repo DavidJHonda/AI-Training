@@ -8,29 +8,21 @@ Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in
 
 ### Board 1: The Same Clip. Two Eras.
 
-**Course image (post-production only; not a Notebook upload):** `fake-trap-comparison.jpg`
+**Image file:** `fake-trap-comparison-faceless.jpg`
+
+![The Same Clip. Two Eras.](fake-trap-comparison-faceless.jpg)
 
 **Teaching content:**
 
-The scenario: A friend sends a video of your principal announcing that school is closed next week.
+The scenario: a friend sends a video of your principal announcing that school is closed next week.
 
-**Before AI: Does It Look Real?** You study the face, voice, and hallway. Everything looks right.
+Before AI, the question was: does it look real? You study the face, the voice, and the hallway. Everything looks right. You checked the face and voice. You matched how the principal talks. Verdict: real.
 
-- Checked: Face and voice.
-- Matched: How the principal talks.
-- Verdict: Real.
+In the AI era, the question is: where is it from? You ignore the pixels and check the trail. Nothing appears on the school website. You skipped the face and voice. You checked the source that would know. Verdict: unverified.
 
-**The AI era: Where Is It From?** You ignore the pixels and check the trail. Nothing appears on the school website.
+Appearance can mislead. The source trail can be checked.
 
-- Skipped: Face and voice.
-- Checked: The source that would know.
-- Verdict: Unverified.
-
-**Takeaway:** Appearance can mislead. The source trail can be checked.
-
-**Scene (your own drawing, no board):**
-
-**The Fake Trap is believing it because it looks real.** And it has a second jaw: dismissing the truth because it could be a fake.
+The Fake Trap is believing it because it looks real. And it has a second jaw: dismissing the truth because it could be a fake.
 
 ## Sometimes it’s just fun
 
@@ -48,14 +40,15 @@ Harmful fakes are usually made to get something back. The goal often comes down 
 
 **Teaching content:**
 
-1. **Money.** Outrage gets clicks, and clicks pay.
-2. **Power.** Change what people believe and you change how they vote, protest, and spend.
-3. **Fame.** A viral clip means followers. It does not have to be true to travel.
-4. **Cruelty.** Some fakes exist to humiliate one person, especially at school.
+Money: outrage gets clicks, and clicks pay.
 
-**Takeaway:** Harmful fakes are made to get something back.
+Power: change what people believe and you change how they vote, protest, and spend.
 
-**Scene (your own drawing, no board):**
+Fame: a viral clip means followers. It does not have to be true to travel.
+
+Cruelty: some fakes exist to humiliate one person, especially at school.
+
+Harmful fakes are made to get something back.
 
 ## The detector dead end
 
@@ -69,13 +62,13 @@ The test moves off the image and onto the source, no matter how the fake was mad
 
 ### Board 3: Check the Source, Not the Pixels
 
-**Course image (post-production only; not a Notebook upload):** `fake-trap-follow-the-source.jpg`
+**Image file:** `fake-trap-follow-the-source-faceless.jpg`
+
+![Check the Source, Not the Pixels](fake-trap-follow-the-source-faceless.jpg)
 
 **Teaching content:**
 
-Check the source, not the pixels.
-
-**Takeaway:** Move the test away from appearance and toward independent evidence.
+Check the source, not the pixels. Move the test away from appearance and toward independent evidence.
 
 Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
@@ -87,15 +80,15 @@ Fakes can travel quickly when they spike your emotions: outrage, fear, excitemen
 
 **Teaching content:**
 
-1. **Source.** Who posted it? Do they have a reason and a way to know?
-2. **Context.** What happened before and after? What important details are missing?
-3. **Corroboration.** Can an independent source confirm the same event or claim?
+Source: who posted it? Do they have a reason and a way to know?
 
-Apply all three checks to the school-closure clip. For source, a friend forwarding a video does not tell you who originally posted it. Look for the original announcement from the school. For context, check the date and the full announcement: is it about your school and next week, or an older event? For corroboration, check a separate official school channel or contact the school using details you already trust. Another account reposting the same clip is not independent confirmation. With no confirmation, the claim remains unverified; that does not prove the clip is fake.
+Context: what happened before and after? What important details are missing?
 
-**Takeaway:** Verify somewhere the sender does not control.
+Corroboration: can an independent source confirm the same event or claim?
 
-**Scene (your own drawing, no board):**
+Now apply all three checks to the school-closure clip. For source, a friend forwarding a video does not tell you who originally posted it. Look for the original announcement from the school. For context, check the date and the full announcement: is it about your school and next week, or an older event? For corroboration, check a separate official school channel, or contact the school using details you already trust. Another account reposting the same clip is not independent confirmation. With no confirmation, the claim remains unverified. That does not prove the clip is fake.
+
+Verify somewhere the sender does not control.
 
 ## One rule under all three checks
 

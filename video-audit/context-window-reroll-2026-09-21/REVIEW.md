@@ -94,7 +94,47 @@ With both repairs the candidate lands near 4:24.
   physical space.
 - The live video's 231 cuts are worth knowing if it stays: that is by far the choppiest file in the library.
 
-## v2 build (`build-v2/`, script `scripts/video/build_context_window_v2.py`) — CURRENT
+## Shipped
+
+**SHIPPED 2026-09-21 on David's instruction.** `Prompts/context-window-v3.mp4` copied to
+`course-assets/context-window/context-window.mp4` (SHA-256 verified identical,
+`6b3a4d39896710a577c4ad335d556b73eb8dcdeedd23cf63d649bf987e2e3c80`, decodes 7,964 frames at 30 fps);
+`index.html` cache key `?v=20260921ship6`; pill corrected from "5 min" to "4 min" (4:25.47). Kit row,
+registry note and generated checklist updated.
+
+**The superseded live v3 is a source for this build, in three places** - the picture under the grafted
+why-beat, the footage from 1:06 to 1:20, and the audio of the Saved Memory word. It is preserved
+byte-identical as `video-audit/context-window-reroll-2026-09-21/context-window-live.mp4`. That copy is
+gitignored and exists only on this machine: without it none of those three spans can be rebuilt.
+
+Rolls to keep: `context-window-2` (base), `context-window-1` (why-beat audio) and that archived live v3.
+
+## v3 build (`build-v3/`, script `scripts/video/build_context_window_v3.py`)
+
+David, 2026-09-21: "The last board's highlighting extends too far down vertically and too right
+horizontally." Correct, and it was on every card of every board, worst on Outside the Window's Files on
+Your Computer. The rects had been measured with a stage-difference test, which swallows each card's drop
+shadow - 3-6 px at the sides, about 10 px below - so the rings traced the shadow instead of the card.
+That is the Edit Spec's separate-card gotcha (Training Bias v5) repeated in this lesson. Every card rect
+is now the card's own white body:
+
+| Board | Was | Now |
+|---|---|---|
+| Outside, top row | x 40-793 / 815-1570, bottom 772 | x 43-781 / 819-1557, bottom 772 |
+| Outside, bottom row | x 40-793 / 815-1570, bottom 1405 | x 43-781 / 819-1556, bottom 1395 |
+| Same Question cards | x 40-792 / 816-1568, bottom 1107 | x 42-782 / 818-1558, bottom 1097 |
+| Head Start columns | x 38-531 / 554-1049 / 1072-1567, bottom 1065 | x 41-524 / 558-1042 / 1076-1559, bottom 1052 |
+
+The Head Start section rings sit 16 px inside their column and were already clear of the shadow; the
+correction there is to the camera framing. The question strip and all three banners were measured from
+their own pixels and are unchanged.
+
+- Candidate: `Prompts/context-window-v3.mp4`; SHA-256
+  `6b3a4d39896710a577c4ad335d556b73eb8dcdeedd23cf63d649bf987e2e3c80`; 7,964 frames at 30 fps (4:25.47).
+  Corner mark 2,142 cloned, 133 inpainted, 0 declined. `transition_guard.py` 13/13 pass. Audio
+  byte-identical to v2. Protected files unchanged.
+
+## v2 build (`build-v2/`, script `scripts/video/build_context_window_v2.py`; superseded by v3)
 
 David's notes on v1, 2026-09-21, all applied. Audio is byte-identical to v1; only the picture changed.
 

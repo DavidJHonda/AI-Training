@@ -164,8 +164,7 @@ Built on David's approval of the graft plan, 2026-09-21.
    starts at roll 6's own cut at 5023, so the stakes-slider scene leads its audio by 0.1 s for the rest of
    the body. Declared in the manifest as `picture_advance`.
 
-`Prompts/mind-trap-v1.mp4` and `-v2.mp4` carry those defects and are superseded; delete them whenever
-you like.
+`Prompts/mind-trap-v1.mp4` and `-v2.mp4` carried those defects and were deleted at the ship.
 
 ## Listening checks for David
 
@@ -189,9 +188,10 @@ The superseded live video is the donor for this build's ELIZA teletype span, so 
 byte-identical as `video-audit/mind-trap-comparison-2026-09-21/mind-trap-live.mp4`. That copy is
 gitignored and exists only on this machine: a future rebuild of the teletype span needs it.
 
-Rolls 1-5 are no longer needed as sources; roll 6 stays as the base and roll 5 as the graft donor.
-`Prompts/mind-trap-v1.mp4` and `-v2.mp4` are the two defective builds described above and can be
-deleted.
+`Prompts/mind-trap-v1.mp4` and `-v2.mp4`, the two defective builds described above, were deleted at
+David's instruction on 2026-09-21. `Prompts/mind-trap-v3.mp4` is kept and is byte-identical to the
+live file. All six rolls are kept: roll 6 is the base and roll 5 the graft donor, and rolls 1-4 are
+untouched pending David's call.
 
 ## Not in this build
 

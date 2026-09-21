@@ -38,6 +38,10 @@ timeline (half-open [start, end)):
   "rings": [{"start": 0, "end": 219, "rect": [x, y, w, h], "color": "#1652f0",
              "pad": 0, "radius": 14}, ...]
 
+A spec may set "ring_stroke_px": 5 to pin the stroke instead, which exists for
+one case: swapping a refreshed illustration into a video shipped under the old
+constant-stroke rule, where the artwork is the only thing meant to change.
+
 `rect` is in image pixels (rects.json CSS px x 4 for a dsf4 capture). The
 stroke's INNER edge sits `pad` image px outside the rect (0 = trace the outer
 component boundary, the whole-card case); `radius` is the corner radius in
@@ -174,6 +178,11 @@ def main():
     fps, up = spec.get("fps", 30), spec.get("upscale", 3)
     aspect = ow / oh
 
+    # Optional escape hatch for an illustration swap on a video shipped under the old
+    # constant-5-px rule: pin the stroke so the only change on screen is the artwork.
+    # Leave it out and the artwork-scaled rule (owner, 2026-09-21) applies as usual.
+    pinned_stroke = int(spec["ring_stroke_px"]) if spec.get("ring_stroke_px") else None
+
     img = cv2.imread(spec["image"])
     if img is None:
         sys.exit(f"cannot read {spec['image']}")
@@ -199,7 +208,7 @@ def main():
         frame = cv2.resize(crop, (ow, oh), interpolation=interp)
         if frame_no is not None and rings:
             scale = ow / ww  # output px per image px at this camera
-            t = ring_px(scale)
+            t = pinned_stroke if pinned_stroke else ring_px(scale)
             frame = frame.copy()
             for (a, b, rect, color, pad, radius) in rings:
                 if not (a <= frame_no < b):

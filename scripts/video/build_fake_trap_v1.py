@@ -24,6 +24,8 @@ OUT = ROOT / "video-audit/fake-trap-repair-2026-09-18"
 DEST = ROOT / "Prompts/fake-trap-v1.mp4"
 OUT_V2 = ROOT / "video-audit/fake-trap-repair-2026-09-20-v2"
 DEST_V2 = ROOT / "Prompts/fake-trap-v2.mp4"
+OUT_V3 = ROOT / "video-audit/fake-trap-repair-2026-09-20-v3"
+DEST_V3 = ROOT / "Prompts/fake-trap-v3.mp4"
 
 COMPARISON = ROOT / "course-assets/fake-trap/fake-trap-comparison.jpg"
 REASONS = ROOT / "course-assets/fake-trap/fake-trap-reasons.jpg"
@@ -38,6 +40,7 @@ COMPARE_IN, COMPARE_OUT = 400, 1005             # 0:13.33-0:33.50
 PHOTO_IN, PHOTO_OUT = 1409, 1697                # 0:46.97-0:56.57
 REASONS_IN, THIN_REASONS_OUT = 1951, 2551       # 1:05.03-1:25.03
 REASONS_INTRO_OUT = 2241                        # after "four things"
+REASONS_INTRO_OUT_V3 = 2229                     # clean silence before thin-list "Money"
 DETECTOR_IN, WRONG_SENTENCE_IN = 2551, 3314     # detector through "not definitive proof"
 WRONG_SENTENCE_OUT = 3540                       # resumes on "Fakes travel quickly"
 SOURCE_IN, SOURCE_OUT = 3803, 3939              # 2:06.77-2:11.30
@@ -66,13 +69,17 @@ LIVE_OPENING_OUT = 2229                         # 1:14.30
 LIVE_OPENING_GAIN_DB = 0.8
 LIVE_RESOURCE_V2_IN, LIVE_RESOURCE_V2_OUT = 6180, 6300  # 3:26.00-3:30.00
 
+# Revision 3 removes two complete explanatory sentences from the checks board.
+# Both boundaries sit inside measured low-level gaps.
+CHECKS_TRIM_IN, CHECKS_TRIM_OUT = 4767, 5256    # 2:38.90-2:55.20
+
 MOTIVES_LEN = MOTIVES_DONOR[1] - MOTIVES_DONOR[0]
 MOTIVES_VIRTUAL_END = REASONS_INTRO_OUT + MOTIVES_LEN
 
 
-def donor_onset(seconds: float) -> float:
+def donor_onset(seconds: float, intro_out: int = REASONS_INTRO_OUT) -> float:
     """Map a donor-roll word onset onto the synthetic reasons-board clock."""
-    return (REASONS_INTRO_OUT + (fr(seconds) - MOTIVES_DONOR[0])) / 30.0
+    return (intro_out + (fr(seconds) - MOTIVES_DONOR[0])) / 30.0
 
 
 def target(label, at, rect, color, cam=None, *, full_view=False):
@@ -103,10 +110,18 @@ def main() -> None:
         action="store_true",
         help="use the live 0:00-1:14.30 opening and an immediately visible CyberTipline card",
     )
+    parser.add_argument(
+        "--revision-v3",
+        action="store_true",
+        help="v2 plus the clean motive onset and shorter checks-board narration",
+    )
     args = parser.parse_args()
 
-    out = OUT_V2 if args.revision_v2 else OUT
-    dest = DEST_V2 if args.revision_v2 else DEST
+    revision_live = args.revision_v2 or args.revision_v3
+    out = OUT_V3 if args.revision_v3 else (OUT_V2 if args.revision_v2 else OUT)
+    dest = DEST_V3 if args.revision_v3 else (DEST_V2 if args.revision_v2 else DEST)
+    reasons_intro_out = REASONS_INTRO_OUT_V3 if args.revision_v3 else REASONS_INTRO_OUT
+    motives_virtual_end = reasons_intro_out + MOTIVES_LEN
 
     build = Build(
         ROOT,
@@ -115,7 +130,7 @@ def main() -> None:
         dest,
         protected=(
             [DONOR, LIVE, COMPARISON, REASONS, SOURCE, CHECKS, CLOSE, LESSON]
-            + ([] if args.revision_v2 else [PAGE])
+            + ([] if revision_live else [PAGE])
         ),
     )
     build.load_audio([
@@ -132,7 +147,7 @@ def main() -> None:
         (234.58, 235.24), (237.30, 238.00), (240.10, 240.62),
     ])
 
-    if args.revision_v2:
+    if revision_live:
         # The live opening teaches the school example, both jaws of the trap,
         # and the harmless-joke distinction more fully.  End on the live scene
         # cut after “no one is meant to believe it,” then resume candidate 2 in
@@ -172,14 +187,14 @@ def main() -> None:
 
     # Candidate 2 introduces the board and its takeaway.  Candidate 1 then
     # supplies the complete four-item teaching beat under the same course board.
-    build.keep(REASONS_IN, REASONS_INTRO_OUT, "Why Some Fakes Aren't Friendly: introduction", "reasons")
+    build.keep(REASONS_IN, reasons_intro_out, "Why Some Fakes Aren't Friendly: introduction", "reasons")
     build.graft(
         DONOR,
         MOTIVES_DONOR[0],
         MOTIVES_DONOR[1],
         "Candidate-1 audio: complete money, power, fame, and cruelty explanations",
         "candidate1-motives",
-        picture_from=REASONS_INTRO_OUT,
+        picture_from=reasons_intro_out,
         gain_db=MOTIVES_GAIN_DB,
         visual="reasons",
     )
@@ -193,15 +208,19 @@ def main() -> None:
     # Current page assets replace both face-bearing/post-production boards and
     # Notebook's rendering of the three checks.
     build.keep(SOURCE_IN, SOURCE_OUT, "Check the Source, Not the Pixels", "follow-source")
-    build.keep(CHECKS_IN, CHECKS_OUT, "Move the Test Off the Image", "checks")
+    if args.revision_v3:
+        build.keep(CHECKS_IN, CHECKS_TRIM_IN, "Move the Test Off the Image: source, context, corroboration", "checks")
+        build.keep(CHECKS_TRIM_OUT, CHECKS_OUT, "Move the Test Off the Image: final verification rule", "checks")
+    else:
+        build.keep(CHECKS_IN, CHECKS_OUT, "Move the Test Off the Image", "checks")
 
     build.keep(CHECKS_OUT, RESOURCE_IN, "Notebook drawings: voicemail, viral clip, and personal-safety guidance")
 
     # Candidate 2 displays a web address here despite the generation prompt.
     # Reuse the live video's concise, URL-free report/NCMEC diagram and hold its
     # final resource frame for the last 21 frames of the source span.
-    resource_video_in = LIVE_RESOURCE_V2_IN if args.revision_v2 else LIVE_RESOURCE_IN
-    resource_video_out = LIVE_RESOURCE_V2_OUT if args.revision_v2 else LIVE_RESOURCE_OUT
+    resource_video_in = LIVE_RESOURCE_V2_IN if revision_live else LIVE_RESOURCE_IN
+    resource_video_out = LIVE_RESOURCE_V2_OUT if revision_live else LIVE_RESOURCE_OUT
     build.keep(
         RESOURCE_IN,
         RESOURCE_OUT,
@@ -234,7 +253,7 @@ def main() -> None:
     before_ai = [40, 271, 784, 1302]
     ai_era = [816, 271, 1560, 1302]
     comparison_banner = [40, 1342, 1560, 1430]
-    if not args.revision_v2:
+    if not revision_live:
         build.board(
             "comparison",
             COMPARISON,
@@ -262,14 +281,14 @@ def main() -> None:
         "reasons",
         REASONS,
         REASONS_IN,
-        MOTIVES_VIRTUAL_END,
+        motives_virtual_end,
         "dense",
         [
             target("Harmful fakes are made to get something back", 68.42, reasons_banner, NEUTRAL, full_view=True),
-            target("Money", donor_onset(86.92), money, PURPLE, money),
-            target("Power", donor_onset(93.56), power, BLUE, power),
-            target("Fame", donor_onset(101.54), fame, AMBER, fame),
-            target("Cruelty", donor_onset(110.02), cruelty, RED, cruelty),
+            target("Money", donor_onset(86.92, reasons_intro_out), money, PURPLE, money),
+            target("Power", donor_onset(93.56, reasons_intro_out), power, BLUE, power),
+            target("Fame", donor_onset(101.54, reasons_intro_out), fame, AMBER, fame),
+            target("Cruelty", donor_onset(110.02, reasons_intro_out), cruelty, RED, cruelty),
         ],
         per_target_camera=True,
         lead_camera=True,
@@ -317,18 +336,19 @@ def main() -> None:
     build.manifest({
         "scope_detail": (
             "Revision 2 uses the live video's complete opening through the harmless-joke conclusion and aligns the CyberTipline visual with its spoken mention. index.html is excluded from the render-integrity set because an unrelated Where's the Line lesson edit was active concurrently; all video inputs, board assets, and fake-trap.md remain protected."
-            if args.revision_v2 else
+            if revision_live else
             "Full production review candidate from the user-approved Fake-trap-2 best-of plan; live video and lesson unchanged."
         ),
         "narration_changes": {
             "candidate1_motives_donor_frames": list(MOTIVES_DONOR),
-            "candidate2_thin_motives_removed_frames": [REASONS_INTRO_OUT, THIN_REASONS_OUT],
+            "candidate2_thin_motives_removed_frames": [reasons_intro_out, THIN_REASONS_OUT],
             "candidate2_unsupported_detector_sentence_removed_frames": [WRONG_SENTENCE_IN, WRONG_SENTENCE_OUT],
             "candidate2_conclusion_moved_frames": [EYES_IN, EYES_OUT],
             "candidate2_close_frames": [SAFETY_TO_MOVE, RAW_CLOSE_OUT],
             "donor_gain_db": MOTIVES_GAIN_DB,
-            "live_opening_donor_frames": [0, LIVE_OPENING_OUT] if args.revision_v2 else None,
-            "live_opening_gain_db": LIVE_OPENING_GAIN_DB if args.revision_v2 else None,
+            "live_opening_donor_frames": [0, LIVE_OPENING_OUT] if revision_live else None,
+            "live_opening_gain_db": LIVE_OPENING_GAIN_DB if revision_live else None,
+            "checks_board_removed_frames": [CHECKS_TRIM_IN, CHECKS_TRIM_OUT] if args.revision_v3 else None,
         },
         "added_teaching_pauses": [],
         "photographs_replaced": ([
@@ -337,7 +357,7 @@ def main() -> None:
                 "replacement": "Live-video opening through the complete harmless-joke conclusion",
                 "replacement_frames": [0, LIVE_OPENING_OUT],
             },
-        ] if args.revision_v2 else [
+        ] if revision_live else [
             {
                 "candidate2_frames": [PHOTO_IN, PHOTO_OUT],
                 "replacement": "Candidate-1 harmless-hockey-joke drawing",

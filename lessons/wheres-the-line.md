@@ -68,7 +68,7 @@ For each scenario, choose one:
 - Doesn’t cross the line
 - It depends
 
-Choosing an answer immediately shows that scenario’s “Something to consider.” The same feedback appears for every answer, and you can change your choice at any time. Responses are not scored or marked correct or incorrect.
+Choosing an answer immediately shows that scenario’s “Something to consider.” The same feedback appears for every answer. Responses are not scored or marked correct or incorrect.
 
 1. **Another Bet.** An online gambling app uses AI to predict which customers will gamble and lose more after receiving a bonus. It sends those customers offers encouraging them to keep playing.
    - *Something to consider:* Customers can choose whether to accept an offer. But the app knows something about their behavior and uses it to encourage more gambling. What responsibility comes with that knowledge?

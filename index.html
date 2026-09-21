@@ -340,6 +340,16 @@
   .gate-go button:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
   .gate-go button:disabled{ background:#ffffff24; color:#c7d0f08c; cursor:not-allowed; transform:none; }
   .gate-footer{ display:flex; justify-content:center; padding:20px 24px 24px; border-top:1px solid rgba(255,255,255,.12); }
+  .lesson-feedback-link{border:0;background:none;cursor:pointer}
+  .lesson-feedback-modal h2{font-family:var(--sans);font-size:24px;font-weight:800;line-height:1.2}
+  .lesson-feedback-label{display:block;font-size:17px;font-weight:700;margin-bottom:8px}
+  .lesson-feedback-modal textarea{display:block;box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--rule);border-radius:8px;font:inherit;font-size:16px;line-height:1.5;resize:vertical;color:var(--ink);background:var(--card);margin-bottom:12px}
+  .lesson-feedback-modal textarea:focus{outline:2px solid var(--primary);outline-offset:2px}
+  .lesson-feedback-modal .lesson-feedback-note{font-size:14px}
+  .lesson-feedback-modal .lesson-feedback-error{color:#a32137;font-size:15px}
+  .lesson-feedback-modal button:disabled{opacity:.6;cursor:wait;transform:none}
+  .lesson-feedback-honeypot,.lesson-feedback-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  @media(max-width:480px){.lesson-feedback-modal{padding:22px 18px}.lesson-feedback-modal h2{font-size:21px}.lesson-feedback-modal .using-course-modal-header{gap:12px}}
   .using-course-link{ display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 10px; color:var(--inkMuted); font-family:var(--sans); font-size:13px; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
   .using-course-link:hover{ color:var(--primary); }
   .using-course-link:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; border-radius:6px; }
@@ -829,6 +839,37 @@
     body { background: #fff !important; }
     @page { margin: 1.6cm; }
   }
+
+  .resources-tools{margin:0}
+  .resources-tools-list{list-style:none;padding:0;margin:24px 30px 28px;border-top:1px solid var(--rule)}
+  .resources-tools-row{padding:16px 0;border-bottom:1px solid var(--rule)}
+  .resources-tools-company{font-size:11px;font-weight:800;line-height:1.4;letter-spacing:.1em;color:var(--inkMuted);margin-bottom:4px}
+  .resources-tools-row h3{font-size:17px;line-height:1.35;margin:0 0 5px;font-weight:800}
+  .resources-tools-row h3 a{color:var(--primary);text-decoration:none}
+  .resources-tools-row p{font-size:15px;line-height:1.6;color:var(--inkSoft);margin:0}
+  .resources-tools-row a:hover{text-decoration:underline;text-underline-offset:3px}
+  .resources-tools-row a:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:3px}
+  .resources-tools-arrow{white-space:nowrap;font-size:.85em}
+  .course-toolkit-list{list-style:none;padding:0;margin:28px 30px;border-top:1px solid var(--rule)}
+  .course-toolkit-row{display:grid;grid-template-columns:32px minmax(0,1fr) 136px;gap:18px;align-items:start;padding:12px 0;border-bottom:1px solid var(--rule)}
+  .course-toolkit-icon{width:32px;height:40px;color:#bdb2ff;margin-top:2px}
+  .course-toolkit-icon.is-keepsake{color:#d4a33c}
+  .course-toolkit-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-bottom:5px}
+  .course-toolkit-title h3{font-size:17px;line-height:1.35;margin:0;color:var(--ink)}
+  .course-toolkit-copy p{font-size:15px;line-height:1.6;color:var(--inkSoft);margin:0}
+  .course-toolkit-badge{padding:3px 8px;border-radius:5px;background:#fff4d4;color:#805700;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .course-toolkit-actions{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .course-toolkit-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 18px;box-sizing:border-box;border-radius:10px;background:var(--primary);color:#fff;font:inherit;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap}
+  .course-toolkit-actions a:hover{filter:brightness(.92)}
+  .course-toolkit-lesson{display:inline;border:0;background:none;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .course-toolkit-lesson:hover{text-decoration:underline;text-underline-offset:3px}
+  .course-toolkit-actions a:focus-visible,.course-toolkit-lesson:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:5px}
+  @media(max-width:600px){
+    .course-toolkit-row{grid-template-columns:26px minmax(0,1fr);gap:12px;padding:11px 0}
+    .course-toolkit-icon{width:26px;height:34px}
+    .course-toolkit-actions{grid-column:2;flex-direction:row;align-items:center;flex-wrap:wrap;gap:6px 16px}
+    .course-toolkit-title h3{font-size:17px}
+  }
 </style>
 </head>
 <body>
@@ -1236,13 +1277,9 @@ const CLOSE_BOARD_ASSETS = {
 // Preview mode uses reviewed files under tmp; this becomes true when those files
 // replace the canonical assets after approval.
 const CLOSE_BOARD_IMAGES_READY = true;
-// Resources is the remaining Finish Smarter draft. The opener, The Final, and
-// Course Reviews are complete.
-// Draft lessons use red navigation text, a sticky "· Draft" suffix, and a header notice.
+// All lessons are ready for the regular course navigation.
 function isDraftLesson(sectionId) {
-  var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(sectionId) !== -1; });
-  if (!group) return false;
-  return group.label === "Finish Smarter" && sectionId === "resources";
+  return false;
 }
 
 function LessonHeader(props) {
@@ -1491,6 +1528,92 @@ function UsingCourseLink(props) {
     onClick: function(event) { event.preventDefault(); props.onOpen(event); },
     "aria-haspopup": "dialog"
   }, "Copyright & Permissions");
+}
+
+// Shared lesson support: direct server email, separate from course reviews.
+function LessonFeedback(props) {
+  var E = React.createElement;
+  var _open = useState(false), open = _open[0], setOpen = _open[1];
+  var _message = useState(""), message = _message[0], setMessage = _message[1];
+  var _status = useState("idle"), status = _status[0], setStatus = _status[1];
+  var _trap = useState(""), trap = _trap[0], setTrap = _trap[1];
+  var dialogRef = useRef(null), inputRef = useRef(null), triggerRef = useRef(null);
+  var requestRef = useRef(null), reportId = useRef(null);
+  var lesson = SECTION_META[props.lessonId];
+  var group = SECTION_GROUPS.find(function(g) { return g.sections.indexOf(props.lessonId) !== -1; });
+  var title = lesson ? lesson.label : props.lessonId;
+  if (title === "Opener" && group) title = group.label + " Opener";
+  var busy = status === "sending";
+  function close() { setOpen(false); }
+  useEffect(function() {
+    return function() { if (requestRef.current) requestRef.current.abort(); };
+  }, []);
+  useEffect(function() {
+    if (!open) return;
+    var root = document.getElementById("root"), wasInert = root.inert;
+    var previousOverflow = document.body.style.overflow;
+    root.inert = true; document.body.style.overflow = "hidden";
+    if (inputRef.current) inputRef.current.focus();
+    else if (dialogRef.current) dialogRef.current.querySelector("button").focus();
+    function keydown(event) {
+      if (event.key === "Escape") { event.preventDefault(); close(); return; }
+      if (event.key !== "Tab") return;
+      var controls = Array.from(dialogRef.current.querySelectorAll('button:not([disabled]), textarea:not([disabled]), a[href]'));
+      var first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+    document.addEventListener("keydown", keydown);
+    return function() {
+      root.inert = wasInert; document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", keydown);
+      if (triggerRef.current) triggerRef.current.focus();
+    };
+  }, [open]);
+  useEffect(function() {
+    if (open && status === "sent" && dialogRef.current) dialogRef.current.querySelector("button").focus();
+  }, [open, status]);
+  async function send(event) {
+    event.preventDefault();
+    if (!message.trim() || requestRef.current) return;
+    if (!reportId.current) reportId.current = crypto.randomUUID();
+    var clientId;
+    try {
+      clientId = localStorage.getItem("llm-feedback-client");
+      if (!clientId) { clientId = crypto.randomUUID(); localStorage.setItem("llm-feedback-client", clientId); }
+    } catch (error) { clientId = reportId.current; }
+    var controller = new AbortController(); requestRef.current = controller;
+    var timeout = setTimeout(function() { controller.abort(); }, 20000);
+    setStatus("sending");
+    try {
+      // Check capability before POST: older handlers treat unknown events as enrollment.
+      var ready = await fetch(SIGNUP_ENDPOINT + "?action=feedback_status", { signal: controller.signal, cache: "no-store", credentials: "omit" });
+      if (!ready.ok || (await ready.text()).trim() !== "feedback-ready") throw new Error("Feedback unavailable");
+      var response = await fetch(SIGNUP_ENDPOINT, {
+        method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: controller.signal, credentials: "omit",
+        body: JSON.stringify({ eventType: "lesson_feedback", reportId: reportId.current, clientId: clientId, lessonId: props.lessonId, lessonTitle: title, message: message.trim(), website: trap })
+      });
+      if (!response.ok || (await response.text()).trim() !== "feedback-ok") throw new Error("Feedback not confirmed");
+      setMessage(""); setStatus("sent"); reportId.current = null;
+    } catch (error) { setStatus("error"); }
+    finally { clearTimeout(timeout); requestRef.current = null; }
+  }
+  return E(React.Fragment, null,
+    E("button", { type: "button", ref: triggerRef, className: "using-course-link lesson-feedback-link", "aria-haspopup": "dialog", onClick: function() { setOpen(true); } }, "Report a problem"),
+    open ? ReactDOM.createPortal(E("div", { className: "using-course-modal-backdrop", onMouseDown: function(event) { if (event.target === event.currentTarget) close(); } },
+      E("section", { ref: dialogRef, className: "using-course-modal lesson-feedback-modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "lesson-feedback-title" },
+        E("div", { className: "using-course-modal-header" }, E("h2", { id: "lesson-feedback-title" }, "Help us improve this lesson"), E("button", { type: "button", className: "using-course-modal-close", onClick: close }, "Close")),
+        E("p", null, E("strong", null, "Lesson: "), title),
+        status === "sent" ? E("p", { role: "status" }, "Thanks! Your feedback has been sent to Nate and Luke.") :
+          E("form", { onSubmit: send },
+            E("label", { htmlFor: "lesson-feedback-message", className: "lesson-feedback-label" }, "What should we fix or improve?"),
+            E("p", { id: "lesson-feedback-help" }, "Tell us about a broken link, outdated instructions, a confusing explanation, or a suggestion."),
+            E("textarea", { ref: inputRef, id: "lesson-feedback-message", rows: 5, required: true, maxLength: 2500, readOnly: busy, value: message, "aria-describedby": "lesson-feedback-help lesson-feedback-note", onChange: function(event) { setMessage(event.target.value); reportId.current = null; setStatus("idle"); } }),
+            E("div", { className: "lesson-feedback-honeypot", "aria-hidden": "true" }, E("label", null, "Leave this empty", E("input", { tabIndex: -1, autoComplete: "off", value: trap, onChange: function(event) { setTrap(event.target.value); } }))),
+            E("p", { id: "lesson-feedback-note", className: "lesson-feedback-note" }, "Sent privately to Nate and Luke. No email app needed."),
+            status === "error" ? E("p", { role: "alert", className: "lesson-feedback-error" }, "We couldn’t confirm that your feedback was sent. Your message is still here. Please try again shortly.") : null,
+            E("button", { type: "submit", className: "using-course-modal-close", disabled: busy || !message.trim() }, busy ? "Sending…" : "Send feedback"),
+            E("span", { role: "status", className: "lesson-feedback-status" }, busy ? "Sending your feedback." : "")))), document.body) : null);
 }
 
 function UsingCourseModal(props) {
@@ -3465,8 +3588,8 @@ function OpenerFoundationsSection(props) {
       "Sometimes working with AI feels like having a PhD expert at your side. Other times, it makes a mistake you’d expect from a six-year-old. How can the same tool do both? Understanding what happens inside helps explain why.",
       "Think about driving a car. You can get good at it without ever opening the hood. But knowing what’s happening underneath helps you understand what the car can do and why something might go wrong. The same goes for AI. Knowing how it works helps you Be Smarter Than the Tool.",
       /*#__PURE__*/React.createElement("img", {
-        src: "course-assets/understand-ai-opener/understand-ai-opener-under-hood.jpg?v=20260905hood3",
-        alt: "Under the Hood. Luke and Nate examine AI-inspired machinery beneath a car’s open hood. Knowing how it works helps you Be Smarter Than the Tool.",
+        src: "course-assets/understand-ai-opener/understand-ai-opener-under-hood.jpg?v=20260921cast3",
+        alt: "Under the Hood. Two students examine AI-inspired machinery beneath a car’s open hood. The student on the left points to a symbol control while the student on the right inspects another component with a probe. Knowing how it works helps you Be Smarter Than the Tool.",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       }),
       "This section takes you inside the machine, one piece at a time. Some of this will be new to you, but each piece builds on the one before it. You don’t need to memorize every term. The goal is to understand how your words become an answer."
@@ -3787,8 +3910,8 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Nothing. It’s a desk."),
     /*#__PURE__*/React.createElement(BodyP, null, "Ask a friend, and they can help you brainstorm. Ask AI, and it can give you a list in seconds."),
     /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg?v=20260910desk1",
-      alt: "Ask the Desk. Ask AI. Luke asks an ordinary school desk for 10 history-project ideas and gets no response. Nate asks AI on a laptop and receives a numbered list of ideas. The banner says: AI is software built to do things that used to take a human brain.",
+      src: "course-assets/what-is-ai/what-is-ai-ask-the-desk.jpg?v=20260921cast2",
+      alt: "Ask the Desk. Ask AI. A male student asks an ordinary school desk for 10 history-project ideas and gets no response. A female student asks AI on a laptop and receives a numbered list of ideas. The banner says: AI is software built to do things that used to take a human brain.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "AI is software built to do things that used to take a human brain."), " Understand a question. Summarize information. Translate a conversation. Suggest ideas for a history project."),
@@ -4559,8 +4682,8 @@ function WhyDeeperSection(props) {
     /*#__PURE__*/E(BodyP, null,
       "Pretend you\u2019re a scribe in the 1450s. All day, you hand-copy the king\u2019s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn\u2019t happening, or learn the new machine well enough to run it."),
     /*#__PURE__*/E("img", {
-      src: "course-assets/why-learn-ai/why-learn-ai-press.jpg?v=20260911press1",
-      alt: "AI Is the Press. A young printer operates an early printing press in a 1450s workshop while another worker copies a page by hand. Stacks of printed pages show how the machine multiplies output. Run it, or someone else will.",
+      src: "course-assets/why-learn-ai/why-learn-ai-press.jpg?v=20260921cast2",
+      alt: "AI Is the Press. A young female printer operates an early printing press in a 1450s workshop while a young male scribe copies a page by hand. Stacks of printed pages show how the machine multiplies output. Run it, or someone else will.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/E(SectionKicker, null, "AI IS EVERYWHERE"),
@@ -4698,7 +4821,7 @@ function DoesAIThinkSection(props) {
       "The Chinese Room illustrates a distinction: producing an answer and understanding it aren’t necessarily the same thing. An LLM doesn’t follow a literal rulebook. It uses patterns learned during training to predict its response. A fluent answer alone doesn’t tell you whether it understands."),
 
     E("img", {
-      src: "course-assets/does-ai-think/does-ai-think-side-by-side.jpg?v=20260915titlebanner1",
+      src: "course-assets/does-ai-think/does-ai-think-side-by-side.jpg?v=20260921batch3",
       alt: "When You Think. What AI Does. Meaning: You connect words to what they mean in your life; AI uses learned patterns and what you tell it. Experience: You draw on things you have lived through; AI works with patterns learned from text, images, audio, and other data. Word choice: You choose words to express what you want to say; AI predicts the next word, then repeats. Beauty: You have a personal response to art or music; AI can describe beauty using learned patterns. Uncertainty: You can notice when you are unsure; AI can sound certain even when it is wrong. Similar-looking answers can come from very different processes.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
@@ -5333,8 +5456,8 @@ function AIvsCodeSection(props) {
       "Watch what each one does with the same question."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/ai-is-different/ai-is-different-rules-vs-patterns.jpg?v=20260914attribution1",
-      alt: "Rules vs. Patterns. Nate and Luke ask what the best game is for a new PS5. Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.",
+      src: "course-assets/ai-is-different/ai-is-different-rules-vs-patterns.jpg?v=20260921cast2",
+      alt: "Rules vs. Patterns. The same two students compare answers to the question, what is the best game for a new PS5? Normal software repeats Marvel’s Spider-Man 2 every time. AI software gives Marvel’s Spider-Man 2, NHL 26, and God of War Ragnarök across three asks. Rules repeat the programmed answer. Patterns build a fresh one.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -5355,7 +5478,7 @@ function AIvsCodeSection(props) {
       "That something was AI. It read the notes, followed the changes, and turned them into a first draft."
     ),
     /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/ai-is-different/ai-is-different-structured.jpg?v=20260914attribution1",
+      src: "course-assets/ai-is-different/ai-is-different-structured.jpg?v=20260921cast2",
       alt: "Structured vs. Unstructured Data. Normal Software: You fit information into a structure the software expects. You use the fields, file types, and commands the software was built to handle. AI Software: AI can make sense of messy information and help you organize or transform it. Give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image. Available inputs and outputs depend on the app. You bring the mess. AI helps make sense of it.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
@@ -5913,8 +6036,8 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
       "Training data can create two different traps. It can be skewed, so AI sees a distorted picture. It can also be stale, so AI sees an old picture."),
     /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/training-bias/training-bias-wrong-pattern.jpg?v=20260918characters1",
-      alt: "The board titled Wrong Pattern. Wrong Answer. shows Luke and Nate testing a brass visual classifier trained on photo cards of cows standing on green grass. The machine locks onto the grass pattern, then rejects a photo of the same kind of cow on a beach.",
+      src: "course-assets/training-bias/training-bias-wrong-pattern.jpg?v=20260921batch3",
+      alt: "The board titled Wrong Pattern. Wrong Answer. shows a Black female student and a Latino male student thoughtfully testing a brass visual classifier trained on photo cards of cows standing on green grass. The machine locks onto the grass pattern, then rejects a photo of the same kind of cow on a beach.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -6461,8 +6584,8 @@ function TokenSection(props) {
       E("strong", null, "unbelievable"), " and ",
       E("strong", null, "unusual"), "."),
     E("img", {
-      src: "course-assets/tokens/tokens-building-blocks.jpg?v=20260914attribution1",
-      alt: "Building Blocks for Language. Luke and Nate feed the written word unbelievable into a brass tokenizer, which produces un, belie, and vable tiles. Below, the same green un piece is highlighted in unbelievable, unmatchable, and unusual; the remaining letters are unboxed and may span multiple tokens. Reuse the pieces. Build more words.",
+      src: "course-assets/tokens/tokens-building-blocks.jpg?v=20260921batch3",
+      alt: "Building Blocks for Language. A male student with glasses and a red-haired female student feed the written word unbelievable into a brass tokenizer, which produces un, belie, and vable tiles. Below, the same green un piece is highlighted in unbelievable, unmatchable, and unusual; the remaining letters are unboxed and may span multiple tokens. Reuse the pieces. Build more words.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
     E(SectionKicker, null, "WHERE THE PIECES COME FROM"),
@@ -6638,7 +6761,7 @@ function EmbeddingsSection(props) {
   E(BodyP, null,
     "It\u2019s the same as the number assigned to your Student ID. It might let you in the building, but it doesn\u2019t tell anyone whether you are funny, into hockey, or the person who steals fries at lunch."),
   E("img", {
-    src: "course-assets/embeddings/embeddings-student-id.jpg?v=20260907nate3",
+    src: "course-assets/embeddings/embeddings-student-id.jpg?v=20260921cast1",
     alt: "An ID Identifies You. It Doesn’t Describe You. Four students at a cafeteria table wear lanyard badges numbered 1024, 2048, 3072, and 4096. The standing student slips french fries into his shirt pocket. His ID won’t tell you he steals fries.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   }),
@@ -7697,8 +7820,8 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null,
     "Claude currently requires users to be 18. We include it here because knowing your options matters, even before you can use them."),
   /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/your-home-base/your-home-base-home-base.jpg?v=20260909board1",
-    alt: "Pick a Home Base. Learn It Deeply. Nate and Luke compare three workstations labeled ChatGPT, Claude, and Gemini. The skills transfer. The app is where you practice them.",
+    src: "course-assets/your-home-base/your-home-base-home-base.jpg?v=20260921cast3",
+    alt: "Pick a Home Base. Learn It Deeply. A female student and a male student thoughtfully compare three workstations labeled ChatGPT, Claude, and Gemini. The skills transfer. The app is where you practice them.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement(BodyP, null,
@@ -8572,8 +8695,8 @@ function OpenerWorkWithSection(props) {
       "You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?",
       "Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Knowing how to work with it helps you get more out of it.",
       /*#__PURE__*/React.createElement("img", {
-        src: "course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg?v=20260909character1",
-        alt: "Same Tool. Different Results. Luke and Nate use identical phones to photograph the same sandwich. Luke takes a rushed blurry picture while Nate carefully frames a crisp shot. AI does not replace your thinking. It multiplies it.",
+        src: "course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg?v=20260921cast1",
+        alt: "Same Tool. Different Results. Two students in Dallas Stars jerseys use identical phones to photograph the same sandwich. The student on the left takes a rushed blurry picture while the student on the right carefully frames a crisp shot. AI does not replace your thinking. It multiplies it.",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       })
     ],
@@ -8626,8 +8749,8 @@ function OpenerProtectSection(props) {
       "AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.",
       "And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.",
       /*#__PURE__*/React.createElement("img", {
-        src: "course-assets/avoid-traps-opener/avoid-traps-opener-read-the-water.jpg?v=20260915boxed",
-        alt: "Luke, wearing green hockey jersey 4, points toward a deceptively calm channel between breaking waves while Nate, in jersey 96, recognizes the rip current and stops him. A weathered sign reads Read the Water.",
+        src: "course-assets/avoid-traps-opener/avoid-traps-opener-read-the-water.jpg?v=20260921batch3",
+        alt: "A short-haired female student in green hockey jersey 4 points toward a deceptively calm channel between breaking waves while a South Asian female student in jersey 96 recognizes the rip current and signals her to stop. A weathered sign reads Read the Water.",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       })
     ],
@@ -9074,7 +9197,7 @@ function StudyingWithAISection(props) {
     E(BodyP, null,
       "Use Gemini Notebook as your main study tool when you\u2019re studying from class materials. It keeps your work grounded in the notes, slides, and sources your teacher gave you."),
     E("img", {
-      src: "course-assets/learn-with-ai/learn-with-ai-how-it-works.jpg?v=20260914attribution1",
+      src: "course-assets/learn-with-ai/learn-with-ai-how-it-works.jpg?v=20260921cast3",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
@@ -9262,8 +9385,8 @@ function EvaluatingSection(props) {
       "Now decide what to do with the answer."),
     processBoard("course-assets/evaluate-the-results/evaluate-the-results-move.jpg?v=20260914attribution1", "Make Your Move", NEXT_MOVES, "The tool answers. You evaluate.", false, 20),
     E("img", {
-      src: "course-assets/evaluate-the-results/evaluate-the-results-check-before-use.jpg?v=20260914attribution1",
-      alt: "Check Before You Use. Nate and Luke compare an AI claim that a scholarship deadline is March 1 against two sources that say February 15, then decide to fix it. The answer is not the evidence.",
+      src: "course-assets/evaluate-the-results/evaluate-the-results-check-before-use.jpg?v=20260921cast3",
+      alt: "Check Before You Use. Two female students compare an AI claim that a scholarship deadline is March 1 against two sources that say February 15, then decide to fix it. The student on the left points to the highlighted claim while the student on the right checks the tablet with a stylus. The answer is not the evidence.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     closeBoard("evaluating"),
@@ -12489,9 +12612,9 @@ function FiveBigIdeasKeepsake() {
         }, downloadState.busy === "image" ? "Saving image…" : "Save image"),
         E("span", { "aria-hidden": "true", style: { color: "var(--inkMuted)" } }, "·"),
         E("a", {
-          href: "course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.pdf?v=20260915attribution1",
+          href: "packets/finish-smarter-opener-five-big-ideas.pdf?v=20260915attribution1",
           download: "Five Big Ideas to Take With You.pdf",
-          onClick: function(event) { downloadFile(event, "course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.pdf?v=20260915attribution1", "Five Big Ideas to Take With You.pdf", "pdf"); },
+          onClick: function(event) { downloadFile(event, "packets/finish-smarter-opener-five-big-ideas.pdf?v=20260915attribution1", "Five Big Ideas to Take With You.pdf", "pdf"); },
           "aria-busy": downloadState.busy === "pdf" ? "true" : undefined,
           style: downloadStyle
         }, downloadState.busy === "pdf" ? "Downloading PDF…" : "Download PDF")),
@@ -12513,28 +12636,110 @@ function FinishSmarterOpenerSection(props) {
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatyoulearned"); }, label: "Next: The Final" }));
 }
-// Promised in the closing letter. Resources opens with the Common Mistake copy
-// (moved from the opener, kicker dropped); the rest of the content is to come.
+// Course references appear before external learning resources.
+function CourseToolkit(props) {
+  var E = React.createElement;
+  var items = [
+  {
+    "title": "Evaluate the Results",
+    "description": "A practical checklist for deciding whether an AI answer is ready to use.",
+    "lesson": "evaluating",
+    "base": "packets/evaluate-the-results-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Where AI Works Best",
+    "description": "Four useful kinds of work, with examples to help you get started.",
+    "lesson": "whatitdoesbest",
+    "base": "packets/where-ai-works-best-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Art of Prompting",
+    "description": "Four prompting moves, a worked example, and an outline you can reuse.",
+    "lesson": "prompting",
+    "base": "packets/art-of-prompting-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Five Habits of Critical Thinking",
+    "description": "Five questions to use with AI, news, schoolwork, and everyday claims.",
+    "lesson": "critical",
+    "base": "packets/critical-thinking-five-habits-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Share Only What AI Needs",
+    "description": "A quick privacy check before sending a prompt, screenshot, or file.",
+    "lesson": "integrity",
+    "base": "packets/honesty-and-privacy-sharing-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Using AI in School",
+    "description": "Check the rules, understand your work, and explain how AI helped.",
+    "lesson": "integrity",
+    "base": "packets/honesty-and-privacy-school-guide",
+    "format": "One-page guide"
+  },
+  {
+    "title": "Five Big Ideas to Take With You",
+    "description": "The illustrated reminder from Finish Smarter, ready to keep nearby.",
+    "lesson": "openerfinish",
+    "base": "packets/finish-smarter-opener-five-big-ideas",
+    "format": "Illustrated keepsake"
+  }
+];
+  function resourceIcon(keepsake) {
+    return E("svg", { className: "course-toolkit-icon" + (keepsake ? " is-keepsake" : ""), viewBox: "0 0 32 40", fill: "none", "aria-hidden": "true", focusable: "false" },
+      keepsake ? E("rect", { x: 1, y: 1, width: 30, height: 38, rx: 2, fill: "#fff9e9", stroke: "currentColor" }) :
+        E("path", { d: "M3 1H20L31 12V37Q31 39 29 39H3Q1 39 1 37V3Q1 1 3 1Z", fill: "#f5f2ff", stroke: "currentColor" }),
+      keepsake ? E("circle", { cx: 11, cy: 12, r: 3, fill: "currentColor" }) :
+        E("path", { d: "M20 1V13H31", stroke: "currentColor" }),
+      E("path", { d: keepsake ? "M7 29L14 21L20 26L24 22L28 27" : "M7 21H25M7 27H25M7 33H19", stroke: "currentColor", strokeWidth: 1.2, strokeLinecap: "round", strokeLinejoin: "round" }));
+  }
+  return E("ul", { className: "course-toolkit-list" }, items.map(function(item) {
+    var keepsake = item.format === "Illustrated keepsake";
+    return E("li", { key: item.base, className: "course-toolkit-row" },
+      resourceIcon(keepsake),
+      E("div", { className: "course-toolkit-copy" },
+        E("div", { className: "course-toolkit-title" }, E("h3", null, E("button", { type: "button", className: "course-toolkit-lesson", onClick: function() { props.onNavigate(item.lesson); }, "aria-label": "Revisit lesson for " + item.title }, item.title)), keepsake ? E("span", { className: "course-toolkit-badge" }, "Keepsake") : null),
+        E("p", null, item.description)),
+      E("div", { className: "course-toolkit-actions" },
+        E("a", { href: item.base + ".pdf", target: "_blank", rel: "noopener noreferrer", "aria-label": "Open PDF: " + item.title + " (opens in a new tab)" }, "Open PDF")));
+  }));
+}
+
 function ResourcesSection(props) {
   var E = React.createElement;
   var link = function(href, text) {
     return E("a", { href: href, target: "_blank", rel: "noopener noreferrer", style: { color: "var(--primary)", fontWeight: 700 } }, text);
   };
   var stack = function(items) { return E(LabeledCardStack, { items: items }); };
+  var toolList = function(items) {
+    return E("ul", { className: "resources-tools-list" }, items.map(function(item) {
+      return E("li", { key: item.eyebrow, className: "resources-tools-row" },
+        E("div", { className: "resources-tools-company" }, item.eyebrow),
+        E("h3", null, React.cloneElement(item.headline, { "aria-label": item.headline.props.children + " (opens in a new tab)" }, item.headline.props.children, E("span", { className: "resources-tools-arrow", "aria-hidden": "true" }, " ↗"))),
+        E("p", null, item.body));
+    }));
+  };
   return E("div", null,
     E(LessonHeader, { sectionId: "resources" }),
-    E(BodyP, null,
-      "Want to keep learning? These resources give you a few places to start. Learn more about your AI app, explore how the technology works, or keep up with what’s changing. Pick whatever interests you."),
+    E(SectionKicker, null, "YOUR AI TOOLKIT"),
+    E(BodyP, null, "Keep these guides handy for the next time you work with AI. Each PDF opens in a new tab, where you can read, save, or print it. Select a title to revisit its lesson."),
+    E(CourseToolkit, { onNavigate: props.onNavigate }),
+    E("section", { className: "resources-tools" },
     E(SectionKicker, null, "LEARN THE TOOLS"),
     E(BodyP, null, "Each of the three companies from Your Home Base teaches its own app. Start with the one you use."),
-    stack([
+    toolList([
       { eyebrow: "OPENAI", headline: link("https://academy.openai.com/", "OpenAI Academy"),
-        body: ["OpenAI’s free learning site for ChatGPT. Start with ", link("https://academy.openai.com/public/videos/chatgpt-101-a-guide-to-your-super-assistant-2025-02-13", "ChatGPT 101: A Guide to Your Super Assistant"), ", a recorded session on what ChatGPT can do and how to ask it well. You sign in to watch."] },
+        body: "Learn to use ChatGPT." },
       { eyebrow: "GOOGLE", headline: link("https://grow.google/students", "Google AI for Students"),
-        body: "Free study tips and short videos on using Gemini and Gemini Notebook for schoolwork, plus a downloadable guide to prompting. Start with the videos under “Learn how to make AI your study buddy.” No sign-in needed. The certificate and the Google AI Pro trial on the same page cost money; you don’t need them." },
-      { eyebrow: "ANTHROPIC", headline: link("https://academy.claude.com/courses/ai-fluency-framework-foundations", "Claude Academy: AI Fluency"),
-        body: "A free course on working well with AI: deciding what to hand off, describing what you want, judging what comes back, and staying responsible for the result. Fourteen short lessons, about four hours. You sign in to take it. Using Claude itself requires age 18+." }
-    ]),
+        body: "Explore ways to use Google’s AI tools for learning." },
+      { eyebrow: "ANTHROPIC", headline: link("https://academy.claude.com/", "Claude Academy"),
+        body: "Learn to work with Claude." }
+    ])),
     E(SectionKicker, null, "GO ONE LEVEL DEEPER"),
     E(BodyP, null, "Understand AI gave you tokens, embeddings, attention, and prediction. These go further."),
     stack([
@@ -13359,7 +13564,7 @@ function BigDownsideSection(props) {
     E(BodyP, null,
       "Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called ", E("strong", null, "jailbreaking"), "."),
     E("img", {
-      src: "course-assets/big-downside/big-downside-jailbreak.jpg?v=20260914attribution1",
+      src: "course-assets/big-downside/big-downside-jailbreak.jpg?v=20260921cast1",
       alt: "Why Jailbreaks Keep Appearing. A massive guardrail wall has many guarded paths, while an attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -14923,7 +15128,9 @@ function LLMExplorer() {
     style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", minHeight: 44, padding: "8px 10px", font: "inherit" }
   }, "\u21BA Reset Progress"),
   /*#__PURE__*/React.createElement("span", { "aria-hidden": "true" }, "·"),
-  /*#__PURE__*/React.createElement(UsingCourseLink, { onOpen: openUsingCourse })),
+  /*#__PURE__*/React.createElement(UsingCourseLink, { onOpen: openUsingCourse }),
+  React.createElement("span", { "aria-hidden": "true" }, "·"),
+  React.createElement(LessonFeedback, { key: activeSection, lessonId: activeSection })),
   /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }),
   usingCourseModal);
 }

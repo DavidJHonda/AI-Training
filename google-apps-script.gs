@@ -270,6 +270,7 @@ function doGet(e) {
   var diagnostic = { stage: "request", startedAt: Date.now() };
   try {
     var params = e && e.parameter ? e.parameter : {};
+    if (params.action === "feedback_status") return textResponse_("feedback-ready");
     if (params.action !== "public_reviews") throw new Error("Unknown action");
     return jsonResponse_(getPublicReviews_(params, diagnostic));
   } catch (error) {
@@ -356,6 +357,10 @@ function jsonResponse_(value) {
 function doPost(e) {
   try {
     var data = parseRequest_(e);
+    if (data.eventType === "lesson_feedback") {
+      sendLessonFeedback_(data);
+      return textResponse_("feedback-ok");
+    }
     if (data.eventType === "course_completed") {
       recordCompletion_(data);
       return textResponse_("completion-ok");
@@ -382,6 +387,49 @@ function parseRequest_(e) {
     throw new Error("Invalid request body");
   }
   return data;
+}
+
+// Feedback uses email only. Small fixed-recipient limits preserve the shared mail quota.
+function sendLessonFeedback_(data) {
+  var id = typeof data.reportId === "string" ? data.reportId : "";
+  var client = typeof data.clientId === "string" ? data.clientId : "";
+  var lessonId = typeof data.lessonId === "string" ? data.lessonId : "";
+  var title = typeof data.lessonTitle === "string" ? data.lessonTitle.trim() : "";
+  var message = typeof data.message === "string" ? data.message.trim() : "";
+  if (!/^[a-zA-Z0-9-]{16,80}$/.test(id) || !/^[a-zA-Z0-9-]{16,80}$/.test(client) ||
+      !/^[a-z0-9_-]{1,80}$/.test(lessonId) || !title || title.length > 100 || /[\r\n\x00-\x1f]/.test(title) ||
+      !message || message.length > 2500 || data.website) throw new Error("Invalid lesson feedback");
+  var hash = Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, JSON.stringify([lessonId, title, message])));
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    var now = Date.now(), prefix = "lesson-feedback-sent:";
+    // Bounded receipts protect retries after a lost response; no message text is stored.
+    var receipt = properties.getProperty(prefix + id);
+    if (receipt) {
+      var previous = JSON.parse(receipt);
+      if (previous.hash !== hash) throw new Error("Feedback request changed");
+      return;
+    }
+    var day = new Date(now).toISOString().slice(0,10);
+    var budget = JSON.parse(properties.getProperty("lesson-feedback-budget") || "{}");
+    if (budget.day !== day) budget = { day: day, count: 0 };
+    var cache = CacheService.getScriptCache();
+    var rateKey = "lesson-feedback-client:" + client;
+    var rate = JSON.parse(cache.get(rateKey) || "{}");
+    if (!rate.until || rate.until <= now) rate = { until: now + 3600000, count: 0 };
+    if (budget.count >= 50 || rate.count >= 5 || MailApp.getRemainingDailyQuota() <= 10) throw new Error("Feedback sending limit reached");
+    MailApp.sendEmail(NOTIFICATION_EMAIL, "Course feedback: " + title,
+      "Lesson: " + title + "\nLesson ID: " + lessonId + "\nReport ID: " + id + "\n\n" + message);
+    properties.setProperty(prefix + id, JSON.stringify({ at: now, hash: hash }));
+    budget.count++; properties.setProperty("lesson-feedback-budget", JSON.stringify(budget));
+    rate.count++; cache.put(rateKey, JSON.stringify(rate), Math.max(1, Math.ceil((rate.until - now) / 1000)));
+    var all = properties.getProperties();
+    Object.keys(all).forEach(function(key) {
+      if (key.indexOf(prefix) === 0 && JSON.parse(all[key]).at < now - 86400000) properties.deleteProperty(key);
+    });
+  } finally { lock.releaseLock(); }
 }
 
 function recordEnrollment_(data) {

@@ -74,17 +74,20 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Document Trap
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; Scene labels move the rulebook-mistake, retrieval, and leases passages off the boards).
+Rebuilt 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template) after the 9/18 and 9/20 rolls did not carry the lesson: the prompt has the VOICE block, ten required-verbatim lines (both quotes from the story, the definition, both banners, the tournament-section question, the quotation line, the close), and a beat spine under 500 words; the Markdown is Board / Image file / Teaching content only with no Scene or Takeaway labels; Board 1 uploads as a faceless variant (title and banner, photo removed) that the canonical board replaces in post. Staged in `gemini-notebook/document-trap/`.
+
+Revised again 2026-09-21 after rolls 7 and 8: both spoke seven of the ten required lines and missed the same three — the two definition sentences and Board 1's banner — and so did all six earlier rolls, so there was nothing to repair from. Those three were the only required lines buried mid-paragraph; every line that lands is either quoted dialogue or alone on its own line. The Markdown now gives all eleven that shape (the six-foul result is the eleventh, added because it has never landed in eight rolls), the two "may" sentences are split out so the conditional wording is not buried, and the prompt names the layout and the hardenings to avoid. Review: `video-audit/document-trap-reroll-2026-09-21/`.
 
 - Prompt: `Prompts/document-trap-video-prompt.txt`
 - Markdown: `lessons/document-trap.md`
 - Upload checklist: `Prompts/document-trap-upload-files.txt`
 - Notebook sources:
-  1. `course-assets/document-trap/document-trap-flow.jpg`
-  2. `course-assets/document-trap/document-trap-moves.jpg`
-  3. `course-assets/document-trap/document-trap-close.jpg`
+  1. `Prompts/document-trap-uploaded-faceless.jpg` (upload variant of Board 1, photo removed)
+  2. `course-assets/document-trap/document-trap-flow.jpg`
+  3. `course-assets/document-trap/document-trap-moves.jpg`
+  4. `course-assets/document-trap/document-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/document-trap/document-trap-uploaded.jpg` (faces; Board 1 narration reserved in the Markdown)
+  - `course-assets/document-trap/document-trap-uploaded.jpg` (faces; replaces the faceless variant in the edit)
 
 ## Mind Trap
 

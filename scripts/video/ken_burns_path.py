@@ -25,10 +25,15 @@ A beat may omit "from" to continue from the previous beat's "to" (the usual case
 — that is what makes the path continuous).
 
 Rings (post-crop highlights, owner rule 2026-09-10): capture the board ONCE,
-unmarked, and let this tool draw every highlight AFTER the crop so the stroke is
-a constant RING_PX (5) on the delivery frame however far the camera dives. The
-capture's rects.json supplies the rectangles; the spec lists them on the LEG's
-own frame timeline (half-open [start, end)):
+unmarked, and let this tool draw every highlight AFTER the crop. The stroke is
+scaled to the ARTWORK, not to the delivery frame (owner rule 2026-09-21): a ring
+is RING_PX px at RING_REF_SCALE (a 1600 px board shown full width, the library's
+usual framing) and thickens or thins in proportion as the camera dives or pulls
+back, so a highlight carries the same visual weight against the board's own text
+wherever it appears. The earlier rule — a constant 5 px however far the camera
+dived — is superseded; videos shipped under it are not rebuilt. The capture's
+rects.json supplies the rectangles; the spec lists them on the LEG's own frame
+timeline (half-open [start, end)):
 
   "rings": [{"start": 0, "end": 219, "rect": [x, y, w, h], "color": "#1652f0",
              "pad": 0, "radius": 14}, ...]
@@ -56,7 +61,18 @@ import sys
 
 import cv2
 
-RING_PX = 5  # constant stroke weight on the delivery frame (grader: never thicker when zoomed)
+RING_PX = 5           # stroke at the reference framing, below
+RING_REF_SCALE = 0.8  # output px per board px for a 1600 px board filling a 1280 px frame
+RING_MIN_PX = 3       # floor, so a board shown small on screen still carries a visible outline
+
+
+def ring_px(scale):
+    """Stroke weight in output px for a camera at `scale` output px per board px.
+
+    Constant against the artwork rather than against the frame (owner rule
+    2026-09-21), so the ring grows as the camera dives and shrinks as it pulls back.
+    """
+    return max(RING_MIN_PX, int(round(RING_PX * scale / RING_REF_SCALE)))
 
 FFMPEG = subprocess.run(
     [sys.executable, "-c", "import imageio_ffmpeg,sys; sys.stdout.write(imageio_ffmpeg.get_ffmpeg_exe())"],
@@ -115,10 +131,10 @@ def resolve(spec, aspect, ow, up):
     return out
 
 
-def draw_ring(frame, x0, y0, x1, y1, color, radius):
-    """Anti-aliased rounded-rect stroke of RING_PX centred on the given box
+def draw_ring(frame, x0, y0, x1, y1, color, radius, thickness=RING_PX):
+    """Anti-aliased rounded-rect stroke of `thickness` centred on the given box
     (output px). Corner radius is clamped so tiny boxes still close."""
-    t = RING_PX
+    t = int(thickness)
     r = max(0.0, min(radius, (x1 - x0) / 2, (y1 - y0) / 2))
     if r < 1:
         cv2.rectangle(frame, (int(round(x0)), int(round(y0))), (int(round(x1)), int(round(y1))),
@@ -183,6 +199,7 @@ def main():
         frame = cv2.resize(crop, (ow, oh), interpolation=interp)
         if frame_no is not None and rings:
             scale = ow / ww  # output px per image px at this camera
+            t = ring_px(scale)
             frame = frame.copy()
             for (a, b, rect, color, pad, radius) in rings:
                 if not (a <= frame_no < b):
@@ -190,12 +207,12 @@ def main():
                 rx, ry, rw, rh = rect
                 # stroke centreline = rect grown by pad (image px) + half a stroke
                 # (output px), so the INNER edge of the stroke sits at rect+pad.
-                half = RING_PX / 2.0
+                half = t / 2.0
                 x0 = (rx - pad - x) * scale - half
                 y0 = (ry - pad - y) * scale - half
                 x1 = (rx + rw + pad - x) * scale + half
                 y1 = (ry + rh + pad - y) * scale + half
-                draw_ring(frame, x0, y0, x1, y1, color, radius * scale + half)
+                draw_ring(frame, x0, y0, x1, y1, color, radius * scale + half, t)
         return frame
 
     if args.preview:

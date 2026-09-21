@@ -56,6 +56,8 @@ Scene directions: draw the opening chat before revealing Board 1; leave it for t
 
 ## Training Bias
 
+**v6 SHIPPED 2026-09-21** (cache key 20260921ship3, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no grafts, no cuts; post-only Wrong Pattern board as an illustration walk; canonical Boards 2-5 with card-hugging rings (separate-card rule) and bubble rings; standard close. Review: `video-audit/training-bias-comparison-2026-09-21/`.
+
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; Scene markers so the prose runs leave the boards).
 
 - Prompt: `Prompts/training-bias-video-prompt.txt`

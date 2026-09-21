@@ -117,10 +117,19 @@ full view, and the ring traces the bubble's own border, not the text inside it.
 - Outline only, drawn after the camera crop at a constant 5 px, rounded
   corners. No fills, tints, chips, or Notebook washes anywhere in the candidate.
 - One ring per point being made. A whole-card ring traces the card's outer
-  boundary. On a board whose cards are columns inside one white content box
-  (Why Hallucinations Happen, Check the Claim), the ring runs the full height of
-  that white box, top edge to bottom edge, not the height of the text (owner
-  rule 2026-09-21, Hallucination v10). Navy refrain boards (Traps Ahead, the
+  boundary. Two card layouts, two rules (owner, 2026-09-21): when the cards are
+  columns inside one shared white box (Why Hallucinations Happen, Check the
+  Claim), the ring runs the full height of that white box, top edge to bottom
+  edge, never just the text (Hallucination v10); when the cards are separate
+  rounded white cards on the stage (How Skewed Data Distorts the Picture, Three
+  Questions That Reveal Bias, How RAG Works), the ring hugs that card's own
+  measured edges on all four sides (Training Bias v6). Measure the card's own
+  edges, not the stage colour: separate cards cast a soft drop shadow (4–8 px
+  at the sides, ~14 px below) that a "not stage colour" test swallows, which
+  floated every Training Bias v5 ring a shadow's width outside its card. Take
+  the illustration tile's x extent and top for the card's left, right, and top,
+  and the last near-white row above the shadow for its bottom. Do not reuse
+  another board's rects. Navy refrain boards (Traps Ahead, the
   creeds) ring each line in the creed gold `#f2cf5b`, tight to the text
   (owner rule 2026-09-21, Avoid Traps opener v6). A component ring inside a card sits at least 16 px inside the card,
   clear of dividers and arrows, sharing the card's rails when sections stack.

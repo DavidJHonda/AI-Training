@@ -88,6 +88,8 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Mind Trap
 
+**v3 SHIPPED 2026-09-21** (cache key 20260921ship4, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no cuts, plus one graft from roll 5 (the shared-text-versus-shared-experience sentence, which roll 6 never speaks); post-only comparison board walked with section rings and returned to unmarked under the definition, which also removes the roll's chapter card; canonical Why AI Feels Like Somebody with card-hugging rings and a banner ring; the roll's 23.5 s archival mainframe photograph replaced by the previous live video's own ELIZA teletype drawing; standard close. Review: `video-audit/mind-trap-comparison-2026-09-21/`.
+
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the comparison board's narration reserved for post-production).
 
 - Prompt: `Prompts/mind-trap-video-prompt.txt`

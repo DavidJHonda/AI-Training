@@ -103,6 +103,8 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Flattery Trap
 
+**v6 SHIPPED 2026-09-21** (cache key 20260921ship5, pill 5 min): roll 4 of 2026-09-21 as the whole narration, no cuts, plus one audio-only graft from roll 2 ("But while the problem has improved, it has not disappeared.", the clause every other roll drops; roll 2's own picture there is an invented agreement-rate chart and never enters the build). Roll 4 is the only roll that keeps the RLHF qualification and speaks the standing instruction word for word. Post-only Flattery vs. Useful Feedback with response-quote and section rings; canonical How the Praise Got Baked In with full-box-height column rings; canonical Sycophancy with its first paragraph ringed; canonical Five Ways in five legs, dense, diving to the active row and panning between rows, broken up by three roll-3 drawings matched to the beats they cover; standard close. First build under the artwork-scaled ring rule (Edit Spec section 5). Review: `video-audit/flattery-trap-comparison-2026-09-21/`.
+
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the Gatsby comparison's narration reserved for post-production, a Scene label moves the rollback passage off the sycophancy board).
 
 - Prompt: `Prompts/flattery-trap-video-prompt.txt`

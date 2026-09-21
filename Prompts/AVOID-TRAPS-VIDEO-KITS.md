@@ -2,6 +2,8 @@
 
 Initially prepared against the lesson pages on 2026-09-04; individual kits are updated as reviewed. Each has one canonical Markdown, one prompt under 500 words, and the current JPG sources. The seven trap lessons and Hallucination were rebuilt to the 2026-09-10 materials spec on 2026-09-18; each has an upload checklist. Follow each lesson's current checklist rather than the original batch counts. Numbering follows teaching order; gaps in the upload list are intentional.
 
+Upload sets for all nine lessons live in `Prompts/upload-sets.json`; `scripts/video/sync_gemini_notebook.py` stages each lesson's uploads in `gemini-notebook/<slug>/upload/` with the prompt beside them and regenerates the checklists below from the same registry (2026-09-20).
+
 `Master Prompt.md` is retired and is never uploaded. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
 
 Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. Before generation, turn Visible watermarking off as described in Edit Spec section 8. Save new raw videos to `Prompts/<slug>-reroll.mp4`, or the next unused numbered reroll filename. Do not overwrite existing raw rolls or the live video.
@@ -22,6 +24,8 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 
 ## Opener
 
+**v6 SHIPPED 2026-09-21** (cache key 20260921ship1, pill 4 min): roll 2 of 2026-09-21 as the whole narration, no grafts; canonical Traps Ahead (gold text-tight rings), Read the Water walk from "Survival…", section map with row rings and roll 1's binoculars interleave, standard close. Review: `video-audit/avoid-traps-opener-comparison-2026-09-21/`.
+
 - Prompt: `Prompts/opener-avoid-video-prompt.txt`
 - Markdown: `lessons/Opener-Avoid.md`
 - Notebook sources:
@@ -29,7 +33,7 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
   2. `course-assets/avoid-traps-opener/avoid-traps-opener-section-map.jpg`
   3. `course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/avoid-traps-opener/opener-avoid-2-read-water.jpg`
+  - `course-assets/avoid-traps-opener/avoid-traps-opener-read-the-water.jpg`
 
 ## Hallucination
 

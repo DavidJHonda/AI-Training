@@ -188,10 +188,15 @@ The superseded live video is the donor for this build's ELIZA teletype span, so 
 byte-identical as `video-audit/mind-trap-comparison-2026-09-21/mind-trap-live.mp4`. That copy is
 gitignored and exists only on this machine: a future rebuild of the teletype span needs it.
 
-`Prompts/mind-trap-v1.mp4` and `-v2.mp4`, the two defective builds described above, were deleted at
-David's instruction on 2026-09-21. `Prompts/mind-trap-v3.mp4` is kept and is byte-identical to the
-live file. All six rolls are kept: roll 6 is the base and roll 5 the graft donor, and rolls 1-4 are
-untouched pending David's call.
+Cleanup on David's instruction, 2026-09-21: `Prompts/` now keeps only what a live video was built
+from. Deleted are the two defective builds `mind-trap-v1.mp4` and `-v2.mp4`, the shipped candidate
+`mind-trap-v3.mp4` (byte-identical to the live file, which is in git), and rolls 1-4, which lost the
+review and supplied no frame or word to the build. Kept: `mind-trap-6.mp4` (base) and
+`mind-trap-5.mp4` (graft donor).
+
+Re-running `build_mind_trap_v3.py` as written would now fail: it hashes rolls 1-5 as protected files.
+A future rebuild needs `OTHER_ROLLS` trimmed to the surviving rolls. The script is left as it shipped
+so the manifest's `protected_hashes` still describe the build that produced the live file.
 
 ## Not in this build
 

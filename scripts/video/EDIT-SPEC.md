@@ -185,9 +185,11 @@ one reason: in a repaired video it blinks on at every cut back to Notebook and o
 at every board, which reads as a glitch. Google makes the visible mark optional
 (its help page: AI Pro and Ultra users can turn off "Visible watermarking" in the
 Gemini Notebook profile menu; SynthID stays embedded regardless, and nothing in
-Google's generative-AI terms requires the visible mark). David's account is Ultra,
-so: **turn Visible watermarking off before generating**; new rolls arrive clean.
-For rolls that already carry the mark, the render loop in `editspec_build.py`
+Google's generative-AI terms requires the visible mark). David's account is Ultra
+and the toggle is off, **but it does not take effect** (verified 2026-09-20: both
+Fake Trap materials-test rolls carried the mark on every frame). So every roll is
+assumed to carry the mark, and a marked roll is not a generation mistake. The
+render loop in `editspec_build.py`
 removes it on every kept Notebook frame (`gemini_mark.py`): paper cloned from the
 same frame where the surround is paper, otherwise an inpaint of only the mark's
 glyph strokes, using a mask learned from that roll's own paper frames. Frames it

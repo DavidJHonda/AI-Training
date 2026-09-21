@@ -54,7 +54,9 @@ Do not change the live lesson or finished video merely to prepare a source bundl
 
 ## Generate and hand off
 
-Before generating, follow the visible engine-mark setting in Edit Spec section 8.
+The Visible watermarking toggle does not take effect (verified 2026-09-20): every roll
+carries the corner mark, and the build removes it (Edit Spec section 8). Do not treat a
+marked roll as a mistake at generation.
 Paste the prompt into the video customization field, not into an uploaded source.
 Save the raw roll in `Prompts/<slug>-reroll.mp4` (then `-reroll-2.mp4`, etc.) and
 review narration before production. Weak Notebook highlights or close visuals are

@@ -30,6 +30,20 @@ Do not change the live lesson or finished video merely to prepare a source bundl
    record which canonical JPG replaces it in the finished video. Do not overwrite
    the canonical asset or renumber an existing scene plan just for an omission.
 
+## The gemini-notebook folder (one place to upload from)
+
+`Prompts/upload-sets.json` is the registry: one entry per lesson naming its Markdown,
+its upload JPGs in order (faceless variants where a board has faces), the post-only
+boards, the prompt, and the save-as name. `scripts/video/sync_gemini_notebook.py`
+builds `gemini-notebook/<slug>/` from it: everything to upload sits in `upload/`,
+the prompt is `PROMPT.txt`, and `README.txt` says what to do. It also regenerates
+`Prompts/<slug>-upload-files.txt`, so the checklist and the folder cannot disagree.
+
+The folder is derived and gitignored. Edit the registry or the sources, never the
+copies. Run the sync before generating, or `--check` to see whether a lesson or board
+changed since the last sync. Lessons not yet in the registry (everything outside
+Avoid Traps as of 2026-09-20) are added as their sections come up for rerolling.
+
 ## Write the presentation prompt
 
 - Keep prompts written or revised now under 500 words. Older longer prompts need

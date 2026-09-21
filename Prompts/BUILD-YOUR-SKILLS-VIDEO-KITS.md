@@ -60,6 +60,8 @@ Paths are repository-relative. Prompt and checklist filenames below are inside `
 
 ### wheres-the-line
 
+Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt carries the VOICE block, seven required-verbatim lines, and a beat spine under 500 words; the upload Markdown is Board / Image file / Teaching content only, with the eight TRY IT scenarios and the source-record line left out so Notebook does not narrate them. Both teaching boards are icon illustrations with no faces, so nothing is post-only. Guardrails kept from the 2026-09-19 prompt: the bonus-bets email is an illustration, not a quotation; the company's response is given once; the protective system is not presented as proven; no blanket judgment of gambling; no real logos. Uploads are staged in `gemini-notebook/wheres-the-line/`. No video yet; add the `LESSON_VIDEOS` entry at ship.
+
 - Markdown: `lessons/wheres-the-line.md`
 - Prompt: `wheres-the-line-video-prompt.txt`
 - Upload checklist: `wheres-the-line-upload-files.txt`

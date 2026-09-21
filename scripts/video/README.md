@@ -9,6 +9,7 @@ routine edit. User instructions and already-approved plans take precedence.
 | Task | Read after this page |
 |---|---|
 | Prepare Markdown, prompt, or upload bundle | [Prompts guide](../../Prompts/README.md) |
+| Stage a lesson's uploads in one folder | `sync_gemini_notebook.py` builds `gemini-notebook/<slug>/` from `Prompts/upload-sets.json` |
 | Evaluate narration or compare generations | [Narration Review](NARRATION-REVIEW.md) |
 | Build or repair a video | [Edit Spec](EDIT-SPEC.md) |
 | Replace course-board visuals | [Board Retrofit](RETROFIT-PLAYBOOK.md), plus Edit Spec |

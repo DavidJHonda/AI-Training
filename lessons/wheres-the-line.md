@@ -4,7 +4,7 @@
 
 AI can do remarkable things. But, to borrow a line from a famous document, **we the people** are responsible for how we use it.
 
-That’s not just writing better prompts and evaluating its answer. It goes much deeper than that. It includes what we ask AI to do and who could be affected.
+That responsibility goes beyond writing better prompts and evaluating AI’s answers. It includes deciding what we ask AI to do and considering who could be affected.
 
 There’s a word for this you’ve heard: **ethics.** It means thinking through what you should do and how your decisions affect other people.
 
@@ -12,17 +12,17 @@ There’s a word for this you’ve heard: **ethics.** It means thinking through 
 
 DraftKings is an online gambling platform where customers play casino games and make sports bets. The company earns money when customers lose.
 
-This business model isn’t unique to DraftKings. Traditional casinos also benefit when customers keep playing. But some people struggle to control their betting. Gambling addiction is a recognized mental health condition that can seriously affect their lives.
+This business model isn’t unique to DraftKings. Traditional casinos work the same way. But some people struggle to control their gambling. Gambling addiction is a recognized mental health condition that can seriously affect finances, relationships, and health.
 
 ## WHY IS THIS IN YOUR AI COURSE?
 
 Customers leave a digital record of their betting activity when they use DraftKings. AI can analyze that record to identify patterns in how often they play, how much they bet, and how much they lose.
 
-Here’s a thought. What if DraftKings could use those patterns to predict which customers would gamble and lose more after receiving a promotion? It could then send those customers an offer like “Place a bet today and get bonus bets.”
+Here’s a thought. What if DraftKings could use AI to predict which customers would gamble and lose more after receiving a special offer? It could send those customers a promotional email like “Place a bet today and get bonus bets.”
 
-Here’s another thought. What if they could use the same patterns to identify people who might be developing a gambling problem and offer help instead of a promotion?
+Here’s another thought. What if they could use AI to identify people who might be developing a gambling problem and offer help instead of a promotion?
 
-This creates an ethical question: when should DraftKings stop encouraging someone to play if continued gambling could cause harm?
+This creates an ethical question: when should DraftKings stop encouraging a customer to play if continued gambling could harm them?
 
 The New York Times investigated these choices at DraftKings. Here’s what it reported.
 
@@ -37,11 +37,11 @@ The New York Times investigated these choices at DraftKings. Here’s what it re
 - **Targeted Promotions:** DraftKings developed AI to analyze betting habits, account balances, and losses to predict which customers would gamble and lose more after receiving free bets and bonuses. *What they did:* DraftKings put the technology into use and continued developing it.
 - **Customer Protection:** Employees developed AI to analyze betting patterns and identify people who might be developing a gambling problem, so the company could intervene earlier. *What they did:* DraftKings chose not to put this predictive technology into use.
 
-DraftKings disputes targeting customers based on losses. It says it already monitors risky behavior and found insufficient evidence to support the proposed predictive safeguards.
+DraftKings disputes targeting customers based on losses. It says it already monitors risky behavior and didn’t find enough evidence that the proposed predictive system would help.
 
 ## TURN JUDGMENT INTO ACTION
 
-A system can accomplish its assigned goal while harming people. Four moves make responsible judgment concrete:
+AI can do what it’s asked while still harming people. Here are four moves to help you make responsible choices:
 
 ### Board 2: Making the Responsible Choice
 
@@ -60,7 +60,7 @@ A responsible decision considers the people who live with it.
 
 ## TRY IT: DOES IT CROSS THE LINE?
 
-These fictional scenarios describe ways AI could be used. For each one, decide whether it crosses an ethical line. Then consider another angle.
+Where would you draw the line? In these scenarios, you’re the judge. Your choices won’t be marked right or wrong. Instead, you’ll see another angle to consider. Think about who benefits, who could be harmed, and whether that changes your decision.
 
 For each scenario, choose one:
 

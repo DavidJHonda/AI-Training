@@ -2,7 +2,7 @@
 
 # Vector Space
 
-AI represents meaning with rows of numbers called **embeddings**. As AI processes your message, the layers change the numbers. If the numbers are different, how do they still represent meaning? To understand how, let’s explore **vector space**.
+AI represents meaning with rows of numbers called embeddings. As AI processes your message, the layers change the numbers. If the numbers are different, how do they still represent meaning? To understand how, let’s explore vector space.
 
 ## Let’s Start With a Map
 
@@ -18,20 +18,13 @@ Imagine these are the only three cities on our map.
 
 **Teaching content:**
 
-Each city has a position described by latitude and longitude. These are approximate coordinates:
+A United States map marks three cities, each with two approximate coordinates. Mountain View is at 37° north, 122° west. Dallas is at 33° north, 97° west. New York City is at 41° north, 74° west.
 
-| City | Latitude | Longitude |
-| --- | --- | --- |
-| Mountain View | 37° N | 122° W |
-| Dallas | 33° N | 97° W |
-| New York City | 41° N | 74° W |
+Latitude and longitude give each city a position.
 
-**Takeaway:** Latitude and longitude give each city a position.
+Someone hands you two sets of coordinates. For each position, which of the three cities is closest? The first position is 38° north, 120° west. The second position is 40° north, 76° west.
 
-Someone hands you two sets of coordinates. For each position, which of the three cities is closest?
-
-- **38 N, 120 W**
-- **40 N, 76 W**
+The position 38° north, 120° west is closest to Mountain View. The position 40° north, 76° west is closest to New York City.
 
 ### Board 2: Use the Map to Find the Closest City
 
@@ -41,30 +34,15 @@ Someone hands you two sets of coordinates. For each position, which of the three
 
 **Teaching content:**
 
-Keep the same three cities on the map:
+The same map keeps Mountain View, Dallas, and New York City in place. Two new positions are added: 38° north, 120° west, and 40° north, 76° west. A dotted line connects 38° north, 120° west to Mountain View, the nearest of the three cities. Another dotted line connects 40° north, 76° west to New York City, the nearest of the three cities.
 
-| City | Latitude | Longitude |
-| --- | --- | --- |
-| Mountain View | 37° N | 122° W |
-| Dallas | 33° N | 97° W |
-| New York City | 41° N | 74° W |
+When nothing matches exactly, distance finds the closest one.
 
-Add two new positions:
-
-| New position | Closest of these three cities |
-| --- | --- |
-| 38° N, 120° W | Mountain View |
-| 40° N, 76° W | New York City |
-
-Neither position exactly matches a city. Comparing their positions still identifies the closest of the three.
-
-**Takeaway:** When nothing matches exactly, distance finds the closest one.
-
-The new coordinates don’t match any city exactly. But comparing positions finds the closest city: 38° N, 120° W is closest to Mountain View, and 40° N, 76° W is closest to New York City.
+The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city.
 
 ## From Places to Meaning
 
-These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a **vector**.
+These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a vector.
 
 ### Board 3: Three Drinks, Seven Dimensions Each
 
@@ -74,17 +52,21 @@ These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each d
 
 **Teaching content:**
 
-Each drink has seven ratings on a scale from 0 to 10. Compare matching columns:
+Each drink is rated on the same seven dimensions, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, and Citrus. The ratings run from 0 to 10, where 0 is low and 10 is high.
 
-| Drink | Sweet | Bitter | Fizz | Heat | Caffeine | Dark | Citrus |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Coke | 9 | 1 | 10 | 2 | 3 | 8 | 1 |
-| Pepsi | 9 | 1 | 10 | 2 | 3 | 8 | 10 |
-| Coffee | 1 | 9 | 0 | 9 | 8 | 10 | 0 |
+Coke’s ratings are 9, 1, 10, 2, 3, 8, 1.
 
-**Takeaway:** Coke and Pepsi have more similar profiles than either does to coffee.
+Pepsi’s ratings are 9, 1, 10, 2, 3, 8, 10.
 
-Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s **vector space**. We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
+Coffee’s ratings are 1, 9, 0, 9, 8, 10, 0.
+
+Compare the columns. Coke and Pepsi match on the first six dimensions and differ only on Citrus, where Coke scores 1 and Pepsi scores 10. Coffee’s ratings differ from both on every one of the seven.
+
+Coke and Pepsi have more similar profiles than either does to coffee.
+
+Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s vector space.
+
+We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
 
 ### Board 4: A Map of Drink Similarities
 
@@ -94,21 +76,11 @@ Just as latitude and longitude give a city a position, a drink’s seven ratings
 
 **Teaching content:**
 
-The map pictures the similarities between these numerical profiles:
+The map places Coke and Pepsi as nearby points inside the soft drinks neighborhood. Coffee sits farther from both, in the hot drinks neighborhood. Each drink shows its seven scores in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions: the line between Coke and Pepsi is short, and the lines from each of them to coffee are long. The positions picture how similar or different the ratings are.
 
-| Drink | Sweet | Bitter | Fizz | Heat | Caffeine | Dark | Citrus |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Coke | 9 | 1 | 10 | 2 | 3 | 8 | 1 |
-| Pepsi | 9 | 1 | 10 | 2 | 3 | 8 | 10 |
-| Coffee | 1 | 9 | 0 | 9 | 8 | 10 | 0 |
+Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.
 
-Coke and Pepsi sit near each other in the soft drinks neighborhood. Coffee sits farther away in the hot drinks neighborhood. Their positions express similarities and differences in the ratings.
-
-**Takeaway:** Similar scores place Coke and Pepsi together in the soft drinks neighborhood.
-
-Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match.
-
-- **9, 1, 10, 2, 3, 8, 9**
+Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match. The mystery drink’s ratings are 9, 1, 10, 2, 3, 8, 9. Its closest match is Pepsi.
 
 ### Board 5: Use the Map to Find the Closest Drink
 
@@ -118,27 +90,27 @@ Now someone gives you the ratings for a mystery drink. They don’t match Coke, 
 
 **Teaching content:**
 
-The mystery drink’s ratings are **[9, 1, 10, 2, 3, 8, 9]**, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus.
+The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dotted line. Its first six scores match Pepsi’s. Its Citrus score is 9, compared with Pepsi’s 10.
 
-Its first six scores match Pepsi’s. Its Citrus score is 9 compared with Pepsi’s 10, a gap of just 1. Coke’s Citrus score is 1, a gap of 8. The mystery point therefore sits close to Pepsi on the map.
-
-**Takeaway:** The mystery drink’s ratings are closest to Pepsi’s.
+The mystery drink’s ratings are closest to Pepsi’s.
 
 ## Distance
 
-The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. So the mystery drink is closest to Pepsi.
+The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. That puts the mystery drink closer to Pepsi.
 
-This is the idea behind **distance**: compare the numbers in matching positions across the vectors. Smaller gaps mean closer positions.
+This is the idea behind distance: compare the numbers in matching positions across the vectors.
 
-AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions. The values in those dimensions are learned during training. Similar meanings usually occupy nearby positions in vector space.
+Smaller gaps mean closer positions.
+
+AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. Similar meanings usually occupy nearby positions in vector space.
 
 ## When the Numbers Change
 
-In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space:
+In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space.
 
-**The sentence:** “The **CAT** sat on the mat during the May rainstorm because **IT** was tired.”
+The sentence: “The CAT sat on the mat during the May rainstorm because IT was tired.”
 
-On its own, **IT** could refer to many things. As the layers process this sentence, they update **IT**’s numbers to carry information connecting it to **CAT**. Changing those numbers also changes its position in **vector space**.
+On its own, IT could refer to many things. As the layers process this sentence, they update IT’s numbers to carry information connecting it to CAT. Changing those numbers also changes its position in vector space.
 
 ### Board 6: How Context Changes IT’s Position
 
@@ -148,13 +120,11 @@ On its own, **IT** could refer to many things. As the layers process this senten
 
 **Teaching content:**
 
-IT begins with numbers **[0.12, −0.34, …]**. As the layers update the numbers to **[0.41, 0.06, …]**, its position changes.
+A tabletop meaning map has three neighborhoods. The objects neighborhood holds a mat and a chair. The weather neighborhood holds a cloud and a rainstorm. The animals neighborhood holds a cat, a dog, a kitten, and a pet bowl. The mat and the rainstorm are also in the sentence, so on its own IT might have pointed to either of them.
 
-The path ends with a separate IT marker near CAT. The animal neighborhood also contains a dog, kitten, and pet bowl. Adjoining neighborhoods contain a mat and chair, and a cloud and rainstorm.
+A blue IT marker begins outside the neighborhoods at its starting position, with numbers .12, −.34, and so on. A path labeled “The layers update the numbers” leads through three intermediate points. IT ends at its updated position, with numbers .41, .06, and so on, right next to CAT inside the animals neighborhood. The move pictures how changing the numbers changed IT’s position.
 
-The movement illustrates IT’s contextual connection to CAT. It does not mean the model identifies a word’s meaning by looking up the nearest original token embedding.
-
-**Takeaway:** IT’s new position reflects its connection to CAT in this sentence.
+IT’s new position reflects its connection to CAT in this sentence.
 
 ## Closing Message
 

@@ -12,17 +12,23 @@ Have you ever read a passage in English class that only made sense after a few r
 
 **Teaching content:**
 
-1. **First Read:** The sentence does not seem to make sense. Is a word missing?
-2. **More Reads:** You try possible interpretations. Did the barn fall? Did the horse race past it afterward?
-3. **Meaning Clicks:** Someone raced a horse past a barn. Then the horse fell.
+The sentence is “The horse raced past the barn fell.”
 
-**Takeaway:** Each read updates the meaning until it clicks.
+First read: it doesn’t make sense. Did someone forget a word? You reach “fell” and the sentence seems to stop short.
+
+More reads: wait, did a barn fall? Did the horse race past the barn afterward? You try each possibility against the words.
+
+Meaning clicks: someone raced a horse past a barn. Then the horse fell. “Raced” describes the horse, and “fell” is what the horse did.
+
+Each read updates the meaning until it clicks.
 
 ## AI Does Something Similar
 
-AI doesn’t read your message the way you do. It processes your text through a series of **layers**. Within each layer, **attention** and **transformation** work together to update the numbers, helping AI work out what your words mean together. Those updated numbers pass to the next layer. Like rereading a difficult sentence, the process builds on what came before.
+AI doesn’t read your message the way you do.
 
-The whole stack of layers is called a **neural network**.
+It processes your text through a series of layers. Within each layer, attention and transformation work together to update the numbers, helping AI work out what your words mean together. Those updated numbers pass to the next layer. Like rereading a difficult sentence, the process builds on what came before.
+
+The whole stack of layers is called a neural network.
 
 ### Board 2: How Layers Update the Numbers
 
@@ -32,22 +38,17 @@ The whole stack of layers is called a **neural network**.
 
 **Teaching content:**
 
-The starting row of numbers passes through many layers. Each layer uses attention and transformation, then passes its updated numbers onward.
+Numbers go in on one side and final numbers come out the other. In between stands a long line of layers, one after another. Inside every layer are the same two steps, attention and transformation. Each layer takes the numbers it receives, updates them, and passes the updated numbers to the next layer.
 
-Two values from the much longer row are shown at four points:
+Each row contains many numbers. Two are shown here.
 
-| Stage | Numbers |
-| --- | --- |
-| Starting Numbers | [0.42, −1.15, …] |
-| After One Layer | [0.51, −0.87, …] |
-| After Many Layers | [0.27, −1.21, …] |
-| Final Numbers | [0.19, −1.12, …] |
+The starting numbers for those two positions are .42 and −1.15. After one layer they are .51 and −.87. After many layers they are .27 and −1.21. The final numbers are .19 and −1.12. The values shift at every layer, so the numbers that come out are not the numbers that went in.
 
-**Takeaway:** Attention and transformation update the numbers at each layer.
+Attention and transformation update the numbers at each layer.
 
 ## Following One Word Through the Layers
 
-Now follow one word, **IT**, as its numbers change from layer to layer.
+Now follow one word, IT, as its numbers change from layer to layer.
 
 ### Board 3: How AI Connects ‘IT’ to ‘CAT’
 
@@ -57,17 +58,19 @@ Now follow one word, **IT**, as its numbers change from layer to layer.
 
 **Teaching content:**
 
-**The sentence:** “The **CAT** sat on the mat during the May rainstorm because **IT** was tired.”
+The sentence is “The CAT sat on the mat during the May rainstorm because IT was tired.”
 
-Follow IT through the five stages:
+Start: IT could refer to different things. The starting numbers don’t tell us which one. Two of IT’s starting numbers are .12 and −.34.
 
-| Stage | Numbers shown | What changes |
-| --- | --- | --- |
-| Start | [0.12, −0.34, …] | IT could refer to different things. The starting numbers don’t tell us which one. |
-| Layer 1 | [0.18, −0.22, …] | The numbers begin to capture IT’s connection to CAT. |
-| Layer 2 | [0.25, −0.09, …] | The updated numbers carry more information about that connection. |
-| Repeat | The row continues through more layers. | Each layer builds on the previous layer’s numbers. |
-| Result | [0.41, 0.06, …] | AI works out that IT refers to CAT. |
+Layer 1: the numbers begin to capture IT’s connection to CAT. The two numbers are now .18 and −.22.
+
+Layer 2: the updated numbers carry more information about that connection. The two numbers are now .25 and −.09.
+
+Repeat: the row continues through more layers. Each layer builds on the previous layer’s numbers.
+
+Result: the two numbers finish at .41 and .06.
+
+AI works out that IT refers to CAT.
 
 ## How Many Layers Are There?
 
@@ -75,7 +78,9 @@ AI companies don’t always share how many layers their models use. But publishe
 
 The horse sentence took a few reads to untangle. Sarcasm, story twists, and complicated reasoning can take even more work. AI’s layers give it more steps to work through those relationships and build meaning.
 
-Why not keep adding layers? More layers require more computing power and time. The extra benefit has to be worth the cost.
+Why not keep adding layers? More layers require more computing power and time.
+
+The extra benefit has to be worth the cost.
 
 ## Closing Message
 

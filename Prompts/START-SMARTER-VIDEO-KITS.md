@@ -1,5 +1,7 @@
 # Start Smarter Video Kits
 
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+
 Rebuilt 2026-09-12 under the speak-the-answers method (see `scripts/video/README.md`, "Speak the answers", and `EDIT-SPEC.md`). Welcome has no video by design. Every Markdown was rewritten from the live page with each board's text as prose beneath its image; every upload copy in `lessons/` is byte-for-byte the page asset (three What Is AI boards and the Where AI Already Lives board are served from `lessons/` by the page itself). Each prompt is self-contained and under 500 words. Boards with visible faces are never uploaded; the prompt reserves their narration and the real board is inserted in editing. Per-lesson upload checklists: `Prompts/<slug>-upload-files.txt`.
 
 | Lesson | Markdown | Prompt | Notebook sources | Post-production only (faces) | Status |

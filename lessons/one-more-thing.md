@@ -10,7 +10,9 @@ Why can the same prompt produce a different answer? What makes AI’s answers mo
 
 You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time.
 
-But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same.
+But having the highest probability doesn’t guarantee selection.
+
+A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same.
 
 ### Board 1: Same Probabilities, Different Choices
 
@@ -20,29 +22,25 @@ But having the highest probability doesn’t guarantee selection. A 22% probabil
 
 **Teaching content:**
 
-**Answer so far:** “You could name him **?**”
+The answer so far is “You could name him,” and the next token is still open.
 
-| Possible next token | Probability |
-| --- | --- |
-| Spot | 22% |
-| Max | 17% |
-| Buddy | 14% |
-| Rex | 9% |
-| Biscuit | 6% |
-| Other tokens combined | 32% |
+The probabilities for that next token are Spot at 22%, Max at 17%, Buddy at 14%, Rex at 9%, Biscuit at 6%, and all other tokens combined at 32%. These probabilities stay unchanged across all five tries.
 
-Five separate tries with these probabilities unchanged produce **Max, Spot, Buddy, Rex, Max**. These are separate selections at the same point in the answer, not five successive tokens in one reply. They show one possible set of outcomes, not a required pattern.
+Five separate tries with these same probabilities produce Max, then Spot, then Buddy, then Rex, then Max. Spot, the top choice, came up once in five tries. These are five separate selections at the same point in the answer, not five tokens in a row in one reply. They show one possible set of outcomes, not a required pattern.
 
-**Takeaway:** The best chance is not a guarantee.
+The best chance is not a guarantee.
 
-**Two important points:**
+Two important points follow.
 
-- Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety.
-- Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.
+Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety.
+
+Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.
 
 ## Temperature
 
-Behind the scenes, the app uses a setting called **temperature** to reshape the probabilities before AI picks a token. Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
+Behind the scenes, the app uses a setting called temperature to reshape the probabilities before AI picks a token.
+
+Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
 
 Start with the same probabilities. Watch how they change with temperature.
 
@@ -54,24 +52,25 @@ Start with the same probabilities. Watch how they change with temperature.
 
 **Teaching content:**
 
-**Answer so far:** “You could name him **?**”
+The answer so far is still “You could name him,” with the next token open.
 
-| Name | Starting Odds | Low Temperature | High Temperature |
-| --- | --- | --- | --- |
-| Spot | 22% | 36% | 16% |
-| Max | 17% | 21% | 14% |
-| Buddy | 14% | 15% | 13% |
-| Rex | 9% | 6% | 10% |
-| Biscuit | 6% | 3% | 8% |
-| Other tokens combined | 32% | 19% | 39% |
+The starting odds are the same as before: Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%.
 
-The starting odds match the previous board. Low temperature concentrates probability on the most likely choices. High temperature spreads it more evenly, giving less likely choices a better chance. Each column totals 100%, with percentages rounded to whole numbers.
+At low temperature, Spot rises to 36%, Max to 21%, and Buddy to 15%. Rex drops to 6%, Biscuit to 3%, and other tokens combined to 19%. Low temperature concentrates the odds on the most likely choices. Spot’s chance goes from 22% to 36%.
 
-**Takeaway:** Temperature reshapes the probabilities. It does not change what the model learned.
+At high temperature, Spot falls to 16%, Max to 14%, and Buddy to 13%. Rex rises to 10%, Biscuit to 8%, and other tokens combined to 39%. High temperature spreads the odds more evenly and gives less likely choices a better chance.
+
+Each column adds up to 100%. Temperature changes how far ahead the top choice is.
+
+Temperature reshapes the probabilities. It does not change what the model learned.
 
 ## The scale of the math
 
-Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction. When you use AI, those weights stay fixed. For each new token, AI uses those weights in a massive set of calculations.
+Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction.
+
+When you use AI, those weights stay fixed.
+
+For each new token, AI uses those weights in a massive set of calculations.
 
 To picture the scale, imagine a model that uses one trillion weights for each token it produces. At roughly two calculations per weight, that would mean about two trillion calculations for one token.
 
@@ -83,17 +82,17 @@ To picture the scale, imagine a model that uses one trillion weights for each to
 
 **Teaching content:**
 
-Use the hypothetical model described above: one trillion weights used for each new token, with roughly two calculations per weight.
+Use the same example model: one trillion weights used for each new token, at roughly two calculations per weight.
 
-| Amount written by AI | Approximate calculations |
-| --- | --- |
-| One token | 2 trillion |
-| A short answer: about 100 tokens | 200 trillion |
-| A longer conversation: about 1,000 tokens written by AI across the conversation | 2 quadrillion |
+One token, such as Spot, is one pass through the example model’s trillion weights. That is about 2 trillion calculations.
 
-These estimates concern the tokens AI writes. They do not assume that all earlier work is repeated for every new token.
+A short answer is about 100 tokens written by AI. One hundred tokens at 2 trillion each is about 200 trillion calculations.
 
-**Takeaway:** Even a short answer takes trillions of calculations.
+A longer conversation is about 1,000 tokens written by AI across the conversation. One thousand tokens at 2 trillion each is about 2 quadrillion calculations.
+
+These counts cover the tokens AI writes. They are estimates for an imagined model, not measurements of a real one.
+
+Even a short answer takes trillions of calculations.
 
 ## Closing Message
 

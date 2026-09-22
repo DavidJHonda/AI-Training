@@ -1,5 +1,7 @@
 # Work With AI Video Kits
 
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+
 Rebuilt 2026-09-14 under the speak-the-answers method (see `scripts/video/README.md`, "Speak the answers", and `EDIT-SPEC.md`). Every Markdown was rewritten from the live page and the boards as they render today, with each board's text written out as prose beneath its image; every upload copy in `lessons/` is byte-for-byte the page asset, renumbered in page order. Each prompt is self-contained and under 500 words. Boards with visible faces are never uploaded; the prompt reserves their narration and the real board is inserted in editing. Close copies were rendered fresh from the page's CLOSE_BOARDS (`make_close_board.py --lesson <id>`). Per-lesson upload checklists: `Prompts/<slug>-upload-files.txt`.
 
 | Lesson | Markdown | Prompt | Notebook sources | Post-production only (faces) | Status |

@@ -1,5 +1,7 @@
 # Embrace the Future Video Kits
 
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+
 Prep updated 2026-09-18. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
 
 Use current Markdown in `lessons/`, canonical JPGs in each `course-assets/` lesson folder, and the matching prompt and upload checklist in `Prompts/`. Markdown contains the spoken teaching in lesson order; it is not a script for reading production labels. Upload selected JPGs separately. There are no upload JPG copies in `lessons/` or `illustrations/`.
@@ -146,7 +148,7 @@ Follow `Prompts/README.md`, `scripts/video/README.md`, `scripts/video/EDIT-SPEC.
 - Use drawn scenes rather than stock photos for generated visuals, printed labels, no extra chapter/lesson-number cards, and unchanged, complete supplied boards.
 - Visible-face exclusions are explicit in each checklist. Keep their narration and insert the canonical image in editing. Never recreate the faces.
 - Speak the exact two closing lines. No narration follows them. The standard course closing visual is inserted in editing.
-- Turn visible watermarking off before generation. Save each raw roll under the next unused name.
+- The watermarking toggle does not take effect (the build removes the mark). Save each raw roll under the next unused name.
 - Review changed scene directions before generation. During evaluation, present the proposed box-highlighting plan before edits, under the shared specs. Full-card versus subsection highlighting depends on the spoken explanation; source preparation does not preapprove timings or zooms.
 - Use natural transitions. Decide pauses selectively during editing; do not automatically add one second at each idea or board.
 - Check actual narration after the roll. These sources do not establish a KEEP/REPAIR/REROLL verdict or a shipping status for an existing video.

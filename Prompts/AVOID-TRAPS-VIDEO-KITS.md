@@ -1,12 +1,14 @@
 # Avoid Traps Video Kits
 
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+
 Initially prepared against the lesson pages on 2026-09-04; individual kits are updated as reviewed. Each has one canonical Markdown, one prompt under 500 words, and the current JPG sources. The seven trap lessons and Hallucination were rebuilt to the 2026-09-10 materials spec on 2026-09-18; each has an upload checklist. Follow each lesson's current checklist rather than the original batch counts. Numbering follows teaching order; gaps in the upload list are intentional.
 
 Upload sets for all nine lessons live in `Prompts/upload-sets.json`; `scripts/video/sync_gemini_notebook.py` stages each lesson's uploads in `gemini-notebook/<slug>/upload/` with the prompt beside them and regenerates the checklists below from the same registry (2026-09-20).
 
 `Master Prompt.md` is retired and is never uploaded. Each prompt below is self-contained. Upload only the lesson Markdown and the files listed under **Notebook sources**. Files under **Post-production boards** are exact current lesson boards, but they contain visible faces and must not be uploaded to Gemini Notebook. Each prompt reserves an uninterrupted narration span for those boards so they can be inserted exactly in post-production.
 
-Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. Before generation, turn Visible watermarking off as described in Edit Spec section 8. Save new raw videos to `Prompts/<slug>-reroll.mp4`, or the next unused numbered reroll filename. Do not overwrite existing raw rolls or the live video.
+Paste the prompt into Notebook's video customization box; it is not an extra source document. Use the Markdown, not the older lesson PDF. Do not upload this checklist, the manifest, or archived variants. The Visible watermarking toggle does not take effect; every roll carries the corner mark and the build removes it (Edit Spec section 8). Save new raw videos to `Prompts/<slug>-reroll.mp4`, or the next unused numbered reroll filename. Do not overwrite existing raw rolls or the live video.
 
 ## Scene plan for review
 

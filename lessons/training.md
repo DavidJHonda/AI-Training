@@ -4,7 +4,11 @@
 
 AI can explain chemistry, write code, and help you improve an essay. How did it learn to do those things?
 
-Think about learning to shoot a basketball. You take a shot, check where it goes, and adjust your aim or how much force you use. AI training follows a similar pattern: guess, check, and adjust. But instead of adjusting aim or force, training adjusts the numbers inside the model to help it make a better guess next time.
+Think about learning to shoot a basketball. You take a shot, check where it goes, and adjust your aim or how much force you use.
+
+AI training follows a similar pattern: guess, check, and adjust.
+
+But instead of adjusting aim or force, training adjusts the numbers inside the model to help it make a better guess next time.
 
 ### Board 1: The Training Loop
 
@@ -14,13 +18,17 @@ Think about learning to shoot a basketball. You take a shot, check where it goes
 
 **Teaching content:**
 
-**Training example:** “Peanut butter and jelly.”
+Here is one training example: the phrase “Peanut butter and jelly.”
 
-1. **Guess:** Given “Peanut butter and ___,” the model guesses “cloud.”
-2. **Check:** The example says “jelly.” Compare the guess with that word.
-3. **Adjust:** Adjust the model’s internal numbers to make “jelly” more likely in this situation.
+Step one is Guess. The model sees “Peanut butter and” with the last word missing, and it guesses the word cloud.
 
-**Takeaway:** Repeat with more examples. The patterns build.
+Step two is Check. The example says jelly. The guess is compared with that word, and cloud does not match.
+
+Step three is Adjust. The model’s internal numbers are adjusted to make jelly more likely in this situation.
+
+Then the loop runs again on the next example.
+
+Repeat with more examples. The patterns build.
 
 Before training begins, engineers set up the model and gather the data.
 
@@ -32,9 +40,11 @@ Before training begins, engineers set up the model and gather the data.
 
 **Teaching content:**
 
-**Set Up the System:** Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.
+Two things happen before training starts.
 
-**Gather the Data:** Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
+First, set up the system. Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.
+
+Second, gather the data. Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
 
 Training does more than teach a model patterns. It also helps the model follow instructions and give more useful answers. We’ll follow the same basketball question through three main phases.
 
@@ -46,11 +56,15 @@ Training does more than teach a model patterns. It also helps the model follow i
 
 **Teaching content:**
 
-**The same question:** How do I shoot a basketball?
+Every phase gets the same question:
 
-1. **Pretraining:** Learn patterns from data.
-2. **Instruction Tuning:** Learn to follow instructions.
-3. **Preference Tuning:** Improve responses through feedback.
+“How do I shoot a basketball?”
+
+Phase 1 is Pretraining. The model learns patterns from data.
+
+Phase 2 is Instruction Tuning. The model learns to follow instructions.
+
+Phase 3 is Preference Tuning. The model improves its responses through feedback.
 
 ### Board 4: 1 · Pretraining
 
@@ -60,15 +74,19 @@ Training does more than teach a model patterns. It also helps the model follow i
 
 **Teaching content:**
 
-**Learn from Vast Amounts of Data:** More than you could read in 1,000 lifetimes.
+Phase 1 is Pretraining. The model learns from vast amounts of data, more than you could read in 1,000 lifetimes.
 
-The model guesses what comes next in vast amounts of text and code, then checks its guess against the example. Training adjusts its internal numbers, called **weights**. Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.
+The model guesses what comes next in vast amounts of text and code, then checks its guess against the example.
 
-**What an Answer Might Look Like:**
+Training adjusts its internal numbers, called weights.
+
+Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.
+
+After pretraining, an answer to the basketball question might look like this:
 
 “The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”
 
-**What Still Needs Work:** The model can produce fluent text, but it doesn’t reliably follow your instructions yet.
+What still needs work: the model can produce fluent text, but it doesn’t reliably follow your instructions yet.
 
 ### Board 5: 2 · Instruction Tuning
 
@@ -78,13 +96,15 @@ The model guesses what comes next in vast amounts of text and code, then checks 
 
 **Teaching content:**
 
-**Learn to Follow Instructions:** People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.
+Phase 2 is Instruction Tuning. The model learns to follow instructions.
 
-**What an Answer Might Look Like:**
+People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.
+
+After instruction tuning, an answer to the basketball question might look like this:
 
 “To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”
 
-**What Still Needs Work:** The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.
+What still needs work: the model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.
 
 ### Board 6: 3 · Preference Tuning
 
@@ -94,15 +114,21 @@ The model guesses what comes next in vast amounts of text and code, then checks 
 
 **Teaching content:**
 
-**Learn from Feedback:** People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.
+Phase 3 is Preference Tuning. The model learns from feedback.
 
-**What an Answer Might Look Like:**
+People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.
+
+After preference tuning, an answer to the basketball question might look like this:
 
 “Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”
 
-**What Still Needs Work:** Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.
+What still needs work:
 
-When training ends, the model is ready to use. During a normal chat, it uses the weights that training produced. It can work with new information you give it, but your conversation does not change those weights.
+Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.
+
+When training ends, the model is ready to use. During a normal chat, it uses the weights that training produced.
+
+It can work with new information you give it, but your conversation does not change those weights.
 
 ## Closing Message
 

@@ -1,5 +1,7 @@
 # Build Your Skills Video Kits
 
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+
 Prep updated 2026-09-19. Listed in current course order: Opener → Your Choices → Next Level Moves → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curious & Flexible → Make Your Move.
 
 This guide describes source preparation, not current video shipping status. No video was generated, edited, or deployed in this pass. Earlier status labels are not evidence that a finished video matches this source set.
@@ -142,7 +144,7 @@ Follow `Prompts/README.md`, `scripts/video/README.md`, `scripts/video/EDIT-SPEC.
 - Exclude visible-face boards as identified above. Preserve their teaching, do not recreate faces, and insert the real JPGs during editing.
 - Do not narrate filenames, production markers, website credits, references, or URLs. Do not narrate the lab.
 - Speak each lesson’s two closing lines exactly; add no narration afterward. Insert the standard closing board in editing.
-- Turn visible watermarking off and save each raw roll under the next unused name.
+- The watermarking toggle does not take effect (the build removes the mark). Save each raw roll under the next unused name.
 - Review changed scene directions before generation. During evaluation, present the box-highlighting plan before edits under the shared specs. These prep notes do not approve highlight timings or zooms.
 - Use natural transitions. Decide pauses selectively during editing; do not automatically add one second per idea or board.
 - Evaluate actual narration after generation. A current source set does not establish a KEEP/REPAIR/REROLL verdict for an existing video.

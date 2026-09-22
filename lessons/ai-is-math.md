@@ -2,11 +2,13 @@
 
 # AI is Math
 
-What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used? **Math**.
+What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used? Math.
 
-A big part of that math is probability: how likely something is. When AI builds an answer, it calculates probabilities for what comes next.
+A big part of that math is probability: how likely something is.
 
-## WHERE PROBABILITY MATH BEGAN
+When AI builds an answer, it calculates probabilities for what comes next.
+
+## Where Probability Math Began
 
 In 1654, two French mathematicians, Blaise Pascal and Pierre de Fermat, traded letters about gambling. Their work helped lay the foundation for modern probability.
 
@@ -20,9 +22,9 @@ Start with something simple: when every outcome is equally likely, you can calcu
 
 **Teaching content:**
 
-When every outcome is equally likely:
+When every outcome is equally likely, the formula is a simple fraction. On top is the number of ways to get the result you care about. On the bottom is the total number of possible outcomes. Divide, and you have the probability.
 
-**Ways to get the result ÷ Total possible outcomes = Probability.**
+Ways to get the result divided by total possible outcomes equals probability.
 
 ### Board 2: Counting the Possibilities
 
@@ -32,20 +34,15 @@ When every outcome is equally likely:
 
 **Teaching content:**
 
-**The scenario:** You toss two coins. What’s the chance that both land on heads?
+The scenario: you toss two coins. What’s the chance that both land on heads?
 
-| First coin | Second coin | Both heads? |
-| --- | --- | --- |
-| Heads | Heads | Yes |
-| Heads | Tails | No |
-| Tails | Heads | No |
-| Tails | Tails | No |
+Count the possibilities. There are four possible outcomes, and each one is equally likely: heads then heads, heads then tails, tails then heads, and tails then tails. Only one of the four, heads then heads, gives you both heads. The other three are possible outcomes, but they are not the result you want.
 
-There is one way to get two heads out of four equally likely outcomes: **1 ÷ 4 = 25%**.
+Now use the formula. There is one way to get two heads, and there are four possible outcomes. One divided by four is 25 percent.
 
-**Takeaway:** Before new evidence: 1 out of 4 = 25%.
+Before new evidence, one out of four is 25 percent.
 
-## CONDITIONAL PROBABILITY
+## Conditional Probability
 
 New evidence can change the odds. Conditional probability takes that evidence into account.
 
@@ -57,22 +54,19 @@ New evidence can change the odds. Conditional probability takes that evidence in
 
 **Teaching content:**
 
-**The scenario:** You toss two coins. Someone peeks and tells you the first coin landed heads. What’s the chance that both coins landed heads now?
+The scenario: you toss two coins. Someone peeks and tells you the first coin landed heads. What’s the chance that both coins landed heads now?
 
-| First coin | Second coin | After the clue |
-| --- | --- | --- |
-| Heads | Heads | Still possible; both heads |
-| Heads | Tails | Still possible |
-| Tails | Heads | Ruled out |
-| Tails | Tails | Ruled out |
+Look at the same four outcomes with the clue in hand. The clue rules out tails then heads and tails then tails, because both of those start with tails. Two outcomes remain: heads then heads, and heads then tails. Only one of those two, heads then heads, gives you both heads.
 
-The clue rules out both outcomes that start with tails. One of the two remaining outcomes has two heads: **1 ÷ 2 = 50%**.
+Use the formula again. There is one way to get two heads, and there are now two possible outcomes. One divided by two is 50 percent.
 
-**Takeaway:** After the clue: 1 out of 2 = 50%.
+After the clue, one out of two is 50 percent.
 
-The coins didn’t change when someone peeked. What you knew about them did. That changed the odds from **25%** to **50%**.
+The coins didn’t change when someone peeked. What you knew about them did.
 
-## PREDICTING WHAT COMES NEXT
+That changed the odds from 25 percent to 50 percent.
+
+## Predicting What Comes Next
 
 AI uses conditional probability to build answers. Your question and the words already written shape the chances of what comes next. Each new word joins that text, and the process repeats.
 
@@ -84,19 +78,17 @@ AI uses conditional probability to build answers. Your question and the words al
 
 **Teaching content:**
 
-**You:** “What should I name my new dog?”
+You ask: “What should I name my new dog?”
 
-**AI’s reply so far:** “You could name him ____.”
+AI’s reply so far: “You could name him ____.”
 
-| Possible next word | Probability |
-| --- | --- |
-| Spot | 22% |
-| Max | 17% |
-| Buddy | 14% |
+The next word is not decided yet. The AI calculates a probability for each word that could fill the blank. On this board, a few possible next words are shown: Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. Spot is the most likely of the three, but it is far from certain.
 
-Other possible next words make up the remaining 47%. These are the illustrative probabilities on the board.
+These probabilities are illustrative. Other possible next words make up the remaining 47 percent.
 
-**Takeaway:** The question and the words already written shape what is likely to come next.
+Your question about a new dog, and the words “You could name him,” are the evidence. They are the clue, the same way the peek was the clue for the coins. Once a word is chosen, it joins the text, and the AI calculates the chances for the word after that.
+
+The question and the words already written shape what is likely to come next.
 
 ## Closing Message
 

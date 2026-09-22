@@ -293,7 +293,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `tokens.mp4` shipped
 
 ## Embeddings
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `embeddings.mp4` v6 shipped 2026-09-17 under the old method; reroll pending David's approval of the beat spine below.
+**v5 SHIPPED 2026-09-22** (cache key 20260922ship7, pill 5 min, 4:38.33): roll 1 spine plus two audio grafts from roll 2, then four cuts and a full pass over the ring onsets on David's direction. Review: `video-audit/embeddings-stitch-2026-09-22/`; three-way comparison in `video-audit/embeddings-comparison-2026-09-22/`. **The beat spine and guardrails below are amended to match what shipped - read these, not the pre-ship versions, before any reroll.** Previous line: materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `embeddings.mp4` v6 shipped 2026-09-17 under the old method.
 
 **Notebook sources**
 
@@ -314,13 +314,13 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 
 **Beat spine**
 
-1. Token IDs identify but do not describe: a token ID is just a number, like a Student ID that opens the building but says nothing about who you are. Board 1: four badges, the fry gag, "An ID identifies you. It doesn't describe you."
-2. The taste test: Coke and coffee rated on six named characteristics, 0 to 10, higher means more. Board 2: both rows spoken as sentences, what the scores show, "Each position always means the same thing. The number says how much."
+1. Token IDs identify but do not describe: a token ID is just a number, like a Student ID that opens the building but says nothing about who you are. Board 1: four badges, the fry gag, "An ID identifies you. It doesn't describe you." The four badge numbers are on the board and are not spoken; the gag is carried by its callback, "His ID number won't tell you he's the one who steals fries."
+2. The taste test: Coke and coffee rated on six named characteristics, 0 to 10, higher means more. Board 2: Coke's row spoken in full as the worked example, coffee's row shown but not read aloud ("coffee gets a completely different set of scores"), what the scores show, "Each position always means the same thing. The number says how much."
 3. The "9 for Sweet, 1 for Bitter, 10 for Fizz" question, answered Coke immediately. Then vector, dimension, value, defined in that order.
 4. Pepsi joins and matches Coke on all six; the seventh dimension, Citrus (Coke 1, Pepsi 10, coffee 0), separates them. Board 3: "Six numbers match. The seventh tells them apart."
 5. Bridge to AI: each token has its own row of numbers; "That row is called an embedding."
 6. Board 4, all five comparison rows with both sides: what gets a row, dimensions per row, values (chosen vs learned, positive and negative with decimals), what they capture, dimension labels (none in AI). "Both use a row of numbers to describe something."
-7. Board 5, the cat walk: token cat, ID 4719, its row in the embedding table, columns d1 through dn, the first values of the row, the circled 0.45 as a value also called a parameter, the whole row as the embedding.
+7. Board 5, the cat walk: token cat, ID 4719, its row in the embedding table, columns d1 through dn, the circled 0.45 as a value also called a parameter, the whole row as the embedding. The values along cat's row are on the board and are not read aloud.
 8. Pieces of words: "unbelievable" as un, belie, vable, each with its own embedding.
 9. Close on the two closing lines.
 
@@ -340,8 +340,9 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 - Do not read the embedding table cell by cell (old prompt: "do not read every table cell or token ID aloud"); only cat's row is walked, the other tokens are named as neighbours.
 - Keep the analogy and the mechanism distinct (old prompt): AI's dimensions are unlabeled, not named traits like Sweet; the table's numbers are illustrative, not values from a named model.
 - Do not invent numbers or diagrams to fill gaps (old prompt).
+- Board-furniture ban widened 2026-09-22: the old wording banned only "this diagram, panel, or graphic shows", and roll 1 still produced "Look at this illustration...", "This table captures...", "This updated table shows..." and "This comparison chart maps...". The prompt now bans introducing a board by pointing at it at all. Two of the four came out with the v5 cuts; the other two carry teaching content and could not be lifted cleanly.
 - The student-ID illustration is post-production only (old upload checklist); this rebuild adds a faceless stand-in so the ID teaching lands on a real board rather than an invented scene.
-- New: every number spoken as a sentence (Coke, coffee, Pepsi rows, Citrus values, cat's first values, 4719, 0.45) so the narration never depends on Notebook reading a table.
+- **Superseded 2026-09-22 (David, at the v5 ship).** The 2026-09-21 guardrail read "every number spoken as a sentence (Coke, coffee, Pepsi rows, Citrus values, cat's first values, 4719, 0.45) so the narration never depends on Notebook reading a table." The rule is now: **read a number aloud only where that number is the point of its sentence.** Coke's six, the Citrus trio, 4719 and the circled 0.45 are spoken; the four badge numbers, coffee's six scores and the values along cat's row are shown and not spoken, because the board carries them and the ring points at them as they are discussed. This is exactly what three of the v5 cuts removed - do not reinstate them.
 
 **Markdown versus page**
 

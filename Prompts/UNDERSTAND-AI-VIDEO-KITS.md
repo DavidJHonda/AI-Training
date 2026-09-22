@@ -550,7 +550,36 @@ Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude an
 
 ## How AI Answers
 
-Status: materials rebuilt 2026-09-21 on the 2026-09-20 recipe (Markdown + prompt rewritten in place); live video how-ai-answers.mp4 v6 shipped 2026-09-18 under the old method; reroll pending David's approval of the beat spine below. Registry entry drafted in tmp/understand-ai-kit/how-ai-answers.json, not yet added to Prompts/upload-sets.json.
+**Rolls 1 and 2 of 2026-09-22 both REROLL; prompt amended, reroll again.** Review:
+`video-audit/how-ai-answers-comparison-2026-09-22/`. Roll 2 was close - 7/8 verbatim lines, Board 4's
+four steps with all three percentages, no banned words, and the only one of the three that never claims
+AI always picks the highest-probability token - but it missed verbatim line 2 and said "Step two is
+**kick**" where the board reads Pick (confirmed real: a `small.en` re-decode biased with "Rank. Pick.
+Add. Repeat." still returns "kick", and "pick" appears nowhere in the roll). Roll 1 was 0/8 and built its
+explanation on the prohibited always-highest framing. The live video is 2/8 and speaks none of the six
+percentages.
+
+**The line-2 miss was a materials problem, not luck: all three files failed it the same way.** Board 2's
+"The Final Token: its updated numbers are its final vector, and they help AI predict a reply that fits
+the question." sits immediately before the quoted "AI uses the final token's vector to predict the first
+token of its answer." The two restate each other, and every roll merged them. It is the only verbatim
+line in this lesson with an adjacent restatement and the only one roll 2 missed; the other seven have no
+duplicate neighbour and all seven landed.
+
+**Fixed in the prompt, 2026-09-22 (David), not the Markdown** - the Markdown matches the page and the
+page carries both lines, so changing one without the other would break the "upload Markdown = the lesson
+page" rule; a copy change is a separate decision. Three edits: (1) REQUIRED VERBATIM AUDIO now says the
+two Board 2 lines restate each other on purpose and must be spoken as separate sentences, not merged;
+(2) each prediction beat must carry its own three percentages, since reading them once on the last board
+does not cover it; (3) the board-furniture ban widened to "never introduce a board by pointing at it",
+with the constructions the rolls actually produced - the old wording banned "this diagram, panel, or
+graphic shows" by name and roll 2 opened with "this diagram shows" anyway. 498 -> 558 words.
+
+Previous line: materials rebuilt 2026-09-21 on the 2026-09-20 recipe (Markdown + prompt rewritten in
+place); live video how-ai-answers.mp4 v6 shipped 2026-09-18 under the old method. Registry entry drafted
+in tmp/understand-ai-kit/how-ai-answers.json, not yet added to Prompts/upload-sets.json.
+
+Also open, unrelated to the rolls: `index.html:1127` gives the live 3:02.77 file a 4 min pill.
 
 Notebook sources
 

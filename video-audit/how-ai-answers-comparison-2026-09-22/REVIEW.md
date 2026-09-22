@@ -159,16 +159,25 @@ and one paraphrased verbatim line. That is David's call to make; by the house ru
 
 ## Editing notes for the reroll
 
-1. **The board-furniture ban needs widening, exactly as Embeddings' did today.** The prompt bans
-   "this diagram, panel, or graphic shows" by name, and roll 2 still opened with "this diagram shows how
-   the question goes through a set of preparation steps." The wording that works is the one now in
-   `Prompts/embeddings-video-prompt.txt`: ban *introducing a board by pointing at it at all*, with the
-   observed constructions listed. I have not changed this prompt — say the word and I will.
-2. **Say the percentages at both prediction beats.** The prompt already asks for this; roll 2 read them
-   only at Board 4 and roll 1 only at Prediction 1. Worth making the instruction harder to skim past.
-3. The Markdown is faithful to the page — all six percentages, both prediction beats, the four named
-   steps and all eight verbatim lines are present in `lessons/how-ai-answers.md` and on the live page.
-   **No materials bug found on that side.** Nothing to fix before rerolling except the prompt wording.
+**All three applied to `Prompts/how-ai-answers-video-prompt.txt` on David's go, 2026-09-22
+(498 -> 558 words). The Markdown is unchanged and should stay unchanged — see 1.**
+
+1. **Verbatim line 2 was a materials problem, not generation luck.** Correcting what this review first
+   said: **all three files failed that line the same way**, each merging it into the sentence before it.
+   Board 2 puts "The Final Token: its updated numbers are its final vector, and they help AI predict a
+   reply that fits the question." immediately before the quoted "AI uses the final token's vector to
+   predict the first token of its answer." They restate each other, so Notebook collapses them. It is the
+   only verbatim line in this lesson with an adjacent restatement and the only one roll 2 missed; the
+   other seven have no duplicate neighbour and all seven landed. **Fixed in the prompt, not the
+   Markdown** — the page carries both lines too, so editing the Markdown alone would break the "upload
+   Markdown = the lesson page" rule, and editing both is a lesson copy change and David's call.
+2. **The board-furniture ban is widened**, exactly as Embeddings' was today: it banned "this diagram,
+   panel, or graphic shows" by name and roll 2 opened with "this diagram shows" regardless. It now bans
+   introducing a board by pointing at it at all, listing the constructions the rolls produced.
+3. **Each prediction beat now has to carry its own three percentages** — the prompt already said
+   "the same way", and roll 2 read them only at Board 4 while roll 1 read them only at Prediction 1.
+4. Otherwise the Markdown is faithful to the page — all six percentages, both prediction beats, the four
+   named steps and all eight verbatim lines. Nothing else to fix before rerolling.
 
 ## Nothing built
 

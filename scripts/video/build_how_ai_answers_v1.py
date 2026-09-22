@@ -42,7 +42,7 @@ A = ROOT / "course-assets/how-ai-answers"
 LIVE = A / "how-ai-answers.mp4"
 AUDIT = ROOT / "video-audit/how-ai-answers-stitch-2026-09-22"
 OUT = AUDIT / "build"
-DEST = ROOT / "Prompts/how-ai-answers-v1.mp4"
+DEST = ROOT / "Prompts/how-ai-answers-v2.mp4"
 BEGINS = A / "how-ai-answers-before-answer-begins.jpg"     # Board 1
 WHERE = A / "how-ai-answers-where-answer-begins.jpg"       # Board 2
 TOKENBY = A / "how-ai-answers-token-by-token.jpg"          # Board 3
@@ -64,6 +64,33 @@ EE_IN, EE_OUT = 2198, 2588      # roll 4 1:13.27 (73.15-73.40, 250) - 1:26.27 (8
 EE_DIN, EE_DOUT = 2973, 3179    # roll 2 1:39.10 (98.93-99.30, 370) - 1:45.97 (105.89-106.04, 150)
 EF_IN, EF_OUT = 5703, 5865      # cut, roll 4 3:10.10 (189.99-190.22, 230) - 3:15.50 (195.36-195.65, 300)
 
+# ---------------------------------------------------------------- David's v2 notes, 2026-09-22
+# 1. "The live video is better from 0 to 1:22. We can replace the first :51 of the new video with that
+#    content." The live's opening carries the SAME canonical Boards 1 and 2, but dives into each step
+#    and rings it, instead of holding the board still - which is what makes its small type readable.
+#    Taken as a full audio-and-picture graft, so Boards 1 and 2 and edits A, B and C all go with it.
+#    OUT-POINT MOVED from David's 1:22 to 1:23.90: at 82.0 the live has only a 70 ms gap, while
+#    83.60-84.28 is a 680 ms silence that is also the live's own scene cut, and it keeps the sentence
+#    "That single token is the launching pad..." whole while excluding the furniture line after it.
+#    (Whisper puts that next line at 83.72; the RMS trace puts it at 84.28. The waveform wins again.)
+LIVE_IN, LIVE_OUT = 0, 2517     # live 0:00 - 1:23.90 (quiet 83.60-84.28, 680)
+R4_RESUME = 1707                # roll 4 0:56.90 (quiet 56.57-57.00, 430) - where the spine picks up.
+                                # MUST be roll 4's own scene cut, not merely a point inside the silence:
+                                # 1704 left three frames of roll 4's OWN Board 2 recreation on screen.
+                                # It is the same canonical board, so the only visible difference was our
+                                # ring vanishing for a tenth of a second. transition_guard caught this
+                                # one precisely because the ring state changed; a recreation with no ring
+                                # difference would have slipped through, as it did on Support Trap.
+GAIN_LIVE = -1.1                # the live is -15.4 LUFS against roll 4's -16.5, so it comes DOWN
+# 2. "At 2:14, there's a flash of an old graphic." Confirmed: TWO cuts ten frames apart at output 4020
+#    and 4030. transition_guard needs two within six, so it passed this - the same blind spot that let
+#    Engagement Trap's nine-frame leak through. Board 3 was held to source 4480 while roll 4's own
+#    scene runs to 4490, leaving the last ten frames of its "You could name him Spot" chips on screen
+#    for a third of a second. The board now holds to roll 4's own cut, so the flash cannot happen.
+# 3. "Delete 3:31 to 3:36. It essentially repeats the closing message." That span is Board 4's banner
+#    line. See the note on BD4_OUT below - it is required verbatim line 6.
+DEL_LINE6_IN = 6963             # roll 4 3:52.10 (quiet 231.99-232.24, 250), straight into the close
+
 # ---------------------------------------------------------------- board spans, in roll 4 source frames
 # Roll 4's own visual cuts: 643 Board 1, 1212 Board 2, 2490 Board 3, 5603 Board 4, 7127 close.
 BD1_IN, BD1_OUT = EB_OUT, EC_IN          # 744 - 1209. Opens at the cut-B join; roll 4's own board is
@@ -71,14 +98,18 @@ BD1_IN, BD1_OUT = EB_OUT, EC_IN          # 744 - 1209. Opens at the cut-B join; 
 BD2_IN, BD2_OUT = EC_IN, 1707            # 1209 - 1707. Starts under graft C, three frames before roll
                                          # 4's own board change at 1212.
 BD2_R2 = BD2_IN + (EC_DOUT - EC_DIN)     # leg cursor after the graft (90 frames in, 90 out: 1:1)
-BD3_IN, BD3_OUT = EE_OUT, 4480           # 2588 - 4480. Starts where graft E ends, which is where roll 4
+BD3_IN, BD3_OUT = EE_OUT, 4490           # 2588 - 4490. Starts where graft E ends, which is where roll 4
                                          # says "Let's look at prediction one on the left."
                                          # EXTENDED past roll 4's own cut at 4353: roll 4 leaves the
                                          # board 0.1 s BEFORE speaking its banner line, "You could name
-                                         # him Spot." @2:27.84, and cuts to a near-blank cream frame. The
-                                         # board now holds through its own banner, which is the line the
-                                         # ring is for. Roll 4's next real scene (4490) is untouched.
-BD4_IN, BD4_OUT = 5603, 7118             # 3:06.77 - 3:57.27, with cut F inside it
+                                         # him Spot." @2:27.84. v1 held it to 4480 and left ten frames of
+                                         # roll 4's own chips drawing flashing on screen (David: "a flash
+                                         # of an old graphic"); it now runs to roll 4's own cut at 4490.
+BD4_IN, BD4_OUT = 5603, DEL_LINE6_IN     # 3:06.77 - 3:52.10, with cut F inside it. ENDS EARLY on
+                                         # David's note 3: everything from 3:52.10 to the close is cut,
+                                         # which removes "Inference is the process AI uses to generate an
+                                         # answer one token at a time." That is REQUIRED VERBATIM LINE 6
+                                         # and Board 4's banner, so the banner ring goes with it.
 BD4_LEG = (EF_IN - BD4_IN) + (BD4_OUT - EF_OUT)
 BD4_R2 = BD4_IN + (EF_IN - BD4_IN)       # leg cursor after the furniture sentence comes out
 CLOSE_IN, CLOSE_AUDIO_OUT = 7118, 7266   # 3:57.27 (quiet 237.20-237.47) - 4:02.20 (242.04-242.69)
@@ -135,20 +166,14 @@ def main():
                   (186.40, 186.71), (189.05, 189.37), (195.35, 195.65), (207.01, 207.31),
                   (239.84, 240.12), (242.04, 245.46)])
 
-    b.keep(0, EA_IN, "Notebook drawing: input, process, output")
-    b.graft(ROLL2, EA_DIN, EA_DOUT,
-            "'But then it faces a new problem.' (roll 2) - the lesson's own sentence, replacing roll 4's "
-            "'But once it understands the prompt', which uses a banned word",
-            "newproblem", picture_from=EA_IN, gain_db=GAIN_R2)
-    b.keep(EA_OUT, EB_IN, "Notebook drawing: the dog-name question is set up")
-    # cut B: roll 4's "This diagram shows four steps before the answer begins." comes out here
-    b.keep(BD1_IN, BD1_OUT, "Before the Answer Begins", "bd1")
-    b.graft(ROLL3, EC_DIN, EC_DOUT,
-            "'In this prompt, the question mark is the final token.' (roll 3) - replaces roll 4's "
-            "'In this graphic, the final token is the question mark', which points at the board",
-            "questionmark", picture_from=EC_IN, visual="bd2", gain_db=GAIN_R3)
-    b.keep(EC_OUT, BD2_OUT, "Why the Final Token Matters", "bd2", video_from=BD2_R2)
-    b.keep(BD2_OUT, ED_IN, "Notebook drawing: the token grid")
+    # David's note 1: the live video's opening replaces roll 4's, with its own picture AND sound. It
+    # carries the same canonical Boards 1 and 2 but dives into each step, which is what makes them
+    # readable. Roll 4's Boards 1 and 2 and edits A, B and C are all inside this span and go with it.
+    b.graft(LIVE, LIVE_IN, LIVE_OUT,
+            "The live video's 0:00-1:23.90 (own picture and sound): the opening, Board 1 dived step by "
+            "step, and Board 2 - David 2026-09-22, 'the live video is better from 0 to 1:22'",
+            "liveopen", cover_intro=False, gain_db=GAIN_LIVE)
+    b.keep(R4_RESUME, ED_IN, "Notebook drawing: the token grid")
     b.graft(ROLL2, ED_DIN, ED_DOUT,
             "'It uses those numbers from the final token to calculate a probability score for every "
             "potential next token in its entire vocabulary.' (roll 2) - replaces roll 4's 'To find the "
@@ -165,28 +190,13 @@ def main():
     b.keep(BD4_IN, EF_IN, "Inference: How AI Builds an Answer", "bd4")
     # cut F: roll 4's "Let's look at this diagram to summarize..." comes out here
     b.keep(EF_OUT, BD4_OUT, "Inference: How AI Builds an Answer", "bd4", video_from=BD4_R2)
+    # David's note 3: everything from BD4_OUT to the close is cut - verbatim line 6 and the banner.
     b.mark_close_start()
     b.close(CLOSE_IN, CLOSE_AUDIO_OUT, tail=150)
     b.finish_audio()
 
-    # Board 1 (compact): one ring per step as it is named, then the banner, which is verbatim line 1.
-    # min_open is lowered from the default 60 frames: the board can only appear at the cut-B join, and
-    # roll 4 says "Step one breaks the question into tokens." 0.44 s later. Roll 4's own board is inside
-    # the removed span, so there is no earlier frame to open on.
-    b.board("bd1", BEGINS, BD1_IN, BD1_OUT, "compact", [
-        target("1 Tokens", 25.24, list(BD1_S1), PURPLE),
-        target("2 Positions", 27.80, list(BD1_S2), BLUE),
-        target("3 Starting Vectors", 29.62, list(BD1_S3), TEAL),
-        target("4 Through Layers", 32.02, list(BD1_S4), GREEN),
-    ], banner_at=35.22, banner=list(BD1_BANNER), push=False, min_open=12)
-
-    # Board 2 (compact): the graft holds the board at full view for its first three seconds, which is
-    # the open the ring sequence needs. Banner is verbatim line 2 - the line every earlier roll merged
-    # into the sentence before it, and the reason the prompt was amended.
-    b.board("bd2", WHERE, BD2_IN, BD2_OUT, "compact", [
-        target("The Question", 43.42, list(BD2_QUESTION), PURPLE),
-        target("The Final Token", 47.98, list(BD2_FINAL), BLUE),
-    ], banner_at=52.52, banner=list(BD2_BANNER), push=False)
+    # Boards 1 and 2 are no longer built here: David's note 1 replaces that whole stretch with the
+    # live video's own rendering of the same two canonical boards.
 
     # Board 3 (compact): the longest board in the file at 63 s, so the rings walk it item by item, left
     # panel to right, exactly as roll 4 reads it. Prediction 1's side is purple on the board and
@@ -211,7 +221,7 @@ def main():
         target("2 Pick", bd4(207.70), list(BD4_PICK), BLUE),
         target("3 Add", bd4(215.06), list(BD4_ADD), TEAL),
         target("4 Repeat", bd4(221.48), list(BD4_REPEAT), GREEN),
-    ], banner_at=bd4(232.12), banner=list(BD4_BANNER), push=False)
+    ], push=False)   # no banner ring: its line is the one David cut (see DEL_LINE6_IN)
 
     if not args.render_existing:
         b.render_legs()
@@ -225,12 +235,14 @@ def main():
                         "(three from roll 2, one from roll 3) and two cuts; live video, rolls, lesson "
                         "and boards unchanged.",
         "narration_changes": {
-            "A_banned_word": "roll 4 0:04.60-0:08.60 ('But once it understands the prompt, it faces an "
-                             "immediate challenge.') -> roll 2 0:05.05-0:07.15 ('But then it faces a new "
-                             "problem.'), +0.5 dB",
-            "B_cut": "roll 4 0:21.10-0:24.80 ('This diagram shows four steps before the answer begins.')",
-            "C_furniture": "roll 4 0:40.30-0:43.30 ('In this graphic, the final token is the question "
-                           "mark.') -> roll 3 0:57.10-1:00.10, +0.6 dB, under Board 2",
+            "live_open": "David 2026-09-22: roll 4 0:00-0:56.80 replaced by the LIVE video 0:00-1:23.90, "
+                         "own picture and sound, -1.1 dB. Supersedes v1's edits A, B and C and both of "
+                         "its Board 1 and Board 2 legs, which were inside that span.",
+            "line6_cut": "David 2026-09-22: roll 4 3:52.10 to the close removed - 'Inference is the "
+                         "process AI uses to generate an answer one token at a time.', REQUIRED VERBATIM "
+                         "LINE 6 and Board 4's banner, cut because it repeats the closing message.",
+            "flash_fix": "Board 3 now runs to roll 4's own cut at 4490 instead of 4480; v1 left ten "
+                         "frames of roll 4's chips drawing flashing at output 2:14.",
             "D_word_for_token": "roll 4 0:58.97-1:10.03 ('To find the very first word...') -> roll 2 "
                                 "1:29.17-1:36.63, +0.5 dB",
             "E_framing_and_furniture": "roll 4 1:13.27-1:26.27 ('The AI will select a top scoring "
@@ -240,7 +252,10 @@ def main():
             "engine_outro_removed_from_frame": CLOSE_AUDIO_OUT,
         },
         "verbatim_lines": {
-            "all_eight_from_roll_4": [
+            "NOTE": "v2 carries five of the eight. Lines 1 and 2 leave with the live-video opening, which "
+                    "speaks neither; line 6 is cut on David's note 3. This is a deliberate trade he made "
+                    "after watching v1, not a defect of the build.",
+            "in_v1_all_eight_from_roll_4": [
                 "AI uses the final token's updated numbers to predict what comes next.",
                 "AI uses the final token's vector to predict the first token of its answer.",
                 "You could name him Spot.",
@@ -251,14 +266,12 @@ def main():
                 "The whole run is called inference.",
             ],
         },
-        "audio_floors": {"roll_4": -64.4, "roll_2": -65.9, "roll_3": -67.2,
+        "audio_floors": {"roll_4": -64.4, "roll_2": -65.9, "roll_3": -67.2, "live": -63.9,
                          "note": "2.8 dB across all three, the cleanest donor set in the series; each "
                                  "graft steps at most 2.8 dB and every one lands under a board or a "
                                  "drawn scene."},
         "added_teaching_pauses": [],
         "board_render_covered": [
-            {"frames": [BD1_IN, BD1_OUT], "replacement": "canonical Before the Answer Begins"},
-            {"frames": [BD2_IN, BD2_OUT], "replacement": "canonical Why the Final Token Matters"},
             {"frames": [BD3_IN, BD3_OUT], "replacement": "canonical The Answer, Token by Token (held "
                                                          "past roll 4's own cut so its banner line is "
                                                          "spoken while the board is up)"},
@@ -266,8 +279,7 @@ def main():
             {"frames": [CLOSE_IN, CLOSE_AUDIO_OUT], "replacement": "standard close"},
         ],
         "notebook_interleaves": [],
-        "longest_unbroken_board_run_seconds": round(
-            max(BD1_OUT - BD1_IN, BD2_OUT - BD2_IN, BD3_OUT - BD3_IN, BD4_LEG) / FPS, 2),
+        "longest_unbroken_board_run_seconds": round(max(BD3_OUT - BD3_IN, BD4_LEG) / FPS, 2),
     })
     print("Prepared", b.total, f"frames ({b.total / FPS:.2f}s)", flush=True)
     if args.prepare_only: return

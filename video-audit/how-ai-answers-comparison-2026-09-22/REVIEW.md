@@ -159,8 +159,8 @@ and one paraphrased verbatim line. That is David's call to make; by the house ru
 
 ## Editing notes for the reroll
 
-**All three applied to `Prompts/how-ai-answers-video-prompt.txt` on David's go, 2026-09-22
-(498 -> 558 words). The Markdown is unchanged and should stay unchanged — see 1.**
+**All three applied to `Prompts/how-ai-answers-video-prompt.txt` on David's go, 2026-09-22, and the
+file trimmed back to 499 words. The Markdown is unchanged and should stay unchanged — see 1.**
 
 1. **Verbatim line 2 was a materials problem, not generation luck.** Correcting what this review first
    said: **all three files failed that line the same way**, each merging it into the sentence before it.

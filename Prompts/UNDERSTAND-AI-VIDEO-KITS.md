@@ -597,7 +597,9 @@ two Board 2 lines restate each other on purpose and must be spoken as separate s
 (2) each prediction beat must carry its own three percentages, since reading them once on the last board
 does not cover it; (3) the board-furniture ban widened to "never introduce a board by pointing at it",
 with the constructions the rolls actually produced - the old wording banned "this diagram, panel, or
-graphic shows" by name and roll 2 opened with "this diagram shows" anyway. 498 -> 558 words.
+graphic shows" by name and roll 2 opened with "this diagram shows" anyway. 498 -> 499 words: the three
+edits cost 60 words and 60 came back out of the surrounding prose (David 2026-09-22: "They have to be
+under 500."), with all eight verbatim lines and every requirement verified intact afterwards.
 
 Previous line: materials rebuilt 2026-09-21 on the 2026-09-20 recipe (Markdown + prompt rewritten in
 place); live video how-ai-answers.mp4 v6 shipped 2026-09-18 under the old method. Registry entry drafted

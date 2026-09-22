@@ -21,9 +21,17 @@ Board 2 is the face board: the roll was fed `Prompts/tokens-building-blocks-face
 canonical `course-assets/tokens/tokens-building-blocks.jpg` replaces it here, as the kit specifies.
 
 Four pauses of one second at idea boundaries only: after Board 1 into "how do your words become
-numbers", after Board 2 into where the pieces come from, after Board 4 into "all the text you
-send", and before the closing message. Standard close from Notebook's own close cut (9007); corner
-mark cleaned in render.
+numbers", after Board 2 into where the pieces come from, after Board 4 into the split examples, and
+before the closing message. Standard close from Notebook's own close cut (9007); corner mark
+cleaned in render.
+
+v2 (David, 2026-09-22), two changes to v1:
+  * The Board 4 ring rectangles are re-measured off each card's own panel and white body. v1's rects
+    started 6 px above the image and floated the ring over the board's background.
+  * 3:26-3:36 is deleted: "All the text you send to AI gets split." and "Let's look at a few
+    distinct examples of how the cl100k-based tokenizer handles different formats." The cut sits
+    inside the silences either side (203.45-203.82 and 213.20-213.42), and Board 5 now arrives four
+    frames before Notebook's own cut so none of its own rendering of that board is on screen.
 
 Usage:
   .video-venv/bin/python scripts/video/build_tokens_v1.py [--prepare-only]
@@ -40,7 +48,7 @@ from editspec_build import Build, fr, sha, FPS, W, H, PURPLE, BLUE, TEAL, AMBER,
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'Prompts/tokens-1.mp4'
 OUT = ROOT / 'video-audit/tokens-build-2026-09-22'
-DEST = ROOT / 'Prompts/tokens-v1.mp4'
+DEST = ROOT / 'Prompts/tokens-v2.mp4'
 A = ROOT / 'course-assets/tokens'
 B = {'1-words': A / 'tokens-using-ai-feels-like.jpg', '2-blocks': A / 'tokens-building-blocks.jpg',
      '3-send': A / 'tokens-how-tokenization-works.jpg', '4-cat': A / 'tokens-cat-token-id.jpg',
@@ -52,7 +60,7 @@ MACHINE, REUSE_ROW = [390, 565, 1180, 900], [150, 1185, 1450, 1345]      # board
 B2_CLAMP, B2_BANNER = (0, 0, 1600, 1518), [41, 1392, 1559, 1477]   # clamp to the board, not the photo: the reuse row sits below the photograph
 STEPS = [[80, 175, 535, 700], [570, 175, 1030, 700], [1060, 175, 1520, 700]]
 B3_BANNER = [40, 781, 1560, 869]
-PANELS = [[40, 122, 785, 718], [815, 122, 1560, 718]]
+PANELS = [[41, 128, 782, 715], [817, 128, 1558, 715]]   # card bodies, measured off the panel and white body (v2: v1's rects floated 6 px above the image)
 B4_BANNER = [40, 757, 1560, 845]
 ROWS = [[75, 165, 1550, 330], [75, 355, 1550, 510], [75, 545, 1550, 705], [75, 730, 1550, 895], [75, 935, 1550, 1150]]
 
@@ -110,7 +118,10 @@ def main():
     B2, B2_OUT = 1917, 3393        # 63.90 and 113.10
     B3, B3_OUT = 4259, 5390        # 141.97 and 179.67
     B4, B4_OUT = 5390, 6110        # 179.67 and 203.67
-    B5, B5_OUT = 6404, 8390        # 213.47 and 279.67
+    B5, B5_OUT = 6400, 8390        # our board covers from 6400 (four frames before Notebook's own cut at 213.47)
+    CUT = (6108, 6400)             # v2 (David, 2026-09-22): delete 3:26-3:36 - "All the text you send to AI gets split."
+                                   # and "Let's look at a few distinct examples of how the cl100k-based tokenizer handles
+                                   # different formats." Cut inside the silences 203.45-203.82 and 213.20-213.42.
     CLOSE_IN, CLOSE_END = 9007, 9210   # Notebook's own close card arrives 300.23; "using math" ends 306.80
 
     b.keep(0, B1, 'Notebook: math is the magic, words not numbers')
@@ -121,10 +132,9 @@ def main():
     b.pause(30, 'Pause: into where the pieces come from')
     b.keep(B2_OUT, B3, 'Notebook: engineers choose the split, vocabulary sizes, the token ID as an address')
     b.keep(B3, B3_OUT, 'B3 the three Send steps and the IDs', '3-send')
-    b.keep(B4, B4_OUT, 'B4 the cat: instant understanding against ID 4719', '4-cat')
-    b.pause(30, 'Pause: into all the text you send')
-    b.keep(B4_OUT, B5, 'Notebook: all the text you send gets split')
-    b.keep(B5, B5_OUT, 'B5 the five split examples', '5-splits')
+    b.keep(B4, CUT[0], 'B4 the cat: instant understanding against ID 4719', '4-cat')
+    b.pause(30, 'Pause: into the split examples')
+    b.keep(CUT[1], B5_OUT, 'B5 the five split examples', '5-splits')
     b.keep(B5_OUT, CLOSE_IN, 'Notebook: the return trip, IDs back into text')
     b.pause(30, 'Pause: before the closing message')
     b.mark_close_start(); b.close(CLOSE_IN, CLOSE_END); b.finish_audio()
@@ -138,7 +148,7 @@ def main():
     b.board('3-send', B['3-send'], B3, B3_OUT, 'compact',
             [T('Start With Text', 146.10, STEPS[0], PURPLE), T('Split Into Tokens', 150.30, STEPS[1], BLUE),
              T('Look Up Token IDs', 155.80, STEPS[2], TEAL)], banner=B3_BANNER, banner_at=175.60, min_open=0)
-    b.board('4-cat', B['4-cat'], B4, B4_OUT, 'compact',
+    b.board('4-cat', B['4-cat'], B4, CUT[0], 'compact',
             [T('Instant Understanding', 183.60, PANELS[0], TEAL), T('Token ID', 190.50, PANELS[1], PURPLE)],
             banner=B4_BANNER, banner_at=199.80, min_open=0)
     b.board('5-splits', B['5-splits'], B5, B5_OUT, 'dense',

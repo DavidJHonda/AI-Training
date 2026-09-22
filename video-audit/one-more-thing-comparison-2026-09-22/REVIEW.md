@@ -65,7 +65,8 @@ a course board:
 **Levels need attention:** omt-2 is −15.5 LUFS and omt-1 −17.6, a 2.1 dB difference, so each graft needs about +2.1 dB to sit in
 the base roll. That is inside the usual correction but it is not a free splice, and both joins should be heard before shipping.
 
-**Optional third graft, David's call:** omt-1's fuller temperature columns (129.54–145.30: "Max rises to 21% and buddy to 15%…
+**Optional third graft — declined** (David, 2026-09-22: "No need for the optional 3rd graft"). For the record, it would have been
+omt-1's fuller temperature columns (129.54–145.30: "Max rises to 21% and buddy to 15%…
 Spot falls down to 16%, and the combined other category leaps to 39%") would replace omt-2's thinner version. Beat 6 is THIN in
 all three rolls — no roll reads every number on that board — so this is a question of how much of the table we want spoken, the
 same question David answered for Layers with "we don't need it to read all the numbers."

@@ -1,119 +1,143 @@
-# Embeddings v3 — roll 1 plus two grafts from roll 2 (2026-09-22)
+# Embeddings v5 — roll 1 plus two grafts, four cuts, rings on the words (2026-09-22)
 
-`Prompts/embeddings-v3.mp4` — 5:24.73 (9742 frames), built by `scripts/video/build_embeddings_v1.py`.
+`Prompts/embeddings-v5.mp4` — 4:38.33 (8350 frames), built by `scripts/video/build_embeddings_v1.py`.
 Three-way comparison of rolls 1 and 2 against the live video is in
 `video-audit/embeddings-comparison-2026-09-22/REVIEW.md`.
 
-**Verdict: ready for David's eye test. Every measurable check passes, and the eight verbatim lines and
-every number were verified on the encoded file rather than assumed from the plan. Nothing shipped; the
-live video, rolls, lesson and boards are unchanged.**
+**SHIPPED 2026-09-22 on David's "ship it"** as `course-assets/embeddings/embeddings.mp4`
+(`a47d96f33271…`), 4:38.33, replacing the 3:57 live video. Cache key `20260917ship1` -> `20260922ship7`
+(ship1 through ship6 were taken by other sessions today). Pill **4 min -> 5 min**.
 
-## What it is made of
+## What changed from v3
 
-| | source | carries |
+David's direction, 2026-09-22: hold both photographic boards at full view, stop reading aloud what the
+boards already show, and open Board 5 on the full illustration rather than a zoom.
+
+| | change | result |
 |---|---|---|
-| spine | roll 1 | all eight verbatim lines, every number the lesson gives, the definition order |
-| `labels` | roll 2, audio only, +1.4 dB | "We explicitly named our traits, like sweet or fizz. An AI has no dimension labels at all." — Board 4's last two rows, whose taste-test side roll 1 left unspoken |
-| `neighbours` | roll 2, audio only, +1.4 dB | "It stores one embedding for every single token, meaning cat sits right alongside rows for dog, latte, truck, and bicycle." — names the neighbours roll 1 skips, and removes its "master ledger" |
+| Board 1 | was a camera walk (badges → fry-thief → pull back) | **static full view**, banner ringed only |
+| 0:23.70–0:41.18 | **cut** | removes "Look at this illustration… into a shirt pocket." — the banned board-furniture line, the four badge numbers and the fry-stealer description |
+| 1:39.20–1:49.53 | **cut** | removes coffee's six scores |
+| Board 5 in-point | source 7071 → **6980** | opens at full view, ahead of roll 1's own cut to a zoomed recreation at 6987 |
+| 4:17.90–4:36.50 | **cut** | removes "Reading across cat's row, the values start at 0.45 … at the end." |
+| Board 3 | — | **coffee's Citrus 0 now rings as it is spoken** |
+| runtime | 5:24.73 → **4:38.33** | 46.4 s out |
 
-Both grafts replace rather than insert, and both sit under a board.
+The pill stays **5 min** by the course's convention (4:25 → 4 min, 4:37 → 5 min).
 
-**The `labels` graft was deliberately cut short.** Roll 2 continues "It simply captures complex
-mathematical patterns…", which is not the lesson's register. Taking only its first two sentences leaves
-roll 1's own next line — "They simply capture patterns in how a token is used in data", which *is* the
-lesson's wording — to finish the row. Verified in the encoded file:
+### The cut that had to move
 
-> "…including complex decimals. **We explicitly named our traits, like sweet or fizz. An AI has no
-> dimension labels at all.** They simply capture patterns in how a token is used in data. Both use a row
-> of numbers to describe something."
+David asked for 1:39–1:46. `and ten for dark. Because we keep the columns aligned,` is a single unbroken
+run with no gap inside it, so stopping at 1:46 would have orphaned "and ten for dark." onto the end of
+"coffee gets a completely different set of scores." Ending at **1:49.53** takes the "Because we keep the
+columns aligned," preamble with it, so verbatim line 2 now opens its own sentence:
+
+> "…coffee gets a completely different set of scores. **Each position always means the same thing. The
+> number says how much.**"
+
+**This is the one edge where both decoders were wrong and the waveform settled it.** Whisper puts "each"
+at 109.58 and `silencedetect` opens the gap at 109.51. The RMS trace shows "aligned," decaying through
+**109.31**, true room tone only from **109.50**, and "each" actually starting at **109.73**. Cutting on
+either decoder's number would have shaved the front off a verbatim line. The cut sits at 109.53, mid-floor,
+keeping 0.20 s of breath. Every other edge was checked the same way and sits in a 440–920 ms quiet window.
 
 ## Verified on the encoded file
 
 | Requirement | Result |
 |---|---|
-| All eight verbatim lines | **8 / 8** — including "Each position always means the same thing." @1:47 + "The number says how much." @1:52, and "Six numbers match. The seventh tells them apart." @2:52 |
-| Badge numbers | **all four** — 1024, 2048, 3072, 4096 |
+| All eight verbatim lines | **8 / 8** — @0:20.44, 1:21.90, 1:37.82, 2:24.60, 2:43.66, 3:20.04, 4:26.54, 4:29.60 |
 | Coke's six scores | **all six** — 9, 1, 10, 2, 3, 8 |
-| Coffee's six scores | **all six** — 1, 9, 0, 9, 8, 10 |
-| Citrus trio | Coke 1, Pepsi 10, coffee 0 |
-| cat's ID and row | 4719; 0.45, negative 0.23, 0.80, 0.17 … negative 0.35, with "negative" spoken |
-| Definition order | vector → dimension → value |
-| Content prohibitions | no token-ID-carries-meaning, no named traits for AI, no named model, no distance or similarity math, no club activity, none of the banned words |
-| Opening | no title card |
+| Citrus trio | Coke 1, Pepsi 10, **coffee 0** |
+| cat's ID and the circled 0.45 | 4719; "like that 0.45, is called a parameter" intact |
+| Both grafts | land clean, in full, with roll 1's own next line finishing Board 4's row |
+| The three cuts | all four removed phrases absent; all three joins read as continuous sentences |
+| transition_guard | **18 / 18 pass** |
+| Audio | **zero dips** at all 18 boundaries (−50 to −67 dB, all room tone); **no true-silence windows** |
+| Gemini mark | **0 real hits / 279 sampled** — 33 flags are our own `besmarterthanthetool.com` credit line, 1 is a drawing's panel border, all inspected |
+| Protected sources | **9 / 9** hashes unchanged |
 
-## QA
+### The joins, as encoded
 
-- **transition_guard: 15/15, a clean pass.** v2's single flag was Board 5's pull-back camera move; that
-  board is now static at full view on David's direction, so the motion the detector was tripping on is
-  gone. No false positives remain.
-- **Audio: zero dips** at any of the 15 boundaries; **no true-silence windows** anywhere.
-- **Gemini mark: 0 hits across 217 sampled frames.**
-### David's highlight direction, 2026-09-22 — applied
+> **A** — "…An ID identifies you. It doesn't describe you. The badges perfectly identify which student is
+> which…" The fry gag survives the cut: it still pays off at 0:32 with "His ID number won't tell you he's
+> the one who steals fries."
+>
+> **B** — "…coffee gets a completely different set of scores. Each position always means the same thing."
+>
+> **C** — "…the dimensions marked D1 through Dn. Each individual learned number in this sequence, like
+> that 0.45, is called a parameter."
 
-Every rect below is measured off the artwork, not estimated: Board 2's chips column by column
-(SWEET 441-543, BITTER 631-730, FIZZ 818-918, HEAT 1001-1103, CAFFEINE 1189-1291, DARK 1378-1479),
-Board 3's the same plus CITRUS 1389-1492 with Pepsi's dark-green chip at 1392-1489, and Board 5's table
-body and plaques by colour.
+### Every board exit inspected frame by frame
 
-- **Board 2.** After the takeaway, the rings keep moving with the narration: **Coke plus 9, 1 and 10** as
-  the question names them, **Coke's whole row** on "the whole row of numbers is a vector", **the six
-  dimension headings** on "each individual position", and **a single value chip** on "the specific number
-  placed inside it".
-- **Board 3.** It had been ringing Coke while the narration introduced Pepsi. Now: **the name Pepsi
-  alone**, then **only her first six values** with Citrus deliberately outside the ring, then **the CITRUS
-  heading**, then **Pepsi's 10 and Coke's 1 as each is spoken**.
-- **Board 4.** The last two comparison rows are **one ring across both**, not two.
-- **Board 5.** **The full illustration holds for the board's whole run - no dive** - because seeing how
-  the pieces fit together is the teaching. Rings move item to item: both left plaques as the token and its
-  ID are named, the other tokens' rows under the graft, the first two columns, the d1-dn headings, cat's
-  row, the circled 0.45, then the whole row again as the embedding.
+One clean cut at each, static frames either side, no second cut within six — no recreation leaked. This
+matters because the guard has missed this class three times (Support Trap's near-identical recreation fell
+under its change threshold; Engagement Trap's nine-frame leak was too long for its two-cuts-within-six
+pattern). The guard and an eye on the frames are complementary, not redundant.
 
-Boards 2 and 3 no longer use the API's `banner_at`, which forces the banner ring to hold to the end of the
-board. Both keep teaching after their takeaway line, so the banner is now an ordinary ring in the sequence.
+**Board 5's new in-point was the reason to look.** Roll 1 cuts to a zoomed recreation of the embedding
+table at 6987; the board now takes the screen at 6980, seven frames ahead of it, and the strip confirms
+the notebook drawing cuts straight to our board at full view.
 
-- **Boards.** Ring colour measured off each board: Boards 2 and 3 label their rows in plain black with no
-  accent, so their rows take the neutral video purple; Board 4's columns measure #149288 teal and #5334c5
-  purple, but its rings run whole rows across both columns, which is a whole-board point and therefore
-  neutral too. Board 5's elements have no accents of their own either, so its rings are neutral as well -
-  which also keeps them distinct from the board's built-in purple glow and yellow circle.
-- **Protected sources: 8/8 hashes unchanged.**
+## Rings: every onset measured against the spoken word
 
-### One defect QA caught
+Each onset was checked against roll 1's word timings rather than estimated. All 21 now sit within ±0.3 s
+of their cue. **Five were corrected after v4 was encoded**, including one drift that had been wrong in v3
+and would have shipped unnoticed:
 
-**Thirteen frames of roll 1's own recreation of the embedding-table board** survived after our canonical
-Board 5 left (source 8652–8664; roll 1 cuts at 8665). Fixed with `picture_advance`.
+| Ring | was | spoken at | now |
+|---|---|---|---|
+| Board 2, Coke's whole row | 123.20 | **125.66** | 125.60 — it had been firing 2.5 s before "the whole row of numbers is a vector", during the "In formal AI terminology," preamble |
+| Board 2, the row as a whole | 134.50 | 133.82 | 133.90 |
+| Board 3, the CITRUS heading | 162.00 | 162.90 | 162.90 — lands on "a seventh dimension", holds through "Citrus" 2.7 s later |
+| Board 5, the token + its ID | one paired ring @238.60 | cat 236.80, ID 238.74 | **split in two** — one ring was early for one half and late for the other |
 
-This is the sixth consecutive stitch in which a board exit leaked the roll's own recreation, and it is
-worth stating that the two detection routes are complementary rather than redundant:
+- **Board 1.** Full view throughout, banner ringed as verbatim line 1 is spoken. The badge walk had nothing
+  left to walk to: the narration that read the four numbers aloud is cut A. They remain legible on roll 1's
+  own drawing immediately afterwards.
+- **Board 2.** Coke's row, coffee's row (on "Moving down to the next row"), the banner, then Coke + 9, 1, 10
+  as the question names them, Coke's whole row on the vector line, the six headings, one value chip, and the
+  row as a whole.
+- **Board 3.** Pepsi's name alone, her first six with Citrus deliberately outside the ring, the CITRUS
+  heading, then **10, 1 and 0** as each is spoken, then the banner.
+- **Board 5.** Full illustration throughout, no dive. Token, its ID, the other tokens' rows under the graft,
+  the first two columns, the d1–dn headings, cat's row, the circled 0.45, the whole row as the embedding.
+  The ring that used to walk cat's values as they were read is gone with cut C.
+- Boards 2 and 3 no longer use `banner_at`, which would force the banner ring to hold to the board's end.
+  Both keep teaching after their takeaway, so the banner is an ordinary ring in the sequence.
+- Ring colour is measured, never chosen: Boards 2, 3 and 5 carry no locked accent, so their rings take the
+  neutral video purple, which also keeps them clear of Board 5's own purple glow and yellow circle.
 
-- **transition_guard caught this one** because roll 1's recreation is visually distinct from our board.
-- **It did not catch Support Trap's**, where the recreation was near-identical to the real board, so the
-  cut between them fell under the detector's change threshold and only a frame-by-frame look found it.
-- **It also misses long ones** — Engagement Trap's nine-frame leak passed the gate because the detector
-  needs two cuts within six frames.
+## The one thing that needs your decision
 
-A board exit therefore needs both the guard and an eye on the frames either side. That is now noted in
-this build script.
+**Each of the three cuts removes something `Prompts/embeddings-video-prompt.txt:16` requires the narration
+to say** — "four badge numbers, and the fry gag", "Speak both drinks' six scores", and "the first values".
+
+All three remain legible on the boards, and the rings now point at them as they are discussed, so the
+teaching survives visually — which is the case for the edit. But the prompt is the spec a reroll is
+generated from, so **unless line 16 is amended, the next roll will argue with this edit.** The prompt is
+unchanged; amending the generation spec is a bigger move than an edit and is David's call.
 
 ## Notes for the eye test
 
-- **Board 2 runs 62.9 s**, the longest in the file — roll 1 covers the whole taste test in one unbroken
-  scene, so there is no alternate footage to cut away to. It now carries eight ring states rather than
-  three, which keeps the board moving with the teaching.
 - **The floor step.** Roll 1's pause floor is −56.4 dB against roll 2's −62.8, so each graft steps down
-  6.4 dB into a quieter room and back up on the way out. Both are short and under a board, and down-then-up
-  is the less audible direction, but it is the one thing here I cannot judge without ears.
-- **"vable" versus "fable"** is acoustically ambiguous in both rolls and flips under prompt biasing either
-  way. The build uses roll 1, whose unbiased decode lands on "Vable". Worth your ear.
-- Roll 1's board-furniture phrases remain — "Look at this illustration…", "This table captures…", "This
-  updated table shows…", "This comparison chart maps…" — which the kit bans. Two are standalone sentences
-  that could be cut if you want them gone; the other two carry teaching content.
-- Voice drift roll 1 adds beyond the lesson's register: "In formal AI terminology", "model architecture",
-  "complex decimals", "an organizational tool". None are banned words.
+  6.4 dB into a quieter room and back up. Both are short and under a board, and down-then-up is the less
+  audible direction, but it is the one thing here I cannot judge without ears.
+- **"vable" versus "fable"** is acoustically ambiguous and flips under prompt biasing either way. The build
+  uses roll 1, whose unbiased decode lands on "Vable". Worth your ear.
+- **Two of roll 1's four board-furniture phrases are now gone** with cut A ("Look at this illustration…")
+  and cut B (the cut took "Because we keep the columns aligned," but "This table captures our ratings…"
+  survives at 1:02). "This updated table shows…" and "This comparison chart maps…" also remain; both carry
+  teaching content and cannot be lifted cleanly.
+- Voice drift beyond the lesson's register: "In formal AI terminology", "model architecture", "complex
+  decimals", "an organizational tool". None are banned words.
 - The lesson's prose line "funny, into hockey, or the person who steals fries at lunch" is in none of the
   rolls; only the live video has it.
 
-## At ship time
+## Shipped
 
-`index.html` carries the Embeddings entry with its current cache key and pill; both need updating, and
-5:24.73 is a **5 min** pill by the course's convention (4:25 → 4 min, 4:37 → 5 min).
+`index.html:1123` updated: cache key `20260917ship1` -> `20260922ship7`, pill `4 min` -> `5 min`.
+Render intermediates swept per the ship checklist (1.63 GB freed). Candidates removed from `Prompts/`;
+the rolls and the comparison bundle are kept.
+
+**Not done here:** the file was not watched end to end or auditioned by ear. David approved the ship on
+the measured checks.

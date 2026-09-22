@@ -35,7 +35,7 @@ A = ROOT / "course-assets/embeddings"
 LIVE = A / "embeddings.mp4"
 AUDIT = ROOT / "video-audit/embeddings-stitch-2026-09-22"
 OUT = AUDIT / "build"
-DEST = ROOT / "Prompts/embeddings-v4.mp4"
+DEST = ROOT / "Prompts/embeddings-v5.mp4"
 STUDENT, MEANING = A / "embeddings-student-id.jpg", A / "embeddings-meaning-row.jpg"
 NEWDIM, TASTE, MODEL = A / "embeddings-new-dimension.jpg", A / "embeddings-taste-test-to-ai.jpg", A / "embeddings-inside-real-model.jpg"
 LESSON = ROOT / "lessons/embeddings.md"
@@ -51,12 +51,18 @@ DEL_A_IN, DEL_A_OUT = 711, 1235  # 0:23.70 (quiet 23.50-23.91) - 0:41.18 (quiet 
                                  # "Look at this illustration of four students... into a shirt pocket." -
                                  # the banned board-furniture line, the four badge numbers and the
                                  # fry-stealer description, all of which the board itself shows.
-DEL_B_IN, DEL_B_OUT = 2976, 3288 # 1:39.20 (quiet 99.11-99.48) - 1:49.60 (quiet 109.51-109.72): removes
+DEL_B_IN, DEL_B_OUT = 2976, 3286 # 1:39.20 (quiet 99.04-99.48) - 1:49.53 (quiet 109.50-109.72): removes
                                  # coffee's six scores. Extended past David's 1:46 on purpose - "and ten
                                  # for dark. Because we keep the columns aligned," is ONE unbroken run,
                                  # so cutting at 1:46 would have orphaned "and ten for dark." Ending at
-                                 # 1:49.60 also drops the "Because we keep the columns aligned" preamble,
+                                 # 1:49.53 also drops the "Because we keep the columns aligned" preamble,
                                  # so verbatim line 2 now begins the sentence cleanly.
+                                 # This is the one edge the decoders got wrong and the waveform corrected:
+                                 # Whisper puts "each" at 109.58 and silencedetect opens the gap at 109.51,
+                                 # but the RMS trace shows "aligned," decaying through 109.31, true room
+                                 # tone only from 109.50, and "each" actually starting at 109.73. Cutting
+                                 # on either decoder's number would have shaved the front of verbatim
+                                 # line 2. 109.53 sits inside the real floor and keeps 0.20 s of breath.
 DEL_C_IN, DEL_C_OUT = 7737, 8295 # 4:17.90 (quiet 257.52-258.36) - 4:36.50 (quiet 276.12-276.86): removes
                                  # "Reading across cat's row, the values start at 0.45 ... at the end."
 BD1_LEG = (DEL_A_IN - BD1_IN) + (BD1_OUT - DEL_A_OUT)
@@ -97,9 +103,6 @@ BD5_R3 = BD5_R2 + (DEL_C_IN - GB_BACK)                     # after the deleted v
 # measure #149288 (teal) and #5334c5 (purple), but its rings run whole rows across both columns, which is
 # a whole-board point and therefore also neutral. Board 5's elements carry no accents of their own either,
 # so its rings are neutral too - which also keeps them clear of the board's own purple glow and yellow circle.
-BD1_PHOTO = [40, 127, 1561, 1150]
-BD1_BADGES = [150, 820, 1500, 1100]          # the four badge numbers along the table
-BD1_THIEF = [820, 150, 1300, 900]            # the standing student and the fries
 BD1_BANNER = [40, 1176, 1561, 1264]
 BD2_COKE, BD2_COFFEE = [82, 286, 1519, 457], [82, 476, 1519, 647]
 BD2_BANNER = [40, 720, 1561, 809]
@@ -150,63 +153,6 @@ def target(label, at, rect, color, radius=20, cam=None):
     d = {"label": label, "at": at, "rects": [rect], "color": color, "radius": radius}
     if cam: d["cam"] = cam
     return d
-
-
-def photo_walk_banner(b, key, asset, src_in, leg_frames, moves, photo, banner, banner_at, pullback=30):
-    """Camera walk over a photographic board, then a pull-back to the full board with its banner ringed."""
-    asset = Path(asset); canvas_path, cw, ch, ox, oy = b.compose(asset, key)
-    n = leg_frames; full = [cw / 2, ch / 2, float(cw)]
-    px0, py0, px1, py1 = photo
-    def window(r):
-        x0, y0, x1, y1 = r; w = max(x1 - x0, (y1 - y0) * W / H) * 1.10; h = w * H / W
-        cx = min(max(x0 + ox + (x1 - x0) / 2, ox + px0 + w / 2), ox + px1 - w / 2)
-        cy = min(max(y0 + oy + (y1 - y0) / 2, oy + py0 + h / 2), oy + py1 - h / 2)
-        return [cx, cy, w]
-    first = moves[0][1] - moves[0][2]
-    beats = [dict(label="establish", frames=first, **{"from": full}, to=[cw / 2, ch / 2, cw * 0.97])]
-    cursor = first
-    for i, (label, arrive, transit, r) in enumerate(moves):
-        nxt = moves[i + 1][1] - moves[i + 1][2] if i + 1 < len(moves) else banner_at - pullback
-        beats += [dict(label=f"to-{label}", frames=transit, to=window(r)),
-                  dict(label=f"hold-{label}", frames=nxt - cursor - transit, to=window(r))]
-        cursor = nxt
-    beats += [dict(label="pull-back", frames=pullback, to=full),
-              dict(label="banner-hold", frames=n - banner_at, to=full)]
-    assert sum(x["frames"] for x in beats) == n and all(x["frames"] > 0 for x in beats), (key, beats)
-    rings = [dict(start=banner_at, end=n, rect=[banner[0] + ox, banner[1] + oy, banner[2] - banner[0], banner[3] - banner[1]],
-                  color=NEUTRAL, pad=0, radius=22)]
-    (b.out / f"leg-{key}.json").write_text(json.dumps(dict(image=str(canvas_path), fps=FPS, out_w=W, out_h=H,
-                                                           upscale=3, beats=beats, rings=rings), indent=1))
-    b.boards[key] = dict(key=key, asset=str(asset.relative_to(b.root)), sha256=sha(asset), src_in=src_in,
-                         src_out=src_in + n, density="photographic camera walk, banner ringed",
-                         full_view_frames=first, canvas_offset=[ox, oy],
-                         states=[dict(spoken_onset_source_frame=src_in + banner_at, highlight_target="takeaway banner",
-                                      highlight_mode="ring", highlight_color=NEUTRAL, highlight_source="neutral_video_purple")],
-                         beats=beats, rings=rings)
-
-
-def camera_walk(b, key, asset, src_in, leg_frames, moves, pullback=36):
-    """Camera walk with no rings - for a board that ships with its own designed emphasis (Board 5)."""
-    asset = Path(asset); canvas_path, cw, ch, ox, oy = b.compose(asset, key)
-    n = leg_frames; full = [cw / 2, ch / 2, float(cw)]
-    def window(r):
-        x0, y0, x1, y1 = r; w = max(x1 - x0, (y1 - y0) * W / H) * 1.12
-        return [x0 + ox + (x1 - x0) / 2, y0 + oy + (y1 - y0) / 2, min(w, float(cw))]
-    first = moves[0][1] - moves[0][2]
-    beats = [dict(label="establish", frames=first, **{"from": full}, to=[cw / 2, ch / 2, cw * 0.98])]
-    cursor = first
-    for i, (label, arrive, transit, r) in enumerate(moves):
-        nxt = moves[i + 1][1] - moves[i + 1][2] if i + 1 < len(moves) else n - pullback
-        beats += [dict(label=f"to-{label}", frames=transit, to=window(r)),
-                  dict(label=f"hold-{label}", frames=nxt - cursor - transit, to=window(r))]
-        cursor = nxt
-    beats += [dict(label="pull-back", frames=pullback, to=full)]
-    assert sum(x["frames"] for x in beats) == n and all(x["frames"] > 0 for x in beats), (key, beats)
-    (b.out / f"leg-{key}.json").write_text(json.dumps(dict(image=str(canvas_path), fps=FPS, out_w=W, out_h=H,
-                                                           upscale=3, beats=beats, rings=[]), indent=1))
-    b.boards[key] = dict(key=key, asset=str(asset.relative_to(b.root)), sha256=sha(asset), src_in=src_in,
-                         src_out=src_in + n, density="camera walk, unringed (board carries its own emphasis)",
-                         full_view_frames=first, canvas_offset=[ox, oy], states=[], beats=beats, rings=[])
 
 
 def main():
@@ -268,19 +214,19 @@ def main():
         # Everything below sits after coffee's scores were cut, so each onset is given in the leg's own
         # frame space. The banner now lands on "Each position always means the same thing." at 109.70,
         # which is where the sentence begins once its "Because we keep the columns aligned," is gone.
-        target("takeaway banner", bd2(109.70), list(BD2_BANNER), NEUTRAL, radius=22),
+        target("takeaway banner", bd2(109.75), list(BD2_BANNER), NEUTRAL, radius=22),
         target("Coke, 9, 1 and 10", bd2(114.20), list(BD2_COKE_THREE), NEUTRAL, radius=18),
-        target("Coke and all its values", bd2(123.20), list(BD2_COKE_FULL), NEUTRAL, radius=18),
+        target("Coke and all its values", bd2(125.60), list(BD2_COKE_FULL), NEUTRAL, radius=18),
         target("the dimension headings", bd2(128.30), list(BD2_HEADINGS), NEUTRAL, radius=18),
         target("one value", bd2(131.60), list(BD2_ONE_VALUE), NEUTRAL, radius=14),
-        target("the row as a whole", bd2(134.50), list(BD2_COKE_FULL), NEUTRAL, radius=18),
+        target("the row as a whole", bd2(133.90), list(BD2_COKE_FULL), NEUTRAL, radius=18),
     ], push=False)
 
     # Board 3 (compact): Coke, then Pepsi matching it, then coffee; the banner is verbatim line 4.
     b.board("bd3", NEWDIM, BD3_IN, BD3_OUT, "compact", [
         target("Pepsi, the third drink", 147.50, list(BD3_PEPSI_NAME), NEUTRAL, radius=18),
         target("Pepsi's first six values", 149.60, list(BD3_PEPSI_SIX), NEUTRAL, radius=18),
-        target("the CITRUS heading", 162.00, list(BD3_CITRUS_HEAD), NEUTRAL, radius=16),
+        target("the CITRUS heading", 162.90, list(BD3_CITRUS_HEAD), NEUTRAL, radius=16),
         target("Pepsi scores 10 on Citrus", 166.80, list(BD3_PEPSI_CITRUS), NEUTRAL, radius=14),
         target("Coke scores 1", 169.10, list(BD3_COKE_CITRUS), NEUTRAL, radius=14),
         target("Coffee scores 0", 170.60, list(BD3_COFFEE_CITRUS), NEUTRAL, radius=14),
@@ -302,8 +248,10 @@ def main():
     # Board 5 holds the complete illustration for its whole run - no dive - and rings each item as it is
     # named. Onsets after the graft are given in the leg's own frame space, (BD5_IN + leg) / FPS.
     b.board("bd5", MODEL, BD5_IN, BD5_IN + BD5_LEG, "compact", [
-        dict(label="the token and its ID", at=238.60, rects=[list(BD5_CATTILE), list(BD5_IDTILE)],
-             color=NEUTRAL, radius=18),
+        # Split in two: roll 1 names the token at 236.80 and its ID at 238.74, so one paired ring would
+        # have been early for one half and late for the other. Each item now rings as it is spoken.
+        target("the token", 236.70, list(BD5_CATTILE), NEUTRAL, radius=18),
+        target("its token ID, 4719", 238.70, list(BD5_IDTILE), NEUTRAL, radius=18),
         target("the other tokens' rows", (BD5_IN + (GB_AT - BD5_IN)) / FPS, list(BD5_TABLEBODY), NEUTRAL, radius=16),
         target("the first two columns", (BD5_R2 + (fr(248.18) - GB_BACK)) / FPS, list(BD5_FIRSTTWO), NEUTRAL, radius=16),
         target("the d1 to dn headings", (BD5_R2 + (fr(251.74) - GB_BACK)) / FPS, list(BD5_DIMHEAD), NEUTRAL, radius=16),

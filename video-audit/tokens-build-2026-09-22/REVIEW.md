@@ -1,7 +1,9 @@
-# Tokens v2: review candidate, built 2026-09-22
+# Tokens v2: SHIPPED 2026-09-22
 
-**Candidate:** `Prompts/tokens-v2.mp4` — 5:05.27, 9158 frames, 30 fps, sha256 48f170a1ed6794de….
-(v1, 5:15.00, sha256 457283a003724e81…, is superseded and left on disk.)
+**Shipped** on David's instruction ("ship it") as `course-assets/tokens/tokens.mp4`, sha256 48f170a1ed6794de…, 5:05.27,
+9158 frames, 30 fps. Cache key `20260916ship1` → `20260922ship6` on the `tokens` entry (ship1–ship5 were taken by other
+sessions today), and the duration pill goes **4 min → 5 min** (the retired v8 was 3:37). Candidates v1 and v2 removed from
+`Prompts/`; the raw rolls `tokens-1.mp4` and `tokens-2.mp4` are kept.
 
 ## v2 changes, on David's review of v1
 
@@ -65,8 +67,7 @@ clamp is now the board itself, and the row reads clearly (`preview/2-blocks/kb5-
 ## Not done / for David
 
 - **Not watched end to end by me, and not auditioned by ear.** The narration is roll 1's, untouched, and it was reviewed in full
-  yesterday; but the ship checklist wants a human watch before publication.
-- **The pill would go 4 min → 5 min** (the file is 5:05 against today's live 3:37).
+  from the transcript; David approved the ship without asking for a machine watch.
 - One accepted pronunciation slip stands: "the Witten word cat" (190.74). The other, "Claw 100K base" for `cl100k_base`, sat
   inside the deleted 3:26–3:36 and is gone.
-- Nothing has been shipped. The live `course-assets/tokens/tokens.mp4` and `index.html` are untouched.
+- The retired v8 (3:37, shipped 2026-09-16 under the old method) is superseded; it remains recoverable from git history.

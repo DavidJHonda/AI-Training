@@ -581,7 +581,22 @@ Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude an
 
 ## How AI Answers
 
-**Rolls 1 and 2 of 2026-09-22 both REROLL; prompt amended, reroll again.** Review:
+**Rolls 3 and 4 of 2026-09-22 (rolled 18:00, after the 17:15 prompt amendment): roll 4 is a REPAIR and
+the build base; roll 3 is a REROLL.** Roll 4 is the first of five files to speak all eight verbatim
+lines, all six percentages at both prediction beats, and all four step names with "pick" said correctly.
+Six edits fix the rest - one banned word ("understands"), one "word"-for-"token" slip, one always-highest
+lean and three board-furniture phrases - all with identified donors from rolls 2 and 3 and boundaries
+measured in quiet windows. Roll 3 rewrites both closing lines and says "AI thinking is a recursive
+high-speed microcycle" ("thinks" is banned). Awaiting David's approval of the narration changes.
+
+**Two of the three prompt edits worked; the third did not.** The line-2 collision note landed - roll 4
+speaks the line verbatim, which no earlier file had - and the per-beat percentages requirement landed.
+**The widened board-furniture ban failed outright**: roll 4 has five furniture phrases, the most of any
+file, and roll 3 has four. Naming the constructions does not suppress them; this reads as a Notebook
+house habit that prompt wording does not reach. Recommendation carried forward: stop spending prompt
+words on it and cut the phrases in the edit, where four of roll 4's five lift out as whole sentences.
+
+**Round 1 (rolls 1 and 2), superseded by the above.** Review:
 `video-audit/how-ai-answers-comparison-2026-09-22/`. Roll 2 was close - 7/8 verbatim lines, Board 4's
 four steps with all three percentages, no banned words, and the only one of the three that never claims
 AI always picks the highest-probability token - but it missed verbatim line 2 and said "Step two is

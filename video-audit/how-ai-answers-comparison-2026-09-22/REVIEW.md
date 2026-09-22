@@ -182,3 +182,129 @@ file trimmed back to 499 words. The Markdown is unchanged and should stay unchan
 ## Nothing built
 
 No candidate was produced. The live video, both rolls, the lesson and the boards are unchanged.
+
+---
+
+# Round 2: rolls 3 and 4, generated on the amended prompt (2026-09-22, 18:00)
+
+`Prompts/how-ai-answers-3.mp4` (4:37.33) and `Prompts/how-ai-answers-4.mp4` (4:05.40), both rolled
+after the prompt was amended at 17:15. This is a direct test of the three edits.
+
+**Verdict: roll 4 is a REPAIR and it is the one to build. It is the first file of the five to speak all
+eight verbatim lines, all six percentages, and all four step names. Six edits fix everything left, every
+one with an identified donor and a measured boundary. Roll 3 is a REROLL.**
+
+## Where the five files now stand
+
+| | roll 1 | roll 2 | roll 3 | **roll 4** | live |
+|---|---|---|---|---|---|
+| Verbatim lines | 0/8 | 7/8 | 5/8 | **8/8** | 2/8 |
+| The six percentages | 4/6 | 4/6 | 4/6 | **6/6** | **0/6** |
+| Rank, Pick, Add, Repeat named | none | 3 of 4 | 2 of 4 | **all four** | none |
+| Banned words | framework | — | "thinking" | understands | understands |
+| Board furniture | 2 | 4 | 4 | 5 | 4 |
+| Runtime | 4:01 | 3:29 | 4:37 | 4:05 | 3:02 |
+
+Roll 2 is shown at 7/8: its line 5 decodes as "the answer is enished" in the base model but a `small.en`
+re-decode of the isolated span returns "finished".
+
+## Did the three prompt edits work? Two yes, one no.
+
+**1. The line-2 collision note — WORKED.** Roll 4 speaks "AI uses the final token's vector to predict the
+first token of its answer." verbatim @0:52.52. No file had ever managed it. Roll 3 half-took the
+instruction: it did stop merging the two sentences, but then pronoun-substituted — "AI uses **its** vector
+to predict the first token of its answer" — so it still misses. The diagnosis was right and the fix holds.
+
+**2. Percentages at both prediction beats — WORKED.** Roll 4 @1:34 "You at 18%, A at 14%, and Great at
+9%", @2:14 "spot at 22%, max at 17%, and buddy at 14%", and again at Board 4. First file to speak all six.
+(The transcript renders "You" as "U"; a `small.en` re-decode, unbiased, returns "you at 18%".) Roll 3
+still gives its percentages only at Board 4.
+
+**3. The widened board-furniture ban — FAILED, and it is worth saying so plainly.** Roll 4 has **five**
+furniture phrases, the most of any of the five files, and roll 3 has four. Banning the constructions by
+name did not suppress them; naming more of them made no difference. This looks like a Notebook house
+habit that prompt wording does not reach. **Recommendation: stop paying prompt words for it.** Four of
+roll 4's five are standalone sentences that lift out cleanly in the edit, which is where this should be
+handled from now on.
+
+## CANDIDATE: `Prompts/how-ai-answers-4.mp4` (4:05.40)
+
+**VERDICT: REPAIR.** Everything the kit requires is present; the defects are six local fixes.
+
+Hard requirements, all met:
+- **8/8 verbatim lines**, including the closing pair in order with nothing after.
+- **All six percentages**, at both prediction beats and again at Board 4's Rank step.
+- **Rank, Pick, Add, Repeat all four named** — and "pick" is said correctly, which was roll 2's blocker.
+- Board 1's four steps named individually; the question mark identified as the final token; the stop
+  token taught; the inference definition intact.
+- **One "word" where the lesson says "token"** (@0:59, "To find the very first word"), against the live
+  video's five. The other four uses are the lesson's own opening line, the one-word-one-token setup, and
+  two places naming a specific word ("the word him", "the word you"), which read correctly.
+
+### The six edits, with donors and measured boundaries
+
+Every in and out point below sits inside a verified quiet window on the waveform (150–600 ms), not on a
+decoder's word boundary.
+
+| # | Defect in roll 4 | Fix |
+|---|---|---|
+| A | @0:04.84 **"But once it understands the prompt"** — `understands` is a banned word | **Graft roll 2 [5.05 → 7.15]**, "But then it faces a new problem." — the lesson's own sentence. Replaces roll 4 [4.60 → 8.60]. |
+| B | @0:21.46 "This diagram shows four steps before the answer begins." | **Cut** [21.10 → 24.80]. Leaves "…as a single token. Step one breaks the question into tokens." |
+| C | @0:40.42 "In this graphic, the final token is the question mark." — furniture, but it carries teaching | **Graft roll 3 [57.10 → 60.10]**, "In this prompt, the question mark is the final token." Same content, no furniture. Replaces roll 4 [40.30 → 43.30]. |
+| D | @0:59.16 "To find the very first **word**" | **Graft roll 2 [89.10 → 96.20]**, "It uses those numbers from the final token to calculate a probability score for every potential next token in its entire vocabulary." |
+| E | @1:13.32 "The AI will select a **top scoring** token" (leans always-highest) **and** @1:22.76 "This chart breaks down the selection process step by step." | **One graft fixes both**: roll 2 [99.10 → 105.95] replaces roll 4 [73.25 → 86.25]. The two defects are adjacent and share a boundary. Gives "…a repeating generation loop. The AI selects a token, adds it to the growing reply, and then uses that newly expanded context to predict again. Let's look at prediction one on the left." |
+| F | @3:10.28 "Let's look at this diagram to summarize exactly how it builds the answers step by step." | **Cut** [190.10 → 195.50]. Leaves "…has a formal name, inference. In step one, rank." |
+
+**Feasibility is excellent.** Roll 4 −16.5 LUFS, roll 2 −17.0, roll 3 −17.1 — all within 0.6 LU — with
+pause floors of −64.4, −65.9 and −67.2 dB, a 2.8 dB spread across all three. For comparison, Embeddings
+shipped with a 6.4 dB step and Engagement Trap rejected a donor at 17 dB. These grafts will not be heard.
+
+Left alone, flagged rather than fixed:
+- @2:54.56 "becomes the **statistically obvious** next choice." It leans toward always-highest but never
+  claims it, so it does not break the literal prohibition. Roll 3's alternative carries "contextual
+  runway", which is worse. Worth David's ear.
+- "It acts as a collector" @0:43, "context window" @1:17, "physically attached" @3:37 — voice drift, none
+  banned.
+
+## CANDIDATE: `Prompts/how-ai-answers-3.mp4` (4:37.33)
+
+**VERDICT: REROLL.** Two disqualifying failures.
+
+1. **It rewrites both closing lines**, and adds a lead-in before them. The prompt says to end on the two
+   closing lines, in order, with nothing after. Roll 3 gives: *"Let's bring this down to two core
+   takeaways. The entire response is constructed sequentially, piece by piece, and this complete cycle of
+   generation is known as inference."* Neither closing line survives.
+2. **"AI thinking is a recursive high-speed microcycle of ranking, picking, adding, and repeating."**
+   @4:15.86 — invented, and `thinks` is on the banned list. It also asserts a picture of AI cognition the
+   lesson is careful not to give.
+
+Also: "The AI selects a **winning** token" @1:27.90; only 2 of 4 steps named as steps ("Moving to steps
+two, pick, and steps three, add" garbles the naming); percentages only at Board 4; four furniture phrases.
+
+What it owns, and roll 4 does not: the clean line **"In this prompt, the question mark is the final
+token."** — used as donor C above.
+
+## BEST-OF PLAN: prediction (round 2)
+
+```
+BASE: Prompts/how-ai-answers-4.mp4 — 8/8 verbatim lines, all six percentages at both prediction
+      beats, all four step names, one "word"-for-"token" slip.
+
+  A  banned word "understands"        -> graft roll 2 [5.05 -> 7.15]      replaces roll 4 [4.60 -> 8.60]
+  B  furniture, Board 1               -> cut roll 4 [21.10 -> 24.80]
+  C  furniture, Board 2               -> graft roll 3 [57.10 -> 60.10]    replaces roll 4 [40.30 -> 43.30]
+  D  "the very first word"            -> graft roll 2 [89.10 -> 96.20]    replaces roll 4 [59.00 -> 69.60]
+  E  "top scoring" + furniture        -> graft roll 2 [99.10 -> 105.95]   replaces roll 4 [73.25 -> 86.25]
+  F  furniture, Board 4               -> cut roll 4 [190.10 -> 195.50]
+
+GRAFTS: 4 (three from roll 2, one from roll 3). CUTS: 2. All boundaries measured in quiet windows.
+NOTHING is left unfixed that the kit requires.
+```
+
+Net runtime lands near 3:55. The pill would be **4 min**; `index.html:1127` currently says 4 min for the
+3:02.77 live file, so the pill happens to be right already once this ships — but it is wrong today.
+
+## Nothing built
+
+No candidate was produced. The live video, all four rolls, the lesson and the boards are unchanged.
+Awaiting David's approval of the narration changes before building, per `NARRATION-REVIEW.md`.

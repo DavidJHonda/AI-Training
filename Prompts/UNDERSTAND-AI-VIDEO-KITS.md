@@ -581,6 +581,16 @@ Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude an
 
 ## How AI Answers
 
+**v1 BUILT 2026-09-22 from roll 4, awaiting David's eye test** - `Prompts/how-ai-answers-v1.mp4`,
+3:46.47, four grafts and two cuts, review in `video-audit/how-ai-answers-stitch-2026-09-22/`. All
+measurable checks pass: 8/8 verbatim lines, all six percentages, all four step names, guard 15/15, zero
+audio dips, no true silence, 0 real corner-mark hits, 9/9 protected sources. **One blocker for the ship:
+roll 4 invents a drawn scene reading `DOG: 92% CAT: 85% MOUSE: 30% CRUST: 15% FISH: 10%` at 0:56-1:01,
+which says the top next token for "What should I name my new dog?" is DOG at 92% when Board 3 teaches You
+at 18% a minute later.** Neither roll has a usable picture donor - roll 2 invents "Capital of France ->
+Paris 76%" at the same beat and roll 3 ends its scene on a banned chapter card - so this needs David's
+call: live with it, or reroll for a clean drawn scene.
+
 **Rolls 3 and 4 of 2026-09-22 (rolled 18:00, after the 17:15 prompt amendment): roll 4 is a REPAIR and
 the build base; roll 3 is a REROLL.** Roll 4 is the first of five files to speak all eight verbatim
 lines, all six percentages at both prediction beats, and all four step names with "pick" said correctly.

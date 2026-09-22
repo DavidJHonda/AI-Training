@@ -456,12 +456,19 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 1. `lessons/layers.md`
 2. `course-assets/layers/layers-horse-three-reads.jpg`
 3. `course-assets/layers/layers-inside-layer.jpg`
-4. `course-assets/layers/layers-resolves-it.jpg`
+4. `Prompts/layers-resolves-it-lowercase.jpg` (Board 3, lowercase variant — see below)
 5. `course-assets/layers/layers-close.jpg`
 
 **Post-production boards**
 
-- None. All three content boards were screened: the horse board shows a barn and a horse, the numbers board shows glass panels, the IT/CAT board is text cards. No faces, no photo-realistic people, so no faceless variants.
+- `course-assets/layers/layers-resolves-it.jpg`: the canonical board prints the pronoun as **IT** in badges and in its title, and
+  every roll so far has read that as an initialism — "I-T" — because, as David put it on 2026-09-22, "Gemini Notebook thinks we
+  are referring to IT as in Information Technology." Four rolls failed on it: roll 2 (0.42–0.70 s per instance), roll 4
+  (0.38–0.56 s), roll 3 (mixed, and confirmed by ear), and the original v6. Writing the word in lowercase in the Markdown was not
+  enough, because Notebook reads the board. `Prompts/layers-resolves-it-lowercase.jpg` is the upload copy: same 1600x835 board
+  with the four IT badges reading **it**, the three CAT badges reading **cat**, and the title "How AI Connects ‘it’ to ‘cat’".
+  Everything else is untouched, and the canonical board replaces it in the edit, so nothing about the shipped picture changes.
+- No faces on any of the three content boards, so no faceless variants are needed.
 - `layers-why-dozens.jpg` is not uploaded (see Markdown versus page).
 
 **Beat spine**
@@ -515,7 +522,7 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 
 ## Vector Space
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `vector-space.mp4` v5 shipped 2026-09-17 under the old method (visual-only retrofit of the 2026-09-10 roll); reroll pending David's approval of the beat spine below.
+**LIVE VIDEO KEPT 2026-09-22 (David):** two rolls on this kit were reviewed (roll 1 REPAIR with 7/8 required lines; roll 2 donor) and a candidate built, then David rewrote the page's opening and the drinks-table read, re-evaluated the live v5 against the new page, and kept it: it teaches the lesson, reads the drinks table the new way, and its boards match. Candidates removed; rolls retained. Review: `video-audit/vector-space-comparison-2026-09-22/`. Do not re-propose a reroll without a page change. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `vector-space.mp4` v5 shipped 2026-09-17 under the old method (visual-only retrofit of the 2026-09-10 roll); reroll pending David's approval of the beat spine below.
 
 **Notebook sources** (`lessons/vector-space.md` plus, in board order)
 1. `course-assets/vector-space/vector-space-cities.jpg`

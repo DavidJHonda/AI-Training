@@ -87,7 +87,7 @@ Prompt: `Prompts/opener-understand-video-prompt.txt` (490 words).
 
 ## Training
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe. Live video: `training.mp4` v4, shipped 2026-09-16 as a visual retrofit of a 2026-09-09 roll; reroll pending David's approval of the beat spine below.
+**v6 SHIPPED 2026-09-22** (cache key 20260922ship1, pill 5 min, 4:50): roll 1 of 2026-09-22 as the narration with six of its own additions cut (production phrases, a garbled line, the summary after the phases, and, on David's note, the word-for-word banner read) and two audio grafts from the live v4 ("steady the ball"; "the heavy lifting is done… ready for public use"); canonical boards, the phase boards dense with section dives, standard close. Review: `video-audit/training-comparison-2026-09-22/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe. Live video: `training.mp4` v4, shipped 2026-09-16 as a visual retrofit of a 2026-09-09 roll; reroll pending David's approval of the beat spine below.
 
 **Notebook sources**
 

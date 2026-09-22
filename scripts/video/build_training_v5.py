@@ -85,6 +85,17 @@ def target(label, at, rect, color, cam=None, radius=18):
 def speech_rms(wav, spans):
     a = readwav(wav); return rms(np.concatenate([a[round(s * SR):round(e * SR)] for s, e in spans]))
 
+def active_level_db(wav, spans, frame=0.05, floor_db=-35.0):
+    """Speech level that ignores the gaps inside a span: RMS over the 50 ms frames above -35 dBFS (DC removed), in dBFS.
+    Used for the graft level match because the replaced roll-1 sentences and the donors carry different pause patterns."""
+    a = readwav(wav); n = round(frame * SR); fr_ = []
+    for s, e in spans:
+        x = a[round(s * SR):round(e * SR)]; x = x - x.mean()
+        for k in range(len(x) // n):
+            r = rms(x[k * n:(k + 1) * n])
+            if 20 * np.log10(r / 32768 + 1e-12) > floor_db: fr_.append(r)
+    return float(20 * np.log10(np.sqrt(np.mean(np.square(fr_))) / 32768))
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--prepare-only", action="store_true"); ap.add_argument("--render-existing", action="store_true")
     args = ap.parse_args()
@@ -97,9 +108,13 @@ def main():
     donor_wav = OUT / "graft-steady.wav"
     if not donor_wav.exists():
         subprocess.run([b.ff, "-y", "-v", "error", "-i", str(LIVE), "-vn", "-ac", "1", "-ar", str(SR), "-c:a", "pcm_s16le", str(donor_wav)], check=True)
+    # Match each donor to roll 1's speech on both sides of its join (active-speech level, gaps excluded), so the grafted
+    # sentence sits at the level of the sentences around it; the replaced sentences' own raw RMS is recorded alongside.
     r1_d = speech_rms(OUT / "source.wav", [(245.32, 247.84)]); rl_d = speech_rms(donor_wav, [(213.88, 217.22)])
     r1_f = speech_rms(OUT / "source.wav", [(282.28, 288.82)]); rl_f = speech_rms(donor_wav, [(235.38, 242.70)])
-    gain_d = round(20 * np.log10(r1_d / rl_d), 2); gain_f = round(20 * np.log10(r1_f / rl_f), 2)
+    lvl_d_roll = active_level_db(OUT / "source.wav", [(242.76, 244.82), (248.50, 257.70)]); lvl_d_live = active_level_db(donor_wav, [(213.88, 217.22)])
+    lvl_f_roll = active_level_db(OUT / "source.wav", [(258.50, 267.30), (289.44, 303.40)]); lvl_f_live = active_level_db(donor_wav, [(235.38, 242.70)])
+    gain_d = round(lvl_d_roll - lvl_d_live, 2); gain_f = round(lvl_f_roll - lvl_f_live, 2)
 
     # ---------------- timeline (source frames of roll 1)
     b.keep(0, P1_AT, "Notebook opening: molecule, code monitor, essay (paper-craft), chemistry question mark")
@@ -180,7 +195,7 @@ def main():
         for k in b.boards: b.state_sheet(k)
     b.make_close("training")
     rows = b.rows
-    run_start = next(r for r in rows if r["visual"] == "phases")["start_frame"]
+    run_start = next(r for r in rows if r.get("visual") == "phases")["start_frame"]
     run_end = next(r for r in rows if "graft f" in r["label"])["start_frame"] - F_TONE_BEFORE
     b.manifest({
         "scope_detail": "Full production review candidate from the approved 2026-09-22 plan (roll 1 base; cuts a, b, c, e, g; audio-only grafts d and f from the live v4; six canonical boards; three selective pauses; standard close). Live video, raw roll, lesson, boards, index.html and the registry unchanged.",
@@ -188,6 +203,8 @@ def main():
             "cut_a_diagram_shows": [A_OUT, A_IN], "cut_b_dualness": [B_OUT, B_IN], "cut_c_this_panel_shows": [C_OUT, C_IN],
             "graft_d_replaces_roll1_frames": [D_OUT, D_IN], "graft_d_live_frames": list(D_LIVE), "graft_d_gain_db": gain_d,
             "speech_rms_roll1_steady_sentence": r1_d, "speech_rms_live_steady_sentence": rl_d,
+            "active_level_dbfs_roll1_neighbours_d": round(lvl_d_roll, 2), "active_level_dbfs_live_d": round(lvl_d_live, 2),
+            "active_level_dbfs_roll1_neighbours_f": round(lvl_f_roll, 2), "active_level_dbfs_live_f": round(lvl_f_live, 2),
             "cut_e_summary_and_architecture_locked": [E_OUT, F_IN], "graft_f_live_frames": list(F_LIVE), "graft_f_gain_db": gain_f,
             "speech_rms_roll1_ready_sentence": r1_f, "speech_rms_live_ready_pair": rl_f,
             "cut_g_this_graphic_summarizes": [G_OUT, G_IN], "close_audio_end": CLOSE_END,

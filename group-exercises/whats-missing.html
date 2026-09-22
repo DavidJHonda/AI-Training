@@ -73,6 +73,7 @@
     .reveal-panel { padding-top: 18px; border-top: 1px solid var(--tryRule); }
     .reveal-title { margin: 0 0 16px; color: var(--tryAccent); font-size: clamp(20px, 1.9vw, 27px); line-height: 1.3; }
     .check-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .check-grid.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .check-card { min-width: 0; padding: clamp(17px, 1.65vw, 23px); border-radius: 12px; background: var(--card); box-shadow: var(--shadowSoft); }
     .check-card h4 { margin: 0 0 8px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.3; }
     .check-card p { margin: 0; color: var(--inkSoft); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.5; }
@@ -90,7 +91,7 @@
     [hidden] { display: none !important; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
-    @media (max-width: 900px) { .check-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .check-grid, .check-grid.is-two { grid-template-columns: 1fr; } }
     @media (max-width: 760px) {
       .activity-shell { display: block; padding: 12px; }
       .activity-header { align-items: flex-start; margin-bottom: 12px; }
@@ -132,24 +133,25 @@
       <section class="answer-panel" aria-labelledby="answer-title">
         <h3 class="section-label" id="answer-title">The AI Answer</h3>
         <p class="answer-intro" id="answer-intro"></p>
+        <p class="answer-outro" id="answer-middle" hidden></p>
         <ul class="answer-list" id="answer-list"></ul>
         <p class="answer-outro" id="answer-outro" hidden></p>
       </section>
 
       <div class="discussion" id="discussion">
-        <h3>Before you use this answer, what do you need to know?</h3>
-        <p>Take about 45 seconds with a neighbor. Find two or three things worth checking.</p>
+        <h3 id="discussion-question"></h3>
+        <p id="discussion-instruction"></p>
       </div>
 
       <section class="reveal-panel" id="reveal-panel" aria-labelledby="reveal-title" hidden>
-        <h3 class="reveal-title" id="reveal-title" tabindex="-1">A Few Things to Check</h3>
+        <h3 class="reveal-title" id="reveal-title" tabindex="-1">A Few Things We Still Need to Know</h3>
         <ul class="check-grid" id="check-grid"></ul>
-        <p class="reveal-note">These are examples, not a complete list. Your group may have found other important questions.</p>
+        <p class="reveal-note">Your group may have found other useful questions. What matters is explaining how the missing information could change the answer.</p>
       </section>
       <p class="sr-only" id="round-announcement" aria-live="polite" aria-atomic="true"></p>
 
       <div class="stage-footer">
-        <button class="primary-button" id="show-checks" type="button">Show What to Check</button>
+        <button class="primary-button" id="show-checks" type="button">Show What’s Missing</button>
         <button class="primary-button" id="next-button" type="button" hidden>Next Scenario</button>
       </div>
     </section>
@@ -158,8 +160,8 @@
       <div class="finish-inner">
         <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
         <h2 id="finish-title" tabindex="-1">One last thing</h2>
-        <p>A useful-looking answer can still leave you with important questions.</p>
-        <p>Before you act, ask what is missing and whether it could change your decision.</p>
+        <p>AI gave us an answer before it had enough information.</p>
+        <p>Before you use an answer, ask what is missing. Add the details you know, and check the assumptions AI made.</p>
         <div class="finish-actions">
           <button class="primary-button" id="play-again" type="button">Play Again</button>
           <a class="secondary-button" id="back-link" href="../index.html">Back to Group Exercises</a>
@@ -174,55 +176,55 @@
 
       var rounds = [
         {
-          title: "The Club Fundraiser",
-          request: "Our club wants to raise $600 for a trip. Suggest a simple after-school fundraiser.",
-          answerIntro: "Sell fruit smoothies for $5 each after school on Friday.",
-          answerPoints: [
-            "Aim to sell 120 smoothies to reach $600.",
-            "Advertise through school announcements and club social posts.",
-            "Buy fruit, yogurt, cups, and straws. Borrow two blenders.",
-            "Assign volunteers to take payments, make smoothies, and serve customers.",
-            "Set up near the main exit and clean up afterward."
-          ],
+          title: "The AI Club Announcement",
+          question: "What did AI leave out that students need in order to attend?",
+          instruction: "With a neighbor, identify the missing details and explain why they matter. You have about 45 seconds.",
+          request: "Write an announcement inviting students to our new AI club’s first meeting.",
+          answerIntro: "Curious about AI? Join our new AI club!",
+          answerMiddle: "At our first meeting, you’ll meet other students, try a fun AI challenge, and help choose activities for the year. Beginners are welcome. No experience needed.",
+          answerPoints: [],
+          answerOutro: "Bring a friend and come ready to explore. We can’t wait to see you there!",
           checks: [
-            { title: "Revenue or profit?", detail: "Selling 120 smoothies brings in $600 before expenses. What will supplies cost, and how much will actually remain for the trip?" },
-            { title: "Permission and food requirements.", detail: "Does the school allow the sale, and what rules apply to preparation, storage, and allergens?" },
-            { title: "Enough customers?", detail: "How many students are likely to buy a smoothie at that price and time?" }
+            { title: "When is the meeting?", detail: "The announcement needs a date and time. Students can’t plan to attend without them." },
+            { title: "Where is the meeting?", detail: "It needs a room or meeting location. Interested students need to know where to go." }
           ]
         },
         {
-          title: "The Used Laptop",
-          request: "I have $300 for a laptop for school. Is this used one a good choice?",
-          answerIntro: "Yes. At $250, this used laptop looks like a sensible school option.",
+          title: "Pizza for Everyone",
+          question: "What did AI need to know before deciding what to order?",
+          instruction: "With a neighbor, identify two or three missing details. Explain how each one could change the order. You have about 45 seconds.",
+          request: "Plan a simple pizza celebration for our group.",
+          answerIntro: "Keep it simple with six large pepperoni pizzas and three two-liter bottles of soda.",
           answerPoints: [
-            "It has 8 GB of memory and a 256 GB solid-state drive, enough for documents, browsing, and video calls.",
-            "The 13-inch screen makes it easy to carry.",
-            "The listing says a charger is included.",
-            "It leaves $50 of your budget for a mouse or protective case."
+            "Order from a nearby pizza place.",
+            "Ask for the pizzas to be sliced and ready to serve.",
+            "Put plates, cups, and napkins on a table.",
+            "Have everyone help themselves, then finish with a quick group game.",
+            "Ask a few volunteers to help clean up."
           ],
-          answerOutro: "For everyday schoolwork, I would choose this over spending more on a new laptop.",
           checks: [
-            { title: "Will it run what you need?", detail: "What exact model and operating system is it, does it still receive security updates, and will it run your required school software?" },
-            { title: "What condition is it in?", detail: "How long does the battery last, and do the keyboard, screen, camera, and charger work?" },
-            { title: "What if it fails?", detail: "Is there a return policy or warranty? A replacement battery or repair could erase the savings." }
+            { title: "How many people are coming?", detail: "Six pizzas might be plenty or nowhere near enough." },
+            { title: "Can everyone eat what we’re ordering?", detail: "An all-pepperoni order may leave some people without food. Check dietary needs and allergies before choosing." },
+            { title: "Can we afford it?", detail: "The plan chooses an order without knowing the budget or checking the price." }
           ]
         },
         {
-          title: "The Concert Trip",
-          request: "Plan an evening trip for four high school friends to a concert in another city, about an hour away by train.",
-          answerIntro: "Here’s a simple plan for the evening:",
+          title: "The Study Plan",
+          question: "What is missing that could make this study plan less useful?",
+          instruction: "With a neighbor, identify two or three things the plan should account for. Explain how they could help the student prepare. You have about 45 seconds.",
+          request: "Help me prepare for my math exam next week.",
+          answerIntro: "Study from 7 to 9 p.m. every evening for the next six days.",
           answerPoints: [
-            "Buy concert tickets together so everyone has a confirmed place.",
-            "Take the 4:30 p.m. train and arrive around 5:30.",
-            "Have dinner near the venue, allowing $20 each.",
-            "Reach the venue at 6:30 for the 7:00 show.",
-            "After the concert ends around 10:30, walk back to the station and take a train home.",
-            "Keep the tickets on your phones and agree on a meeting spot outside the venue."
+            "Spend the first hour rereading your class notes.",
+            "Spend the second hour reviewing examples in the textbook.",
+            "Work through the material in the order it was taught.",
+            "On the last evening, reread your notes from beginning to end."
           ],
+          answerOutro: "Stick to this routine so you feel prepared on exam day.",
           checks: [
-            { title: "Can everyone enter?", detail: "Does the venue have an age restriction or require an adult or identification?" },
-            { title: "Can you get home?", detail: "When does the last train leave, and is there enough time if the show runs late? What is the backup plan?" },
-            { title: "What is the full cost?", detail: "Add concert fees, round-trip train fares, dinner, and any other transportation before deciding whether everyone can afford it." }
+            { title: "Which topics need the most work?", detail: "The plan doesn’t ask what is on the exam or where the student is struggling. It could spend too much time on material they already understand." },
+            { title: "When can the student actually study?", detail: "The schedule assumes every evening is free. Work, sports, family responsibilities, or other homework could make it difficult to follow." },
+            { title: "Can the student solve problems without looking at the examples?", detail: "Rereading can make the material feel familiar. Practice problems would help reveal what the student can do independently and what still needs work." }
           ]
         }
       ];
@@ -248,13 +250,19 @@
         document.getElementById("progress").textContent = "Round " + (roundIndex + 1) + " of " + rounds.length;
         document.querySelectorAll(".progress-mark").forEach(function(mark, index) { mark.classList.toggle("is-current", index === roundIndex); });
         document.getElementById("scenario-title").textContent = round.title;
+        document.getElementById("discussion-question").textContent = round.question;
+        document.getElementById("discussion-instruction").textContent = round.instruction;
         document.getElementById("request-text").textContent = "“" + round.request + "”";
         document.getElementById("answer-intro").textContent = round.answerIntro;
+        var middle = document.getElementById("answer-middle");
+        middle.textContent = round.answerMiddle || "";
+        middle.hidden = !round.answerMiddle;
         fillList(document.getElementById("answer-list"), round.answerPoints, function(point) {
           var item = document.createElement("li");
           item.textContent = point;
           return item;
         });
+        document.getElementById("answer-list").hidden = round.answerPoints.length === 0;
         var outro = document.getElementById("answer-outro");
         outro.textContent = round.answerOutro || "";
         outro.hidden = !round.answerOutro;
@@ -268,6 +276,7 @@
           item.append(heading, detail);
           return item;
         });
+        document.getElementById("check-grid").classList.toggle("is-two", round.checks.length === 2);
         revealPanel.hidden = true;
         showChecksButton.hidden = false;
         nextButton.hidden = true;
@@ -283,7 +292,7 @@
         revealPanel.hidden = false;
         showChecksButton.hidden = true;
         nextButton.hidden = false;
-        announcement.textContent = "A Few Things to Check are now shown below the AI answer. These are examples, not a complete list.";
+        announcement.textContent = "A Few Things We Still Need to Know are now shown below the AI answer. Your group may have found other useful questions.";
         document.getElementById("reveal-title").focus();
       }
 

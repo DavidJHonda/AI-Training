@@ -35,7 +35,7 @@ A = ROOT / "course-assets/embeddings"
 LIVE = A / "embeddings.mp4"
 AUDIT = ROOT / "video-audit/embeddings-stitch-2026-09-22"
 OUT = AUDIT / "build"
-DEST = ROOT / "Prompts/embeddings-v3.mp4"
+DEST = ROOT / "Prompts/embeddings-v4.mp4"
 STUDENT, MEANING = A / "embeddings-student-id.jpg", A / "embeddings-meaning-row.jpg"
 NEWDIM, TASTE, MODEL = A / "embeddings-new-dimension.jpg", A / "embeddings-taste-test-to-ai.jpg", A / "embeddings-inside-real-model.jpg"
 LESSON = ROOT / "lessons/embeddings.md"
@@ -45,14 +45,34 @@ LESSON = ROOT / "lessons/embeddings.md"
 # edges into room tone, so a split in running speech punches a hole. Neither roll carries true digital
 # silence anywhere near these points - both only go to digital zero in their own tails.
 BD1_IN, BD1_OUT = 551, 1563      # 0:18.37 (quiet 18.16-18.56) - 0:52.10 (quiet 51.90-52.28)
+# David 2026-09-22, four cuts. The board stays in full view throughout and the narration stops reading
+# aloud what is already legible on screen.
+DEL_A_IN, DEL_A_OUT = 711, 1235  # 0:23.70 (quiet 23.50-23.91) - 0:41.18 (quiet 41.00-41.38): removes
+                                 # "Look at this illustration of four students... into a shirt pocket." -
+                                 # the banned board-furniture line, the four badge numbers and the
+                                 # fry-stealer description, all of which the board itself shows.
+DEL_B_IN, DEL_B_OUT = 2976, 3288 # 1:39.20 (quiet 99.11-99.48) - 1:49.60 (quiet 109.51-109.72): removes
+                                 # coffee's six scores. Extended past David's 1:46 on purpose - "and ten
+                                 # for dark. Because we keep the columns aligned," is ONE unbroken run,
+                                 # so cutting at 1:46 would have orphaned "and ten for dark." Ending at
+                                 # 1:49.60 also drops the "Because we keep the columns aligned" preamble,
+                                 # so verbatim line 2 now begins the sentence cleanly.
+DEL_C_IN, DEL_C_OUT = 7737, 8295 # 4:17.90 (quiet 257.52-258.36) - 4:36.50 (quiet 276.12-276.86): removes
+                                 # "Reading across cat's row, the values start at 0.45 ... at the end."
+BD1_LEG = (DEL_A_IN - BD1_IN) + (BD1_OUT - DEL_A_OUT)
 BD2_IN, BD2_OUT = 2454, 4340     # 1:21.80 (quiet 81.57-82.00) - 2:24.67 (quiet 144.42-144.89)
+BD2_LEG = (DEL_B_IN - BD2_IN) + (BD2_OUT - DEL_B_OUT)
+BD2_R2 = BD2_IN + (DEL_B_IN - BD2_IN)                      # leg cursor after coffee's scores come out
 BD3_IN, BD3_OUT = 4340, 5261     # Board 3 takes over directly; out 2:55.37 (quiet 175.14-175.60)
 BD4_IN = 5448                    # 3:01.60 (quiet 181.41-181.80)
 GA_AT, GA_BACK = 6522, 6636      # 3:37.40 (quiet 217.17-217.66) - 3:41.20 (quiet 221.07-221.32): roll 1's
                                  # "And these values don't have human labels, like sweet or fizz." out.
 GA_IN, GA_OUT = 4244, 4450       # roll 2 2:21.47 (quiet 141.18-141.72) - 2:28.33 (quiet 148.20-148.45)
 BD4_OUT = 6824                   # 3:47.47 (quiet 227.31-227.62), after the banner line
-BD5_IN = 7071                    # 3:55.70 (quiet 235.46-235.91)
+BD5_IN = 6980                    # 3:52.67 (quiet 232.43-232.87). Moved earlier on David's direction:
+                                 # roll 1 cuts to its OWN zoomed recreation of the embedding table at
+                                 # 6987, so the canonical board now takes the screen seven frames before
+                                 # it and opens at full view, which is where he wanted it to start.
 GB_AT, GB_BACK = 7323, 7439      # 4:04.10 (quiet 244.00-244.18) - 4:07.97 (quiet 247.71-248.28): roll 1's
                                  # "which acts as a master ledger, storing one embedding for every token."
 GB_IN, GB_OUT = 5341, 5574       # roll 2 2:58.03 (quiet 177.89-178.18) - 3:05.80 (quiet 185.55-186.10)
@@ -68,14 +88,15 @@ GAIN_R2 = 1.4
 
 BD4_LEG = (GA_AT - BD4_IN) + (GA_OUT - GA_IN) + (BD4_OUT - GA_BACK)
 BD4_R2 = BD4_IN + (GA_AT - BD4_IN) + (GA_OUT - GA_IN)      # leg cursor when roll 1 resumes
-BD5_LEG = (GB_AT - BD5_IN) + (GB_OUT - GB_IN) + (BD5_OUT - GB_BACK)
-BD5_R2 = BD5_IN + (GB_AT - BD5_IN) + (GB_OUT - GB_IN)
+BD5_LEG = (GB_AT - BD5_IN) + (GB_OUT - GB_IN) + (DEL_C_IN - GB_BACK) + (BD5_OUT - DEL_C_OUT)
+BD5_R2 = BD5_IN + (GB_AT - BD5_IN) + (GB_OUT - GB_IN)      # after the graft
+BD5_R3 = BD5_R2 + (DEL_C_IN - GB_BACK)                     # after the deleted value-reading
 
 # Ring colour is measured off each board, never chosen (Edit Spec section 5). Boards 2 and 3 label their
 # rows in plain black - no locked accent - so their rows take the neutral video purple. Board 4's columns
 # measure #149288 (teal) and #5334c5 (purple), but its rings run whole rows across both columns, which is
-# a whole-board point and therefore also neutral. Board 5 is left unringed: it ships with its own designed
-# emphasis - cat's row already glows and 0.45 is already circled - so the camera walks it instead.
+# a whole-board point and therefore also neutral. Board 5's elements carry no accents of their own either,
+# so its rings are neutral too - which also keeps them clear of the board's own purple glow and yellow circle.
 BD1_PHOTO = [40, 127, 1561, 1150]
 BD1_BADGES = [150, 820, 1500, 1100]          # the four badge numbers along the table
 BD1_THIEF = [820, 150, 1300, 900]            # the standing student and the fries
@@ -98,6 +119,7 @@ BD3_PEPSI_SIX = [420, 500, 1345, 628]    # Pepsi's first six values only - not t
 BD3_CITRUS_HEAD = [1380, 198, 1500, 278] # the CITRUS heading and its NEW badge
 BD3_PEPSI_CITRUS = [1382, 503, 1499, 620]
 BD3_COKE_CITRUS = [1379, 312, 1501, 433]
+BD3_COFFEE_CITRUS = [1380, 688, 1502, 812]   # coffee's Citrus 0 - David 2026-09-22, ringed as spoken
 BD4_R = ([95, 268, 1530, 345], [95, 370, 1530, 455], [95, 478, 1530, 600])
 BD4_LABEL_ROWS = [95, 640, 1530, 815]    # the last two rows under ONE ring, not two (David 2026-09-22)
 BD4_BANNER = [40, 901, 1561, 990]
@@ -112,6 +134,16 @@ BD5_FIRSTTWO = [488, 350, 772, 945]          # the TOKEN ID and TOKEN columns
 BD5_DIMHEAD = [772, 350, 1495, 424]          # the d1 ... dn headings
 BD5_CATROW = [486, 836, 1482, 943]           # measured from the row's own purple glow
 BD5_VALUE = [772, 843, 882, 938]             # the circled 0.45
+
+
+def bd2(src):
+    """Board 2 onset, source seconds -> the leg's own frame space, past the deleted coffee scores."""
+    return (BD2_R2 + (fr(src) - DEL_B_OUT)) / FPS
+
+
+def bd5(src):
+    """Board 5 onset, source seconds -> the leg's own frame space, past the deleted value-reading."""
+    return (BD5_R3 + (fr(src) - DEL_C_OUT)) / FPS
 
 
 def target(label, at, rect, color, radius=20, cam=None):
@@ -193,9 +225,12 @@ def main():
                   (312.48, 316.00)])
 
     b.keep(0, BD1_IN, "Notebook drawings: text into tokens, and a token ID that says nothing about meaning")
-    b.keep(BD1_IN, BD1_OUT, "An ID Identifies You. It Doesn't Describe You.", "bd1")
+    b.keep(BD1_IN, DEL_A_IN, "An ID Identifies You. It Doesn't Describe You.", "bd1")
+    b.keep(DEL_A_OUT, BD1_OUT, "An ID Identifies You. It Doesn't Describe You.", "bd1",
+           video_from=BD1_IN + (DEL_A_IN - BD1_IN))
     b.keep(BD1_OUT, BD2_IN, "Notebook drawings: a token ID is not enough, and the taste test is set up")
-    b.keep(BD2_IN, BD2_OUT, "Meaning Becomes an Ordered Row of Numbers", "bd2")
+    b.keep(BD2_IN, DEL_B_IN, "Meaning Becomes an Ordered Row of Numbers", "bd2")
+    b.keep(DEL_B_OUT, BD2_OUT, "Meaning Becomes an Ordered Row of Numbers", "bd2", video_from=BD2_R2)
     b.keep(BD3_IN, BD3_OUT, "One New Dimension Separates Similar Meanings", "bd3")
     b.keep(BD3_OUT, BD4_IN, "Notebook drawing: more dimensions separate similar meanings")
     b.keep(BD4_IN, GA_AT, "From Taste Ratings to AI Embeddings", "bd4")
@@ -206,19 +241,22 @@ def main():
     b.keep(BD5_IN, GB_AT, "Inside a Real Model", "bd5")
     b.graft(ROLL2, GB_IN, GB_OUT, "'It stores one embedding for every single token, meaning cat sits right alongside rows for dog, latte, truck, and bicycle.' (roll 2) - names the neighbours roll 1 skips, and drops its 'master ledger'",
             "neighbours", picture_from=GB_AT, visual="bd5", gain_db=GAIN_R2)
-    b.keep(GB_BACK, BD5_OUT, "Inside a Real Model", "bd5", video_from=BD5_R2)
+    b.keep(GB_BACK, DEL_C_IN, "Inside a Real Model", "bd5", video_from=BD5_R2)
+    b.keep(DEL_C_OUT, BD5_OUT, "Inside a Real Model", "bd5", video_from=BD5_R3)
     b.keep(BD5_OUT, CLOSE_IN, "Notebook drawing: unbelievable splits into three pieces, each with its own row",
            video_from=BD5_PIC, video_end=CLOSE_IN)
     b.mark_close_start()
     b.close(CLOSE_IN, CLOSE_AUDIO_OUT, tail=150)
     b.finish_audio()
 
-    # Board 1: a photograph with a banner. No rings on the picture (Training Bias v6); the camera walks
-    # the badge numbers, then the standing student, then pulls back for the takeaway.
-    photo_walk_banner(b, "bd1", STUDENT, BD1_IN, BD1_OUT - BD1_IN, [
-        ("the-badges", 255, 30, BD1_BADGES),
-        ("the-fry-thief", 520, 30, BD1_THIEF),
-    ], photo=BD1_PHOTO, banner=BD1_BANNER, banner_at=880)
+    # Board 1: a photograph with a banner, held at FULL VIEW for its whole run on David's direction
+    # (2026-09-22) - no walk, no dive. The badge walk it used to do has nothing left to walk to anyway:
+    # the narration that read the four badge numbers aloud is the first of the deletions. No rings on the
+    # picture itself (Training Bias v6); only the takeaway banner rings, as verbatim line 1 is spoken.
+    b.board("bd1", STUDENT, BD1_IN, BD1_IN + BD1_LEG, "compact", [
+        target("takeaway banner", (BD1_IN + (DEL_A_IN - BD1_IN) + (fr(47.70) - DEL_A_OUT)) / FPS,
+               list(BD1_BANNER), NEUTRAL, radius=22),
+    ], push=False)
 
     # Board 2 (compact): each drink's row as its six scores are read, then the banner - which is verbatim
     # line 2, so the ring lands exactly as roll 1 speaks it.
@@ -227,12 +265,15 @@ def main():
     b.board("bd2", MEANING, BD2_IN, BD2_OUT, "compact", [
         target("Coke's row", 85.10, list(BD2_COKE), NEUTRAL, radius=18),
         target("Coffee's row", 95.10, list(BD2_COFFEE), NEUTRAL, radius=18),
-        target("takeaway banner", 107.10, list(BD2_BANNER), NEUTRAL, radius=22),
-        target("Coke, 9, 1 and 10", 114.20, list(BD2_COKE_THREE), NEUTRAL, radius=18),
-        target("Coke and all its values", 123.20, list(BD2_COKE_FULL), NEUTRAL, radius=18),
-        target("the dimension headings", 128.30, list(BD2_HEADINGS), NEUTRAL, radius=18),
-        target("one value", 131.60, list(BD2_ONE_VALUE), NEUTRAL, radius=14),
-        target("the row as a whole", 134.50, list(BD2_COKE_FULL), NEUTRAL, radius=18),
+        # Everything below sits after coffee's scores were cut, so each onset is given in the leg's own
+        # frame space. The banner now lands on "Each position always means the same thing." at 109.70,
+        # which is where the sentence begins once its "Because we keep the columns aligned," is gone.
+        target("takeaway banner", bd2(109.70), list(BD2_BANNER), NEUTRAL, radius=22),
+        target("Coke, 9, 1 and 10", bd2(114.20), list(BD2_COKE_THREE), NEUTRAL, radius=18),
+        target("Coke and all its values", bd2(123.20), list(BD2_COKE_FULL), NEUTRAL, radius=18),
+        target("the dimension headings", bd2(128.30), list(BD2_HEADINGS), NEUTRAL, radius=18),
+        target("one value", bd2(131.60), list(BD2_ONE_VALUE), NEUTRAL, radius=14),
+        target("the row as a whole", bd2(134.50), list(BD2_COKE_FULL), NEUTRAL, radius=18),
     ], push=False)
 
     # Board 3 (compact): Coke, then Pepsi matching it, then coffee; the banner is verbatim line 4.
@@ -241,8 +282,9 @@ def main():
         target("Pepsi's first six values", 149.60, list(BD3_PEPSI_SIX), NEUTRAL, radius=18),
         target("the CITRUS heading", 162.00, list(BD3_CITRUS_HEAD), NEUTRAL, radius=16),
         target("Pepsi scores 10 on Citrus", 166.80, list(BD3_PEPSI_CITRUS), NEUTRAL, radius=14),
-        target("Coke scores 1", 169.50, list(BD3_COKE_CITRUS), NEUTRAL, radius=14),
-        target("takeaway banner", 172.20, list(BD3_BANNER), NEUTRAL, radius=22),
+        target("Coke scores 1", 169.10, list(BD3_COKE_CITRUS), NEUTRAL, radius=14),
+        target("Coffee scores 0", 170.60, list(BD3_COFFEE_CITRUS), NEUTRAL, radius=14),
+        target("takeaway banner", 172.30, list(BD3_BANNER), NEUTRAL, radius=22),
     ], push=False)
 
     # Board 4 (dense): one ring per comparison row as the narration walks it. The graft covers rows four
@@ -265,9 +307,11 @@ def main():
         target("the other tokens' rows", (BD5_IN + (GB_AT - BD5_IN)) / FPS, list(BD5_TABLEBODY), NEUTRAL, radius=16),
         target("the first two columns", (BD5_R2 + (fr(248.18) - GB_BACK)) / FPS, list(BD5_FIRSTTWO), NEUTRAL, radius=16),
         target("the d1 to dn headings", (BD5_R2 + (fr(251.74) - GB_BACK)) / FPS, list(BD5_DIMHEAD), NEUTRAL, radius=16),
-        target("cat's row", (BD5_R2 + (fr(258.00) - GB_BACK)) / FPS, list(BD5_CATROW), NEUTRAL, radius=16),
-        target("the circled 0.45", (BD5_R2 + (fr(276.00) - GB_BACK)) / FPS, list(BD5_VALUE), NEUTRAL, radius=12),
-        target("the whole row is the embedding", (BD5_R2 + (fr(283.00) - GB_BACK)) / FPS, list(BD5_CATROW), NEUTRAL, radius=16),
+        # The ring that used to sit here walked cat's values as they were read aloud; that reading is the
+        # third deletion, so the board goes straight from the headings to the parameter sentence.
+        target("cat's row", bd5(276.80), list(BD5_CATROW), NEUTRAL, radius=16),
+        target("the circled 0.45", bd5(279.80), list(BD5_VALUE), NEUTRAL, radius=12),
+        target("the whole row is the embedding", bd5(284.00), list(BD5_CATROW), NEUTRAL, radius=16),
     ], push=False)
 
     if not args.render_existing:

@@ -100,6 +100,26 @@ Before shipping a standard lesson video:
   verification is being presented as a pass. Full shipping checks do not authorize
   unrelated changes outside an approved narrow repair.
 
+After the candidate is installed and committed, reclaim its render scratch:
+
+    .video-venv/bin/python scripts/video/clean_video_audit.py            # dry run
+    .video-venv/bin/python scripts/video/clean_video_audit.py --delete
+
+It removes only regenerable intermediates - `leg-*.mkv`, `*.wav`, `canvas-*.png`,
+and `*-live.mp4` copies - and checks every candidate against `git ls-files` first,
+so the committed record (REVIEW.md, edit-manifest.json, contact sheets, transition
+strips, transcripts) is never touched. Use `--skip <substr>` to spare a build still
+in flight, whose legs `--render-existing` still needs.
+
+**Why this is a ship step, not housekeeping (2026-09-21).** Nothing reclaimed this
+until video-audit reached 93 GB and filled the disk mid-render: ffmpeg died with a
+broken pipe, and then the harness could not write its own output, so no command
+would run at all. 76 GB of it was FFV1 leg files from 85 already-shipped builds.
+Legs are worth keeping only while a lesson is still being rebuilt, because
+`--render-existing` reuses them; once it ships they are dead weight. Do not copy a
+live video into an audit folder either - `grade_bundle.py` takes a path, so point it
+at `course-assets/<slug>/<slug>.mp4` directly.
+
 ## Shipping filename convention
 
 After approval and verification, replace the canonical unsuffixed MP4 with the

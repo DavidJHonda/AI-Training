@@ -425,7 +425,31 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `transformer.mp4` v8
 
 ## Layers
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 shipped 2026-09-17 under the old method; reroll pending David's approval of the beat spine.
+Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 shipped 2026-09-17 under the old method.
+
+**Rolls 1 and 2 reviewed 2026-09-22** (`video-audit/layers-comparison-2026-09-22/REVIEW.md`): roll 2 earned KEEP and was built as
+`Prompts/layers-v1.mp4` (`video-audit/layers-build-2026-09-22/`). David then found a defect the review had missed by reading only
+transcripts: **the narrator spells the pronoun out, "I-T", every time**, because the Markdown wrote it in capitals. Word durations
+confirm it - "IT" runs 0.42-0.56 s against 0.20-0.38 s for ordinary two-letter words in the same roll, while "CAT" runs 0.22-0.30 s
+and is spoken as a word. **Materials updated 2026-09-22 for a second reroll** (below); the built candidate is superseded.
+
+**2026-09-22 materials changes**
+
+1. The pronoun and the noun are written as words in single quotes - ‘it’ and ‘cat’ - never in capitals, everywhere in the
+   narration source. The boards keep their IT and CAT badges. The prompt adds the negative: read them as words, never as spelled
+   letters.
+2. **The middle values are no longer read.** Each number board speaks its first and final pair only; "the values shift at every
+   layer" carries the rest. David, 2026-09-22: "The number rule depends on the video. We must have applied it to a lesson when we
+   needed the numbers." This is a per-lesson relaxation of the speak-the-answers rule, not a repeal.
+3. A rereading beat is added after Board 1, from the live v6's own wording, which David asked to keep: "Working the sentence out
+   depends on each repeated pass. With every read, you update the meaning of the words until the whole thought makes sense."
+4. Required verbatim line 5 becomes "AI works out that ‘it’ refers to ‘cat.’"
+
+**Picture fixes measured for the next build** (they live in `scripts/video/build_layers_v1.py`, not in the roll): the board title
+is ringed while the sentence is spoken (46, 48-961, 89); Board 1's read rings end at the illustration's bottom edge, y 780, not
+the white box's 818; Board 2 is compact throughout with no dives; its diagram ring widens to x 48-1552 so it clears the NUMBERS IN
+and FINAL NUMBERS labels; and its number-card rings take each card's own border, y 860-992 with x 74-389, 453-768, 832-1147 and
+1212-1526, where the first build sat about ten pixels proud top and bottom.
 
 **Notebook sources**
 
@@ -447,9 +471,9 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 ship
 3. Board 1, three reads by name: first read (doesn't make sense, missing word?), more reads (did the barn fall? did the horse race past afterward?), meaning clicks (someone raced a horse past a barn, then the horse fell). Banner: "Each read updates the meaning until it clicks."
 4. Pivot: "AI doesn't read your message the way you do." Layers; attention and transformation update the numbers inside each layer; updated numbers pass to the next layer; like rereading, it builds on what came before.
 5. Definition: "The whole stack of layers is called a neural network."
-6. Board 2: numbers in, many layers, final numbers out; each row holds many numbers, two shown; the values change at every layer (.42/−1.15 through .19/−1.12). Banner: "Attention and transformation update the numbers at each layer."
+6. Board 2: numbers in, many layers, final numbers out; each row holds many numbers, two shown; the first pair (.42/−1.15) and the final pair (.19/−1.12) are spoken, the middle two are not, and the values change at every layer. Banner: "Attention and transformation update the numbers at each layer."
 7. Bridge: follow one word, IT, through the layers.
-8. Board 3, five stages in order: start (IT could refer to different things), layer 1 (begins to capture the connection to CAT), layer 2 (carries more information), repeat (each layer builds on the previous), result: "AI works out that IT refers to CAT."
+8. Board 3, five stages in order: start (‘it’ could refer to different things; .12/−.34 spoken), layer 1 (begins to capture the connection to ‘cat’), layer 2 (carries more information), repeat (each layer builds on the previous), result (.41/.06 spoken): "AI works out that ‘it’ refers to ‘cat.’"
 9. Scale with qualifier: companies don't always share the count; published designs suggest dozens, sometimes more than a hundred.
 10. Why depth: the horse sentence took a few reads; sarcasm, story twists, complicated reasoning take more; layers give AI more steps.
 11. Why not keep adding layers: more computing power and time. "The extra benefit has to be worth the cost."
@@ -461,7 +485,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 ship
 - "AI doesn't read your message the way you do."
 - "The whole stack of layers is called a neural network."
 - "Attention and transformation update the numbers at each layer."
-- "AI works out that IT refers to CAT."
+- "AI works out that ‘it’ refers to ‘cat.’"
 - "The extra benefit has to be worth the cost."
 - "Meaning builds up, layer by layer."
 - "Attention and transformation. Dozens of times."
@@ -471,7 +495,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 ship
 - Old prompt: keep the lesson's qualifications (companies don't always share layer counts); do not invent numerical values or diagrams; explain what the number comparison shows rather than treating the table as a recitation.
 - v6 review: David asked for a one-second pause after "The horse raced past the barn fell." The prompt now asks for that beat in the narration so it need not be spliced in.
 - v5/v6 review noted two photograph spans in the shipped roll; the prompt bans stock photographs and asks for drawn scenes with no people.
-- New, lesson-specific: do not imply a word is only two numbers; do not call the numbers probabilities or scores; do not say IT is CAT or that layer 2 is the last; do not name a model or give an exact layer count; do not say AI thinks, understands, or has a brain; do not narrate the AI Brain Break activity; do not preview Vector Space; do not read the site address printed on the boards.
+- New, lesson-specific: do not imply a word is only two numbers; do not call the numbers probabilities or scores; do not say ‘it’ is ‘cat’ or that layer 2 is the last; read ‘it’ and ‘cat’ as words, never as spelled letters (2026-09-22); do not name a model or give an exact layer count; do not say AI thinks, understands, or has a brain; do not narrate the AI Brain Break activity; do not preview Vector Space; do not read the site address printed on the boards.
 - Banned words beyond the generic list: neurons, weights, parameters, vectors, embeddings, algorithm, deep learning, garden path.
 
 **Markdown versus page**

@@ -22,6 +22,8 @@ Meaning clicks: someone raced a horse past a barn. Then the horse fell. “Raced
 
 Each read updates the meaning until it clicks.
 
+Working the sentence out depends on each repeated pass. With every read, you update the meaning of the words until the whole thought makes sense.
+
 ## AI Does Something Similar
 
 AI doesn’t read your message the way you do.
@@ -44,37 +46,37 @@ Numbers go in on one side and final numbers come out the other. In between stand
 
 Each row contains many numbers. Two are shown here.
 
-The starting numbers for those two positions are .42 and −1.15. After one layer they are .51 and −.87. After many layers they are .27 and −1.21. The final numbers are .19 and −1.12. The values shift at every layer, so the numbers that come out are not the numbers that went in.
+The starting numbers for those two positions are .42 and −1.15. The board tracks them through one layer and then many layers, and the final numbers are .19 and −1.12. The values shift at every layer, so the numbers that come out are not the numbers that went in.
 
 Attention and transformation update the numbers at each layer.
 
 ## Following One Word Through the Layers
 
-Now follow one word, IT, as its numbers change from layer to layer.
+Now follow one word, ‘it,’ as its numbers change from layer to layer.
 
-### Board 3: How AI Connects ‘IT’ to ‘CAT’
+### Board 3: How AI Connects ‘it’ to ‘cat’
 
 **Image file:** `layers-resolves-it.jpg`
 
-![How AI Connects ‘IT’ to ‘CAT’](layers-resolves-it.jpg)
+![How AI Connects ‘it’ to ‘cat’](layers-resolves-it.jpg)
 
 **Teaching content:**
 
-This is how AI connects IT to CAT.
+This is how AI connects ‘it’ to ‘cat.’
 
-The sentence is “The CAT sat on the mat during the May rainstorm because IT was tired.”
+The sentence is “The cat sat on the mat during the May rainstorm because it was tired.”
 
-Start: IT could refer to different things. The starting numbers don’t tell us which one. Two of IT’s starting numbers are .12 and −.34.
+Start: ‘it’ could refer to different things. The starting numbers don’t tell us which one. Two of its starting numbers are .12 and −.34.
 
-Layer 1: the numbers begin to capture IT’s connection to CAT. The two numbers are now .18 and −.22.
+Layer 1: the numbers begin to capture the connection between ‘it’ and ‘cat.’
 
-Layer 2: the updated numbers carry more information about that connection. The two numbers are now .25 and −.09.
+Layer 2: the updated numbers carry more information about that connection.
 
 Repeat: the row continues through more layers. Each layer builds on the previous layer’s numbers.
 
 Result: the two numbers finish at .41 and .06.
 
-AI works out that IT refers to CAT.
+AI works out that ‘it’ refers to ‘cat.’
 
 ## How Many Layers Are There?
 

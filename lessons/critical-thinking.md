@@ -36,9 +36,9 @@ Did that headline make you pause? That’s critical thinking getting started. Th
 
 The claim: “Chocolate helps you lose weight.”
 
-Face value, Luke’s reaction: “Sounds great. I believe it.”
+Face value, first reaction: “Sounds great. I believe it.”
 
-Critical thinking, Nate’s reaction: “Wait. What’s behind the claim?”
+Critical thinking, second reaction: “Wait. What’s behind the claim?”
 
 Pause when a claim sounds exactly like what you want to believe.
 

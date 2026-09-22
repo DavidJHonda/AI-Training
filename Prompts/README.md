@@ -51,9 +51,15 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
      on screen for as long as the text under it runs, so prose folded into a board section
      becomes a long board hold with no drawings for those beats (Understand AI opener,
      2026-09-22: a 24 s card and a 21 s illustration hold, both our own instruction).
-   - A board title is carried as a spoken sentence, not a bare label ("Here is what you
-     will learn in this section, Understand AI: …", not "Understand AI."); the prompt's
-     VOICE block allows that connective.
+   - A board title is carried as a spoken sentence, not a bare label; the prompt's VOICE
+     block allows that connective. For an opener's section map the sentence is fixed
+     (David, 2026-09-22, from the live Understand AI opener): "This road map shows what
+     we'll explore in this section." followed by the map's title, then the rows.
+   - A banner line goes in the Markdown like every other board point, but into the
+     prompt's verbatim list only when it reads as speech. A fragment such as "Repeat with
+     more examples. The patterns build." reads fine on the board and badly aloud; David
+     cut that read from Training on 2026-09-22. Closing lines, definitions and full
+     sentences earn the verbatim list.
    - No Scene, Takeaway, or post-production labels. No TRY IT, lab, source-record line,
      credits, or URLs. Notebook narrates what it is given.
    - End with `## Closing Message` and the two closing lines, each on its own line.

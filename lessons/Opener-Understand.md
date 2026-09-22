@@ -50,7 +50,7 @@ The goal is to understand how your words become an answer.
 
 **Teaching content:**
 
-Here is what you will learn in this section, Understand AI: how AI really works.
+This road map shows what we’ll explore in this section, Understand AI: how AI really works.
 
 One. How AI Learned: how training builds the patterns AI uses to answer you.
 

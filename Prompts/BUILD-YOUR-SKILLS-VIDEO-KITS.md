@@ -14,6 +14,8 @@ Paths are repository-relative. Prompt and checklist filenames below are inside `
 
 ### opener-build
 
+
+**Opener video v3 SHIPPED 2026-09-22** (cache key 20260922ship4, pill 3 min -> 2 min, 2:29): the live narration with the creed card recaptured from the page at the Work opener's scale (full view, gold line rings) and the map-introduction sentence replaced by the Understand opener's "This roadmap shows what we'll explore in this section." (audio-only graft, +1.0 dB, clip-limited). Its close board predates the 2026-09-15 close JPG; not changed. Review: `video-audit/build-your-skills-opener-repair-2026-09-22/`.
 - Markdown: `lessons/Opener-Build.md`
 - Prompt: `opener-build-video-prompt.txt`
 - Upload checklist: `opener-build-upload-files.txt`

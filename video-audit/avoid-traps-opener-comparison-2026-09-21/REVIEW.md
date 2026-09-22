@@ -121,3 +121,57 @@ look adequate; propose none unless the 3:28 gap reads rushed on listening.
 On approval: build `build_avoid_traps_opener_v5.py` on the shared module, replace the live file,
 cache key `20260921ship1`, pill from 3 min to 4 min (3:37 rounds up). The two raw rolls stay in
 Prompts until the ship; the 2026-09-08 roll behind the live video is already gone.
+
+## Build: v7 (2026-09-22): map-transition line from the Understand opener
+
+**Candidate:** `Prompts/avoid-traps-opener-v7.mp4` (6458 frames, 3:35.27, sha256 00b231583030d5f8…), a narrow repair of the live
+(`scripts/video/build_avoid_traps_opener_v7.py`, folder `build-v7/`). The live is v6 plus the 2026-09-21 Read the Water illustration
+sync (d2bd9148, sha256 95624e7e42fd2279…); its timeline was re-found by sequential decode and is v6's (cuts at 3739, 5751, 5979,
+6067, 6245; 6543 frames), and the map and close assets hash-match the v6 manifest. One change, David's (2026-09-22):
+
+1. **The map-introduction sentence is the Understand opener's.** The live's "This diagram outlines the three specific types of traps
+   we will train you to spot throughout this course." (audible 124.633–130.21; small.en 124.52–130.02) is replaced by "This roadmap
+   shows what we'll explore in this section." from the live Understand opener (`course-assets/understand-ai-opener/understand-ai-opener.mp4`,
+   v10, sha256 2fcdd916bd77a35b…; audible 80.950–83.65, small.en 80.52–83.56), as an audio-only graft. Donor frames 2419–2519
+   (80.633–83.967): 0.32 s of the donor's own floor before "This" and 0.32 s after "section.", 0.21 s clear of its next word. Live out
+   at frame 3730 (124.333, inside the 124.09–124.64 floor, no breath blip), back in at 3915 (130.500, inside the 130.28–130.69 floor).
+   Level matched by speech RMS (20 ms windows above -40 dBFS in the word span): live preceding sentence "By learning … instead of
+   fighting it." 5395.8 (-15.67 dBFS), donor line 4984.4 (-16.36 dBFS), **gain +0.69 dB**; the live's following sentence is 5821.1
+   (-15.01 dBFS) and the replaced sentence was 6561.7 (-13.97 dBFS). In the finished file the donor line measures -15.71 dBFS against
+   -15.68 before and -14.96 after; volumedetect 124.33–127.67 mean -17.2 dB, peak -0.5 dB (no clipping).
+2. **The picture under the donor line is our section map at full view.** In the live, the board arrived on its own cut at frame 3739
+   (124.63), the same instant the old sentence became audible; now it arrives at the graft start, output frame 3730 (124.333), with the
+   donor's 0.32 s lead-in under it (Edit Spec 3: the board arrives at the start of the narration that introduces it). Live frames
+   3730–3738, the last 0.3 s of Notebook's eyes drawing during the pre-sentence silence, are not shown; the live's board frames under
+   the old sentence (3739–3914) are not shown either. The map leg is re-rendered from the unchanged asset over live 3730–5751 with
+   v6's three row rings at v6's source onsets (live 3917/4579/5200 = "The first category", "Next are traps in you", "The final
+   category"; same rects and colours, verified against `build-v6/leg-map.json`), compact, still. The banner leg (live 5979–6067),
+   the binoculars interleave and every other frame are the live's own; the standard close is re-drawn from the unchanged close asset
+   with v6's motion (48/150/100) from the live's own close cut (output 6160).
+
+Output shifts by -85 frames from the graft on. Graft in the output: 3730–3830 (124.333–127.667); "This roadmap" audible at 124.65;
+row 1 ring at 3832 (127.73). Gaps on the finished file (-35 dB): 124.09–124.65 (0.56 s) before the donor line, 127.49–127.86 (0.37 s)
+after it; the live had 0.55 s and 0.42 s around the old sentence. No pauses added, no other cuts.
+
+**Deviations from the brief:** the donor was taken from frame 2419, not ~2405: small.en's "This 80.52" is 0.43 s early (the -35 dB
+floor runs 79.55–80.95 and the word is audible from 80.950), so 2405 would have carried 0.78 s of lead-in. The close is re-drawn from
+the asset rather than carried as live frames so the corner cleaner never touches it; the motion and asset are v6's.
+
+**Checks (Edit Spec 10):** decoded 6458 = plan; guard 6/6 (3730 graft in, 3830 graft out, 5666 map → binoculars, 5894 binoculars →
+banner, 5982 banner → server, 6160 close), strips inspected: the first frame after each boundary is already the destination, the
+graft-out boundary is board → board with the ring popping two frames later on a still board. Map state sheet inspected (open
+unmarked at full view; three rings, right rows, nothing clipped). Corner mark: the live carries no mark (mark strength ≈ 0 on sampled
+frames); the cleaner still ran on every kept frame (3109 cloned, 1115 inpainted, 0 declined) and its passes are paper-over-paper no-ops
+(≤0.02 mean level change on sampled frames). Protected files unchanged (live, donor, four boards, lesson). Transcript of the finished
+file (small.en, base.en and medium.en on the extracted WAV all agree): "…you can avoid the current entirely, instead of fighting it.
+This roadmap shows what we'll explore in this section. The first category is traps in the answer. This covers the ways a model's
+output goes wrong internally…" (the models write "traps and the answer", as they did on the live); close: "When AI fails, nothing
+looks broken. This section teaches you to read the water.", last word 210.8, nothing after. A first small.en pass decoding the MP4
+directly heard "the section"; the WAV passes read "this section" three for three.
+
+**Not auditioned by ear:** the graft's two joins at 124.33 (after "fighting it.") and 127.67 (into "The first category"), and the
+level of the donor voice against the live's around them.
+
+**At ship (not authorized yet):** copy to `course-assets/avoid-traps-opener/avoid-traps-opener.mp4`, cache key `20260922ship3` on
+`openerprotect` (currently 20260921ship20; use the next free ship number if another opener ships first today), pill unchanged at 4 min
+(3:35 rounds up), manifest video hash/bytes. Nothing else on the page changes.

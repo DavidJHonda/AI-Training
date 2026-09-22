@@ -12,6 +12,8 @@ All paths below are repository-relative. Each named prompt and checklist is in `
 
 ### opener-embrace
 
+
+**Opener video v4 SHIPPED 2026-09-22** (cache key 20260922ship5, pill 3 min, 2:47): the live narration with the What Everyone's Saying card recaptured from the page at the Work opener's scale (full view, gold line rings, the live's paired-quote states) and the map-introduction sentence replaced by the Understand opener's "This roadmap shows what we'll explore in this section." (audio-only graft, +0.4 dB); the map now arrives on that line. Review: `video-audit/opener-embrace-repair-2026-09-18/` (Build v4 section).
 - Markdown: `lessons/Opener-Embrace.md`
 - Prompt: `opener-embrace-video-prompt.txt`
 - Upload checklist: `opener-embrace-upload-files.txt`

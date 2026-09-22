@@ -26,6 +26,8 @@ Paste the prompt into Notebook's video customization box; it is not an extra sou
 
 ## Opener
 
+
+**v7 SHIPPED 2026-09-22** (cache key 20260922ship3, pill 4 min, 3:35): v6 with the map-introduction sentence replaced by the Understand opener's "This roadmap shows what we'll explore in this section." (audio-only graft, +0.69 dB) and the section map arriving on it. Review: `video-audit/avoid-traps-opener-comparison-2026-09-21/` (Build v7 section).
 **v6 SHIPPED 2026-09-21** (cache key 20260921ship1, pill 4 min): roll 2 of 2026-09-21 as the whole narration, no grafts; canonical Traps Ahead (gold text-tight rings), Read the Water walk from "Survival…", section map with row rings and roll 1's binoculars interleave, standard close. Review: `video-audit/avoid-traps-opener-comparison-2026-09-21/`.
 
 - Prompt: `Prompts/opener-avoid-video-prompt.txt`

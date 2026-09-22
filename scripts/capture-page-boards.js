@@ -54,12 +54,12 @@ const BOARDS = [
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
   // Embrace the Future displays its retained video JPG with the shared crop-and-
   // extend treatment. Keep the canonical source protected from recapture.
-  { section: "openerrealworld", out: "embrace-the-future-opener-voices.jpg", retainedSource: true, width: 902, vw: 960,
+  { section: "openerrealworld", out: "embrace-the-future-opener-voices.jpg", retainedSource: true, width: 740,
     find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
   // Build Your Skills now displays this retained video JPG with the shared crop-and-
   // extend treatment. Keep the catalogue entry so filtered capture runs explicitly
   // report that the canonical source is protected instead of silently omitting it.
-  { section: "openerskills", out: "build-your-skills-opener-creed.jpg", retainedSource: true, width: 902, vw: 960,
+  { section: "openerskills", out: "build-your-skills-opener-creed.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by

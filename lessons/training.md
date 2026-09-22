@@ -20,13 +20,13 @@ But instead of adjusting aim or force, training adjusts the numbers inside the m
 
 Here is one training example: the phrase “Peanut butter and jelly.”
 
-Step one is Guess. The model sees “Peanut butter and” with the last word missing, and it guesses the word cloud.
+Step one is Guess. Given ‘Peanut butter and ___,’ the model guesses cloud.
 
-Step two is Check. The example says jelly. The guess is compared with that word, and cloud does not match.
+Step two is Check. The example says jelly. Compare the guess with that word.
 
-Step three is Adjust. The model’s internal numbers are adjusted to make jelly more likely in this situation.
+Step three is Adjust. Adjust the model’s internal numbers to make jelly more likely in this situation.
 
-Then the loop runs again on the next example.
+Then repeat. The loop runs again on the next example.
 
 Repeat with more examples. The patterns build.
 
@@ -56,15 +56,15 @@ Training does more than teach a model patterns. It also helps the model follow i
 
 **Teaching content:**
 
-Every phase gets the same question:
+There are three phases of training. Every phase gets the same question:
 
 “How do I shoot a basketball?”
 
-Phase 1 is Pretraining. The model learns patterns from data.
+Phase 1 is Pretraining. Learn patterns from data.
 
-Phase 2 is Instruction Tuning. The model learns to follow instructions.
+Phase 2 is Instruction Tuning. Learn to follow instructions.
 
-Phase 3 is Preference Tuning. The model improves its responses through feedback.
+Phase 3 is Preference Tuning. Improve responses through feedback.
 
 ### Board 4: 1 · Pretraining
 
@@ -74,7 +74,7 @@ Phase 3 is Preference Tuning. The model improves its responses through feedback.
 
 **Teaching content:**
 
-Phase 1 is Pretraining. The model learns from vast amounts of data, more than you could read in 1,000 lifetimes.
+Phase 1 is Pretraining. In this phase, the model will learn from vast amounts of data. More than you could read in 1,000 lifetimes.
 
 The model guesses what comes next in vast amounts of text and code, then checks its guess against the example.
 
@@ -82,7 +82,7 @@ Training adjusts its internal numbers, called weights.
 
 Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.
 
-After pretraining, an answer to the basketball question might look like this:
+After pretraining, here is what an answer might look like for the basketball question:
 
 “The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”
 
@@ -96,11 +96,11 @@ What still needs work: the model can produce fluent text, but it doesn’t relia
 
 **Teaching content:**
 
-Phase 2 is Instruction Tuning. The model learns to follow instructions.
+Phase 2 is Instruction Tuning. In this phase, the model will learn to follow instructions.
 
 People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.
 
-After instruction tuning, an answer to the basketball question might look like this:
+After instruction tuning, here is what an answer might look like for the basketball question:
 
 “To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”
 
@@ -114,11 +114,11 @@ What still needs work: the model can follow a request, but its answer may still 
 
 **Teaching content:**
 
-Phase 3 is Preference Tuning. The model learns from feedback.
+Phase 3 is Preference Tuning. In this phase, the model will learn from feedback.
 
 People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.
 
-After preference tuning, an answer to the basketball question might look like this:
+After preference tuning, here is what an answer might look like for the basketball question:
 
 “Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”
 

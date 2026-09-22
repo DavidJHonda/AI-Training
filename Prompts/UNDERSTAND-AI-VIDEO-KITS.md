@@ -70,6 +70,7 @@ Prompt: `Prompts/opener-understand-video-prompt.txt` (490 words).
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): section-map title added. Removed as not on the page or boards: the "learning order, not five steps" sentence (now a prompt negative) and the connective "Here are the five topics ahead".
 - Page order followed: card first (it renders above the prose), then the three paragraphs with the Under the Hood board between paragraphs two and three, then the section map, then the close.
 - Kept beyond the page: one sentence on the map, "The numbers show your learning order, not five steps AI performs whenever you send a message." It is the old Markdown's guardrail against the pipeline misreading; the page implies it, and the old rolls needed it said.
 - Kept beyond the page: two short sentences describing the Under the Hood board (hood up, machinery in view, "you are going to look at what is under the hood of AI") so the board has spoken content; no people are described.
@@ -141,6 +142,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe. Live video: `training.mp4
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): loop board steps now in the board's exact words plus "Then repeat."; Three Phases title and all six labels added; the "What an Answer Might Look Like" and "Learn to..." sub-headers folded into each phase board. Dropped "cloud does not match" (on neither board nor page).
 - Kept beyond the page: nothing. The old Markdown already matched the page one to one; it was restructured, not expanded.
 - Spoken adaptations: Board 1's blank ("Peanut butter and ___") is written as "with the last word missing"; the Check step states the result ("cloud does not match"), which the board leaves implied; each phase board opens with "Phase N is ..." so the narrator names the phase on entry; the sample answers are introduced as "an answer to the basketball question might look like this" instead of the card heading.
 - Split for the stand-alone rule: "AI training follows a similar pattern: guess, check, and adjust." and "Training adjusts its internal numbers, called weights." were pulled out of their paragraphs; the closing paragraph's last sentence stands alone.
@@ -205,6 +207,7 @@ The three banner lines are spoken forms of the on-board banners (the board text 
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all four board titles added; "possible outcome" label on the clue board spoken.
 - Every page sentence is in the Markdown, in page order. The three SectionKicker lines became `##` headings in title case.
 - Added only spoken forms of what the boards show: the four outcomes named in words, the fraction worked as a sentence ("One divided by four is 25 percent"), the "possible outcome" versus "ruled out" labels, and one connective sentence on Board 4 tying the question-plus-reply-so-far back to the peek as "the clue." That bridge restates the page's own "Your question and the words already written shape the chances of what comes next"; it adds no new claim.
 - Dropped from the old Markdown: the "Takeaway:" labels and the outcome tables (rewritten as sentences), and the parenthetical "These are the illustrative probabilities on the board" (now "These probabilities are illustrative").
@@ -275,6 +278,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `tokens.mp4` shipped
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all five board titles added. Removed as not on the board or page: "not letters the tokenizer adds" (now a prompt negative), the three-sentence Board 5 summary, and "A space and the piece after it can be one token."
 - Kept beyond the page's prose: "The letters after un may be split into more than one token" (from the board's alt text; stops Notebook calling "believable" one token). Kept the SP-is-a-label qualifier from the old Markdown for the same reason. Kept the old Markdown's three-sentence summary under Board 5 (one word can hold several tokens; a token can include a leading space; names and web addresses split too) because it restates the board's own notes as sentences.
 - Dropped: the old filler line "The lesson now asks how those words become numbers AI can use."; the "Human:"/"AI:" card prefixes from the page's accessible-only ShowcaseBox (replaced by "For you" / "For AI" sentences); Scene/Takeaway labels.
 - Changed: the fifth split example is written as "the web address shown on the board" in narration lines; the URL itself appears only in the reference table so Notebook never speaks it. Board 5's tokens and IDs are also given as a table for reference; the sentences above it carry the pieces and counts.
@@ -339,6 +343,7 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): board titles, DRINK / TOKEN ID / TOKEN column headers and the 0-to-10 scale added; Board 4 wording matched to the board. Removed the Coke/Coffee taste gloss (not on the board or page). Board 5's five other token rows remain unspoken by David's approved guardrail against reading that table cell by cell.
 - Kept beyond the page: one sentence reading Board 2 ("Coke is sweet and fizzy. Coffee is bitter and hot, with much more caffeine."), a tightened version of the old Markdown's gloss; the board itself only shows the numbers. Also a sentence naming the neighbouring tokens on Board 5 (dog, latte, truck, bicycle, map), which are on the board but not in the page prose.
 - Restated from the board alt text: the Board 1 scene (four badges, fry gag) so the narration can teach it over the faceless variant.
 - Dropped from the old Markdown: the Takeaway labels and the three tables (all converted to spoken sentences); nothing else.
@@ -402,6 +407,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `transformer.mp4` v8
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all six board titles added. Removed "Information from CAT had to be carried forward" (not on the board or page; now a prompt negative).
 - Kept beyond the page prose, from the boards themselves: the two card lead-ins ("The same word can mean something different in each sentence." / "The same pronoun can point to a different thing in each sentence."), the two "The problem" questions with their answers spoken, "The complete message arrives together," and the Board 6 card sentences.
 - Kept from the old Markdown because it clarifies Board 2: the left-to-right, word-by-word description with information from CAT carried forward to IT. Also kept: the spoken position answers (DOG 1, BITES 2, MAN 3).
 - Dropped from the old Markdown: the Board 5 qualifier about not attending to later words (moved to the prompt as a guardrail rather than narrated to students); the "Takeaway:" labels and the clue table (rewritten as sentences).
@@ -467,6 +473,7 @@ Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 ship
 
 **Markdown versus page**
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): horse board's three panel labels added; Board 2 and 3 titles added.
 - Kept beyond the page, small: one clarifying clause per read on Board 1 ("you reach 'fell' and the sentence seems to stop short"; "'raced' describes the horse, and 'fell' is what the horse did") so the narrator can explain why the sentence trips readers, since the board only shows it. Also a plain-sentence description of Board 2's picture (numbers in, line of layers, final numbers out), which the board shows but the page prose does not say.
 - Numbers spoken: all board values are written as sentences (.42/−1.15 ... .19/−1.12 and IT's .12/−.34 ... .41/.06) so the comparison result ("the values shift at every layer") is stated, per the speak-the-answers rule. The old Markdown carried these as tables only.
 - Dropped: the old Markdown's Takeaway labels and tables; nothing else, since the old Markdown was already page-faithful.
@@ -529,6 +536,7 @@ Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude an
 - REVIEW.md (2026-09-17) was a visual-only retrofit and recorded no teaching pitfalls; the 2026-09-10 roll's narration was kept as-is, which is why the reroll is the first roll on this recipe.
 
 **Markdown versus page**
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all six board titles added; Board 2 city coordinates, Board 3 and 5 headers and score rows, the mystery-drink label and the Pet bowl label spoken. Removed the Board 3 column comparison and the Board 6 mat/rainstorm sentence (not on the board or page).
 - Kept beyond the page: (a) explicit column comparison under Board 3 ("Coke and Pepsi match on the first six dimensions and differ only on Citrus, where Coke scores 1 and Pepsi scores 10. Coffee's ratings differ from both on every one of the seven") so the banner is earned in narration rather than asserted; (b) one sentence under Board 6 noting the mat and the rainstorm are also in the sentence, so IT might have pointed to either, which is why the map has objects and weather neighborhoods; (c) a short-vs-long dotted-line sentence under Board 4 describing what the board draws.
 - Dropped from the old Markdown: the Scene/Takeaway labels and Markdown tables (recipe); the narrated disclaimer "It does not mean the model identifies a word's meaning by looking up the nearest original token embedding" (moved to the prompt as a negative); the duplicated closest-city and Pepsi paragraphs the old file carried twice.
 - Page sentence changed for the ear only: "Let's see how this works in vector space:" ends with a period; the bulleted coordinates and mystery ratings became sentences with degree words spelled "north"/"west" as the page's own prose does for Dallas.
@@ -600,6 +608,10 @@ Open questions
 
 - The verbatim list is at the recipe's ceiling of eight. If David wants it shorter, "You could name him Spot." is the line most likely to land unprompted and could be cut to seven.
 
+**Markdown versus page**
+
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all four board titles and the step numbers added; FINAL VECTOR label folded in. The question-mark sentence stays: Board 2 labels the tile FINAL TOKEN.
+
 ## One More Thing
 
 Materials rebuilt 2026-09-21 on the 2026-09-20 recipe (Fake Trap template). Live video: `one-more-thing.mp4` v5, shipped 2026-09-18 as a visual-only retrofit of the old-method roll; reroll pending David’s approval of the beat spine below.
@@ -648,6 +660,7 @@ All eight stand alone on their own line in the Markdown (the 22% sentence, the t
 
 ### Markdown versus page
 
+- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all three board titles, try numbers, the Name header and the trillion-weights caption added. Removed "separate selections / not five tokens" (now a prompt negative) and "each column adds up to 100%" (not printed anywhere); "more evenly" dropped.
 - Kept beyond the page (clarifies the board): “These are five separate selections at the same point in the answer, not five tokens in a row in one reply. They show one possible set of outcomes, not a required pattern.” (Board 1 says “One possible set”.) Also “Each column adds up to 100%” for Board 2 (verified: all three columns sum to 100).
 - Added as spoken answers derived from the boards: “Spot, the top choice, came up once in five tries”; “Spot’s chance goes from 22% to 36%”; “Temperature changes how far ahead the top choice is” (the Spot-stays-most-likely clause was cut on David’s call); the two multiplications on Board 3 (100 × 2 trillion, 1,000 × 2 trillion); “estimates for an imagined model, not measurements of a real one.”
 - Dropped from the old Markdown: “They do not assume that all earlier work is repeated for every new token.” It is not on the page, and spoken aloud it raises a mechanism the lesson never explains. The prompt instead bans extra numbers and real-model claims.

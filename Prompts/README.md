@@ -32,13 +32,20 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
    copy the two closing lines from `CLOSE_BOARDS`. Verify actual filenames; old kits and
    slugs may predate asset renames. Check `LESSON_VIDEOS` for the lesson's current entry.
 
-2. **Write the Markdown** (`lessons/<slug>.md`). It is the complete teaching in page order,
-   as prose a narrator can read. Structure:
+2. **Write the Markdown** (`lessons/<slug>.md`). **The Markdown matches the lesson.** It is
+   the live page's teaching, in the page's order, in the page's words, plus the words on
+   its boards spoken as sentences. Nothing is added that the page and its boards do not
+   teach; a guardrail belongs in the prompt, not in the narration. If the page is wrong,
+   fix the page first. This file is the narration base, and a solid narration base is
+   what makes the video buildable. Structure:
    - Section header, lesson title, then the page's prose paragraphs.
    - Each board is a section: `### Board N: <title>`, then `**Image file:** \`<file>.jpg\``,
      the image link, then `**Teaching content:**` followed by everything on the board written
-     out as sentences. Alt text, tables, and banners alone do not ensure Notebook speaks
-     their content. Banner lines become plain sentences.
+     out as sentences. **Notebook sometimes does not read the points on a board**, so every
+     point on it (title, labels, bullets, captions, numbers, banner) must also be in the
+     Markdown as a sentence; a point that exists only in the image may never be spoken.
+     Alt text, tables, and banners alone do not ensure Notebook speaks their content.
+     Banner lines become plain sentences. Check the board image itself, not its alt text.
    - No Scene, Takeaway, or post-production labels. No TRY IT, lab, source-record line,
      credits, or URLs. Notebook narrates what it is given.
    - End with `## Closing Message` and the two closing lines, each on its own line.

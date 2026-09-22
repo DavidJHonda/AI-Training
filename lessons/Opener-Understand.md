@@ -46,7 +46,7 @@ The goal is to understand how your words become an answer.
 
 **Teaching content:**
 
-In this section: how AI really works. Here are the five topics ahead, in the order you will learn them. The numbers show your learning order, not five steps AI performs whenever you send a message.
+Understand AI. In this section: how AI really works.
 
 One. How AI Learned: how training builds the patterns AI uses to answer you.
 

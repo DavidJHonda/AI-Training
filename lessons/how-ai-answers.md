@@ -16,15 +16,15 @@ Let’s give AI a simple question and watch how it builds an answer, one token a
 
 You ask: “What should I name my new dog?”
 
-Before any answer appears, the question goes through four steps you have already seen.
+Before the answer begins, the question goes through four steps you have already seen.
 
-Tokens: AI breaks the question into pieces.
+Step 1, Tokens: AI breaks the question into pieces.
 
-Positions: AI marks where each piece belongs.
+Step 2, Positions: AI marks where each piece belongs.
 
-Starting Vectors: AI turns each token into numbers that carry its starting meaning.
+Step 3, Starting Vectors: AI turns each token into numbers that carry its starting meaning.
 
-Through Layers: attention and transformation work together to update the numbers.
+Step 4, Through Layers: attention and transformation work together to update the numbers.
 
 AI uses the final token’s updated numbers to predict what comes next.
 
@@ -36,11 +36,13 @@ AI uses the final token’s updated numbers to predict what comes next.
 
 **Teaching content:**
 
+Here is why the final token matters.
+
 The question sits in a row of tokens: What, should, I, name, my, new, dog, and a question mark. In this example, the question mark is the final token.
 
 The Question: the final token gathers information from every token before it.
 
-The Final Token: its updated numbers help AI predict a reply that fits the question.
+The Final Token: its updated numbers are its final vector, and they help AI predict a reply that fits the question.
 
 AI uses the final token’s vector to predict the first token of its answer.
 
@@ -57,6 +59,8 @@ Now watch the loop. AI selects a token, adds it to the reply, and uses the growi
 ![The Answer, Token by Token](how-ai-answers-token-by-token.jpg)
 
 **Teaching content:**
+
+Here is the answer, token by token.
 
 You ask: “What should I name my new dog?”
 
@@ -86,15 +90,17 @@ AI keeps predicting tokens until it produces a special token that signals the an
 
 **Teaching content:**
 
+This is inference: how AI builds an answer.
+
 You ask: “What should I name my new dog?” The answer so far is You could name him. Follow the repeating process as AI adds the next token.
 
-Rank: AI scores every possible next token. Here Spot scores 22 percent, Max 17 percent, and Buddy 14 percent.
+Step 1, Rank: AI scores every possible next token. Here Spot scores 22 percent, Max 17 percent, and Buddy 14 percent.
 
-Pick: AI selects a next token. Here it picks Spot.
+Step 2, Pick: AI selects a next token. Here it picks Spot.
 
-Add: AI attaches that token to the answer. The answer now reads You could name him Spot.
+Step 3, Add: AI attaches that token to the answer. The answer now reads You could name him Spot.
 
-Repeat: AI uses the longer context to predict again, asking what the next token should be.
+Step 4, Repeat: AI uses the longer context to predict again, asking what the next token should be.
 
 Inference is the process AI uses to generate an answer one token at a time.
 

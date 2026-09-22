@@ -22,7 +22,7 @@ Start with something simple: when every outcome is equally likely, you can calcu
 
 **Teaching content:**
 
-When every outcome is equally likely, the formula is a simple fraction. On top is the number of ways to get the result you care about. On the bottom is the total number of possible outcomes. Divide, and you have the probability.
+This is standard probability. When every outcome is equally likely, the formula is a simple fraction. On top is the number of ways to get the result you care about. On the bottom is the total number of possible outcomes. Divide, and you have the probability.
 
 Ways to get the result divided by total possible outcomes equals probability.
 
@@ -36,7 +36,7 @@ Ways to get the result divided by total possible outcomes equals probability.
 
 The scenario: you toss two coins. What’s the chance that both land on heads?
 
-Count the possibilities. There are four possible outcomes, and each one is equally likely: heads then heads, heads then tails, tails then heads, and tails then tails. Only one of the four, heads then heads, gives you both heads. The other three are possible outcomes, but they are not the result you want.
+Start by counting the possibilities. There are four possible outcomes, and each one is equally likely: heads then heads, heads then tails, tails then heads, and tails then tails. Only one of the four, heads then heads, gives you both heads. The other three are possible outcomes, but they are not the result you want.
 
 Now use the formula. There is one way to get two heads, and there are four possible outcomes. One divided by four is 25 percent.
 
@@ -56,7 +56,7 @@ New evidence can change the odds. Conditional probability takes that evidence in
 
 The scenario: you toss two coins. Someone peeks and tells you the first coin landed heads. What’s the chance that both coins landed heads now?
 
-Look at the same four outcomes with the clue in hand. The clue rules out tails then heads and tails then tails, because both of those start with tails. Two outcomes remain: heads then heads, and heads then tails. Only one of those two, heads then heads, gives you both heads.
+A clue changes the odds. Look at the same four outcomes with the clue in hand. The clue rules out tails then heads and tails then tails, because both of those start with tails. Two outcomes remain: heads then heads, and heads then tails. Heads then tails is still a possible outcome. Only one of those two, heads then heads, gives you both heads.
 
 Use the formula again. There is one way to get two heads, and there are now two possible outcomes. One divided by two is 50 percent.
 
@@ -82,7 +82,7 @@ You ask: “What should I name my new dog?”
 
 AI’s reply so far: “You could name him ____.”
 
-The next word is not decided yet. The AI calculates a probability for each word that could fill the blank. On this board, a few possible next words are shown: Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. Spot is the most likely of the three, but it is far from certain.
+What comes next? The next word is not decided yet. The AI calculates a probability for each word that could fill the blank. On this board, a few possible next words are shown: Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. Spot is the most likely of the three, but it is far from certain.
 
 These probabilities are illustrative. Other possible next words make up the remaining 47 percent.
 

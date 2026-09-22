@@ -14,11 +14,11 @@ Have you ever read a passage in English class that only made sense after a few r
 
 The sentence is “The horse raced past the barn fell.”
 
-First read: it doesn’t make sense. Did someone forget a word? You reach “fell” and the sentence seems to stop short.
+First read: it doesn’t make sense. Did someone forget a word? You reach “fell” and the sentence seems to stop short. The horse raced past the barn … fell?
 
-More reads: wait, did a barn fall? Did the horse race past the barn afterward? You try each possibility against the words.
+More reads: wait, did a barn fall? Did the horse race past the barn afterward? You try each possibility against the words. “Fell” could go with the barn, or with the horse.
 
-Meaning clicks: someone raced a horse past a barn. Then the horse fell. “Raced” describes the horse, and “fell” is what the horse did.
+Meaning clicks: someone raced a horse past a barn. Then the horse fell. “Raced” describes the horse, and “fell” is what the horse did. The horse passes the barn, then the horse falls.
 
 Each read updates the meaning until it clicks.
 
@@ -37,6 +37,8 @@ The whole stack of layers is called a neural network.
 ![How Layers Update the Numbers](layers-inside-layer.jpg)
 
 **Teaching content:**
+
+This is how layers update the numbers.
 
 Numbers go in on one side and final numbers come out the other. In between stands a long line of layers, one after another. Inside every layer are the same two steps, attention and transformation. Each layer takes the numbers it receives, updates them, and passes the updated numbers to the next layer.
 
@@ -57,6 +59,8 @@ Now follow one word, IT, as its numbers change from layer to layer.
 ![How AI Connects ‘IT’ to ‘CAT’](layers-resolves-it.jpg)
 
 **Teaching content:**
+
+This is how AI connects IT to CAT.
 
 The sentence is “The CAT sat on the mat during the May rainstorm because IT was tired.”
 

@@ -22,11 +22,13 @@ A 22% probability means AI would pick Spot about 22 times out of 100 tries, on a
 
 **Teaching content:**
 
+Same probabilities, different choices.
+
 The answer so far is “You could name him,” and the next token is still open.
 
 The probabilities for that next token are Spot at 22%, Max at 17%, Buddy at 14%, Rex at 9%, Biscuit at 6%, and all other tokens combined at 32%. These probabilities stay unchanged across all five tries.
 
-Five separate tries with these same probabilities produce Max, then Spot, then Buddy, then Rex, then Max. Spot, the top choice, came up once in five tries. These are five separate selections at the same point in the answer, not five tokens in a row in one reply. They show one possible set of outcomes, not a required pattern.
+Five separate tries with these same probabilities produce: try one, Max; try two, Spot; try three, Buddy; try four, Rex; try five, Max. The five tries are one possible set. Spot, the top choice, came up once in five tries.
 
 The best chance is not a guarantee.
 
@@ -52,15 +54,17 @@ Start with the same probabilities. Watch how they change with temperature.
 
 **Teaching content:**
 
+Here is how temperature changes the odds.
+
 The answer so far is still “You could name him,” with the next token open.
 
-The starting odds are the same as before: Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%.
+For each name, the starting odds are the same as before: Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%.
 
 At low temperature, Spot rises to 36%, Max to 21%, and Buddy to 15%. Rex drops to 6%, Biscuit to 3%, and other tokens combined to 19%. Low temperature concentrates the odds on the most likely choices. Spot’s chance goes from 22% to 36%.
 
-At high temperature, Spot falls to 16%, Max to 14%, and Buddy to 13%. Rex rises to 10%, Biscuit to 8%, and other tokens combined to 39%. High temperature spreads the odds more evenly and gives less likely choices a better chance.
+At high temperature, Spot falls to 16%, Max to 14%, and Buddy to 13%. Rex rises to 10%, Biscuit to 8%, and other tokens combined to 39%. High temperature spreads the odds and gives less likely choices a better chance.
 
-Each column adds up to 100%. Temperature changes how far ahead the top choice is.
+Temperature changes how far ahead the top choice is.
 
 Temperature reshapes the probabilities. It does not change what the model learned.
 
@@ -82,9 +86,11 @@ To picture the scale, imagine a model that uses one trillion weights for each to
 
 **Teaching content:**
 
+The math adds up fast.
+
 Use the same example model: one trillion weights used for each new token, at roughly two calculations per weight.
 
-One token, such as Spot, is one pass through the example model’s trillion weights. That is about 2 trillion calculations.
+One token, such as Spot, is one pass, one trip through our example model’s trillion weights. That is about 2 trillion calculations.
 
 A short answer is about 100 tokens written by AI. One hundred tokens at 2 trillion each is about 200 trillion calculations.
 

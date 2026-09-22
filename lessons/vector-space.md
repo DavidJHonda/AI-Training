@@ -18,7 +18,7 @@ Imagine these are the only three cities on our map.
 
 **Teaching content:**
 
-A United States map marks three cities, each with two approximate coordinates. Mountain View is at 37° north, 122° west. Dallas is at 33° north, 97° west. New York City is at 41° north, 74° west.
+Three cities, two coordinates each. A United States map marks three cities, each with two approximate coordinates. Mountain View is at 37° north, 122° west. Dallas is at 33° north, 97° west. New York City is at 41° north, 74° west.
 
 Latitude and longitude give each city a position.
 
@@ -34,7 +34,7 @@ The position 38° north, 120° west is closest to Mountain View. The position 40
 
 **Teaching content:**
 
-The same map keeps Mountain View, Dallas, and New York City in place. Two new positions are added: 38° north, 120° west, and 40° north, 76° west. A dotted line connects 38° north, 120° west to Mountain View, the nearest of the three cities. Another dotted line connects 40° north, 76° west to New York City, the nearest of the three cities.
+Use the map to find the closest city. The same map keeps Mountain View at 37° north, 122° west, Dallas at 33° north, 97° west, and New York City at 41° north, 74° west in place. Two new positions are added: 38° north, 120° west, and 40° north, 76° west. A dotted line connects 38° north, 120° west to Mountain View, the nearest of the three cities. Another dotted line connects 40° north, 76° west to New York City, the nearest of the three cities.
 
 When nothing matches exactly, distance finds the closest one.
 
@@ -52,15 +52,13 @@ These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each d
 
 **Teaching content:**
 
-Each drink is rated on the same seven dimensions, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, and Citrus. The ratings run from 0 to 10, where 0 is low and 10 is high.
+Three drinks, seven dimensions each. The Drink column lists Coke, Pepsi, and Coffee. Each drink is rated on the same seven dimensions, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, and Citrus. The ratings run from 0 to 10, where 0 is low and 10 is high.
 
 Coke’s ratings are 9, 1, 10, 2, 3, 8, 1.
 
 Pepsi’s ratings are 9, 1, 10, 2, 3, 8, 10.
 
 Coffee’s ratings are 1, 9, 0, 9, 8, 10, 0.
-
-Compare the columns. Coke and Pepsi match on the first six dimensions and differ only on Citrus, where Coke scores 1 and Pepsi scores 10. Coffee’s ratings differ from both on every one of the seven.
 
 Coke and Pepsi have more similar profiles than either does to coffee.
 
@@ -76,7 +74,7 @@ We can picture the similarities on a map: Coke and Pepsi sit close together, whi
 
 **Teaching content:**
 
-The map places Coke and Pepsi as nearby points inside the soft drinks neighborhood. Coffee sits farther from both, in the hot drinks neighborhood. Each drink shows its seven scores in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions: the line between Coke and Pepsi is short, and the lines from each of them to coffee are long. The positions picture how similar or different the ratings are.
+A map of drink similarities. The map places Coke and Pepsi as nearby points inside the soft drinks neighborhood. Coffee sits farther from both, in the hot drinks neighborhood. Each drink shows its seven scores in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions: the line between Coke and Pepsi is short, and the lines from each of them to coffee are long. The positions picture how similar or different the ratings are.
 
 Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.
 
@@ -90,7 +88,7 @@ Now someone gives you the ratings for a mystery drink. They don’t match Coke, 
 
 **Teaching content:**
 
-The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dotted line. Its first six scores match Pepsi’s. Its Citrus score is 9, compared with Pepsi’s 10.
+Use the map to find the closest drink. The same map keeps Coke, Pepsi, and coffee in place, with the seven dimensions in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Coke and Pepsi sit in the soft drinks neighborhood, and coffee sits in the hot drinks neighborhood. A new point labeled Mystery Drink, with ratings 9, 1, 10, 2, 3, 8, 9, sits close to Pepsi, joined by a short dotted line. Its first six scores match Pepsi’s. Its Citrus score is 9, compared with Pepsi’s 10.
 
 The mystery drink’s ratings are closest to Pepsi’s.
 
@@ -120,7 +118,7 @@ On its own, IT could refer to many things. As the layers process this sentence, 
 
 **Teaching content:**
 
-A tabletop meaning map has three neighborhoods. The objects neighborhood holds a mat and a chair. The weather neighborhood holds a cloud and a rainstorm. The animals neighborhood holds a cat, a dog, a kitten, and a pet bowl. The mat and the rainstorm are also in the sentence, so on its own IT might have pointed to either of them.
+How context changes IT’s position. A tabletop meaning map has three neighborhoods. The objects neighborhood holds a mat and a chair. The weather neighborhood holds a cloud and a rainstorm. The animals neighborhood holds a cat, a dog, a kitten, and a bowl labeled Pet.
 
 A blue IT marker begins outside the neighborhoods at its starting position, with numbers .12, −.34, and so on. A path labeled “The layers update the numbers” leads through three intermediate points. IT ends at its updated position, with numbers .41, .06, and so on, right next to CAT inside the animals neighborhood. The move pictures how changing the numbers changed IT’s position.
 

@@ -14,6 +14,8 @@ These two examples show how the surrounding words, or context, shape meaning. AI
 
 **Teaching content:**
 
+There are two problems context must solve.
+
 Problem 1 is different meanings. The same word can mean something different in each sentence.
 
 Sentence 1: “Please turn on the LIGHT.” Here, LIGHT means brightness.
@@ -44,9 +46,11 @@ Our human brains see the right meaning instantly from the surrounding words. For
 
 **Teaching content:**
 
+This is how earlier AI read text.
+
 The sentence is “The cat sat on the mat during the May rainstorm because it was tired.”
 
-The diagram follows the sentence from left to right, one word at a time, with an arrow from each word to the next. Information from CAT had to be carried forward, word by word, all the way to IT.
+The diagram follows the sentence from left to right, one word at a time, with an arrow from each word to the next.
 
 We know IT refers to CAT.
 
@@ -68,6 +72,8 @@ In our example, IT can draw on information from the earlier word CAT, even with 
 
 **Teaching content:**
 
+This is how a Transformer reads a sentence.
+
 The complete message arrives together. The same sentence, “The cat sat on the mat during the May rainstorm because it was tired,” is laid out with every word visible at the same time. CAT, IT, and TIRED are highlighted.
 
 All words are present from the start.
@@ -81,6 +87,8 @@ Reading your whole message at once is only the start. AI needs to figure out whi
 ![How Context Changes the Numbers](transformer-attention-transformation.jpg)
 
 **Teaching content:**
+
+This is how context changes the numbers.
 
 Attention: weigh information from relevant words and blend it into the token’s numbers. On the board, an arrow curves from IT back to CAT. That connection is the information that matters here.
 
@@ -104,6 +112,8 @@ Now let’s return to our two examples.
 
 **Teaching content:**
 
+This is how the Transformer resolves meaning.
+
 Problem 1, different meanings. Which words provide the clues? In “Please turn on the LIGHT,” the words “turn on” tell us LIGHT means brightness. In “The suitcase is LIGHT enough to carry,” the word “carry” tells us LIGHT means not heavy.
 
 Problem 2, pronouns. Which words provide the clues? In “The cat drank the milk because IT was thirsty,” the word “thirsty” describes the cat, so IT refers to the cat. In “The cat drank the milk because IT was fresh,” the word “fresh” describes the milk, so IT refers to the milk.
@@ -123,6 +133,8 @@ Reading everything at once creates a problem that reading in order never had. Co
 ![How a Transformer Keeps Words in Order](transformer-word-order.jpg)
 
 **Teaching content:**
+
+This is how a Transformer keeps words in order.
 
 Compare DOG BITES MAN with MAN BITES DOG. The same three tokens can describe two different events.
 

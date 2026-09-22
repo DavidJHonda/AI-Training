@@ -16,7 +16,7 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 An ID identifies you. It doesn’t describe you.
 
-Four students at a cafeteria table wear ID badges numbered 1024, 2048, 3072, and 4096. One of them is standing, slipping french fries into his shirt pocket. The badge numbers tell you which student is which. They tell you nothing about who each student is.
+Four students at a cafeteria table wear Student ID badges numbered 1024, 2048, 3072, and 4096. One of them is standing, slipping french fries into his shirt pocket. The badge numbers tell you which student is which. They tell you nothing about who each student is.
 
 His ID won’t tell you he steals fries.
 
@@ -32,13 +32,13 @@ Imagine you and your friends rate Coke and coffee on six characteristics: Sweet,
 
 **Teaching content:**
 
-Ratings run from 0 for low to 10 for high. Coke and coffee are scored on the same six characteristics in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
+Meaning becomes an ordered row of numbers.
+
+Ratings run from 0 for low to 10 for high. Each row is a drink. Coke and coffee are scored on the same six characteristics in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
 
 Coke scores 9 for Sweet, 1 for Bitter, 10 for Fizz, 2 for Heat, 3 for Caffeine, and 8 for Dark.
 
 Coffee scores 1 for Sweet, 9 for Bitter, 0 for Fizz, 9 for Heat, 8 for Caffeine, and 10 for Dark.
-
-The scores describe the drinks. Coke is sweet and fizzy. Coffee is bitter and hot, with much more caffeine.
 
 Each position always means the same thing. The number says how much.
 
@@ -66,7 +66,9 @@ To tell them apart, you add a seventh dimension, Citrus. In your ratings, Pepsi 
 
 **Teaching content:**
 
-Ratings still run from 0 to 10. The six original dimensions are Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Citrus is the new seventh dimension.
+One new dimension separates similar meanings.
+
+Ratings still run from 0 for low to 10 for high. Each row is a drink. The six original dimensions are Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Citrus is the new seventh dimension.
 
 Coke scores 9 for Sweet, 1 for Bitter, 10 for Fizz, 2 for Heat, 3 for Caffeine, and 8 for Dark. Pepsi scores exactly the same on all six: 9, 1, 10, 2, 3, and 8. Coffee scores 1, 9, 0, 9, 8, and 10 on the same six.
 
@@ -92,13 +94,13 @@ That row is called an embedding.
 
 **Teaching content:**
 
-The board compares your taste test with AI on five points.
+From taste ratings to AI embeddings: the board compares your taste test with AI on five points.
 
 What gets a row: in your taste test, three drinks. In AI, every token in the model’s vocabulary.
 
 Dimensions per row: in your taste test, six, then seven. In AI, typically thousands.
 
-Values: in your taste test, you choose the ratings, from 0 to 10. In AI, the model learns the values during training. They are positive and negative numbers, including decimals.
+Values: in your taste test, you choose the ratings, from 0 to 10. In AI, AI learns them during training. They are positive and negative numbers, including decimals.
 
 What they capture: in your taste test, named traits like Sweet and Fizz. In AI, patterns in how a token is used.
 
@@ -118,11 +120,11 @@ What happens when you type “cat” into AI? Follow its token ID to the matchin
 
 **Teaching content:**
 
-The token is cat. Its token ID is 4719. The token ID leads to cat’s row in the embedding table.
+Inside a real model, the token is cat. Its token ID is 4719. The token ID leads to cat’s row in the embedding table.
 
 The embedding table stores one embedding for every token. Cat’s row sits alongside rows for other tokens, such as dog, latte, truck, bicycle, and map.
 
-The dimensions are the columns, labeled d1, d2, d3, d4, and so on up to dn. Each column is one position in the embedding.
+The table's first two columns are the token ID and the token. The dimensions are the columns after them, labeled d1, d2, d3, d4, and so on up to dn. Each column is one position in the embedding.
 
 Cat’s row begins 0.45, then negative 0.23, then 0.80, then 0.17, and continues across thousands of positions to negative 0.35 in the last one.
 

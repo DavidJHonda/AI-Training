@@ -14,6 +14,8 @@ But you ask AI questions in words, not numbers.
 
 **Teaching content:**
 
+You use words. AI uses numbers.
+
 You ask: “What’s the best Avengers movie?”
 
 AI answers: “Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending.”
@@ -40,6 +42,8 @@ Think of them as building blocks for language. A token can be a whole word or ju
 
 **Teaching content:**
 
+Tokens are building blocks for language.
+
 The text unbelievable goes in, and three tokens come out: un, belie, and vable. One word, built from three pieces.
 
 The same piece shows up in different words. The piece un starts unbelievable, unmatchable, and unusual. The letters after un may be split into more than one token. The vocabulary reuses the piece un instead of storing a separate entry for every whole word that starts with it.
@@ -60,6 +64,8 @@ These vocabularies can be large: ChatGPT’s holds about 200,000 tokens and Gemi
 
 **Teaching content:**
 
+Here is what happens when you hit send.
+
 Step one, start with text: you type a question or message.
 
 Step two, split into tokens: a program called a tokenizer breaks the text into reusable chunks.
@@ -78,6 +84,8 @@ Tokenization turns text into token IDs the model can use.
 
 **Teaching content:**
 
+Humans see a cat. AI starts with a token ID.
+
 For you, it is instant understanding. You know what cat means: fur, whiskers, the animal.
 
 For AI, it starts with a token ID. Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.
@@ -94,6 +102,8 @@ All the text you send to AI gets split into tokens. Here are some examples.
 
 **Teaching content:**
 
+Here is how AI splits text into tokens.
+
 These examples use the cl100k_base tokenizer. The numbers below the chunks on the board are token IDs.
 
 Example one: unbelievable becomes un, belie, and vable. That is three tokens: one word, three chunks.
@@ -102,11 +112,9 @@ Example two: basketball becomes basket and ball. That is two tokens.
 
 Example three: ChatGPT becomes Chat, G, and PT. That is three tokens. This name splits into three chunks.
 
-Example four: I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space. It is a label for the space, not letters the tokenizer adds. A space and the piece after it can be one token.
+Example four: I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space.
 
 Example five: the web address shown on the board becomes https, then the colon and two slashes, then www, .quick, book, str, aining, and .com. That is eight tokens. Even a web address breaks into chunks.
-
-One word can contain several tokens. A token can include the space before a word or symbol. Names and web addresses split into pieces too.
 
 | Text | Tokens, in order | Token IDs, in the same order | Count |
 | --- | --- | --- | --- |

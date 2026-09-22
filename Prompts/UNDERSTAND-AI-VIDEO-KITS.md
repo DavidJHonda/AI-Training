@@ -25,6 +25,8 @@ Markdown, and each prompt names the on-page activity as not to be narrated.
 
 Status: materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `understand-ai-opener.mp4` shipped 2026-09-16 under the old method (v7 retrofit of v4); reroll pending David's approval of the beat spine below.
 
+**Rebuilt 2026-09-22 after roll 1 (David):** the first roll on this kit held the card for 24 s and the Under the Hood board for 21 s, because the Markdown had folded the page's prose (the PhD/six-year-old contrast, the car analogy, the "inside the machine" paragraph) into those boards' Teaching content, and opened the map with the bare label "Understand AI." because the prompt said "read its title". Markdown rebuilt: Board 1 holds the card's question and four lines only; the two paragraphs sit under `## How Can the Same Tool Do Both?`; Board 2 holds "Time to look under the hood." and its banner line; the section paragraph sits under `## Inside the Machine`; Board 3 opens "Here is what you will learn in this section, Understand AI: how AI really works." The two invented hood-up sentences are gone. Prompt rebuilt: leave the card after its fourth line, draw the contrast and the car, show Board 2 for its two lines only, introduce the map with its lead-in, never hold a board through the prose after it; banned words gain processor, mechanics, interface. Rolls 1 and 2 of 2026-09-22 and the v9 candidate built from roll 1 (`video-audit/understand-ai-opener-comparison-2026-09-22/`) predate this rebuild; David is rerolling.
+
 **Notebook sources**
 
 1. `lessons/Opener-Understand.md` (rewritten in place)
@@ -41,11 +43,11 @@ Prompt: `Prompts/opener-understand-video-prompt.txt` (490 words).
 
 **Beat spine**
 
-1. Open on the What Kind of Thing Is AI? card; read the four lines exactly (no "definitely", no "entirely", no invented "different set of rules" line, all of which the shipped v4 added).
-2. The contrast: a PhD expert at your side one moment, a six-year-old's mistake the next; understanding what happens inside explains why.
-3. The car analogy as the page tells it: good at driving without opening the hood; knowing what is underneath tells you what the car can do and why something might go wrong; the same goes for AI. Banner line: "Knowing how it works helps you Be Smarter Than the Tool." Drawn car with the hood up, no people, while the faceless Under the Hood board is on screen.
-4. What this section does: inside the machine one piece at a time; some of it new; each piece builds on the one before; no need to memorize every term; the goal is to understand how your words become an answer.
-5. The section map: all five topics in order, each with its full one-line explanation from the page (How AI Learned; Why Probability Matters; How Words Become Numbers; How Meaning Takes Shape; How AI Builds an Answer). The numbers are the learning order, not five steps AI performs on a message. Banner: "Each piece builds on the one before it."
+1. Open on the What Kind of Thing Is AI? card; read the four lines exactly (no "definitely", no "entirely", no invented "different set of rules" line). Leave the card.
+2. Over Notebook's drawn scene: a PhD expert at your side one moment, a six-year-old's mistake the next; understanding what happens inside explains why.
+3. The car analogy as the page tells it: good at driving without opening the hood; knowing what is underneath tells you what the car can do and why something might go wrong; the same goes for AI. Banner line: "Knowing how it works helps you Be Smarter Than the Tool." Drawn car with the hood up, no people; the Under the Hood board arrives only for "Time to look under the hood." and its banner line, then leaves.
+4. Over drawn scenes: inside the machine one piece at a time; some of it new; each piece builds on the one before; no need to memorize every term; the goal is to understand how your words become an answer.
+5. The section map, introduced "Here is what you will learn in this section, Understand AI: how AI really works.": all five topics in order, each with its full one-line explanation from the page (How AI Learned; Why Probability Matters; How Words Become Numbers; How Meaning Takes Shape; How AI Builds an Answer). The numbers are the learning order, not five steps AI performs on a message. Banner: "Each piece builds on the one before it."
 6. Close on the two lines with nothing after.
 
 **Required verbatim lines**

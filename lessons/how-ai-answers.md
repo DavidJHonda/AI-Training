@@ -74,6 +74,8 @@ The completed answer is a full sentence.
 
 You could name him Spot.
 
+## What Can Fit Next
+
 You asked for a dog name, but AI began with You, a possible start to a reply.
 
 Each added token changes what can fit next.

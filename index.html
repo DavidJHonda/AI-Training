@@ -1993,7 +1993,7 @@ function InteractiveBox(props) {
   // it primes the activity; in the content-only export it removes itself (see ActivityLead),
   // so the hidden box leaves no orphaned "TRY IT" text behind in the PDF.
   return /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber }, props.lead),
+    /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber, label: props.leadLabel }, props.lead),
     boxEl);
 }
 // Primes a TRY IT / LAB just before its (eyebrow-less, "primed") box: an accent-colored
@@ -2007,7 +2007,7 @@ function ActivityLead(props) {
   } catch (ex) {}
   var variant = props.variant === "lab" ? "lab" : "try";
   var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
-  var label = variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT";
+  var label = props.label || (variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT");
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(SectionKicker, { style: { color: accent, display: "flex", alignItems: "center", gap: 10 } },
       /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 2, background: accent, borderRadius: 2, flexShrink: 0 } }),
@@ -2986,7 +2986,7 @@ function QuizBlock(props) {
 }
 function ProgressBar(props) {
   var completed = props.lessonsCompleted || 0;
-  var total = props.totalLessons || SECTIONS.length;
+  var total = props.totalLessons || REQUIRED_SECTIONS.length;
   var pct = Math.min(100, Math.round(completed / total * 100));
   return React.createElement("div", {
     role: "progressbar",
@@ -3126,7 +3126,7 @@ const SECTION_GROUPS = [{
   sections: ["openerskills", "choosemodel", "aitips", "integrity", "wherestheline", "peopleskills", "creativethinking", "becurious", "makeyourmove"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerfinish", "whatyoulearned", "reviews", "resources"]
+  sections: ["openerfinish", "whatyoulearned", "reviews", "groupexercises", "resources"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -3185,12 +3185,16 @@ const SECTION_META = {
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
   openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
+  groupexercises: { kicker: "LEARN TOGETHER", label: "Group Exercises", icon: "\uD83D\uDC65", optional: true },
   resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA" },
   reviews: { kicker: "TELL US WHAT YOU THINK", label: "What Do You Think?", icon: "\u2B50" },
 };
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
+// Optional group activities stay navigable without changing individual completion.
+function isOptionalLesson(id) { return !!(SECTION_META[id] && SECTION_META[id].optional); }
+const REQUIRED_SECTIONS = SECTIONS.filter(function(section) { return !section.optional; });
 // Opener sections all share the label "Opener", so their title slugs would collide.
 // Give each a distinct PDF name keyed off its section (used for the file on disk and
 // the Download link). Short form: the section's defining keyword.
@@ -11561,7 +11565,7 @@ function WheresTheLineSection(props) {
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
 }
 
-// Camera photographs and generated counterparts are documented in docs/fake-trap-photo-sources.md.
+// Camera photographs and generated counterparts are documented in group-exercises/fake-trap/image-sources.md.
 function FakeTrapPhotoTryIt() {
   var E = React.createElement;
   var state = useState({}), picks = state[0], setPicks = state[1];
@@ -11592,7 +11596,7 @@ function FakeTrapPhotoTryIt() {
               if (!revealed) setPicks(function(previous) { return Object.assign({}, previous, { [pair.id]: option }); });
             }
           }, E("img", {
-            src: "course-assets/fake-trap/fake-trap-try-" + pair.id + "-" + letter.toLowerCase() + ".jpg",
+            src: "group-exercises/fake-trap/fake-trap-try-" + pair.id + "-" + letter.toLowerCase() + ".jpg",
             alt: pair.alt + ", image " + letter, loading: "lazy", decoding: "async",
             style: { aspectRatio: pair.ratio }
           }), E("span", { className: "fake-photo-caption" },
@@ -12720,6 +12724,39 @@ function CourseToolkit(props) {
   }));
 }
 
+function GroupExercisesSection(props) {
+  var E = React.createElement;
+  return E("div", null,
+    E(LessonHeader, { sectionId: "groupexercises" }),
+    E("p", { style: { margin: "0 0 16px", color: "var(--primary)", fontSize: 13, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" } }, "Optional · For clubs, classrooms, and other groups"),
+    E(InteractiveBox, {
+      variant: "try",
+      surface: "mint",
+      title: "Be the Last Person Standing",
+      leadLabel: "Group Exercise 01",
+      lead: "AI can create images that are difficult to distinguish from real photographs. You’ll see ten pairs of pictures. Each pair contains one real photograph and one AI-generated image. Can you tell which is real?",
+      instructions: [
+        "Choose one side of the room for picture A and the other for picture B.",
+        "When you see a pair of pictures, move to the side of the room for the picture you think is real.",
+        "The group leader clicks the picture to see the results.",
+        "If you guessed incorrectly, sit down. Then, repeat until one person is standing.",
+        "If everyone is out, everyone stands up for the next round. If several people remain after the final round, they share the win.",
+        "Seated players can keep guessing for fun."
+      ]
+    },
+      E("p", { style: { fontSize: 15, color: "var(--inkMuted)", margin: "0 0 10px" } }, "About 10–15 minutes · One shared classroom screen"),
+      E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 18px", fontWeight: 700 } }, "Works well near the beginning of the course or alongside Fake Trap."),
+      E("a", {
+        href: "group-exercises/be-the-last-person-standing.html",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        "aria-label": "Start Be the Last Person Standing (opens in a new tab)",
+        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44, cursor: "pointer" }
+      }, "Start Now ↗")),
+    E(LessonRule, null),
+    E(NextLessonGate, { nav: true, onClick: function() { props.onNavigate && props.onNavigate("resources"); }, label: "Next: Resources" }));
+}
+
 function ResourcesSection(props) {
   var E = React.createElement;
   var link = function(href, text) {
@@ -13029,7 +13066,7 @@ function ReviewsSection(props) {
               !hasRating ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)" } }, "Choose a star rating to submit.") : null))),
     E(StudentReviewsList, { refreshKey: reviewRefresh }),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("resources"); }, label: "Next: Resources" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("groupexercises"); }, label: "Next: Group Exercises (optional)" }));
 }
 function WhatYouLearnedSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -14335,6 +14372,7 @@ const SECTION_COMPONENTS = {
   openerskills: OpenerSkillsSection,
   openerfinish: FinishSmarterOpenerSection,
   whatyoulearned: WhatYouLearnedSection,
+  groupexercises: GroupExercisesSection,
   resources: ResourcesSection,
   reviews: ReviewsSection,
   questionsvaluable: QuestionsValuableSection,
@@ -14394,7 +14432,7 @@ function ChipNav(props) {
       onMouseEnter: function() { setChipHover(sid); },
       onMouseLeave: function() { setChipHover(null); },
       "aria-current": isActive ? "page" : undefined,
-      "aria-label": chipLabel + (isActive ? ", current lesson" : isDone ? ", completed" : ""),
+      "aria-label": chipLabel + (isOptionalLesson(sid) ? ", optional" : "") + (isActive ? ", current lesson" : isDone ? ", completed" : ""),
       style: { position: "relative", border: "none", background: "transparent", padding: "0 2px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 11 }
     },
       connEl,
@@ -14445,11 +14483,12 @@ function MobileCourseNav(props) {
     return CHIP_LABELS[id] || s.title || s.label;
   };
   var groupComplete = function(g) {
-    return g.sections.length > 0 && g.sections.every(function(id) { return completed.indexOf(id) !== -1; });
+    var requiredIds = g.sections.filter(function(id) { return !isOptionalLesson(id); });
+    return requiredIds.length > 0 && requiredIds.every(function(id) { return completed.indexOf(id) !== -1; });
   };
   var optionLabel = function(id) {
     var prefix = completed.indexOf(id) !== -1 ? "✓ " : "";
-    var suffix = isDraftLesson(id) ? " · Draft" : "";
+    var suffix = isOptionalLesson(id) ? " · Optional" : isDraftLesson(id) ? " · Draft" : "";
     return prefix + lessonName(id) + suffix;
   };
   var go = function(id) {
@@ -14678,14 +14717,14 @@ function LLMExplorer() {
         ...prev,
         activeSection: id,
         visited: visited.includes(id) ? visited : [...visited, id],
-        completed: completed.includes(currentId) ? completed : [...completed, currentId]
+        completed: isOptionalLesson(currentId) || completed.includes(currentId) ? completed : [...completed, currentId]
       };
     });
   };
   const markComplete = (id) => {
     setProgress(prev => {
       const completed = prev.completed || [];
-      return completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
+      return isOptionalLesson(id) || completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
     });
   };
   const setTestYourselfQuiz = (quiz) => {
@@ -15019,7 +15058,7 @@ function LLMExplorer() {
     if (activeGroupIdx < 0) activeGroupIdx = 0;
     var activeGroup = SECTION_GROUPS[activeGroupIdx];
     var completedIds = progress.completed || [];
-    var nextSection = SECTIONS.find(function(s) { return !completedIds.includes(s.id); });
+    var nextSection = REQUIRED_SECTIONS.find(function(s) { return !completedIds.includes(s.id); });
     var ctaIsNew = completedIds.length === 0;
     var ctaTarget = (nextSection || SECTIONS[0]).id;
     var ctaLabel = ctaIsNew ? "Start Lesson 01" : (nextSection ? "Continue" : "Review course");
@@ -15044,7 +15083,7 @@ function LLMExplorer() {
           /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
             /*#__PURE__*/React.createElement("div", { className: "course-progress-block" },
               /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
-              /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: (progress.completed || []).length })
+              /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: REQUIRED_SECTIONS.filter(function(s) { return (progress.completed || []).includes(s.id); }).length })
             ),
             /*#__PURE__*/React.createElement("button", {
               className: "course-cta",
@@ -15069,8 +15108,9 @@ function LLMExplorer() {
         SECTION_GROUPS.filter(function(g) { return g.label; }).map(function(group, gi) {
           var isActiveGroup = group === activeGroup;
           var completedList = progress.completed || [];
-          var doneCount = group.sections.filter(function(sid) { return completedList.includes(sid); }).length;
-          var totalCount = group.sections.length;
+          var requiredIds = group.sections.filter(function(id) { return !isOptionalLesson(id); });
+          var doneCount = requiredIds.filter(function(sid) { return completedList.includes(sid); }).length;
+          var totalCount = requiredIds.length;
           var isComplete = doneCount > 0 && doneCount === totalCount;
           var fracPct = totalCount ? Math.round(doneCount / totalCount * 100) : 0;
           // Underline doubles as a per-section progress bar; keep a visible nub on the active section even at 0%.

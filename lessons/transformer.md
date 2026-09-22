@@ -78,6 +78,8 @@ The complete message arrives together. The same sentence, “The cat sat on the 
 
 All words are present from the start.
 
+## Only the start
+
 Reading your whole message at once is only the start. AI needs to figure out which words matter and use that information to update the numbers. In our example, IT needs information from CAT to help represent what it refers to in this sentence. Attention and transformation work together to make that happen.
 
 ### Board 4: How Context Changes the Numbers
@@ -94,9 +96,11 @@ Attention: weigh information from relevant words and blend it into the token’s
 
 Transformation: use learned patterns to further process those numbers. On the board, two sets of number bars compare IT after attention with IT with context.
 
-Both steps update the numbers that represent the token.
-
 Attention and transformation work together to build meaning from context.
+
+## What changes
+
+Both steps update the numbers that represent the token.
 
 The model’s learned weights stay fixed.
 
@@ -119,6 +123,8 @@ Problem 1, different meanings. Which words provide the clues? In “Please turn 
 Problem 2, pronouns. Which words provide the clues? In “The cat drank the milk because IT was thirsty,” the word “thirsty” describes the cat, so IT refers to the cat. In “The cat drank the milk because IT was fresh,” the word “fresh” describes the milk, so IT refers to the milk.
 
 Attention and transformation help AI work out which meaning fits.
+
+## Sarcasm and idioms
 
 Attention and transformation also help AI interpret sarcasm, idioms, and even an “it” that points to nothing at all, as in “it was a cold day.”
 

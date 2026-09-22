@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>Be the Last Person Standing · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb;
+      --card: #fff;
+      --primary: #6e51ff;
+      --primaryDeep: #4c2dff;
+      --ink: #0e0a1f;
+      --inkSoft: #3a3550;
+      --inkMuted: #6e6986;
+      --rule: #e7e3f2;
+      --green: #1f9d5f;
+      --red: #d4334a;
+      --tryAccent: #2f7d4f;
+      --tryBand: #eef4eb;
+      --tryRule: rgba(63, 107, 63, 0.18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+
+    .activity-shell {
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: clamp(14px, 2vw, 28px);
+      gap: clamp(12px, 1.6vw, 20px);
+    }
+    .activity-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(1500px, 100%);
+      margin: 0 auto;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 4px;
+      color: var(--tryAccent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(29px, 3.5vw, 48px);
+      font-weight: 400;
+      line-height: 1;
+    }
+    .fullscreen-button, .primary-button, .secondary-button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 19px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .secondary-button {
+      background: var(--card);
+      color: var(--primaryDeep);
+      box-shadow: var(--shadowSoft);
+    }
+    .fullscreen-button, .primary-button {
+      background: var(--ink);
+      color: #fff;
+    }
+    .fullscreen-button:hover, .secondary-button:hover, .primary-button:hover { transform: translateY(-1px); }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--primaryDeep);
+      outline-offset: 4px;
+    }
+
+    .activity-card {
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      width: min(1500px, 100%);
+      margin: 0 auto;
+      padding: clamp(15px, 2vw, 26px);
+      border-radius: 20px;
+      background: var(--tryBand);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(12px, 1.5vw, 20px);
+    }
+    .prompt-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+    .round-pill {
+      justify-self: start;
+      margin: 0;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: var(--card);
+      box-shadow: var(--shadowSoft);
+      color: var(--inkSoft);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .question {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(21px, 2.35vw, 34px);
+      line-height: 1.15;
+    }
+    .subject {
+      justify-self: end;
+      margin: 0;
+      color: var(--inkMuted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .pair-grid {
+      min-height: 0;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(12px, 1.5vw, 20px);
+    }
+    .image-choice {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      padding: 0;
+      overflow: hidden;
+      border: 3px solid transparent;
+      border-radius: 14px;
+      background: var(--card);
+      box-shadow: var(--shadowSoft);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .image-choice:hover:not(:disabled) { border-color: var(--primary); transform: translateY(-2px); }
+    .image-choice:disabled { cursor: default; opacity: 1; }
+    .image-choice.is-real { border-color: var(--green); }
+    .image-choice.is-ai { border-color: #d9d5e7; }
+    .image-stage {
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(8px, 1vw, 14px);
+      overflow: hidden;
+      background: #f5f4f7;
+    }
+    .image-stage img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .image-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 62px;
+      padding: 10px 14px;
+      line-height: 1.25;
+    }
+    .letter {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .label-text { font-size: clamp(15px, 1.5vw, 19px); font-weight: 800; }
+
+    .feedback {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--tryRule);
+      animation: fadeIn .25s ease;
+    }
+    .feedback.is-visible { display: grid; }
+    .feedback-copy { min-width: 0; }
+    .feedback-title {
+      margin: 0 0 5px;
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .feedback-source {
+      margin: 0;
+      color: var(--inkSoft);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } }
+
+    .finish-card {
+      min-height: 0;
+      display: none;
+      place-items: center;
+      padding: clamp(24px, 6vw, 80px);
+      border-radius: 20px;
+      background: var(--tryBand);
+      text-align: center;
+    }
+    .finish-card.is-visible { display: grid; }
+    .finish-inner { max-width: 850px; }
+    .finish-card h2 {
+      margin: 0 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+    .finish-card p {
+      margin: 0 auto 28px;
+      color: var(--inkSoft);
+      font-size: clamp(18px, 2vw, 25px);
+      line-height: 1.5;
+    }
+    .finish-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .secondary-button { display: inline-flex; align-items: center; text-decoration: none; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 700px) {
+      body { overflow: visible; }
+      .activity-shell { height: auto; min-height: 100vh; overflow: visible; display: block; padding: 12px; }
+      .activity-header { align-items: flex-start; margin-bottom: 12px; }
+      h1 { font-size: 30px; }
+      .fullscreen-button { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+      .activity-card { height: auto; min-height: auto; overflow: visible; display: block; padding: 14px; }
+      .prompt-row { grid-template-columns: 1fr auto; margin-bottom: 14px; }
+      .question { grid-column: 1 / -1; grid-row: 2; margin-top: 10px; }
+      .subject { grid-column: 2; grid-row: 1; }
+      .pair-grid { overflow: visible; grid-template-columns: 1fr; }
+      .image-choice { min-height: auto; }
+      .image-stage { height: min(54vh, 470px); }
+      .feedback { grid-template-columns: 1fr; margin-top: 14px; }
+      .feedback .primary-button { width: 100%; }
+      .finish-card { min-height: calc(100vh - 105px); }
+    }
+
+    @media (max-height: 700px) and (min-width: 701px) {
+      .activity-shell { padding: 10px 16px; gap: 10px; }
+      h1 { font-size: 31px; }
+      .activity-card { padding: 12px 16px; gap: 10px; }
+      .image-label { min-height: 50px; padding: 6px 10px; }
+      .letter { min-height: 34px; padding: 0 12px; font-size: 14px; }
+      .feedback { padding-top: 10px; }
+    }
+
+    :fullscreen .activity-shell { padding: 12px 18px; gap: 10px; }
+    :fullscreen h1 { font-size: clamp(28px, 3vw, 40px); }
+    :fullscreen .activity-card { padding: 12px 18px; gap: 10px; }
+    :fullscreen .image-label { min-height: 50px; padding: 6px 10px; }
+    :fullscreen .letter { min-height: 34px; padding: 0 12px; font-size: 14px; }
+    :fullscreen .feedback { padding-top: 10px; }
+  </style>
+</head>
+<body>
+  <main class="activity-shell">
+    <header class="activity-header">
+      <div>
+        <p class="eyebrow">Group Exercise 01</p>
+        <h1>Be the Last Person Standing</h1>
+      </div>
+      <button class="fullscreen-button" id="fullscreen-button" type="button">Enter Full Screen</button>
+    </header>
+
+    <section class="activity-card" id="round-view" aria-labelledby="question">
+      <div class="prompt-row">
+        <p class="round-pill" id="progress">Round 1 of 10</p>
+        <h2 class="question" id="question">Which is real? Move to that side of the room.</h2>
+        <p class="subject" id="subject">Cat</p>
+      </div>
+
+      <div class="pair-grid" id="pair-grid">
+        <button class="image-choice" id="choice-a" type="button">
+          <span class="image-stage"><img id="image-a" alt="Picture A in the current pair"></span>
+          <span class="image-label"><span class="letter">Side A</span><span class="label-text" id="label-a">I think this is real</span></span>
+        </button>
+        <button class="image-choice" id="choice-b" type="button">
+          <span class="image-stage"><img id="image-b" alt="Picture B in the current pair"></span>
+          <span class="image-label"><span class="letter">Side B</span><span class="label-text" id="label-b">I think this is real</span></span>
+        </button>
+      </div>
+
+      <div class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true">
+        <div class="feedback-copy">
+          <p class="feedback-title" id="feedback-title"></p>
+          <p class="feedback-source" id="feedback-source"></p>
+        </div>
+        <button class="primary-button" id="next-button" type="button">Next Picture</button>
+      </div>
+      <p class="sr-only" id="round-announcement" aria-live="polite" aria-atomic="true"></p>
+    </section>
+
+    <section class="finish-card" id="finish-view" aria-labelledby="finish-title">
+      <div class="finish-inner">
+        <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
+        <h2 id="finish-title" tabindex="-1">One last thing</h2>
+        <p>Whether you guessed correctly or not, appearance alone isn’t proof. Check where an image came from.</p>
+        <div class="finish-actions">
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+          <a class="secondary-button" id="back-link" href="../index.html">Back to Group Exercises</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      "use strict";
+
+      var pairs = [
+        { id: "cat", title: "Cat", real: "b", source: "Real photograph: a pet cat at home." },
+        { id: "sculpture", title: "Sculpture", real: "a", source: "Real photograph: taken in Liverpool, England." },
+        { id: "venice", title: "Venice", real: "b", source: "Real photograph: taken in Venice, Italy." },
+        { id: "amarillo", title: "Amarillo", real: "a", source: "Real photograph: taken in Amarillo, Texas." },
+        { id: "cake", title: "Cake", real: "b", source: "Real photograph: a homemade birthday cake." },
+        { id: "flowers", title: "Flowers", real: "a", source: "Real photograph: roses growing outdoors." },
+        { id: "hockey", title: "Hockey", real: "b", source: "Real photograph: taken at a hockey game." },
+        { id: "christmas", title: "Christmas", real: "a", source: "Real photograph: a Christmas tree and presents at home." },
+        { id: "ocean-view", title: "Ocean view", real: "b", source: "Real photograph: a coastal view across rooftops." },
+        { id: "storefront", title: "Storefront", real: "a", source: "Real photograph: a restaurant storefront." }
+      ];
+
+      var round = 0;
+      var revealed = false;
+      var roundView = document.getElementById("round-view");
+      var finishView = document.getElementById("finish-view");
+      var progress = document.getElementById("progress");
+      var subject = document.getElementById("subject");
+      var feedback = document.getElementById("feedback");
+      var feedbackTitle = document.getElementById("feedback-title");
+      var feedbackSource = document.getElementById("feedback-source");
+      var announcement = document.getElementById("round-announcement");
+      var nextButton = document.getElementById("next-button");
+      var choiceA = document.getElementById("choice-a");
+      var choiceB = document.getElementById("choice-b");
+      var imageA = document.getElementById("image-a");
+      var imageB = document.getElementById("image-b");
+      var labelA = document.getElementById("label-a");
+      var labelB = document.getElementById("label-b");
+      var fullscreenButton = document.getElementById("fullscreen-button");
+
+      function imagePath(pair, letter) {
+        return "fake-trap/fake-trap-try-" + pair.id + "-" + letter + ".jpg";
+      }
+
+      function setChoiceState(button, label, letter, isReal) {
+        button.disabled = true;
+        button.classList.add(isReal ? "is-real" : "is-ai");
+        button.setAttribute("aria-label", "Picture " + letter.toUpperCase() + ": " + (isReal ? "Real photograph" : "AI-generated image"));
+        label.textContent = isReal ? "Real photograph" : "AI-generated";
+      }
+
+      function renderRound(options) {
+        var pair = pairs[round];
+        revealed = false;
+        progress.textContent = "Round " + (round + 1) + " of " + pairs.length;
+        subject.textContent = pair.title;
+        imageA.src = imagePath(pair, "a");
+        imageB.src = imagePath(pair, "b");
+        imageA.alt = pair.title + ", picture A";
+        imageB.alt = pair.title + ", picture B";
+        choiceA.disabled = false;
+        choiceB.disabled = false;
+        choiceA.className = "image-choice";
+        choiceB.className = "image-choice";
+        choiceA.setAttribute("aria-label", pair.title + ", picture A: choose this picture");
+        choiceB.setAttribute("aria-label", pair.title + ", picture B: choose this picture");
+        labelA.textContent = "I think this is real";
+        labelB.textContent = "I think this is real";
+        feedback.classList.remove("is-visible");
+        feedbackTitle.textContent = "";
+        feedbackSource.textContent = "";
+        nextButton.textContent = round === pairs.length - 1 ? "Finish" : "Next Picture";
+        if (!options || options.announce !== false) {
+          announcement.textContent = "Round " + (round + 1) + " of " + pairs.length + ". " + pair.title + ". Which is real? Move to that side of the room.";
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        var pair = pairs[round];
+        var realLetter = pair.real.toUpperCase();
+        var aiLetter = pair.real === "a" ? "B" : "A";
+        setChoiceState(choiceA, labelA, "a", pair.real === "a");
+        setChoiceState(choiceB, labelB, "b", pair.real === "b");
+        feedbackTitle.textContent = "Picture " + realLetter + " is real. Sit down if you’re on Side " + aiLetter + ".";
+        feedbackSource.innerHTML = pair.source + "<br>AI-generated image: created for this exercise.";
+        feedback.classList.add("is-visible");
+        announcement.textContent = feedbackTitle.textContent + " " + pair.source + " AI-generated image: created for this exercise.";
+        nextButton.focus();
+      }
+
+      function nextRound() {
+        if (!revealed) return;
+        if (round === pairs.length - 1) {
+          roundView.hidden = true;
+          finishView.classList.add("is-visible");
+          document.getElementById("finish-title").focus();
+          return;
+        }
+        round += 1;
+        renderRound();
+        choiceA.focus();
+      }
+
+      function playAgain() {
+        round = 0;
+        finishView.classList.remove("is-visible");
+        roundView.hidden = false;
+        renderRound();
+        choiceA.focus();
+      }
+
+      function updateFullscreenLabel() {
+        fullscreenButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen";
+      }
+
+      choiceA.addEventListener("click", reveal);
+      choiceB.addEventListener("click", reveal);
+      nextButton.addEventListener("click", nextRound);
+      document.getElementById("play-again").addEventListener("click", playAgain);
+      fullscreenButton.addEventListener("click", function() {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+        } else if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(function() {});
+        }
+      });
+      document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      document.getElementById("back-link").addEventListener("click", function() {
+        try {
+          var progressState = JSON.parse(localStorage.getItem("llm-explorer-progress") || "{}");
+          progressState.activeSection = "groupexercises";
+          progressState.visited = Array.isArray(progressState.visited) ? progressState.visited : [];
+          if (progressState.visited.indexOf("groupexercises") === -1) progressState.visited.push("groupexercises");
+          localStorage.setItem("llm-explorer-progress", JSON.stringify(progressState));
+        } catch (error) {}
+      });
+
+      renderRound({ announce: false });
+    })();
+  </script>
+</body>
+</html>

@@ -46,6 +46,14 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
      Markdown as a sentence; a point that exists only in the image may never be spoken.
      Alt text, tables, and banners alone do not ensure Notebook speaks their content.
      Banner lines become plain sentences. Check the board image itself, not its alt text.
+   - **A board's Teaching content holds only what is printed on that board.** The page
+     prose before and after it stays prose, under a `##` heading. Notebook holds a board
+     on screen for as long as the text under it runs, so prose folded into a board section
+     becomes a long board hold with no drawings for those beats (Understand AI opener,
+     2026-09-22: a 24 s card and a 21 s illustration hold, both our own instruction).
+   - A board title is carried as a spoken sentence, not a bare label ("Here is what you
+     will learn in this section, Understand AI: …", not "Understand AI."); the prompt's
+     VOICE block allows that connective.
    - No Scene, Takeaway, or post-production labels. No TRY IT, lab, source-record line,
      credits, or URLs. Notebook narrates what it is given.
    - End with `## Closing Message` and the two closing lines, each on its own line.

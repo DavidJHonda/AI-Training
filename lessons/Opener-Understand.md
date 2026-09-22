@@ -14,6 +14,8 @@ What kind of thing is AI?
 
 It’s not magic. Not a person. Not normal software. It’s its own kind of thing.
 
+## How Can the Same Tool Do Both?
+
 Sometimes working with AI feels like having a PhD expert at your side. Other times, it makes a mistake you’d expect from a six-year-old. How can the same tool do both? Understanding what happens inside helps explain why.
 
 Think about driving a car. You can get good at it without ever opening the hood. But knowing what’s happening underneath helps you understand what the car can do and why something might go wrong. The same goes for AI.
@@ -28,9 +30,11 @@ Knowing how it works helps you Be Smarter Than the Tool.
 
 **Teaching content:**
 
-Under the hood. The hood is up, and the machinery underneath is in plain view. That is the point of this section: you are going to look at what is under the hood of AI.
+Time to look under the hood.
 
 Knowing how it works helps you Be Smarter Than the Tool.
+
+## Inside the Machine
 
 This section takes you inside the machine, one piece at a time.
 
@@ -46,7 +50,7 @@ The goal is to understand how your words become an answer.
 
 **Teaching content:**
 
-Understand AI. In this section: how AI really works.
+Here is what you will learn in this section, Understand AI: how AI really works.
 
 One. How AI Learned: how training builds the patterns AI uses to answer you.
 

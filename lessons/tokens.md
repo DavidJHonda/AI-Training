@@ -22,6 +22,8 @@ AI answers: “Most people point to Avengers: Endgame. It’s the big payoff to 
 
 You ask in words, and the answer comes back in words.
 
+## How Your Words Become Numbers
+
 How do your words become numbers that AI can use?
 
 One idea is to assign each word in every language a unique number. That way, you type the word, AI gets a number.
@@ -91,6 +93,8 @@ For you, it is instant understanding. You know what cat means: fur, whiskers, th
 For AI, it starts with a token ID. Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.
 
 A token ID identifies the token. Meaning comes later.
+
+## All the Text You Send
 
 All the text you send to AI gets split into tokens. Here are some examples.
 

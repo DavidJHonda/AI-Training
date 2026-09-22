@@ -71,3 +71,61 @@ equal or fuller, and roll 1's one distinctive stretch (the why-depth beat) is th
 - Frames sampled at 0, 900, 2400, 4200 and 6000 in both rolls: no stock photographs and no watermark beyond the standard Gemini
   Notebook corner mark. **This is a sample, not a sweep** — the v5/v6 reviews found two photograph spans in the old roll, so the
   build should check the full file.
+
+---
+
+# Second pass: layers-3 and layers-4 on the updated materials (2026-09-22, evening)
+
+**Candidates:** `Prompts/layers-3.mp4` (2:52.10, 5163 frames) and `Prompts/layers-4.mp4` (3:44.87, 6746 frames), rolled after the
+materials were rewritten (commit 8c67f4d8: ‘it’ and ‘cat’ as words, first and final number pairs only, the rereading beat added).
+Transcripts beside this file.
+
+## Verdicts
+
+| Roll | Verdict | Why |
+|---|---|---|
+| layers-3 | **REPAIR** — the best spine available, but not shippable as it stands | Four lesson lines are missing, and every one of them exists in roll 2 as a clean donor. The pronoun *appears* fixed; two instances need David's ear. |
+| layers-4 | REJECT | Still spells "I-T" throughout, drops two verbatim lines including "AI works out that ‘it’ refers to ‘cat,’" says "This diagram illustrates" and "This infographic tracks" — both banned — and adds jargon the lesson does not use. |
+
+## Did the materials fix the two defects?
+
+**The pronoun: fixed in layers-3, not in layers-4.** Word durations, the same measure that caught it the first time:
+
+| Roll | "it"/"IT" durations at the IT/CAT board | Reading |
+|---|---|---|
+| layers-2 (previous) | 0.42, 0.44, 0.50, 0.56, 0.70 | spelled, every time |
+| **layers-3** | 0.10, 0.22, 0.24, **0.36, 0.36** | mostly the word; two instances ambiguous |
+| layers-4 | 0.38, 0.46, 0.46, 0.54, 0.56 | spelled, every time |
+
+Ordinary "it" in layers-3 runs 0.08–0.18 and "cat" runs 0.18–0.22, so the three short instances are the word. The two at 0.36
+(99.90 and 111.80) sit between "word with emphasis" and "spelled" and cannot be settled from the transcript. **David should listen
+to layers-3 at 1:39.9 and 1:51.8 before we commit to it.**
+
+**The number rule: not fixed, and the cause is now clear.** Both rolls read all four pairs on Board 2 and all four on Board 3 —
+values that are no longer in the Markdown at all. They are printed on the board images, and Notebook read them off the boards. The
+prompt negative ("speak only the first and final pairs; never read the middle values") did not hold against the picture. Removing
+them from the Markdown cannot fix this; only a different board, or accepting the recitation, will.
+
+## What layers-3 is missing (all four exist in roll 2)
+
+| Missing from layers-3 | Donor in layers-2 |
+|---|---|
+| "The whole stack of layers is called a neural network." — says "This entire stack of layers…" | 67.12–69.68 |
+| The final meaning of the sentence: "Someone raced a horse past a barn. Then the horse fell." — layers-3 gives only "Raced describes the horse. Fell is what it did." | 36.56–40.56 |
+| "Numbers go in on one side and final numbers come out the other." — Board 2's opening line | 73.60–77.36 |
+| The scale qualifier: "AI companies don't always share how many layers their models use." | 182.08–192.24 |
+
+None of the four donor beats contains the pronoun, so roll 2's spelling defect does not travel with them. Integrated loudness is
+−17.3 LUFS (layers-3) against −17.0 (layers-2): a 0.3 dB match, well inside the ~1 dB graft tolerance.
+
+**Also missing from both rolls:** the rereading beat added to the Markdown for this reroll ("Working the sentence out depends on
+each repeated pass…"). Neither roll speaks it. It can be left out, or taken from the live v6 as originally proposed.
+
+## Recommendation
+
+1. **David listens to layers-3 at 1:39.9 and 1:51.8.** If the pronoun is spoken as a word there, layers-3 is the spine.
+2. Build it with **four grafts from layers-2**, each a whole sentence between silences, each landing under a course board.
+3. If those two instances are spelled, neither roll is usable and the next prompt needs the negative moved into REQUIRED VERBATIM
+   AUDIO, where the model follows most literally, rather than VOICE.
+
+Runtime would land near 3:05 with the grafts — pill 3 min, unchanged from today's live.

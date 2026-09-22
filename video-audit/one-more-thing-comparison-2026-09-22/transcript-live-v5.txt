@@ -1,0 +1,51 @@
+   0.00    6.00  When we use AI, the exact same prompt can often produce completely different answers.
+   6.00   12.00  Today, we are going to look at why that happens, what controls the predictability of those answers,
+  12.00   16.00  and exactly how much math is required to generate a single response.
+  16.00   19.00  To start, let's look at a simple prompt.
+  19.00   23.00  Imagine you ask an AI, what should I name my new dog?
+  23.00   28.00  When the model reaches the point in its output to actually generate the name, it pauses.
+  28.00   34.00  It calculates a specific probability for every single word in its vocabulary to decide what comes next.
+  34.00   38.00  This table shows the AI's internal probability calculation.
+  38.00   43.00  Spot is the top choice here, holding a 22% probability.
+  43.00   47.00  It's tempting to assume the AI automatically picks this highest-ranked word every time,
+  47.00   50.00  but that ranking is not a guarantee.
+  50.00   56.00  It strictly means that if the odds stay the same, the AI picks spot about 22 times out of 100 tries.
+  56.00   59.00  To see this in practice, look at the right side.
+  59.00   65.00  Here are five completely isolated tries, where the starting probabilities remain unchanged.
+  65.00   70.00  The outcomes vary. Max, spot, buddy, rex, and max again.
+  70.00   73.00  These aren't five words in a sequence, forming a sentence.
+  73.00   77.00  They are separate, parallel outcomes occurring at the exact same point.
+  77.00   80.00  The system operates this way for a reason.
+  80.00   85.00  If the AI locked into the most likely word every time, its writing would become highly repetitive.
+  85.00   89.00  Giving slightly less likely words a chance adds necessary variety.
+  89.00   93.00  Because each chosen word permanently alters the context,
+  93.00   99.00  one tiny variation here sends the generated text in a completely different direction.
+  99.00  103.00  Behind the scenes, the application uses a setting called temperature
+ 103.00  107.00  to reshape those raw probabilities before the model ever selects a word.
+ 107.00  111.00  This chart compares baseline odds to what happens when we lower the temperature setting.
+ 111.00  114.00  Low temperature concentrates existing probability.
+ 114.00  120.00  For example, the likelihood of choosing spot jumps from 22 up to 36%.
+ 120.00  124.00  A high temperature setting achieves the exact opposite effect.
+ 124.00  130.00  It takes the probability and spreads it out much more evenly across all available options.
+ 130.00  132.00  Look at the shift at the bottom.
+ 132.00  138.00  While the favorite drops, the combined other category surges from 32 to 39%,
+ 138.00  141.00  giving unlikely words a massive boost.
+ 141.00  144.00  Adjusting this strictly reshapes selection math at the end,
+ 144.00  149.00  it does not alter the internal weights the model established during training.
+ 149.00  152.00  Now let us step away from how words are chosen
+ 152.00  157.00  and look at the sheer scale of the calculations required to make a single choice.
+ 157.00  161.00  During training, the model establishes fixed numbers called weights.
+ 161.00  164.00  To predict a single new word, or token,
+ 164.00  170.00  the system must actively run these fixed weights through a massive set of calculations.
+ 170.00  173.00  This graphic breaks down the volume of that math.
+ 173.00  177.00  Imagine a hypothetical model containing one trillion weights.
+ 177.00  180.00  At an average of two operations per weight,
+ 180.00  185.00  it takes roughly two trillion calculations to output one single token.
+ 185.00  189.00  When we scale this to everyday usage, the numbers grow rapidly.
+ 189.00  194.00  A basic 100-token short answer demands 200 trillion calculations.
+ 194.00  199.00  If you engage in a longer back-and-forth conversation requiring 1,000 tokens,
+ 199.00  203.00  the math skyrockets to two quadrillion calculations.
+ 203.00  208.00  These numbers strictly apply to the brand-new tokens the AI is actively writing.
+ 208.00  210.00  Not a mind.
+ 210.00  212.00  Math at a scale nobody can picture.
+ 212.00  215.00  Every time you hit send.

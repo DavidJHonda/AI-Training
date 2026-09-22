@@ -209,6 +209,23 @@
   /* Standard multiple-choice TRY IT: keep the numbered prompt alignment on
      larger screens, then release that indent on phones so answers and feedback
      retain a readable line length. */
+  /* Fake Trap photo choices: equal-sized images, neutral reveals, visible keyboard focus. */
+  .fake-photo-pair + .fake-photo-pair{margin-top:32px;padding-top:28px;border-top:1px solid var(--tryRule);}
+  .fake-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+  .fake-photo-choice{display:flex;flex-direction:column;min-width:0;padding:0;overflow:hidden;text-align:left;font:inherit;color:var(--ink);background:#fff;border:2px solid transparent;border-radius:12px;cursor:pointer;}
+  .fake-photo-choice:hover:not([aria-disabled="true"]){border-color:var(--primary);}
+  .fake-photo-choice[aria-pressed="true"]{border-color:var(--primary);}
+  .fake-photo-choice[aria-disabled="true"]{cursor:default;}
+  .fake-photo-choice:focus-visible{outline:3px solid var(--primaryDeep);outline-offset:4px;}
+  .fake-photo-choice img{display:block;width:100%;height:auto;object-fit:contain;background:#f5f4f7;cursor:inherit;}
+  .fake-photo-caption{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;font-size:15px;font-weight:700;}
+  .fake-photo-letter{color:var(--primary);}
+  .fake-photo-picked{flex-basis:100%;font-size:12px;font-weight:400;color:var(--inkSoft);}
+  .fake-photo-source{font-size:14px;line-height:1.5;color:var(--inkSoft);}
+  .fake-photo-source:not(:empty){margin-top:12px;}
+  .fake-photo-takeaway{margin:28px 0 0;padding-top:20px;border-top:1px solid var(--tryRule);font-size:17px;font-weight:700;line-height:1.5;}
+  .fake-photo-sr{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+  @media(max-width:560px){.fake-photo-grid{grid-template-columns:1fr;gap:14px;}}
   @media (max-width:560px){
     .choicequiz-question{ gap:12px !important; }
     .choicequiz-options{ display:flex !important; width:100% !important; margin-left:0 !important; padding-left:0 !important; flex-direction:column !important; gap:14px !important; }
@@ -218,8 +235,6 @@
     .scenario-row-body{ padding-left:0 !important; }
     .support-spot-row{ flex-direction:column !important; gap:12px !important; }
     .support-spot-number{ width:auto !important; font-size:36px !important; }
-    .fake-trap-scenario-row{ flex-direction:column !important; gap:12px !important; }
-    .fake-trap-scenario-number{ width:auto !important; font-size:36px !important; }
   }
   .temp-prob-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
   @media (max-width:700px){ .temp-prob-grid{ grid-template-columns:1fr; } }
@@ -11546,30 +11561,55 @@ function WheresTheLineSection(props) {
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
 }
 
+// Camera photographs and generated counterparts are documented in docs/fake-trap-photo-sources.md.
+function FakeTrapPhotoTryIt() {
+  var E = React.createElement;
+  var state = useState({}), picks = state[0], setPicks = state[1];
+  var pairs = [
+    { id: "cat", title: "The Cat", ratio: "3 / 4", real: 1, source: "Real photograph: a pet cat at home.", alt: "A fluffy cat sitting on a sofa in a home" },
+    { id: "sculpture", title: "The Sculpture", ratio: "1290 / 1364", real: 0, source: "Real photograph: taken in Liverpool, England.", alt: "A bronze sculpture with smaller figures inside its torso, outside a gallery" },
+    { id: "venice", title: "Venice at Night", ratio: "4 / 3", real: 1, source: "Real photograph: taken in Venice, Italy.", alt: "A stone bridge over a canal at night, viewed from a boat" }
+  ];
+  var complete = pairs.every(function(pair) { return picks[pair.id] !== undefined; });
+  return E(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Which Photo Is Real?",
+    lead: "Can you tell a real photograph from an AI-generated image?",
+    instructions: ["In each pair, click the image you think was captured by a camera. Both labels will appear after you choose."]
+  }, E("div", { className: "fake-photo-activity" },
+    pairs.map(function(pair, index) {
+      var picked = picks[pair.id], revealed = picked !== undefined;
+      return E("section", { key: pair.id, className: "fake-photo-pair", "aria-labelledby": "fake-photo-title-" + pair.id },
+        E("h3", { id: "fake-photo-title-" + pair.id, style: { margin: "0 0 16px", fontSize: 20, color: "var(--ink)" } }, (index + 1) + ". " + pair.title),
+        E("div", { className: "fake-photo-grid" }, [0, 1].map(function(option) {
+          var letter = option === 0 ? "A" : "B";
+          var label = option === pair.real ? "Real photograph" : "AI-generated";
+          return E("button", {
+            key: option, type: "button", className: "fake-photo-choice",
+            "aria-label": pair.title + ", image " + letter + (revealed ? ": " + label : ": choose this photograph"),
+            "aria-pressed": picked === option, "aria-disabled": revealed,
+            onClick: function(event) {
+              event.stopPropagation();
+              if (!revealed) setPicks(function(previous) { return Object.assign({}, previous, { [pair.id]: option }); });
+            }
+          }, E("img", {
+            src: "course-assets/fake-trap/fake-trap-try-" + pair.id + "-" + letter.toLowerCase() + ".jpg",
+            alt: pair.alt + ", image " + letter, loading: "lazy", decoding: "async",
+            style: { aspectRatio: pair.ratio }
+          }), E("span", { className: "fake-photo-caption" },
+            E("span", { className: "fake-photo-letter" }, letter),
+            E("span", null, revealed ? label : "Choose this image"),
+            picked === option ? E("span", { className: "fake-photo-picked" }, "Your choice") : null));
+        })),
+        E("div", { role: "status", "aria-live": "polite", "aria-atomic": "true", className: "fake-photo-source" },
+          revealed ? E(React.Fragment, null,
+            E("span", { className: "fake-photo-sr" }, "Image " + (pair.real === 0 ? "A" : "B") + " is the real photograph. Image " + (pair.real === 0 ? "B" : "A") + " is AI-generated. "),
+            pair.source, E("br", null), "AI-generated image: created for this exercise.") : null));
+    }),
+    E("div", { role: "status", "aria-live": "polite" }, complete ? E("p", { className: "fake-photo-takeaway" },
+      "Whether you guessed correctly or not, appearance alone isn’t proof. Check where an image came from.") : null)));
+}
+
 function SyntheticMediaSection(props) {
-  const [permAnswers, setPermAnswers] = useState({});
-  const SCENARIOS = [{
-    setup: "A clip of a washed-out local road is going around. The county’s own account posted the same footage, and two local news sites are running the story with more angles.",
-    options: [
-      { label: "Believe it", correct: true, headline: "That’s what verified looks like.", feedback: "The checks exist so they can end. Source that would know, independent confirmation, consistent context: when all three land, believe it and move on. And if you share it, share the county’s post, not the third-hand copy: pass along the trail that cleared it." },
-      { label: "Check it", correct: false, headline: "It’s already checked.", hint: "Read the setup again: the source that would know posted it, and two independent outlets have it. What would another round of checking add?", feedback: "The checks already landed. The county account is the source that would know, and two newsrooms corroborate it. Running the checks forever is how careful turns into paralyzed. When they land, believe it and move on." },
-      { label: "Call it fake", correct: false, headline: "Doubt has a finish line.", hint: "If the county account plus two newsrooms can’t clear the bar, what could?", feedback: "Overcorrection. If the source that would know plus two independent newsrooms can’t clear the bar, nothing can, and you’ve traded gullible for paralyzed. Both mean the fakes win." }
-    ]
-  }, {
-    setup: "You get a voicemail that sounds exactly like your mom. She says her car broke down and needs you to send $75 to a new payment account so she can get home. The voice is unmistakable. The urgency feels real.",
-    options: [
-      { label: "Believe it", correct: false, headline: "Voice isn’t proof anymore.", hint: "A voice can be cloned from a small amount of audio. Before you send money, how could you reach your mom somewhere the caller does not control?", feedback: "A familiar voice can still be fake. Urgency and a request to send money are reasons to pause. Call the number already saved in your phone before doing anything." },
-      { label: "Check it", correct: true, headline: "Verify on a channel you trust.", feedback: "Call the number already saved in your phone and ask about the voicemail. If she does not answer, contact another family member or trusted adult before sending anything. Do not verify by calling or replying to the number in the message. Whoever sent it controls that channel." },
-      { label: "Call it fake", correct: false, headline: "Fake is still a guess.", hint: "It might be fake, or it might be real. What move protects you either way?", feedback: "Calling it fake based only on suspicion is the trap in reverse. Contact your mom through the number already saved in your phone. Verification gives you an answer. Guessing does not." }
-    ]
-  }, {
-    setup: "Another friend shows you a screenshot of texts where your hockey teammate supposedly trash-talked you behind your back. The screenshot looks real. The wording sounds like something they might say.",
-    options: [
-      { label: "Believe it", correct: false, headline: "A screenshot is not the whole conversation.", hint: "It could be edited, cropped, or missing context. What could you check before reacting?", feedback: "Treating the screenshot as proof could damage a real friendship. Do not spread it or lead with an accusation. Ask to see the original message thread and talk directly with your teammate before deciding what happened." },
-      { label: "Check it", correct: true, headline: "Check the conversation, not just the screenshot.", feedback: "Do not spread the screenshot or treat it as proof. Ask to see the original message thread, including what came before and after. Then talk directly with your teammate without accusing them. If you still cannot verify what happened, leave it unverified." },
-      { label: "Call it fake", correct: false, headline: "Loyalty isn’t evidence either.", hint: "Wanting it to be fake does not make it fake. What could you check without spreading it?", feedback: "Calling it fake is another verdict without enough evidence. Ask to see the original message thread, then talk directly with your teammate. If you cannot verify what happened, leave it unverified." }
-    ]
-  }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -11652,37 +11692,7 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "You did nothing wrong by being targeted."),
     closeBoard("faketrap"),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Believe It, Check It, or Call It Fake?",
-      lead: "Three moments, rising stakes. Same question every time.",
-      instructions: [
-        "Read the situation.",
-        "Decide what the evidence supports.",
-        React.createElement("span", null, "Choose ", React.createElement("strong", null, "Believe it"), ", ", React.createElement("strong", null, "Check it"), ", or ", React.createElement("strong", null, "Call it fake"), ".")
-      ]
-    },
-      /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SCENARIOS.map(function(ps, si) {
-          var picked = permAnswers[si];
-          return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            /*#__PURE__*/React.createElement("div", { className: "fake-trap-scenario-row", style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              /*#__PURE__*/React.createElement("div", { className: "fake-trap-scenario-number", style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, ps.setup))),
-            /*#__PURE__*/React.createElement(QuizBlock, {
-              key: si,
-              surface: "mint",
-              optionsRow: true,
-              optionsCompact: true,
-              optionsIndent: 66,
-              totalQuestions: SCENARIOS.length,
-              options: ps.options,
-              picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setPermAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); }
-            }));
-        }))),
+    React.createElement(FakeTrapPhotoTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
 }

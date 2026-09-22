@@ -19,7 +19,7 @@
 
 **Luke:** That’s what we want for every person our age. We hope this course is just the beginning of what you learn and build.
 
-**Nate:** Before you go, take the Final and earn your certificate. Resources has ideas for what to do next. And tell us what you thought on Course Reviews. Your feedback helps us make the course better.
+**Nate:** Before you go, take the Final and earn your certificate. Tell us what you thought in What Do You Think? Your feedback helps us make the course better. Resources has ideas for what to do next.
 
 **Luke:** Thanks for learning with us.
 

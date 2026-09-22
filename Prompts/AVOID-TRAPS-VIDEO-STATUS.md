@@ -1,8 +1,8 @@
 # Avoid Traps Video Production Status
 
-Updated 2026-09-21. The 2026-09-04 owner request was **fresh rerolls for all nine lessons**. Seven have
-since shipped from new rolls, one shipped as a narration repair over its live spine, and one is still
-on its pre-reroll video with rolls waiting to be reviewed.
+Updated 2026-09-21. The 2026-09-04 owner request was **fresh rerolls for all nine lessons**. All nine
+are now off their pre-reroll videos: eight shipped from new rolls and one (Support Trap) shipped as a
+narration repair over its live spine.
 
 Document Trap is the exception to the reroll-until-it-lands method, and worth reading before the next
 lesson stalls: ten rolls never landed its eleven required lines in one take (best 7 of 10), and the kit
@@ -10,6 +10,17 @@ revision aimed at the three stragglers made it worse (3 of 11). It shipped inste
 best take of each beat from three rolls. When a lesson has several rolls that are each strong in
 different places, assembling beats the eleventh roll — see
 `video-audit/document-trap-stitch-2026-09-21/REVIEW.md` and `scripts/video/build_document_trap_v1.py`.
+Engagement Trap went the same way and further: five grafts, and two of them replace a course board that
+the narration had already moved past with the roll's own footage of that beat.
+
+**Read this before the next stitch.** Notebook holds its previous panel for a few frames after the audio
+has moved on, so *every* picture boundary risks a stale frame at its leading edge — five instances in
+Engagement Trap alone. `transition_guard` flags two visual cuts within six frames and therefore does
+**not** catch the longer ones: its 1:26 leak ran nine frames, passed the gate, and was found only by
+watching. Inspect the frames either side of every picture edge, not just the ones the guard flags. The
+companion audio rule: a picture boundary may sit anywhere, but an audio boundary must land in a measured
+silence **in the file being cut** — `keep()` crossfades its own row edges into room tone, so a split in
+running speech punches a hole (a 30 dB one, in that build).
 
 | Lesson | Live video | Kit recipe | Next step |
 | --- | --- | --- | --- |
@@ -19,15 +30,16 @@ different places, assembling beats the eleventh roll — see
 | Document Trap | v1 shipped 2026-09-21 (`20260921ship7`, 4 min) — stitched from rolls 7, 8 and 3, not won by a single roll | 2026-09-18 | Done |
 | Mind Trap | v3 shipped 2026-09-21 (`20260921ship4`, 4 min) | 2026-09-18 | Done |
 | Flattery Trap | v6 shipped 2026-09-21 (`20260921ship5`, 5 min) | 2026-09-18 | Done |
-| Engagement Trap | Pre-reroll (2026-09-08) | 2026-09-18 | Review `engagement-trap-1`, `-2` |
+| Engagement Trap | v10 shipped 2026-09-21 (`20260921ship22`, 4 min) — roll 4 spine, five grafts from the live video, roll 2 and roll 1 | 2026-09-18 | Done |
 | Support Trap | v2 shipped 2026-09-20 (`20260920ship1`, 4 min) — a narration repair over the live spine, not a fresh roll | 2026-09-18 | Rebuild the kit, then reroll |
 | Fake Trap | v5 shipped 2026-09-20 (`20260920ship2`, 5 min) | **2026-09-20 (template)** | Done |
 
 Only the Fake Trap kit is on the 2026-09-20 recipe (VOICE block, required-verbatim list, beat spine,
-clean upload Markdown, faceless variants of any face board). Every other kit predates it. The seven
+clean upload Markdown, faceless variants of any face board). Every other kit predates it. The eight
 lessons marked Done shipped from rolls made on the older 2026-09-18 kit and won their reviews, so
-their kits need rebuilding only if a reroll is ever needed; Engagement Trap and Support Trap should be
-rebuilt on the 2026-09-20 recipe before anything new is generated. Each lesson's
+their kits need rebuilding only if a reroll is ever needed; only Support Trap, which shipped as a
+narration repair rather than a fresh roll, should be rebuilt on the 2026-09-20 recipe before anything
+new is generated. Each lesson's
 `Prompts/<slug>-upload-files.txt` carries its own Status line, generated from
 `Prompts/upload-sets.json`; edit the registry, not the checklist.
 

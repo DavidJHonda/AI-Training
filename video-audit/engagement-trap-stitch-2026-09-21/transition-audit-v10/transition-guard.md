@@ -1,0 +1,53 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `Prompts/engagement-trap-v10.mp4`
+- Decoded frames: 8108
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f908 `00-One-Answer--Two-Endings` — [`boundary-000908-00-One-Answer-Two-Endings.jpg`](boundary-000908-00-One-Answer-Two-Endings.jpg)
+- FAIL — f1145 `01-The-AI-s-reply--the-definition--the` — [`boundary-001145-01-The-AI-s-reply-the-definition-the.jpg`](boundary-001145-01-The-AI-s-reply-the-definition-the.jpg)
+  - Possible stale visual: f1133 to f1134 (1 frames)
+  - Possible stale visual: f1134 to f1135 (1 frames)
+  - Possible stale visual: f1135 to f1136 (1 frames)
+  - Possible stale visual: f1136 to f1137 (1 frames)
+  - Possible stale visual: f1137 to f1138 (1 frames)
+  - Possible stale visual: f1138 to f1139 (1 frames)
+  - Possible stale visual: f1139 to f1140 (1 frames)
+  - Possible stale visual: f1140 to f1141 (1 frames)
+- FAIL — f1767 `02-One-Answer--Two-Endings` — [`boundary-001767-02-One-Answer-Two-Endings.jpg`](boundary-001767-02-One-Answer-Two-Endings.jpg)
+  - Possible stale visual: f1755 to f1756 (1 frames)
+  - Possible stale visual: f1756 to f1757 (1 frames)
+  - Possible stale visual: f1757 to f1758 (1 frames)
+  - Possible stale visual: f1758 to f1759 (1 frames)
+  - Possible stale visual: f1759 to f1760 (1 frames)
+  - Possible stale visual: f1760 to f1761 (1 frames)
+  - Possible stale visual: f1761 to f1762 (1 frames)
+  - Possible stale visual: f1762 to f1763 (1 frames)
+  - Possible stale visual: f1763 to f1764 (1 frames)
+  - Possible stale visual: f1764 to f1765 (1 frames)
+  - Possible stale visual: f1765 to f1766 (1 frames)
+  - Possible stale visual: f1766 to f1767 (1 frames)
+  - Possible stale visual: f1767 to f1768 (1 frames)
+  - Possible stale visual: f1768 to f1769 (1 frames)
+  - Possible stale visual: f1769 to f1770 (1 frames)
+  - Possible stale visual: f1770 to f1771 (1 frames)
+- PASS — f1957 `03-The-trap-ending-and--All-of-the-extr` — [`boundary-001957-03-The-trap-ending-and-All-of-the-extr.jpg`](boundary-001957-03-The-trap-ending-and-All-of-the-extr.jpg)
+- PASS — f2303 `04-One-Answer--Two-Endings` — [`boundary-002303-04-One-Answer-Two-Endings.jpg`](boundary-002303-04-One-Answer-Two-Endings.jpg)
+- PASS — f2418 `05-That-is-the-engagement-trap--You-en` — [`boundary-002418-05-That-is-the-engagement-trap-You-en.jpg`](boundary-002418-05-That-is-the-engagement-trap-You-en.jpg)
+- PASS — f2594 `06-Roll-4-s-Aza-Raskin-panel--bounded-p` — [`boundary-002594-06-Roll-4-s-Aza-Raskin-panel-bounded-p.jpg`](boundary-002594-06-Roll-4-s-Aza-Raskin-panel-bounded-p.jpg)
+- PASS — f2814 `07-What-Infinite-Scroll-Removed` — [`boundary-002814-07-What-Infinite-Scroll-Removed.jpg`](boundary-002814-07-What-Infinite-Scroll-Removed.jpg)
+- PASS — f3366 `08-Raskin-s-regret-and-the-half-million` — [`boundary-003366-08-Raskin-s-regret-and-the-half-million.jpg`](boundary-003366-08-Raskin-s-regret-and-the-half-million.jpg)
+- PASS — f3726 `09-Autoplay-countdowns--streak-counters` — [`boundary-003726-09-Autoplay-countdowns-streak-counters.jpg`](boundary-003726-09-Autoplay-countdowns-streak-counters.jpg)
+- PASS — f4368 `10-AI-Won-t-Quit-for-You` — [`boundary-004368-10-AI-Won-t-Quit-for-You.jpg`](boundary-004368-10-AI-Won-t-Quit-for-You.jpg)
+- PASS — f4860 `11-Notebook-drawings--engagement-metric` — [`boundary-004860-11-Notebook-drawings-engagement-metric.jpg`](boundary-004860-11-Notebook-drawings-engagement-metric.jpg)
+- PASS — f5524 `12-Roll-3-s-drawn-gavel-panel--covering` — [`boundary-005524-12-Roll-3-s-drawn-gavel-panel-covering.jpg`](boundary-005524-12-Roll-3-s-drawn-gavel-panel-covering.jpg)
+- PASS — f5751 `13-Notebook-drawings--the-settlement-s` — [`boundary-005751-13-Notebook-drawings-the-settlement-s.jpg`](boundary-005751-13-Notebook-drawings-the-settlement-s.jpg)
+- PASS — f6197 `14-Putting-the-Stopping-Points-Back` — [`boundary-006197-14-Putting-the-Stopping-Points-Back.jpg`](boundary-006197-14-Putting-the-Stopping-Points-Back.jpg)
+- PASS — f7368 `15-Notebook-drawings--social-media-agai` — [`boundary-007368-15-Notebook-drawings-social-media-agai.jpg`](boundary-007368-15-Notebook-drawings-social-media-agai.jpg)
+- PASS — f7737 `16-Standard-close-takes-the-screen-wher` — [`boundary-007737-16-Standard-close-takes-the-screen-wher.jpg`](boundary-007737-16-Standard-close-takes-the-screen-wher.jpg)
+- PASS — f7833 `17-Closing-message` — [`boundary-007833-17-Closing-message.jpg`](boundary-007833-17-Closing-message.jpg)
+- PASS — f7958 `18-Settled-close-hold` — [`boundary-007958-18-Settled-close-hold.jpg`](boundary-007958-18-Settled-close-hold.jpg)

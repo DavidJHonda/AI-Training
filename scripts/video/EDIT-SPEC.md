@@ -125,11 +125,7 @@ full view, and the ring traces the bubble's own border, not the text inside it.
   carries the same visual weight against the board's own text wherever it appears.
   `ken_burns_path.ring_px(scale)` is the single source of truth. The earlier rule —
   a constant 5 px however far the camera dived — is superseded. Videos shipped under
-  it are not rebuilt; apply this from the next build onward. One exception, for one
-  case: swapping a refreshed illustration into a video shipped under the old rule,
-  where the artwork is the only thing meant to change. Such a leg sets
-  `"ring_stroke_px": 5` in its `ken_burns_path.py` spec to hold the shipped stroke
-  (Does AI Think, 2026-09-21). Never use it in a new build.
+  it are not rebuilt; apply this from the next build onward.
 - One ring per point being made. A whole-card ring traces the card's outer
   boundary. Two card layouts, two rules (owner, 2026-09-21): when the cards are
   columns inside one shared white box (Why Hallucinations Happen, Check the

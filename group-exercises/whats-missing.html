@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>What’s Missing? · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb;
+      --card: #fff;
+      --primaryDeep: #4c2dff;
+      --ink: #0e0a1f;
+      --inkSoft: #3a3550;
+      --inkMuted: #6e6986;
+      --tryAccent: #2f7d4f;
+      --tryBand: #eef4eb;
+      --tryRule: rgba(63, 107, 63, 0.18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body { min-height: 100%; margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    .activity-shell {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: clamp(12px, 1.6vw, 20px);
+      padding: clamp(14px, 2vw, 28px);
+    }
+    .activity-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; width: min(1320px, 100%); margin: 0 auto; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; color: var(--tryAccent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+    h1 { margin: 0; font-family: var(--serif); font-size: clamp(31px, 3.6vw, 50px); font-weight: 400; line-height: 1; }
+    .fullscreen-button, .primary-button, .secondary-button { min-height: 46px; border: 0; border-radius: 10px; padding: 11px 19px; font-weight: 800; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+    .fullscreen-button, .primary-button { background: var(--ink); color: #fff; }
+    .secondary-button { background: var(--card); color: var(--primaryDeep); box-shadow: var(--shadowSoft); }
+    .fullscreen-button:hover, .primary-button:hover, .secondary-button:hover { transform: translateY(-1px); }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--primaryDeep); outline-offset: 3px; }
+
+    .activity-card, .finish-card { width: min(1320px, 100%); margin: 0 auto; border-radius: 20px; background: var(--tryBand); }
+    .activity-card { display: flex; flex-direction: column; gap: clamp(16px, 1.8vw, 24px); min-width: 0; padding: clamp(16px, 2vw, 28px); }
+    .scenario-panel, .answer-panel { padding: clamp(20px, 2.5vw, 34px); border-radius: 14px; background: var(--card); box-shadow: var(--shadowSoft); }
+    .progress-line { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .progress-label { margin: 0; color: var(--inkMuted); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .progress-marks { display: flex; gap: 4px; }
+    .progress-mark { width: 18px; height: 3px; border-radius: 999px; background: #d9d6e8; }
+    .progress-mark.is-current { background: var(--ink); }
+    .scenario-title { margin: 0 0 22px; font-size: clamp(27px, 2.5vw, 36px); line-height: 1.15; }
+    .section-label { margin: 0 0 9px; color: var(--tryAccent); font-size: 14px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .request-text { margin: 0; color: var(--inkSoft); font-size: clamp(19px, 1.6vw, 23px); line-height: 1.5; }
+    .answer-panel { padding-top: clamp(18px, 2vw, 28px); padding-bottom: clamp(18px, 2vw, 28px); }
+    .answer-intro, .answer-outro { margin: 0; color: var(--inkSoft); font-size: clamp(18px, 1.45vw, 21px); line-height: 1.52; }
+    .answer-list { margin: 13px 0 0; padding-left: 1.45em; color: var(--inkSoft); font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; }
+    .answer-list li { padding-left: .2em; }
+    .answer-list li + li { margin-top: 7px; }
+    .answer-outro { margin-top: 15px; }
+    .discussion { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+    .discussion h3 { margin: 0; font-size: clamp(20px, 1.9vw, 27px); line-height: 1.3; }
+    .discussion p { margin: 0; color: var(--inkSoft); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.45; }
+    .reveal-panel { padding-top: 18px; border-top: 1px solid var(--tryRule); }
+    .reveal-title { margin: 0 0 16px; color: var(--tryAccent); font-size: clamp(20px, 1.9vw, 27px); line-height: 1.3; }
+    .check-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .check-card { min-width: 0; padding: clamp(17px, 1.65vw, 23px); border-radius: 12px; background: var(--card); box-shadow: var(--shadowSoft); }
+    .check-card h4 { margin: 0 0 8px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.3; }
+    .check-card p { margin: 0; color: var(--inkSoft); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.5; }
+    .reveal-note { margin: 16px 0 0; color: var(--inkSoft); font-size: clamp(16px, 1.3vw, 19px); font-weight: 700; line-height: 1.5; }
+    .stage-footer { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 4px; }
+
+    .finish-card { min-height: calc(100vh - 120px); display: none; place-items: center; padding: clamp(28px, 6vw, 80px); text-align: center; }
+    .finish-card.is-visible { display: grid; }
+    .finish-inner { max-width: 850px; }
+    .finish-card h2 { margin: 0 0 18px; font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); font-weight: 400; line-height: 1.05; }
+    .finish-card p { margin: 0 auto 18px; color: var(--inkSoft); font-size: clamp(18px, 2vw, 25px); line-height: 1.5; }
+    .finish-card p:last-of-type { margin-bottom: 28px; }
+    .finish-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .secondary-button { display: inline-flex; align-items: center; text-decoration: none; }
+    [hidden] { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 900px) { .check-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) {
+      .activity-shell { display: block; padding: 12px; }
+      .activity-header { align-items: flex-start; margin-bottom: 12px; }
+      h1 { font-size: 30px; }
+      .fullscreen-button { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+      .activity-card { min-height: calc(100dvh - 90px); }
+      .stage-footer .primary-button { width: 100%; }
+    }
+    @media (max-height: 720px) and (min-width: 761px) {
+      .activity-shell { padding: 10px 16px; }
+      h1 { font-size: 32px; }
+      .activity-card { padding: 16px 20px; }
+      .scenario-panel, .answer-panel { padding: 18px 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="activity-shell">
+    <header class="activity-header">
+      <div>
+        <p class="eyebrow">Group Exercise 03</p>
+        <h1>What’s Missing?</h1>
+      </div>
+      <button class="fullscreen-button" id="fullscreen-button" type="button">Enter Full Screen</button>
+    </header>
+
+    <section class="activity-card" id="round-view" aria-labelledby="scenario-title">
+      <div class="scenario-panel">
+        <div class="progress-line">
+          <p class="progress-label" id="progress">Round 1 of 3</p>
+          <div class="progress-marks" aria-hidden="true"><span class="progress-mark is-current"></span><span class="progress-mark"></span><span class="progress-mark"></span></div>
+        </div>
+        <h2 class="scenario-title" id="scenario-title" tabindex="-1"></h2>
+        <h3 class="section-label">The Request</h3>
+        <p class="request-text" id="request-text"></p>
+      </div>
+
+      <section class="answer-panel" aria-labelledby="answer-title">
+        <h3 class="section-label" id="answer-title">The AI Answer</h3>
+        <p class="answer-intro" id="answer-intro"></p>
+        <ul class="answer-list" id="answer-list"></ul>
+        <p class="answer-outro" id="answer-outro" hidden></p>
+      </section>
+
+      <div class="discussion" id="discussion">
+        <h3>Before you use this answer, what do you need to know?</h3>
+        <p>Take about 45 seconds with a neighbor. Find two or three things worth checking.</p>
+      </div>
+
+      <section class="reveal-panel" id="reveal-panel" aria-labelledby="reveal-title" hidden>
+        <h3 class="reveal-title" id="reveal-title" tabindex="-1">A Few Things to Check</h3>
+        <ul class="check-grid" id="check-grid"></ul>
+        <p class="reveal-note">These are examples, not a complete list. Your group may have found other important questions.</p>
+      </section>
+      <p class="sr-only" id="round-announcement" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="stage-footer">
+        <button class="primary-button" id="show-checks" type="button">Show What to Check</button>
+        <button class="primary-button" id="next-button" type="button" hidden>Next Scenario</button>
+      </div>
+    </section>
+
+    <section class="finish-card" id="finish-view" aria-labelledby="finish-title">
+      <div class="finish-inner">
+        <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
+        <h2 id="finish-title" tabindex="-1">One last thing</h2>
+        <p>A useful-looking answer can still leave you with important questions.</p>
+        <p>Before you act, ask what is missing and whether it could change your decision.</p>
+        <div class="finish-actions">
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+          <a class="secondary-button" id="back-link" href="../index.html">Back to Group Exercises</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      "use strict";
+
+      var rounds = [
+        {
+          title: "The Club Fundraiser",
+          request: "Our club wants to raise $600 for a trip. Suggest a simple after-school fundraiser.",
+          answerIntro: "Sell fruit smoothies for $5 each after school on Friday.",
+          answerPoints: [
+            "Aim to sell 120 smoothies to reach $600.",
+            "Advertise through school announcements and club social posts.",
+            "Buy fruit, yogurt, cups, and straws. Borrow two blenders.",
+            "Assign volunteers to take payments, make smoothies, and serve customers.",
+            "Set up near the main exit and clean up afterward."
+          ],
+          checks: [
+            { title: "Revenue or profit?", detail: "Selling 120 smoothies brings in $600 before expenses. What will supplies cost, and how much will actually remain for the trip?" },
+            { title: "Permission and food requirements.", detail: "Does the school allow the sale, and what rules apply to preparation, storage, and allergens?" },
+            { title: "Enough customers?", detail: "How many students are likely to buy a smoothie at that price and time?" }
+          ]
+        },
+        {
+          title: "The Used Laptop",
+          request: "I have $300 for a laptop for school. Is this used one a good choice?",
+          answerIntro: "Yes. At $250, this used laptop looks like a sensible school option.",
+          answerPoints: [
+            "It has 8 GB of memory and a 256 GB solid-state drive, enough for documents, browsing, and video calls.",
+            "The 13-inch screen makes it easy to carry.",
+            "The listing says a charger is included.",
+            "It leaves $50 of your budget for a mouse or protective case."
+          ],
+          answerOutro: "For everyday schoolwork, I would choose this over spending more on a new laptop.",
+          checks: [
+            { title: "Will it run what you need?", detail: "What exact model and operating system is it, does it still receive security updates, and will it run your required school software?" },
+            { title: "What condition is it in?", detail: "How long does the battery last, and do the keyboard, screen, camera, and charger work?" },
+            { title: "What if it fails?", detail: "Is there a return policy or warranty? A replacement battery or repair could erase the savings." }
+          ]
+        },
+        {
+          title: "The Concert Trip",
+          request: "Plan an evening trip for four high school friends to a concert in another city, about an hour away by train.",
+          answerIntro: "Here’s a simple plan for the evening:",
+          answerPoints: [
+            "Buy concert tickets together so everyone has a confirmed place.",
+            "Take the 4:30 p.m. train and arrive around 5:30.",
+            "Have dinner near the venue, allowing $20 each.",
+            "Reach the venue at 6:30 for the 7:00 show.",
+            "After the concert ends around 10:30, walk back to the station and take a train home.",
+            "Keep the tickets on your phones and agree on a meeting spot outside the venue."
+          ],
+          checks: [
+            { title: "Can everyone enter?", detail: "Does the venue have an age restriction or require an adult or identification?" },
+            { title: "Can you get home?", detail: "When does the last train leave, and is there enough time if the show runs late? What is the backup plan?" },
+            { title: "What is the full cost?", detail: "Add concert fees, round-trip train fares, dinner, and any other transportation before deciding whether everyone can afford it." }
+          ]
+        }
+      ];
+
+      var roundIndex = 0;
+      var revealed = false;
+      var roundView = document.getElementById("round-view");
+      var finishView = document.getElementById("finish-view");
+      var revealPanel = document.getElementById("reveal-panel");
+      var showChecksButton = document.getElementById("show-checks");
+      var nextButton = document.getElementById("next-button");
+      var announcement = document.getElementById("round-announcement");
+      var fullscreenButton = document.getElementById("fullscreen-button");
+
+      function fillList(list, items, makeItem) {
+        list.replaceChildren();
+        items.forEach(function(item) { list.appendChild(makeItem(item)); });
+      }
+
+      function renderRound(options) {
+        var round = rounds[roundIndex];
+        revealed = false;
+        document.getElementById("progress").textContent = "Round " + (roundIndex + 1) + " of " + rounds.length;
+        document.querySelectorAll(".progress-mark").forEach(function(mark, index) { mark.classList.toggle("is-current", index === roundIndex); });
+        document.getElementById("scenario-title").textContent = round.title;
+        document.getElementById("request-text").textContent = "“" + round.request + "”";
+        document.getElementById("answer-intro").textContent = round.answerIntro;
+        fillList(document.getElementById("answer-list"), round.answerPoints, function(point) {
+          var item = document.createElement("li");
+          item.textContent = point;
+          return item;
+        });
+        var outro = document.getElementById("answer-outro");
+        outro.textContent = round.answerOutro || "";
+        outro.hidden = !round.answerOutro;
+        fillList(document.getElementById("check-grid"), round.checks, function(check) {
+          var item = document.createElement("li");
+          item.className = "check-card";
+          var heading = document.createElement("h4");
+          heading.textContent = check.title;
+          var detail = document.createElement("p");
+          detail.textContent = check.detail;
+          item.append(heading, detail);
+          return item;
+        });
+        revealPanel.hidden = true;
+        showChecksButton.hidden = false;
+        nextButton.hidden = true;
+        nextButton.textContent = roundIndex === rounds.length - 1 ? "Finish" : "Next Scenario";
+        announcement.textContent = options && options.announce === false ? "" : "Round " + (roundIndex + 1) + " of " + rounds.length + ". " + round.title + ".";
+        if (!options || options.focus !== false) document.getElementById("scenario-title").focus();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        revealPanel.hidden = false;
+        showChecksButton.hidden = true;
+        nextButton.hidden = false;
+        announcement.textContent = "A Few Things to Check are now shown below the AI answer. These are examples, not a complete list.";
+        document.getElementById("reveal-title").focus();
+      }
+
+      function advance() {
+        if (!revealed) return;
+        if (roundIndex === rounds.length - 1) {
+          roundView.hidden = true;
+          finishView.classList.add("is-visible");
+          document.getElementById("finish-title").focus();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+        roundIndex += 1;
+        renderRound();
+      }
+
+      function playAgain() {
+        roundIndex = 0;
+        finishView.classList.remove("is-visible");
+        roundView.hidden = false;
+        renderRound();
+      }
+
+      function updateFullscreenLabel() {
+        fullscreenButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen";
+      }
+
+      showChecksButton.addEventListener("click", reveal);
+      nextButton.addEventListener("click", advance);
+      document.getElementById("play-again").addEventListener("click", playAgain);
+      fullscreenButton.addEventListener("click", function() {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+        } else if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(function() {});
+        }
+      });
+      document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      document.getElementById("back-link").addEventListener("click", function() {
+        try {
+          var progressState = JSON.parse(localStorage.getItem("llm-explorer-progress") || "{}");
+          progressState.activeSection = "groupexercises";
+          progressState.visited = Array.isArray(progressState.visited) ? progressState.visited : [];
+          if (progressState.visited.indexOf("groupexercises") === -1) progressState.visited.push("groupexercises");
+          localStorage.setItem("llm-explorer-progress", JSON.stringify(progressState));
+        } catch (error) {}
+      });
+
+      renderRound({ focus: false, announce: false });
+    })();
+  </script>
+</body>
+</html>

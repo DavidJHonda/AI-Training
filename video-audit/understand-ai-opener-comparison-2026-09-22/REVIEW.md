@@ -205,3 +205,118 @@ shows the hood-open drawing to frame 1129 and the canonical board from 1130.
 **At ship (not authorized yet):** copy to `course-assets/understand-ai-opener/understand-ai-opener.mp4`, cache key
 `?v=20260922ship1` on `openerfoundations` (currently 20260916ship1), pill 3 min → 2 min (1:48), manifest video_assets
 hash + bytes, then commit; David maintains the tracker.
+
+## Rolls 3 and 4 (2026-09-22, on the rebuilt kit) and the live video on its own terms
+
+Rolls 3 and 4 were generated after the opener Markdown and prompt were rebuilt (prose moved out of the board sections under
+`##` headings, "Time to look under the hood." lead-in, the failure-phrase rule in the prompt). Bundles: `understand-ai-opener-3/`
+(2:46.00) and `understand-ai-opener-4/` (3:05.17).
+
+```text
+LESSON: understand-ai-opener
+CANDIDATE: Prompts/understand-ai-opener-3.mp4 (2:46.00)
+VERDICT: REROLL
+HARD REQUIREMENTS: 1 of 7 MET ("Knowing how it works helps you be smarter than the tool." 1:17). Card MISSED (0:00 "AI occupies a unique
+  category of technology. On this board, we see it described as its own kind of thing, distinct from human consciousness, magical thinking,
+  or the traditional lines of code found in normal software."); section line, goal line and "Each piece builds" all paraphrased; close line 1
+  MISSED ("It won't feel like magic anymore." 2:36, the subject dropped); close line 2 spoken after production talk ("we follow the advice on this
+  sticky note" 2:38).
+ERRORS / VOICE: banned words throughout (mechanics ×3, combustion, consciousness, journey, curriculum, infographic); production talk ("On this
+  board", "This infographic shows how the curriculum is organized"); the map narrated as "five steps [that] track how AI functions from the ground
+  up" (the pipeline framing the prompt forbids); car analogy rewritten with "the car reaches its mechanical breaking point" and "a driver who
+  doesn't understand combustion"; addition "the illusion of the machine as a conscious entity begins to fade".
+VISUALS: invented mechanism diagrams under the contrast (0:16–0:44 "AI SYSTEM CORE", "2 + 2 = 5?", "INTERNAL STATISTICAL MECHANICS"); nothing
+  worth borrowing.
+```
+
+```text
+LESSON: understand-ai-opener
+CANDIDATE: Prompts/understand-ai-opener-4.mp4 (3:05.17)
+VERDICT: REROLL
+HARD REQUIREMENTS: 2 of 7 MET (Be Smarter line 1:28; close line 1 2:55). Card MISSED (0:09 "It is not magic, it is not a person, it is not normal
+  software, it is its own kind of thing entirely, a completely different category of tool." – the "entirely" the prompt bans by name); section line
+  MISSED ("we are going to take you inside the machine, and we will dismantle it one piece at a time"); goal MISSED ("trace the exact journey from the
+  moment you type your prompt to the moment those words are mechanically converted into an answer"); "Each piece builds" MISSED ("Every individual
+  concept we cover is a necessary building block for the next one"); close line 2 wrapped ("All we have to do to get there is take it a piece at a time.").
+ERRORS / VOICE: opens with "This board asks a direct question"; "This board marks our official shift. It is time to look under the hood." (reads the
+  Markdown's lead-in as a board cue and then HOLDS the faceless Under the Hood board 1:16–1:31 anyway); "The logic is strictly cumulative"; "mechanics",
+  "journey", "statistically likely", "the illusion of intelligence will be replaced with mechanical clarity"; map narrated as "Step 1 … Step 5".
+VISUALS: "PURE MECHANICS" title card 0:20; "THE AI PARADOX" with softmax formulas 0:32–0:48; "INTERNAL AI ARCHITECTURE" neural net 1:04; its own
+  "AI SYSTEM ARCHITECTURE" version of the section map 1:32 (a Notebook rendering of a course board; never ships). Nothing worth borrowing.
+```
+
+```text
+LESSON: understand-ai-opener
+CANDIDATE: course-assets/understand-ai-opener/understand-ai-opener.mp4 (2:32.93, live v7; evaluated on its own terms at David's request)
+VERDICT: KEEP-grade teaching; REPAIR-at-best against the current materials
+TEACHING POINTS:
+  card                 — TAUGHT with the additions the kit names as the v4 failure — 0:00 "It's not magic, it's not a person, and it's definitely
+                         not normal software. It is entirely its own kind of thing, operating by a completely different set of rules."
+  expert / six-year-old — RICH — 0:11–0:31, with colour ("handing you brilliant insights in seconds", "glaring illogical mistake")
+  look inside          — RICH — 0:30 "Understanding what actually happens underneath explains why it behaves the way it does."
+  car analogy          — TAUGHT — 0:36–0:58, reworded ("diagnose why it suddenly stalls on the highway", "artificial intelligence")
+  Be Smarter line      — MISSED as words, TAUGHT as idea — 0:58 "Knowing how it works helps you use it thoughtfully, ensuring you remain smarter than the tool you're operating."
+  section / memorize   — TAUGHT — 1:06 "We are going to take you inside the machine, but you don't need to memorize a dictionary of technical terms."
+  goal                 — TAUGHT — 1:12 "Our single goal here is to help you understand a specific transformation, how the words you type turn into the answer you receive."
+  map                  — RICH — 1:22 "This road map shows what we'll explore in this section. To be clear, the numbers on this map represent our
+                         order of learning, not a five-step sequence the AI runs through every time you send a message." then all five topics,
+                         paraphrased but complete
+  each piece builds    — TAUGHT — 2:22 "each topic builds directly on the one before it"
+  close                — both lines spoken, joined — 2:25 "The machine won't feel like magic anymore, take it a piece at a time."
+HARD REQUIREMENTS: 2 of 7 as written (the closing lines, joined). Built before the verbatim list existed.
+VISUALS: Notebook's drawings are the best of any opener roll: the expert at the laptop with mortarboard and coins (0:12), the puzzled woman at the
+  monitor (0:20), driving POV (0:40), engine with crystals (0:44), smoking car (0:48), engine = chip (0:52), magnifier (0:56); canonical card,
+  Under the Hood board and section map (v7 retrofit); no photographs. Weak spots: the abstract shapes and the gears/prompt drawing under
+  1:08–1:22.
+```
+
+```text
+BEST-OF PLAN: understand-ai-opener (revised after rolls 3 and 4)
+BASE: Prompts/understand-ai-opener-1.mp4 — still the only roll that reads the card as written and six of the seven required lines exact
+  Card, Be Smarter, section line, goal, each piece builds, close line 1 — roll 1 RICH | rolls 3, 4 MISSED | live TAUGHT/paraphrased — KEEP roll 1
+  Close line 2 — roll 1 wrapped | live MET @2:28 — TAKE live (already in v9)
+  Pictures under the contrast (0:09–0:25 of v9) — roll 1 holds the card | live has the expert-and-six-year-old drawings @0:12–0:28 — TAKE the live's drawings
+    (visual only, David's own suggestion on 2026-09-22)
+  "Understand AI." bare title (v9 1:12.4) — cut the two-second utterance; the map arrives on "One. How AI Learned" with the ring popping in the full view
+  Rolls 3 and 4 — nothing taken
+GRAFTS: 1 audio (unchanged from v9), 1 picture borrow from the live video. Proposed as v10; not built.
+```
+
+**Materials note.** Rolls 3 and 4 are worse than roll 1 on every hard requirement, and roll 4 held the faceless Under the Hood board
+for fifteen seconds despite the rebuilt prompt saying not to, cued by the Markdown's own lead-in sentence. Two rolls do not prove the
+rebuilt kit is at fault, but they do not support it either. Roll 1, on the 2026-09-21 kit, remains the best narration of the four.
+
+## Build: v10 review candidate (2026-09-22, David: keep the live video and make four changes)
+
+**Candidate:** `Prompts/understand-ai-opener-v10.mp4` (4441 frames, 2:28.03, sha256 2fcdd916bd77a35b…), a narrow repair of the live v7
+(`scripts/video/build_understand_ai_opener_v10.py`, folder `build-v10/`). The live's narration and drawings are kept; four changes:
+
+1. **The card, at the Work With AI opener's size.** The old `understand-ai-opener-kind.jpg` was a capture from when the creed rendered
+   smaller (card 1440x300, 28 px text rows); the page's OpenerCreed now draws both openers' cards at the same size, so the card was
+   recaptured from the page (`scripts/capture-page-boards.sh` with `BOARD_FILTER=understand-ai-opener-kind FORCE_RETAINED=1`; a
+   `FORCE_RETAINED` override was added to `capture-page-boards.js`). New JPG 97ee2ee9ab40…, card 60,224-1539,675, 44 px text rows,
+   matching the Work refrain's 1480x438. The old file is kept as `kind-before-recapture-0c22c537.jpg` here. The page's OpenerNavyBoard
+   crop for the foundations opener now reads the new card (boardLeft 60, boardTop 224, boardRight 1540, boardBottom 675, scale 0.5,
+   `?v=20260922capture1`) and the manifest hash/bytes are updated. The video shows the JPG at full view for 0:00–0:11.7 with gold rings
+   tight to each line at the live's spoken onsets (0.30, 1.82, 3.12, 5.96 s).
+2. **The 0:35 pause is out.** Live frames 1067–1095 (35.57–36.50) cut inside the 35.31–36.65 silence, resuming on the live's own scene cut
+   to the car drawing; 0.55 s of natural gap remains before "Think about driving a car."
+3. **The current Under the Hood illustration** (the 2026-09-21 cast refresh) replaces the old one over live 1761–1986 (58.70–66.20),
+   banner ring at "Knowing how it works" (58.76) held to the board's end as before.
+4. **The 2:21 clause and the takeaway ring are out.** Live 4202–4338 (140.07–144.60, "You'll see that each topic builds directly on the
+   one before it.") cut; the map leg is re-rendered from the unchanged asset with the five row rings only (v7's onsets), and the standard
+   close begins at the resume, 0.78 s before "The machine won't feel like magic anymore."
+
+**Checks (Edit Spec 10):** decoded 4441 = plan; guard 7/7 (352, 1067, 1733, 1958, 2423, 4174, 4321); corner mark cleaned on every kept
+frame (1394 cloned, 452 inpainted, 0 declined: the v7 spans still carried the mark); protected files unchanged; ring states inspected
+for all three boards; silences on the finished file: 29.48–30.77 (1.30), 63.92–65.42 (1.50), 79.55–80.95 (1.40), 138.68–140.03 (1.35, the
+gap before the close), close hold 143.73–148.05; nothing ≥0.9 s remains near 0:35. Transcript of the finished file: the card lines as the
+live speaks them, "…explains why it behaves the way it does. Think about driving a car.", "…how much math goes into it. The machine won't
+feel like magic anymore. Take it a piece at a time.", nothing after.
+
+**Not auditioned by ear:** the two cut joins at 0:35.6 and 2:20.1.
+
+**At ship (not authorized yet):** copy to `course-assets/understand-ai-opener/understand-ai-opener.mp4`, cache key `20260922ship2` on
+`openerfoundations` (currently 20260916ship1), pill 3 min → 2 min (2:28), manifest video hash/bytes; the page card change (index.html
+props, recaptured JPG, manifest) ships in the same commit; `capture-page-boards.js` override too. Rolls 1-4 and the v9 candidate stay
+until David says otherwise.

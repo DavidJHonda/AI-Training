@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>Where Do You Stand? · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb;
+      --card: #fff;
+      --primary: #6e51ff;
+      --primaryDeep: #4c2dff;
+      --ink: #0e0a1f;
+      --inkSoft: #3a3550;
+      --inkMuted: #6e6986;
+      --rule: #e7e3f2;
+      --red: #d4334a;
+      --tryAccent: #2f7d4f;
+      --tryBand: #eef4eb;
+      --tryRule: rgba(63, 107, 63, 0.18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+    button, input, a { font: inherit; }
+    button { color: inherit; }
+
+    .activity-shell {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: clamp(14px, 2vw, 28px);
+      gap: clamp(12px, 1.6vw, 20px);
+    }
+    .activity-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(1320px, 100%);
+      margin: 0 auto;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 4px;
+      color: var(--tryAccent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(31px, 3.6vw, 50px);
+      font-weight: 400;
+      line-height: 1;
+    }
+    .fullscreen-button, .primary-button, .secondary-button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 19px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .fullscreen-button, .primary-button { background: var(--ink); color: #fff; }
+    .secondary-button { background: var(--card); color: var(--primaryDeep); box-shadow: var(--shadowSoft); }
+    .fullscreen-button:hover, .primary-button:hover, .secondary-button:hover { transform: translateY(-1px); }
+    button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 3px solid var(--primaryDeep);
+      outline-offset: 3px;
+    }
+
+    .activity-card, .finish-card {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+      border-radius: 20px;
+      background: var(--tryBand);
+    }
+    .activity-card {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 1.5vw, 20px);
+      padding: clamp(16px, 2vw, 28px);
+    }
+    .scenario-panel {
+      padding: clamp(20px, 2.5vw, 34px);
+      border-radius: 14px;
+      background: var(--card);
+      box-shadow: var(--shadowSoft);
+    }
+    .progress-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .progress-label {
+      margin: 0;
+      color: var(--inkMuted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .progress-marks { display: flex; gap: 4px; }
+    .progress-mark { width: 18px; height: 3px; border-radius: 999px; background: #d9d6e8; }
+    .progress-mark.is-current { background: var(--ink); }
+    .scenario-title {
+      margin: 0 0 7px;
+      font-size: clamp(25px, 2.4vw, 35px);
+      line-height: 1.15;
+    }
+    .scenario-text {
+      margin: 0;
+      color: var(--inkSoft);
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height: 1.55;
+    }
+    .question-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 18px; }
+    .question { margin: 0; font-size: clamp(20px, 2vw, 27px); line-height: 1.3; }
+    .move-instruction { margin: 0; color: var(--inkSoft); font-size: clamp(15px, 1.25vw, 18px); line-height: 1.4; }
+    .positions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .position {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      min-height: 68px;
+      padding: 12px 17px;
+      border-radius: 12px;
+      background: var(--card);
+      box-shadow: var(--shadowSoft);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    .position-label { flex: 1; min-width: 0; font-size: clamp(15px, 1.3vw, 18px); }
+    .position-number {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+    }
+    .position-input {
+      flex: 0 0 auto;
+      width: 82px;
+      min-height: 44px;
+      border: 2px solid var(--rule);
+      border-radius: 10px;
+      padding: 6px 8px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .validation {
+      margin: 0;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .result-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .result-card { min-width: 0; padding: 13px 16px; border-radius: 12px; background: var(--card); box-shadow: var(--shadowSoft); }
+    .result-card-top { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .result-card-label { flex: 1; min-width: 0; font-size: clamp(13px, 1.15vw, 16px); font-weight: 800; line-height: 1.25; }
+    .result-count { font-size: clamp(23px, 2.2vw, 31px); font-weight: 800; line-height: 1; }
+    .result-percent { color: var(--inkMuted); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .result-track { display: block; height: 9px; margin-top: 11px; overflow: hidden; border-radius: 999px; background: var(--tryBand); }
+    .result-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--ink); transition: width .3s ease; }
+    .consideration {
+      display: grid;
+      grid-template-columns: minmax(150px, .75fr) minmax(0, 2fr);
+      gap: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--tryRule);
+    }
+    .consideration-label {
+      margin: 0;
+      color: var(--tryAccent);
+      font-size: clamp(16px, 1.35vw, 19px);
+      font-weight: 800;
+      line-height: 1.55;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .consideration-text, .move-prompt {
+      margin: 0;
+      color: var(--inkSoft);
+      font-size: clamp(16px, 1.35vw, 19px);
+      line-height: 1.55;
+    }
+    .move-prompt { margin-top: 13px; color: var(--ink); font-weight: 800; }
+    .stage-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+    .footer-copy { min-width: 0; }
+    .footer-hint, .footer-total { margin: 0; color: var(--inkSoft); font-size: 14px; line-height: 1.45; }
+    .footer-total { font-weight: 800; }
+    .footer-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px; }
+    .text-button { min-height: 44px; padding: 8px 10px; border: 0; background: transparent; color: var(--inkSoft); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .activity-card[data-phase="results"] .scenario-panel { padding-top: 20px; padding-bottom: 20px; }
+    .activity-card[data-phase="results"] .scenario-title { font-size: clamp(22px, 2vw, 30px); }
+    .activity-card[data-phase="results"] .scenario-text { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.5; }
+
+    .finish-card {
+      min-height: calc(100vh - 120px);
+      display: none;
+      place-items: center;
+      padding: clamp(28px, 6vw, 80px);
+      text-align: center;
+    }
+    .finish-card.is-visible { display: grid; }
+    .finish-inner { max-width: 850px; }
+    .finish-card h2 {
+      margin: 0 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+    .finish-card p {
+      margin: 0 auto 28px;
+      color: var(--inkSoft);
+      font-size: clamp(18px, 2vw, 25px);
+      line-height: 1.5;
+    }
+    .finish-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .secondary-button { display: inline-flex; align-items: center; text-decoration: none; }
+    [hidden] { display: none !important; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 760px) {
+      .activity-shell { display: block; padding: 12px; }
+      .activity-header { align-items: flex-start; }
+      h1 { font-size: 30px; }
+      .fullscreen-button { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+      .activity-card { min-height: calc(100dvh - 90px); }
+      .positions, .result-cards { grid-template-columns: 1fr; }
+      .consideration { grid-template-columns: 1fr; gap: 8px; }
+      .stage-footer { align-items: stretch; flex-direction: column; }
+      .footer-actions { justify-content: stretch; }
+      .footer-actions .primary-button { flex: 1; }
+    }
+
+    @media (max-height: 720px) and (min-width: 761px) {
+      .activity-shell { padding: 10px 16px; }
+      .activity-header { margin-bottom: 10px; }
+      h1 { font-size: 32px; }
+      .activity-card { padding: 14px 18px; }
+      .scenario-text { font-size: 16px; }
+      .question { font-size: 21px; }
+      .position { min-height: 54px; padding: 8px 11px; }
+      .scenario-panel { padding: 16px 20px; }
+      .activity-card { gap: 12px; }
+      .consideration { padding-top: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="activity-shell">
+    <header class="activity-header">
+      <div>
+        <p class="eyebrow">Group Exercise 02</p>
+        <h1>Where Do You Stand?</h1>
+      </div>
+      <button class="fullscreen-button" id="fullscreen-button" type="button">Enter Full Screen</button>
+    </header>
+
+    <section class="activity-card" id="scenario-view" data-phase="vote" aria-labelledby="scenario-title">
+      <div class="scenario-panel">
+        <div class="progress-line">
+          <p class="progress-label" id="progress">Scenario 1 of 3</p>
+          <div class="progress-marks" aria-hidden="true"><span class="progress-mark is-current"></span><span class="progress-mark"></span><span class="progress-mark"></span></div>
+        </div>
+        <h2 class="scenario-title" id="scenario-title" tabindex="-1"></h2>
+        <p class="scenario-text" id="scenario-text"></p>
+      </div>
+
+      <div class="question-row" id="question-row">
+        <h3 class="question">Does this cross the ethical line?</h3>
+        <p class="move-instruction">Move to the area of the room that matches your view.</p>
+      </div>
+      <div class="positions" id="positions" aria-label="Three positions">
+        <div class="position"><span class="position-number">1</span><label class="position-label" for="count-crosses">Crosses the line</label><input class="position-input" id="count-crosses" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" aria-label="Crosses the line vote count" hidden></div>
+        <div class="position"><span class="position-number">2</span><label class="position-label" for="count-doesnt">Doesn’t cross it</label><input class="position-input" id="count-doesnt" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" aria-label="Doesn’t cross it vote count" hidden></div>
+        <div class="position"><span class="position-number">3</span><label class="position-label" for="count-depends">It depends</label><input class="position-input" id="count-depends" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" aria-label="It depends vote count" hidden></div>
+      </div>
+
+      <section class="result-cards" id="result-cards" aria-labelledby="results-title" hidden>
+        <h3 class="sr-only" id="results-title" tabindex="-1">Group results</h3>
+        <div class="result-card"><div class="result-card-top"><span class="position-number">1</span><span class="result-card-label">Crosses the line</span><strong class="result-count" id="result-crosses"></strong><span class="result-percent" id="percent-crosses"></span></div><span class="result-track" aria-hidden="true"><span class="result-fill" id="bar-crosses"></span></span></div>
+        <div class="result-card"><div class="result-card-top"><span class="position-number">2</span><span class="result-card-label">Doesn’t cross it</span><strong class="result-count" id="result-doesnt"></strong><span class="result-percent" id="percent-doesnt"></span></div><span class="result-track" aria-hidden="true"><span class="result-fill" id="bar-doesnt"></span></span></div>
+        <div class="result-card"><div class="result-card-top"><span class="position-number">3</span><span class="result-card-label">It depends</span><strong class="result-count" id="result-depends"></strong><span class="result-percent" id="percent-depends"></span></div><span class="result-track" aria-hidden="true"><span class="result-fill" id="bar-depends"></span></span></div>
+        <p class="sr-only" id="results-summary" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <section class="consideration" id="consideration" aria-labelledby="consideration-title" hidden>
+        <h3 class="consideration-label" id="consideration-title">Something to Consider</h3>
+        <div><p class="consideration-text" id="consideration-text"></p><p class="move-prompt">If your view changed, move to that side of the room.</p></div>
+      </section>
+
+      <div class="stage-footer">
+        <div class="footer-copy">
+          <p class="footer-hint" id="leader-hint" hidden>Leader: enter a whole number for each position. Zero is allowed.</p>
+          <p class="footer-total" id="total" hidden></p>
+          <p class="validation" id="validation" role="alert" aria-live="assertive"></p>
+        </div>
+        <div class="footer-actions">
+          <button class="primary-button" id="count-votes" type="button">Count Votes</button>
+          <button class="primary-button" id="show-results" type="button" hidden>Show Results</button>
+          <button class="text-button" id="edit-counts" type="button" hidden>Edit counts</button>
+          <button class="primary-button" id="next-scenario" type="button" hidden>Next Scenario</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="finish-card" id="finish-view" aria-labelledby="finish-title">
+      <div class="finish-inner">
+        <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
+        <h2 id="finish-title" tabindex="-1">One last thing</h2>
+        <p>You don’t have to agree. You do need to consider who is affected and explain your reasoning.</p>
+        <div class="finish-actions">
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+          <a class="secondary-button" id="back-link" href="../index.html">Back to Group Exercises</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      "use strict";
+
+      var scenarios = [
+        {
+          title: "A Different Fare",
+          text: "A ride-sharing app uses AI to predict that customers traveling from expensive neighborhoods will pay more. It charges them a higher fare, even when distance, traffic, and driver availability are comparable.",
+          consideration: "The ride costs the company about the same to provide. The higher price reflects what it thinks the customer will accept. Is that reasonable pricing, or does it cross a line? Does the neighborhood reliably tell it what someone can afford?"
+        },
+        {
+          title: "Another Bet",
+          text: "An online gambling app uses AI to predict which customers will gamble and lose more after receiving a bonus. It sends those customers offers encouraging them to keep playing.",
+          consideration: "Customers can choose whether to accept an offer. But the app knows something about their behavior and uses it to encourage more gambling. What responsibility comes with that knowledge?"
+        },
+        {
+          title: "The Watching Eye",
+          text: "A school installs AI-powered cameras that analyze students’ facial expressions and body language to estimate whether they are paying attention. Students flagged as distracted more than three times in a week face disciplinary action.",
+          consideration: "Looking away doesn’t necessarily mean someone has stopped listening. Should a prediction about attention lead to punishment? Would your answer change if the system helped teachers adjust a lesson without identifying individual students?"
+        }
+      ];
+
+      var scenarioIndex = 0;
+      var counts = [0, 0, 0];
+      var labels = ["Crosses the line", "Doesn’t cross it", "It depends"];
+      var scenarioView = document.getElementById("scenario-view");
+      var finishView = document.getElementById("finish-view");
+      var questionRow = document.getElementById("question-row");
+      var positions = document.getElementById("positions");
+      var resultCards = document.getElementById("result-cards");
+      var consideration = document.getElementById("consideration");
+      var inputs = [document.getElementById("count-crosses"), document.getElementById("count-doesnt"), document.getElementById("count-depends")];
+      var validation = document.getElementById("validation");
+      var fullscreenButton = document.getElementById("fullscreen-button");
+      var countVotesButton = document.getElementById("count-votes");
+      var showResultsButton = document.getElementById("show-results");
+      var editCountsButton = document.getElementById("edit-counts");
+      var nextScenarioButton = document.getElementById("next-scenario");
+      var leaderHint = document.getElementById("leader-hint");
+      var totalLabel = document.getElementById("total");
+
+      function setPhase(phase) {
+        scenarioView.dataset.phase = phase;
+        var isVote = phase === "vote";
+        var isCount = phase === "count";
+        var isResults = phase === "results";
+        questionRow.hidden = isResults;
+        positions.hidden = isResults;
+        inputs.forEach(function(input) { input.hidden = !isCount; });
+        resultCards.hidden = !isResults;
+        consideration.hidden = !isResults;
+        leaderHint.hidden = !isCount;
+        totalLabel.hidden = !isResults;
+        countVotesButton.hidden = !isVote;
+        showResultsButton.hidden = !isCount;
+        editCountsButton.hidden = !isResults;
+        nextScenarioButton.hidden = !isResults;
+      }
+
+      function renderScenario(options) {
+        var scenario = scenarios[scenarioIndex];
+        document.getElementById("progress").textContent = "Scenario " + (scenarioIndex + 1) + " of " + scenarios.length;
+        document.querySelectorAll(".progress-mark").forEach(function(mark, index) { mark.classList.toggle("is-current", index === scenarioIndex); });
+        document.getElementById("scenario-title").textContent = scenario.title;
+        document.getElementById("scenario-text").textContent = scenario.text;
+        document.getElementById("consideration-text").textContent = scenario.consideration;
+        nextScenarioButton.textContent = scenarioIndex === scenarios.length - 1 ? "Finish" : "Next Scenario";
+        inputs.forEach(function(input) { input.value = ""; input.removeAttribute("aria-invalid"); });
+        validation.textContent = "";
+        document.getElementById("results-summary").textContent = "";
+        counts = [0, 0, 0];
+        setPhase("vote");
+        if (!options || options.focus !== false) {
+          document.getElementById("scenario-title").focus();
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function enterCount() {
+        setPhase("count");
+        inputs[0].focus();
+      }
+
+      function readCounts() {
+        var values = inputs.map(function(input) { return input.value.trim(); });
+        var invalidIndex = values.findIndex(function(value) { return !/^\d+$/.test(value); });
+        inputs.forEach(function(input, index) {
+          if (index === invalidIndex) input.setAttribute("aria-invalid", "true");
+          else input.removeAttribute("aria-invalid");
+        });
+        if (invalidIndex !== -1) {
+          validation.textContent = "Enter a nonnegative whole number for all three positions.";
+          inputs[invalidIndex].focus();
+          return null;
+        }
+        var parsed = values.map(function(value) { return Number(value); });
+        var total = parsed.reduce(function(sum, value) { return sum + value; }, 0);
+        if (!parsed.every(Number.isSafeInteger) || !Number.isSafeInteger(total)) {
+          validation.textContent = "Enter smaller whole-number vote counts.";
+          inputs[0].focus();
+          return null;
+        }
+        if (total < 1) {
+          validation.textContent = "Enter at least one vote in total.";
+          inputs[0].focus();
+          return null;
+        }
+        validation.textContent = "";
+        return parsed;
+      }
+
+      function showResults() {
+        var entered = readCounts();
+        if (!entered) return;
+        counts = entered;
+        var total = counts.reduce(function(sum, value) { return sum + value; }, 0);
+        var ids = ["crosses", "doesnt", "depends"];
+        ids.forEach(function(id, index) {
+          document.getElementById("result-" + id).textContent = counts[index];
+          document.getElementById("percent-" + id).textContent = Math.round(counts[index] / total * 100) + "%";
+          document.getElementById("bar-" + id).style.width = (counts[index] / total * 100) + "%";
+        });
+        totalLabel.textContent = total + (total === 1 ? " vote" : " votes");
+        document.getElementById("results-summary").textContent = "Group results. " + labels.map(function(label, index) { return label + ": " + counts[index]; }).join(". ") + ". Total votes: " + total + ".";
+        setPhase("results");
+        document.getElementById("results-title").focus();
+      }
+
+      function editCounts() {
+        setPhase("count");
+        inputs.forEach(function(input, index) { input.value = String(counts[index]); });
+        validation.textContent = "";
+        inputs[0].focus();
+      }
+
+      function advance() {
+        if (scenarioIndex === scenarios.length - 1) {
+          scenarioView.hidden = true;
+          finishView.classList.add("is-visible");
+          document.getElementById("finish-title").focus();
+          return;
+        }
+        scenarioIndex += 1;
+        renderScenario();
+      }
+
+      function playAgain() {
+        scenarioIndex = 0;
+        finishView.classList.remove("is-visible");
+        scenarioView.hidden = false;
+        renderScenario();
+      }
+
+      function updateFullscreenLabel() {
+        fullscreenButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen";
+      }
+
+      countVotesButton.addEventListener("click", enterCount);
+      showResultsButton.addEventListener("click", showResults);
+      editCountsButton.addEventListener("click", editCounts);
+      nextScenarioButton.addEventListener("click", advance);
+      document.getElementById("play-again").addEventListener("click", playAgain);
+      fullscreenButton.addEventListener("click", function() {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+        } else if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(function() {});
+        }
+      });
+      document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      document.getElementById("back-link").addEventListener("click", function() {
+        try {
+          var progressState = JSON.parse(localStorage.getItem("llm-explorer-progress") || "{}");
+          progressState.activeSection = "groupexercises";
+          progressState.visited = Array.isArray(progressState.visited) ? progressState.visited : [];
+          if (progressState.visited.indexOf("groupexercises") === -1) progressState.visited.push("groupexercises");
+          localStorage.setItem("llm-explorer-progress", JSON.stringify(progressState));
+        } catch (error) {}
+      });
+
+      renderScenario({ focus: false });
+    })();
+  </script>
+</body>
+</html>

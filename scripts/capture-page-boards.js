@@ -260,7 +260,9 @@ const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){
         !process.env.SECTION_FILTER.split(",").includes(b.section)) continue;
     // This board is already the canonical image used by both page and video.
     // Recapturing its responsive page crop would invalidate the video highlights.
-    if (b.retainedSource) {
+    // FORCE_RETAINED=1 recaptures a retained board on purpose (owner decision: the page's
+    // creed now renders larger than the old capture, so the video source must follow).
+    if (b.retainedSource && !process.env.FORCE_RETAINED) {
       console.log(`  ${b.out}: retaining existing canonical image; no recapture`);
       continue;
     }

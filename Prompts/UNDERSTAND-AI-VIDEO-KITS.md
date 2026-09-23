@@ -425,7 +425,7 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 
 ## Layers
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 shipped 2026-09-17 under the old method.
+**v3 SHIPPED 2026-09-23** (cache key 20260923ship1, pill 3 min, 3:14.70): roll 6 of 2026-09-23 as the narration (rolls 5 and 6 reviewed; roll 5 donor) with audio grafts from roll 2 and the live v6, canonical boards, standard close, and the live v6's drawn animation (pronoun scene, nuance stack, architectural trade-off balance) borrowed under 2:38-3:06 on David's note that the roll's single graphic there was less engaging; the live's first animation scene ("Total Layers: 128") left out. Video title rewritten to "Meaning builds up, layer by layer." (open question 2 below, closed). Review: `video-audit/layers-comparison-2026-09-23/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 shipped 2026-09-17 under the old method.
 
 **Rolls 1 and 2 reviewed 2026-09-22** (`video-audit/layers-comparison-2026-09-22/REVIEW.md`): roll 2 earned KEEP and was built as
 `Prompts/layers-v1.mp4` (`video-audit/layers-build-2026-09-22/`). David then found a defect the review had missed by reading only

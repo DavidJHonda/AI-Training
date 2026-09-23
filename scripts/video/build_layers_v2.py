@@ -39,14 +39,13 @@ SRC = ROOT / "Prompts/layers-6.mp4"
 ROLL5 = ROOT / "Prompts/layers-5.mp4"       # donor: the horse sentence
 ROLL2 = ROOT / "Prompts/layers-2.mp4"       # donor: untangle / sarcasm / more steps
 LIVE = ROOT / "course-assets/layers/layers.mp4"   # protected, unused
-OUT = ROOT / "video-audit/layers-comparison-2026-09-23/build-v3"
-DEST = ROOT / "Prompts/layers-v3.mp4"
+OUT = ROOT / "video-audit/layers-comparison-2026-09-23/build-v2"
+DEST = ROOT / "Prompts/layers-v2.mp4"
 A = ROOT / "course-assets/layers"
 B1, B2, B3, CLOSE = A / "layers-horse-three-reads.jpg", A / "layers-inside-layer.jpg", A / "layers-resolves-it.jpg", A / "layers-close.jpg"
 LESSON = ROOT / "lessons/layers.md"
 
 # ---- roll 6 source frames (hard cuts confirmed by a sequential decode: single-frame spikes 30-51 MAD, zero either side)
-LIVE_ANIM_IN, LIVE_ANIM_OUT = 3886, 4541   # live v6: 129.53 (pronoun scene, past the faint Total Layers ghost that lingers to ~3800) to 151.37 (its cut to the close)
 B1_IN = 155          # 5.17: the roll's cut from the lamp/book drawing to its "Fell?" card; Board 1 arrives here ("Try this sentence." 5.32)
 GRAFT_A_OUT = 198    # 6.60: floor (-70 dBFS) after "sentence." (tail ends 6.16); roll 6's "The" starts 6.64
 GRAFT_A_IN = 440     # 14.667: floor (-68) before "On" (onset 14.72); "up." tail ended 14.16
@@ -130,17 +129,10 @@ def main():
     # cut c: "This chart maps out the five stages of how the AI resolves that pronoun." (CUT_C_OUT..CUT_C_IN) removed
     b.keep(CUT_C_IN, B3_OUT, "How AI Connects IT to CAT (canonical): sentence + Start, Layer 1, Layer 2, Repeat, Result", "3-it-cat")
     b.keep(B3_OUT, GRAFT_D_OUT, "Notebook drawing: stacked layers, two framings at the roll's own cut 5026 (dozens and sometimes more than 100 layers)")
-    # v3 (David 2026-09-23): the live v6's own animation for this beat, borrowed under roll 2's grafted audio and roll 6's why-not beat.
-    # Live frames 3886-4541 (2:09.5-2:31.4) play continuously: the pronoun-to-noun scene, its dissolve into HIGH-LEVEL NUANCE &
-    # DEEP REASONING (sarcasm / narrative twists / multi-step logic labels, no numbers) landing under "Sarcasm, story twists...",
-    # and the dissolve into THE ARCHITECTURAL TRADE-OFF (Model Capacity vs Running Cost) landing under "why not just keep adding".
-    # The live's first scene (3494-3885) prints "Total Layers: 128" and "100+ Layers", so it is not borrowed; roll 6's own
-    # stacked-layers drawing stays under the dozens / more-than-a-hundred line. Live frames are corner-cleaned by render().
-    b.graft(ROLL2, *DONOR_D, "graft d (roll 2, audio only): The horse sentence took a few reads to untangle. Sarcasm... AI's layers give it more steps...; picture: live v6 animation 3886-4292 (pronoun scene -> nuance scene)", "untangle",
-            picture_from=LIVE_ANIM_IN, gain_db=gain_d, visual="source", video_end=LIVE_ANIM_IN + LD_D)
-    b.rows[-1]["video_src"] = str(LIVE)
+    b.graft(ROLL2, *DONOR_D, "graft d (roll 2, audio only): The horse sentence took a few reads to untangle. Sarcasm... AI's layers give it more steps...; picture: stacked layers held", "untangle",
+            picture_from=STACK_HOLD, gain_db=gain_d, visual="source", video_end=STACK_HOLD + 1)
     ramp_graft_edges(b, 0.29, 0.40)
-    b.keep(GRAFT_D_IN, CLOSE_IN, "live v6 animation continues 4292-4541 (nuance -> THE ARCHITECTURAL TRADE-OFF balance), last frame held, under If more layers... worth the cost.; covers the roll's invented layer-count cards", video_from=LIVE_ANIM_IN + LD_D, video_src=LIVE, video_end=LIVE_ANIM_OUT)
+    b.keep(GRAFT_D_IN, CLOSE_IN, "stacked layers held (covers the invented Depth / Optimal layer-count cards) under If more layers... worth the cost.", video_from=STACK_HOLD, video_end=STACK_HOLD + 1)
     b.mark_close_start()
     b.keep(CLOSE_IN, GAP_SPLIT, "Closing line 1: Meaning builds up, layer by layer,")
     b.pause(GAP_FRAMES, "Close gap widened (layer, / attention)")
@@ -181,7 +173,6 @@ def main():
         for k in b.boards: b.state_sheet(k)
     b.make_close("layers")
     b.manifest({
-        "v3_change": "David 2026-09-23 (2:29-3:06 showed one held drawing): the live v6 animation 3886-4541 now plays under graft d and the why-not beat; the live's numbered first scene (3494-3885) is not used.",
         "scope_detail": "Full production review candidate from the approved 2026-09-23 plan (roll 6 base; graft a from roll 5; cuts b and c; graft d from roll 2; close gap widened); live video, rolls 2/5/6, lesson, index.html and boards unchanged.",
         "narration_changes": {
             "graft_a_replaces_source_frames": [GRAFT_A_OUT, GRAFT_A_IN], "graft_a_roll5_frames": list(DONOR_A), "graft_a_gain_db": gain_a,

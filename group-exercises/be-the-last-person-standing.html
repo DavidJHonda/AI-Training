@@ -154,12 +154,28 @@
     }
 
     .pair-grid {
+      position: relative;
       min-height: 0;
       overflow: hidden;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(12px, 1.5vw, 20px);
     }
+    .pair-grid.is-loading .image-choice { visibility: hidden; }
+    .load-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      padding: 20px;
+      color: var(--inkSoft);
+    }
+    .load-status[hidden], .load-status button[hidden], .activity-card[hidden] { display: none; }
+    .load-status p { margin: 0; }
     .image-choice {
       min-width: 0;
       min-height: 0;
@@ -332,15 +348,19 @@
         <p class="subject" id="subject">Cat</p>
       </div>
 
-      <div class="pair-grid" id="pair-grid">
-        <button class="image-choice" id="choice-a" type="button">
+      <div class="pair-grid is-loading" id="pair-grid" aria-busy="true">
+        <button class="image-choice" id="choice-a" type="button" disabled>
           <span class="image-stage"><img id="image-a" alt="Picture A in the current pair"></span>
           <span class="image-label"><span class="letter">Side A</span><span class="label-text" id="label-a">I think this is real</span></span>
         </button>
-        <button class="image-choice" id="choice-b" type="button">
+        <button class="image-choice" id="choice-b" type="button" disabled>
           <span class="image-stage"><img id="image-b" alt="Picture B in the current pair"></span>
           <span class="image-label"><span class="letter">Side B</span><span class="label-text" id="label-b">I think this is real</span></span>
         </button>
+        <div class="load-status" id="load-status">
+          <p id="load-message" role="status" aria-live="polite">Loading pictures…</p>
+          <button class="secondary-button" id="retry-images" type="button" hidden>Try Again</button>
+        </div>
       </div>
 
       <div class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true">
@@ -385,6 +405,8 @@
 
       var round = 0;
       var revealed = false;
+      var imagesReady = false;
+      var loadVersion = 0;
       var roundView = document.getElementById("round-view");
       var finishView = document.getElementById("finish-view");
       var progress = document.getElementById("progress");
@@ -401,6 +423,10 @@
       var labelA = document.getElementById("label-a");
       var labelB = document.getElementById("label-b");
       var fullscreenButton = document.getElementById("fullscreen-button");
+      var pairGrid = document.getElementById("pair-grid");
+      var loadStatus = document.getElementById("load-status");
+      var loadMessage = document.getElementById("load-message");
+      var retryImages = document.getElementById("retry-images");
 
       function imagePath(pair, letter) {
         return "fake-trap/fake-trap-try-" + pair.id + "-" + letter + ".jpg";
@@ -413,17 +439,53 @@
         label.textContent = isReal ? "Real photograph" : "AI-generated";
       }
 
+      // Decode fresh elements off-screen so a previous round cannot remain visible
+      // while one of the next round's photographs is still loading.
+      function loadPicture(pair, letter) {
+        return new Promise(function(resolve, reject) {
+          var picture = new Image();
+          var settled = false;
+          var timeout = setTimeout(function() {
+            finish(new Error("Picture loading timed out"));
+          }, 20000);
+          function finish(error) {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timeout);
+            picture.onload = null;
+            picture.onerror = null;
+            if (error) reject(error);
+            else resolve(picture);
+          }
+          picture.id = "image-" + letter;
+          picture.alt = pair.title + ", picture " + letter.toUpperCase();
+          picture.onload = function() {
+            if (!picture.naturalWidth) {
+              finish(new Error("Picture is empty"));
+              return;
+            }
+            if (picture.decode) picture.decode().then(function() { finish(); }, finish);
+            else finish();
+          };
+          picture.onerror = function() { finish(new Error("Picture could not load")); };
+          picture.src = imagePath(pair, letter);
+        });
+      }
+
       function renderRound(options) {
         var pair = pairs[round];
+        var version = ++loadVersion;
         revealed = false;
+        imagesReady = false;
+        pairGrid.classList.add("is-loading");
+        pairGrid.setAttribute("aria-busy", "true");
+        loadStatus.hidden = false;
+        loadMessage.textContent = "Loading pictures…";
+        retryImages.hidden = true;
         progress.textContent = "Round " + (round + 1) + " of " + pairs.length;
         subject.textContent = pair.title;
-        imageA.src = imagePath(pair, "a");
-        imageB.src = imagePath(pair, "b");
-        imageA.alt = pair.title + ", picture A";
-        imageB.alt = pair.title + ", picture B";
-        choiceA.disabled = false;
-        choiceB.disabled = false;
+        choiceA.disabled = true;
+        choiceB.disabled = true;
         choiceA.className = "image-choice";
         choiceB.className = "image-choice";
         choiceA.setAttribute("aria-label", pair.title + ", picture A: choose this picture");
@@ -438,10 +500,30 @@
           announcement.textContent = "Round " + (round + 1) + " of " + pairs.length + ". " + pair.title + ". Which is real? Move to that side of the room.";
         }
         window.scrollTo({ top: 0, behavior: "smooth" });
+        Promise.all([loadPicture(pair, "a"), loadPicture(pair, "b")]).then(function(pictures) {
+          if (version !== loadVersion) return;
+          imageA.replaceWith(pictures[0]);
+          imageB.replaceWith(pictures[1]);
+          imageA = pictures[0];
+          imageB = pictures[1];
+          imagesReady = true;
+          loadStatus.hidden = true;
+          pairGrid.classList.remove("is-loading");
+          pairGrid.setAttribute("aria-busy", "false");
+          choiceA.disabled = false;
+          choiceB.disabled = false;
+          if (options && options.focus) choiceA.focus();
+        }).catch(function() {
+          if (version !== loadVersion) return;
+          pairGrid.setAttribute("aria-busy", "false");
+          loadMessage.textContent = "The pictures couldn’t load. Try again to load this pair.";
+          retryImages.hidden = false;
+          if (options && options.focus) retryImages.focus();
+        });
       }
 
       function reveal() {
-        if (revealed) return;
+        if (revealed || !imagesReady) return;
         revealed = true;
         var pair = pairs[round];
         var realLetter = pair.real.toUpperCase();
@@ -464,16 +546,14 @@
           return;
         }
         round += 1;
-        renderRound();
-        choiceA.focus();
+        renderRound({ focus: true });
       }
 
       function playAgain() {
         round = 0;
         finishView.classList.remove("is-visible");
         roundView.hidden = false;
-        renderRound();
-        choiceA.focus();
+        renderRound({ focus: true });
       }
 
       function updateFullscreenLabel() {
@@ -483,6 +563,7 @@
       choiceA.addEventListener("click", reveal);
       choiceB.addEventListener("click", reveal);
       nextButton.addEventListener("click", nextRound);
+      retryImages.addEventListener("click", function() { renderRound({ focus: true }); });
       document.getElementById("play-again").addEventListener("click", playAgain);
       fullscreenButton.addEventListener("click", function() {
         if (document.fullscreenElement) {

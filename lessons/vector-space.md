@@ -2,7 +2,11 @@
 
 # Vector Space
 
-AI represents meaning with rows of numbers called embeddings. As AI processes your message, the layers change the numbers. If the numbers are different, how do they still represent meaning? To understand how, let’s explore vector space.
+Each token starts with a row of numbers called an **embedding**. As AI processes your message, the layers change those numbers to reflect the context.
+
+But those new numbers might not match the starting numbers for any token. **How can they still represent meaning?**
+
+An exact match isn’t necessary. The relationships between the numbers matter too. We can picture those relationships as positions on a map, where nearby positions can represent similar meanings. That’s the idea behind **vector space**.
 
 ## Let’s Start With a Map
 
@@ -38,7 +42,7 @@ Use the map to find the closest city. The same map keeps Mountain View at 37° n
 
 When nothing matches exactly, distance finds the closest one.
 
-The new coordinates don’t match any city exactly. But comparing positions lets you find the closest city.
+Those coordinates don’t match any of our cities. But their position still tells us something: which city they’re near.
 
 ## From Places to Meaning
 
@@ -54,11 +58,7 @@ These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each d
 
 Three drinks, seven dimensions each. The Drink column lists Coke, Pepsi, and Coffee. Each drink is rated on the same seven dimensions, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, and Citrus. The ratings run from 0 to 10, where 0 is low and 10 is high.
 
-Coke’s ratings are 9, 1, 10, 2, 3, 8, 1.
-
-Pepsi’s ratings are 9, 1, 10, 2, 3, 8, 10.
-
-Coffee’s ratings are 1, 9, 0, 9, 8, 10, 0.
+Look across the rows. Coke’s and Pepsi’s numbers are nearly the same. Coffee’s numbers are different in almost every column.
 
 Coke and Pepsi have more similar profiles than either does to coffee.
 

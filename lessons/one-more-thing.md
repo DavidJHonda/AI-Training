@@ -26,9 +26,11 @@ Same probabilities, different choices.
 
 The answer so far is “You could name him,” and the next token is still open.
 
-The probabilities for that next token are Spot at 22%, Max at 17%, Buddy at 14%, Rex at 9%, Biscuit at 6%, and all other tokens combined at 32%. These probabilities stay unchanged across all five tries.
+The probabilities for that next token are Spot at 22%, Max at 17%, Buddy at 14%, Rex at 9%, Biscuit at 6%, and all other tokens combined at 32%. These probabilities stay unchanged across all five picks.
 
-Five separate tries with these same probabilities produce: try one, Max; try two, Spot; try three, Buddy; try four, Rex; try five, Max. The five tries are one possible set. Spot, the top choice, came up once in five tries.
+Five random picks with these same probabilities produce: pick one, Max; pick two, Spot; pick three, Buddy; pick four, Rex; pick five, Max. The five picks are one possible set.
+
+Spot was picked only once, even with the highest probability. Another five picks could turn out differently.
 
 The best chance is not a guarantee.
 
@@ -40,11 +42,13 @@ Each token AI chooses shapes what comes next, so one different choice can send t
 
 ## Temperature
 
-Behind the scenes, the app uses a setting called temperature to reshape the probabilities before AI picks a token.
+Temperature reshapes the probabilities before AI picks each token.
 
-Low temperature makes the most likely choices even more likely. High temperature gives less likely choices a better chance.
+In ChatGPT, Claude, and Gemini, it’s handled for you behind the scenes.
 
-Start with the same probabilities. Watch how they change with temperature.
+Low temperature favors the most likely choices. High temperature gives less likely choices a better chance.
+
+Watch how the same starting probabilities change with temperature.
 
 ### Board 2: How Temperature Changes the Odds
 

@@ -8,7 +8,6 @@ except ImportError:
 
 
 from pathlib import Path
-from shutil import copy2
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -89,7 +88,7 @@ def render() -> None:
 
     # Left: probabilities stay unchanged across separate tries.
     draw_inner_title(draw, (96, 274), "The Probabilities", fill=PURPLE_DARK)
-    draw.text((96, 323), "Unchanged across all five tries", font=font(26, "Medium"), fill=MUTED)
+    draw.text((96, 323), "Unchanged across all five picks", font=font(26, "Medium"), fill=MUTED)
 
     rows = [
         ("Spot", 22, False, True),
@@ -133,16 +132,33 @@ def render() -> None:
     draw_arrow(draw, 701, 482, 904)
 
     # Right: five outcomes from that same list.
-    draw_inner_title(draw, (956, 274), "Five Separate Tries", fill=PURPLE_DARK)
+    draw_inner_title(draw, (956, 274), "Five Random Picks", fill=PURPLE_DARK)
     draw.text((956, 323), "One possible set", font=font(26, "Medium"), fill=MUTED)
     draws = ["Max", "Spot", "Buddy", "Rex", "Max"]
     for i, name in enumerate(draws, start=1):
-        y0 = 362 + (i - 1) * 64
+        y0 = 362 + (i - 1) * 54
         row_fill = "#efedfb" if i in (1, 5) else WHITE
-        draw.rounded_rectangle((956, y0, 1520, y0 + 52), radius=9, fill=row_fill, outline=RULE, width=2)
-        draw.ellipse((976, y0 + 7, 1014, y0 + 45), fill=PURPLE_DARK)
-        draw.text((995, y0 + 26), str(i), font=font(20, "Bold"), fill=WHITE, anchor="mm")
-        draw.text((1038, y0 + 26), name, font=font(29, "Bold"), fill=INK, anchor="lm")
+        draw.rounded_rectangle((956, y0, 1520, y0 + 46), radius=9, fill=row_fill, outline=RULE, width=2)
+        draw.ellipse((976, y0 + 6, 1010, y0 + 40), fill=PURPLE_DARK)
+        draw.text((993, y0 + 23), str(i), font=font(20, "Bold"), fill=WHITE, anchor="mm")
+        draw.text((1038, y0 + 23), name, font=font(29, "Bold"), fill=INK, anchor="lm")
+
+    note = "Spot was picked only once, even with the highest probability. Another five picks could turn out differently."
+    note_font = font(24, "Medium")
+    words = note.split()
+    lines = []
+    line = ""
+    for word in words:
+        trial = (line + " " + word).strip()
+        if draw.textlength(trial, font=note_font) > 564:
+            lines.append(line)
+            line = word
+        else:
+            line = trial
+    lines.append(line)
+    for j, line in enumerate(lines):
+        draw.text((956, 641 + j * 28), line, font=note_font, fill=BODY, anchor="lt")
+    assert 641 + len(lines) * 28 <= 732, lines
 
     # Standard takeaway band.
     draw_takeaway_band(
@@ -150,19 +166,11 @@ def render() -> None:
         text="The best chance is not a guarantee.", font=face("medium", 32),
     )
 
-    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
-    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
-    review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/01-five-draws.jpg"
-    for path in (page_path, video_path, review_path):
-        path.parent.mkdir(parents=True, exist_ok=True)
+    output = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    save_course_image(image.convert("RGB"), output, quality=95, subsampling=0, optimize=True)
+    print(output.relative_to(ROOT))
 
-    rgb = image.convert("RGB")
-    save_course_image(rgb, page_path, quality=95, subsampling=0, optimize=True)
-    copy2(page_path, video_path)
-    copy2(page_path, review_path)
-    print(page_path.relative_to(ROOT))
-    print(video_path.relative_to(ROOT))
-    print(review_path.relative_to(ROOT))
 
 
 if __name__ == "__main__":

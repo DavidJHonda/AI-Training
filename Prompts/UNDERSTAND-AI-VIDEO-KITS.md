@@ -581,6 +581,13 @@ Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude an
 
 ## How AI Answers
 
+**v4 SHIPPED 2026-09-23 (David: "we can ship how-ai-answers-v4")** - `Prompts/how-ai-answers-v4.mp4`,
+4:13.90, is the live `course-assets/how-ai-answers/how-ai-answers.mp4`, cache key `20260923ship1`,
+pill 4 min. It is v1 with the live 9/18 video's opening grafted under Boards 1 and 2 at David's
+instruction (verbatim lines 1 and 2 not spoken, 5/8), the 2:14 flash fixed, the repeated line cut, and
+Board 3's middle ring blue and clear of the chips. The offered Boards 1-2 rebuild with the dive motion
+(which would restore lines 1 and 2, 7/8) was not taken. Record: `video-audit/how-ai-answers-stitch-2026-09-22/REVIEW.md`.
+
 **v1 BUILT 2026-09-22 from roll 4, awaiting David's eye test** - `Prompts/how-ai-answers-v1.mp4`,
 3:46.47, four grafts and two cuts, review in `video-audit/how-ai-answers-stitch-2026-09-22/`. All
 measurable checks pass: 8/8 verbatim lines, all six percentages, all four step names, guard 15/15, zero

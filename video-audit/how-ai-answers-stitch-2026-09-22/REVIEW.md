@@ -274,3 +274,17 @@ narration - and it is David's call.
 
 Guard **10/10**, widened ±20-frame scan **0 boundaries with a second cut**, decode clean at 7617 frames.
 Everything else is unchanged from v2.
+
+
+---
+
+# SHIPPED — v4 (2026-09-23)
+
+David: "we can ship how-ai-answers-v4" (2026-09-23). `Prompts/how-ai-answers-v4.mp4` copied to
+`course-assets/how-ai-answers/how-ai-answers.mp4` (22,423,911 bytes, sha256 c0e56437…7f3f1fa), replacing
+the 2026-09-18 v6 (21,179,901 bytes). `index.html` cache key `20260918ship1` → `20260923ship1`; pill stays
+"4 min" (4:13.90). `manifest.json` video_assets hash and bytes updated.
+
+Ships as reviewed above: the live's opening under Boards 1 and 2 (verbatim lines 1 and 2 not spoken, 5/8),
+Board 3's middle ring blue and clear of the chips, guard 10/10. The Boards 1–2 rebuild with the dive motion
+was offered and not taken; the live's own step rings on Board 1 ship as they were.

@@ -24,37 +24,21 @@ Here’s another thought. What if they could use AI to identify people who might
 
 This creates an ethical question: when should DraftKings stop encouraging a customer to play if continued gambling could harm them?
 
+## How DraftKings Uses AI
+
 The New York Times investigated these choices at DraftKings. Here’s what it reported.
 
-### Board 1: How DraftKings Uses AI
-
-**Image file:** `wheres-the-line-two-uses.jpg`
-
-![How DraftKings Uses AI](wheres-the-line-two-uses.jpg)
-
-**Teaching content:**
-
-According to New York Times reporting, DraftKings developed AI for two different purposes.
+DraftKings developed AI for two different purposes.
 
 Targeted Promotions: DraftKings developed AI to analyze betting habits, account balances, and losses to predict which customers would gamble and lose more after receiving free bets and bonuses. What they did: DraftKings put the technology into use and continued developing it.
 
 Customer Protection: employees developed AI to analyze betting patterns and identify people who might be developing a gambling problem, so the company could intervene earlier. What they did: DraftKings chose not to put this predictive technology into use.
 
-## The Company’s Response
-
 DraftKings disputes targeting customers based on losses. It says it already monitors risky behavior and didn’t find enough evidence that the proposed predictive system would help.
 
 ## Turn Judgment Into Action
 
-AI can do what it’s asked while still harming people. Here are four moves to help you make responsible choices:
-
-### Board 2: Making the Responsible Choice
-
-**Image file:** `wheres-the-line-responsible-choice.jpg`
-
-![Making the Responsible Choice](wheres-the-line-responsible-choice.jpg)
-
-**Teaching content:**
+AI can do what it’s asked while still harming people. Here are four moves to help you make responsible choices.
 
 Consider everyone affected: look beyond the people who benefit. Who could be harmed, excluded, or pressured?
 

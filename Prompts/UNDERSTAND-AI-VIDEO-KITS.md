@@ -358,7 +358,7 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 
 ## Transformer
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `transformer.mp4` v8 shipped 2026-09-17 under the old method (visual-only retrofit of v7); reroll pending David's approval of the beat spine below.
+**v10 SHIPPED 2026-09-22** (cache key 20260922ship6, pill 4 min, 3:46): roll 2 of 2026-09-22 (8/8 required lines) with roll 3's 2017 beat grafted in (fixes "the D in ChatGPT" and restores the paper title) under the live v8's own 2017 drawing, one production sentence cut, canonical boards, and David's ring notes (no ring on the already-bordered IT chip; clue rings hug the tinted boxes); close hold faded to silence to remove the room-tone loop pulse. Rolls 1 (REROLL) and 3 (donor) retained. Review: `video-audit/transformer-comparison-2026-09-22/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `transformer.mp4` v8 shipped 2026-09-17 under the old method (visual-only retrofit of v7); reroll pending David's approval of the beat spine below.
 
 **Notebook sources**
 

@@ -35,9 +35,9 @@ Inspect the current assets and follow the actual narration. Present one row per
 board in scope, using its exact title; for a narrow repair, list only affected
 boards and preserve previously approved treatment elsewhere.
 
-| Board | Highlighting sequence | Camera | Reason or exception |
-|---|---|---|---|
-| <exact title> | <whole card, then named sections as spoken; or whole card throughout; or unmarked> | <full board; or full view then complete-card zoom> | <brief reason, only where useful> |
+| Board | Highlighting sequence | Camera | On screen / breaks | Reason or exception |
+|---|---|---|---|---|
+| <exact title> | <whole card, then named sections as spoken; or whole card throughout; or unmarked> | <full board; or full view then complete-card zoom> | <planned seconds on screen; where it cuts away and to what (rule 8b)> | <brief reason, only where useful> |
 
 - Brief examples supporting one idea normally use a whole-card outline throughout
   that card's explanation. Numbered items alone do not require separate rings.
@@ -227,12 +227,32 @@ engaging than one that breathes. Make Your Move v4 set the pattern: from the
 first career board to the close, every board is interleaved with Notebook's own
 drawings, and the narration and pauses did not change.
 
-**When (owner call 2026-09-12):** apply this by default when a run of boards would
-otherwise exceed about sixty seconds without a Notebook scene between them, and
-never otherwise. A lesson with two boards and Notebook's own scenes between them
-(Your Choices) is left alone. Every candidate's report states the longest
-unbroken board run and lists every Notebook span used and where, so David can
-pull any of it back before shipping.
+**When (owner call 2026-09-12, widened 2026-09-23):** apply this by default when a
+run of boards would otherwise exceed about sixty seconds without a Notebook scene
+between them, and, from 2026-09-23, whenever a single board would sit on screen
+for more than about twenty seconds. David's note after the Where's the Line? pre-roll
+review: the weakness in many shipped videos is boards held too long; a board plus
+Notebook's drawings under the same narration engages, a board alone does not. The
+hold is fixed here, in the edit plan, never at upload: the 2026-09-23 A/B on Where's
+the Line? showed that removing the board images from the upload does not shorten
+Notebook's holds (it holds its own diagram for the same topic block) and costs the
+narration (1/7 required lines against 7/7). A lesson with short boards and Notebook's
+own scenes between them (Your Choices) is left alone. The 1b board plan states each
+board's planned on-screen time and where it breaks; every candidate's report states
+the longest unbroken board run and lists every Notebook span used and where, so David
+can pull any of it back before shipping.
+
+**Where the pictures come from (2026-09-23):** first the roll's own drawings (for
+that beat, or re-timed from a beat whose narration was cut); then drawings from
+OTHER ROLLS of the same lesson, used as `keep(..., video_src=<roll>, video_from=...,
+video_end=...)` (Where's the Line? v2: a roulette table and a betting phone from two
+other rolls under the base roll's invented-statistics slides, a keyboard drawing from
+a third under a drawn person); then the live video's own drawings when a reroll
+replaces it (Layers v3: the live animation under the scale beat). Donor drawings
+carry the same bans as the roll's own (no photographs, people, logos, invented
+figures, restatements of a course board in Notebook's words). When no roll drew
+anything for a beat, say so in the report and let the dense dive-and-pan carry the
+board rather than inventing filler.
 
 - **Under a board's introduction.** Where Notebook drew a scene for the sentences
   that introduce a board, keep that scene and bring the board in about three

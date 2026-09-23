@@ -19,6 +19,10 @@ fact; those come back only from a reroll or a stitch. So the Markdown and the pr
 are written for the ear first: complete teaching in order, the exact sentences that
 must be spoken, and the lesson's own voice. Judge a roll by its narration under
 [Narration Review](../scripts/video/NARRATION-REVIEW.md) before looking at anything else.
+Long board holds are an editing matter, not an upload matter: keep uploading the boards
+(the 2026-09-23 Where's the Line? test showed rolls without them lose the required lines and
+hold Notebook's own diagrams just as long), and break the holds in the edit plan under
+[Edit Spec 8b](../scripts/video/EDIT-SPEC.md).
 
 ## Prepare a new lesson
 

@@ -42,7 +42,7 @@ A = ROOT / "course-assets/how-ai-answers"
 LIVE = A / "how-ai-answers.mp4"
 AUDIT = ROOT / "video-audit/how-ai-answers-stitch-2026-09-22"
 OUT = AUDIT / "build"
-DEST = ROOT / "Prompts/how-ai-answers-v2.mp4"
+DEST = ROOT / "Prompts/how-ai-answers-v4.mp4"
 BEGINS = A / "how-ai-answers-before-answer-begins.jpg"     # Board 1
 WHERE = A / "how-ai-answers-where-answer-begins.jpg"       # Board 2
 TOKENBY = A / "how-ai-answers-token-by-token.jpg"          # Board 3
@@ -130,7 +130,12 @@ BD2_BANNER = [40, 718, 1560, 812]
 BD3_P1 = [80, 322, 600, 762]        # the whole Prediction 1 panel
 BD3_P1_ROWS = [104, 528, 578, 726]  # You 18% / A 14% / Great 9%
 BD3_P1_PICK = [292, 856, 390, 918]  # the purple "You" chip under Prediction 1
-BD3_MIDDLE = [632, 468, 968, 622]   # THREE MORE PREDICTIONS, its three chips and the arrow
+BD3_MIDDLE = [632, 468, 968, 637]   # THREE MORE PREDICTIONS and its three chips. David 2026-09-22:
+                                    # blue, "extend a little further down". The chips' ink ends at
+                                    # y=623 and the old bottom of 622 cut straight through them. 637
+                                    # sits midway between the chips and the blue arrow at y=651, so
+                                    # the ring clears the chips without its bottom edge merging into
+                                    # the arrow - which it did at 642, both being blue now.
 BD3_REPLY = [1040, 392, 1492, 458]  # REPLY SO FAR: You could name him
 BD3_HIM = [1386, 393, 1480, 457]    # the teal "him" chip - the new final token
 BD3_P5_ROWS = [1022, 528, 1498, 726]  # Spot 22% / Max 17% / Buddy 14%
@@ -205,7 +210,7 @@ def main():
         target("Prediction 1, the final token", 88.84, list(BD3_P1), PURPLE),
         target("You 18%, A 14%, Great 9%", 95.44, list(BD3_P1_ROWS), PURPLE),
         target("the pick: You", 102.30, list(BD3_P1_PICK), PURPLE, radius=12),
-        target("three more predictions", 106.52, list(BD3_MIDDLE), NEUTRAL),
+        target("three more predictions", 106.52, list(BD3_MIDDLE), BLUE),   # David 2026-09-22: blue, not neutral
         target("reply so far: You could name him", 117.76, list(BD3_REPLY), TEAL),
         target("him, the new final token", 124.58, list(BD3_HIM), TEAL, radius=12),
         target("Spot 22%, Max 17%, Buddy 14%", 134.42, list(BD3_P5_ROWS), TEAL),

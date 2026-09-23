@@ -226,3 +226,51 @@ picture donor. Unchanged and still needing your call.
 
 `index.html:1127` — cache key needs updating; **4:13.90 is a 4 min pill**, which is what the entry
 already says.
+
+
+---
+
+# v4 — Board 3's middle ring (2026-09-22)
+
+`Prompts/how-ai-answers-v4.mp4` — 4:13.90 (7617 frames). Same edits as v2; one ring changed.
+
+> "Fix the highlighting on this box. The 2nd, 3rd, and 4th highlights need to align with the left side
+> of the illustration. THIS Highlight should be blue, and extend a little further down."
+
+## Board 3's middle ring — FIXED
+
+`THREE MORE PREDICTIONS` and its three chips: **neutral purple -> blue (#1652f0)**, and the bottom moved
+**622 -> 637**. The chips' ink ends at y=623, so the old bottom cut straight through them.
+
+637 rather than "as far down as it goes": at 642 the ring's bottom edge landed within 9 px of the blue
+arrow below it, and now that the ring is blue too the two lines merged into one. 637 sits midway between
+the chips (623) and the arrow (651), clearing both.
+
+## Board 1's step rings — NOT OURS TO FIX
+
+**The ring in the first screenshot is the live video's own, baked into `how-ai-answers.mp4` when it was
+built on 2026-09-18.** v2 takes the live's opening on David's instruction, so Boards 1 and 2 arrive with
+its rings already drawn. Nothing in this build draws them and nothing in this build can move them.
+
+Measured, on the same card, on the frame at 0:23.33:
+
+| | ring's left stroke | illustration panel starts | gap |
+|---|---|---|---|
+| **ours** (v1's Board 1) | x 410–414 | x 416 | **flush** |
+| **the live's** | well outside the panel, and running far below the text | | the gap in the screenshot |
+
+Our rects were already measured off the artwork: the four illustration panels sit at x 80–414, 448–782,
+816–1150 and 1184–1518, and `BD1_S1..S4` use 80, 448, 818 and 1185. There is nothing to correct in them.
+
+**The fix is to rebuild Boards 1 and 2 ourselves with the live's dive motion**, which replaces the live's
+picture for that stretch while keeping the shape David preferred. Doing that also frees the audio: with
+our own boards there is no reason to keep the live's narration under them, so **roll 4's audio comes back
+and with it verbatim lines 1 and 2**, taking the file from 5/8 to 7/8 (line 6 stays cut, per note 3).
+
+That is a build, not an edit — four dive targets on Board 1 and two on Board 2, each timed to the
+narration - and it is David's call.
+
+## Verified
+
+Guard **10/10**, widened ±20-frame scan **0 boundaries with a second cut**, decode clean at 7617 frames.
+Everything else is unchanged from v2.

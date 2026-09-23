@@ -91,6 +91,15 @@ Before shipping a standard lesson video:
   cliffs. Automated detection alone does not certify a clean transition.
 - Measure edited pauses against the approved selective-pause plan and listen for
   natural pacing. No automatic one-second minimum applies.
+- **Cut a pause at the silence, never at a `scenes.py` cut (2026-09-22, One More
+  Thing v6).** The scene cut says where the picture may change; it does not say
+  where the sentence begins, and Notebook's cuts routinely land a few frames
+  after the next line has started. Two pauses in that build were split on the
+  picture cut and each stranded the attack of the following word in front of the
+  silence - eight frames of "Not" before the closing message, which David heard
+  at 4:16, and two frames of "So" at 2:06.8, which is quieter but the same bug.
+  Measure the RMS either side of every planned split and move it into the gap;
+  `transition_guard.py` is a picture check and will not catch this.
 - Listen to every audio graft for wording, pronunciation, cadence, levels, and
   voice continuity. List any joins still requiring David's listening review.
 - Decode to verify frame counts/timing. Visual-only repairs preserve source FPS,

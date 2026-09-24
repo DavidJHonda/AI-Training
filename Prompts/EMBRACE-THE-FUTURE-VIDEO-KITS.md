@@ -80,13 +80,13 @@ what the map says.
 
 ### loudest-voices
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `loudest-voices.mp4` is v5, shipped
-2026-09-18 under the old method (best-of of rolls 1 and 2; both rolls since deleted). Evaluated
-2026-09-23 against the current system: **REROLL** — narration misses "None of them has a simple,
-one-sided view", never speaks the banner, paraphrases the habits line, narrates board furniture
-("as the bottom right panel notes"); pictures hold the boards 46/56/79 s and carry two invented charts.
-Record: `video-audit/loudest-voices-evaluation-2026-09-23/REVIEW.md`. Reroll pending David's approval
-of the beat spine below.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `loudest-voices.mp4` is **v7, shipped
+2026-09-24** (David's approval; 3:49, cache key `20260924ship1`, pill 4 min). v7 is roll 1 of the
+rebuilt kit, re-edited to apply David's three notes on v6 (built by
+`scripts/video/build_loudest_voices_v7.py`; roll review in
+`video-audit/loudest-voices-rolls-2026-09-23/REVIEW.md`, build record in its `build-v7/`).
+The earlier v5 (shipped 2026-09-18, a best-of of the old-method rolls) was graded **REROLL** on
+2026-09-23: `video-audit/loudest-voices-evaluation-2026-09-23/REVIEW.md`.
 
 - Markdown: `lessons/loudest-voices.md` (rewritten 2026-09-23: board titles carried as spoken
   sentences; the page prose after Board 1 moved under `## THE TELL`; the required lines split onto

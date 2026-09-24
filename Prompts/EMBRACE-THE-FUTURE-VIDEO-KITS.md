@@ -13,28 +13,18 @@ All paths below are repository-relative. Each named prompt and checklist is in `
 
 ### opener-embrace
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `embrace-the-future-opener.mp4` is v4,
-shipped 2026-09-22 under the old method (cache key 20260922ship5, pill 3 min, 2:47): the live
-narration with the What Everyone's Saying card recaptured from the page at the Work opener's scale
-(full view, gold line rings, the live's paired-quote states) and the map-introduction sentence
-replaced by the Understand opener's road-map line (audio-only graft, +0.4 dB); the map now arrives on
-that line. Review: `video-audit/opener-embrace-repair-2026-09-18/` (Build v4 section).
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `embrace-the-future-opener.mp4` is **v5**,
+shipped 2026-09-24 on David's approval (cache key 20260924ship1, pill 3 min, 3:25.6): roll 4, the first
+roll on this kit, which met all eleven verbatim lines and says "worrier". Two narration cuts ("Look at
+this board..." and "To understand this debate, look at this vintage map."), no grafts; four photograph
+spans covered with roll 1 drawings; canonical voices card (gold ring per quote), edge-of-the-map
+illustration (the live's camera) and section map (broken once by a roll 3 drawing); standard close.
+Build: `scripts/video/build_opener_embrace_v5.py`. Record: `video-audit/opener-embrace-v5-2026-09-24/REVIEW.md`.
+Replaces v4 (shipped 2026-09-22), which misattributed the four quotes to camps.
 
-**Rolls 1 and 2 evaluated 2026-09-23** (`Prompts/opener-embrace-1.mp4` 3:49,
-`Prompts/opener-embrace-2.mp4` 2:49; both generated ~2026-09-19 on the OLD materials, so they do not
-test this kit). Both **REPAIR**, and both beat the live v4, which never speaks the four quotes and
-misattributes them to camps. Roll 2 carries the verbatim quote block, the history-class line and the
-"They found the unexpected." hinge; roll 1 carries the goal-already-reached beat, the richer three-part
-map read and the full here-to-stay qualifier. Best-of plan: base roll 2, three grafts, all under boards
-(roll 1's goal beat under the voices card; roll 1's Part 3 read and the live v4 map lead-in under the
-section map). Record: `video-audit/opener-embrace-evaluation-2026-09-23/REVIEW.md`.
-**Recommendation: roll once on this kit first** — every deciding failure is one the rebuilt prompt now
-addresses (verbatim quotes, both honest-part lines, the fixed map lead-in, the board-furniture ban, the
-formal register). The stitch stays available if the new roll does not clear it.
-**Open question for David's ear:** `medium.en` reads roll 2 (and the live v4) as "AI warrior" and roll 1
-as "AI worrier" at first mention. Machine transcription cannot settle a near-homophone; the prompt now
-carries a say-it-as-worry-er instruction either way. If the live video sounds wrong, the term is a
-section-wide problem, since Loudest Voices and Unexpected Results both use the Worrier/Optimist pair.
+**Rolls 1-4 evaluated 2026-09-23** in `video-audit/opener-embrace-evaluation-2026-09-23/REVIEW.md`:
+rolls 1 and 2 (old materials) REPAIR, roll 3 REROLL, roll 4 REPAIR and shipped as v5. Rolls 1 and 3
+are the donors for v5's drawings.
 
 - Markdown: `lessons/Opener-Embrace.md` (rewritten 2026-09-23: the four quotes and the section map
   rows split onto their own lines; the What Everyone's Saying card and the map illustration are now

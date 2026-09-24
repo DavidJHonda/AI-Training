@@ -169,3 +169,191 @@ video today. Add "AI Worrier" to the prompt's verbatim list first, and tell me w
 "warrior" sounds like to you, because that answer changes nothing about the plan but might change a
 section-wide term.
 
+---
+---
+
+# Rolls 3 and 4 (uploaded 2026-09-23 20:46) — first rolls on the rebuilt kit
+
+`Prompts/opener-embrace-3.mp4` (3:34.67) and `Prompts/opener-embrace-4.mp4` (3:32.73),
+both 30 fps. Unlike rolls 1 and 2, these were generated on the 2026-09-23 prompt.
+Transcripts from `base.en`, with `medium.en` re-cuts of every disputed span, including
+word-level probabilities on the Worrier/warrior token.
+
+## The Worrier question is answered
+
+`medium.en`, word timestamps on:
+
+- **roll 4 @0:49 " worrier," p=0.974** (0.38 s) — "There's the worrier, who's convinced it will hurt society."
+- **roll 4 @1:25 " Worriers" p=0.662** (0.44 s) — "Worriers fill the unknown parts with AI monsters…"
+- roll 3 @0:47 " warrior" p=0.985 (0.42 s) — "the AI warrior certain of doom"
+- roll 3 @0:10 " Warriors" p=0.792 (0.32 s) — "Warriors warn it will take your job"
+
+The same model at the same settings returns different tokens for the two files in
+near-identical sentence frames, so it is discriminating rather than defaulting. Roll 4
+is corroborated on screen: its "Three Human Archetypes" card at 0:52 is captioned
+**THE WORRIER**. The prompt's "Say 'AI Worrier' as worry-er, never 'warrior'" line
+worked on roll 4 and did not on roll 3. Still worth one listen at roll 4 @0:49, but
+the machine evidence is no longer ambiguous.
+
+---
+
+```text
+LESSON: embrace-the-future-opener
+CANDIDATE: Prompts/opener-embrace-3.mp4 (3:34)
+VERDICT: REROLL (superseded — discard in favour of roll 4)
+TEACHING POINTS:
+  Four claims as four quotes — WRONG — @0:06 "Optimists say it will cure diseases and handle
+    boring tasks. Warriors warn it will take your job and hurt society." Not one quote is
+    spoken, and all four are misattributed to camps. The board's whole point is four claims
+    with nobody's name on them. This repeats the live v4's defining error.
+  "Who's right? Nobody knows." — THIN — @0:14 "Look at the bottom. Who is right? Nobody knows."
+  Knows how to use AI + the engine underneath — RICH — @0:26-0:39 (adds "calculating the next
+    most likely word", an accurate addition)
+  Goal already achieved — TAUGHT — @0:39 "You've achieved the goal of being smarter than the tool."
+  The three people — TAUGHT — @0:47, but "the AI warrior certain of doom"
+  "Here's the honest part: nobody knows." — MISSING — @0:54 "Here is the reality check."
+  "Not them, not us, not the people building AI." — MISSING — @0:59 "That includes us and the
+    engineers actively building the AI." Drops "not them".
+  "Think back to history class." — MISSING — @1:12 "Look at this vintage world map."
+  Mapmakers and sea monsters — RICH — @1:14-1:28
+  Board 2's three lines — TAUGHT — @1:28-1:46, but framed as left/right screen halves and the
+    Optimists' "open water" becomes "a utopian island"
+  Sailors found something unexpected — MISSING — @1:57 stops at "rarely found monsters, and rarely
+    had perfectly clear sailing." The hinge of the whole opener is never spoken.
+  Magellan — RICH — @2:02-2:15
+  Section takes both views seriously — TAUGHT — @2:30, reworded to "the real risks and the real rewards"
+  AI is here to stay + both qualifiers — TAUGHT — @2:17-2:25
+  Map lead-in with the section title — MISSING — @2:34 "This road map graphic lays out exactly what
+    we will explore in this section." "Embrace the Future" is never spoken.
+  Three parts — RICH — @2:38-3:07
+  Banner — THIN — @3:10 "At the bottom, you see your main instruction. Take both views of the map
+    seriously as we move forward."
+  Closing lines — WRONG — @3:15 "Look at the text on this graphic. Nobody has a map of what is
+    coming, but as the yellow note says, you are fully ready to sail into the blank space." Then
+    @3:22 it keeps going: "Since absolute certainty is impossible, moving forward with deliberate
+    preparation and an open mind is the only way to effectively embrace the future."
+HARD REQUIREMENTS: 4 quotes MISSED; "Who's right? Nobody knows." MISSED; "Here's the honest part"
+  MISSED; "Not them, not us…" MISSED; road-map lead-in MISSED; "Take both views of the map
+  seriously." MISSED (suffixed); both closing lines MISSED (mangled, and narration continues after).
+  9 of 11 missed.
+ERRORS: @0:06 the four claims misattributed to Optimists and Warriors; @0:47 and @0:10 "warrior";
+  @1:40 "a utopian island" for the lesson's open water.
+SOURCE_QA: PASS
+ADDITIONS: "calculating the next most likely word" @0:28 (accurate); "Both groups are staring at a
+  complete lack of data" @1:46 (accurate).
+REPAIR PLAN: none. Roll 4 is better on every contested point and needs far less work.
+EDITING NOTES: ten screen-furniture phrases — "This board lays out" @0:00, "Look at the bottom" @0:14,
+  "Look at this vintage world map" @1:12, "This illustration shows" @1:28, "On the left"/"On the
+  right" @1:32/@1:40, "This historical ship shows" @1:54, "This road map graphic lays out" @2:34,
+  "At the bottom, you see" @3:07, "Look at the text on this graphic" @3:13, "as the yellow note
+  says" @3:19. Keep the file: its drawn scenes are donor material for roll 4's photograph spans.
+LISTENING: not listened to. base.en throughout plus medium.en on 0:04, 0:44 and 3:12.
+```
+
+```text
+LESSON: embrace-the-future-opener
+CANDIDATE: Prompts/opener-embrace-4.mp4 (3:32)
+VERDICT: REPAIR — two cuts, no grafts required. The best roll of the four by a wide margin.
+TEACHING POINTS:
+  Four claims as four quotes — RICH — @0:04-0:11, all four verbatim, in order, unattributed
+  "Who's right? Nobody knows." — RICH — @0:11
+  Knows how to use AI + engine underneath + strange behavior makes sense — RICH — @0:14-0:28
+  Goal already achieved — RICH — @0:28 "Your initial goal for this course was to be smarter than
+    the tool. Consider that done." (roll 2's error at this beat is not repeated)
+  The question almost everyone is arguing about — THIN — @0:40 "When discussing where this all
+    leads, you'll usually encounter three types of people." Drops the framing and "You've heard
+    the voices already."
+  AI Optimist — TAUGHT — @0:45 "thinks AI is completely fantastic" (the superlatives flourish is gone)
+  AI Worrier — TAUGHT — @0:49 (see the Worrier section above)
+  Doubter who rolls their eyes at both — RICH — @0:52
+  "Here's the honest part: nobody knows." — RICH — @0:55
+  "Not them, not us, not the people building AI." — RICH — @0:58
+  "Think back to history class." — MISSING — @1:03 replaced by "To understand this debate, look at
+    this vintage map."
+  Mapmakers and sea monsters — RICH — @1:06-1:20
+  Board 2's three lines — RICH — @1:20-1:38, all three, and the Optimists keep the lesson's
+    "easy, clear sailing through open water" rather than drifting to an island
+  Sailors found something unexpected — RICH — @1:49-2:02 "they usually found something entirely
+    unexpected"
+  Magellan, crew, death, expected neither — RICH — @2:02-2:19, ending on the lesson's own
+    "Did he expect either? No."
+  Section takes both views seriously, monsters and open water — RICH — @2:19-2:28
+  AI is here to stay + both qualifiers — RICH — @2:28-2:39 "That doesn't mean it will keep getting
+    better forever, just that it isn't going away." The qualifier the live video drops and roll 2
+    got wrong.
+  Map lead-in with the section title — RICH — @2:51
+  Three parts — RICH — @2:56-3:22, essentially the board verbatim
+  Banner — RICH — @3:22
+  Closing lines — RICH — @3:25-3:30, verbatim, in order, nothing after (last speech ends 3:29.34;
+    3.44 s of room tone to the file end)
+HARD REQUIREMENTS: all eleven MET.
+  "It's going to cure diseases." @0:04 · "It's going to take your job." @0:06 ·
+  "It'll do the boring parts for you." @0:08 · "It will hurt society." @0:10 ·
+  "Who's right? Nobody knows." @0:11 · "Here's the honest part: nobody knows." @0:55 ·
+  "Not them, not us, not the people building AI." @0:58 ·
+  "This road map shows what we'll explore in this section, Embrace the Future." @2:51
+    (base.en dropped "we'll"; medium.en confirms it) ·
+  "Take both views of the map seriously." @3:22 · "Nobody has a map of what's coming." @3:25 ·
+  "You're ready to sail into the blank space." @3:27
+ERRORS: none factual.
+SOURCE_QA: PASS
+ADDITIONS: @0:33 "understanding how a tool works mechanically doesn't automatically tell us how it
+  will impact society in the long run" — accurate, and the cleanest bridge any roll builds out of
+  Be Smarter Than the Tool. @1:38 "Both the utopian and dystopian extremes are just modern versions
+  of those old maps." @1:43 "When people lack facts about a blank space, they draw their own fears
+  and hopes to fill it." Both accurate and lesson-worthy. @2:39 "a permanent fixture with a
+  trajectory we can't fully predict… prepare for unexpected realities rather than clinging to
+  extreme predictions."
+REPAIR PLAN:
+  CUT 1 — excise 0:00.05-0:04.62 ("Look at this board. It shows what everyone is saying right
+    now."). Silences measured either side: 0.19 s at 0:00.05, 0.37 s at 0:04.25. The video then
+    opens on "It's going to cure diseases." over the full-view creed board, whose own eyebrow
+    reads WHAT EVERYONE'S SAYING. Removes both board-furniture phrases in one cut. −4.6 s.
+  CUT 2 — excise 1:03.38-1:06.74 ("To understand this debate, look at this vintage map."). Silences
+    0.51 s before, 0.33 s after. −3.4 s.
+  OPTIONAL GRAFT — in place of cut 2, drop in roll 2 @0:42.64-1:44.02, "Think back to history
+    class." (1.4 s between clean 0.34 s / 0.25 s silences). This removes the furniture AND restores
+    the one missing lesson line in a single move, under Notebook's own map scene. Needs David's ear
+    for voice continuity between rolls; the cut alone is the safe option.
+  Resulting runtime 3:25 with both cuts, 3:26 with the graft. The page pill says 3 min.
+EDITING NOTES:
+  Photographs to cover under rule 8c:
+    0:28-0:34 a "GOAL ACHIEVED" stock photograph (3D letters and a painted check).
+    1:04-1:22 two antique map scans, TYPVS ORBIS TERRARVM and a sea-monster chart detail. The
+      engravings are old enough to be public domain, but the scans are not identifiable from the
+      frames, which is exactly the case rule 8c was written for.
+    2:02-2:18 a photograph of a moored replica caravel — 16 s, under the whole Magellan beat.
+    Donors for all three: roll 4's own drawn serpent, torn-paper map, ship's deck and cliffs at
+    1:40-2:00 and 2:20-2:30; roll 3's drawn scenes; rolls 1 and 2.
+  0:16-0:26 a "COMPUTATIONAL ENGINE // Underlying Neural Structure" schematic — the same kind of
+    mechanism diagram flagged in roll 2, outside the prompt's "old charts, coastlines, ships, open
+    water" list. Replaceable, low priority.
+  0:44-0:54 Notebook's own "Three Human Archetypes" cards carry drawn faces; the prompt asked for
+    scenes with no people. Rule 8c bans photographs, not drawings, so this is David's call — and
+    the card spells THE WORRIER correctly, which argues for keeping it.
+  Course boards are Notebook re-renders with its own highlighting throughout (voices 0:00-0:14,
+    edge-of-the-map 1:22-1:38, section map 2:51-3:26, close 3:28) and are replaced with the
+    canonical JPGs under rule 2. The Gemini Notebook outro at 3:31 is removed.
+  Longest board run: the section map at ~31 s, over the 2026-09-23 twenty-second rule. One break to
+    a Notebook drawing between part two and part three; roll 4's own trajectory schematic at
+    2:44-2:50 or the serpent/sunrise diptych at 2:20-2:30 will carry it.
+LISTENING: not listened to. base.en throughout plus medium.en on 0:00, 0:44, 0:54, 1:22, 2:48 and
+  3:18, with word probabilities on the Worrier token and silence measurement at both cut points and
+  the tail. Unheard: cadence across both cuts, the "who's convinced / who was convinced" wording at
+  0:49, and levels.
+```
+
+## Recommendation
+
+**Build roll 4.** It is the first candidate in this lesson to meet every one of the eleven verbatim
+requirements, it says "worrier", it keeps the here-to-stay qualifier that the live video drops and
+roll 2 got wrong, it lands the "something unexpected" hinge, and it ends clean with nothing after
+the two closing lines. The repair is two excisions totalling eight seconds with clean silences at
+all four boundaries — no grafts needed, which means no cross-roll voice-continuity risk.
+
+The three photograph spans are the real work, not the narration. Roll 3 is superseded but worth
+keeping as a donor for them.
+
+Rolls 1 and 2 and their best-of plan above are now redundant. The 2026-09-23 prompt did its job on
+roll 4: the four quotes, both honest-part lines, the road-map sentence with the section title, the
+banner and both closing lines all came back verbatim, and the pronunciation note held.

@@ -490,8 +490,13 @@ and the nuclear-project examples stay removed; no Hit Send board is used.
 
 ### unexpected-results
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `unexpected-results.mp4` shipped under the
-old method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe. v2 SHIPPED 2026-09-24** (David: "Ship it"): roll 2 base, roll 1's
+"The new space quickly fills back up with new drivers." in place of roll 2's "incentive" sentence, and the old live
+video's Text Messaging and GPS explanations under the board (David: they felt much stronger), after roll 2's own GPS
+sentence. Build `scripts/video/build_unexpected_results_v2.py`; records `video-audit/unexpected-results-review-2026-09-24/`
+(both rolls and the old live video), `-v1-2026-09-24/`, `-v2-2026-09-24/`. The v1/v2 builds read donor drawings and
+audio from the pre-ship live file; restore it from the parent of the ship commit before rebuilding.
+Page question: the live SMS/GPS explanations (why each turned out better than planned) are not on the page yet.
 
 - Markdown: `lessons/unexpected-results.md` (rewritten 2026-09-23: the board's four cards are written
   out as sentences; the tailless-rat question is answered in the next sentence rather than left for the

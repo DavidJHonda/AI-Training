@@ -114,16 +114,20 @@ the Right or Wrong? activity is not narrated.
 
 ### pace-of-change
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `pace-of-change.mp4` is v2, shipped
-2026-09-18 under the old method (roll 2 base, AGI beat from the earlier course video, closing lines
-from roll 1; both rolls since deleted). Evaluated 2026-09-23 against the current system: **narration
-KEEP, pictures REROLL** — every point RICH/TAUGHT and the closing lines exact, but the four boards are
-held 77/45/85 s and every Notebook span is an invented chart, a release timeline, a chapter card or a
-restatement of the future-ideas boards, so Edit Spec 8b has nothing to break the holds with. Plan: roll
-on this kit; if the live narration still wins beat by beat, use the new roll's drawings under the live
-audio (8b, other rolls of the same lesson). Record:
-`video-audit/pace-of-change-evaluation-2026-09-23/REVIEW.md`. Reroll pending David's approval of the
-beat spine below.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `pace-of-change.mp4` is **v8, shipped
+2026-09-24** (David's approval; 4:52, cache key `20260924ship1`, pill 5 min). v8 is roll 4 of 2026-09-24
+with four narration cuts (the two 2026-as-a-projection lines, "autonomous agent", the compounding
+exponential loop); canonical Board 1 for 7.6 s, then roll 4's own animated 2023-vs-2026 build, which
+David liked; race-beat drawings from rolls 1-4; canonical Boards 2-4 (roll 4's versions carry invented
+statistics and draw the four ideas as a roadmap and a timeline); roll 4's forked spectrum under "not a
+guaranteed timeline"; standard close. Build: `scripts/video/build_pace_of_change_v8.py`. Record:
+`video-audit/pace-of-change-rerolls-2026-09-24/REVIEW.md` (roll 3/4 evaluation, v6, v7, v8). Known
+gap: Boards 3 and 4 still run about 90 s back to back.
+
+History: v2 (shipped 2026-09-18) was graded narration KEEP / pictures REROLL on 2026-09-23
+(`video-audit/pace-of-change-evaluation-2026-09-23/REVIEW.md`). Rolls 1 and 2 of 2026-09-23
+(`video-audit/pace-of-change-comparison-2026-09-23/REVIEW.md`) gave review builds v4/v5 on roll 1;
+the race-beat reroll (rolls 3 and 4 of 2026-09-24) gave v6 (v5 re-pictured), then v7/v8 on roll 4.
 
 - Markdown: `lessons/pace-of-change.md` (rewritten 2026-09-23: board titles carried as spoken
   sentences; the race paragraph moved out of Board 1 under `## A RACE TO DOMINATE`; the slow-down beat

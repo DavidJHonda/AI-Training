@@ -165,31 +165,31 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="big-upside-discovery",
-        title="AI Searches Possibilities Humans Cannot",
+        title="Helping People Stay Healthy",
         cards=(
-            Card("New Antibiotics", "Researchers screened thousands of compounds and found abaucin, which attacks a resistant bacterium."),
-            Card("New Materials", "DeepMind predicted 380,000 stable crystals worth testing for batteries, chips, and solar panels."),
-            Card("Cancer Screening", "In a Swedish trial, AI-supported screening detected more breast cancers in over 100,000 women."),
+            Card("Finding Cancer", "Doctors examine breast scans for signs of cancer. In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it."),
+            Card("Urgent Scans", "A brain bleed needs urgent attention. AI can flag a scan that shows a possible bleed so doctors can review it sooner. The doctor evaluates the scan and decides what care is needed."),
+            Card("New Antibiotics", "Some bacteria resist many existing antibiotics. Researchers used AI to identify abaucin, which killed a type of drug-resistant bacteria in lab tests."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-upside-discovery/art-sheet.png",
         page_output="course-assets/big-upside/big-upside-scientific-discovery.jpg",
         prep_output="course-assets/big-upside/big-upside-scientific-discovery.jpg",
-        takeaway="AI can search for more possibilities than people can.",
-        accents=(PURPLE, BLUE, TEAL),
+        takeaway="AI helps doctors find problems and researchers find possibilities.",
+        accents=(TEAL, BLUE, PURPLE),
     ),
     CardBoard(
         key="big-upside-help",
-        title="AI Turns Patterns into Practical Help",
+        title="Helping People in Everyday Life",
         cards=(
-            Card("Faster Forecasts", "A global forecast can arrive in about a minute instead of hours."),
-            Card("Flood Warnings", "Free warnings can arrive days early, even where rivers have no gauges."),
-            Card("Eyes and Ears", "AI describes scenes for blind users and captions sound for deaf users."),
+            Card("Reading Aloud", "A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks."),
+            Card("Flood Warnings", "Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels."),
+            Card("Targeted Spraying", "Farmers need to control weeds while limiting chemicals that can harm the environment. AI-guided equipment uses cameras to tell weeds from crops and sprays where weeds are found."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/big-upside-help/art-sheet.png",
         page_output="course-assets/big-upside/big-upside-practical-help.jpg",
         prep_output="course-assets/big-upside/big-upside-practical-help.jpg",
         takeaway="The upside is already reaching people.",
-        accents=(PURPLE, BLUE, TEAL),
+        accents=(TEAL, BLUE, GREEN),
     ),
     CardBoard(
         key="rise-agents-rogue",
@@ -472,8 +472,15 @@ def render_card_board(board: CardBoard) -> Image.Image:
         if len(board.art_files) != count:
             raise ValueError(f"{board.key}: assign one art file to every card")
         panels = [Image.open(ROOT / path).convert("RGB") for path in board.art_files]
+    elif board.key in ("big-upside-discovery", "big-upside-help") and not (ROOT / board.art_sheet).exists():
+        # Source sheets were retired during asset cleanup. The approved finished
+        # board retains the original artwork at these unchanged coordinates.
+        with Image.open(ROOT / board.page_output) as current:
+            panels = [current.crop((x, cards_top, x + w, cards_top + art_height)).convert("RGB")
+                      for x, w in zip(card_xs, card_widths)]
     else:
         panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
+    preserved_art = not board.art_files and not (ROOT / board.art_sheet).exists()
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
         row = 0 if count < 4 else index // 2
         x = card_xs[index]
@@ -482,7 +489,9 @@ def render_card_board(board: CardBoard) -> Image.Image:
         draw_shadow(image, (x, y, x + card_width, y + card_height), CARD_RADIUS)
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((x, y, x + card_width, y + card_height), radius=CARD_RADIUS, fill=WHITE, outline=mix_with_white(accent, CARD_BORDER_OPACITY), width=1)
-        art = accent_wash(cover(panel, (card_width, art_height)), accent)
+        art = cover(panel, (card_width, art_height))
+        if not preserved_art:
+            art = accent_wash(art, accent)
         image.paste(art, (x, y), top_round_mask((card_width, art_height), CARD_RADIUS))
         draw = ImageDraw.Draw(image)
         # The artwork is pasted after the card shell. Redraw the complete outline

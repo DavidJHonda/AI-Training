@@ -265,55 +265,69 @@ jailbreak is performed.
 
 ### big-upside
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `big-upside.mp4` shipped under the old
-method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; lesson rewritten 2026-09-24.** Live `big-upside.mp4` is v5 (below).
 
-- Markdown: `lessons/big-upside.md` (rewritten 2026-09-23: the page's six examples are taken from the
-  two visible boards, not from the hidden `md-source` list, which is not page-visible text; the
-  protein board's printed panels are written out as sentences so nothing depends on the cropped
-  upload; the Hassabis quotation is carried with its speaker; the required lines split onto their own
-  lines)
-- Prompt: `big-upside-video-prompt.txt` (499 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/big-upside/` (synced 2026-09-23)
-- Canonical folder: `course-assets/big-upside/`
-- Boards in lesson order:
-  - `big-upside-protein.jpg` — **post-only (faces)**; uploads as
-    `Prompts/big-upside-protein-faceless.jpg`. This board is one photo-illustration rather than a card
-    board with photo panels, so the variant is a crop of its people-free right side (944x1024 from
-    x=592): Possible Shapes, cards 2 and 3, Function, the target receptor and the atoms-versus-shapes
-    strip survive; the Protein Facts panel, the "1. Same string" card and the notebook line do not, so
-    the Markdown speaks all of them. The canonical board replaces the variant in the edit.
-  - `big-upside-hassabis-timeline.jpg` — upload
-  - `big-upside-scientific-discovery.jpg` — upload
-  - `big-upside-practical-help.jpg` — upload
-  - `big-upside-close.jpg` — upload
+**Rolls 1-2 and the live file evaluated 2026-09-24** in
+`video-audit/big-upside-review-2026-09-24/REVIEW.md`: roll 1 REPAIR (meets all eight verbatim
+lines; recommended base), roll 2 REROLL (donor for the verbatim Hassabis quotation), live REPLACE
+(no protein board, three of eight required lines).
+**v2 review candidate built 2026-09-24** (`Prompts/big-upside-v2.mp4`, 4:56.2): roll 1 with five cuts
+and roll 2's quotation grafted, canonical boards, photographs covered with live-video drawings, standard
+close. Not listened to; not shipped. Build: `scripts/video/build_big_upside_v2.py`. Record:
+`video-audit/big-upside-v2-2026-09-24/REVIEW.md`.
+**v3 built 2026-09-24** (`Prompts/big-upside-v3.mp4`, 4:50.9): v2 plus David's cut of "The sequence of
+those acids determines the folding, and that final shape determines the function." Record:
+`video-audit/big-upside-v3-2026-09-24/REVIEW.md`.
+**Lesson rewritten 2026-09-24; rolls 3-6 on the new materials.** Rolls 3-4 gave each example card one sentence
+(`video-audit/big-upside-review-2026-09-24b/`); the Markdown and prompt were revised to make the card sentences
+verbatim, and roll 6 met all 19 lines (`video-audit/big-upside-review-2026-09-24c/`). **v4 built 2026-09-24**
+(`Prompts/big-upside-v4.mp4`, 4:17.3): roll 6 with six cuts and roll 3's question line grafted; closing photographs
+covered with rolls 3-4 drawings. Not listened to; not shipped. Build: `scripts/video/build_big_upside_v4.py`.
+Record: `video-audit/big-upside-v4-2026-09-24/REVIEW.md`. v2/v3 predate the lesson rewrite.
+**v5 built 2026-09-24** (`Prompts/big-upside-v5.mp4`): v4 with the dissolve flash at 4:06 removed (two donor
+tails trimmed). Record: `video-audit/big-upside-v5-2026-09-24/REVIEW.md`.
+**Live `big-upside.mp4` is v5**, shipped 2026-09-24 on David's approval (cache key 20260924ship1, pill 4 min, 4:17.3).
+Not listened to end to end before shipping; the joins listed in the v4 record are still unauditioned.
+
+**Lesson simplified 2026-09-24:** protein teaching now covers essential jobs, shape,
+and scale: about 200,000 experimentally determined structures versus over 200 million
+AlphaFold predictions, shared freely. Removed the bead-chain mechanics, amino-acid
+count, atoms comparison, and near-lab-accuracy detour. The new board replaces the old
+protein illustration in place. The obsolete faceless upload crop was removed.
+
+An explicit bridge introduces Demis as the person who helped make this achievement
+possible. David approved telling his journey as a short story, rather than reciting
+every timeline date. The timeline board stays; the Markdown and prompt specify its
+concise narration. The six examples now form two boards: Helping People Stay Healthy (cancer
+screening, urgent scan alerts, antibiotic research) and Helping People in Everyday
+Life (reading aloud, flood warnings, targeted spraying). Repeated prose beneath
+them stays removed. New art replaces the materials and weather illustrations. Card wording was shortened with David’s approval; the antibiotic finding remains explicitly a lab result, and the spraying example now states the environmental benefit upfront. Existing rolls and v3 predate these changes; no video was edited.
+
+- Markdown: `lessons/big-upside.md`
+- Prompt: `Prompts/big-upside-video-prompt.txt` (495 words)
+- Upload registry: `Prompts/upload-sets.json`; synced bundle: `gemini-notebook/big-upside/`
+- Upload boards, in order: `big-upside-protein.jpg`, `big-upside-hassabis-timeline.jpg`,
+  `big-upside-scientific-discovery.jpg`, `big-upside-practical-help.jpg`, `big-upside-close.jpg`.
+  All are canonical JPGs in `course-assets/big-upside/`; no face variants or post-only boards.
 
 **Beat spine**
 
-1. Hook: the giant calculator, and the fifty-year problem it solved.
-2. Proteins: all four jobs, and the bead string folding into a 3D shape in a fraction of a second.
-3. Possible Shapes board: the three numbered points, all three Function lines, atoms versus shapes, the
-   twenty amino acids, sequence and shape, fifty years to about 200,000 shapes, "Shape is everything."
-4. The fifty-year problem in prose: why prediction was brutal, hundreds of millions of sequences with
-   no known structure.
-5. Hassabis timeline: seven dated steps with their details, then "A kid who loved games helped solve a
-   fifty-year science problem."
-6. AlphaFold close to lab accuracy for many proteins; "Then DeepMind did the part that actually
-   mattered: they gave the answers away, free to everyone."; three million people, 190 countries, the
-   2024 Nobel Prize in Chemistry; his quotation with its speaker.
-7. Pattern machine pointed at problems too big to search by hand; then all three discovery cards and
-   all three practical-help cards by name, each with its result and banner.
-8. "What good does AI do for society?" answered with the ready line.
-9. One more thing about Demis: a kid who loved chess and video games, the attitude as a choice, point
-   what you're good at at something that helps people, "But who are we to say you won't?"
-10. Close on the two lines with nothing after.
+1. Giant calculator and fifty-year scientific challenge.
+2. Proteins do essential jobs; shape matters. Experiments versus predictions, clearly
+   distinguished, and the free resource for research. Roughly 40–50 seconds; no mechanics.
+3. Who helped make that happen? Demis, chess and games, studying the brain, DeepMind,
+   AlphaFold, free release, Nobel recognition. Tell the story without a roll call of dates.
+4. Reach: three million users, over 190 countries, shared 2024 Nobel Prize and quotation.
+5. Patterns used for health and daily life; six examples with problem, AI contribution,
+   benefit, and both banners. Doctors retain medical decisions; antibiotics remain lab research.
+6. Answer what good AI does for society, then turn Demis's story toward students using
+   their strengths to help people.
+7. Two closing lines, with nothing after them.
 
-**Required verbatim lines:** the eight in the prompt (the timeline banner, the gave-it-away line, the
-two board banners, the ready answer, the Nobel-Prize line, and the two closing lines).
-
-**Banned words:** leverage, framework, utilize, breakthrough, revolutionize, paradigm, unlock; no
-screen/board-position references; no claim that AI cures disease or that AlphaFold always matches a
-lab; no numbers or dates beyond the Markdown.
+**Required verbatim lines:** the eleven in the prompt, including the full attributed
+Hassabis quotation and the exact experiment/prediction distinction. Read the quotation
+in full, word for word; do not paraphrase or omit it. Do not imply laboratory confirmation of all AlphaFold outputs,
+automatic medical decisions, approved antibiotic treatment, or guaranteed warnings.
 
 ### rise-of-agents
 

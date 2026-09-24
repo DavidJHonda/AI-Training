@@ -1,0 +1,58 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `Prompts/big-upside-v2.mp4`
+- Decoded frames: 8886
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f990 `Possible-Shapes--canonical--` — [`boundary-000990-Possible-Shapes-canonical.jpg`](boundary-000990-Possible-Shapes-canonical.jpg)
+- FAIL — f1212 `BREAK-A--LIVE-scattered-fold` — [`boundary-001212-BREAK-A-LIVE-scattered-fold.jpg`](boundary-001212-BREAK-A-LIVE-scattered-fold.jpg)
+  - Possible stale visual: f1212 to f1217 (5 frames)
+  - Possible stale visual: f1217 to f1218 (1 frames)
+  - Possible stale visual: f1218 to f1219 (1 frames)
+  - Possible stale visual: f1219 to f1220 (1 frames)
+  - Possible stale visual: f1220 to f1221 (1 frames)
+  - Possible stale visual: f1221 to f1222 (1 frames)
+  - Possible stale visual: f1222 to f1223 (1 frames)
+  - Possible stale visual: f1223 to f1224 (1 frames)
+- FAIL — f1335 `Possible-Shapes--point-three` — [`boundary-001335-Possible-Shapes-point-three.jpg`](boundary-001335-Possible-Shapes-point-three.jpg)
+  - Possible stale visual: f1334 to f1335 (1 frames)
+- PASS — f1614 `Possible-Shapes--Function--s` — [`boundary-001614-Possible-Shapes-Function-s.jpg`](boundary-001614-Possible-Shapes-Function-s.jpg)
+- PASS — f1743 `BREAK-C--LIVE-misfolded-prot` — [`boundary-001743-BREAK-C-LIVE-misfolded-prot.jpg`](boundary-001743-BREAK-C-LIVE-misfolded-prot.jpg)
+- PASS — f1932 `Possible-Shapes--Function--r` — [`boundary-001932-Possible-Shapes-Function-r.jpg`](boundary-001932-Possible-Shapes-Function-r.jpg)
+- FAIL — f1962 `Possible-Shapes--atoms-vs-sh` — [`boundary-001962-Possible-Shapes-atoms-vs-sh.jpg`](boundary-001962-Possible-Shapes-atoms-vs-sh.jpg)
+  - Possible stale visual: f1969 to f1970 (1 frames)
+  - Possible stale visual: f1970 to f1971 (1 frames)
+  - Possible stale visual: f1971 to f1972 (1 frames)
+  - Possible stale visual: f1972 to f1973 (1 frames)
+  - Possible stale visual: f1973 to f1974 (1 frames)
+- PASS — f2429 `BREAK-D--LIVE-bead-chain-fol` — [`boundary-002429-BREAK-D-LIVE-bead-chain-fol.jpg`](boundary-002429-BREAK-D-LIVE-bead-chain-fol.jpg)
+- PASS — f2588 `Possible-Shapes--Protein-Fac` — [`boundary-002588-Possible-Shapes-Protein-Fac.jpg`](boundary-002588-Possible-Shapes-Protein-Fac.jpg)
+- PASS — f2838 `Notebook--sequence-wall--tor` — [`boundary-002838-Notebook-sequence-wall-tor.jpg`](boundary-002838-Notebook-sequence-wall-tor.jpg)
+- PASS — f3251 `COVER-invented-figures--roll` — [`boundary-003251-COVER-invented-figures-roll.jpg`](boundary-003251-COVER-invented-figures-roll.jpg)
+- PASS — f3556 `Timeline--canonical---title-` — [`boundary-003556-Timeline-canonical-title.jpg`](boundary-003556-Timeline-canonical-title.jpg)
+- PASS — f4190 `BREAK-T1--LIVE-server-hall-u` — [`boundary-004190-BREAK-T1-LIVE-server-hall-u.jpg`](boundary-004190-BREAK-T1-LIVE-server-hall-u.jpg)
+- PASS — f4253 `Timeline--2020` — [`boundary-004253-Timeline-2020.jpg`](boundary-004253-Timeline-2020.jpg)
+- PASS — f4343 `BREAK-T2--LIVE-blueprint-pro` — [`boundary-004343-BREAK-T2-LIVE-blueprint-pro.jpg`](boundary-004343-BREAK-T2-LIVE-blueprint-pro.jpg)
+- PASS — f4457 `Timeline--2022--2024` — [`boundary-004457-Timeline-2022-2024.jpg`](boundary-004457-Timeline-2022-2024.jpg)
+- PASS — f4784 `Timeline--banner--A-kid-who-` — [`boundary-004784-Timeline-banner-A-kid-who.jpg`](boundary-004784-Timeline-banner-A-kid-who.jpg)
+- PASS — f4922 `Notebook--AlphaFold-vs-exper` — [`boundary-004922-Notebook-AlphaFold-vs-exper.jpg`](boundary-004922-Notebook-AlphaFold-vs-exper.jpg)
+- PASS — f5206 `PHOTO-COVERED--DeepMind-offi` — [`boundary-005206-PHOTO-COVERED-DeepMind-offi.jpg`](boundary-005206-PHOTO-COVERED-DeepMind-offi.jpg)
+- PASS — f5386 `Notebook--world-map--three-m` — [`boundary-005386-Notebook-world-map-three-m.jpg`](boundary-005386-Notebook-world-map-three-m.jpg)
+- PASS — f5515 `GRAFT-roll-2---As-Hassabis-s` — [`boundary-005515-GRAFT-roll-2-As-Hassabis-s.jpg`](boundary-005515-GRAFT-roll-2-As-Hassabis-s.jpg)
+- PASS — f5788 `Notebook--AI--THE-PATTERN-EN` — [`boundary-005788-Notebook-AI-THE-PATTERN-EN.jpg`](boundary-005788-Notebook-AI-THE-PATTERN-EN.jpg)
+- PASS — f5879 `COVER-invented-figures--1-42` — [`boundary-005879-COVER-invented-figures-1-42.jpg`](boundary-005879-COVER-invented-figures-1-42.jpg)
+- PASS — f6135 `Notebook--general-purpose-AI` — [`boundary-006135-Notebook-general-purpose-AI.jpg`](boundary-006135-Notebook-general-purpose-AI.jpg)
+- PASS — f6469 `AI-Searches-Possibilities-Hu` — [`boundary-006469-AI-Searches-Possibilities-Hu.jpg`](boundary-006469-AI-Searches-Possibilities-Hu.jpg)
+- PASS — f7148 `AI-Turns-Patterns-into-Pract` — [`boundary-007148-AI-Turns-Patterns-into-Pract.jpg`](boundary-007148-AI-Turns-Patterns-into-Pract.jpg)
+- PASS — f7676 `Notebook--head-silhouette-an` — [`boundary-007676-Notebook-head-silhouette-an.jpg`](boundary-007676-Notebook-head-silhouette-an.jpg)
+- PASS — f7866 `FORCE-MULTIPLIER-card-held-b` — [`boundary-007866-FORCE-MULTIPLIER-card-held-b.jpg`](boundary-007866-FORCE-MULTIPLIER-card-held-b.jpg)
+- PASS — f8059 `Notebook--chess-knight-and-g` — [`boundary-008059-Notebook-chess-knight-and-g.jpg`](boundary-008059-Notebook-chess-knight-and-g.jpg)
+- PASS — f8231 `PHOTO-COVERED--Hassabis-port` — [`boundary-008231-PHOTO-COVERED-Hassabis-port.jpg`](boundary-008231-PHOTO-COVERED-Hassabis-port.jpg)
+- PASS — f8399 `Notebook--sunburst--medicine` — [`boundary-008399-Notebook-sunburst-medicine.jpg`](boundary-008399-Notebook-sunburst-medicine.jpg)
+- PASS — f8490 `PHOTO-COVERED--Nobel-medal--` — [`boundary-008490-PHOTO-COVERED-Nobel-medal.jpg`](boundary-008490-PHOTO-COVERED-Nobel-medal.jpg)
+- PASS — f8594 `Canonical-close-replaces-Not` — [`boundary-008594-Canonical-close-replaces-Not.jpg`](boundary-008594-Canonical-close-replaces-Not.jpg)
+- PASS — f8766 `Settled-close-hold` — [`boundary-008766-Settled-close-hold.jpg`](boundary-008766-Settled-close-hold.jpg)

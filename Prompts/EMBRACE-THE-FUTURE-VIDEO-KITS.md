@@ -313,8 +313,33 @@ lab; no numbers or dates beyond the Markdown.
 
 ### rise-of-agents
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `rise-of-agents.mp4` shipped under the old
-method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `rise-of-agents.mp4` is **v4, shipped
+2026-09-24** on David's approval (cache key 20260924ship1, pill 3 min, 3:07.8): roll 2 base with the old
+live video's intro and loop narration, roll 2's everywhere line and roll 1's example line and loop banner, section-level
+rings. Build: `scripts/video/build_rise_of_agents_v4.py`. Record: `video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`.
+The replaced live video (commit 6cccc758) is kept as `Prompts/rise-of-agents-live-pre-v4.mp4`, the donor
+the v3/v4 builds read.
+
+**Rolls 1-2 and the live video evaluated 2026-09-24** in
+`video-audit/rise-of-agents-evaluation-2026-09-24/REVIEW.md`: roll 1 REPAIR (8/8 verbatim, but drops
+the analogy's mistake clause; donor only), roll 2 REPAIR and proposed base (7/8; the loop banner comes
+from roll 1 @118.78-130.98 under the loop board), live REROLL (3/8, superseded). Edit plan was awaiting
+David's approval (since given, below).
+**v2 review candidate built 2026-09-24** on David's approval (both grafts + cut 1; optional "it's
+autonomous" cut not taken): `Prompts/rise-of-agents-v2.mp4` (2:58.4), build
+`scripts/video/build_rise_of_agents_v2.py`, record `video-audit/rise-of-agents-v2-2026-09-24/REVIEW.md`.
+8/8 verbatim lines on the output transcript; transition guard 17/17. Not shipped; joins await David's ear.
+**v3 review candidate built 2026-09-24** from David's notes on v2: the live video's intro (0:00-0:38)
+replaces v2's opening, section-level rings wherever a card section is spoken (after the live video),
+and the live video's loop narration under What an Agent Does (two live sentences omitted, roll 1's banner
+line kept): `Prompts/rise-of-agents-v3.mp4` (3:00.0), build `scripts/video/build_rise_of_agents_v3.py`,
+record `video-audit/rise-of-agents-v3-2026-09-24/REVIEW.md`. 7/8 verbatim lines (the live intro says
+"A chatbot answers, but an agent acts."); transition guard 17/17. Not shipped.
+**v4 review candidate built 2026-09-24**: v3 plus the analogy-to-example transition David flagged
+(roll 2 "This distinction is exactly why AI agents are suddenly everywhere. They actually do the work."
+over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example."):
+`Prompts/rise-of-agents-v4.mp4` (3:07.8), build `scripts/video/build_rise_of_agents_v4.py`, record
+`video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`. Transition guard 19/19. **Shipped 2026-09-24.**
 
 - Markdown: `lessons/rise-of-agents.md` (rewritten 2026-09-23: the comparison board's six labelled
   rows are written out as sentences; review and approval are narrated before publishing; "An agent is

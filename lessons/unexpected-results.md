@@ -6,17 +6,25 @@ Everyone has opinions about AI’s future, whether they’re AI Worriers or AI O
 
 The best way to see it is a true story about rats.
 
-## HANOI, 1902
+## Hanoi, 1902
 
 The city had a big problem. There were too many rats in the new sewers. No worries. They devised a perfect plan. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. The brilliance of the plan!
 
-Then people saw something very strange: rats running around the city with no tails. What happened? It was another math thing. Rats can live a relatively full “rat life” even without their tails, and keep having more rat babies. The rat hunters, even without AI, came up with a clever plan to keep the rat-tail supply strong. They clipped the tails, but let the rats live. A dead rat pays once. A live rat pays forever.
+Then people saw something very strange: rats running around the city with no tails.
+
+Here is what happened. It was another math thing. Rats can live a relatively full “rat life” even without their tails, and keep having more rat babies. The rat hunters, even without AI, came up with a clever plan to keep the rat-tail supply strong. They clipped the tails, but let the rats live.
+
+A dead rat pays once. A live rat pays forever.
 
 Some rat entrepreneurs went even further. They started rat farms. You probably know where this is going. When Hanoi stopped the program, they had a mountain of rat tails, but more rats than when it started.
 
-What’s the moral of this story? The payment system worked exactly as designed. People delivered tails, and the government paid them. But the real goal was fewer rats, and the program encouraged people to keep rats alive.
+## The Moral of the Story
 
-## UNEXPECTED RESULTS
+The payment system worked exactly as designed. People delivered tails, and the government paid them.
+
+But the real goal was fewer rats, and the program encouraged people to keep rats alive.
+
+## Unexpected Results
 
 Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse.
 
@@ -24,35 +32,39 @@ Once you see that shape, you find it everywhere. Four famous plans, and where ea
 
 **Image file:** `unexpected-results-plans.jpg`
 
-![The Biggest Results Were Never the Plan](../course-assets/unexpected-results/unexpected-results-plans.jpg)
+![The Biggest Results Were Never the Plan](unexpected-results-plans.jpg)
 
 **Teaching content:**
 
-Text messaging: SMS was designed as a short service for mobile networks. Today, it is the technology behind traditional text messages. Better than planned.
+The biggest results were never the plan.
 
-GPS: built by the U.S. military to guide ships, aircraft, and weapons. Today, it powers everyday location tools, including Google Maps. Better than planned.
+Here are four.
 
-Cane toads: Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country. Worse than planned.
+Text messaging. SMS was designed as a short service for mobile networks. Today, it is the technology behind traditional text messages.
 
-Wider highways: to ease congestion, Texas spent 2.8 billion dollars widening Houston’s Katy Freeway. By 2014, one rush-hour trip took 51 percent longer than it had three years earlier. Worse than planned.
+GPS. Built by the U.S. military to guide ships, aircraft, and weapons. Today, it powers everyday location tools, including Google Maps.
 
-Why can a wider road fill up again? More room can encourage more driving. People change their routes, take more trips, or live farther away. The added traffic can use up the extra space. That helps explain why widening alone does not guarantee lasting relief; it is not proof that widening caused the entire change in that one Houston trip.
+Cane toads. Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.
 
-**Verification only — do not narrate or display:** Duranton and Turner, “The Fundamental Law of Road Congestion: Evidence from US Cities” (2011), https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616. Supports the general explanation of added driving, not the specific Houston percentage.
+Wider highways. To ease congestion, Texas spent $2.8 billion widening Houston’s Katy Freeway. By 2014, one rush-hour trip took 51% longer than it had three years earlier.
 
-## THE ONE SURE THING
+## Why More Lanes Can Mean More Traffic
 
-Now point that history at AI. Every AI expert, Optimist and Worrier alike, is making a prediction about the future. Smart and informed predictions, every one. The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet.
+There’s a general pattern behind that last one. Make a road easier to drive, and more people drive it. Trips that weren’t worth making before start getting made, and some of the new space fills back up.
+
+That doesn’t explain the whole Houston number by itself. Plenty else changed in those three years.
+
+But it’s why “just add lanes” doesn’t always end congestion.
+
+## The One Sure Thing
+
+Now point that history at AI. Every AI expert, Optimist and Worrier alike, is making a prediction about the future. Smart and informed predictions, every one.
+
+The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet.
 
 That’s not a reason to fear the future. It’s the reason to walk into it curious, with your eyes open.
 
 You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes.
-
-### Close
-
-**Image file:** `unexpected-results-close.jpg`
-
-![Close board](../course-assets/unexpected-results/unexpected-results-close.jpg)
 
 ## Closing Message
 

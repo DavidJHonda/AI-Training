@@ -6,43 +6,63 @@ Before you know it, you’ll be finished with school and starting your career. H
 
 Some familiar job titles may still be around: entrepreneur, teacher, lawyer, or designer. But what those jobs look like is already changing, including what people do each day.
 
-## YOU ALREADY KNOW THE PIECES
+## You Already Know the Pieces
 
-To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job.
+To understand this, let’s review two concepts you already learned.
+
+First: AI is best at specific things, and that’s where you’ll use it in your job.
 
 ### Board 1: Four AI Strengths at Work
 
 **Image file:** `work-changes-four-shapes-of-ai-work.jpg`
 
-![Four AI Strengths at Work](../course-assets/work-changes/work-changes-four-shapes-of-ai-work.jpg)
+![Four AI Strengths at Work](work-changes-four-shapes-of-ai-work.jpg)
 
 **Teaching content:**
 
-Reshape Your Material: turn existing material into a more useful form. Explore Possibilities: generate options and explore different directions. Find What Matters: pull key ideas and relevant details from long documents. Work Through Problems: break down a problem, compare approaches, and plan next steps.
+Four AI strengths at work.
 
-Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? It’s what you already know.
+Reshape your material. Turn existing material into a more useful form.
 
-## YOUR FIRST ASSIGNMENT
+Explore possibilities. Generate options and explore different directions.
+
+Find what matters. Pull key ideas and relevant details from long documents.
+
+Work through problems. Break down a problem, compare approaches, and plan next steps.
+
+## What Sets You Apart
+
+Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart?
+
+It’s what you already know.
+
+## Your First Assignment
 
 Here’s the same job before AI and with AI. AI can give you more time for the interesting stuff.
 
 ### Board 2: Your First Assignment
 
-**Image file:** `work-changes-assignment.jpg`
+**Image file:** `work-changes-assignment-faceless.jpg`
 
-![Your First Assignment](../course-assets/work-changes/work-changes-assignment.jpg)
+![Your First Assignment](work-changes-assignment-faceless.jpg)
 
 **Teaching content:**
 
-The assignment. Your manager tells you: “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”
+Your first assignment.
 
-Before AI, the old job. The week disappears into the first pass. Friday arrives before the real thinking begins. You do the first pass: read and organize 500 reviews, find the recurring themes, build the spreadsheet, create a first analysis, draft the presentation deck. Then you investigate why, recommend the fix, and present the findings. The result: the boss adds a page of comments, and you spend the next week reanalyzing.
+Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”
 
-With AI, the new job. AI completes the first pass in minutes. Your week can begin with the real questions. AI does the first pass: reads and organizes the 500 reviews, finds the recurring themes, builds the spreadsheet, creates a first analysis, drafts the presentation deck. You start here: improve AI’s work, investigate why, recommend the fix, present the findings. The result: the boss loves it. The week you spent on the real questions pays off.
+The old job, before AI. The week disappears into the first pass. Friday arrives before the real thinking begins. You do the first pass: read and organize 500 reviews, find the recurring themes, build the spreadsheet, create a first analysis, and draft the presentation deck. Then you investigate why, recommend the fix, and present the findings. The result: the boss adds a page of comments, and you spend the next week reanalyzing.
 
-Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just help you work faster. It can help you focus on what’s really important.
+The new job, with AI. AI completes the first pass in minutes. Your week can begin with the real questions. AI does the first pass: read and organize 500 reviews, find the recurring themes, build the spreadsheet, create a first analysis, and draft the presentation deck. You start here: improve AI’s work, investigate why, recommend the fix, and present the findings. The result: the boss loves it. The week you spent on the real questions pays off.
 
-## THE CONCEPTS
+## Do You See the Point?
+
+The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know.
+
+AI doesn’t just help you work faster. It can help you focus on what’s really important.
+
+## The Concepts
 
 There are two terms you’ll hear that describe how AI is changing the nature of work.
 
@@ -50,19 +70,25 @@ There are two terms you’ll hear that describe how AI is changing the nature of
 
 **Image file:** `work-changes-automation-and-augmentation.jpg`
 
-![Two Ways AI Changes the Work](../course-assets/work-changes/work-changes-automation-and-augmentation.jpg)
+![Two Ways AI Changes the Work](work-changes-automation-and-augmentation.jpg)
 
 **Teaching content:**
 
-Automate: AI takes over a step. In the assignment, it sorted the reviews, grouped the ideas, and created the first summary.
+Two ways AI changes the work.
 
-Augment: AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation.
+Automate. AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary.
+
+Augment. AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation.
 
 The work still has your name on it. You own the outcome.
 
-Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome.
+## You Own the Outcome
 
-## WHAT CHANGES WITH AI
+Whatever career you choose, AI will do some tasks for you and help you do others.
+
+But here’s the important point: the work still has your name on it. You own the outcome.
+
+## What Changes with AI
 
 Put automation and augmentation together, and three changes show up across almost every career.
 
@@ -70,29 +96,27 @@ Put automation and augmentation together, and three changes show up across almos
 
 **Image file:** `work-changes-productivity-and-possibilities.jpg`
 
-![What Changes with AI](../course-assets/work-changes/work-changes-productivity-and-possibilities.jpg)
+![What Changes with AI](work-changes-productivity-and-possibilities.jpg)
 
 **Teaching content:**
 
-More kinds of work: you cover more of the workflow, with fewer handoffs to other people.
+What changes with AI.
 
-More productive: in one study, consultants finished certain tasks 25 percent faster with 40 percent higher quality.
+More kinds. You cover more of the workflow, with fewer handoffs to other people.
 
-Meaningful work: AI can absorb busy work, leaving more time to investigate, decide, and recommend.
+More productive. In one study, consultants finished certain tasks 25% faster with 40% higher quality.
 
-## THE PART THAT MATTERS
+Meaningful work. AI can absorb busy work, leaving more time to investigate, decide, and recommend.
+
+## The Part That Matters
 
 AI is already changing some entry-level work. Basic research, starter code, and simple analysis often helped new graduates learn a profession. AI can now handle or assist with some of that work.
 
-AI can make you productive before it makes you knowledgeable. That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it.
+AI can make you productive before it makes you knowledgeable.
+
+That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it.
 
 You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school.
-
-### Close
-
-**Image file:** `work-changes-close.jpg`
-
-![Close board](../course-assets/work-changes/work-changes-close.jpg)
 
 ## Closing Message
 

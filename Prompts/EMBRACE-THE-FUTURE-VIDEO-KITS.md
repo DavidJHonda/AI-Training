@@ -1,8 +1,9 @@
 # Embrace the Future Video Kits
 
-> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current. As of 2026-09-23 that is every entry except
+> big-downside, whose rebuilt entry is in the working tree of the session that is rolling it.
 
-Prep updated 2026-09-18. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
+Prep rebuilt 2026-09-23: all nine lessons are on the 2026-09-20 recipe and in `Prompts/upload-sets.json`. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
 
 Use current Markdown in `lessons/`, canonical JPGs in each `course-assets/` lesson folder, and the matching prompt and upload checklist in `Prompts/`. Markdown contains the spoken teaching in lesson order; it is not a script for reading production labels. Upload selected JPGs separately. There are no upload JPG copies in `lessons/` or `illustrations/`.
 
@@ -12,17 +13,70 @@ All paths below are repository-relative. Each named prompt and checklist is in `
 
 ### opener-embrace
 
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `embrace-the-future-opener.mp4` is v4,
+shipped 2026-09-22 under the old method (cache key 20260922ship5, pill 3 min, 2:47): the live
+narration with the What Everyone's Saying card recaptured from the page at the Work opener's scale
+(full view, gold line rings, the live's paired-quote states) and the map-introduction sentence
+replaced by the Understand opener's road-map line (audio-only graft, +0.4 dB); the map now arrives on
+that line. Review: `video-audit/opener-embrace-repair-2026-09-18/` (Build v4 section).
 
-**Opener video v4 SHIPPED 2026-09-22** (cache key 20260922ship5, pill 3 min, 2:47): the live narration with the What Everyone's Saying card recaptured from the page at the Work opener's scale (full view, gold line rings, the live's paired-quote states) and the map-introduction sentence replaced by the Understand opener's "This roadmap shows what we'll explore in this section." (audio-only graft, +0.4 dB); the map now arrives on that line. Review: `video-audit/opener-embrace-repair-2026-09-18/` (Build v4 section).
-- Markdown: `lessons/Opener-Embrace.md`
-- Prompt: `opener-embrace-video-prompt.txt`
-- Upload checklist: `opener-embrace-upload-files.txt`
+**Rolls 1 and 2 evaluated 2026-09-23** (`Prompts/opener-embrace-1.mp4` 3:49,
+`Prompts/opener-embrace-2.mp4` 2:49; both generated ~2026-09-19 on the OLD materials, so they do not
+test this kit). Both **REPAIR**, and both beat the live v4, which never speaks the four quotes and
+misattributes them to camps. Roll 2 carries the verbatim quote block, the history-class line and the
+"They found the unexpected." hinge; roll 1 carries the goal-already-reached beat, the richer three-part
+map read and the full here-to-stay qualifier. Best-of plan: base roll 2, three grafts, all under boards
+(roll 1's goal beat under the voices card; roll 1's Part 3 read and the live v4 map lead-in under the
+section map). Record: `video-audit/opener-embrace-evaluation-2026-09-23/REVIEW.md`.
+**Recommendation: roll once on this kit first** — every deciding failure is one the rebuilt prompt now
+addresses (verbatim quotes, both honest-part lines, the fixed map lead-in, the board-furniture ban, the
+formal register). The stitch stays available if the new roll does not clear it.
+**Open question for David's ear:** `medium.en` reads roll 2 (and the live v4) as "AI warrior" and roll 1
+as "AI worrier" at first mention. Machine transcription cannot settle a near-homophone; the prompt now
+carries a say-it-as-worry-er instruction either way. If the live video sounds wrong, the term is a
+section-wide problem, since Loudest Voices and Unexpected Results both use the Worrier/Optimist pair.
+
+- Markdown: `lessons/Opener-Embrace.md` (rewritten 2026-09-23: the four quotes and the section map
+  rows split onto their own lines; the What Everyone's Saying card and the map illustration are now
+  boards of their own, with the page prose that used to sit inside them moved out under `##` headings
+  (`## WHERE DOES ALL THIS LAND?`, `## THE EDGE OF THE MAP`, `## WHAT THE SAILORS ACTUALLY FOUND`),
+  so neither board holds through a paragraph; the map lead-in is David's fixed sentence, "This road
+  map shows what we'll explore in this section, Embrace the Future."; the board's banner line closes
+  the map beat)
+- Prompt: `opener-embrace-video-prompt.txt` (498 words, four blocks; carries the Worrier pronunciation note added 2026-09-23 after the roll evaluation)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/embrace-the-future-opener/` (synced
+  2026-09-23; registry slug is `embrace-the-future-opener`, matching the asset folder)
 - Canonical folder: `course-assets/embrace-the-future-opener/`
-- Boards in lesson order:
+- Boards in lesson order (no faces; all upload):
   - `embrace-the-future-opener-voices.jpg` — upload
-  - `embrace-the-future-opener-edge-of-the-map.jpg` — upload
+  - `embrace-the-future-opener-edge-of-the-map.jpg` — upload (the two figures stand with their backs
+    to the camera; no face is visible, so the canonical illustration uploads as-is)
   - `embrace-the-future-opener-section-map.jpg` — upload
   - `embrace-the-future-opener-close.jpg` — upload
+
+**Beat spine**
+
+1. Open on the voices card: "What everyone's saying", the four quotes in order, then "Who's right?
+   Nobody knows."
+2. Board gone: you already know how to use AI and understand the engine underneath; the goal is Be
+   Smarter Than the Tool; done.
+3. The three people by their labels: the AI Optimist, the AI Worrier, the Doubter who rolls their eyes
+   at both. "Here's the honest part: nobody knows." / "Not them, not us, not the people building AI."
+4. Drawn scene: the mapmakers who filled unknown waters with sea monsters and serpents.
+5. The map illustration, three lines only: the ocean comparison, what the Worriers fill the unknown
+   with, what the Optimists see in the same unknown.
+6. Board gone: what the sailors actually found; Magellan, his crew, his death before the voyage ended;
+   the section takes both views seriously; AI is here to stay, with both qualifiers.
+7. Section map: the fixed lead-in sentence, then all three parts with their full descriptions, then
+   "Take both views of the map seriously."
+8. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the eleven in the prompt (the four quotes, the who's-right line, the two
+honest-part lines, the map lead-in, the banner, and the two closing lines).
+
+**Banned words:** leverage, framework, utilize, discourse, revolution, journey, transformative; no
+screen/board-position references; no predicting which side turns out right; no lesson previewed beyond
+what the map says.
 
 ### loudest-voices
 
@@ -142,81 +196,273 @@ timelines beyond the Markdown; no redrawn board diagrams; the lab is not narrate
 
 ### big-upside
 
-- Markdown: `lessons/big-upside.md`
-- Prompt: `big-upside-video-prompt.txt`
-- Upload checklist: `big-upside-upload-files.txt`
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `big-upside.mp4` shipped under the old
+method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+
+- Markdown: `lessons/big-upside.md` (rewritten 2026-09-23: the page's six examples are taken from the
+  two visible boards, not from the hidden `md-source` list, which is not page-visible text; the
+  protein board's printed panels are written out as sentences so nothing depends on the cropped
+  upload; the Hassabis quotation is carried with its speaker; the required lines split onto their own
+  lines)
+- Prompt: `big-upside-video-prompt.txt` (499 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/big-upside/` (synced 2026-09-23)
 - Canonical folder: `course-assets/big-upside/`
 - Boards in lesson order:
-  - `big-upside-protein.jpg` — post-production only; reserve narration
+  - `big-upside-protein.jpg` — **post-only (faces)**; uploads as
+    `Prompts/big-upside-protein-faceless.jpg`. This board is one photo-illustration rather than a card
+    board with photo panels, so the variant is a crop of its people-free right side (944x1024 from
+    x=592): Possible Shapes, cards 2 and 3, Function, the target receptor and the atoms-versus-shapes
+    strip survive; the Protein Facts panel, the "1. Same string" card and the notebook line do not, so
+    the Markdown speaks all of them. The canonical board replaces the variant in the edit.
   - `big-upside-hassabis-timeline.jpg` — upload
   - `big-upside-scientific-discovery.jpg` — upload
   - `big-upside-practical-help.jpg` — upload
   - `big-upside-close.jpg` — upload
 
+**Beat spine**
+
+1. Hook: the giant calculator, and the fifty-year problem it solved.
+2. Proteins: all four jobs, and the bead string folding into a 3D shape in a fraction of a second.
+3. Possible Shapes board: the three numbered points, all three Function lines, atoms versus shapes, the
+   twenty amino acids, sequence and shape, fifty years to about 200,000 shapes, "Shape is everything."
+4. The fifty-year problem in prose: why prediction was brutal, hundreds of millions of sequences with
+   no known structure.
+5. Hassabis timeline: seven dated steps with their details, then "A kid who loved games helped solve a
+   fifty-year science problem."
+6. AlphaFold close to lab accuracy for many proteins; "Then DeepMind did the part that actually
+   mattered: they gave the answers away, free to everyone."; three million people, 190 countries, the
+   2024 Nobel Prize in Chemistry; his quotation with its speaker.
+7. Pattern machine pointed at problems too big to search by hand; then all three discovery cards and
+   all three practical-help cards by name, each with its result and banner.
+8. "What good does AI do for society?" answered with the ready line.
+9. One more thing about Demis: a kid who loved chess and video games, the attitude as a choice, point
+   what you're good at at something that helps people, "But who are we to say you won't?"
+10. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the eight in the prompt (the timeline banner, the gave-it-away line, the
+two board banners, the ready answer, the Nobel-Prize line, and the two closing lines).
+
+**Banned words:** leverage, framework, utilize, breakthrough, revolutionize, paradigm, unlock; no
+screen/board-position references; no claim that AI cures disease or that AlphaFold always matches a
+lab; no numbers or dates beyond the Markdown.
+
 ### rise-of-agents
 
-- Markdown: `lessons/rise-of-agents.md`
-- Prompt: `rise-of-agents-video-prompt.txt`
-- Upload checklist: `rise-of-agents-upload-files.txt`
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `rise-of-agents.mp4` shipped under the old
+method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+
+- Markdown: `lessons/rise-of-agents.md` (rewritten 2026-09-23: the comparison board's six labelled
+  rows are written out as sentences; review and approval are narrated before publishing; "An agent is
+  not a new kind of AI." split onto its own line so the prompt can demand it verbatim; both rogue-agent
+  quotations carried with their speakers)
+- Prompt: `rise-of-agents-video-prompt.txt` (494 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/rise-of-agents/` (synced 2026-09-23)
 - Canonical folder: `course-assets/rise-of-agents/`
 - Boards in lesson order:
-  - `rise-of-agents-gps.jpg` — post-production only; reserve narration
+  - `rise-of-agents-gps.jpg` — **post-only (faces)**; uploads as
+    `Prompts/rise-of-agents-gps-faceless.jpg`, the same 1408x1117 board with the two car photos filled
+    in the board's lavender. Both card texts stay on the variant. The canonical board replaces it in
+    the edit.
   - `rise-of-agents-chatbot-vs-agent.jpg` — upload
   - `rise-of-agents-agent-loop.jpg` — upload
   - `rise-of-agents-rogue.jpg` — upload
   - `rise-of-agents-close.jpg` — upload
 
+**Beat spine**
+
+1. "What's an agent?" then the analogy board: GPS is like ChatGPT, self-driving is like an agent, each
+   with its full explanation including "You may not catch a mistake until later."
+2. Agents are everywhere because they do the work.
+3. Comparison board: the scenario (30 points, Friday's game, a friend's phone, 50 clips); everything
+   you do with a chatbot and the one thing AI does; everything the agent does and what you still own.
+4. Board gone: an agent runs on the same kind of LLM; what changes is what happens after you type.
+5. The loop board: Goal, Plan, Act, Check with their descriptions, "Not done? Go again.", and "An
+   agent loops until the goal is met. You set the goal and judge the result."
+6. Your name on the finished product: the review responsibility in full, "Agents are good. But not
+   perfect."
+7. Rogue agents: April 2026 PocketOS (permissions error, master key, live database and backups in nine
+   seconds, its quotation); 2025 Gemini (project files wiped, the apology, its quotation).
+8. The rule: "AI should not send, spend, submit, delete, or post without you reviewing first." Then the
+   rule of thumb, including starting with ChatGPT.
+9. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the eight in the prompt (the chatbot/agent line, the not-a-new-kind line,
+the loop banner, the review-responsibility line, the good-but-not-perfect line, the never-without-review
+rule, and the two closing lines).
+
+**Banned words:** leverage, framework, utilize, autonomous, orchestrate, workflow, seamless, deploy; no
+screen/board-position references; never promise an agent always finishes; never suggest working around
+a block, a limit or a permission; the Be the Agent activity is not narrated.
+
 ### work-changes
 
-- Markdown: `lessons/work-changes.md`
-- Prompt: `work-changes-video-prompt.txt`
-- Upload checklist: `work-changes-upload-files.txt`
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `work-changes.mp4` shipped under the old
+method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+
+- Markdown: `lessons/work-changes.md` (rewritten 2026-09-23: the assignment board's full before/after
+  lists are written out as sentences, including all five first-pass steps on both sides, both results,
+  and the manager's words verbatim; "in one study" and "certain tasks" stay attached to the 25% and 40%
+  figures; the required lines split onto their own lines)
+- Prompt: `work-changes-video-prompt.txt` (484 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-23)
 - Canonical folder: `course-assets/work-changes/`
 - Boards in lesson order:
   - `work-changes-four-shapes-of-ai-work.jpg` — upload
-  - `work-changes-assignment.jpg` — post-production only; reserve narration
+  - `work-changes-assignment.jpg` — **post-only (faces)**; uploads as
+    `Prompts/work-changes-assignment-faceless.jpg`, the same 1203x1308 board with both photo panels
+    filled white. Every list item and both results stay on the variant. The canonical board replaces it
+    in the edit.
   - `work-changes-automation-and-augmentation.jpg` — upload
   - `work-changes-productivity-and-possibilities.jpg` — upload
   - `work-changes-close.jpg` — upload
 
+**Beat spine**
+
+1. Hook: finishing school, starting a career; all four job titles; what those jobs look like is already
+   changing.
+2. Four AI Strengths at Work: all four by name with their descriptions.
+3. What sets you apart, asked and answered immediately: "It's what you already know."
+4. The assignment board: the manager's words verbatim; the old job with its five first-pass steps,
+   three follow-on steps and its result; the new job with the same five done by AI in minutes, the four
+   steps you start with, and its result.
+5. Board gone: the busy work was AI's strengths in action; improving AI's work took what you already
+   know. "AI doesn't just help you work faster. It can help you focus on what's really important."
+6. Automate and augment, each with its example from the reviews job, then "The work still has your name
+   on it. You own the outcome."
+7. What Changes with AI: all three by name, with "in one study", "certain tasks", 25% faster, 40%
+   higher quality spoken together.
+8. The part that matters: entry-level work, "AI can make you productive before it makes you
+   knowledgeable.", being asked to check work you haven't learned yet, and the answer — learn, learn
+   more, school.
+9. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the seven in the prompt (the what-you-already-know line, the manager's
+assignment, the focus line, the name-on-it banner, the productive-before-knowledgeable line, and the two
+closing lines).
+
+**Banned words:** leverage, framework, utilize, disrupt, upskill, synergy, workforce, transformation; no
+screen/board-position references; no statistic beyond the Markdown; no predicting job losses; the LAB is
+not narrated.
+
 ### data-centers
 
-- Markdown: `lessons/data-centers.md`
-- Prompt: `data-centers-video-prompt.txt`
-- Upload checklist: `data-centers-upload-files.txt`
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `data-centers.mp4` shipped under the old
+method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+
+- Markdown: `lessons/data-centers.md` (rewritten 2026-09-23: the approved 2026-09-18 opening is kept
+  word for word as an assumption inside the explanation — one trillion weights per generated token,
+  roughly two calculations per weight, 1,000 tokens or around 750 words, about two quadrillion
+  calculations — with no separate caveat paragraph; the Scene labels are gone; each board carries only
+  its printed text, with the page prose moved out under `##` headings; "U.S. data centers" stays
+  attached to the electricity figures, and additional supply stays distinct from efficiency)
+- Prompt: `data-centers-video-prompt.txt` (499 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/data-centers/` (synced 2026-09-23)
 - Canonical folder: `course-assets/data-centers/`
-- Boards in lesson order:
-  - `data-centers-data-center.jpg` — upload
+- Boards in lesson order (no faces; all upload):
+  - `data-centers-data-center.jpg` — upload (photograph of a server hall; the one distant figure walks
+    away from the camera, so no face is visible)
   - `data-centers-physical-footprint.jpg` — upload
   - `data-centers-meeting-demand.jpg` — upload
   - `data-centers-close.jpg` — upload
 
-Scene plan (2026-09-18, revised): assumed model calculation → compute for millions of people → warehouse scale → four community effects → three responses to demand → personal perspective → exact close. The page, Markdown, and prompt share the approved opening. No Hit Send board is used. Review highlighting before video edits: whole-card highlights on the community and demand boards, and no highlight on the warehouse illustration or close.
+**Beat spine**
+
+1. Hook: type a question, hit send, and an enormous amount of math runs behind the chat.
+2. The assumed calculation in order, then "The ability to run that math is called compute."; serving
+   millions of people; why companies build more data centers.
+3. A warehouse of thousands of GPUs running around the clock; the hall itself on the photograph.
+4. Board gone: several football fields, as much electricity as a small city, scale varies by facility,
+   "When you hit send in ChatGPT, a data center answers.", "Somebody pays for all that arithmetic.",
+   and who else it affects.
+5. What a Data Center Means for Its Neighbors: all four effects with their numbers (4.4% in 2023, the
+   Berkeley Lab projection of 6.7–12% by 2028, household bills; about a million gallons on a hot day
+   with recycling and reuse; fans 24 hours a day and lawsuits over lost sleep; 100 to 200 permanent
+   workers, about a big supermarket's staff).
+6. Meeting the Demand: all three responses by name, then the banner; then "More efficient tasks do not
+   automatically mean a smaller total footprint." with its condition.
+7. The footprint, honestly: one request is a small part, every technology has a footprint, who pays it
+   in dollars, watts, water and quiet, and the no-guilt line with its reason.
+8. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the seven in the prompt (the compute definition, the hit-send line, the
+somebody-pays line, the demand banner, the no-guilt line, and the two closing lines).
+
+**Banned words:** leverage, framework, utilize, sustainability, carbon, emissions, environmental,
+staggering; no screen/board-position references; no predicted future totals; no town or company beyond
+the Markdown; never tell anyone to use AI less. Highlighting call for the edit stands from 2026-09-18:
+whole-card highlights on the neighbours and demand boards, none on the warehouse photograph or the
+close. The retired fixed training total, the 2,000-word chat claim, the separate electricity qualifier
+and the nuclear-project examples stay removed; no Hit Send board is used.
 
 ### unexpected-results
 
-- Markdown: `lessons/unexpected-results.md`
-- Prompt: `unexpected-results-video-prompt.txt`
-- Upload checklist: `unexpected-results-upload-files.txt`
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `unexpected-results.mp4` shipped under the
+old method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+
+- Markdown: `lessons/unexpected-results.md` (rewritten 2026-09-23: the board's four cards are written
+  out as sentences; the tailless-rat question is answered in the next sentence rather than left for the
+  viewer; "A dead rat pays once. A live rat pays forever." and the moral split onto their own lines)
+- Prompt: `unexpected-results-video-prompt.txt` (497 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/unexpected-results/` (synced 2026-09-23)
 - Canonical folder: `course-assets/unexpected-results/`
-- Boards in lesson order:
+- Boards in lesson order (no faces; all upload):
   - `unexpected-results-plans.jpg` — upload
   - `unexpected-results-close.jpg` — upload
 
+**Page gap, David's call 2026-09-23:** the induced-demand explanation is IN the narration. The
+Markdown now carries it as prose after the board, under `## WHY MORE LANES CAN MEAN MORE TRAFFIC`:
+an easier road attracts more driving, some of the new space fills back up, that alone does not explain
+the whole Houston number, and it is why "just add lanes" does not always end congestion. The lesson
+page does not say this yet, so this is the one place in the section where the Markdown runs ahead of
+`index.html`. Add it to the Wider Highways beat on the page when the section next gets an editorial
+pass, or the video will teach something a reader cannot find.
+
+**Beat spine**
+
+1. Hook: Worriers and Optimists, and results nobody predicted. "The best way to see it is a true story
+   about rats."
+2. Hanoi, 1902: too many rats in the new sewers, pay for a tail, tails by the thousands, then tailless
+   rats — answered immediately: rats live a full rat life without tails and keep breeding, so hunters
+   clipped and released. "A dead rat pays once. A live rat pays forever."
+3. Rat farms, and the ending: a mountain of tails, more rats than at the start.
+4. The moral: the payment system worked exactly as designed, "But the real goal was fewer rats, and the
+   program encouraged people to keep rats alive."
+5. Four plans, two better and two worse: Text Messaging, GPS, Cane Toads, Wider Highways, each with its
+   full result including $2.8 billion, the Katy Freeway, 2014 and 51% longer.
+6. The general road pattern (board gone): an easier road attracts more driving, some of the new space
+   fills back up; that alone does not explain the Houston number; it is why adding lanes does not
+   always end congestion. General only, never offered as proof of the Houston figure.
+7. Point it at AI: both sides are predicting, every prediction smart and informed, and the most
+   important thing AI does may be something nobody has thought of yet.
+8. "That's not a reason to fear the future. It's the reason to walk into it curious, with your eyes
+   open." Then the three things you need to do.
+9. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the six in the prompt (the rats hook, the pays-once line, the moral, the
+curious line, and the two closing lines). The board title was dropped from the list to make room for the
+road-pattern beat; it is still spoken from the board.
+
+**Banned words:** leverage, framework, utilize, incentive, perverse, unintended consequences, induced
+demand; no screen/board-position references; never say which AI camp is right; no prediction about what
+AI will do; no example beyond the Markdown; the Rat Quiz is not narrated.
+
 ## Changed teaching and scene directions
 
-- Opener: show the navy “What Everyone’s Saying” board with its four quotes, then the existing map illustration and three-part section map. The added opening-board label does not renumber the existing Board 1 and Board 2 references.
-- Loudest Voices and Pace of Change: superseded 2026-09-23 by their rebuilt kit entries above (the guardrails now live in each prompt).
-- Big Downside: preserve the revised cyberattack account: reduced safeguards, about 1,200 communicating agents versus about 700 attacking, and attempted record alteration. Cards remain Assignment → Agents Joined Forces → Attack Spread. Keep the incident narration continuous. Research links are verification-only.
-- Big Upside: teach proteins once, then Hassabis’s timeline once, then the two three-card boards. The timeline IS on the current lesson and IS uploaded. Preserve all six examples, scientific qualifications, quotation, personal encouragement, and closing lines. The prompt is under 500 words without dropping these requirements.
-- Rise of Agents: 30 points, 50 clips. Narrate review and approval BEFORE publishing. Explain that an agent loop may stop, fail, or need help. Preserve the four-step loop and both rogue-agent stories.
-- Work Changes: keep the full before/after assignment and the automate/augment connection. Speak “in one study” and “certain tasks” with the productivity percentages.
-- Data Centers (lesson and prep revised 2026-09-18): the approved opening assumes one trillion weights per generated token, roughly two calculations per weight, and 1,000 generated tokens (around 750 words), yielding about two quadrillion calculations. Preserve the assumption within the explanation, without a separate caveat paragraph. The retired fixed training total and 2,000-word chat claim stay removed. Use the warehouse illustration, community-impact board, Meeting the Demand board, and close. Use “U.S. data centers” for the electricity figures and distinguish additional supply from efficiency. The separate electricity qualifier and nuclear-project examples were removed from both page and narration source.
-- Unexpected Results: retain the rat story and four outcomes. Add the general explanation that extra road space can attract more driving, without treating it as proof of the entire Houston travel-time change. The supporting research citation is verification-only.
+**Superseded 2026-09-23.** Eight of the nine lessons have rebuilt kit entries above, on the 2026-09-20
+recipe (big-downside's is in the working tree of the session rolling it), and each one's teaching requirements and guardrails live in its own Markdown, prompt and beat
+spine. The 2026-09-18 bullets that used to sit here are history, not instructions. The page
+questions they raised are recorded in their own entries: the Pace of Change release sentence, and the
+Wider Highways induced-demand explanation, which David directed into the narration on 2026-09-23 and
+which the page still needs.
 
 ## Prep versus current page
 
-The original batch pass updated prep materials only. Data Centers subsequently received the approved page and board update described above. The prep still clarifies statements present in page prose or board wording for Rise of Agents’ unconditional loop and publishing shorthand (the Pace of Change release generalization was reverted to the page sentence on 2026-09-23 under the Markdown-matches-the-page rule; see its entry). Narration should use the corrected Markdown; do not restore these older statements from screenshots. These page/board differences remain for a separate lesson edit, not a silent source reversion.
+Under the current recipe the Markdown matches the page: nothing is added to the narration that the
+page and its boards do not teach, and a guardrail belongs in the prompt rather than in the narration.
+Where a kit would once have clarified a page statement in the narration, the clarification now sits in
+the prompt as a negative and the page question is written down in that lesson's entry. Research links,
+source records and citations are verification-only and are never narrated. The hidden `md-source` divs
+in `index.html` are stale; the board images and the visible page are the sources.
 
 ## Production handoff
 
@@ -224,7 +470,7 @@ Follow `Prompts/README.md`, `scripts/video/README.md`, `scripts/video/EDIT-SPEC.
 
 - Each prompt stands alone and is under 500 words. Paste it in customization; do not upload it as lesson content.
 - Use drawn scenes rather than stock photos for generated visuals, printed labels, no extra chapter/lesson-number cards, and unchanged, complete supplied boards.
-- Visible-face exclusions are explicit in each checklist. Keep their narration and insert the canonical image in editing. Never recreate the faces.
+- Boards with visible faces are never uploaded. Each one has a faceless upload variant in `Prompts/`, named in its kit entry and recorded in the registry as the `covers` of the canonical board; the canonical board replaces it in the edit. Any teaching that lives only inside a removed photo is spoken from the Markdown. Never recreate the faces.
 - Speak the exact two closing lines. No narration follows them. The standard course closing visual is inserted in editing.
 - The watermarking toggle does not take effect (the build removes the mark). Save each raw roll under the next unused name.
 - Review changed scene directions before generation. During evaluation, present the proposed box-highlighting plan before edits, under the shared specs. Full-card versus subsection highlighting depends on the spoken explanation; source preparation does not preapprove timings or zooms.

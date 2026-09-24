@@ -145,6 +145,18 @@
       font-size: clamp(21px, 2.35vw, 34px);
       line-height: 1.15;
     }
+    .title-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px 28px; }
+    .round-details { justify-self: end; text-align: right; }
+    .countdown {
+      margin: 0;
+      color: var(--tryAccent);
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.15;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .pair-grid.is-expired .image-stage img { filter: blur(24px); }
     .subject {
       justify-self: end;
       margin: 0;
@@ -305,7 +317,7 @@
       .activity-card { height: auto; min-height: auto; overflow: visible; display: block; padding: 14px; }
       .prompt-row { grid-template-columns: 1fr auto; margin-bottom: 14px; }
       .question { grid-column: 1 / -1; grid-row: 2; margin-top: 10px; }
-      .subject { grid-column: 2; grid-row: 1; }
+      .round-details { grid-column: 2; grid-row: 1; }
       .pair-grid { overflow: visible; grid-template-columns: 1fr; }
       .image-choice { min-height: auto; }
       .image-stage { height: min(54vh, 470px); }
@@ -336,16 +348,21 @@
     <header class="activity-header">
       <div>
         <p class="eyebrow">Group Exercise 01</p>
-        <h1>Be the Last Person Standing</h1>
+        <div class="title-row">
+          <h1>Be the Last Person Standing</h1>
+          <p class="countdown" id="countdown" role="timer" aria-live="off" hidden>0:15 remaining</p>
+        </div>
       </div>
       <button class="fullscreen-button" id="fullscreen-button" type="button">Enter Full Screen</button>
     </header>
 
     <section class="activity-card" id="round-view" aria-labelledby="question">
       <div class="prompt-row">
-        <p class="round-pill" id="progress">Round 1 of 10</p>
+        <p class="round-pill" id="progress">Round 1 of 15</p>
         <h2 class="question" id="question">Which is real? Move to that side of the room.</h2>
-        <p class="subject" id="subject">Cat</p>
+        <div class="round-details">
+          <p class="subject" id="subject">Cat</p>
+        </div>
       </div>
 
       <div class="pair-grid is-loading" id="pair-grid" aria-busy="true">
@@ -400,13 +417,21 @@
         { id: "hockey", title: "Hockey", real: "b", source: "Real photograph: taken at a hockey game." },
         { id: "christmas", title: "Christmas", real: "a", source: "Real photograph: a Christmas tree and presents at home." },
         { id: "ocean-view", title: "Ocean view", real: "b", source: "Real photograph: a coastal view across rooftops." },
-        { id: "storefront", title: "Storefront", real: "a", source: "Real photograph: a restaurant storefront." }
+        { id: "storefront", title: "Storefront", real: "a", source: "Real photograph: a restaurant storefront." },
+        { id: "schoolyard", title: "Schoolyard", real: "b", source: "Real photograph: students in a school courtyard." },
+        { id: "bedroom", title: "Bedroom", real: "a", source: "Real photograph: a bedroom with sports memorabilia." },
+        { id: "gameroom", title: "Game Room", real: "b", source: "Real photograph: a home game room." },
+        { id: "legos", title: "Legos", real: "a", source: "Real photograph: a LEGO model on display." },
+        { id: "pool", title: "Pool", real: "b", source: "Real photograph: a backyard swimming pool at night." }
       ];
 
       var round = 0;
       var revealed = false;
       var imagesReady = false;
       var loadVersion = 0;
+      var countdownInterval = null;
+      var countdownDeadline = 0;
+      var countdown = document.getElementById("countdown");
       var roundView = document.getElementById("round-view");
       var finishView = document.getElementById("finish-view");
       var progress = document.getElementById("progress");
@@ -428,8 +453,54 @@
       var loadMessage = document.getElementById("load-message");
       var retryImages = document.getElementById("retry-images");
 
+      function stopCountdown() {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+
+      function updateCountdown() {
+        if (countdownInterval === null) return;
+        var seconds = Math.max(0, Math.ceil((countdownDeadline - Date.now()) / 1000));
+        countdown.textContent = "0:" + String(seconds).padStart(2, "0") + " remaining";
+        if (seconds === 0) {
+          stopCountdown();
+          countdown.textContent = "0:00 · Time’s up";
+          countdown.classList.add("is-expired");
+          pairGrid.classList.add("is-expired");
+          announcement.textContent = "Time’s up. The pictures are blurred. Click either picture to reveal the answer.";
+        }
+      }
+
+      function startCountdown() {
+        stopCountdown();
+        countdownDeadline = Date.now() + 15000;
+        countdown.hidden = false;
+        countdownInterval = setInterval(updateCountdown, 100);
+        updateCountdown();
+        announcement.textContent = "Round " + (round + 1) + " of " + pairs.length + ". " + pairs[round].title + ". You have 15 seconds to choose which picture is real.";
+      }
+
+      function shufflePairs() {
+        var previousOrder = pairs.map(function(pair) { return pair.id; }).join(",");
+        for (var i = pairs.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temporary = pairs[i];
+          pairs[i] = pairs[j];
+          pairs[j] = temporary;
+        }
+        // Even an identical random draw should produce a new order on replay.
+        if (pairs.map(function(pair) { return pair.id; }).join(",") === previousOrder) {
+          pairs.push(pairs.shift());
+        }
+        pairs.forEach(function(pair) { pair.flipped = Math.random() < 0.5; });
+      }
+
+      function sourceLetter(pair, letter) {
+        return pair.flipped ? (letter === "a" ? "b" : "a") : letter;
+      }
+
       function imagePath(pair, letter) {
-        return "fake-trap/fake-trap-try-" + pair.id + "-" + letter + ".jpg";
+        return "fake-trap/fake-trap-try-" + pair.id + "-" + sourceLetter(pair, letter) + ".jpg";
       }
 
       function setChoiceState(button, label, letter, isReal) {
@@ -475,6 +546,11 @@
       function renderRound(options) {
         var pair = pairs[round];
         var version = ++loadVersion;
+        stopCountdown();
+        countdown.hidden = true;
+        countdown.textContent = "0:15 remaining";
+        countdown.classList.remove("is-expired");
+        pairGrid.classList.remove("is-expired");
         revealed = false;
         imagesReady = false;
         pairGrid.classList.add("is-loading");
@@ -512,6 +588,7 @@
           pairGrid.setAttribute("aria-busy", "false");
           choiceA.disabled = false;
           choiceB.disabled = false;
+          startCountdown();
           if (options && options.focus) choiceA.focus();
         }).catch(function() {
           if (version !== loadVersion) return;
@@ -525,11 +602,15 @@
       function reveal() {
         if (revealed || !imagesReady) return;
         revealed = true;
+        stopCountdown();
+        countdown.hidden = true;
+        pairGrid.classList.remove("is-expired");
         var pair = pairs[round];
-        var realLetter = pair.real.toUpperCase();
-        var aiLetter = pair.real === "a" ? "B" : "A";
-        setChoiceState(choiceA, labelA, "a", pair.real === "a");
-        setChoiceState(choiceB, labelB, "b", pair.real === "b");
+        var realSide = sourceLetter(pair, pair.real);
+        var realLetter = realSide.toUpperCase();
+        var aiLetter = realSide === "a" ? "B" : "A";
+        setChoiceState(choiceA, labelA, "a", realSide === "a");
+        setChoiceState(choiceB, labelB, "b", realSide === "b");
         feedbackTitle.textContent = "Picture " + realLetter + " is real. Sit down if you’re on Side " + aiLetter + ".";
         feedbackSource.innerHTML = pair.source + "<br>AI-generated image: created for this exercise.";
         feedback.classList.add("is-visible");
@@ -550,6 +631,7 @@
       }
 
       function playAgain() {
+        shufflePairs();
         round = 0;
         finishView.classList.remove("is-visible");
         roundView.hidden = false;
@@ -573,6 +655,9 @@
         }
       });
       document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      document.addEventListener("visibilitychange", function() {
+        if (!document.hidden) updateCountdown();
+      });
       document.getElementById("back-link").addEventListener("click", function() {
         try {
           var progressState = JSON.parse(localStorage.getItem("llm-explorer-progress") || "{}");
@@ -583,6 +668,7 @@
         } catch (error) {}
       });
 
+      shufflePairs();
       renderRound({ announce: false });
     })();
   </script>

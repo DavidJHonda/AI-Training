@@ -1,9 +1,8 @@
 # Embrace the Future Video Kits
 
-> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current. As of 2026-09-23 that is every entry except
-> big-downside, whose rebuilt entry is in the working tree of the session that is rolling it.
+> **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `Prompts/README.md`, add it to `Prompts/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current; as of 2026-09-23 every entry below does.
 
-Prep rebuilt 2026-09-23: all nine lessons are on the 2026-09-20 recipe and in `Prompts/upload-sets.json`. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
+Prep rebuilt 2026-09-23: all nine lessons are now on the 2026-09-20 recipe and in `Prompts/upload-sets.json`. This guide covers source preparation, not the status of existing videos. No video was generated, edited, or deployed in this pass.
 
 Use current Markdown in `lessons/`, canonical JPGs in each `course-assets/` lesson folder, and the matching prompt and upload checklist in `Prompts/`. Markdown contains the spoken teaching in lesson order; it is not a script for reading production labels. Upload selected JPGs separately. There are no upload JPG copies in `lessons/` or `illustrations/`.
 
@@ -171,18 +170,94 @@ timelines beyond the Markdown; no redrawn board diagrams; the lab is not narrate
 
 ### big-downside
 
-- Markdown: `lessons/big-downside.md`
-- Prompt: `big-downside-video-prompt.txt`
-- Upload checklist: `big-downside-upload-files.txt`
+**Live `big-downside.mp4` is v3, shipped 2026-09-24** (David's approval; 5:38, cache key `20260924ship1`,
+pill 6 min). Rolls 3 and 4 (2026-09-24, on the fixed materials below) were reviewed in
+`video-audit/big-downside-review-2026-09-24/REVIEW.md`: roll 3 is the base (six-idea frame, no positional screen
+references), and roll 4 is a donor. v3 is roll 3 with roll 4's jailbreak section and Pacing the Frontier request,
+and roll 1's guardrail kinds, trace-some-features line, goal line and Anthropic's-CEO sentence. It uses canonical
+boards, has the 1908 car photograph covered, and ends on the standard close. Build: `scripts/video/build_big_downside_v2.py`;
+record: `video-audit/big-downside-v2-2026-09-24/REVIEW.md` (v2 flashed six frames of an old slide at 5:10; v3 fixes it).
+Keep rolls 1-4: they hold the donor audio and drawings.
+
+**Kit rebuilt 2026-09-23; materials fixed 2026-09-23 after the first two rolls.** Rolls 1 and 2 and
+the live video were all reviewed against the current page
+(`video-audit/big-downside-review-2026-09-23/REVIEW.md`); all three are REROLL. The live video is
+teaching the pre-rewrite OpenAI incident (a single model escaping a sandbox) and must be replaced
+whatever happens next. Both new rolls missed the six-idea spine and narrated board geometry
+seventeen times between them, which blocks the 2026-09-23 hold rule. Fixes applied before the reroll:
+
+- The prompt never actually banned screen references (it only forbade the phrase "this board shows").
+  VOICE now carries an explicit ban on panel/left/middle/right/row/footer/banner/graphic/image and on
+  "as shown" and "the first panel", with the rule stated positively: teach each point as a fact about
+  the world, not a thing on a picture.
+- The upload Markdown had dropped the page's own Roman numerals from the six idea headings, so the
+  engine had no signal which six of its eleven `##` headings were the ideas. Headings are now
+  `## I - The Black Box` through `## VI - Safety Runs Behind`, matching the page's SectionKickers, and
+  the prompt points at them ("the Markdown's six numbered headings").
+- Three lines promoted into REQUIRED VERBATIM AUDIO, now thirteen: "The downside becomes clear through
+  six ideas.", the altered-records line (roll 1 said agents altered "their own actions"), and the
+  Pacing the Frontier quotation (roll 1 changed "accelerates" to "could accelerate", roll 2 dropped it).
+- "Say 'about' wherever the Markdown does" added; all three rolls said "1,200 agents" flat.
+- The photograph ban now says "of any kind, archival included" - roll 2 used an archival motor car with
+  people in frame, a Wright Flyer, and the U.S. Capitol.
+- Source conflict settled: `index.html`'s hidden md-source said "An attacker needs to find only one
+  opening"; the board art and the Markdown say "An attacker needs only one opening." The page now
+  matches the board. The Markdown's "whether guardrails will work" is now the page's "if".
+
+Prompt is 499 words, four blocks, within the recipe's limit.
+
+- Markdown: `lessons/big-downside.md` (rewritten 2026-09-23: the six ideas now run as prose sections
+  with their boards beneath them; each board carries only what is printed on it, so the page prose
+  that used to sit inside a board section moved out under `##` headings; the required lines split onto
+  their own lines; the hidden `md-source` divs in `index.html` were ignored in favour of the board
+  images themselves, and the boards' own wording is what the Markdown speaks)
+- Prompt: `big-downside-video-prompt.txt` (496 words, four blocks)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/big-downside/` (synced 2026-09-23)
 - Canonical folder: `course-assets/big-downside/`
 - Boards in lesson order:
   - `big-downside-safety-guardrails.jpg` — upload
-  - `big-downside-jailbreak.jpg` — post-production only; reserve narration
+  - `big-downside-jailbreak.jpg` — **post-only (faces)**; uploads as
+    `Prompts/big-downside-jailbreak-faceless.jpg`, the same 1387x1134 board with the photo panel
+    filled in the board's lavender. The two sign lines ("Defenders must protect many paths." / "An
+    attacker needs only one opening.") live only in that photo, so the Markdown speaks them as
+    sentences and the prompt demands them verbatim. The canonical board replaces the variant in the edit.
   - `big-downside-policy-puppetry.jpg` — upload
   - `big-downside-voice-cloning.jpg` — upload
   - `big-downside-goal-test.jpg` — upload
   - `big-downside-safety-timeline.jpg` — upload
   - `big-downside-close.jpg` — upload
+
+**Beat spine**
+
+1. Hook: the iPhone question, answered — "Because greater capability can create greater risk." The
+   downside comes through six ideas.
+2. The Black Box: learned patterns rather than written rules, researchers can trace some features but
+   cannot explain one answer, the dog-named-Spot example, no complete repair manual.
+3. Guardrails: the three kinds, "But no layer catches everything.", then the board's three future
+   cases with their reasons and "The worry grows as capability grows."
+4. Jailbreaking: "This is called jailbreaking.", the defender-attacker asymmetry and cat-and-mouse,
+   then Policy Puppetry (HiddenLayer, 2025, Claude/ChatGPT/Gemini, fake official instructions).
+5. Bad Actors: ordinary abilities combined, guardrails may miss the plan, then all four voice-clone
+   steps, ending on calling back on the real number. "As AI gets more powerful, so do the things a bad
+   actor can do."
+6. AI Follows the Goal: July 2026, OpenAI, reduced safeguards; assignment, ~1,200 agents
+   communicating, ~700 attacking Hugging Face, the boundary line, then the altered records.
+7. Safety Runs Behind: all three historical gaps with their years, AI still evolving, then why the gap
+   matters now.
+8. What the AI companies are doing: red teams, the 2026 "Pacing the Frontier" statement and its ask,
+   then the quotation.
+9. Close on the two lines with nothing after.
+
+**Required verbatim lines:** the thirteen in the prompt (the capability/risk line, the six-ideas line,
+the repair-manual line, the no-layer line, the two banners, the jailbreaking definition, the sign
+lines, the bad-actor line, the altered-records line, the Pacing the Frontier quotation, and the two
+closing lines).
+
+**Save the next roll as** `Prompts/big-downside-5.mp4` (1-4 are the 2026-09-23/24 rolls; keep them).
+
+**Banned words:** leverage, framework, utilize, mitigate, adversary, exponential, robust; no
+screen/board-position references; no softened numbers; no invented incidents; never explain how a
+jailbreak is performed.
 
 ### big-upside
 
@@ -438,8 +513,8 @@ AI will do; no example beyond the Markdown; the Rat Quiz is not narrated.
 
 ## Changed teaching and scene directions
 
-**Superseded 2026-09-23.** Eight of the nine lessons have rebuilt kit entries above, on the 2026-09-20
-recipe (big-downside's is in the working tree of the session rolling it), and each one's teaching requirements and guardrails live in its own Markdown, prompt and beat
+**Superseded 2026-09-23.** All nine lessons now have rebuilt kit entries above, on the 2026-09-20
+recipe, and each one's teaching requirements and guardrails live in its own Markdown, prompt and beat
 spine. The 2026-09-18 bullets that used to sit here are history, not instructions. The page
 questions they raised are recorded in their own entries: the Pace of Change release sentence, and the
 Wider Highways induced-demand explanation, which David directed into the narration on 2026-09-23 and

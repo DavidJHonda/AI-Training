@@ -30,7 +30,9 @@ One person walks the main aisle, dwarfed by the racks. They are the only human i
 
 ## The Scale
 
-Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city. The scale varies by facility.
+Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city.
+
+The scale varies by facility.
 
 When you hit send in ChatGPT, a data center answers.
 
@@ -48,13 +50,33 @@ Running those computers affects more than the company using them. It also affect
 
 What a data center means for its neighbors, in four effects.
 
-Electricity. U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7 to 12% by 2028. In some places, added demand is already raising household bills.
+Electricity.
 
-Water. Chips run hot. Some facilities evaporate water to cool them, and a large data center can use about a million gallons on a hot day. Others recycle or reuse it.
+U.S. data centers used about 4.4% of electricity in 2023.
 
-Noise. Cooling fans run 24 hours a day. In some towns, neighbors have sued over the hum and lost sleep.
+Berkeley Lab projected 6.7 to 12% by 2028.
 
-Permanent jobs. Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket.
+In some places, added demand is already raising household bills.
+
+Water.
+
+Chips run hot.
+
+Some facilities evaporate water to cool them, and a large data center can use about a million gallons on a hot day.
+
+Others recycle or reuse it.
+
+Noise.
+
+Cooling fans run 24 hours a day.
+
+In some towns, neighbors have sued over the hum and lost sleep.
+
+Permanent jobs.
+
+Construction employs many people, but a finished facility may need only 100 to 200 permanent workers.
+
+That is about the staff of a big supermarket.
 
 ## Three Responses
 
@@ -86,7 +108,9 @@ More efficient tasks do not automatically mean a smaller total footprint. If use
 
 One request is a small part of the picture. Running these services for millions of people is what makes the infrastructure so large.
 
-Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet.
+Every big technology has a footprint, from streaming video to the cars outside.
+
+AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet.
 
 None of this is a reason to feel guilty hitting send.
 

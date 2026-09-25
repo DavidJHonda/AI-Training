@@ -444,18 +444,43 @@ method; no evaluation of it against the current system has been run, and no roll
    more, school.
 9. Close on the two lines with nothing after.
 
-**Required verbatim lines:** the seven in the prompt (the what-you-already-know line, the manager's
-assignment, the focus line, the name-on-it banner, the productive-before-knowledgeable line, and the two
-closing lines).
+**Required verbatim lines:** the nine in the prompt (the what-you-already-know line, the manager's
+assignment, the focus line, the name-on-it banner, the study line, the productive-before-knowledgeable
+line, the learn/school line, and the two closing lines).
 
-**Banned words:** leverage, framework, utilize, disrupt, upskill, synergy, workforce, transformation; no
+**Banned words:** leverage, framework, utilize, disrupt, workforce, paradox, transformation; no expanded contractions;
+no "hits hardest"; no
 screen/board-position references; no statistic beyond the Markdown; no predicting job losses; the LAB is
 not narrated.
 
 ### data-centers
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `data-centers.mp4` shipped under the old
-method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 for a reroll.** Live
+`data-centers.mp4` shipped under the old method; no evaluation of it against the current system has
+been run.
+
+**Rolls 1 and 2 evaluated 2026-09-24** in `video-audit/data-centers-comparison-2026-09-24/REVIEW.md`:
+both REROLL. Each squashed the neighbors board into one line per effect and broke the numbers
+("12% by 2028" alone, "a million gallons daily", "around 100 jobs"; lawsuits, lost sleep and the
+supermarket dropped). Roll 1 also spoke the lesson twice (Responses → close repeated from 3:17).
+Roll 2 reworded six of seven required lines and drew faces. Revisions for the reroll:
+- Markdown: Board 2's sentences, "The scale varies by facility." and the who-pays sentence now each
+  stand alone on their own line (wording unchanged).
+- Prompt: six Board 2 sentences and the scale line join the verbatim list (fourteen lines); the
+  spine demands every Board 2 sentence, forbids "daily" for water, says token not word, and says
+  "Teach each point once"; "massive", "sheer" and "environment" join the avoid list; drawn scenes
+  carry no people or faces and no numbers the Markdown lacks. 497 words.
+- **Rolls 3 and 4 (revised kit) evaluated 2026-09-24**, same REVIEW.md: roll 3 REPAIR (first roll
+  to teach Board 2 fully; cut two bridges, graft roll 1's exact close at 4:32.08–4:36.84), awaiting
+  David's approval; roll 4 REROLL (Board 2 compressed again).
+- **v3 candidate built 2026-09-24** on David's approval: `Prompts/data-centers-v3.mp4` (3:43.1), from roll 3 with the
+  two cuts and roll 1's close. Build `scripts/video/build_data_centers_v3.py`; record
+  `video-audit/data-centers-v3-2026-09-24/REVIEW.md`. Awaiting David's listening (close seam 3:33.8) and review; not shipped.
+- **v4 candidate built 2026-09-24**: `Prompts/data-centers-v4.mp4`, v3 with David's updated neighbors-board illustrations
+  (asset replaced in place; upload folder re-synced). Record `video-audit/data-centers-v4-2026-09-24/REVIEW.md`. **Shipped 2026-09-24 on David's approval**
+  as live `course-assets/data-centers/data-centers.mp4` (cache key 20260924ship1, pill 4 min, 3:43.1, sha256 239d5a26ee58…).
+- Fallback if the reroll also fails Board 2: roll 1 with the duplicate cut (2:18.92 → 3:17.40) plus
+  live-video grafts for electricity, water and jobs (timestamps in the review).
 
 - Markdown: `lessons/data-centers.md` (rewritten 2026-09-23: the approved 2026-09-18 opening is kept
   word for word as an assumption inside the explanation — one trillion weights per generated token,
@@ -463,8 +488,8 @@ method; no evaluation of it against the current system has been run, and no roll
   calculations — with no separate caveat paragraph; the Scene labels are gone; each board carries only
   its printed text, with the page prose moved out under `##` headings; "U.S. data centers" stays
   attached to the electricity figures, and additional supply stays distinct from efficiency)
-- Prompt: `data-centers-video-prompt.txt` (499 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/data-centers/` (synced 2026-09-23)
+- Prompt: `data-centers-video-prompt.txt` (497 words, four blocks; revised 2026-09-24)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/data-centers/` (synced 2026-09-24)
 - Canonical folder: `course-assets/data-centers/`
 - Boards in lesson order (no faces; all upload):
   - `data-centers-data-center.jpg` — upload (photograph of a server hall; the one distant figure walks
@@ -492,8 +517,9 @@ method; no evaluation of it against the current system has been run, and no roll
    in dollars, watts, water and quiet, and the no-guilt line with its reason.
 8. Close on the two lines with nothing after.
 
-**Required verbatim lines:** the seven in the prompt (the compute definition, the hit-send line, the
-somebody-pays line, the demand banner, the no-guilt line, and the two closing lines).
+**Required verbatim lines:** the fourteen in the prompt (the compute definition, the scale line, the
+hit-send line, the somebody-pays line, six Board 2 sentences, the demand banner, the no-guilt line,
+and the two closing lines).
 
 **Banned words:** leverage, framework, utilize, sustainability, carbon, emissions, environmental,
 staggering; no screen/board-position references; no predicted future totals; no town or company beyond

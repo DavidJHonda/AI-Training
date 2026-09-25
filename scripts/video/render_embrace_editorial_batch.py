@@ -95,6 +95,7 @@ class CardBoard:
     takeaway: str | None = None
     accents: tuple[str, ...] = ()
     art_files: tuple[str, ...] = ()
+    art_insets: tuple[tuple[int, int, int, int], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -262,6 +263,10 @@ CARD_BOARDS = (
         page_output="course-assets/data-centers/data-centers-physical-footprint.jpg",
         prep_output="course-assets/data-centers/data-centers-physical-footprint.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
+        # The 2x2 source sheet has a seven-pixel light seam on both sides of
+        # its center split. Remove that seam before fitting each illustration
+        # so the art meets the full width of its card shell.
+        art_insets=((0, 0, 7, 0), (7, 0, 0, 0), (0, 0, 7, 0), (7, 0, 0, 0)),
     ),
 )
 
@@ -472,12 +477,15 @@ def render_card_board(board: CardBoard) -> Image.Image:
         if len(board.art_files) != count:
             raise ValueError(f"{board.key}: assign one art file to every card")
         panels = [Image.open(ROOT / path).convert("RGB") for path in board.art_files]
-    elif board.key in ("big-upside-discovery", "big-upside-help") and not (ROOT / board.art_sheet).exists():
-        # Source sheets were retired during asset cleanup. The approved finished
-        # board retains the original artwork at these unchanged coordinates.
+    elif not (ROOT / board.art_sheet).exists():
+        # Some source sheets were retired during asset cleanup. Their approved
+        # finished boards retain the original artwork at these coordinates.
         with Image.open(ROOT / board.page_output) as current:
-            panels = [current.crop((x, cards_top, x + w, cards_top + art_height)).convert("RGB")
-                      for x, w in zip(card_xs, card_widths)]
+            panels = []
+            for index, (x, width) in enumerate(zip(card_xs, card_widths)):
+                row = 0 if count < 4 else index // 2
+                y = cards_top + row * (card_height + GUTTER)
+                panels.append(current.crop((x, y, x + width, y + art_height)).convert("RGB"))
     else:
         panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     preserved_art = not board.art_files and not (ROOT / board.art_sheet).exists()
@@ -489,6 +497,19 @@ def render_card_board(board: CardBoard) -> Image.Image:
         draw_shadow(image, (x, y, x + card_width, y + card_height), CARD_RADIUS)
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((x, y, x + card_width, y + card_height), radius=CARD_RADIUS, fill=WHITE, outline=mix_with_white(accent, CARD_BORDER_OPACITY), width=1)
+        # Insets describe seams in the original source art. When a retired
+        # source sheet is being recovered from the finished board, that board
+        # already contains the corrected crops and must remain idempotent.
+        if board.art_insets and not preserved_art:
+            if len(board.art_insets) != count:
+                raise ValueError(f"{board.key}: assign one art inset to every card")
+            inset_left, inset_top, inset_right, inset_bottom = board.art_insets[index]
+            panel = panel.crop((
+                inset_left,
+                inset_top,
+                panel.width - inset_right,
+                panel.height - inset_bottom,
+            ))
         art = cover(panel, (card_width, art_height))
         if not preserved_art:
             art = accent_wash(art, accent)

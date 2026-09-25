@@ -114,3 +114,7 @@ These are the proposed general-teaching scenes to update after the pilots establ
 - Coordinate Document Trap with its in-progress video work; there is already a separate faceless preparation image.
 
 Welcome’s approved illustration was installed on September 21, 2026 using recovered Nate and Luke photo references for their likenesses and brighter kitchen lighting. The existing JPG filename and 1200 × 900 dimensions are retained. The lesson image cache version is updated; the video is unchanged.
+
+## September 25 Welcome update
+
+Nate and Luke’s kitchen-table illustration was preserved unchanged in `Landing-Page/nate-and-luke-building-the-course.jpg` for potential use in the public landing page. The Welcome lesson now uses a brighter, people-free kitchen workspace at `course-assets/welcome/welcome-building-the-course.jpg`. The page alternative text and cache version were updated. This supersedes the earlier decision to retain their portraits in this illustration; existing videos were not changed.

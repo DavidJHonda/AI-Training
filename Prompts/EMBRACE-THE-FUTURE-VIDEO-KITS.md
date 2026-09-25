@@ -82,7 +82,7 @@ The earlier v5 (shipped 2026-09-18, a best-of of the old-method rolls) was grade
   their own lines; the verification-only sources line removed from the narration base, its guardrail
   now in the prompt)
 - Prompt: `loudest-voices-video-prompt.txt` (492 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/loudest-voices/` (synced 2026-09-23)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/loudest-voices/` (synced 2026-09-24)
 - Canonical folder: `course-assets/loudest-voices/`
 - Boards in lesson order (no faces; all upload):
   - `loudest-voices-experts.jpg` — upload
@@ -139,7 +139,7 @@ the race-beat reroll (rolls 3 and 4 of 2026-09-24) gave v6 (v5 re-pictured), the
   instead of the 9/18 generalization "not every release improves every task"; the prompt still forbids
   claiming every release improves every task. If the page sentence should soften, fix the page first.
 - Prompt: `pace-of-change-video-prompt.txt` (493 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/pace-of-change/` (synced 2026-09-23)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/pace-of-change/` (synced 2026-09-24)
 - Canonical folder: `course-assets/pace-of-change/`
 - Boards in lesson order (no faces; all upload):
   - `pace-of-change-three-years.jpg` — upload
@@ -216,7 +216,7 @@ Prompt is 499 words, four blocks, within the recipe's limit.
   their own lines; the hidden `md-source` divs in `index.html` were ignored in favour of the board
   images themselves, and the boards' own wording is what the Markdown speaks)
 - Prompt: `big-downside-video-prompt.txt` (496 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/big-downside/` (synced 2026-09-23)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/big-downside/` (synced 2026-09-24)
 - Canonical folder: `course-assets/big-downside/`
 - Boards in lesson order:
   - `big-downside-safety-guardrails.jpg` — upload
@@ -364,7 +364,7 @@ over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example.
   not a new kind of AI." split onto its own line so the prompt can demand it verbatim; both rogue-agent
   quotations carried with their speakers)
 - Prompt: `rise-of-agents-video-prompt.txt` (494 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/rise-of-agents/` (synced 2026-09-23)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/rise-of-agents/` (synced 2026-09-24)
 - Canonical folder: `course-assets/rise-of-agents/`
 - Boards in lesson order:
   - `rise-of-agents-gps.jpg` — **post-only (faces)**; uploads as
@@ -404,15 +404,21 @@ a block, a limit or a permission; the Be the Agent activity is not narrated.
 
 ### work-changes
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `work-changes.mp4` shipped under the old
-method; no evaluation of it against the current system has been run, and no roll on this kit yet.
+**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 after two rolls.** Rolls
+`Prompts/work-changes-1.mp4` and `-2.mp4` and the live video were all judged REROLL
+(`video-audit/work-changes-review-2026-09-24/REVIEW.md`). Roll 1 expanded the closing contractions and
+paraphrased most required lines; roll 2 dropped "in one study" from the statistic and the learn/school
+answer. Neither roll spoke "It's what you already know.", the manager's exact words, or the focus line.
+Roll 2 is the best-of base if the next roll lands the missing lines.
 
 - Markdown: `lessons/work-changes.md` (rewritten 2026-09-23: the assignment board's full before/after
   lists are written out as sentences, including all five first-pass steps on both sides, both results,
   and the manager's words verbatim; "in one study" and "certain tasks" stay attached to the 25% and 40%
-  figures; the required lines split onto their own lines)
-- Prompt: `work-changes-video-prompt.txt` (484 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-23)
+  figures; the required lines split onto their own lines; 2026-09-24: the study sentence split onto its
+  own line under "More productive.")
+- Prompt: `work-changes-video-prompt.txt` (497 words, four blocks; 2026-09-24: study and learn lines made verbatim,
+  contractions required, "hardest"/people/invented charts banned)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-24)
 - Canonical folder: `course-assets/work-changes/`
 - Boards in lesson order:
   - `work-changes-four-shapes-of-ai-work.jpg` — upload
@@ -542,7 +548,7 @@ Page question: the live SMS/GPS explanations (why each turned out better than pl
   out as sentences; the tailless-rat question is answered in the next sentence rather than left for the
   viewer; "A dead rat pays once. A live rat pays forever." and the moral split onto their own lines)
 - Prompt: `unexpected-results-video-prompt.txt` (497 words, four blocks)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/unexpected-results/` (synced 2026-09-23)
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/unexpected-results/` (synced 2026-09-24)
 - Canonical folder: `course-assets/unexpected-results/`
 - Boards in lesson order (no faces; all upload):
   - `unexpected-results-plans.jpg` — upload

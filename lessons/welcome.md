@@ -14,15 +14,13 @@ Be Smarter Than the Tool.
 
 You’ve probably used AI. This course takes you under the hood so you understand what it’s doing. You’ll learn how to get better results and when to double-check its answers. Along the way, you’ll practice with AI and build the knowledge and judgment to use it wisely. That’s what we mean by **Be Smarter Than the Tool**.
 
-## WHY WE BUILT THIS
+## BUILT FOR YOU
 
-We’re Luke and Nate, and yeah, we’re still in high school. This started at our kitchen table. AI is in every headline now, and it’s going to be in every career, including ours. We’re the ones who’ll be applying for those jobs, so we’d rather understand it now than scramble to catch up later.
+We’re high school students, too. We built this course because AI is in every headline, and it’s going to be part of our future. We’d rather understand it now than scramble to catch up later.
 
-We went looking for something good to learn from, but most of it was shallow, focused on tools, or already out of date. So we built our own.
+We went looking for something that answered our questions. When we couldn’t find what we wanted, we built our own.
 
 The better AI gets, the more it pays to understand it. You can accept whatever AI gives you, or learn to question it, improve it, and decide what’s worth using. Which approach you take is up to you.
-
-You’ll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world.
 
 ![Five-step course path: Work—use AI effectively; Understand—see how it works;
 Avoid—recognize the traps; Embrace—prepare for what changes; Build—turn AI into an

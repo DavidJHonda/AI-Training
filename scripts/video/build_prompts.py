@@ -805,11 +805,9 @@ Focus: a short orientation. Open on board 1 and speak all four lines in order: e
 
 On board 2 say: "You can take this course two ways: read each lesson, or press play to watch the video version. Same material, your choice. Either way, complete the activity before moving to the next lesson." Speak the complete explanation while holding the board.
 
-Then the builders, always in FIRST PERSON: "We're Luke and Nate, and yeah, we're still in high school." This started at our kitchen table. AI is in every headline and will be in every career, including ours. We're the ones who'll be applying for those jobs, so we'd rather understand it now than scramble to catch up later. We went looking for something good to learn from, but most of it was shallow, focused on tools or already out of date. So we built our own.
+Then BUILT FOR YOU, in first person: We’re high school students, too. We built this course because AI is in every headline, and it’s going to be part of our future. We’d rather understand it now than scramble to catch up later. We went looking for something that answered our questions. When we couldn’t find what we wanted, we built our own.
 
 Then the bigger point: AI is already everywhere in your life and it'll define the career you haven't started yet. The better AI gets, the more it pays to be the person who actually understands it. The gap between people who understand it and people who just type into the box will get wider. Which side you land on is up to you. That edge has a name: Be Smarter Than the Tool.
-
-Then the jersey aside: you'll even catch us in a few of the examples later, usually wearing the jerseys of the greatest hockey team in the world.
 
 On board 3, speak Work, Understand, Avoid, Embrace and Build with each gloss printed on the board.
 
@@ -819,7 +817,7 @@ End on board 5.
 """,
     numbers="This lesson contains no data of any kind. Invent no numbers, no percentages and no statistics.",
     props="No readable text inside drawn props or backgrounds, and no invented app screens, menus or interfaces; real words belong only on the attached boards and in clean dark-ink labels.",
-    required='the complete board 2 read-or-watch explanation and activity rule; "We\'re Luke and Nate, and yeah, we\'re still in high school"; "the better AI gets, the more it pays to be the person who actually understands it"; the jersey aside; and "Be Smarter Than the Tool."',
+    required='the complete board 2 read-or-watch explanation and activity rule; "We’re high school students, too."; "the better AI gets, the more it pays to be the person who actually understands it"; and "Be Smarter Than the Tool."',
     extra=("Keep board 3 fully visible and in sync: highlight only the card being spoken and move only when its narration moves.",
            "Draw no graphs, charts, axes, curves or trend lines. If needed, show the widening gap as two people with growing space between them.",
            "Add no outside material, filler, mid-video chapter cards or lesson-number cards. No apps-change digression, passenger/driver metaphor or curiosity claim.",))

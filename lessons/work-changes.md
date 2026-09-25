@@ -104,7 +104,9 @@ What changes with AI.
 
 More kinds. You cover more of the workflow, with fewer handoffs to other people.
 
-More productive. In one study, consultants finished certain tasks 25% faster with 40% higher quality.
+More productive.
+
+In one study, consultants finished certain tasks 25% faster with 40% higher quality.
 
 Meaningful work. AI can absorb busy work, leaving more time to investigate, decide, and recommend.
 

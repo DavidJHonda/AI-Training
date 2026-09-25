@@ -6,21 +6,11 @@ Imagine you started a basketball team with friends. You learned the fundamentals
 
 That is where you are now with AI. You have learned the fundamentals and built important skills. Now it is time to decide what you will do with them.
 
-### Board 1: A Note from Nate and Luke
-
-**Image file:** `make-your-move-note.jpg`
-
-![A Note from Nate and Luke](../course-assets/make-your-move/make-your-move-note.jpg)
-
-**Teaching content:**
-
-A note from Nate and Luke, who built this course: We’re still in high school, too. Building this course taught us a lot. Use these moves as starting points, talk with adults who know you, and remember: nobody knows exactly what the future holds.
-
 ## AI AND YOUR FUTURE CAREER
 
 If you’re thinking about how AI might change careers, you’re not alone. But remember: jobs are made up of many different tasks, and AI will not affect every task in the same way.
 
-### Board 2a: How AI Might Change Careers (1 of 2)
+### Board 1a: How AI Might Change Careers (1 of 2)
 
 **Image file:** `make-your-move-doctors-teachers-lawyers.jpg`
 
@@ -34,7 +24,7 @@ Teacher. AI may help draft lessons, create practice activities, and help review 
 
 Lawyer. AI may help search cases, summarize documents, and help produce early drafts. People still own advising the client, building the strategy, persuading others, and taking professional responsibility.
 
-### Board 2b: How AI Might Change Careers (2 of 2)
+### Board 1b: How AI Might Change Careers (2 of 2)
 
 **Image file:** `make-your-move-electricians-designers-entrepreneurs.jpg`
 
@@ -52,7 +42,7 @@ Entrepreneur. AI may help research markets, draft plans, compare options, and he
 
 In every example above, AI may take on more tasks, but people are responsible for the most important work. That points to a practical move: build skills you can carry into almost any career.
 
-### Board 3: Four Skills to Build
+### Board 2: Four Skills to Build
 
 **Image file:** `make-your-move-skills.jpg`
 
@@ -72,7 +62,7 @@ Stay curious and flexible: keep learning, explore new tools, test new approaches
 
 You do not need to choose your entire future today. These four moves work whether you already have a career in mind or are still exploring.
 
-### Board 4: Moves to Make
+### Board 3: Moves to Make
 
 **Image file:** `make-your-move-actions.jpg`
 
@@ -88,7 +78,7 @@ Make something real: use AI to build a project, run an event, start a small busi
 
 Step into responsibility: join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.
 
-### Board 5: Close
+### Board 4: Close
 
 **Image file:** `make-your-move-close.jpg`
 

@@ -239,11 +239,11 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="work-what-changes",
-        title="What Changes with AI",
+        title="How Work Is Changing",
         cards=(
-            Card("More Kinds", "You cover more of the workflow, with fewer handoffs to other people."),
-            Card("More Productive", "In one study, consultants finished certain tasks 25% faster with 40% higher quality."),
-            Card("Meaningful Work", "AI can absorb busy work, leaving more time to investigate, decide, and recommend."),
+            Card("More Kinds of Work", "With AI’s help, you can take on tasks outside your specialty, such as design, marketing, or customer support. You can handle more of a project yourself."),
+            Card("More Productive", "AI helps you complete tasks faster, so you’ll accomplish more in the same amount of time."),
+            Card("More Meaningful", "When AI handles routine tasks, you have more time to solve problems, develop ideas, and make decisions that need your knowledge and judgment."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-what-changes/art-sheet.png",
         page_output="course-assets/work-changes/work-changes-productivity-and-possibilities.jpg",
@@ -437,24 +437,28 @@ def render_card_board(board: CardBoard) -> Image.Image:
         rows = 2
 
     wrapped = []
+    title_rows = []
     max_body_lines = 0
     max_quote_lines = 0
     has_eyebrow = any(card.eyebrow for card in board.cards)
     has_quote = any(card.quote for card in board.cards)
     for index, card in enumerate(board.cards):
         text_width = card_widths[index] - 2 * TEXT_SIDE
-        assert tracked_width(measure, card.title, card_title_font, INNER_TITLE_TRACKING) <= text_width, f"{board.key}: title must stay on one line: {card.title}"
+        heading_lines = wrap(measure, card.title, card_title_font, text_width) if board.key == "work-what-changes" else [card.title]
+        assert all(tracked_width(measure, line, card_title_font, INNER_TITLE_TRACKING) <= text_width for line in heading_lines), f"{board.key}: heading exceeds card width"
+        title_rows.append(heading_lines)
         body_lines = wrap(measure, card.body, body_font, text_width)
         quote_lines = wrap(measure, card.quote or "", quote_font, text_width)
         wrapped.append((body_lines, quote_lines))
         max_body_lines = max(max_body_lines, len(body_lines))
         max_quote_lines = max(max_quote_lines, len(quote_lines))
 
+    title_height = max(map(len, title_rows)) * TITLE_LINE
     eyebrow_height = 32 if has_eyebrow else 0
     eyebrow_gap = 10 if has_eyebrow else 0
     quote_gap = 20 if has_quote else 0
     text_height = (
-        TEXT_TOP + eyebrow_height + eyebrow_gap + TITLE_LINE + TITLE_BODY_GAP
+        TEXT_TOP + eyebrow_height + eyebrow_gap + title_height + TITLE_BODY_GAP
         + max_body_lines * BODY_LINE + quote_gap + max_quote_lines * QUOTE_LINE + TEXT_BOTTOM
     )
     card_height = art_height + text_height
@@ -535,8 +539,9 @@ def render_card_board(board: CardBoard) -> Image.Image:
                 draw.rounded_rectangle((text_x, text_y, text_x + label_w, text_y + 30), radius=15, fill=mix_with_white(accent, 0.12))
                 draw.text((text_x + 14, text_y + 15), label, font=eyebrow_font, fill=accent, anchor="lm")
             text_y += eyebrow_height + eyebrow_gap
-        draw_inner_title(draw, (text_x, text_y), card.title, fill=accent)
-        body_y = text_y + TITLE_LINE + TITLE_BODY_GAP
+        for line_index, line in enumerate(title_rows[index]):
+            draw_inner_title(draw, (text_x, text_y + line_index * TITLE_LINE), line, fill=accent)
+        body_y = text_y + title_height + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
         if has_quote and quote_lines:
             quote_y = body_y + max_body_lines * BODY_LINE + quote_gap

@@ -117,7 +117,6 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 - Upload checklist: `make-your-move-upload-files.txt`
 - Canonical folder: `course-assets/make-your-move/`
 - Boards in lesson order:
-  - `make-your-move-note.jpg` — post-production only; reserve narration
   - `make-your-move-doctors-teachers-lawyers.jpg` — post-production only; reserve narration
   - `make-your-move-electricians-designers-entrepreneurs.jpg` — post-production only; reserve narration
   - `make-your-move-skills.jpg` — upload
@@ -133,7 +132,7 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 - People Skills: preserve the definition, three reasons, four practices, and close. Reserve continuous narration for the omitted Four Ways to Practice board. No new teaching rewrite is needed.
 - Creative Thinking: the advantage is what a student brings when polished answers are widely available; do not claim that everyone using the same AI gets similar answers. Keep the definition, Jobs example, four professions, four habits, and closing lines.
 - Curious & Flexible: distinguish curiosity from flexibility, teach all four habits and four actions, and preserve “Newer is not automatically better.” No new teaching rewrite is needed.
-- Make Your Move: keep the six career comparisons, four skills, and four actions. Reserve THREE separate continuous spans for omitted boards: the attributed Nate and Luke note, doctors/teachers/lawyers, and electricians/designers/entrepreneurs. Use a clear transition between spans so each canonical JPG can be inserted in its proper place. Preserve “AI may help” rather than turning examples into certain career forecasts.
+- Make Your Move: keep the six career comparisons, four skills, and four actions. Reserve TWO separate continuous spans for omitted boards: doctors/teachers/lawyers and electricians/designers/entrepreneurs. Use a clear transition between spans so each canonical JPG can be inserted in its proper place. Preserve “AI may help” rather than turning examples into certain career forecasts.
 
 ## Prep versus lesson page
 

@@ -8,11 +8,7 @@ Using AI starts the same way: you pick an app such as ChatGPT or Gemini. But dep
 
 You won’t make all four choices every time. The default is a good starting point for most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
 
-## AGE RULES MATTER
-
-If you’re under 18, check an app’s age requirements before using it. As of August 2026, ChatGPT requires parental permission for users ages 13–17, Gemini permits many teen accounts but limits some features, and Claude requires users to be 18.
-
-## YOUR CHOICES
+## FOUR CHOICES
 
 Your first choice is the app. The other three choices may or may not appear, depending on the app and your subscription. You do not need to see every choice. You need to understand what each one does when it appears.
 

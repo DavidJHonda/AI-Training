@@ -30,7 +30,7 @@ Creativity is not a job title or a personality trait. It is a habit of thinking 
 
 ## WHY IT MATTERS
 
-When everyone has access to polished AI answers, your advantage is noticing what’s missing and choosing a better direction. You can connect ideas from different places and find an angle the answer missed. That’s creative thinking.
+AI gives polished answers in seconds. But getting an answer is only the beginning. Your advantage is noticing what’s missing, connecting ideas from different places, and choosing a better direction. That’s creative thinking.
 
 Creative thinking is not a gift some people receive. It’s a set of habits that you can improve.
 

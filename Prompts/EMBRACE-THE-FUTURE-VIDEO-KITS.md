@@ -404,6 +404,10 @@ a block, a limit or a permission; the Be the Agent activity is not narrated.
 
 ### work-changes
 
+**SHIPPED 2026-09-25 (David's approval): v3** = roll 4 base with roll 2 job titles and productive line, roll 5's
+How Work Is Changing explanation under the new Board 4, section-by-section highlights on Your First Assignment;
+cache key 20260925ship1 (`video-audit/work-changes-v3-2026-09-25/REVIEW.md`, build `scripts/video/build_work_changes_v3.py`).
+
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 after two rolls.** Rolls
 `Prompts/work-changes-1.mp4` and `-2.mp4` and the live video were all judged REROLL
 (`video-audit/work-changes-review-2026-09-24/REVIEW.md`). Roll 1 expanded the closing contractions and
@@ -411,14 +415,13 @@ paraphrased most required lines; roll 2 dropped "in one study" from the statisti
 answer. Neither roll spoke "It's what you already know.", the manager's exact words, or the focus line.
 Roll 2 is the best-of base if the next roll lands the missing lines.
 
-- Markdown: `lessons/work-changes.md` (rewritten 2026-09-23: the assignment board's full before/after
-  lists are written out as sentences, including all five first-pass steps on both sides, both results,
-  and the manager's words verbatim; "in one study" and "certain tasks" stay attached to the 25% and 40%
-  figures; the required lines split onto their own lines; 2026-09-24: the study sentence split onto its
-  own line under "More productive.")
-- Prompt: `work-changes-video-prompt.txt` (497 words, four blocks; 2026-09-24: study and learn lines made verbatim,
-  contractions required, "hardest"/people/invented charts banned)
-- Registry: `Prompts/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-24)
+- Markdown: `lessons/work-changes.md` (2026-09-25: Board 4 is now **How Work Is Changing**.
+  Concise explanations cover tasks outside your specialty, accomplishing more in the same time,
+  and time for problems, ideas, and decisions. The consultant study statistic has been removed;
+  these instructions supersede the study requirements used for the earlier rolls above.)
+- Prompt: `work-changes-video-prompt.txt` (498 words; eight required verbatim lines;
+  teach all three concise explanations, preserving the Markdown's order and voice).
+- Registry: `Prompts/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-25)
 - Canonical folder: `course-assets/work-changes/`
 - Boards in lesson order:
   - `work-changes-four-shapes-of-ai-work.jpg` — upload
@@ -443,15 +446,15 @@ Roll 2 is the best-of base if the next roll lands the missing lines.
    know. "AI doesn't just help you work faster. It can help you focus on what's really important."
 6. Automate and augment, each with its example from the reviews job, then "The work still has your name
    on it. You own the outcome."
-7. What Changes with AI: all three by name, with "in one study", "certain tasks", 25% faster, 40%
-   higher quality spoken together.
+7. How Work Is Changing: explain More Kinds of Work, More Productive, and More Meaningful
+   using their complete teaching text. Do not add the retired consultant study statistic.
 8. The part that matters: entry-level work, "AI can make you productive before it makes you
    knowledgeable.", being asked to check work you haven't learned yet, and the answer — learn, learn
    more, school.
 9. Close on the two lines with nothing after.
 
-**Required verbatim lines:** the nine in the prompt (the what-you-already-know line, the manager's
-assignment, the focus line, the name-on-it banner, the study line, the productive-before-knowledgeable
+**Required verbatim lines:** the eight in the prompt (the what-you-already-know line, the manager's
+assignment, the focus line, the name-on-it banner, the productive-before-knowledgeable
 line, the learn/school line, and the two closing lines).
 
 **Banned words:** leverage, framework, utilize, disrupt, workforce, paradox, transformation; no expanded contractions;

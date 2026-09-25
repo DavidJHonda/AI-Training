@@ -88,27 +88,25 @@ Whatever career you choose, AI will do some tasks for you and help you do others
 
 But here’s the important point: the work still has your name on it. You own the outcome.
 
-## What Changes with AI
+## How Work Is Changing
 
 Put automation and augmentation together, and three changes show up across almost every career.
 
-### Board 4: What Changes with AI
+### Board 4: How Work Is Changing
 
 **Image file:** `work-changes-productivity-and-possibilities.jpg`
 
-![What Changes with AI](work-changes-productivity-and-possibilities.jpg)
+![How Work Is Changing](work-changes-productivity-and-possibilities.jpg)
 
 **Teaching content:**
 
-What changes with AI.
+How Work Is Changing.
 
-More kinds. You cover more of the workflow, with fewer handoffs to other people.
+More Kinds of Work. With AI’s help, you can take on tasks outside your specialty, such as design, marketing, or customer support. You can handle more of a project yourself.
 
-More productive.
+More Productive. AI helps you complete tasks faster, so you’ll accomplish more in the same amount of time.
 
-In one study, consultants finished certain tasks 25% faster with 40% higher quality.
-
-Meaningful work. AI can absorb busy work, leaving more time to investigate, decide, and recommend.
+More Meaningful. When AI handles routine tasks, you have more time to solve problems, develop ideas, and make decisions that need your knowledge and judgment.
 
 ## The Part That Matters
 

@@ -125,7 +125,7 @@ def close_board_asset(section_id):
     if not row:
         sys.exit(f"no CLOSE_BOARD_ASSETS entry for '{section_id}'")
     asset_root = Path(os.environ.get("CLOSE_BOARD_ASSET_ROOT", ROOT))
-    return asset_root / row.group(1)
+    return asset_root / row.group(1).split("?", 1)[0]   # the page may carry a ?v= cache key (2026-09-26, peopleskills)
 
 
 def compose_canonical_for_video(source, output, bg):

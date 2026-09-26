@@ -237,7 +237,8 @@ hold is fixed here, in the edit plan, never at upload: the 2026-09-23 A/B on Whe
 the Line? showed that removing the board images from the upload does not shorten
 Notebook's holds (it holds its own diagram for the same topic block) and costs the
 narration (1/7 required lines against 7/7). A lesson with short boards and Notebook's
-own scenes between them (Your Choices) is left alone. The 1b board plan states each
+own scenes between them is left alone. (Your Choices was the old example; its two
+50-second board runs were broken with donor drawings from two rerolls, 2026-09-26.) The 1b board plan states each
 board's planned on-screen time and where it breaks; every candidate's report states
 the longest unbroken board run and lists every Notebook span used and where, so David
 can pull any of it back before shipping.

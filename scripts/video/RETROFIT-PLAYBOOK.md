@@ -71,7 +71,7 @@ Beat frames must sum to the exact planned leg length.
 
 Rings use `{start, end, rect: [x,y,w,h], color, pad, radius}` on the leg's half-open
 frame timeline. Coordinates use the same input image as the camera. Whole-component
-rings use `pad: 0`; the renderer draws the constant 5px outline after cropping.
+rings use `pad: 0`; the renderer draws the fixed 4 px (6 px at 1080p) outline after cropping.
 Keep compact boards whole; dense boards tour complete cards. Do not invent pauses
 to fit camera moves. AI Chat boards remain compact. See Edit Spec sections 3–6.
 
@@ -100,7 +100,7 @@ For the final encoded candidate:
   strips. The first restored frame must already be the approved destination,
   with no stale scene tail. A detector pass alone is insufficient.
 - Inspect settled frames at each changed ring state: complete component, correct
-  color/onset, constant 5px stroke, readable text, and no clipped edges.
+  color/onset, fixed 4 px stroke (6 px at 1080p), readable text, and no clipped edges.
 - Confirm changed boards open whole and their compact/dense treatment is correct.
 - If audio edits were approved, measure selected pauses against the plan and listen
   to affected joins. Report what was not heard rather than claiming verification.

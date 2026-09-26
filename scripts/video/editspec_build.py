@@ -18,7 +18,7 @@ import cv2, numpy as np, imageio_ffmpeg
 
 FPS = 30; SR = 48000; W = 1280; H = 720; SPF = SR // FPS
 PURPLE, BLUE, TEAL, GREEN, AMBER, RED, NEUTRAL = '#4f2fc4', '#1652f0', '#0e8f86', '#0f7a4a', '#a9760c', '#c41f28', '#6e51ff'
-RING_PX, DIVE_MARGIN, TRANSIT, PULLBACK = 5, 40, 24, 30
+RING_PX, DIVE_MARGIN, TRANSIT, PULLBACK = 4, 40, 24, 30   # RING_PX = ken_burns_path.ring_px(720), the fixed stroke (owner rule 2026-09-26)
 CLOSE_PREHOLD, CLOSE_PUSH, CLOSE_TAIL = 48, 150, 120
 
 def fr(t): return round(t * FPS)

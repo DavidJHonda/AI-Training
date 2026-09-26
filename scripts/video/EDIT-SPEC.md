@@ -116,16 +116,13 @@ full view, and the ring traces the bubble's own border, not the text inside it.
 
 - Outline only, drawn after the camera crop, rounded corners. No fills, tints,
   chips, or Notebook washes anywhere in the candidate.
-- **Stroke weight is constant against the artwork, not against the frame** (owner
-  rule 2026-09-21). A ring is 5 px where a 1600 px board fills the 1280 px frame —
-  the library's usual framing, so every standard wide board keeps the weight it has
-  today — and scales in proportion as the camera dives or pulls back, with a 3 px
-  floor. A board shown small on screen (a tall board letterboxed at full view) gets
-  a finer line; a dived card gets a heavier one. The point is that a highlight
-  carries the same visual weight against the board's own text wherever it appears.
-  `ken_burns_path.ring_px(scale)` is the single source of truth. The earlier rule —
-  a constant 5 px however far the camera dived — is superseded. Videos shipped under
-  it are not rebuilt; apply this from the next build onward.
+- **Stroke weight is a fixed on-screen width** (owner rule 2026-09-26): 6 px at
+  1080p, which is 4 px in the 1280x720 delivery frame, whatever the camera's zoom
+  on the board — full view, dive, or pan. `ken_burns_path.ring_px(out_h)` is the
+  single source of truth. This replaces the 2026-09-21 rule (stroke scaled with the
+  artwork, 5 px at a full-width 1600 px board) and the earlier constant 5 px. Videos
+  shipped under either earlier rule are not rebuilt; apply this from the next build
+  onward.
 - One ring per point being made. A whole-card ring traces the card's outer
   boundary. Two card layouts, two rules (owner, 2026-09-21): when the cards are
   columns inside one shared white box (Why Hallucinations Happen, Check the

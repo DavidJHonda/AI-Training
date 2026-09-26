@@ -25,13 +25,11 @@ A beat may omit "from" to continue from the previous beat's "to" (the usual case
 — that is what makes the path continuous).
 
 Rings (post-crop highlights, owner rule 2026-09-10): capture the board ONCE,
-unmarked, and let this tool draw every highlight AFTER the crop. The stroke is
-scaled to the ARTWORK, not to the delivery frame (owner rule 2026-09-21): a ring
-is RING_PX px at RING_REF_SCALE (a 1600 px board shown full width, the library's
-usual framing) and thickens or thins in proportion as the camera dives or pulls
-back, so a highlight carries the same visual weight against the board's own text
-wherever it appears. The earlier rule — a constant 5 px however far the camera
-dived — is superseded; videos shipped under it are not rebuilt. The capture's
+unmarked, and let this tool draw every highlight AFTER the crop. The stroke is a
+FIXED ON-SCREEN WIDTH (owner rule 2026-09-26): 6 px at 1080p, i.e. 4 px in the
+1280x720 delivery frame, whatever the camera's zoom on the board. It supersedes
+the 2026-09-21 rule (stroke scaled with the artwork); videos shipped under either
+earlier rule are not rebuilt. The capture's
 rects.json supplies the rectangles; the spec lists them on the LEG's own frame
 timeline (half-open [start, end)):
 
@@ -61,18 +59,16 @@ import sys
 
 import cv2
 
-RING_PX = 5           # stroke at the reference framing, below
-RING_REF_SCALE = 0.8  # output px per board px for a 1600 px board filling a 1280 px frame
-RING_MIN_PX = 3       # floor, so a board shown small on screen still carries a visible outline
+RING_PX_1080 = 6      # owner rule 2026-09-26: fixed on-screen stroke, 6 px at 1080p, at any zoom
 
 
-def ring_px(scale):
-    """Stroke weight in output px for a camera at `scale` output px per board px.
+def ring_px(out_h=720):
+    """Stroke weight in output px for a frame `out_h` px tall: 6 px at 1080p scaled to the
+    delivery height (4 px at 720p). Independent of the camera's zoom on the board."""
+    return max(1, int(round(RING_PX_1080 * out_h / 1080)))
 
-    Constant against the artwork rather than against the frame (owner rule
-    2026-09-21), so the ring grows as the camera dives and shrinks as it pulls back.
-    """
-    return max(RING_MIN_PX, int(round(RING_PX * scale / RING_REF_SCALE)))
+
+RING_PX = ring_px(720)   # 4: the delivery stroke, also used for fit-to-ring camera margins
 
 FFMPEG = subprocess.run(
     [sys.executable, "-c", "import imageio_ffmpeg,sys; sys.stdout.write(imageio_ffmpeg.get_ffmpeg_exe())"],
@@ -199,7 +195,7 @@ def main():
         frame = cv2.resize(crop, (ow, oh), interpolation=interp)
         if frame_no is not None and rings:
             scale = ow / ww  # output px per image px at this camera
-            t = ring_px(scale)
+            t = ring_px(oh)
             frame = frame.copy()
             for (a, b, rect, color, pad, radius) in rings:
                 if not (a <= frame_no < b):

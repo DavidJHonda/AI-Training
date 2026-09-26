@@ -96,9 +96,9 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
      the viewer to pause, guess, or answer; supply each answer immediately.
    - **BOARDS AND VISUALS.** Show each attached board with its content, complete and
      uncropped; highlighting is added in the edit. Board numbers, filenames, and "Teaching
-     content" are production labels, not narration. Drawn scenes with no people between
-     boards; no stock photographs, logos, invented facts or statistics, chapter cards, or
-     spoken URLs. Open with no title card or preview. End on the two closing lines with a
+     content" are production labels, not narration. Drawn scenes between boards; no stock
+     photographs, logos, invented facts or statistics, chapter cards, or spoken URLs.
+     Include this line verbatim (owner rule 2026-09-26): "No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed." Open with no title card or preview. End on the two closing lines with a
      statement cadence and nothing after them.
 
 5. **Add the registry entry** in `Prompts/upload-sets.json`: `slug`, `title`, `section`,

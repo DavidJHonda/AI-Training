@@ -247,8 +247,9 @@ video_end=...)` (Where's the Line? v2: a roulette table and a betting phone from
 other rolls under the base roll's invented-statistics slides, a keyboard drawing from
 a third under a drawn person); then the live video's own drawings when a reroll
 replaces it (Layers v3: the live animation under the scale beat). Donor drawings
-carry the same bans as the roll's own (no photographs, people, logos, invented
-figures, restatements of a course board in Notebook's words). When no roll drew
+carry the same bans as the roll's own (no photographs or photorealistic imagery,
+logos, invented figures, restatements of a course board in Notebook's words;
+illustrated, cartoon, and stylized people are allowed, owner rule 2026-09-26). When no roll drew
 anything for a beat, say so in the report and let the dense dive-and-pan carry the
 board rather than inventing filler.
 
@@ -279,6 +280,10 @@ old computers. None of them ship, whether or not a watermark is visible and
 whether or not a person is in frame. Two earlier rolls surfaced Getty watermarks
 mid-span, so the source and license of any Notebook photograph is unknowable
 from the frames, and a public course video cannot carry that question.
+
+People rule (owner rule 2026-09-26): "No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed." A drawn,
+cartoon, or stylized person in a Notebook scene ships; a photographed or
+photorealistic one never does. Every video prompt carries that sentence verbatim.
 
 Cover every photograph span with a drawing: Notebook's own drawing from
 elsewhere in the roll (`keep(..., video_from=)`), a drawing from another roll or

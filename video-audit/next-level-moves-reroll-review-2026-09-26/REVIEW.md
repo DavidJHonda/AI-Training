@@ -86,3 +86,28 @@ AI-chat rule: full view, and each bubble gets a ring in turn (the ring traces th
 **Drawn people (flag):** roll 1 0:08-0:28 (three cartoon students, then a student beside a robot) and 1:44-1:59 ("User" figure). **RESOLVED 2026-09-26: David: keep.** The people rule is now "No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed." (all prompts, Prompts/README.md, EDIT-SPEC 8b/8c).
 
 Nothing here is approved yet. Per rule 1b, the plan and the optional graft need one approval before the first render.
+
+---
+
+## Build v2 — 2026-09-26 (plan approved by David: "build the Next Level Moves video as suggested earlier")
+
+Candidate: `Prompts/next-level-moves-v2.mp4`, 9206 frames, 5:06.87, 1280x720 @ 30 fps. Script: `scripts/video/build_next_level_moves_v2.py`; manifest, legs, state sheets and transition strips in `build-v2/`.
+Scope: full production pass on roll 1. The live video, both rolls, the lesson, the boards and index.html are unchanged by the build.
+
+- **Opening graft (audio only):** roll 2 0.00-3.70 s, "Most people assume working with AI is a simple transaction.", at -0.4 dB (roll 2 -19.7 LUFS, roll 1 -20.1). It plays over roll 1's own title build, and the resulting 34-frame picture lead is absorbed in the blank paper at 10.1-11.2 s (output). Measured join gap is 0.60 s (3.46-4.06).
+- **Boards:** four AI-chat boards, compact and full view, with a ring on each bubble at its turn cue ("You say" / "The AI answers") and then the banner. They are held unbroken because no roll drew anything for the dialogue. On-screen time is 40.1 s, 51.1 s, 23.9 s and 44.1 s. The Business Plan board reads at full view in the 720p frame, so no zoom was needed.
+- **Pauses (output, silencedetect -35 dB):** 94.54-95.73 (1.19 s), 174.10-175.24 (1.14 s), 219.97-221.23 (1.25 s), 295.30-296.43 (1.13 s). The natural gaps were 0.69, 0.64, 0.88 and 0.64 s.
+- **Close:** standard aitips close from 4:54.1, carrying both closing lines, with nothing after them.
+- **QA done:**
+  - The decoded frame count matches the plan.
+  - `transition_guard.py` passed all 19 boundaries, and I inspected the strips.
+  - I checked every ring state on the state sheets.
+  - The engine corner mark is gone from the kept Notebook frames (patch sampled every 15th frame; the 0:45 high reading is image content).
+  - The full output was re-transcribed (`build-v2/transcript-v2.txt`).
+- **Render note:** the build's post-render protected-hash check failed only on index.html, which another session edited mid-render. The aitips close is pixel-identical to a fresh `make_close_board.py` run. The render hash was added to the manifest afterward; the corner-mark counts were not recorded.
+- **Not auditioned (David to listen):**
+  - the opening join at 0:03.5-0:04.1;
+  - the four pauses;
+  - the whole video end to end.
+- **Editing note, not fixed:** the paper-collage scene at 0:39-0:47 (output ~0:43-0:51) has garbled handwritten labels ("Scribby ideashing", "Modulameral tablet").
+- **Not shipped.** Shipping would copy the candidate to `course-assets/next-level-moves/next-level-moves.mp4`, bump the `?v=` key on the aitips LESSON_VIDEOS entry (the pill says 5 min, which still fits), update manifest.json video_assets, and commit.

@@ -125,3 +125,13 @@ No two board appearances are adjacent: Notebook scenes separate every pair. The 
   - `transition_guard.py` passed all 11 boundaries.
 - **Shipped:** v7 installed byte-identical. sha256 `0e7437ee…9af934b`, 21,363,702 bytes. Cache key `20260926ship11`, manifest row updated.
 - **Still not done:** listening to the two audio joins, which are unchanged since v4.
+
+## v8 (2026-09-27): new Four Qualities board
+
+David: "We've updated the board on the page. Use the new board in the video. It's a short board, so no need for zooming and panning. Just highlight each internal box as spoken."
+
+- Candidate: `Prompts/art-of-prompting-v8.mp4` (6936 frames, 231.20 s, same as live). Build: `scripts/video/build_art_of_prompting_v8.py` (v7 chain from the 20260916ship1 source; only the good-question leg changes).
+- Board: `art-of-prompting-good-question.jpg` sha 28a2780e… (1600x656, uncommitted page change). Compact: full view for the whole leg (0:26.6-0:49.3), no push/dive/pan.
+- Rings at the 09-16 spoken onsets (leg frames): banner "foundation" 73 (#6e51ff), Open-Minded 143, Specific 278, On Target 416, Open-Ended 551 to the leg's end. Rects are the new JPG's measured card/banner edges.
+- Checks: audio stream bit-identical to live (PCM hash); frames outside 797-1479 match live to encoder noise (max mean diff 0.42); ring_stroke 4.0 px on violet/purple/blue/amber, teal 5.0 (same as live v7's teal, house draw_ring); transition_guard PASS at 797 and 1480, strips inspected.
+- SHIPPED 2026-09-27 on David's "ship it": cache key 20260927ship3, manifest row updated.

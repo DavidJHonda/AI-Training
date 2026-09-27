@@ -1,6 +1,6 @@
-# Opener repair candidate v12 — ready for owner review
+# Opener repair v12 — approved for publication
 
-This is the approved narrow repair of the existing published Opener. It has **not been published**.
+David authorized publication with “ship it”. The exact reviewed candidate is installed at the canonical course path; deployment verification is recorded in shipping-receipt.json.
 
 Candidate: [understand-ai-opener-v12.mp4](/Users/davidobrien/Developer/AI-Training/Prompts/understand-ai-opener-v12.mp4)
 
@@ -38,7 +38,7 @@ Only the finished published source survives locally, so retained picture footage
 
 ## Checks not performed
 
-Real-time end-to-end viewing/listening, mobile playback, and manual scrutiny of every frame outside the reviewed boundary strips were not performed. The candidate still needs the owner's playback review for perceived pacing and the eight-second still drawing.
+Real-time end-to-end viewing/listening, mobile playback, and manual scrutiny of every frame outside the reviewed boundary strips were not performed. These limitations were disclosed before David authorized shipping; no additional playback or listening pass is claimed.
 
 ## Evidence and reproduction
 

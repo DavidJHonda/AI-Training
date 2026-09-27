@@ -1,7 +1,7 @@
 # Where AI Works Best v7: best-of build from the 2026-09-26 reroll (2026-09-27)
 
 **Candidate:** `Prompts/where-ai-works-best-v7.mp4`, 3:52.03, 6961 frames, 1280x720 30 fps (sha256 `89f85d327a9f…`, full hash in `edit-manifest.json`).
-**Scope:** full production pass. The plan in `../where-ai-works-best-reroll-review-2026-09-26/REVIEW.md` (BEST-OF PLAN + Edit Spec 1b board table) was approved by David on 2026-09-27 ("Plan approved"). **Not shipped:** the live video, `index.html` and the manifest are unchanged.
+**Scope:** full production pass. The plan in `../where-ai-works-best-reroll-review-2026-09-26/REVIEW.md` (BEST-OF PLAN + Edit Spec 1b board table) was approved by David on 2026-09-27 ("Plan approved"). **SHIPPED 2026-09-27** on David's "ship it": installed as `course-assets/where-ai-works-best/where-ai-works-best.mp4`, cache key `20260927ship4`, manifest video_assets sha256 + bytes (22927071) updated. David gave the ship signal after the build report; the LISTENING items below were not separately confirmed.
 **Build:** `.video-venv/bin/python scripts/video/build_where_ai_works_best_v7.py`
 **Sources:** base roll 3 `Prompts/where-ai-works-best-3.mp4` (sha `f4e293f1…`); donors roll 1 (`7336951b…`) and roll 2 (`90e9db48…`). All three rolls are kept.
 
@@ -88,7 +88,6 @@ Clips in `audition/`:
 
 ## Not done
 
-- Nothing is shipped: the live video, `index.html`, `manifest.json` and the cache key are unchanged. "Ship it" is the publish signal.
 - The ear test (above) is still needed.
 - "It learned patterns it can apply to new problems." is spoken by no roll. It stays printed on the board under the WHY ring (accepted in the plan).
 - The 5 px amber and teal rings (item 6).

@@ -12,11 +12,11 @@ So asking AI good questions requires another skill: giving it the information an
 
 You learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question.
 
-### Board 1: Every Strong Prompt Starts With a Good Question
+### Board 1: Four Qualities of a Good Question
 
 **Image file:** `art-of-prompting-good-question.jpg`
 
-![Every Strong Prompt Starts With a Good Question](art-of-prompting-good-question.jpg)
+![Four Qualities of a Good Question](art-of-prompting-good-question.jpg)
 
 **Teaching content:**
 

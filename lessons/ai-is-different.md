@@ -1,10 +1,10 @@
 ## WORK WITH AI
 
-# AI is Different
+# AI Is Different
 
 AI is taking the world by storm. It has superpowers that set it apart from any other software. The reason is simple:
 
-**AI is built on a different foundation.**
+AI is built on a different foundation.
 
 Consider how normal (non-AI) software is created, like the calculator app on your phone or Microsoft Excel. A programmer sits down and writes code line-by-line that tells the software exactly what to do.
 
@@ -18,7 +18,11 @@ The core of normal software is something called **Rules**. The best way to under
 
 **Teaching content:**
 
-A user enters a password. IF the password matches, THEN open the app. ELSE show the message “Password doesn’t match. Please try again.” Written rules return the same result every time.
+Rules look like this.
+
+A user enters a password. IF the password matches, THEN open the app. ELSE show the message “Password doesn’t match. Please try again.”
+
+Written rules return the same result every time.
 
 ## AI IS Based On Patterns
 
@@ -32,11 +36,21 @@ AI is different. A programmer doesn’t write out the rules for every situation.
 
 **Teaching content:**
 
-Learn First: Training is how the model learns from enormous amounts of data before you use it. Patterns are what it learns: training turns examples into learned numerical patterns. Patterns develop during training, not in a separate step afterward. Those patterns power every answer.
+Two ideas behind every answer.
 
-Answer One Word at a Time: Probability scores possible next words using the words so far. Prediction chooses a likely next word, adds it, and repeats the process.
+Learn First. Training: how the model learns. It learns from enormous amounts of data before you use it.
+
+Patterns: what the model learns. Training turns examples into learned numerical patterns.
+
+Patterns power every answer.
+
+Answer One Word at a Time. Probability: how it scores possible next words. It uses the words so far to work out how likely each next word is.
+
+Prediction: how it chooses and repeats. It chooses a likely next word, adds it, and runs the process again.
 
 Learn patterns first. Use them to build every answer.
+
+## A Robot and a Chef
 
 That’s the difference: someone writes the rules for ordinary software. AI learns patterns it can use in situations it hasn’t seen before.
 
@@ -54,19 +68,23 @@ Watch what each one does with the same question.
 
 ### Board 3: Rules vs. Patterns
 
-**Image file:** `ai-is-different-rules-vs-patterns.jpg`
+**Image file:** `ai-is-different-rules-vs-patterns-faceless.jpg`
 
-![Rules vs. Patterns](ai-is-different-rules-vs-patterns.jpg)
+![Rules vs. Patterns](ai-is-different-rules-vs-patterns-faceless.jpg)
 
 **Teaching content:**
 
+Rules vs. Patterns.
+
 The question: “What’s the best game for my new PS5?”
 
-Normal software follows written instructions. First ask: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2.
+Normal Software. Fixed rules. Follows written instructions. First ask: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2.
 
-AI software builds a fresh response. First ask: Marvel’s Spider-Man 2. Ask again: NHL 26. Ask again: God of War Ragnarök.
+AI Software. Built from patterns. Builds a fresh response. First ask: Marvel’s Spider-Man 2. Ask again: NHL 26. Ask again: God of War Ragnarök.
 
 Rules repeat the programmed answer. Patterns build a fresh one.
+
+## Why the Answers Differ
 
 In this example, normal software follows a rule: when you ask for the best PS5 game, show the top game on a preset list. AI builds an answer using learned patterns, so you can ask the same question again and get a different recommendation.
 
@@ -80,15 +98,19 @@ That something was AI. It read the notes, followed the changes, and turned them 
 
 ### Board 4: Structured vs. Unstructured Data
 
-**Image file:** `ai-is-different-structured.jpg`
+**Image file:** `ai-is-different-structured-faceless.jpg`
 
-![Structured vs. Unstructured Data](ai-is-different-structured.jpg)
+![Structured vs. Unstructured Data](ai-is-different-structured-faceless.jpg)
 
 **Teaching content:**
 
-Normal software. The idea: you fit information into a structure the software expects. Input and output: you use the fields, file types, and commands the software was built to handle.
+Structured vs. Unstructured Data.
 
-AI software. The idea: AI can make sense of messy information and help you organize or transform it. Input and output: give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image. Available inputs and outputs depend on the app.
+Normal Software. The idea: you fit information into a structure the software expects. Input and output: you use the fields, file types, and commands the software was built to handle.
+
+AI Software. The idea: AI can make sense of messy information and help you organize or transform it. Input and output: give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image.
+
+Available inputs and outputs depend on the app.
 
 You bring the mess. AI helps make sense of it.
 
@@ -104,17 +126,21 @@ A human can hold Kryptonite, toss it in a backpack, whatever. Not Superman, for 
 
 AI has its own Kryptonite. It’s not fatal, but you need to be aware of it.
 
-Because AI runs on learned patterns and not rules, it’s harder to control. **Trained behavior is harder to predict, inspect, and lock down than written rules.** And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do. And sometimes, people use its superpowers to cause harm. You need to recognize these risks.
+Because AI runs on learned patterns and not rules, it’s harder to control.
+
+Trained behavior is harder to predict, inspect, and lock down than written rules.
+
+And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do. And sometimes, people use its superpowers to cause harm. You need to recognize these risks.
 
 ### Board 5: AI’s Kryptonite
 
-**Image file:** `ai-is-different-weak-spots.jpg`
+**Image file:** `ai-is-different-weak-spots-faceless.jpg`
 
-![AI’s Kryptonite](ai-is-different-weak-spots.jpg)
+![AI’s Kryptonite](ai-is-different-weak-spots-faceless.jpg)
 
 **Teaching content:**
 
-You’ll see stories like this.
+AI’s Kryptonite.
 
 Scams that scale: AI generates code, convincing messages, and fake identities in seconds.
 
@@ -126,9 +152,15 @@ Trained behavior is harder to predict, inspect, and lock down.
 
 ## THE INDUSTRY’S ANSWER: GUARDRAILS
 
-AI companies don’t ignore this. During training, they teach AI to avoid harmful behavior. They also add a safety layer to the apps: **guardrails**. These help block, redirect, or limit harmful requests. But none are perfect. They can miss something dangerous or block something harmless.
+AI companies don’t ignore this.
 
-### Close
+During training, they teach AI to avoid harmful behavior.
+
+They also add a safety layer to the apps: guardrails.
+
+These help block, redirect, or limit harmful requests. But none are perfect. They can miss something dangerous or block something harmless.
+
+### Board 6: Close
 
 **Image file:** `ai-is-different-close.jpg`
 

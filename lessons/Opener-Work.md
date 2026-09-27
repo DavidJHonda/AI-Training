@@ -18,19 +18,29 @@ Don’t just use AI. Work with it.
 
 It doesn’t replace your thinking. It multiplies it.
 
-You’ve met the tool and seen what it can do. Now it gets practical: how do you actually work with it?
+## From Knowing to Doing
+
+You’ve met the tool and seen what it can do.
+
+Now it gets practical: how do you actually work with it?
 
 Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Knowing how to work with it helps you get more out of it.
 
 ### Board 2: Same Tool. Different Results.
 
-**Image file:** `work-with-ai-opener-same-tool.jpg`
+**Image file:** `work-with-ai-opener-same-tool-faceless.jpg`
 
-![Same Tool. Different Results.](work-with-ai-opener-same-tool.jpg)
+![Same Tool. Different Results.](work-with-ai-opener-same-tool-faceless.jpg)
 
 **Teaching content:**
 
-Two people, two identical phones, one sandwich. One rushed, blurry picture. One carefully framed, crisp shot. The phone never changed. AI does not replace your thinking. It multiplies it.
+Same Tool. Different Results.
+
+AI does not replace your thinking. It multiplies it.
+
+## The Same Camera, Different Results
+
+Two people, two identical phones, one sandwich. One rushed, blurry picture. One carefully framed, crisp shot. The phone never changed.
 
 ### Board 3: Work With AI, the Section Map
 
@@ -40,15 +50,21 @@ Two people, two identical phones, one sandwich. One rushed, blurry picture. One 
 
 **Teaching content:**
 
+This road map shows what we’ll explore in this section.
+
+Work With AI.
+
 This section has three parts.
 
 First, Know What It’s For: why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.
 
 Second, Use It Well: the moves that get a better answer, and a look at what the model actually reads when you ask.
 
+Giving AI the right details helps it give you a better answer.
+
 Third, Think Before You Trust: what to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use.
 
-**Takeaway:** The result depends on how you use the tool.
+The result depends on how you use the tool.
 
 ### Board 4: Close
 

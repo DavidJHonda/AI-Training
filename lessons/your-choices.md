@@ -4,45 +4,47 @@
 
 Choosing a music app is simple. You pick Spotify, Apple Music, or something else, then start listening.
 
-Using AI starts the same way: you pick an app such as ChatGPT or Gemini. But depending on the app and your subscription, you may also be able to choose the model, how much reasoning it uses, and whether it performs deeper research.
+Using AI starts the same way: you pick an app such as ChatGPT or Gemini.
 
-You won’t make all four choices every time. The default is a good starting point for most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
+But depending on the app and your subscription, you may also be able to choose the model, how much reasoning it uses, and whether it performs deeper research.
 
-## FOUR CHOICES
+You won’t make all four choices every time.
 
-Your first choice is the app. The other three choices may or may not appear, depending on the app and your subscription. You do not need to see every choice. You need to understand what each one does when it appears.
+The default is a good starting point for most jobs. But when the work is harder or more important, knowing the choices lets you change the right thing.
+
+## Four Choices
+
+Your first choice is the app. The other three choices may or may not appear, depending on the app and your subscription.
+
+You do not need to see every choice. You need to understand what each one does when it appears.
 
 ### Board 1: Choose the Tool
 
 **Image file:** `your-choices-choose-tool.jpg`
 
-![Choose the Tool](../course-assets/your-choices/your-choices-choose-tool.jpg)
+![Choose the Tool](your-choices-choose-tool.jpg)
 
 **Teaching content:**
 
-Choice 1 is which app. Your home base. Choose the app that is available to you and fits the tools and work you use most. Use a second app when its strengths clearly fit the job.
+Choose the tool.
 
-Choice 2 is which model. Some apps offer a family of models. Use the everyday model for most tasks and a more capable model for difficult work.
+Your first choice is which app. Your home base. Choose the app that is available to you and fits the tools and work you use most. Use a second app when its strengths clearly fit the job.
+
+Your second choice is which model. Some apps offer a family of models. Use the everyday model for most tasks and a more capable model for difficult work.
 
 ### Board 2: Choose How It Works
 
 **Image file:** `your-choices-choose-how.jpg`
 
-![Choose How It Works](../course-assets/your-choices/your-choices-choose-how.jpg)
+![Choose How It Works](your-choices-choose-how.jpg)
 
 **Teaching content:**
 
-Choice 3 is reasoning. Apps may call this Effort, Thinking, or Reasoning. Use more for math, code, planning, and problems with steps. Keep the default for routine work.
+Choose how it works.
 
-Choice 4 is research. Some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.
+Your third choice is reasoning. Apps may call this Effort, Thinking, or Reasoning. Use more for math, code, planning, and problems with steps. Keep the default for routine work.
 
-So the four choices are the app, the model, how much reasoning, and whether to run research. Use the default when it works. Change what you can when the work demands more.
-
-### Board 3: Close
-
-**Image file:** `your-choices-close.jpg`
-
-![Close board](../course-assets/your-choices/your-choices-close.jpg)
+Your fourth choice is research. Some apps call this Deep Research. It searches, compares sources, and returns a cited report. Use it for broad or current questions that require information from many sources.
 
 ## Closing Message
 

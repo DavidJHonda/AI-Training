@@ -73,7 +73,7 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
      either quoted dialogue or a sentence alone on its own line. Lines buried mid-paragraph
      did not land in eight Document Trap rolls; the same lines landed once split out.
 
-3. **Handle face boards.** Notebook may reject or redraw boards with visible faces, and a
+3. **Handle face boards.** Allowing illustrated people in generated scenes does **not** permit visible faces in uploaded boards. These are separate rules. Notebook may reject or redraw boards with visible faces, and a
    board that is withheld leaves its teaching on an invented scene. Render a faceless
    upload variant instead: same pixel dimensions as the canonical board, photo panels
    removed, title and text kept. Save it as `Prompts/<slug>-<board>-faceless.jpg`, name it in

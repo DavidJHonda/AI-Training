@@ -95,7 +95,7 @@ define ordinary board chrome before the section stabilizes.
 | Your Choices | Static utility board and hands-on lab | Adopted | Keep the temperature probability board fixed at the shared 1600 px shell and preserve its 29 px minimum essential text. |
 | AI Tips | Page components | Defer | Keep responsive content page-native unless a video beat clearly needs a board. |
 | Habits for the Road | Page components and scenario utility | Defer | Do not turn every integrity or privacy card into a board. |
-| People Skills | Story and scenario utility | Defer | Preserve human tone; create shared boards only when a no-person visual can carry the idea. |
+| People Skills | Story and scenario utility | Keep | Approved Maya group-project scene (2026-09-26): Dallas Stars students in the established rendered style, integrated dialogue in Your Next Move, and the original image-over-text cards with general practice guidance and a separate Maya application question, and the restored three-card People Skills Matter More capstone. Full teaching prose stays on the page and in Markdown. Render with `scripts/video/render_people_skills_scene.py`; upload the canonical boards directly. |
 | Creative Thinking | Friendly Schematic candidate | Defer | Likely Friendly Schematic after lesson structure settles. |
 | Skills That Matter | Mixed explainer candidates | Defer | Classify individual teaching beats later rather than assigning one style to the whole lesson. |
 | Be Curious | Page components | Defer | Keep responsive unless a recurring framework emerges. |

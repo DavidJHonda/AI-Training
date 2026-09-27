@@ -8,23 +8,27 @@ Think back to the best group project you’ve ever done in history class. Your g
 
 There are four moves: think, learn, start, and iterate.
 
-## THOUGHT PARTNER
+## Thought Partner
 
 The first move is Think. Use AI as a thought partner.
 
 During that history project, your group brainstormed ideas, asked questions, suggested next steps, and helped one another decide what worked. The group acted as your thought partner.
 
-Work with AI like it’s a two-person group project: you and AI. Ask each other questions and bounce ideas off each other. But remember that you make the final decisions.
+Work with AI like it’s a two-person group project: you and AI. Ask each other questions and bounce ideas off each other.
+
+But remember that you make the final decisions.
 
 ### Board 1: Starting a Summer Business
 
 **Image file:** `next-level-moves-summer-business.jpg`
 
-![Starting a Summer Business](../course-assets/next-level-moves/next-level-moves-summer-business.jpg)
+![Starting a Summer Business](next-level-moves-summer-business.jpg)
 
 **Teaching content:**
 
-Here is the conversation on the board. The student says: “I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?”
+Starting a summer business.
+
+The student says: “I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?”
 
 AI answers: “Absolutely. Let’s start with where you are. What are you already good at, and what problems do people around you regularly need help solving?”
 
@@ -32,35 +36,35 @@ The student says: “I’m good with dogs and teaching younger kids math, I can 
 
 AI answers: “That gives us three realistic directions: pet care, math tutoring, and a neighborhood errand service. Which sounds most interesting to you, and which would be easiest to start?”
 
-Notice what AI did first. It did not hand over a list of jobs. It asked about the student before it answered.
+A good conversation asks about you before it answers.
 
-**Takeaway:** A good conversation asks about you before it answers.
-
-## LEARN WITH AI
+## Learn With AI
 
 The second move is Learn. Use the conversation to understand something new.
 
 During the history group project, some members probably knew more about the subject than others. If a group member didn’t understand a concept, they asked the group.
 
-Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
+Work with AI in the same way. When something does not make sense, ask it to explain.
+
+Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
 
 ### Board 2: Understanding Profit
 
 **Image file:** `next-level-moves-profit.jpg`
 
-![Understanding Profit](../course-assets/next-level-moves/next-level-moves-profit.jpg)
+![Understanding Profit](next-level-moves-profit.jpg)
 
 **Teaching content:**
+
+Understanding profit.
 
 The student says: “I might start a business this summer mowing lawns. I have three friends who are available part-time to help me. I know that sales is the money customers pay me. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business.”
 
 AI answers: “Profit is the money left after you subtract every cost from your sales. Suppose your crew mows 10 lawns at $30 each. Your sales are $300. You pay each of your three friends $40, so labor costs $120. Gas and supplies cost another $30. Your total costs are $150, leaving you with $150 in profit. The formula is: Sales minus Costs equals Profit.”
 
-The student asked for the idea in a situation they already knew, so the numbers made sense: $300 in sales, $150 in costs, $150 in profit.
+Ask AI to explain the idea using a situation you know.
 
-**Takeaway:** Ask AI to explain the idea using a situation you know.
-
-## FIND A PLACE TO START
+## Find a Place to Start
 
 The third move is Start. Ask AI to help you find a place to begin.
 
@@ -72,25 +76,27 @@ Real life isn’t always that clear. What if you face a big decision or issue, a
 
 **Image file:** `next-level-moves-college.jpg`
 
-![Thinking About College](../course-assets/next-level-moves/next-level-moves-college.jpg)
+![Thinking About College](next-level-moves-college.jpg)
 
 **Teaching content:**
+
+Thinking about college.
 
 The student says: “I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet.”
 
 AI answers: “Let’s start with the goal. Do you already have a career or field in mind, or do you want college to help you explore different possibilities?”
 
-The student set the rules: one question at a time, and no recommendation yet. AI’s first question gave the student a place to start.
+When you don’t know where to begin, ask AI for the first question.
 
-**Takeaway:** When you don’t know where to begin, ask AI for the first question.
-
-## ITERATE WITH AI
+## Iterate With AI
 
 The fourth move is Iterate. Improve the work through several rounds.
 
 That history group project lasted four weeks. At the end of week one, your project was only average. Each week the group made it better and better. And, by the time you presented it to the class, it was a masterpiece!
 
-That process is called iteration. To iterate means to build something in versions, using each version to improve the next.
+That process is called iteration.
+
+To iterate means to build something in versions, using each version to improve the next.
 
 Working with AI follows the same pattern. As you add details, correct weak spots, and improve the draft, AI has better material to question, evaluate, and improve.
 
@@ -98,25 +104,21 @@ Working with AI follows the same pattern. As you add details, correct weak spots
 
 **Image file:** `next-level-moves-iteration.jpg`
 
-![From Idea to Business Plan](../course-assets/next-level-moves/next-level-moves-iteration.jpg)
+![From Idea to Business Plan](next-level-moves-iteration.jpg)
 
 **Teaching content:**
 
-The board shows an early round and a later round.
+From idea to business plan.
 
-Early round. The student says: “Give me ideas for a summer business.” AI answers: “Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online.” A vague request got a generic list.
+In the early round, the student says: “Give me ideas for a summer business.”
 
-Later round. The student says: “I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it.” AI answers: “Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?”
+AI answers: “Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online.”
 
-The difference is the details. In the later round, AI had a real plan to test, so it found real weaknesses.
+In the later round, the student says: “I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it.”
 
-**Takeaway:** Better details give AI better material to improve.
+AI answers: “Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?”
 
-### Board 5: Close
-
-**Image file:** `next-level-moves-close.jpg`
-
-![Close board](../course-assets/next-level-moves/next-level-moves-close.jpg)
+Better details give AI better material to improve.
 
 ## Closing Message
 

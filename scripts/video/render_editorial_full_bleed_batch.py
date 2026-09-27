@@ -327,7 +327,7 @@ def split_art_sheet(sheet: Image.Image, count: int) -> list[Image.Image]:
     ]
 
 
-def render(board: Board) -> Image.Image:
+def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_colors=False) -> Image.Image:
     count = len(board.cards)
     if count not in (3, 4):
         raise ValueError(f"{board.key}: expected 3 or 4 cards")
@@ -355,7 +355,18 @@ def render(board: Board) -> Image.Image:
     for index, (title, body) in enumerate(board.cards):
         text_width = card_widths[index] - 2 * TEXT_SIDE
         title_lines = [title]
-        assert tracked_width(measure, title, card_title_font, INNER_TITLE_TRACKING) <= text_width, (
+        if wrap_titles:
+            title_lines = []
+            line = ""
+            for word in title.split():
+                trial = f"{line} {word}".strip()
+                if line and tracked_width(measure, trial, card_title_font, INNER_TITLE_TRACKING) > text_width:
+                    title_lines.append(line)
+                    line = word
+                else:
+                    line = trial
+            title_lines.append(line)
+        assert all(tracked_width(measure, line, card_title_font, INNER_TITLE_TRACKING) <= text_width for line in title_lines), (
             f"{board.key}: title must stay on one line at 40 px: {title}"
         )
         body_lines = wrap(measure, body, body_font, text_width)
@@ -385,8 +396,11 @@ def render(board: Board) -> Image.Image:
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
     draw_board_title(draw, board.title)
 
-    sheet = Image.open(ROOT / board.art_sheet).convert("RGB")
-    art_panels = split_art_sheet(sheet, count)
+    if art_panels is None:
+        sheet = Image.open(ROOT / board.art_sheet).convert("RGB")
+        art_panels = split_art_sheet(sheet, count)
+    if len(art_panels) != count:
+        raise ValueError(f"{board.key}: expected {count} artwork panels")
 
     for index, ((title_lines, body_lines), accent, art) in enumerate(
         zip(wrapped, board.accents, art_panels)
@@ -415,7 +429,9 @@ def render(board: Board) -> Image.Image:
             width=1,
         )
 
-        art_crop = accent_wash(cover(art, (card_width, art_height)), accent)
+        art_crop = cover(art, (card_width, art_height))
+        if not preserve_art_colors:
+            art_crop = accent_wash(art_crop, accent)
         art_mask = top_round_mask((card_width, art_height), CARD_RADIUS)
         image.paste(art_crop, (x, y), art_mask)
         draw = ImageDraw.Draw(image)
@@ -436,7 +452,8 @@ def render(board: Board) -> Image.Image:
 
         text_x = x + TEXT_SIDE
         text_y = divider_y + TEXT_TOP
-        draw_inner_title(draw, (text_x, text_y), title_lines[0], fill=accent)
+        for line_index, line in enumerate(title_lines):
+            draw_inner_title(draw, (text_x, text_y + line_index * TITLE_LINE), line, fill=accent)
         body_y = text_y + max_title_lines * TITLE_LINE + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
 

@@ -36,6 +36,22 @@ set of global production rules.
 - Finished videos live beside boards as `course-assets/<lesson>/<lesson>.mp4`.
 - Retained `video-audit/<slug>-repair-<date>/REVIEW.md` records support active work.
   An old review is not evidence that a newer file passed.
+- `board_spans.py` measures when each course board is on screen in a finished
+  video (ORB feature match against the lesson's JPGs every 0.5 s, sequential decode,
+  survives zooms and pans): `.video-venv/bin/python scripts/video/board_spans.py
+  course-assets/<slug>/<slug>.mp4 course-assets/<slug> <review-dir>` writes
+  `board-spans.txt`. Added 2026-09-25 for the Start Smarter live reviews; a span
+  is judged under Edit Spec 8b (walking the board is free, narration past it is not).
+- `ring_stroke.py` measures the on-screen stroke width of every highlight ring in a
+  finished video (colour-threshold the eight Edit Spec section 5 tokens, keep the
+  hollow rectangles, median run length across the four sides every 0.5 s):
+  `.video-venv/bin/python scripts/video/ring_stroke.py course-assets/<slug>/<slug>.mp4
+  <review-dir>` writes `ring-stroke.txt` (per-sample rows, histogram, per-run
+  summary) and 4x crops of the thinnest and thickest ring found. Widths are solid
+  pixels at the default threshold; the anti-aliased edge adds about half a pixel.
+  Calibrated 2026-09-26 on What Is AI? (20260926ship2, the fixed-4 px reference
+  reads 4.0). Added for the Work With AI live review; the target is Edit Spec
+  section 5's fixed 4 px at 720p.
 - David maintains the [Video Tracker](https://docs.google.com/spreadsheets/d/16RXfX9awLA8Idu83OBN97bCrMiTzyEOFO4MBpvPWXO8/edit).
   It governs workflow status; do not draft or post tracker rows. If unavailable,
   state that limitation and use verified local artifacts without inventing status.
@@ -54,6 +70,9 @@ set of global production rules.
 3. **Evaluate the teaching.** Use KEEP / REPAIR / REROLL from Narration Review.
    Good narration with repairable visuals is useful. Compare multiple rolls by
    teaching point, preserving the best explanations, examples, and conclusions.
+   For isolated missing or misspoken narration, evaluate a donor from an existing
+   video roll before requesting a full reroll. Verify its wording and audition
+   the joins before treating it as a verified repair source.
 4. **Plan the edit.** Record source/output spans, current board paths, source hashes,
    and intended replacements. Present proposed narration cuts/grafts with exact
    words and timestamps. Include a board-by-board highlighting and camera table

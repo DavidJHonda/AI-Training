@@ -1,6 +1,6 @@
 # Edit spec: scope and production standards
 
-Updated 2026-09-15. [README](README.md) is the shared workflow and shipping
+Updated 2026-09-26. [README](README.md) is the shared workflow and shipping
 checklist; [Narration Review](NARRATION-REVIEW.md) owns teaching verdicts;
 [Technical Recipes](TECHNICAL-RECIPES.md) holds implementation details.
 This file owns build scope and board/audio treatment.
@@ -296,11 +296,13 @@ replaced and what covers it. Course boards that contain the course's own
 photographs (the career boards, the study boards) are page assets and are not
 affected by this rule.
 
-## 9. Audio outside the pauses is untouched
+## 9. Narration changes and targeted repairs
 
-No narration is cut, moved, or grafted without David's approval of the exact
-source words and timestamps. Approved grafts use coherent phrases from course
-narration, level-matched, and are listed for listening.
+Outside approved pauses and narration repairs, audio is untouched. Narration
+cuts, moves, and grafts follow the approved scope and edit plan: identify exact
+source/replacement words, files, and timestamps. Reuse approval already given
+for the same repair; do not ask again. Approved grafts use coherent course
+narration from existing video rolls, level-matched and listed for listening.
 
 **Best-of grafts (owner rule 2026-09-14).** When the review's best-of plan
 names a beat that the alternate roll teaches better, the candidate carries that

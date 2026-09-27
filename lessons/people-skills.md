@@ -2,53 +2,69 @@
 
 # People Skills
 
-AI can do amazing things. But there is one thing it doesn’t replace: people.
+Your group just finished this semester's history project. Most of your group feels great, because the big project is finally complete.
 
-People need people. We always have. Long before modern technology, survival depended on working together, trusting one another, and understanding what others needed.
+But Maya notices a problem and starts suggesting a change. Someone interrupts: “We are done. No more suggestions.” Maya goes quiet, and the group moves on.
 
-People skills help you understand, communicate with, and work alongside other people. They include listening, empathy, explaining clearly, reading the room, and earning trust.
+You notice that Maya's expression and body language changed. She seems hurt. What would you say or do next?
 
-It’s easy to spot who has great people skills. They’re who you want in your group, talk to when something is wrong, and trust to help when things are difficult.
+This is a moment to use your People Skills.
 
-### Board 1: People Skills Matter More
+### Board 1: Your Next Move
 
-**Image file:** `people-skills-why-people-matter.jpg`
+**Image file:** `people-skills-next-move-faceless.jpg`
 
-![People Skills Matter More](../course-assets/people-skills/people-skills-why-people-matter.jpg)
+![Your Next Move](people-skills-next-move-faceless.jpg)
 
 **Teaching content:**
 
-AI isn’t the edge: when everyone has AI, polished work becomes common. How you work with people stands out.
+“Maya, we didn’t hear the rest of your idea. Do you want to finish?”
 
-Trust still matters: people choose teammates and leaders who listen, keep promises, and treat others well.
+Show her that what she has to say matters.
 
-Connection matters: the more work AI handles, the more listening, empathy, and real interaction stand out.
+Maya has a point. The third example doesn’t match the assignment’s instructions. Now the group knows what to improve.
 
-You do not need a special class to start. People skills grow through everyday interactions. Try these during your next group project, club meeting, practice, or job.
+Her idea deserves to be heard, even if the group decides not to use it.
+
+Here are four ways to strengthen your people skills. You can practice them every day.
 
 ### Board 2: Four Ways to Practice
 
-**Image file:** `people-skills-four-ways.jpg`
+**Image file:** `people-skills-four-ways-faceless.jpg`
 
-![Four ways to practice people skills](../course-assets/people-skills/people-skills-four-ways.jpg)
+![Four Ways to Practice](people-skills-four-ways-faceless.jpg)
 
 **Teaching content:**
 
-Listen to understand: do not plan your reply while the other person is talking. Ask one genuine follow-up question before offering your opinion.
+Listen to understand. Do not plan your reply while the other person is talking. Ask one genuine follow-up question before offering your opinion.
 
-Notice what isn’t being said: pay attention to tone, hesitation, enthusiasm, and changes in behavior. Before assuming what is wrong, ask.
+Notice what isn’t being said. Pay attention to tone, hesitation, enthusiasm, and changes in behavior. If you’re unsure what a change means, ask.
 
-Show people they matter: remember what they tell you, give specific appreciation, and give people credit when an idea is theirs.
+Show people they matter. Remember what they tell you, give specific appreciation, and give people credit when an idea is theirs.
 
-Challenge ideas, not people: address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.
+Challenge ideas, not people. Address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.
 
-AI can suggest what to say. It cannot understand the person for you, earn someone’s trust, or do the rep for you.
+## Apply It to Maya
 
-### Board 3: Close
+Think back to Maya. The group decides to fix the example she noticed. How could you show her that her contribution mattered? What would you say?
 
-**Image file:** `people-skills-close.jpg`
+## People Skills Matter More
 
-![Close board](../course-assets/people-skills/people-skills-close.jpg)
+Here’s an important consideration: people skills matter even more in the AI future.
+
+### Board 3: People Skills Matter More
+
+**Image file:** `people-skills-matter-more.jpg`
+
+![People Skills Matter More](people-skills-matter-more.jpg)
+
+**Teaching content:**
+
+You’ll Stand Out. As more people use AI, polished work becomes an expectation. How you work with people helps you stand out.
+
+Trust Still Matters. People choose teammates and leaders who listen, keep promises, and treat others well.
+
+Connection Matters. AI can help with the work. People still need to feel heard, understood, and valued.
 
 ## Closing Message
 

@@ -52,23 +52,25 @@ A review that skips the lesson or the full transcript is not a review.
 ## Verdict
 
 Judge the actual candidate, not the version a proposed edit might eventually make.
-Use these criteria (clarified 2026-09-15):
+Use these criteria:
 
 1. **KEEP**: every essential point is RICH or TAUGHT, all hard requirements are met,
    no factual error remains, and no material narration cut or move is needed.
    Harmless compression or an optional opportunity
    to improve an already adequate explanation does not require a repair.
-2. **REPAIR**: a specific, feasible edit to existing audio can resolve every failed
+2. **REPAIR**: a specific, feasible edit using identified audio can resolve every failed
    point or hard requirement, or remove material excess/repetition or reposition
    a misplaced beat. Identify exact source words, files, and timestamps. An isolated
    wrong word/phrase can qualify when a coherent correct donor phrase exists.
    A THIN or MISSING essential explanation can qualify only when an identified
-   existing roll supplies the complete correct beat and it can be joined coherently.
-   A hoped-for donor, rewritten on-screen text, or an untested synthetic word splice
-   is not a repair plan. Obtain approval for the narration changes before building.
+   existing roll supplies the complete correct beat and it can be joined
+   coherently. Check donor wording and audition the joins in context before
+   treating it as a verified repair source. A hoped-for donor or rewritten
+   on-screen text is not a repair plan. Follow the approved narration-repair scope and plan;
+   reuse approval already given for the same work.
 3. **REROLL**: an essential point is THIN, MISSING, or WRONG, or a hard requirement
-   is missed, and no complete feasible repair using identified existing audio is
-   available. State exactly what the new generation needs to teach.
+   is missed, and no complete feasible repair using identified audio from existing
+   video rolls is available. State exactly what a new generation needs to teach.
 
 THIN essential teaching never passes merely because its topic is mentioned.
 A correct graphic cannot fix wrong or absent spoken teaching. A repaired candidate
@@ -103,7 +105,8 @@ Rules for the plan:
   alternate roll's spoken onsets.
 - Complete and slightly overlong still beats concise and incomplete for the base
   roll, because excess can be cut, while missing narration needs a verified donor
-  or a new generation. Visual defects never decide the choice; list them as editing notes.
+  or a new roll. Visual defects never decide the choice;
+  list them as editing notes.
 - The owner reads the quoted pairs and arbitrates ties. He does not need to watch
   both rolls; the table is the comparison.
 
@@ -166,7 +169,7 @@ HARD REQUIREMENTS:
 ERRORS: <timestamp — what was said — what the lesson says> | none
 SOURCE_QA: PASS | FAIL — <lesson line and correction>
 ADDITIONS: <accurate additions worth keeping or adding to the lesson> | none
-REPAIR PLAN: <each failed point — proposed cut/move or donor file, exact words, source timestamps, and join feasibility> | none
+REPAIR PLAN: <each failed point — proposed cut/move, existing donor file, exact words, source/target timestamps, join feasibility, and listening status> | none
 EDITING NOTES: <replaceable visual defects, excess to cut, selective pause proposals under Edit Spec section 6> | none
 LISTENING: <what was heard rather than read; anything still unheard>
 ```

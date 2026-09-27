@@ -1,0 +1,65 @@
+# Critical Thinking — narration review of the live video (2026-09-26)
+
+**Verdict: REPAIR.** 28 teaching points: 19 RICH, 7 TAUGHT, 2 THIN, 0 MISSING, 0 WRONG. Hard requirements 16/17 met; all nine verbatim lines land word for word, and the two closing lines end the file with nothing after them.
+What failed: Habit 3 ("What's missing?") is cut mid-word. The narration says "You actively hunt for omitted information or alternative ex..." and the audio stops at 2:37.12, sits in 0.42 s of near-digital silence, then jumps to "Fourth." So "other explanations" never reaches the viewer, and the prompt's "each complete explanation" requirement is missed. The second THIN is a non-essential bridge (the "did that headline make you pause" beat) and does not drive the verdict.
+What would fix it: this same file speaks "alternative explanations" at 0:28.66-0:29.96 in the opening definition, same voice, and the defect sits under the five-habits course board (2:08.0-3:01.5), so a phrase graft with a ~0.4 s board-leg stretch is feasible. It needs approval and an ear test (the donor's pitch is mid-sentence). No raw rolls survive; no other donor exists.
+Source QA passes: page, Markdown, and boards agree. Listening limits: no audio was heard; the truncation is inferred from the transcript's "ex..." plus an RMS envelope of the audio, not by ear.
+
+```text
+LESSON: critical-thinking
+CANDIDATE: course-assets/critical-thinking/critical-thinking.mp4 (3:17.83)
+VERDICT: REPAIR
+TEACHING POINTS:
+  Hook: what you know matters, so does what you do with it — TAUGHT — 0:05.22-0:11.22 "Having knowledge is essential, but what you choose to do with that knowledge is what actually dictates your results."
+  Board 1 equation: knowledge plus critical thinking leads to better questions and better decisions — RICH — 0:00.00 "This graphic lays out a basic equation for how we process information." / 0:32.86 "When you combine these two halves, the result is better questions and better decisions."
+  Knowledge: understand the subject, recognize when something doesn't add up — RICH — 0:12.16-0:21.14 "Knowledge forms your baseline. It helps you understand a subject and recognize when something in a text or a prompt doesn't add up."
+  Critical thinking: question the claim, examine the evidence, consider other explanations before deciding what to believe or do — TAUGHT — 0:23.50-0:31.98 "Critical thinking means you question a claim, examine the evidence, and consider alternative explanations before you decide what to do next." (drops "believe")
+  Be Smarter Than the Tool — RICH — 0:38.38 "Be smarter than the tool."
+  It isn't don't trust anything; it's asking what would have to be true for a claim to hold up — RICH — 0:40.34-0:46.52 "It isn't don't trust anything either. It's the habit of asking what would have to be true for a claim to hold up."
+  2015 chocolate story: headlines worldwide, study said eating chocolate helps you lose weight, "Slim by Chocolate!" — TAUGHT — 0:46.72-0:59.40 "In 2015, news outlets around the world publish stories about a scientific study claiming a delicious new method for losing weight. One front page ran the headline slim by chocolate." (chocolate enters only via the headline)
+  Bridge: did the headline make you pause, that's critical thinking starting; next step is whether the evidence supports it; reactions went two directions — THIN (non-essential bridge) — the contrast is carried by 1:00.68 "The face value reaction was immediate" / 1:05.72 "But a critical thinking reaction takes a different path"; the pause-is-the-start beat and "does the evidence support it" are not spoken here
+  Board 2 the claim: "Chocolate helps you lose weight." — TAUGHT — 0:53.40-0:59.40 "claiming a delicious new method for losing weight ... slim by chocolate" (never spoken as a plain sentence)
+  Face value first reaction: "Sounds great. I believe it." — RICH — 1:00.68-1:04.80 "The face value reaction was immediate. Sounds great. I believe it."
+  Critical thinking second reaction: "Wait. What's behind the claim?" — RICH — 1:05.72-1:10.56 "But a critical thinking reaction takes a different path. Wait. What's behind the claim?"
+  Pause when a claim sounds exactly like what you want to believe — TAUGHT — 1:10.78-1:16.30 "You must force yourself to pause, especially when a claim matches what you want to believe."
+  The study was real but flimsy on purpose — RICH — 1:17.12-1:23.00 "The study itself actually existed. However, it was deliberately designed to be scientifically flimsy."
+  Only 15 participants, 18 different measurements — RICH — 1:27.34-1:35.34 "The researchers used a tiny sample size of only 15 participants, but they tracked 18 entirely different measurements for each person."
+  With that many measurements in such a small group, a chance result could look like an important discovery — RICH — 1:35.34-1:40.48 spoken word for word
+  The "research institute" was just a website — RICH — 1:41.98-1:46.74 "The supposed research institute backing the study was nothing more than a fabricated website."
+  Author was a journalist proving a bad study with a great headline flies around the world before anyone checks; it did — RICH — 1:47.64-1:57.72 "The true author was a journalist. He orchestrated the entire stunt to prove that bad science wrapped in a highly appealing headline will spread globally before anyone verifies the facts." ("It did." not spoken as its own beat; the worldwide spread was established at 0:46.72)
+  Read between the lines, especially when the claim is something you'd love to believe — TAUGHT — 1:58.49-2:06.38 "Critical thinking requires the ability to read between those lines, particularly when our desires make us vulnerable to confirmation bias."
+  Five habits to sharpen critical thinking; each one is a question you ask — RICH — 2:07.76-2:14.18 "This board outlines five habits you can build to sharpen your thinking. Every single one functions as a direct question."
+  Habit 1 Is it actually right? evidence supports the claim / supports the conclusion — RICH — 2:15.16-2:22.46 "Habit one. Is it actually right? You check what evidence supports the claim and verify if that evidence genuinely aligns with the conclusion."
+  Habit 2 Do I know enough to judge? where your knowledge ends / what you need to understand — RICH — 2:23.02-2:31.00 "Habit two. Do I know enough to judge? You have to recognize the limits of your own knowledge and identify exactly what you still need to learn."
+  Habit 3 What's missing? missing information and other explanations — THIN — 2:31.58-2:37.26 "Habit three. What's missing? You actively hunt for omitted information or alternative ex..." The word "explanations" is cut at 2:37.12 (speech energy stops abruptly, 0.42 s near-digital silence, then "Fourth." at 2:37.68). The other-explanations half never reaches the viewer.
+  Habit 4 Why am I convinced? evidence, confident wording, or what you want to believe — RICH — 2:37.26-2:45.62 "Fourth. Why am I convinced? Question your own motives to see if you are swayed by hard evidence, confident wording, or wishful thinking."
+  Habit 5 What's my call? decide; change your mind when you learn more — RICH — 2:46.42-2:53.82 "And fifth. What's my call? Finally, you decide what to believe or do, keeping the flexibility to change your mind when you learn more."
+  The five questions work on anything you read or hear; use them with AI too — TAUGHT — 2:54.62-3:01.08 "These five questions work on any information you consume. They are especially critical when you use artificial intelligence."
+  AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening. — RICH — 3:02.26-3:08.16 spoken word for word
+  Close pill: AI amplifies whatever you bring to it. — RICH — 3:09.28-3:11.06 spoken word for word
+  Close sticky: Good thinking in, sharper output. — RICH — 3:11.82-3:13.02 spoken word for word
+HARD REQUIREMENTS:
+  "Be Smarter Than the Tool." — MET — 0:38.38 "Be smarter than the tool."
+  "It isn't 'don't trust anything,' either. It's the habit of asking what would have to be true for a claim to hold up." — MET — 0:40.34-0:46.52 spoken word for word (quote marks inaudible by nature)
+  "Slim by Chocolate!" — MET — 0:58.40-0:59.40 "slim by chocolate." (exclamation cadence not verifiable from transcript)
+  "Sounds great. I believe it." — MET — 1:03.22-1:04.80
+  "Wait. What's behind the claim?" — MET — 1:08.94-1:10.56
+  "With that many measurements in such a small group, a chance result could look like an important discovery." — MET — 1:35.34-1:40.48
+  "AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening." — MET — 3:02.26-3:08.16
+  Closing line 1 "AI amplifies whatever you bring to it." — MET — 3:09.28-3:11.06
+  Closing line 2 "Good thinking in, sharper output." last, nothing spoken after — MET — 3:11.82-3:13.02; silence to end of file 3:17.83
+  Never say probability guarantees/dictates/ensures/makes a false result inevitable — MET — only "a chance result could look like an important discovery" (1:35.34); "dictates" at 0:10.14 is about your results, not probability
+  Teach all five habits by name, in order, each with its complete explanation; none reduced to a label — MISSED — Habits 1, 2, 4, 5 complete and in order; Habit 3 "You actively hunt for omitted information or alternative ex..." (2:33.86-2:37.26) is cut mid-word, so "other explanations" is not delivered
+  Open directly on knowledge plus critical thinking; no title card, welcome, or preview — MET — 0:00.00 "This graphic lays out a basic equation for how we process information." (sum stated at 0:32.86)
+  Board 2 content in one uninterrupted span — MET — 1:00.68-1:16.30 (real board on screen 0:57.0-1:17.5)
+  Avoid methodology, framework, capabilities, optimize, systematic, operational, strategic — MET — none spoken
+  Never ask the viewer to pause, guess, or answer; answer each question immediately — MET — every habit question answered at once; "force yourself to pause" (1:10.78) is the lesson's claim rule, not a video-pause instruction
+  Do not invent facts, examples, or statistics — MET — 2015 / 15 / 18 correct; additions are wording only
+  Tell the chocolate story with 15 participants, 18 measurements, institute a website, journalist proving the point — MET — 1:17.12-1:57.72
+ERRORS: none
+SOURCE_QA: PASS — live page, Markdown, and boards agree; the Markdown carries every page teaching point (the page's three True Story bullets are the Markdown's paragraph); no lesson error found
+ADDITIONS: "confirmation bias" named at 1:58.49-2:06.38 (accurate; a possible one-word lesson addition) | "in a text or a prompt" as where something doesn't add up, 0:15.66 (accurate, harmless) | "fabricated website" and the journalist as "He", 1:41.98-1:57.72 (accurate: the 2015 stunt author was John Bohannon; not in the lesson)
+REPAIR PLAN: Habit 3 truncated word — replace "alternative ex..." (2:36.30-2:37.26, followed by 0.42 s silence to "Fourth." at 2:37.68) with this file's own "alternative explanations" (0:28.66-0:29.96, 1.30 s; "alternative" 0:28.66-0:29.34, "explanations" 0:29.34-0:29.96). Cut the donor at the "explanations"/"before" word boundary at 0:29.96 (continuous speech, no silence there). Join after the original "or" (2:35.68-2:36.30). The slot is under the five-habits course board (2:08.0-3:01.5), so stretch the board leg ~0.4 s to restore a natural pause before "Fourth." Caveat: the donor is mid-sentence, so its pitch is non-final; ear-test the join. No sentence-final "explanations" exists in the file and no raw rolls survive, so this is the only donor. Bridge THIN (point 8) is non-essential: no repair proposed. Obtain approval before building.
+EDITING NOTES: audio defect at 2:37.12 (RMS: 4600 -> 56 in 40 ms, then ~20 RMS for 0.42 s) is the repair target above | "This diagram illustrates the primary flaw in the data" (1:23.80) sits over Notebook's own drawing (no course board 1:17.5-2:08.0): keep that drawing or the phrase dangles; "This graphic" (0:00) and "This board" (2:07.76) land on the equation and five-habits boards | habit labels switch from "Habit one/two/three" to "Fourth." / "And fifth." (harmless) | "publish" at 0:50.96 may be "published" (transcript-only) | last word 3:13.02, close board 3:09.5-3:17.83, ~4.8 s tail is normal | Markdown matches the page: no materials fix needed before any reroll | 1b board plan and pause plan skipped per task (covered by the separate hold/stroke review)
+LISTENING: No audio was listened to. Everything above is read from _transcripts/critical-thinking.txt and the word-timestamp JSON, plus an RMS envelope of the extracted audio at 2:35.0-2:38.6 and 0:27.0-0:32.0 to confirm the hard cut and locate the donor's boundaries. Unheard and unresolved: whether the truncated fragment is audibly "ex-" or a click; "publish" vs "published" at 0:50.96; the exclamation cadence of "Slim by Chocolate!"; how the donor's mid-sentence pitch will sit after the graft.
+```

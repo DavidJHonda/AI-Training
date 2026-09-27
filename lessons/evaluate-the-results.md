@@ -20,11 +20,19 @@ Start with these three steps before you use an AI answer.
 
 **Teaching content:**
 
-Read: read the answer before you use it. If you pass it along, you’re responsible for what it says.
+Start with the Quick Pass.
 
-Understand: you can’t judge an answer you don’t understand. Ask AI, “Explain the second paragraph in simpler terms.”
+Read.
 
-Validate: compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?
+Read the answer before you use it. If you pass it along, you’re responsible for what it says.
+
+Understand.
+
+You can’t judge an answer you don’t understand. Ask AI, “Explain the second paragraph in simpler terms.”
+
+Validate.
+
+Compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?
 
 Before you use it: read, understand, validate.
 
@@ -40,11 +48,19 @@ Some answers need a closer look. These three questions help you decide.
 
 **Teaching content:**
 
-Can you judge it? Compare the answer with what you know. If you don’t know enough to judge it, keep checking.
+Next, decide: do you need to dig deeper?
 
-What kind of task is it? A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task.
+Can you judge it?
 
-How much is riding on it? A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?
+Compare the answer with what you know. If you don’t know enough to judge it, keep checking.
+
+What kind of task is it?
+
+A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task.
+
+How much is riding on it?
+
+A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?
 
 Give the answer the attention it deserves.
 
@@ -60,17 +76,31 @@ When an answer needs a closer look, choose the checks that fit the task.
 
 **Teaching content:**
 
-Check the sources: ask for sources, then open them. Does each source support the claim? Is it reliable?
+When needed, dig deeper.
 
-Challenge the answer: ask, “What’s the strongest argument against this?” Look for weaknesses you hadn’t considered.
+Check the sources.
 
-Ask what’s missing: ask, “What important information did you leave out?” Decide whether it changes your view of the answer.
+Ask for sources, then open them. Does each source support the claim? Is it reliable?
 
-Search the live web: ask AI to search the web for current information. Open the sources and check what they say.
+Challenge the answer.
 
-Check it yourself: find another way to check the answer. Recalculate the numbers, test the code, or ask someone who knows the subject.
+Ask, “What’s the strongest argument against this?” Look for weaknesses you hadn’t considered.
 
-Use AI to help you check. You decide whether the answer holds up.
+Ask what’s missing.
+
+Ask, “What important information did you leave out?” Decide whether it changes your view of the answer.
+
+Search the live web.
+
+Ask AI to search the web for current information. Open the sources and check what they say.
+
+Check it yourself.
+
+Find another way to check the answer. Recalculate the numbers, test the code, or ask someone who knows the subject.
+
+Use AI to help you check.
+
+You decide whether the answer holds up.
 
 ## Then make your move
 
@@ -84,27 +114,43 @@ Now decide what to do with the answer.
 
 **Teaching content:**
 
-Use it: the answer is right and good enough for what you need. Put it to work.
+Then make your move.
 
-Fix it: tell AI what needs to change, or change it yourself. Then check the revised answer before you use it.
+Use it.
 
-Walk away: if AI isn’t helping you get there, try another approach or ask someone who knows the subject.
+The answer is right and good enough for what you need. Put it to work.
+
+Fix it.
+
+Tell AI what needs to change, or change it yourself.
+
+Then check the revised answer before you use it.
+
+Walk away.
+
+If AI isn’t helping you get there, try another approach or ask someone who knows the subject.
 
 The tool answers. You evaluate.
 
 ### Board 5: Check Before You Use
 
-**Image file:** `evaluate-the-results-check-before-use.jpg`
+**Image file:** `evaluate-the-results-check-before-use-faceless.jpg`
 
-![Check Before You Use](evaluate-the-results-check-before-use.jpg)
+![Check Before You Use](evaluate-the-results-check-before-use-faceless.jpg)
 
 **Teaching content:**
 
-Here’s the whole process on one example. The claim from AI: “The scholarship deadline is March 1.” The sources: the official page says February 15. The school calendar says February 15. The decision: fix it. Evidence says February 15.
+Check before you use.
+
+The claim from AI: “The scholarship deadline is March 1.”
+
+The sources: the official page says February 15. The school calendar says February 15.
+
+The decision: fix it. Evidence says February 15.
 
 The answer is not the evidence.
 
-### Close
+### Board 6: Close
 
 **Image file:** `evaluate-the-results-close.jpg`
 

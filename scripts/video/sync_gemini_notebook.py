@@ -42,6 +42,11 @@ def load():
 def sources(lesson):
     """Every file the folder is built from, in upload order, then the prompt."""
     files = [lesson["markdown"], *lesson["uploads"]]
+    for board in lesson.get("post_only", []):
+        if board["asset"] in files:
+            sys.exit(f"{lesson['slug']}: post-only board must not be uploaded: {board['asset']}")
+        if board.get("covers") and board["covers"] not in lesson["uploads"]:
+            sys.exit(f"{lesson['slug']}: missing upload stand-in: {board['covers']}")
     missing = [f for f in files + [lesson["prompt"]] if not (ROOT / f).is_file()]
     for p in lesson.get("post_only", []):
         if not (ROOT / p["asset"]).is_file():
@@ -145,6 +150,7 @@ def check(lessons, only=None):
     for lesson in lessons:
         if only and lesson["slug"] != only:
             continue
+        sources(lesson)
         m = manifest.get(lesson["slug"])
         if not m:
             print(f"{lesson['slug']}: not built yet"); drift += 1; continue

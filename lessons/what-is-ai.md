@@ -12,15 +12,23 @@ Ask a friend, and they can help you brainstorm. Ask AI, and it can give you a li
 
 ### Board 1: Ask the Desk. Ask AI.
 
-**Image file:** `what-is-ai-ask-the-desk.jpg`
+**Image file:** `what-is-ai-ask-the-desk-faceless.jpg`
 
-![Ask the Desk. Ask AI.](what-is-ai-ask-the-desk.jpg)
+![Ask the Desk. Ask AI.](what-is-ai-ask-the-desk-faceless.jpg)
 
 **Teaching content:**
 
-Luke asks an ordinary school desk for 10 history-project ideas and gets no response. Nate asks AI on a laptop and gets a numbered list of ten ideas, from Ancient Egypt to the Berlin Wall. AI is software built to do things that used to take a human brain.
+Ask the desk. Ask AI.
 
-AI is software built to do things that used to take a human brain. Understand a question. Summarize information. Translate a conversation. Suggest ideas for a history project.
+You ask the desk, “Give me 10 ideas for my history project.” The desk gives you nothing.
+
+You ask AI, “Give me 10 ideas for my history project.” AI gives you ten history project ideas: Ancient Egypt, the printing press, the Silk Road, the moon landing, the Roman Empire, the Industrial Revolution, the civil rights movement, the history of voting, the invention of flight, and the Berlin Wall.
+
+AI is software built to do things that used to take a human brain.
+
+## What AI Is
+
+Understand a question. Summarize information. Translate a conversation. Suggest ideas for a history project.
 
 That doesn’t mean it thinks like your friend, or that all 10 ideas will be good. But you now have a tool that can help with tasks that once needed a person.
 
@@ -34,11 +42,15 @@ Different AI systems do different jobs. Let’s look at two kinds you already us
 
 **Teaching content:**
 
+Two ways you already use AI.
+
 Recommendation AI. The job: choose from what already exists. How it works: rank the available options and select the likely best match. Everyday examples: your next Netflix show, Spotify song, or Maps route.
 
-Generative AI. The job: make something that didn’t exist. How it works: use learned patterns to create a new output from your prompt, which is the question or instructions you give it. Everyday examples: an email, essay, image, website, song, or video.
+Generative AI. The job: make something that didn’t exist. How it works: use learned patterns to create a new output from your prompt, the question or instructions you give it. Everyday examples: an email, essay, image, website, song, or video.
 
 AI can recommend. AI can create. This course focuses on generative AI.
+
+## The Difference
 
 Here’s what that difference looks like.
 
@@ -50,19 +62,21 @@ Here’s what that difference looks like.
 
 **Teaching content:**
 
+One picks. One creates.
+
 The scenario: you’re in the mood for superheroes.
 
-On the left, Recommendation AI picks. It chooses from what already exists. The job: find a superhero movie you might enjoy. What you get: Captain America: Civil War, a movie selected from an existing catalog based on your interests. It picked a movie that already exists.
+Recommendation AI picks. It chooses from what already exists. The job: find a superhero movie you might enjoy. What you get: Captain America: Civil War, a movie selected from an existing catalog based on your interests.
 
-On the right, Generative AI creates. It creates something new from your request. The job: write a scene about two superhero teammates who disagree. What you get: “We save the bridge,” Maya said. “The hospital loses power in three minutes,” Leo replied. “We can’t do both.” It generated a scene from your request.
+It picked a movie that already exists.
+
+Generative AI creates. It creates something new from your request. The job: write a scene about two superhero teammates who disagree. What you get:
+
+“We save the bridge,” Maya said. “The hospital loses power in three minutes,” Leo replied. “We can’t do both.”
+
+It generated a scene from your request.
 
 One helps you find something to watch. The other helps you create a story of your own.
-
-### Close
-
-**Image file:** `what-is-ai-close.jpg`
-
-![Close board](what-is-ai-close.jpg)
 
 ## Closing Message
 

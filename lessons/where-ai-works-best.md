@@ -8,13 +8,17 @@ We saw this firsthand building this course. AI coded every page and every intera
 
 ### Board 1: AI Helped Us Build This Course
 
-**Image file:** `where-ai-works-best-built-this-course.jpg`
+**Image file:** `where-ai-works-best-built-this-course-faceless.jpg`
 
-![AI Helped Us Build This Course](where-ai-works-best-built-this-course.jpg)
+![AI Helped Us Build This Course](where-ai-works-best-built-this-course-faceless.jpg)
 
 **Teaching content:**
 
-On one side, the course code, graded A+. On the other, a lesson draft, graded C-, marked up with corrections. Same AI. Different jobs. Different results.
+AI helped us build this course. The course code earned an A+. The lesson draft earned a C-.
+
+Same AI. Different jobs. Different results.
+
+## What the gap taught us
 
 That gap taught us something. AI could test whether a button worked or a page loaded correctly. A lesson needed more: the right ideas, in the right order, explained in a way that made sense to you. AI gave us drafts, but they weren’t good enough to use. We had to decide what worked and what needed to change.
 
@@ -28,7 +32,9 @@ Here are four strengths you can put to work. AI is strongest when the job has on
 
 **Teaching content:**
 
-Strength 1 of 4. Why it fits AI: AI has learned patterns for putting the same ideas into different forms.
+The first strength is Reshape Your Material.
+
+Why it fits AI: AI has learned patterns for putting the same ideas into different forms.
 
 What it does: give AI something you already have and ask for it in a different form. Turn messy notes into a table, a long explanation into plain language, or a paragraph into bullet points. The goal is to keep your meaning while changing how you present it.
 
@@ -44,7 +50,9 @@ Your material. A more useful form.
 
 **Teaching content:**
 
-Strength 2 of 4. Why it fits AI: AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.
+The second strength is Explore Possibilities.
+
+Why it fits AI: AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.
 
 What it does: when you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you. You decide which ideas are worth taking further.
 
@@ -60,7 +68,9 @@ More possibilities. You choose the direction.
 
 **Teaching content:**
 
-Strength 3 of 4. Why it fits AI: AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.
+The third strength is Find What Matters.
+
+Why it fits AI: AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.
 
 What it does: give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.
 
@@ -76,7 +86,13 @@ A lot to read. A clearer place to focus.
 
 **Teaching content:**
 
-Strength 4 of 4. Why it fits AI: during training, AI saw many examples of how people connected ideas, worked through problems, and found solutions. It learned patterns it can apply to new problems.
+The fourth strength is Work Through Problems.
+
+Why it fits AI:
+
+During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions.
+
+It learned patterns it can apply to new problems.
 
 What it does: tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.
 
@@ -88,9 +104,13 @@ Work through the pieces. Make your own call.
 
 Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before.
 
-Seeing many examples helps AI get started. But it doesn’t guarantee the answer is right or that it fits what you need. That’s where your knowledge and judgment matter.
+Seeing many examples helps AI get started.
 
-### Close
+But it doesn’t guarantee the answer is right or that it fits what you need.
+
+That’s where your knowledge and judgment matter.
+
+### Board 6: Close
 
 **Image file:** `where-ai-works-best-close.jpg`
 

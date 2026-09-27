@@ -110,3 +110,18 @@ No two board appearances are adjacent: Notebook scenes separate every pair. The 
 - Cache key: `index.html` `LESSON_VIDEOS.prompting` changed from `?v=20260916ship1` to `?v=20260926ship10`. The pill stays at "4 min" (3:51).
 - `course-assets/manifest.json` video_assets row updated with the new sha256 and bytes.
 - **Still unperformed at ship:** listening. Nobody on the editing side has heard the two joins (0:48.5–0:50.5 and 3:14.0–3:16.5), and there was no end-to-end watch-through. David authorized the ship knowing this.
+
+---
+
+# v7: good-question rings at 4 px, shipped 2026-09-26 (David: "do it")
+
+- **Source:** built from the 20260916ship1 file (restored from git `56eec4cf^`), the same source as v4–v6, so it takes no extra encode generation. Build: `.video-venv/bin/python scripts/video/build_art_of_prompting_v7.py`.
+- **Change:** the good-question leg was re-rendered with `ken_burns_path` from the canonical JPG. It uses the 09-16 camera beats and ring rects and times, cut at v4's frame 675 with the same 8-frame hold, and rings at `ring_px(720)` = 4. Nothing else changed.
+- **Checks:**
+  - The audio stream is byte-identical to v6 (packet MD5 `b6a1b407…`).
+  - Frames outside the leg match v6 (max mean diff 0.18).
+  - Inside the leg, the framing matches v6 and only the ring pixels change (at most 1.45% of the frame).
+  - `ring_stroke.py` reads the good-question rings at 4.0–5.0 px (they were 6.0–7.5). Every ring in the video now comes from the same renderer and stroke setting.
+  - `transition_guard.py` passed all 11 boundaries.
+- **Shipped:** v7 installed byte-identical. sha256 `0e7437ee…9af934b`, 21,363,702 bytes. Cache key `20260926ship11`, manifest row updated.
+- **Still not done:** listening to the two audio joins, which are unchanged since v4.

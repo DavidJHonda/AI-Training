@@ -132,25 +132,7 @@ If AI isn’t helping you get there, try another approach or ask someone who kno
 
 The tool answers. You evaluate.
 
-### Board 5: Check Before You Use
-
-**Image file:** `evaluate-the-results-check-before-use-faceless.jpg`
-
-![Check Before You Use](evaluate-the-results-check-before-use-faceless.jpg)
-
-**Teaching content:**
-
-Check before you use.
-
-The claim from AI: “The scholarship deadline is March 1.”
-
-The sources: the official page says February 15. The school calendar says February 15.
-
-The decision: fix it. Evidence says February 15.
-
-The answer is not the evidence.
-
-### Board 6: Close
+### Board 5: Close
 
 **Image file:** `evaluate-the-results-close.jpg`
 

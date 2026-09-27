@@ -1,0 +1,109 @@
+function TokenSection(props) {
+  const staticExamples = [
+    { word: "unbelievable", tokens: [{t: "un", id: 359}, {t: "belie", id: 32898}, {t: "vable", id: 24694}], note: "3 tokens (one word, three chunks)" },
+    { word: "basketball", tokens: [{t: "basket", id: 60864}, {t: "ball", id: 4047}], note: "2 tokens" },
+    { word: "ChatGPT", tokens: [{t: "Chat", id: 16047}, {t: "G", id: 38}, {t: "PT", id: 2898}], note: "3 tokens (this name splits into three chunks)" },
+    { word: "I ♥ AI", tokens: [{t: "I", id: 40}, {t: "␠♥", id: 68679}, {t: "␠AI", id: 15592}], note: "3 tokens (the ␠ marks a leading space)" },
+    { word: "https://www.quickbookstraining.com", tokens: [{t: "https", id: 2485}, {t: "://", id: 1129}, {t: "www", id: 2185}, {t: ".quick", id: 92074}, {t: "book", id: 2239}, {t: "str", id: 496}, {t: "aining", id: 2101}, {t: ".com", id: 916}], note: "8 tokens (even a web address breaks into chunks)" }
+  ];
+  var E = React.createElement;
+  var renderTokenRow = function(ex, i, isLast) {
+    return E("div", {
+      key: i,
+      style: { display: "flex", gap: 16, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 14, paddingBottom: isLast ? 0 : 14, borderTop: i === 0 ? "none" : "2px solid var(--rule)" }
+    },
+      E("div", { style: { fontFamily: "var(--serif)", fontSize: 32, color: "var(--primary)", lineHeight: 1, fontWeight: 400, flexShrink: 0, minWidth: 38 } }, String(i + 1).padStart(2, "0")),
+      E("div", { style: { flex: 1 } },
+        E("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 8 } },
+          E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 700, color: "var(--ink)" } }, "\"" + ex.word + "\""),
+          E("span", { style: { color: "var(--inkMuted)", fontSize: 18 } }, "\u2192"),
+          E("div", { style: { display: "flex", alignItems: "flex-start" } }, ex.tokens.map(function(tok, ti) {
+            var isFirst = ti === 0, isLastTok = ti === ex.tokens.length - 1;
+            return E("div", { key: ti, style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 6 } },
+              E("span", { style: { fontFamily: "var(--mono)", fontSize: 17, fontWeight: 600, color: "var(--ink)", whiteSpace: "pre", padding: "8px 14px", background: ti % 2 === 1 ? "#efeafd" : "transparent", borderTop: "1.5px solid #cdbef7", borderBottom: "1.5px solid #cdbef7", borderLeft: isFirst ? "1.5px solid #cdbef7" : "1px dashed #cdbef7", borderRight: isLastTok ? "1.5px solid #cdbef7" : "none", borderTopLeftRadius: isFirst ? 12 : 0, borderBottomLeftRadius: isFirst ? 12 : 0, borderTopRightRadius: isLastTok ? 12 : 0, borderBottomRightRadius: isLastTok ? 12 : 0 } }, tok.t),
+              E("span", { style: { fontSize: 11, fontFamily: "var(--mono)", color: "var(--inkMuted)", fontWeight: 700 } }, tok.id));
+          }))),
+        E("div", { style: { color: "var(--inkMuted)", fontSize: 13 } }, ex.note)));
+  };
+  var tokenizeBox = E("div", { style: { background: "var(--primaryFaint)", borderRadius: 22, padding: "32px 36px 36px", marginTop: 0 } },
+    E(InnerCard, { pad: "snug" },
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
+        staticExamples.map(function(ex, i) { return renderTokenRow(ex, i, i === staticExamples.length - 1); }))));
+  var catCompare = E("div", { style: { marginTop: 32 } },
+    E("img", {
+      src: "course-assets/tokens/tokens-cat-token-id.jpg?v=20260914attribution1",
+      alt: "Humans See a Cat. AI Starts With a Token ID. A person recognizes the animal. On the AI side, the written word cat becomes token ID 4719, using cl100k_base. A token ID identifies the token. Meaning comes later.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto", borderRadius: 12 }
+    }),
+    E(ShowcaseBox, { headline: "Humans see a cat. AI starts with a token ID.", accessibleOnly: true },
+      E(InnerCard, null,
+        E("strong", null, "Human: Instant understanding. "),
+        "You know what cat means: fur, whiskers, the animal."),
+      E(InnerCard, null,
+        E("strong", null, "AI: Token ID. "),
+        "Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning."),
+      E("p", null, "A token ID identifies the token. Meaning comes later.")));
+  var navButton = E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("embeddings"); }, label: "Next: Embeddings" });
+  var exchange = E("img", {
+      src: "course-assets/tokens/tokens-using-ai-feels-like.jpg?v=20260906words1",
+    alt: "You Use Words. AI Uses Numbers. You ask what the best Avengers movie is, and AI answers in natural language with Avengers Endgame and Infinity War as the leading choices.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  });
+  return E("div", null,
+    E(LessonHeader, { sectionId: "tokens" }),
+    E(BodyP, null,
+      E("strong", null, "Math is the magic that powers AI."),
+      " But you ask AI questions in words, not numbers."),
+    exchange,
+    E(BodyP, null,
+      "How do your words become numbers that AI can use?"),
+    E(BodyP, null,
+      "One idea is to assign each word in every language a unique number. That way, you type the word, AI gets a number."),
+    E(BodyP, null,
+      "But that breaks down fast. People keep inventing words, names, and slang. They also make typos and include things like emojis and code. Even a list of a million words couldn’t cover everything a person might type."),
+    E(SectionKicker, null, "WORDS INTO PIECES"),
+    E(BodyP, null,
+      "Instead of giving every word its own number, AI uses reusable pieces of text called ",
+      E("strong", null, "tokens"),
+      ". Think of them as building blocks for language. A token can be a whole word or just part of one. The full collection of tokens is called the model’s ",
+      E("strong", null, "vocabulary"),
+      ". The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, ",
+      E("strong", null, "un"),
+      " can be reused in ",
+      E("strong", null, "unbelievable"), " and ",
+      E("strong", null, "unusual"), "."),
+    E("img", {
+      src: "course-assets/tokens/tokens-building-blocks.jpg?v=20260921batch3",
+      alt: "Building Blocks for Language. A male student with glasses and a red-haired female student feed the written word unbelievable into a brass tokenizer, which produces un, belie, and vable tiles. Below, the same green un piece is highlighted in unbelievable, unmatchable, and unusual; the remaining letters are unboxed and may span multiple tokens. Reuse the pieces. Build more words.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
+    }),
+    E(SectionKicker, null, "WHERE THE PIECES COME FROM"),
+    E(BodyP, null,
+      "When setting up AI, engineers choose how text will be split into tokens and how large the vocabulary will be. A program analyzes a large collection of text to build that vocabulary. Each token gets a number, its ",
+      E("strong", null, "token ID"),
+      ". Think of it as an address in the vocabulary: it identifies the token, but says nothing about what it means. The model uses those same tokens and IDs during training and when you chat."),
+    E(BodyP, null,
+      "These vocabularies can be large: ChatGPT’s holds about ",
+      E("strong", null, "200,000"),
+      " tokens and Gemini’s about ",
+      E("strong", null, "256,000"),
+      ". Anthropic hasn’t published Claude’s."),
+    E("img", {
+      src: "course-assets/tokens/tokens-how-tokenization-works.jpg?v=20260914attribution1",
+      alt: "What Happens When You Hit Send. Start With Text: You type a question or message. Split Into Tokens: A program called a tokenizer breaks the text into reusable chunks. Look Up Token IDs: The tokenizer finds each chunk’s number in its vocabulary. In this cl100k_base example, unbelievable becomes un, belie, and vable, with IDs 359, 32898, and 24694. Tokenization turns text into token IDs the model can use.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    catCompare,
+    E(BodyP, { style: { marginTop: 24 } }, "All the text you send to AI gets split into tokens. Here are some examples."),
+    E("img", {
+      src: "course-assets/tokens/tokens-how-ai-splits-text.jpg?v=20260914attribution1",
+      alt: "How AI Splits Text Into Tokens. Verified cl100k_base examples: unbelievable becomes un (359), belie (32898), vable (24694); basketball becomes basket (60864), ball (4047); ChatGPT becomes Chat (16047), G (38), PT (2898); I ♥ AI becomes I (40), space plus ♥ (68679), space plus AI (15592). https://www.quickbookstraining.com becomes eight tokens: https (2485), :// (1129), www (2185), .quick (92074), book (2239), str (496), aining (2101), .com (916). SP marks a leading space. Numbers below the chunks are token IDs.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E(BodyP, null,
+      "When AI replies, its answer comes out as token IDs. The tokenizer converts those IDs back into pieces of text and joins them together into the answer you read."),
+    closeBoard("tokens"),
+    E(TokenTrueFalseTryIt, null),
+    E(LessonRule, null),
+    navButton);
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Build (or refresh) the video-editing environment: a repo-local venv at .video-venv/
-# with opencv + the imageio-ffmpeg wheel. The wheel ships a full ffmpeg binary — no
+# with opencv + the imageio-ffmpeg wheel, plus reportlab + pypdf for
+# scripts/build-course-toolkit.py. The wheel ships a full ffmpeg binary — no
 # system ffmpeg exists on this machine or is needed. Run once per machine; the venv
 # persists (gitignored).
 #
@@ -16,7 +17,7 @@ VENV=".video-venv"
 
 [[ -d "$VENV" ]] || python3 -m venv "$VENV"
 "$VENV/bin/pip" install --quiet --upgrade pip
-"$VENV/bin/pip" install --quiet --upgrade opencv-python-headless imageio-ffmpeg pillow
+"$VENV/bin/pip" install --quiet --upgrade opencv-python-headless imageio-ffmpeg pillow reportlab pypdf
 FFMPEG="$("$VENV/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
 echo "venv:   $VENV"
 echo "ffmpeg: $FFMPEG"

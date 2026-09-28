@@ -8,15 +8,37 @@ One option is to ignore AI. Pretend it doesn’t exist. Nobody who’s made it t
 
 When you evaluate an answer, ask two questions: **Is it right?** **Is it good enough for what I need?**
 
-## Every response: the quick pass
+### Board 1: How to Evaluate an AI Answer
+
+**Image file:** `evaluate-the-results-process.jpg`
+
+![How to Evaluate an AI Answer](evaluate-the-results-process.jpg)
+
+**Teaching content:**
+
+Here is how to evaluate an AI answer.
+
+Start with Quick Pass. Read. Understand. Validate.
+
+Then reach the diamond: do you need to dig deeper?
+
+If yes, follow the arrow to Dig Deeper. Choose the checks that fit. Then go to Your Move.
+
+If no, follow the top arrow straight to Your Move.
+
+At Your Move, choose Use It, Fix It, or Walk Away.
+
+If you choose Fix It, follow the return arrow to Quick Pass. Check the fix before you use the revised answer.
+
+## Start With Quick Pass
 
 Start with these three steps before you use an AI answer.
 
-### Board 1: The Quick Pass
+### Board 2: Quick Pass
 
 **Image file:** `evaluate-the-results-quick-pass.jpg`
 
-![The Quick Pass](evaluate-the-results-quick-pass.jpg)
+![Quick Pass](evaluate-the-results-quick-pass.jpg)
 
 **Teaching content:**
 
@@ -36,15 +58,15 @@ Compare the answer with what you know and what you asked for. Is anything wrong,
 
 Before you use it: read, understand, validate.
 
-## Then decide: does this answer deserve the dig?
+## Then Decide
 
 Some answers need a closer look. These three questions help you decide.
 
-### Board 2: Do You Need to Dig Deeper?
+### Board 3: Dig Deeper?
 
 **Image file:** `evaluate-the-results-decide.jpg`
 
-![Do You Need to Dig Deeper?](evaluate-the-results-decide.jpg)
+![Dig Deeper?](evaluate-the-results-decide.jpg)
 
 **Teaching content:**
 
@@ -64,11 +86,11 @@ A movie pick is low stakes. A scholarship application or advice about an injury 
 
 Give the answer the attention it deserves.
 
-## When it deserves the dig
+## When It’s Time to Dig Deeper
 
 When an answer needs a closer look, choose the checks that fit the task.
 
-### Board 3: Dig Deeper
+### Board 4: Dig Deeper
 
 **Image file:** `evaluate-the-results-dig.jpg`
 
@@ -102,15 +124,15 @@ Use AI to help you check.
 
 You decide whether the answer holds up.
 
-## Then make your move
+## Your Move
 
 Now decide what to do with the answer.
 
-### Board 4: Make Your Move
+### Board 5: Your Move
 
 **Image file:** `evaluate-the-results-move.jpg`
 
-![Make Your Move](evaluate-the-results-move.jpg)
+![Your Move](evaluate-the-results-move.jpg)
 
 **Teaching content:**
 
@@ -132,7 +154,7 @@ If AI isn’t helping you get there, try another approach or ask someone who kno
 
 The tool answers. You evaluate.
 
-### Board 5: Close
+### Board 6: Close
 
 **Image file:** `evaluate-the-results-close.jpg`
 

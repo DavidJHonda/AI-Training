@@ -2468,12 +2468,12 @@ def render_pretraining_phase(out_path: Path) -> None:
     render_training_phase(
         "1 · Pretraining",
         PURPLE,
-        "Learn from Vast Amounts of Data",
-        "The model guesses what comes next in vast amounts of text and code, then checks its guess against the example. Training adjusts its internal numbers, called weights. Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.",
+        "What Pretraining Builds",
+        "Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant.",
         "“The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”",
         "The model can produce fluent text, but it doesn’t reliably follow your instructions yet.",
         out_path,
-        subtitle="More than you could read in 1,000 lifetimes.",
+        subtitle="Learning from more text than you could read in 1,000 lifetimes.",
     )
 
 

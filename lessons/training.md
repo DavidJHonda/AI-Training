@@ -4,13 +4,51 @@
 
 AI can explain chemistry, write code, and help you improve an essay. How did it learn to do those things?
 
-Think about learning to shoot a basketball. You take a shot, check where it goes, and adjust your aim or how much force you use.
+Think about learning to shoot a basketball. You try, see how you did, and make an adjustment.
 
-AI training follows a similar pattern: guess, check, and adjust.
+AI also learns through repeated attempts. Let’s follow the process from preparation to a model that is ready to use.
 
-But instead of adjusting aim or force, training adjusts the numbers inside the model to help it make a better guess next time.
+### Board 1: Before Training Starts
 
-### Board 1: The Training Loop
+**Image file:** `training-before-starts.jpg`
+
+![Before Training Starts](training-before-starts.jpg)
+
+**Teaching content:**
+
+Two things happen before training starts.
+
+First, set up the system. Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.
+
+Second, gather the data. Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
+
+## Three Phases
+
+Training builds different abilities in three main phases. We’ll use the same basketball question to see what each phase adds.
+
+### Board 2: Three Phases of Training
+
+**Image file:** `training-three-phases.jpg`
+
+![Three Phases of Training](training-three-phases.jpg)
+
+**Teaching content:**
+
+We’ll compare what the model can do after each phase using the same question:
+
+“How do I shoot a basketball?”
+
+Phase 1 is Pretraining. Learn patterns from data.
+
+Phase 2 is Instruction Tuning. Learn to follow instructions.
+
+Phase 3 is Preference Tuning. Improve responses through feedback.
+
+## A Shared Training Loop
+
+Across all three phases, training follows a basic loop: guess, check, and adjust. What changes is the examples and feedback used to guide those adjustments. Here’s a simple example.
+
+### Board 3: The Training Loop
 
 **Image file:** `training-guess-check-adjust.jpg`
 
@@ -28,43 +66,9 @@ Step three is Adjust. Adjust the model’s internal numbers to make jelly more l
 
 Then repeat. The loop runs again on the next example.
 
-Repeat with more examples. The patterns build.
+## From the Loop to Pretraining
 
-Before training begins, engineers set up the model and gather the data.
-
-### Board 2: Before Training Starts
-
-**Image file:** `training-before-starts.jpg`
-
-![Before Training Starts](training-before-starts.jpg)
-
-**Teaching content:**
-
-Two things happen before training starts.
-
-First, set up the system. Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.
-
-Second, gather the data. Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
-
-Training does more than teach a model patterns. It also helps the model follow instructions and give more useful answers. We’ll follow the same basketball question through three main phases.
-
-### Board 3: Three Phases of Training
-
-**Image file:** `training-three-phases.jpg`
-
-![Three Phases of Training](training-three-phases.jpg)
-
-**Teaching content:**
-
-There are three phases of training. Every phase gets the same question:
-
-“How do I shoot a basketball?”
-
-Phase 1 is Pretraining. Learn patterns from data.
-
-Phase 2 is Instruction Tuning. Learn to follow instructions.
-
-Phase 3 is Preference Tuning. Improve responses through feedback.
+Those adjustments change the model’s internal numbers, called weights. Now, let’s look at the first phase of training, called pretraining.
 
 ### Board 4: 1 · Pretraining
 
@@ -74,19 +78,21 @@ Phase 3 is Preference Tuning. Improve responses through feedback.
 
 **Teaching content:**
 
-Phase 1 is Pretraining. In this phase, the model will learn from vast amounts of data. More than you could read in 1,000 lifetimes.
+Here is what pretraining builds.
 
-The model guesses what comes next in vast amounts of text and code, then checks its guess against the example.
+Learning from more text than you could read in 1,000 lifetimes.
 
-Training adjusts its internal numbers, called weights.
-
-Across many examples, it learns patterns that help it write sentences, explain ideas, and produce code.
+Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant.
 
 After pretraining, here is what an answer might look like for the basketball question:
 
 “The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”
 
 What still needs work: the model can produce fluent text, but it doesn’t reliably follow your instructions yet.
+
+## From Patterns to Instructions
+
+Training keeps adjusting the model’s weights. What changes in the next phases is the kind of examples and feedback used to guide those adjustments.
 
 ### Board 5: 2 · Instruction Tuning
 
@@ -105,6 +111,10 @@ After instruction tuning, here is what an answer might look like for the basketb
 “To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”
 
 What still needs work: the model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.
+
+## From Instructions to Feedback
+
+Following instructions is a start. Next, the model learns from feedback about which answers people find more helpful. That’s preference tuning.
 
 ### Board 6: 3 · Preference Tuning
 
@@ -125,6 +135,8 @@ After preference tuning, here is what an answer might look like for the basketba
 What still needs work:
 
 Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.
+
+## When Training Ends
 
 When training ends, the model is ready to use. During a normal chat, it uses the weights that training produced.
 

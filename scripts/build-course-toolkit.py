@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the six one-page course toolkit references; reuse Five Big Ideas unchanged.
-Run with reportlab and pypdf installed. Downloadable PDFs live in packets/.
+Run with .video-venv/bin/python3 (bash scripts/video/env.sh installs reportlab,
+pypdf, and Pillow). Downloadable PDFs live in packets/.
 Pass guide filenames to rebuild selected PDFs; omit them to build all six.
 """
 from pathlib import Path
@@ -11,11 +12,15 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.utils import ImageReader
 from pypdf import PdfReader
+from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
 INK='#0e0a1f'; BODY='#3a3550'
 GUIDES=[
- dict(slug='evaluate-the-results', file='evaluate-the-results-guide',body_size=12,body_leading=18.5, id='evaluating', title='Evaluate the Results', desc='A practical checklist for deciding whether an AI answer is ready to use.', subtitle='Is it right? Is it good enough for what I need?', takeaway='The tool answers. You evaluate.', sections=[
+ dict(slug='evaluate-the-results', file='evaluate-the-results-guide',id='evaluating', title='Evaluate the Results', desc='A practical checklist for deciding whether an AI answer is ready to use.', subtitle='Is it right? Is it good enough for what I need?', takeaway='The tool answers. You evaluate.', vertical_expansion=20, body_size=11, body_leading=15.5,
+ # Lesson flowchart, cropped to the diagram inside the board's white card.
+ figure=dict(path='course-assets/evaluate-the-results/evaluate-the-results-process.jpg',crop=(72,202,1530,678),width=470), sections=[
  ('01  The quick pass', '<b>Read:</b> Review the whole answer before using it.<br/><b>Understand:</b> Ask for a simpler explanation of anything unclear.<br/><b>Validate:</b> Compare it with what you know and what you asked for. What is wrong, missing, or not useful?'),
  ('02  Do you need to dig deeper?', '<b>Can you judge it?</b> If you lack the knowledge, keep checking.<br/><b>What kind of task is it?</b> Check the facts, writing, or plan against what the task needs.<br/><b>How much is riding on it?</b> Give high-stakes answers more care.'),
  ('03  Dig deeper', '<b>Open the sources.</b> Check reliability and whether they support the claims.<br/><b>Challenge it.</b> Ask for the strongest argument against the answer.<br/><b>Look for gaps.</b> Ask what important information is missing.<br/><b>Check what is current.</b> Ask AI to search the web, then open its sources.<br/><b>Check independently.</b> Recalculate, test, or ask someone who knows.'),
@@ -78,6 +83,11 @@ def editorial(c,g):
  style=ParagraphStyle('editorial-body',fontName='Guide',fontSize=g['body_size'],leading=g['body_leading'],textColor=HexColor(BODY))
  example_style=ParagraphStyle('editorial-example',parent=style,fontSize=10.5,textColor=HexColor('#5c5680'))
  y=616+expansion
+ if 'figure' in g:
+  f=g['figure'];image=Image.open(ROOT/f['path']).convert('RGB').crop(f['crop'])
+  figure_width=f.get('width',width);figure_height=figure_width*image.height/image.width
+  c.drawImage(ImageReader(image),left+(width-figure_width)/2,y+10-figure_height,figure_width,figure_height)
+  y-=figure_height+14
  for i,((heading,body),separate,section_width) in enumerate(zip(g['sections'],standalone,section_widths)):
   section_x=left if separate else body_x
   if i:

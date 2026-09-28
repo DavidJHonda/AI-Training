@@ -87,73 +87,73 @@ Prompt: `Prompts/opener-understand-video-prompt.txt` (490 words).
 
 ## Training
 
-**v6 SHIPPED 2026-09-22** (cache key 20260922ship1, pill 5 min, 4:50): roll 1 of 2026-09-22 as the narration with six of its own additions cut (production phrases, a garbled line, the summary after the phases, and, on David's note, the word-for-word banner read) and two audio grafts from the live v4 ("steady the ball"; "the heavy lifting is done… ready for public use"); canonical boards, the phase boards dense with section dives, standard close. Review: `video-audit/training-comparison-2026-09-22/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe. Live video: `training.mp4` v4, shipped 2026-09-16 as a visual retrofit of a 2026-09-09 roll; reroll pending David's approval of the beat spine below.
+**Materials updated 2026-09-27 for a fresh roll of the revised lesson.** David selected a reroll after reviewing v8: at 0:18 the repaired video jumps from basketball to setup without the AI connection, while the old connecting line arrives around 1:00. The new source makes that connection immediately and uses the current lesson’s transitions throughout. This is preparation only; no new roll has been generated or published.
 
-**Notebook sources**
+The page still references the published v6 (`course-assets/training/training.mp4`, cache key `20260922ship1`, approximately 4:50). `Prompts/training-v7.mp4` and `Prompts/training-v8.mp4` remain review candidates. The v8 review is `video-audit/training-repair-2026-09-27-v8/REVIEW.md`; its provisional repair recommendation is superseded by David’s reroll decision. Workflow status in the Video Tracker was not checked or changed.
+
+**Notebook sources — current lesson order**
 
 1. `lessons/training.md`
-2. `course-assets/training/training-guess-check-adjust.jpg`
-3. `course-assets/training/training-before-starts.jpg`
-4. `course-assets/training/training-three-phases.jpg`
+2. `course-assets/training/training-before-starts.jpg`
+3. `course-assets/training/training-three-phases.jpg`
+4. `course-assets/training/training-guess-check-adjust.jpg`
 5. `course-assets/training/training-pretraining.jpg`
 6. `course-assets/training/training-instruction-tuning.jpg`
 7. `course-assets/training/training-preference-tuning.jpg`
 8. `course-assets/training/training-close.jpg`
 
+Upload all eight files from `gemini-notebook/training/upload/`. Paste `gemini-notebook/training/PROMPT.txt` into the customization field; do not upload it as a source. Save the raw roll as `Prompts/training-reroll.mp4`, or the next unused numbered raw-roll filename. Preserve existing sources and candidates.
+
 **Post-production boards**
 
-- None. All six teaching boards were screened: Boards 1 and 2 carry 3D-rendered objects (machines, scales, a dial, layered grids, conveyors) with no people or faces; Boards 3 to 6 are text only. No faceless variants were made.
+None withheld. Setup and loop boards depict objects, without people or visible faces; the phase overview and three phase boards are text. No faceless variants are needed. The uploaded Pretraining image is the current canonical **What Pretraining Builds** version, not the older panel describing the loop again. The current canonical boards and close replace Notebook’s versions in the eventual edit.
 
 **Beat spine**
 
-1. Hook: AI can explain chemistry, write code, and improve an essay. How did it learn?
-2. Basketball analogy: shoot, check where it goes, adjust aim or force.
-3. Training follows the same pattern, guess, check, adjust, but adjusts the numbers inside the model, not aim or force.
-4. Board 1, The Training Loop: the peanut butter and jelly example; guess cloud; check against jelly, no match; adjust the internal numbers so jelly is more likely; the loop runs again; banner "Repeat with more examples. The patterns build."
-5. Board 2, Before Training Starts: set up the system (engineers design the model, give its numbers starting values, training will adjust them); gather the data (books, websites, conversations, code, images, audio, video; this becomes the curriculum).
-6. Bridge: training also teaches the model to follow instructions and give more useful answers; we follow one basketball question through three phases.
-7. Board 3, Three Phases: orientation only. The shared question "How do I shoot a basketball?" and the three phase names with their one-line roles. No full explanation here.
-8. Board 4, Pretraining: vast amounts of data, more than 1,000 lifetimes of reading; guess what comes next, check against the example; "Training adjusts its internal numbers, called weights."; learns to write sentences, explain ideas, produce code; sample answer read in full; still needs work: fluent but does not reliably follow instructions.
-9. Board 5, Instruction Tuning: questions paired with helpful example answers; model practices, compares its guesses with the examples; weights adjusted toward the examples; sample answer read in full; still needs work: may be unclear, incomplete, or unhelpful.
-10. Board 6, Preference Tuning: one question, several answers; people pick the best (clear, useful, accurate); weights adjusted so answers like the chosen one are more likely; sample answer read in full to its last sentence; "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right."
-11. When training ends the model is ready to use; a normal chat uses the trained weights; it can work with new information you give it, but the conversation does not change the weights.
-12. Close: "AI learns from examples and feedback." then "Guess. Check. Adjust. Repeat." Nothing after.
+1. Capabilities question and basketball practice analogy. Immediately connect it to AI: “AI also learns through repeated attempts. Let’s follow the process from preparation to a model that is ready to use.” Do not explain the full loop here.
+2. Before Training Starts: engineers design the model and give its internal numbers starting values; teams gather books, websites, conversations, code, images, audio, and video as the curriculum.
+3. Three Phases of Training: the shared question “How do I shoot a basketball?” and the three names with their one-line roles. This is orientation, not three complete explanations.
+4. Explain that guess, check, and adjust applies across all three phases; examples and feedback change. Then teach The Training Loop with peanut butter and jelly: guess cloud, check against jelly, adjust the internal numbers to make jelly more likely, repeat on another example. Do not read the banner as an additional takeaway.
+5. Define weights after the example, then introduce the first phase, pretraining, using the approved paragraph unchanged.
+6. Pretraining: vast text and code, more than 1,000 lifetimes of reading, patterns that support writing sentences, explaining ideas and producing code; the entire fluent basketball non-answer; does not reliably follow instructions. Do not teach the loop a second time.
+7. Bridge into instruction tuning: weights keep changing; the examples and feedback guide the changes. Instruction tuning uses questions paired with helpful answers; practice, compare, adjust weights. Read the complete basketball answer and explain that it can still be unclear, incomplete or unhelpful.
+8. Bridge into preference tuning: following instructions is a start; feedback identifies more helpful answers. Explain multiple answers, people comparing and selecting for clarity, usefulness and accuracy, then weights adjusted toward the selected answer. Read the entire improved basketball answer, including “Use one hand to shoot and the other to steady the ball” and the final practice sentence. Retain the warning that wrong answers can sound right.
+9. When training ends the model is ready to use. Ordinary chat uses the resulting weights; new information in a conversation does not change them.
+10. Close with the two required lines and nothing after.
 
-**Required verbatim lines**
+**Required verbatim passages**
 
-- "AI training follows a similar pattern: guess, check, and adjust."
-- "Repeat with more examples. The patterns build."
-- "How do I shoot a basketball?"
-- "Training adjusts its internal numbers, called weights."
-- "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right."
-- "It can work with new information you give it, but your conversation does not change those weights."
-- "AI learns from examples and feedback."
-- "Guess. Check. Adjust. Repeat."
+- “AI also learns through repeated attempts. Let’s follow the process from preparation to a model that is ready to use.”
+- “Across all three phases, training follows a basic loop: guess, check, and adjust. What changes is the examples and feedback used to guide those adjustments. Here’s a simple example.”
+- “Those adjustments change the model’s internal numbers, called weights. Now, let’s look at the first phase of training, called pretraining.”
+- “Training keeps adjusting the model’s weights. What changes in the next phases is the kind of examples and feedback used to guide those adjustments.”
+- “Following instructions is a start. Next, the model learns from feedback about which answers people find more helpful. That’s preference tuning.”
+- “Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.”
+- “It can work with new information you give it, but your conversation does not change those weights.”
+- “AI learns from examples and feedback.”
+- “Guess. Check. Adjust. Repeat.”
 
-**Guardrails carried from the old prompt or reviews**
+Each required passage is its own paragraph in the Markdown. The shared basketball question and three complete illustrative answers also remain quoted in the source; the prompt requires the sample answers word for word.
 
-- Three Phases board is an orientation only: shared question plus phase names and one-line roles; each phase is then named explicitly as its own board appears; do not repeat the orientation afterward (old prompt).
-- Keep the analogy and the mechanism apart: the basketball is the analogy; training adjusts numbers, not aim or force (old prompt's "preserve distinctions between analogies and mechanisms").
-- Follow the page's board order, Training Loop before Before Training Starts; the 2026-09-09 roll swapped them (REVIEW.md).
-- Name all seven data kinds; the live roll dropped audio and video (REVIEW.md).
-- Read all three sample answers in full; the live roll trailed off partway through the third (REVIEW.md).
-- Do not add counts of examples or runs; the live roll's "millions of times" was accurate but is an invented figure under the new recipe.
-- "hallucinate" added to the banned list: the live roll used it and the review accepted it, but the lesson does not use the word.
-- Do not imply chatting teaches the model (closing paragraph's distinction).
-- Do not narrate the Train a Kitchen Helper TRY IT.
+**Narration and visual guardrails**
+
+- Preserve the immediate basketball-to-AI bridge. Do not delay it until the shared loop, and do not restore the old “AI training follows a similar pattern” opening.
+- Keep setup → phase overview → shared loop → weights → detailed phases. Do not present the loop as an additional phase or as applying only to pretraining.
+- Use the exact current transition paragraphs. Do not restore “Before training begins, engineers set up the model and gather the data,” backward references to an already-taught loop, or “human taste.”
+- Read all three sample answers fully as illustrations, not observed product outputs. Do not add counts of examples or training runs. Keep the thousand-lifetimes comparison from the board.
+- Do not imply ordinary chatting trains the model. Do not narrate the Train a Kitchen Helper activity.
+- Keep boards complete and unhighlighted during generation. Simple drawn scenes support the prose between boards; no photos or photorealistic imagery. Illustrated, cartoon and stylized people are allowed.
+- Reuse the approved highlight and framing approach during the eventual edit, retimed to the new narration. Measure board durations across all zooms and pans and plan useful drawing breaks from the new roll. The old v8 timestamps do not apply to a new roll.
 
 **Markdown versus page**
 
-- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): loop board steps now in the board's exact words plus "Then repeat."; Three Phases title and all six labels added; the "What an Answer Might Look Like" and "Learn to..." sub-headers folded into each phase board. Dropped "cloud does not match" (on neither board nor page).
-- Kept beyond the page: nothing. The old Markdown already matched the page one to one; it was restructured, not expanded.
-- Spoken adaptations: Board 1's blank ("Peanut butter and ___") is written as "with the last word missing"; the Check step states the result ("cloud does not match"), which the board leaves implied; each phase board opens with "Phase N is ..." so the narrator names the phase on entry; the sample answers are introduced as "an answer to the basketball question might look like this" instead of the card heading.
-- Split for the stand-alone rule: "AI training follows a similar pattern: guess, check, and adjust." and "Training adjusts its internal numbers, called weights." were pulled out of their paragraphs; the closing paragraph's last sentence stands alone.
-- Dropped: the old Markdown's bold labels, numbered lists, and "Takeaway" label.
-- Page looked wrong nowhere. One note: the page's Board 1 alt text uses "Given ‘Peanut butter and ___,’" with a literal blank, which is fine on screen but unreadable aloud; handled in the Markdown as above.
+The current TrainingSection in `index.html` governs teaching and order. Its prose is preserved; the opening connection is separated from the analogy by a paragraph break so the required passage stands alone. The weights-to-pretraining transition remains one paragraph. Six `##` headings separate prose from the preceding board’s Teaching content; these headings are organizational labels, not spoken chapter cards. Board text is carried as spoken sentences, including “Here is what pretraining builds” in place of a bare panel heading. No lesson-page or board change is part of this preparation.
 
-**Open questions**
+The loop’s repeat step remains “Then repeat. The loop runs again on the next example.” The banner is not required as a separate spoken slogan, preserving David’s earlier removal of that redundant read. Both closing lines remain stand-alone sentences. The prompt is under 500 words and self-contained.
 
-- None.
+**Preparation checks**
+
+Training-only sync and `--check` passed. All eight staged uploads and the prompt match their sources; the seven JPGs decode; the six teaching boards follow page order. The prompt is 451 words. All nine required passages occur once as stand-alone source paragraphs and match the page’s wording; all page prose is preserved. The published video’s hash is unchanged. Targeted `git diff --check` passed. No generation, upload to Notebook, publication or tracker update was performed.
 
 ## AI is Math
 
@@ -767,4 +767,3 @@ All eight stand alone on their own line in the Markdown (the 22% sentence, the t
 ### Open questions
 
 - Resolved 2026-09-21 (David): the derived line “Spot stays the single most likely name in every column” is cut from the Markdown; the column now ends “Temperature changes how far ahead the top choice is.”
-

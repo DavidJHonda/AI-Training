@@ -1,6 +1,6 @@
 # Evaluate the Results v8 (2026-09-27)
 
-Candidate: `Prompts/evaluate-the-results-v8.mp4` (4:15.37, 7661 frames). This is a review copy and has not been shipped. Build script: `scripts/video/build_evaluate_the_results_v8.py`.
+Candidate: `Prompts/evaluate-the-results-v8.mp4` (4:15.37, 7661 frames). SHIPPED 2026-09-28 on David's "ship it" (cache key 20260928ship2, pill 3 -> 4 min). Build script: `scripts/video/build_evaluate_the_results_v8.py`.
 Scope: v7 plus the new opening board "How to Evaluate an AI Answer", plus the four stage boards retrofitted to their 2026-09-27 layouts. David said "Build it" on 9/27 after the recommendation in `../evaluate-the-results-process-rolls-2026-09-27/process-board-comparison.csv`.
 
 ## What changed
@@ -45,4 +45,4 @@ Scope: v7 plus the new opening board "How to Evaluate an AI Answer", plus the fo
 - Earlier ear-test items from v7 still stand: "riding"/"writing" at about 2:31, the roll 2 close line, and the reused "Read. Understand. Validate."
 - ring_stroke.py was not run.
 - Known narration weakness: the Yes path is spoken as "before moving forward" and never names Your Move. The top-route camera shows the arrow into Your Move.
-- Not shipped. The live video, index.html, and manifest are unchanged.
+- Shipped without the ear test above; the joins are still unheard.

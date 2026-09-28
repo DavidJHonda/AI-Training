@@ -84,27 +84,9 @@ After You could name him, a dog name becomes a likely continuation.
 
 AI keeps predicting tokens until it produces a special token that signals the answer is finished.
 
-### Board 4: Inference: How AI Builds an Answer
+## Inference
 
-**Image file:** `how-ai-answers-building-an-answer.jpg`
-
-![Inference: How AI Builds an Answer](how-ai-answers-building-an-answer.jpg)
-
-**Teaching content:**
-
-This is inference: how AI builds an answer.
-
-You ask: “What should I name my new dog?” The answer so far is You could name him. Follow the repeating process as AI adds the next token.
-
-Step 1, Rank: AI scores every possible next token. Here Spot scores 22 percent, Max 17 percent, and Buddy 14 percent.
-
-Step 2, Pick: AI selects a next token. Here it picks Spot.
-
-Step 3, Add: AI attaches that token to the answer. The answer now reads You could name him Spot.
-
-Step 4, Repeat: AI uses the longer context to predict again, asking what the next token should be.
-
-Inference is the process AI uses to generate an answer one token at a time.
+AI repeats the same loop: predict a next token, select it, and add it to the answer. Each addition becomes part of the context for the next prediction. This process of generating an answer is called inference.
 
 ## Closing Message
 

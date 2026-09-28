@@ -26,6 +26,8 @@ Working the sentence out depends on each repeated pass. With every read, you upd
 
 ## AI Does Something Similar
 
+AI does something similar: it builds meaning through repeated updates.
+
 AI doesn’t read your message the way you do.
 
 It processes your text through a series of layers. Within each layer, attention and transformation work together to update the numbers, helping AI work out what your words mean together. Those updated numbers pass to the next layer. Like rereading a difficult sentence, the process builds on what came before.
@@ -56,9 +58,9 @@ Now follow one word, ‘it,’ as its numbers change from layer to layer.
 
 ### Board 3: How AI Connects ‘it’ to ‘cat’
 
-**Image file:** `layers-resolves-it.jpg`
+**Image file:** `layers-resolves-it-lowercase.jpg`
 
-![How AI Connects ‘it’ to ‘cat’](layers-resolves-it.jpg)
+![How AI Connects ‘it’ to ‘cat’](layers-resolves-it-lowercase.jpg)
 
 **Teaching content:**
 

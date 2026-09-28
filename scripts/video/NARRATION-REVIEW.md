@@ -33,7 +33,9 @@ A review that skips the lesson or the full transcript is not a review.
 1. List the lesson's teaching points in lesson order: the hook or problem, each
    explanation, every worked example and its numbers, the distinctions, the
    hard requirements (full terms such as "Retrieval-Augmented Generation",
-   verbatim lines, the two closing lines), and the takeaway.
+   verbatim lines, the two closing lines), and the takeaway. Include essential
+   relationships between points: why the next section follows, what changes or
+   stays the same, and what a diagram's arrows, branches, or loops mean.
 2. Walk the transcript and mark each point:
    - **RICH**: taught with the lesson's own example, reason, or comparison intact,
      in words a student can follow; the beat a teacher would keep.
@@ -47,7 +49,14 @@ A review that skips the lesson or the full transcript is not a review.
    be a candidate lesson edit. Weaker or distracting outside material is flagged.
 4. Read worked examples aloud in your head against the transcript: the narration
    must actually read or explain the sentence, values, or comparison.
-5. Give the verdict.
+5. Check the lesson arc without relying on the boards. Does the narration carry
+   the student from the opening problem to the takeaway, with the essential
+   connections spoken? Where there is an overview, does it orient the student
+   before the detailed teaching, without an unnecessary restart? Record missing
+   or unclear essential connections among the teaching points above. A smoother
+   optional transition is a suggestion, not a failed teaching point; no flowchart
+   or fixed narrative structure is required for every lesson.
+6. Give the verdict.
 
 ## Verdict
 
@@ -93,6 +102,10 @@ verbatim close), plus the beats to take from the other roll.
 
 Rules for the plan:
 
+- Preserve the lesson arc across grafts. Audition the preceding and following
+  sentences together with the donor beat: the assembled narration must retain
+  essential bridges and clear references, without repeating an introduction or
+  skipping a step merely because each isolated beat is strong.
 - A beat is taken from the alternate roll only when it is a whole beat between
   silences (a sentence or a coherent run of sentences), not a phrase.
 - The safe place for a mid-video graft is under a course board: the picture is

@@ -24,6 +24,34 @@ Long board holds are an editing matter, not an upload matter: keep uploading the
 hold Notebook's own diagrams just as long), and break the holds in the edit plan under
 [Edit Spec 8b](../scripts/video/EDIT-SPEC.md).
 
+## Prepare the lesson arc
+
+Before finalizing the Markdown and prompt, check how the ideas connect. The Training
+and Evaluate the Results rerolls showed the value of writing the transitions as
+carefully as the individual teaching points. Apply this pass to each new preparation
+or reroll; a flowchart is not required for every lesson.
+
+1. **State the progression in one sentence.** Describe how the lesson takes the
+   student from its opening question or problem to its takeaway. Use this to check
+   the beat spine; it is a planning note, not an extra spoken introduction.
+2. **Write the essential bridges.** Make clear why the next section follows, what
+   carries forward, or what changes. Put those sentences in the Markdown, and put
+   the most important ones in REQUIRED VERBATIM AUDIO when their wording carries
+   the teaching. A heading alone does not supply the connection.
+3. **Speak the relationships in diagrams.** Explain what arrows, branches, loops,
+   and comparisons mean, rather than only naming their boxes. For a process, walk
+   its paths and conditions; for phases, explain what stays the same and what changes.
+4. **Give overview and detail different jobs.** Where the lesson has an overview,
+   use it to establish the whole structure before teaching the parts. Orient there;
+   develop the explanations and examples in the later sections without restarting
+   the lesson or repeating the full explanation.
+5. **Read the narration without the boards.** The student should still understand
+   the progression and essential relationships. Fix gaps in the source before rolling.
+
+These connections must express teaching already present in the current lesson's
+prose or visuals. They do not authorize new claims or an unapproved lesson restructure.
+Keep production directions in the prompt and spoken teaching in the Markdown.
+
 ## Prepare a new lesson
 
 Each lesson needs four things before its first roll: one Markdown file in `lessons/`,
@@ -50,7 +78,8 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
      Markdown as a sentence; a point that exists only in the image may never be spoken.
      Alt text, tables, and banners alone do not ensure Notebook speaks their content.
      Banner lines become plain sentences. Check the board image itself, not its alt text.
-   - **A board's Teaching content holds only what is printed on that board.** The page
+   - **A board's Teaching content holds its printed words and the relationships shown
+     by its diagram**, expressed as spoken sentences. The page
      prose before and after it stays prose, under a `##` heading. Notebook holds a board
      on screen for as long as the text under it runs, so prose folded into a board section
      becomes a long board hold with no drawings for those beats (Understand AI opener,
@@ -86,10 +115,13 @@ and its registry entry. Where's the Line? is the same recipe on a lesson with no
    naming its Markdown in the first sentence. Four blocks, in this order:
    - **REQUIRED VERBATIM AUDIO.** The lines Notebook must speak exactly, in quotes: the
      definition, banners, the closing lines, and any sentence whose wording carries the
-     teaching. Keep the list short; every line here must satisfy the stand-alone rule above.
+     teaching, including essential bridges identified in the lesson-arc pass. Keep the
+     list short; every line here must satisfy the stand-alone rule above.
    - **TEACH THE COMPLETE LESSON.** A beat spine: every teaching point, in order, in one
      paragraph. Name each move, card, and example the narration must cover, and state the
      guardrails as negatives ("do not imply…", "do not narrate the on-page activity").
+     Include the essential connections and distinguish an overview's job from the
+     later detailed teaching; coverage alone is not the spine.
    - **VOICE.** Read the Markdown in its own voice; use its sentences, adding only
      connective phrases. List the words the lesson does not use and Notebook tends to reach
      for (stakeholders, leverage, framework, utilize, and the lesson-specific ones). Never ask

@@ -65,11 +65,15 @@ set of global production rules.
    candidate/source files, and check the latest relevant review. Distinguish a
    full production pass from a narrow repair; see Edit Spec section 1.
 2. **Prepare only what is needed.** For generation, use current Markdown, selected
-   JPGs, and a self-contained prompt. For an existing-video repair, do not regenerate
+   JPGs, and a self-contained prompt. Complete the
+   [lesson-arc pass](../../Prompts/README.md#prepare-the-lesson-arc): progression,
+   essential bridges, diagram relationships, and distinct overview/detail roles.
+   For an existing-video repair, do not regenerate
    materials or reroll solely because a visual needs fixing.
 3. **Evaluate the teaching.** Use KEEP / REPAIR / REROLL from Narration Review.
    Good narration with repairable visuals is useful. Compare multiple rolls by
-   teaching point, preserving the best explanations, examples, and conclusions.
+   teaching point, preserving the best explanations, examples, conclusions, and
+   the connections that make them a coherent lesson.
    For isolated missing or misspoken narration, evaluate a donor from an existing
    video roll before requesting a full reroll. Verify its wording and audition
    the joins before treating it as a verified repair source.

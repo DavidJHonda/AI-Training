@@ -2,8 +2,6 @@
 
 # One More Thing
 
-One more thing. Actually, three.
-
 Why can the same prompt produce a different answer? What makes AI’s answers more predictable or more varied? And how much math does one answer require?
 
 ## The Top Choice Doesn’t Always Win
@@ -26,13 +24,15 @@ Same probabilities, different choices.
 
 The answer so far is “You could name him,” and the next token is still open.
 
-The probabilities for that next token are Spot at 22%, Max at 17%, Buddy at 14%, Rex at 9%, Biscuit at 6%, and all other tokens combined at 32%. These probabilities stay unchanged across all five picks.
+Keep the probabilities unchanged across all five picks. Spot still has the highest probability at 22%.
 
 Five random picks with these same probabilities produce: pick one, Max; pick two, Spot; pick three, Buddy; pick four, Rex; pick five, Max. The five picks are one possible set.
 
 Spot was picked only once, even with the highest probability. Another five picks could turn out differently.
 
 The best chance is not a guarantee.
+
+## Why the Choices Matter
 
 Two important points follow.
 
@@ -41,6 +41,8 @@ Choosing the most likely token every time can make answers repetitive. Giving ot
 Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.
 
 ## Temperature
+
+So what changes how predictable those choices are?
 
 Temperature reshapes the probabilities before AI picks each token.
 
@@ -62,11 +64,11 @@ Here is how temperature changes the odds.
 
 The answer so far is still “You could name him,” with the next token open.
 
-For each name, the starting odds are the same as before: Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%.
+Start with the same odds as before. Spot has a 22% chance.
 
-At low temperature, Spot rises to 36%, Max to 21%, and Buddy to 15%. Rex drops to 6%, Biscuit to 3%, and other tokens combined to 19%. Low temperature concentrates the odds on the most likely choices. Spot’s chance goes from 22% to 36%.
+Low temperature concentrates the odds on the most likely choices. Spot’s chance goes from 22% to 36%.
 
-At high temperature, Spot falls to 16%, Max to 14%, and Buddy to 13%. Rex rises to 10%, Biscuit to 8%, and other tokens combined to 39%. High temperature spreads the odds and gives less likely choices a better chance.
+High temperature spreads the odds and gives less likely choices a better chance. Spot’s chance falls from 22% to 16%.
 
 Temperature changes how far ahead the top choice is.
 
@@ -74,7 +76,9 @@ Temperature reshapes the probabilities. It does not change what the model learne
 
 ## The scale of the math
 
-Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction.
+Every choice starts with calculations. Now count what an answer takes.
+
+Training created the model’s weights, the numbers that shape every prediction.
 
 When you use AI, those weights stay fixed.
 
@@ -106,6 +110,6 @@ Even a short answer takes trillions of calculations.
 
 ## Closing Message
 
-Not a mind. Math, at a scale nobody can picture.
+Math and probability, one token at a time.
 
 Every time you hit send.

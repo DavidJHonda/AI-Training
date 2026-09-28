@@ -4,9 +4,17 @@
 
 Each token starts with a row of numbers called an **embedding**. As AI processes your message, the layers change those numbers to reflect the context.
 
-But those new numbers might not match the starting numbers for any token. **How can they still represent meaning?**
+But those new numbers might not match the starting numbers for any token.
 
-An exact match isn’t necessary. The relationships between the numbers matter too. We can picture those relationships as positions on a map, where nearby positions can represent similar meanings. That’s the idea behind **vector space**.
+How can they still represent meaning?
+
+An exact match isn’t necessary.
+
+The relationships between the numbers matter too.
+
+We can picture those relationships as positions on a map, where nearby positions can represent similar meanings.
+
+That’s the idea behind vector space.
 
 ## Let’s Start With a Map
 
@@ -26,6 +34,8 @@ Three cities, two coordinates each. A United States map marks three cities, each
 
 Latitude and longitude give each city a position.
 
+## Finding a Nearby City
+
 Someone hands you two sets of coordinates. For each position, which of the three cities is closest? The first position is 38° north, 120° west. The second position is 40° north, 76° west.
 
 The position 38° north, 120° west is closest to Mountain View. The position 40° north, 76° west is closest to New York City.
@@ -41,6 +51,8 @@ The position 38° north, 120° west is closest to Mountain View. The position 40
 Use the map to find the closest city. The same map keeps Mountain View at 37° north, 122° west, Dallas at 33° north, 97° west, and New York City at 41° north, 74° west in place. Two new positions are added: 38° north, 120° west, and 40° north, 76° west. A dotted line connects 38° north, 120° west to Mountain View, the nearest of the three cities. Another dotted line connects 40° north, 76° west to New York City, the nearest of the three cities.
 
 When nothing matches exactly, distance finds the closest one.
+
+## A Position Still Tells Us Something
 
 Those coordinates don’t match any of our cities. But their position still tells us something: which city they’re near.
 
@@ -62,6 +74,8 @@ Look across the rows. Coke’s and Pepsi’s numbers are nearly the same. Coffee
 
 Coke and Pepsi have more similar profiles than either does to coffee.
 
+## From Ratings to Positions
+
 Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s vector space.
 
 We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
@@ -77,6 +91,8 @@ We can picture the similarities on a map: Coke and Pepsi sit close together, whi
 A map of drink similarities. The map places Coke and Pepsi as nearby points inside the soft drinks neighborhood. Coffee sits farther from both, in the hot drinks neighborhood. Each drink shows its seven scores in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions: the line between Coke and Pepsi is short, and the lines from each of them to coffee are long. The positions picture how similar or different the ratings are.
 
 Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.
+
+## Finding a Nearby Drink
 
 Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match. The mystery drink’s ratings are 9, 1, 10, 2, 3, 8, 9. Its closest match is Pepsi.
 

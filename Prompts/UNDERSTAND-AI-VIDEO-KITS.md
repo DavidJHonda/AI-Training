@@ -425,6 +425,18 @@ Prompt: `Prompts/embeddings-video-prompt.txt` (under 500 words). Save the roll a
 
 ## Layers
 
+**REROLL MATERIALS READY 2026-09-28 (David):** the horse-to-AI connection must be spoken at the transition. The heading “AI Does Something Similar” cannot carry that teaching by itself. This supersedes the v7 review’s earlier KEEP recommendation. `Prompts/layers-v7.mp4` remains a reference candidate; the published video is unchanged. Preparation only: no generation or new edit authorized by this materials update.
+
+**Lesson arc:** repeated reads resolve the horse sentence → explicitly connect repeated updates to AI → explain layers updating numbers → follow those updates for ‘it’ in a complete sentence → explain depth and its cost → close. The first numbers board establishes the general process; the IT/CAT board applies it without restarting the explanation.
+
+**Current post-production plan (timings provisional until the reroll exists):**
+
+- Horse board: full view first; outline the sentence/title during its introduction and complete reading (David’s v7 request at about 0:06), then clear it before First Read. Use complete-column outlines and the approved zoom/pan treatment for the three reads; full view for the takeaway. Fixed 4 px outlines at 720p. Count the full continuous board duration across camera moves. Prefer a relevant drawing if the new roll supplies one; do not invent filler.
+- AI bridge: preserve useful new drawings. Avoid repeating v7’s single layer-stack picture throughout approximately 0:48–1:03. The current Transformer video has a usable ACTIVE DATA drawing around 2:17–2:21; consider it under the numerical-update explanation, retaining the stack for introducing layers and defining the neural network. This is a post-production donor option, not an upload or a verified final cut range. Recheck source identity and complete span before use. Reference images: `video-audit/layers-repair-2026-09-28-v7/bridge-options/`.
+- Numbers board: compact full view, diagram → first pair → final pair → banner. IT/CAT: full board, sentence strip while the complete sentence is read, then one complete stage at a time. Use relevant drawing breaks following the actual new narration; do not inherit v7 timestamps.
+- Keep useful original late illustrations and the canonical close. No extra pauses requested; evaluate natural pacing after generation.
+- Evaluate the new roll’s spoken bridge, complete sentence, diagram relationships, and ‘it’ pronunciation before building. The original v7 donor is not needed if the new roll reads the sentence itself.
+
 **v3 SHIPPED 2026-09-23** (cache key 20260923ship1, pill 3 min, 3:14.70): roll 6 of 2026-09-23 as the narration (rolls 5 and 6 reviewed; roll 5 donor) with audio grafts from roll 2 and the live v6, canonical boards, standard close, and the live v6's drawn animation (pronoun scene, nuance stack, architectural trade-off balance) borrowed under 2:38-3:06 on David's note that the roll's single graphic there was less engaging; the live's first animation scene ("Total Layers: 128") left out. Video title rewritten to "Meaning builds up, layer by layer." (open question 2 below, closed). Review: `video-audit/layers-comparison-2026-09-23/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `layers.mp4` v6 shipped 2026-09-17 under the old method.
 
 **Rolls 1 and 2 reviewed 2026-09-22** (`video-audit/layers-comparison-2026-09-22/REVIEW.md`): roll 2 earned KEEP and was built as
@@ -445,11 +457,7 @@ and is spoken as a word. **Materials updated 2026-09-22 for a second reroll** (b
    depends on each repeated pass. With every read, you update the meaning of the words until the whole thought makes sense."
 4. Required verbatim line 5 becomes "AI works out that ‘it’ refers to ‘cat.’"
 
-**Picture fixes measured for the next build** (they live in `scripts/video/build_layers_v1.py`, not in the roll): the board title
-is ringed while the sentence is spoken (46, 48-961, 89); Board 1's read rings end at the illustration's bottom edge, y 780, not
-the white box's 818; Board 2 is compact throughout with no dives; its diagram ring widens to x 48-1552 so it clears the NUMBERS IN
-and FINAL NUMBERS labels; and its number-card rings take each card's own border, y 860-992 with x 74-389, 453-768, 832-1147 and
-1212-1526, where the first build sat about ten pixels proud top and bottom.
+**Historical picture measurements:** the September 22 build notes are superseded by the current plan above and `EDIT-SPEC.md`. Measure against current assets; use full shared-white-box column boundaries and fixed 4 px strokes at 720p. Do not reuse old ring widths or partial-column bounds.
 
 **Notebook sources**
 
@@ -476,10 +484,10 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 1. English-class hook: a passage that only makes sense after a few reads; try the sentence.
 2. Speak "The horse raced past the barn fell" once, then a beat of silence (David's v6 pause request carried into the narration itself).
 3. Board 1, three reads by name: first read (doesn't make sense, missing word?), more reads (did the barn fall? did the horse race past afterward?), meaning clicks (someone raced a horse past a barn, then the horse fell). Banner: "Each read updates the meaning until it clicks."
-4. Pivot: "AI doesn't read your message the way you do." Layers; attention and transformation update the numbers inside each layer; updated numbers pass to the next layer; like rereading, it builds on what came before.
+4. Pivot: "AI does something similar: it builds meaning through repeated updates." Then "AI doesn’t read your message the way you do." Layers; attention and transformation update the numbers inside each layer; updated numbers pass to the next layer; like rereading, it builds on what came before.
 5. Definition: "The whole stack of layers is called a neural network."
 6. Board 2: numbers in, many layers, final numbers out; each row holds many numbers, two shown; the first pair (.42/−1.15) and the final pair (.19/−1.12) are spoken, the middle two are not, and the values change at every layer. Banner: "Attention and transformation update the numbers at each layer."
-7. Bridge: follow one word, IT, through the layers.
+7. Bridge: apply the general process to one word, ‘it,’ in a real sentence; read the complete cat sentence before Start.
 8. Board 3, five stages in order: start (‘it’ could refer to different things; .12/−.34 spoken), layer 1 (begins to capture the connection to ‘cat’), layer 2 (carries more information), repeat (each layer builds on the previous), result (.41/.06 spoken): "AI works out that ‘it’ refers to ‘cat.’"
 9. Scale with qualifier: companies don't always share the count; published designs suggest dozens, sometimes more than a hundred.
 10. Why depth: the horse sentence took a few reads; sarcasm, story twists, complicated reasoning take more; layers give AI more steps.
@@ -489,9 +497,11 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 **Required verbatim lines**
 
 - "Each read updates the meaning until it clicks."
-- "AI doesn't read your message the way you do."
+- "AI does something similar: it builds meaning through repeated updates."
+- "AI doesn’t read your message the way you do."
 - "The whole stack of layers is called a neural network."
 - "Attention and transformation update the numbers at each layer."
+- "The cat sat on the mat during the May rainstorm because it was tired."
 - "AI works out that ‘it’ refers to ‘cat.’"
 - "The extra benefit has to be worth the cost."
 - "Meaning builds up, layer by layer."
@@ -501,12 +511,13 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 
 - Old prompt: keep the lesson's qualifications (companies don't always share layer counts); do not invent numerical values or diagrams; explain what the number comparison shows rather than treating the table as a recitation.
 - v6 review: David asked for a one-second pause after "The horse raced past the barn fell." The prompt now asks for that beat in the narration so it need not be spliced in.
-- v5/v6 review noted two photograph spans in the shipped roll; the prompt bans stock photographs and asks for drawn scenes with no people.
+- v5/v6 review noted two photograph spans in the shipped roll; the prompt bans stock photographs and asks for drawn scenes. Current rule: no photos or photorealistic imagery; illustrated, cartoon, and stylized people are allowed.
 - New, lesson-specific: do not imply a word is only two numbers; do not call the numbers probabilities or scores; do not say ‘it’ is ‘cat’ or that layer 2 is the last; read ‘it’ and ‘cat’ as words, never as spelled letters (2026-09-22); do not name a model or give an exact layer count; do not say AI thinks, understands, or has a brain; do not narrate the AI Brain Break activity; do not preview Vector Space; do not read the site address printed on the boards.
 - Banned words beyond the generic list: neurons, weights, parameters, vectors, embeddings, algorithm, deep learning, garden path.
 
 **Markdown versus page**
 
+- September 28: the page’s “AI Does Something Similar” kicker and repeated-update explanation are expressed as a required spoken bridge in the Markdown. The live page is unchanged. Board 3’s Markdown image reference now names the actual lowercase upload variant.
 - Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): horse board's three panel labels added; Board 2 and 3 titles added.
 - Kept beyond the page, small: one clarifying clause per read on Board 1 ("you reach 'fell' and the sentence seems to stop short"; "'raced' describes the horse, and 'fell' is what the horse did") so the narrator can explain why the sentence trips readers, since the board only shows it. Also a plain-sentence description of Board 2's picture (numbers in, line of layers, final numbers out), which the board shows but the page prose does not say.
 - Numbers spoken: all board values are written as sentences (.42/−1.15 ... .19/−1.12 and IT's .12/−.34 ... .41/.06) so the comparison result ("the values shift at every layer") is stated, per the speak-the-answers rule. The old Markdown carried these as tables only.
@@ -522,9 +533,10 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 
 ## Vector Space
 
-**LIVE VIDEO KEPT 2026-09-22 (David):** two rolls on this kit were reviewed (roll 1 REPAIR with 7/8 required lines; roll 2 donor) and a candidate built, then David rewrote the page's opening and the drinks-table read, re-evaluated the live v5 against the new page, and kept it: it teaches the lesson, reads the drinks table the new way, and its boards match. Candidates removed; rolls retained. Review: `video-audit/vector-space-comparison-2026-09-22/`. Do not re-propose a reroll without a page change. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `vector-space.mp4` v5 shipped 2026-09-17 under the old method (visual-only retrofit of the 2026-09-10 roll); reroll pending David's approval of the beat spine below.
+**REROLL MATERIALS READY 2026-09-28 (David):** after reviewing the live video, David requested a reroll because the opening is critical to understanding. This supersedes the Sept. 22 decision to keep the live version without another reroll. The live v5 remains unchanged. Current review: `video-audit/vector-space-live-review-2026-09-28/REVIEW.md`. These are preparation materials; no new generation or candidate has been produced.
 
 **Notebook sources** (`lessons/vector-space.md` plus, in board order)
+
 1. `course-assets/vector-space/vector-space-cities.jpg`
 2. `course-assets/vector-space/vector-space-cities-closest.jpg`
 3. `course-assets/vector-space/vector-space-taste.jpg`
@@ -533,51 +545,42 @@ and FINAL NUMBERS labels; and its number-card rings take each card's own border,
 6. `course-assets/vector-space/vector-space-meaning-map.jpg`
 7. `course-assets/vector-space/vector-space-close.jpg`
 
-**Post-production boards:** none. All six boards were screened 2026-09-21; none shows a human face or a photo-realistic person. The meaning map is photo-realistic but its only figures are a cat, a dog, and a kitten, so it uploads as-is. No faceless variants exist for this lesson.
+**Upload folder:** `gemini-notebook/vector-space/upload/` (eight files). Paste the separate `gemini-notebook/vector-space/PROMPT.txt` into the customization box. Save as `Prompts/vector-space-reroll.mp4`, or the next unused numbered filename.
 
-**Beat spine** (approve before rolling)
-1. Open on the page's question: embeddings are rows of numbers; the layers change them; if the numbers are different, how do they still represent meaning? This is the page's own hand-off from the Layers cliffhanger; nothing about a blank card is added.
-2. Map: latitude and longitude, Dallas at 33° N 97° W, three cities as the only cities on the map (Board 1, banner "Latitude and longitude give each city a position").
-3. Two new positions, answered in the next sentence: 38° N 120° W is closest to Mountain View; 40° N 76° W is closest to New York City (Board 2, banner "When nothing matches exactly, distance finds the closest one"). Nothing matched exactly; comparing positions still finds the closest city.
-4. From places to meaning: seven ratings per drink, each row a vector; the three rows read aloud; Coke and Pepsi match on six and differ only on Citrus (1 vs 10); coffee differs on all seven (Board 3, banner "Coke and Pepsi have more similar profiles than either does to coffee").
-5. Definition: seven ratings give a drink a position in a seven-dimension space; that's vector space. Picture it on a map: Coke and Pepsi close, coffee farther (Board 4, soft drinks / hot drinks neighborhoods, dotted lines short vs long).
-6. Mystery drink 9, 1, 10, 2, 3, 8, 9, answered in the same breath: closest match is Pepsi (Board 5, banner "The mystery drink's ratings are closest to Pepsi's").
-7. Distance: first six match Pepsi; Citrus gap 1 vs Pepsi, 8 vs Coke; compare numbers in matching positions; "Smaller gaps mean closer positions."
-8. Scale up: thousands of dimensions, values learned during training, similar meanings usually nearby.
-9. When the numbers change: the CAT/IT sentence; IT could refer to many things; the layers update IT's numbers to connect it to CAT; changing numbers changes position (Board 6: starting numbers .12, −.34 …, path "The layers update the numbers," updated .41, .06 … beside CAT in the animals neighborhood; banner "IT's new position reflects its connection to CAT in this sentence").
-10. Close on the two lines, nothing after.
+**Post-production boards:** none withheld. The current boards have no human faces; the meaning map's animals do not require a faceless upload variant. Upload the canonical boards, including the close. Generated scenes follow the no-photos rule; the existing canonical illustration stays intact.
 
-**Required verbatim lines** (8)
-- "Just as latitude and longitude give a city a position, a drink's seven ratings give it a position in a space with seven dimensions. That's vector space."
-- "When nothing matches exactly, distance finds the closest one."
-- "Coke and Pepsi have more similar profiles than either does to coffee."
-- "The mystery drink's ratings are closest to Pepsi's."
-- "Smaller gaps mean closer positions."
-- "IT's new position reflects its connection to CAT in this sentence."
-- "Meaning is a position in vector space."
-- "Similar meanings usually sit close together."
+**Lesson arc:** numbers need not match a token's starting numbers to carry meaning; city positions demonstrate this, drink ratings extend it to more dimensions, and IT/CAT applies changing positions to context.
 
-Each stands alone on its own line in the Markdown. Banners 1 and 4 ("Latitude and longitude give each city a position"; "Similar scores place Coke and Pepsi close together in the soft drinks neighborhood") are in the Markdown as stand-alone sentences but left off the verbatim list to keep it at eight.
+**Beat spine**
 
-**Guardrails carried from the old prompt or reviews**
-- Speak the answers (the old prompt was the course's reference for this): both closest-city answers and the Pepsi answer are stated as sentences immediately after each question in the Markdown, and the prompt names them.
-- Read the values a comparison depends on, not every table cell; the prompt says "reading the values the comparison depends on."
-- Preserve the analogy/mechanism distinction: the map pictures the change; do not say the model looks up the nearest word on a map (the old Markdown carried this as a narrated disclaimer; it is now a prompt negative only).
-- Keep "usually" on similar meanings sitting together (page wording; the prompt says "similar meanings usually nearby").
-- No invented numbers, formula, extra cities/drinks/dimensions, or a real model's dimension count.
-- Do not narrate the Rock, Paper, Patterns game (`Game2048TryIt`).
-- Coke and Pepsi are real brands: the prompt bans real logos or brand marks.
-- REVIEW.md (2026-09-17) was a visual-only retrofit and recorded no teaching pitfalls; the 2026-09-10 roll's narration was kept as-is, which is why the reroll is the first roll on this recipe.
+1. Establish embeddings and layers changing their numbers for context. Speak the complete opening question and answer from David's screenshot, verbatim, before moving to the city example. Do not replace it with a question about preserving the original meaning.
+2. Three cities share two dimensions, latitude and longitude. Give their coordinates accurately, particularly Mountain View at 37 N, 122 W.
+3. Two new positions: 38 N, 120 W is closest to Mountain View; 40 N, 76 W is closest to New York City. Explain the dotted connections. Explicitly return to the opening idea: the coordinates do not match a city, but their position still tells us which city is near.
+4. Move from places to meaning: seven drink ratings, each row a vector. Compare Coke/Pepsi with coffee; do not read table rows digit by digit. State the city-to-drink definition and then explain the similarity map's neighborhoods, values, and short/long dotted distances.
+5. Give the mystery drink's ratings and Pepsi answer. Work the comparison: first six scores match Pepsi; Citrus 9 against 10 is a gap of 1, against Coke's 1 a gap of 8. Generalize to comparing matching positions across vectors.
+6. Scale to thousands of dimensions with values learned during training; similar meanings usually occupy nearby positions.
+7. Read the CAT/IT sentence. Explain IT's ambiguity, the layers updating its numbers and position, and its contextual connection to CAT. Walk the starting numbers, update path, and ending numbers on the map. Connect this example back to the opening rather than presenting a detached final fact.
+8. End with the two current closing lines, in order, with nothing after.
 
-**Markdown versus page**
-- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all six board titles added; Board 2 city coordinates, Board 3 and 5 headers and score rows, the mystery-drink label and the Pet bowl label spoken. Removed the Board 3 column comparison and the Board 6 mat/rainstorm sentence (not on the board or page).
-- Kept beyond the page: (a) explicit column comparison under Board 3 ("Coke and Pepsi match on the first six dimensions and differ only on Citrus, where Coke scores 1 and Pepsi scores 10. Coffee's ratings differ from both on every one of the seven") so the banner is earned in narration rather than asserted; (b) one sentence under Board 6 noting the mat and the rainstorm are also in the sentence, so IT might have pointed to either, which is why the map has objects and weather neighborhoods; (c) a short-vs-long dotted-line sentence under Board 4 describing what the board draws.
-- Dropped from the old Markdown: the Scene/Takeaway labels and Markdown tables (recipe); the narrated disclaimer "It does not mean the model identifies a word's meaning by looking up the nearest original token embedding" (moved to the prompt as a negative); the duplicated closest-city and Pepsi paragraphs the old file carried twice.
-- Page sentence changed for the ear only: "Let's see how this works in vector space:" ends with a period; the bulleted coordinates and mystery ratings became sentences with degree words spelled "north"/"west" as the page's own prose does for Dallas.
-- Nothing on the page looked wrong.
+**Required verbatim passages**
 
-**Open questions**
-- Resolved 2026-09-21 (David): the narration follows the page and does not name a blank card; the Layers cliffhanger is retired, so no page edit is needed.
+The canonical list is in `Prompts/vector-space-video-prompt.txt`. It includes all six sentences from the screenshot, the closest-city callback, the city-to-drink definition, the existing required takeaway lines, and both closing lines. Each quoted passage occupies its own line in the Markdown. Evaluate these requirements on the new roll; the older live video's accepted omissions do not set the target for this reroll.
+
+**Markdown preparation**
+
+- Preserve the current page's teaching and wording. The opening's bold styling was removed and its sentences separated so every required line stands alone; no teaching was rewritten.
+- Separate the city question, closest-city callback, city-to-drink bridge, and mystery-drink introduction from the preceding board's Teaching content using prose headings. These are transitions, not extra board narration.
+- Preserve all six boards, map values, worked answers, the agreed comparison instead of a digit-by-digit table read, and both closing lines.
+- Do not add a new overview board or flowchart. This lesson's examples supply the progression.
+
+**Generation guardrails**
+
+- Teach the opening answer immediately; do not postpone it until after the city example. Preserve the explanatory transitions.
+- The maps illustrate relationships. Do not describe nearest-word lookup or literal physical movement.
+- Speak IT and CAT as words, not spelled letters. Use plain source language, without “numerically quantify,” “semantic,” “coreference,” or “algorithm.”
+- No invented charts, vectors, similarity scores, exact dimension/layer counts, placeholder text, logos, or URLs. No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed.
+- Do not narrate the on-page 2048 game or production labels. Do not ask the viewer to pause or guess. No title card, preview, or extra ending.
+- Board pictures accompany board teaching; drawings accompany the prose between them. Preserve useful drawn transitions for the edit, rather than planning to extend boards over every transition.
 
 ## How AI Answers
 
@@ -711,59 +714,39 @@ Open questions
 
 ## One More Thing
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe (Fake Trap template). Live video: `one-more-thing.mp4` v5, shipped 2026-09-18 as a visual-only retrofit of the old-method roll; reroll pending David’s approval of the beat spine below.
+Reroll materials updated 2026-09-28 after David’s v12 review. Live video remains `one-more-thing.mp4?v=20260923ship3`; v12 is a visual-repair review candidate, not the new narration. The new closing copy and canonical closing JPG are updated locally. No video published.
 
-- Prompt: `Prompts/one-more-thing-video-prompt.txt` (497 words)
-- Markdown: `lessons/one-more-thing.md`
-- Notebook sources:
-  1. `course-assets/one-more-thing/one-more-thing-draws.jpg`
-  2. `course-assets/one-more-thing/one-more-thing-temperature.jpg`
-  3. `course-assets/one-more-thing/one-more-thing-bill.jpg`
-  4. `course-assets/one-more-thing/one-more-thing-close.jpg`
-- Post-production boards: none. All three teaching boards were screened; each is typography, bars, dots and squares only, with no faces or photo-realistic people, so the canonical files upload as-is and no faceless variants were made.
+- Prompt: `Prompts/one-more-thing-video-prompt.txt` (464 words).
+- Narration source: `lessons/one-more-thing.md`.
+- Ready-to-upload folder: `gemini-notebook/one-more-thing/upload/` (Markdown and four JPGs).
+- Paste `gemini-notebook/one-more-thing/PROMPT.txt` into customization; do not upload it as a source.
+- Canonical uploads: `one-more-thing-draws.jpg`, `one-more-thing-temperature.jpg`, `one-more-thing-bill.jpg`, `one-more-thing-close.jpg`, all from `course-assets/one-more-thing/`.
+- No face variants or post-only boards. All three teaching boards remain unchanged.
+- Save as `Prompts/one-more-thing-reroll.mp4`, or the next unused numbered filename.
 
-### Beat spine
+### Lesson arc and scene directions
 
-1. Open on the three questions: why the same prompt can give a different answer, what makes answers more predictable or more varied, how much math one answer takes. No title card.
-2. Dog-name example: AI calculates a probability for every token; Spot leads at 22%; the top choice is not guaranteed; 22% means about 22 picks in 100 tries, on average, if the odds stay the same.
-3. Board 1: all six probabilities (Spot 22, Max 17, Buddy 14, Rex 9, Biscuit 6, other 32), the five separate tries in order (Max, Spot, Buddy, Rex, Max), Spot came up once; separate selections at the same point, not five tokens in one reply; one possible set, not a required pattern. Banner: “The best chance is not a guarantee.”
-4. Two important points: always picking the top token can make answers repetitive; one different token can send the answer in a new direction.
-5. Temperature defined in the page’s words (the app reshapes the probabilities before AI picks a token); low makes likely choices more likely, high gives less likely choices a better chance.
-6. Board 2 column by column with every number: starting odds, low temperature (Spot 36, Max 21, Buddy 15, Rex 6, Biscuit 3, other 19), high temperature (Spot 16, Max 14, Buddy 13, Rex 10, Biscuit 8, other 39). Spot 22 to 36 to 16; each column adds to 100; Spot stays the single most likely name. Banner: “Temperature reshapes the probabilities. It does not change what the model learned.”
-7. Weights: training created them; they stay fixed in use; each new token uses them in a massive set of calculations. The imagined trillion-weight model at two calculations per weight gives about two trillion per token.
-8. Board 3 with the multiplication: one token about 2 trillion; 100 tokens about 200 trillion; 1,000 tokens about 2 quadrillion. Counts cover tokens AI writes; estimates for an imagined model, not measurements. Banner: “Even a short answer takes trillions of calculations.”
-9. Close on the two lines, nothing after.
+The same dog-name example connects three questions: why unchanged odds can produce different choices, how temperature changes those odds, and how much calculation each token requires.
 
-### Required verbatim lines
+1. Start immediately with the three questions. Give each its own relevant visual: changing answer paths → contrasting odds → calculation scale. This visual preview accompanies the existing questions; no extra preview speech or title card. Introduce the dog only when the narration reaches the example. Avoid the previous opening’s consecutive dog holds.
+2. Establish the open token in “You could name him…” and Spot leading at 22%. Explain about 22 selections out of 100, on average, if the odds stay the same. Use a consistent unfinished sentence throughout; avoid the old generated “The dog was Max…” paths.
+3. **Same Probabilities, Different Choices:** retain the unchanged odds and the five picks in order, Max, Spot, Buddy, Rex, Max. They are separate selections at the same open token, one possible set, not five tokens in one reply. Spot appears once despite the highest probability. Another set could differ. No recital of all six percentages: the printed table stays available for reference.
+4. Leave the board for the two connected ideas: other likely choices add variety, and one changed token changes what follows. The Markdown gives this prose its own section so it can receive drawn scenes.
+5. Bridge explicitly: “So what changes how predictable those choices are?” Immediately answer with the temperature definition. Return visually to the same starting odds, then compare how they change.
+6. **How Temperature Changes the Odds:** explain low versus high using Spot’s 22% starting chance, 36% at low and 16% at high. Explain what happens to less likely choices. Do not recite every cell or tell viewers to adjust a slider. Preserve the distinction between reshaping probabilities and changing what the model learned.
+7. Bridge: “Every choice starts with calculations. Now count what an answer takes.” Training created the weights; they stay fixed during use. Draw the imagined trillion-weight model and the roughly two-calculations-per-weight explanation.
+8. **The Math Adds Up Fast:** walk through one token ≈ 2 trillion calculations, 100 generated tokens ≈ 200 trillion, and 1,000 generated tokens ≈ 2 quadrillion. Keep the generated-token scope and imagined-model qualification. Use relevant drawn scenes at conceptual transitions; do not force continuous board holds.
+9. End with “Math and probability, one token at a time.” Then “Every time you hit send.” Nothing after. The close now ties together choices, temperature and calculations.
 
-1. “A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same.”
-2. “The best chance is not a guarantee.”
-3. “Behind the scenes, the app uses a setting called temperature to reshape the probabilities before AI picks a token.”
-4. “Temperature reshapes the probabilities. It does not change what the model learned.”
-5. “When you use AI, those weights stay fixed.”
-6. “Even a short answer takes trillions of calculations.”
-7. “Not a mind. Math, at a scale nobody can picture.”
-8. “Every time you hit send.”
+### Required verbatim audio
 
-All eight stand alone on their own line in the Markdown (the 22% sentence, the temperature definition, and the weights line were split out of their page paragraphs).
+The prompt contains twelve required passages, each standing alone in the Markdown: the 22%-over-100 explanation; Spot picked once / another five could differ; best chance is not a guarantee; the temperature connecting question; temperature’s definition; the named apps handling it behind the scenes; temperature’s learning distinction; the bridge to calculations; weights stay fixed; even a short answer takes trillions; and both new closing lines.
 
-### Guardrails carried from the old prompt or reviews
+### Source decisions and review priorities
 
-- Keep the page’s distinction between the imagined trillion-weight model and real mechanisms: the prompt says to present it as imagined and bans naming real models, weight counts, hardware or costs (old prompt: “preserve distinctions between examples, analogies, estimates, and actual mechanisms”).
-- Do not invent numbers: every figure the narration may speak is written as a sentence in the Markdown, and the prompt says “add no other numbers” (old prompt: “do not invent numerical values”).
-- Five tries are separate selections at the same point, not one reply that lists five names and not a reroll the user sees (old Markdown note, kept).
-- The 2026-09-18 REVIEW.md is a visual-only retrofit record (ring states, close swap) and carries no narration verdicts; nothing further to carry.
-- Recipe-level: no on-page activity narration (the “How Big Is 2 Quadrillion?” TRY IT with burgers, coins, Coke and horses is excluded), no URLs (the boards’ besmarterthanthetool.com credit is not spoken), close lines last with nothing after.
-
-### Markdown versus page
-
-- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all three board titles, try numbers, the Name header and the trillion-weights caption added. Removed "separate selections / not five tokens" (now a prompt negative) and "each column adds up to 100%" (not printed anywhere); "more evenly" dropped.
-- Kept beyond the page (clarifies the board): “These are five separate selections at the same point in the answer, not five tokens in a row in one reply. They show one possible set of outcomes, not a required pattern.” (Board 1 says “One possible set”.) Also “Each column adds up to 100%” for Board 2 (verified: all three columns sum to 100).
-- Added as spoken answers derived from the boards: “Spot, the top choice, came up once in five tries”; “Spot’s chance goes from 22% to 36%”; “Temperature changes how far ahead the top choice is” (the Spot-stays-most-likely clause was cut on David’s call); the two multiplications on Board 3 (100 × 2 trillion, 1,000 × 2 trillion); “estimates for an imagined model, not measurements of a real one.”
-- Dropped from the old Markdown: “They do not assume that all earlier work is repeated for every new token.” It is not on the page, and spoken aloud it raises a mechanism the lesson never explains. The prompt instead bans extra numbers and real-model claims.
-- Dropped old tables and Takeaway labels; banner lines carried as plain sentences.
-- Page check: the three boards and prose agree with each other; no errors found. Minor: the page shows the close board before the TRY IT, so the video’s close matches the page’s teaching end.
-
-### Open questions
-
-- Resolved 2026-09-21 (David): the derived line “Spot stays the single most likely name in every column” is cut from the Markdown; the column now ends “Temperature changes how far ahead the top choice is.”
+- David approved reducing numerical recitation on 2026-09-28. This lesson’s narration source intentionally does not transcribe every probability-table cell. Preserve the unchanged-odds relationship, five outcomes and low/high contrast. The source JPGs retain all numbers.
+- The temperature and math bridges are video narration additions grounded in the existing lesson. Page prose remains unchanged; the approved closing message is updated in the page, Markdown and closing JPG.
+- Review the generated opening for three meaningful visual beats, not two dog views. Review whether the temperature question receives an immediate answer and a visual connection to the same example.
+- Board timings and outline onsets must be measured against the new roll. Use current Edit Spec: full-board introductions, fixed 4px outlines, purposeful drawing breaks. Do not inherit v12 timing. Highlight the five picks as spoken where it helps follow the sequence; a percentage recital is not requested.
+- Keep numbers hypothetical; no real model sizes, hardware or cost claims. No on-page “How Big Is 2 Quadrillion?” activity narration. Do not add technical labels such as sampling, softmax, parameters or FLOPs.
+- Older One More Thing raw rolls were not found locally during the review. The live file contains reusable branching and calculation scenes, but the reroll should supply a coherent new opening and transitions.

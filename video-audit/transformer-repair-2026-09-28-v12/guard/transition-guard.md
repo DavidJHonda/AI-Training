@@ -1,0 +1,53 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/transformer-v12.mp4`
+- Decoded frames: 7046
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f707 `retained-or-reread-splice` — [`boundary-000707-retained-or-reread-splice.jpg`](boundary-000707-retained-or-reread-splice.jpg)
+- FAIL — f1171 `retained-or-reread-splice` — [`boundary-001171-retained-or-reread-splice.jpg`](boundary-001171-retained-or-reread-splice.jpg)
+  - Possible stale visual: f1159 to f1160 (1 frames)
+  - Possible stale visual: f1160 to f1161 (1 frames)
+  - Possible stale visual: f1161 to f1162 (1 frames)
+  - Possible stale visual: f1162 to f1163 (1 frames)
+  - Possible stale visual: f1163 to f1164 (1 frames)
+  - Possible stale visual: f1164 to f1165 (1 frames)
+  - Possible stale visual: f1165 to f1166 (1 frames)
+  - Possible stale visual: f1166 to f1167 (1 frames)
+  - Possible stale visual: f1167 to f1171 (4 frames)
+- PASS — f1286 `retained-or-reread-splice` — [`boundary-001286-retained-or-reread-splice.jpg`](boundary-001286-retained-or-reread-splice.jpg)
+- PASS — f1431 `retained-or-reread-splice` — [`boundary-001431-retained-or-reread-splice.jpg`](boundary-001431-retained-or-reread-splice.jpg)
+- PASS — f1470 `retained-or-reread-splice` — [`boundary-001470-retained-or-reread-splice.jpg`](boundary-001470-retained-or-reread-splice.jpg)
+- PASS — f1649 `retained-or-reread-splice` — [`boundary-001649-retained-or-reread-splice.jpg`](boundary-001649-retained-or-reread-splice.jpg)
+- PASS — f1887 `retained-or-reread-splice` — [`boundary-001887-retained-or-reread-splice.jpg`](boundary-001887-retained-or-reread-splice.jpg)
+- PASS — f2498 `retained-or-reread-splice` — [`boundary-002498-retained-or-reread-splice.jpg`](boundary-002498-retained-or-reread-splice.jpg)
+- PASS — f2802 `retained-or-reread-splice` — [`boundary-002802-retained-or-reread-splice.jpg`](boundary-002802-retained-or-reread-splice.jpg)
+- PASS — f3117 `retained-or-reread-splice` — [`boundary-003117-retained-or-reread-splice.jpg`](boundary-003117-retained-or-reread-splice.jpg)
+- PASS — f3396 `retained-or-reread-splice` — [`boundary-003396-retained-or-reread-splice.jpg`](boundary-003396-retained-or-reread-splice.jpg)
+- PASS — f4044 `retained-or-reread-splice` — [`boundary-004044-retained-or-reread-splice.jpg`](boundary-004044-retained-or-reread-splice.jpg)
+- PASS — f4254 `retained-or-reread-splice` — [`boundary-004254-retained-or-reread-splice.jpg`](boundary-004254-retained-or-reread-splice.jpg)
+- PASS — f4403 `retained-or-reread-splice` — [`boundary-004403-retained-or-reread-splice.jpg`](boundary-004403-retained-or-reread-splice.jpg)
+- PASS — f4435 `retained-or-reread-splice` — [`boundary-004435-retained-or-reread-splice.jpg`](boundary-004435-retained-or-reread-splice.jpg)
+- FAIL — f4473 `retained-or-reread-splice` — [`boundary-004473-retained-or-reread-splice.jpg`](boundary-004473-retained-or-reread-splice.jpg)
+  - Possible stale visual: f4475 to f4476 (1 frames)
+  - Possible stale visual: f4476 to f4477 (1 frames)
+  - Possible stale visual: f4477 to f4478 (1 frames)
+  - Possible stale visual: f4478 to f4479 (1 frames)
+  - Possible stale visual: f4479 to f4480 (1 frames)
+  - Possible stale visual: f4480 to f4481 (1 frames)
+- PASS — f4571 `retained-or-reread-splice` — [`boundary-004571-retained-or-reread-splice.jpg`](boundary-004571-retained-or-reread-splice.jpg)
+- PASS — f4631 `retained-or-reread-splice` — [`boundary-004631-retained-or-reread-splice.jpg`](boundary-004631-retained-or-reread-splice.jpg)
+- PASS — f4766 `retained-or-reread-splice` — [`boundary-004766-retained-or-reread-splice.jpg`](boundary-004766-retained-or-reread-splice.jpg)
+- PASS — f4840 `retained-or-reread-splice` — [`boundary-004840-retained-or-reread-splice.jpg`](boundary-004840-retained-or-reread-splice.jpg)
+- PASS — f4939 `retained-or-reread-splice` — [`boundary-004939-retained-or-reread-splice.jpg`](boundary-004939-retained-or-reread-splice.jpg)
+- PASS — f4978 `retained-or-reread-splice` — [`boundary-004978-retained-or-reread-splice.jpg`](boundary-004978-retained-or-reread-splice.jpg)
+- PASS — f5013 `retained-or-reread-splice` — [`boundary-005013-retained-or-reread-splice.jpg`](boundary-005013-retained-or-reread-splice.jpg)
+- PASS — f5266 `retained-or-reread-splice` — [`boundary-005266-retained-or-reread-splice.jpg`](boundary-005266-retained-or-reread-splice.jpg)
+- PASS — f5456 `retained-or-reread-splice` — [`boundary-005456-retained-or-reread-splice.jpg`](boundary-005456-retained-or-reread-splice.jpg)
+- PASS — f6039 `retained-or-reread-splice` — [`boundary-006039-retained-or-reread-splice.jpg`](boundary-006039-retained-or-reread-splice.jpg)
+- PASS — f6746 `retained-or-reread-splice` — [`boundary-006746-retained-or-reread-splice.jpg`](boundary-006746-retained-or-reread-splice.jpg)
+- PASS — f6926 `retained-or-reread-splice` — [`boundary-006926-retained-or-reread-splice.jpg`](boundary-006926-retained-or-reread-splice.jpg)

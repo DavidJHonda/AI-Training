@@ -57,7 +57,7 @@ Open with a situation, question, observation, or small problem that makes the id
 Examples from the course:
 
 - **What Is AI?** asks a desk for history-project ideas. Its silence gives the explanation somewhere concrete to begin.
-- **Beyond the Average** takes seriously the question of whether school still matters when AI can produce answers.
+- **Beyond the New Average** takes seriously the question of whether school still matters when AI can produce answers.
 - **Embeddings** starts with a student ID: a number identifies a student but tells you little about them.
 - **Document Trap** uses a basketball rulebook whose tournament exception changes the answer.
 - **Curious & Flexible** begins with a basketball play that worked until another team learned to stop it.

@@ -1,6 +1,6 @@
 ## START SMARTER
 
-# Beyond the Average
+# Beyond the New Average
 
 A lot of people your age are quietly asking the same thing. If AI can answer anything, do you even need school anymore? Why sit through years of classes when the tool spits out the answer in seconds?
 
@@ -12,9 +12,9 @@ Here’s the catch: ask AI similar questions, and you often get similar answers.
 
 ### Board 1: Same Tool. Different Advantage.
 
-**Image file:** `beyond-the-average-same-tool.jpg`
+**Image file:** `beyond-the-new-average-same-tool.jpg`
 
-![Same Tool. Different Advantage.](beyond-the-average-same-tool.jpg)
+![Same Tool. Different Advantage.](beyond-the-new-average-same-tool.jpg)
 
 **Teaching content:**
 
@@ -30,9 +30,9 @@ School is where you get to build what you bring to the work. Learn how things wo
 
 ### Board 2: What to Start Building Today
 
-**Image file:** `beyond-the-average-future.jpg`
+**Image file:** `beyond-the-new-average-future.jpg`
 
-![What to Start Building Today](beyond-the-average-future.jpg)
+![What to Start Building Today](beyond-the-new-average-future.jpg)
 
 **Teaching content:**
 
@@ -48,9 +48,9 @@ School helps you build what takes you beyond the new average.
 
 ### Close
 
-**Image file:** `beyond-the-average-close.jpg`
+**Image file:** `beyond-the-new-average-close.jpg`
 
-![Close board](beyond-the-average-close.jpg)
+![Close board](beyond-the-new-average-close.jpg)
 
 ## Closing Message
 

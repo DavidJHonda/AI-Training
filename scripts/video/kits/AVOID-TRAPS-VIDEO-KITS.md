@@ -8,7 +8,7 @@ below describe historical work and do not authorize reuse.
 
 Initially prepared against the lesson pages on 2026-09-04; individual kits are updated as reviewed. Each has one canonical Markdown, one prompt under 500 words, and the current JPG sources. The seven trap lessons and Hallucination were rebuilt to the 2026-09-10 materials spec on 2026-09-18; each has an upload checklist. Follow each lesson's current checklist rather than the original batch counts. Numbering follows teaching order; gaps in the upload list are intentional.
 
-**Current prep status (2026-09-29):** only Document Trap and Fake Trap retain current-method prompts and registered bundles. The other seven lesson prompts used the older preparation system and have been removed. Their next generation requires fresh prep from the current page under `scripts/video/PREPARATION.md`.
+**Current prep status (2026-09-29):** use `gemini-notebook/upload-sets.json` for the active kit list. Support Trap now has a rebuilt full-video reroll kit. Retired entries still require fresh prep from the current page under `scripts/video/PREPARATION.md`; historical lists below do not override the registry.
 
 The source lists and reserved-narration directions below document previous productions. They are not current upload instructions. Preserve useful review and editing history, but do not recreate a legacy prompt from these notes. Current bundles come only from `gemini-notebook/upload-sets.json`.
 
@@ -144,17 +144,20 @@ Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the na
 
 ## Support Trap
 
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the lunch comparison's narration reserved for post-production; the activity’s three-way distinction is included before the serious story).
+**Full-video reroll prep rebuilt 2026-09-29.** David requested a complete new generation, then selection of its narration for the edit. The current v4 remains live (`20260921ship28`, 4:23.667). This is a current-method kit, not the retired 2026-09-18 setup. See `gemini-notebook/support-trap/PREP-NOTES.md` for the lesson arc, protected lines, source provenance, and editing handoff.
 
-- Prompt: **retired; fresh prep required**
+Both role-board sentences are now required verbatim: all three benefits including organizing thoughts, and all four limitations. The three jobs are Ordinary Venting, Preparation, Danger; the prompt explicitly rejects the live graphic’s Task Execution / System Collaboration / Multi-Agent Workflow labels. The warning, attributed story, distinct safety-number instructions, and closing lines remain protected. The full source includes the page activity’s plan-then-start example as teaching, without quiz instructions.
+
+- Prompt: `gemini-notebook/support-trap/PROMPT.txt`
 - Markdown: `lessons/support-trap.md`
-- Upload checklist: **retired; fresh prep required**
-- Notebook sources:
-  1. `course-assets/support-trap/support-trap-role.jpg`
-  2. `course-assets/support-trap/support-trap-danger.jpg`
-  3. `course-assets/support-trap/support-trap-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/support-trap/support-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
+- Generated upload checklist: `gemini-notebook/support-trap/README.txt`
+- Upload the Markdown plus four boards in order:
+  1. `gemini-notebook/support-trap/assets/support-trap-comparison-faceless.jpg`
+  2. `course-assets/support-trap/support-trap-role.jpg`
+  3. `gemini-notebook/support-trap/assets/support-trap-danger-faceless.jpg`
+  4. `course-assets/support-trap/support-trap-close.jpg`
+- Post-only: canonical `support-trap-comparison.jpg` and `support-trap-danger.jpg` replace their text-only upload variants in the edit. No canonical assets were changed.
+- Save the complete roll as the next unused `Prompts/support-trap-reroll.mp4` / `support-trap-reroll-N.mp4` name. Compare the complete narration against v4 before selecting passages; a full reroll is not automatic approval to replace the finished video.
 
 ## Fake Trap
 

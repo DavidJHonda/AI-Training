@@ -1,0 +1,106 @@
+function InferenceSection(props) {
+  var _ba = useState({}), bigAnswers = _ba[0], setBigAnswers = _ba[1];
+  var BIG_TASKS = [
+    { task: "2 quadrillion In-N-Out double cheeseburgers stacked on top of each other, without their wrappers. How tall is the stack?", options: ["About 3 feet", "Past Pluto, twenty times over"], answer: "Past Pluto, twenty times over",
+      right: "A double cheeseburger is about two and a half inches tall. Two quadrillion of them stack to roughly 80 billion miles. Pluto sits about 3.7 billion miles away, so the stack blows past it twenty times over.",
+      wrong: "For two quadrillion burgers to stack just 3 feet, each burger would have to be thinner than a proton. The real stack runs about 80 billion miles: past Pluto, twenty times over." },
+    { task: "2 quadrillion coins stacked on top of each other, every one showing heads. How far do they reach?", options: ["To your school", "To the Sun and back, ten times"], answer: "To the Sun and back, ten times",
+      right: "A coin is about a millimeter and a half thick. Two quadrillion of them reach roughly 1.9 billion miles: about ten round trips between Earth and the Sun.",
+      wrong: "Seriously? We don’t know where you live, or where your school is. But unless your school is 1.9 billion miles away, it’s not this one. The stack reaches the Sun and back about ten times." },
+    { task: "You empty 2 quadrillion cans of Coke. How much liquid is that?", options: ["Enough to keep you up late", "Enough to fill Lake Erie, one and a half times"], answer: "Enough to fill Lake Erie, one and a half times",
+      right: "At 12 ounces a can, that’s enough Coke to fill Lake Erie about one and a half times. A whole Great Lake of Coke, plus a refill.",
+      wrong: "Technically correct: it would keep you up late. For the rest of your life. It’s also enough to fill Lake Erie about one and a half times." },
+    { task: "If you live to be 100 years old, how many Cokes would you need to drink each day to reach 2 quadrillion in your lifetime?", options: ["I don’t like Coke", "About 55 billion a day"], answer: "About 55 billion a day",
+      right: "That’s 55 billion cans a day, every day, for a hundred years: about 634,000 cans every second of your life. Bring friends.",
+      wrong: "Fair, and technically that does get you out of it. We’re marking it wrong anyway. The answer is about 55 billion cans a day, which works out to 634,000 cans every second, for a hundred years." },
+    { task: "The weight of 2 quadrillion horses that ran past the barn and fell.", options: ["Roughly 500 times all life on Earth", "Lots, and who cares?"], answer: "Lots, and who cares?",
+      right: "Correct. Though the other answer is technically true. How do we know this? AI told us. We hope it didn’t hallucinate.",
+      wrong: "True, actually: two quadrillion horses do weigh about 500 times all life on Earth. But the answer we were looking for is: lots, and who cares. (Also: why did they fall?)" }
+  ];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "One more thing. Actually, three."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Why can the same prompt produce a different answer? What makes AI’s answers more predictable or more varied? And how much math does one answer require?"),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The Top Choice Doesn’t Always Win"),
+  /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time."),
+  /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "course-assets/one-more-thing/one-more-thing-draws.jpg?v=20260923randompicks1",
+    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, one possible set is Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently. The best chance is not a guarantee.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+    /*#__PURE__*/React.createElement("h3", null, "Same Probabilities, Different Choices"),
+    /*#__PURE__*/React.createElement("p", null, "You could name him ___."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The probabilities: "), "Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. These probabilities stay unchanged across all five picks."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five Random Picks: "), "Max, Spot, Buddy, Rex, Max. One possible set. Spot was picked only once, even with the highest probability. Another five picks could turn out differently."),
+    /*#__PURE__*/React.createElement("p", null, "The best chance is not a guarantee.")),
+  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 10 }, /*#__PURE__*/React.createElement("strong", null, "Two important points:")),
+  /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
+    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } }, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety."),
+    /*#__PURE__*/React.createElement("li", null, "Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
+  /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Temperature"), " reshapes the probabilities before AI picks each token. In ChatGPT, Claude, and Gemini, it’s handled for you behind the scenes."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Low temperature favors the most likely choices. High temperature gives less likely choices a better chance."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Watch how the same starting probabilities change with temperature."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "course-assets/one-more-thing/one-more-thing-temperature.jpg?v=20260914attribution1",
+      alt: "How Temperature Changes the Odds. For the unfinished sentence You could name him followed by a question-mark box, the starting probabilities are Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Low temperature concentrates the odds on Spot. High temperature gives less likely choices a better chance. Temperature reshapes the probabilities. It does not change what the model learned.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
+      /*#__PURE__*/React.createElement("p", null, "For the unfinished sentence “You could name him ___,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Takeaway: "), "Temperature reshapes the probabilities. It does not change what the model learned.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "The scale of the math"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction. When you use AI, those weights stay fixed. For each new token, AI uses those weights in a massive set of calculations."),
+  /*#__PURE__*/React.createElement(BodyP, null, "To picture the scale, imagine a model that uses one trillion weights for each token it produces. At roughly two calculations per weight, that would mean about two trillion calculations for one token."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "course-assets/one-more-thing/one-more-thing-bill.jpg?v=20260915titlebanner1",
+    alt: "The Math Adds Up Fast. Under a rough estimate, one token requires about 2 trillion calculations, a short answer about 200 trillion, and a longer conversation about 2 quadrillion. Even a short answer takes trillions of calculations.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+    /*#__PURE__*/React.createElement("h3", null, "The Math Adds Up Fast"),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "One token: "), "One trip through our example model’s trillion weights. About 2 trillion calculations."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A short answer: "), "About 100 tokens written by AI. About 200 trillion calculations."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A longer conversation: "), "About 1,000 tokens written by AI across the conversation. About 2 quadrillion calculations."),
+    /*#__PURE__*/React.createElement("p", null, "Even a short answer takes trillions of calculations.")),
+  closeBoard("inference"),
+  /*#__PURE__*/React.createElement(InteractiveBox, {
+    variant: "try",
+    surface: "mint",
+    title: "How Big Is 2 Quadrillion?",
+    lead: "In our example, writing 1,000 tokens takes about 2 quadrillion calculations. That number is almost impossible to picture. These comparisons make it a little less impossible.",
+    instructions: [
+      "Read each comparison.",
+      "Choose the estimate you think is closest."
+    ]
+  },
+    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
+      BIG_TASKS.map(function(c, i) {
+        var answered = bigAnswers[i] !== undefined;
+        var picked = bigAnswers[i];
+        var correct = picked === c.answer;
+        return /*#__PURE__*/React.createElement(ScenarioRow, {
+          key: i,
+          index: i + 1,
+          prompt: c.task,
+          answered: answered,
+          correct: correct,
+          feedback: answered ? (correct ? c.right : c.wrong) : null
+        }, c.options.map(function(w) {
+          return /*#__PURE__*/React.createElement(FeedbackPill, {
+            key: w,
+            answered: answered,
+            isCorrect: w === c.answer,
+            isPicked: picked === w,
+            label: w,
+            onClick: function() { setBigAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
+          });
+        }));
+      })
+    )),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
+}
+

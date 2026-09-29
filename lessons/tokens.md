@@ -34,7 +34,11 @@ But that breaks down fast. People keep inventing words, names, and slang. They a
 
 Instead of giving every word its own number, AI uses reusable pieces of text called tokens.
 
-Think of them as building blocks for language. A token can be a whole word or just part of one. The full collection of tokens is called the model’s vocabulary. The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, un can be reused in unbelievable and unusual.
+Think of them as building blocks for language.
+
+A token can be a whole word or just part of one.
+
+The full collection of tokens is called the model’s vocabulary. The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, un can be reused in unbelievable and unusual.
 
 ### Board 2: Building Blocks for Language
 
@@ -54,7 +58,9 @@ Reuse the pieces. Build more words.
 
 ## Where the Pieces Come From
 
-When setting up AI, engineers choose how text will be split into tokens and how large the vocabulary will be. A program analyzes a large collection of text to build that vocabulary. Each token gets a number, its token ID. Think of it as an address in the vocabulary: it identifies the token, but says nothing about what it means. The model uses those same tokens and IDs during training and when you chat.
+When setting up AI, engineers choose how text will be split into tokens and how large the vocabulary will be. A program analyzes a large collection of text to build that vocabulary. Each token gets a number, its token ID. Think of it as an address in the vocabulary: it identifies the token, but says nothing about what it means.
+
+The model uses those same tokens and IDs during training and when you chat.
 
 These vocabularies can be large: ChatGPT’s holds about 200,000 tokens and Gemini’s about 256,000. Anthropic hasn’t published Claude’s.
 
@@ -110,23 +116,11 @@ Here is how AI splits text into tokens.
 
 These examples use the cl100k_base tokenizer. The numbers below the chunks on the board are token IDs.
 
-Example one: unbelievable becomes un, belie, and vable. That is three tokens: one word, three chunks.
-
 Example two: basketball becomes basket and ball. That is two tokens.
-
-Example three: ChatGPT becomes Chat, G, and PT. That is three tokens. This name splits into three chunks.
 
 Example four: I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space.
 
-Example five: the web address shown on the board becomes https, then the colon and two slashes, then www, .quick, book, str, aining, and .com. That is eight tokens. Even a web address breaks into chunks.
-
-| Text | Tokens, in order | Token IDs, in the same order | Count |
-| --- | --- | --- | --- |
-| unbelievable | un · belie · vable | 359 · 32898 · 24694 | 3 |
-| basketball | basket · ball | 60864 · 4047 | 2 |
-| ChatGPT | Chat · G · PT | 16047 · 38 · 2898 | 3 |
-| I ♥ AI | I · SP ♥ · SP AI | 40 · 68679 · 15592 | 3 |
-| the web address on the board | https · :// · www · .quick · book · str · aining · .com | 2485 · 1129 · 2185 · 92074 · 2239 · 496 · 2101 · 916 | 8 |
+Example five: the web address shown on the board breaks into eight tokens. Even a web address breaks into chunks.
 
 ## How the Answer Becomes Words Again
 

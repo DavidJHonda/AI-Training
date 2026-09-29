@@ -36,24 +36,12 @@ running speech punches a hole (a 30 dB one, in that build).
 | Mind Trap | v3 shipped 2026-09-21 (`20260921ship4`, 4 min) | 2026-09-18 | Done |
 | Flattery Trap | v6 shipped 2026-09-21 (`20260921ship5`, 5 min) | 2026-09-18 | Done |
 | Engagement Trap | v10 shipped 2026-09-21 (`20260921ship22`, 4 min) — roll 4 spine, five grafts from the live video, roll 2 and roll 1 | 2026-09-18 | Done |
-| Support Trap | v4 shipped 2026-09-21 (`20260921ship28`, 4 min) — roll 1 spine, three grafts and an added pause | 2026-09-18 | **Board 2 still thin — reroll when the kit is rebuilt** |
+| Support Trap | v4 shipped 2026-09-21 (`20260921ship28`, 4 min) — roll 1 spine, three grafts and an added pause | **Rebuilt 2026-09-29** | **Full-video reroll kit ready; review new narration before selecting it for the edit** |
 | Fake Trap | v5 shipped 2026-09-20 (`20260920ship2`, 5 min) | **2026-09-20 (template)** | Done |
 
-Only the Fake Trap kit is on the 2026-09-20 recipe (VOICE block, required-verbatim list, beat spine,
-clean upload Markdown, faceless variants of any face board). Every other kit predates it. The eight
-lessons marked Done shipped from rolls made on the older 2026-09-18 kit and won their reviews, so
-their kits need rebuilding only if a reroll is ever needed. Support Trap is the one lesson with a known
-reason to reroll: **no version of its Board 2 is complete.** The lesson lists three things AI can do and
-four it cannot; roll 1 speaks two and three, roll 2 a different two and three, and the old live video's
-sentence was broken outright ("Notice what you leave out of your prompts"). Editing cannot fix it -
-rebuild that kit on the 2026-09-20 recipe and roll again when there is time. Each lesson's
-`gemini-notebook/<slug>/README.txt` (registered lessons) or `UPLOADS.txt` (manual kits) carries its own Status line, generated from
-`gemini-notebook/upload-sets.json`; edit the registry, not the checklist.
+**Support Trap update, 2026-09-29:** the full-video reroll kit is rebuilt and registered. David prefers a complete new generation as the narration source rather than an isolated passage. The missing thought-organization benefit is protected verbatim, all four limitations are kept together, and the misleading three-jobs labels are explicitly prohibited. The current video teaches “show up” elsewhere; that is not a globally missing point. See `gemini-notebook/support-trap/PREP-NOTES.md` and the verified live evaluation. New generation and audio selection remain pending; the live release is unchanged.
 
-Use [AVOID-TRAPS-VIDEO-KITS.md](AVOID-TRAPS-VIDEO-KITS.md) for the scene plan, the exact
-upload/post-production lists, and the shipped-build note for each lesson. Every shipped build keeps its
-review in `video-audit/<slug>-*-2026-09-*/REVIEW.md`. No external tracker update is implied by this
-status.
+Kit availability comes from `gemini-notebook/upload-sets.json`; generated READMEs reflect that registry. Historical dates in this table do not establish current prep availability. No external tracker update is implied.
 
 Review the teaching first. Notebook-native highlighting and generated closing visuals are expected
 post-production replacements, not reasons to reject a good narration. Preserve useful generated

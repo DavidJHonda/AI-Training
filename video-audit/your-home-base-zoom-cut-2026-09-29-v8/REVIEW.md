@@ -36,3 +36,9 @@ Evidence: `verification.json`, `ring-stroke.json`, `guard/transition-guard.md`, 
 This is a technical and sampled visual review, not a full real-time watch or listening pass. Audition the new join near 1:08 before shipping. Inherited audio questions from the prior review remain: the older splice now near 3:11.9 and the pronunciation of “TRY ITs” now near 3:15.4. ASR and waveform measurements do not substitute for listening.
 
 Canonical course video and lesson index were not changed by this build. No commit, publish, or deployment was performed.
+
+## Local shipping — September 29, 2026
+
+Owner authorized shipping v8 after the technical results and listening limitation were disclosed. Installed the exact approved candidate at `course-assets/your-home-base/your-home-base.mp4`; installed SHA-256 matches the candidate above. Updated the lesson cache key to `20260929ship8`; displayed runtime remains the correctly rounded 4 min.
+
+Local commit: `d47afe7e2e3b680c6656a4da46c6125241f52759`. Verified the commit contains only the canonical video and its one-line lesson reference. Shipped locally; queued for batch deployment. No push or deployment performed. The previously disclosed listening limitation remains recorded, not marked passed.

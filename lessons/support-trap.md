@@ -6,23 +6,25 @@ AI can sound patient, caring, and understanding. Sometimes its words can even he
 
 ### Board 1: Supportive Words versus Support
 
-**Course image (post-production only; not a Notebook upload):** `support-trap-comparison.jpg`
+**Image file:** `support-trap-comparison-faceless.jpg`
+
+![Supportive Words versus Support](support-trap-comparison-faceless.jpg)
 
 **Teaching content:**
 
-The scenario: “I’ve been eating lunch alone for like two weeks.”
+Here is the difference between supportive words and support. The scenario: “I’ve been eating lunch alone for like two weeks.”
 
-**Your Older Sister** (a person) replies: “Come sit with me and Jess tomorrow. We’re at the table by the windows.” Heard you, and did something. Tomorrow, she will look for you. Changed: tomorrow’s lunch.
+Your older sister, a person, replies: “Come sit with me and Jess tomorrow. We’re at the table by the windows.” She heard you and did something. Tomorrow, she will look for you. What changed? Tomorrow’s lunch.
 
-**The Chatbot** (AI) replies: “I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?” Found caring words. Tomorrow, it cannot show up. Changed: nothing outside the chat.
+The chatbot, AI, replies: “I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?” It found caring words. Tomorrow, it cannot show up. What changed? Nothing outside the chat.
 
-**Takeaway:** Supportive language is not the same as support.
+Supportive language is not the same as support.
 
-**Scene (your own drawing, no board):**
+## What Happened Next
 
 Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. The other could not change anything outside the chat.
 
-**Support Trap is mistaking supportive words for support.**
+Support Trap is mistaking supportive words for support.
 
 ### Board 2: Use AI to Get Ready for People
 
@@ -32,21 +34,31 @@ Notice: the AI’s words might even be the kinder ones. The difference is what h
 
 **Teaching content:**
 
-**What Can Be Real.** A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation.
+Use AI to get ready for people. What can be real?
 
-**What Is Missing.** AI cannot notice what changed, show up, take responsibility, or check on you tomorrow.
+A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation.
 
-**Takeaway:** Use AI to prepare for people, not replace them.
+What is missing?
 
-**Scene (your own drawing, no board):**
+AI cannot notice what changed, show up, take responsibility, or check on you tomorrow.
 
-There are three different jobs here. Sometimes the job can end in the chat: putting an ordinary frustration into words may help you cool down before you post something you regret. Not every emotional conversation needs another step.
+Use AI to prepare for people, not replace them.
+
+## Three Different Jobs
+
+There are three different jobs here: ordinary venting, preparation, and danger. The difference is what needs to happen next.
+
+Sometimes the job can end in the chat: putting an ordinary frustration into words may help you cool down before you post something you regret. Not every emotional conversation needs another step.
 
 Sometimes AI helps you get ready for an action. It can help draft a message asking your teacher for an extension, but you still need to send it. It can help you practice telling your mom about your grades, but she still needs to hear from you. Preparing is useful when it leads to the action you needed.
 
+If you’re so behind for finals that you don’t know where to start, have it build the plan, then start the first block tonight. The chat becomes useful when it leads to action.
+
 If someone may be unsafe, leave the chat and bring in a person who can act. Do not spend more time polishing a message when someone needs help now.
 
-**Content note:** The next story discusses suicide.
+## The Danger Line
+
+The next story discusses suicide.
 
 In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie Rottenberg, who had spent months sharing thoughts she hid from the people around her with a ChatGPT persona she called Harry. The chatbot responded with warmth and sometimes encouraged Sophie to seek help. But it could not contact her family, alert her therapist, or bring anyone into the room.
 
@@ -54,19 +66,27 @@ After Sophie died by suicide, her mother described the chats as a “black box.�
 
 ### Board 3: If Someone May Be in Immediate Danger
 
-**Image file:** `support-trap-danger.jpg`
+**Image file:** `support-trap-danger-faceless.jpg`
 
-![If Someone May Be in Immediate Danger](support-trap-danger.jpg)
+![If Someone May Be in Immediate Danger](support-trap-danger-faceless.jpg)
 
 **Teaching content:**
 
-1. **Leave the Chat.** Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger.
-2. **Do It Now.** Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility.
-3. **Tell Anyway.** Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy.
+If someone may be in immediate danger, leave the chat and get real help.
 
-**Takeaway:** In danger, the next move must reach a person who can act.
+Leave the chat. Tell a trusted adult or school counselor.
 
-**Scene (your own drawing, no board):**
+In the U.S., call or text 988 for crisis support.
+
+Call 911 if someone is in immediate danger.
+
+Do it now. Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility.
+
+Tell anyway. Tell a trusted adult even if someone told you not to or made you promise.
+
+Safety outranks secrecy.
+
+In danger, the next move must reach a person who can act.
 
 ## Know When to Leave the Chat
 

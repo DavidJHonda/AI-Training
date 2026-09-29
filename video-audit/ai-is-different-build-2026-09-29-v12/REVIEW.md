@@ -1,6 +1,6 @@
 # AI Is Different v12 — September 29 repair candidate
 
-**Scope:** the user approved the September 29 review plan with “build it.” Candidate only; no local shipping, commit, push, or deployment is authorized by this build. The published file and lesson references remain unchanged.
+**Scope:** the user approved the September 29 repair with “build it,” then authorized local shipping with “ship it” after the remaining listening limitation was disclosed. **Shipped locally; queued for batch deployment.** See the shipping record below.
 
 **Candidate:** `Prompts/ai-is-different-v12.mp4` — 4:45.567, 8,567 frames at 30 fps, 1280×720. This adds 239 frames (7.967 seconds) to the live v11.
 
@@ -51,3 +51,12 @@ Build: `scripts/video/build_ai_is_different_v12.py`; verification: `scripts/vide
 Candidate SHA-256: `758d62de72dd420870a974682fecf96a83b40558bd22e9af7bc309b68c3fa9b1`.
 
 Evidence: [qa.json](qa.json), [transition guard](guard/transition-guard.md), [encoded transcript](encoded-transcript/deepfake-encoded-context.txt), [encoded quiet gaps](graft-gap-encoded.json), [ring audit](ring-audit/ring-stroke.txt), [rasterizer check](ring-rasterizer-check.json).
+
+
+## Local shipping — 2026-09-29
+
+User authorization: “ship it.” Installed the exact reviewed v12 candidate at `course-assets/ai-is-different/ai-is-different.mp4` and committed only that MP4 and its `LESSON_VIDEOS.aivscode` cache key in **`f849742ca2f077a035e3be309adcaa78758bfdb4`**. The cache key is `20260929ship1`; the rounded display remains **5 min** for the 4:45.567 runtime. Installed and committed bytes both match the candidate SHA-256 above.
+
+**Status: shipped locally; queued for batch deployment.** No push or deployment was performed, and public availability has not been verified for v12. The assistant did not perform listening or real-time playback; owner shipping authorization followed explicit disclosure of those limitations and does not turn them into passed checks. The pre-shipping verification results above remain the evidence for this exact file.
+
+Render-scratch cleanup is restricted to this v12 audit folder; source rolls, the candidate, donor, review evidence, transcripts, and audio review MP3 are retained.

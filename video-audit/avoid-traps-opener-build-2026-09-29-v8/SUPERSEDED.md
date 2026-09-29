@@ -1,0 +1,1 @@
+Superseded by v9 before delivery. The nominal 4 px supersampled roadmap rings measured only 3 solid pixels after encoding. V9 aligns ring outer edges to output pixels. Narration, timing, and approved visual content are unchanged. V8 was never installed or published.

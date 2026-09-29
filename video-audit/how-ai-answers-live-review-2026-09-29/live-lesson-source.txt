@@ -1,0 +1,78 @@
+function DogRecapStrip() {
+  var E = React.createElement;
+  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
+  var steps = [
+    ["Tokens", "Breaks the question into pieces."],
+    ["Positions", "Marks where each piece belongs."],
+    ["Starting Vectors", "Turns each token into numbers that carry its starting meaning."],
+    ["Through Layers", "Attention and transformation work together to update the numbers."]
+  ];
+  return E(React.Fragment, null,
+    E("img", {
+      src: "course-assets/how-ai-answers/how-ai-answers-before-answer-begins.jpg?v=20260914attribution1",
+      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers. AI uses the final token’s updated numbers to predict what comes next.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { style: visuallyHidden },
+      E("h3", null, "Before the Answer Begins"),
+      E("p", null, E("strong", null, "You: "), "What should I name my new dog?"),
+      E("ol", null, steps.map(function(step, i) {
+        return E("li", { key: i }, E("strong", null, step[0]), " ", step[1]);
+      })),
+      E("p", null, "AI uses the final token’s updated numbers to predict what comes next.")));
+}
+function LastTokenBridgeBoard() {
+  var E = React.createElement;
+  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
+  return E(React.Fragment, null,
+    E("img", {
+      src: "course-assets/how-ai-answers/how-ai-answers-where-answer-begins.jpg?v=20260914attribution1",
+      alt: "Why the Final Token Matters. The question appears as tokens with the final question mark highlighted. The final token gathers information from preceding tokens, and its updated numbers help AI predict a reply that fits the question.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { style: visuallyHidden },
+      E("h3", null, "Why the Final Token Matters"),
+      E("ul", null,
+        E("li", null, E("strong", null, "The Question. "), "The final token gathers information from every token before it."),
+        E("li", null, E("strong", null, "The Final Token. "), "Its updated numbers help AI predict a reply that fits the question.")),
+      E("p", null, "AI uses the final token’s vector to predict the first token of its answer.")));
+}
+function AnswerBuildStrip() {
+  var E = React.createElement;
+  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
+  return E(React.Fragment, null,
+    E("img", {
+      src: "course-assets/how-ai-answers/how-ai-answers-token-by-token.jpg?v=20260914attribution1",
+      alt: "The Answer, Token by Token. You ask: What should I name my new dog? Prediction 1 selects You. Three more predictions add could, name, and him. Prediction 5 selects Spot, producing You could name him Spot.",
+      width: 1600, height: 1126,
+      style: { display: "block", width: "100%", height: "auto", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { style: visuallyHidden },
+      E("h3", null, "The Answer, Token by Token"),
+      E("p", null, "Question: What should I name my new dog?"),
+      E("ol", null,
+        E("li", null, "Prediction 1. The reply has not started. Final token: question mark. Top predictions: You 18%, A 14%, Great 9%. Selects You."),
+        E("li", null, "Three more predictions add could, name, and him."),
+        E("li", null, "Prediction 5. Reply so far: You could name him. Final token: him. Top predictions: Spot 22%, Max 17%, Buddy 14%. Selects Spot.")),
+      E("p", null, "You could name him Spot.")));
+}
+function PredictionSection(props) {
+  return /*#__PURE__*/React.createElement("div", null,
+  /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow."),
+  /*#__PURE__*/React.createElement(DogRecapStrip, null),
+  /*#__PURE__*/React.createElement(LastTokenBridgeBoard, null),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Starting the Answer"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI is ready to answer your question. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Now watch the loop. AI selects a token, adds it to the reply, and uses the growing context to predict again."),
+  /*#__PURE__*/React.createElement(AnswerBuildStrip, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "You asked for a dog name, but AI began with ", /*#__PURE__*/React.createElement("strong", null, "You"), ", a possible start to a reply. Each added token changes what can fit next. After ", /*#__PURE__*/React.createElement("strong", null, "You could name him"), ", a dog name becomes a likely continuation."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI keeps predicting tokens until it produces a special token that signals the answer is finished."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Inference"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI repeats the same loop: predict a next token, select it, and add it to the answer. Each addition becomes part of the context for the next prediction. This process of generating an answer is called inference."),
+  closeBoard("prediction"),
+  /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
+  /*#__PURE__*/React.createElement(LessonRule, null),
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
+}

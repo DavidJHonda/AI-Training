@@ -17,7 +17,7 @@ OUT = ROOT / 'video-audit/ai-brain-break-2026-09-11'; DEST = ROOT / 'Prompts/ai-
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/layers/ai-brain-break.mp4', ROOT / 'Prompts/ai-brain-break-source.md'])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/layers/ai-brain-break.mp4', ROOT / 'gemini-notebook/ai-brain-break/ai-brain-break-source.md'])
     sil = [(20.18, 20.83), (40.79, 41.45), (62.12, 62.80), (108.37, 108.89), (141.80, 142.37), (177.93, 178.60)]
     b.load_audio(sil)
     P = [fr(t) for t in (20.5, 41.1, 62.45, 108.6, 142.1, 178.3)]   # inside each silence, just before the roll's own cut

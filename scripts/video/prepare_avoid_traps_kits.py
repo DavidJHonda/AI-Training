@@ -2,7 +2,7 @@
 """Retired Avoid Traps preparation script.
 
 This historical script uses obsolete source mappings and archive behavior.
-Prepare uploads from current lesson text and boards using Prompts/README.md.
+Prepare uploads from current lesson text and boards using scripts/video/PREPARATION.md.
 """
 
 try:
@@ -31,7 +31,7 @@ from make_close_board import close_board_copy
 
 ROOT = Path(__file__).resolve().parents[2]
 ARCHIVE = ROOT / "archive/video-materials/avoid-traps-2026-09-04"
-REPORT = ROOT / "Prompts/AVOID-TRAPS-SOURCE-MANIFEST.json"
+REPORT = ROOT / "scripts/video/kits/AVOID-TRAPS-SOURCE-MANIFEST.json"
 # Entries: video filename suffix, current page asset, safe for Notebook upload.
 KITS = [
     ("opener-avoid", "openerprotect", "Opener-Avoid", [
@@ -101,7 +101,7 @@ def sha(path):
 
 
 def backup(path):
-    raise RuntimeError("Archive backups are retired; follow the current cleanup policy in Prompts/README.md.")
+    raise RuntimeError("Archive backups are retired; follow the current cleanup policy in scripts/video/PREPARATION.md.")
     if path.exists():
         target = ARCHIVE / "replaced" / path.relative_to(ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -110,7 +110,7 @@ def backup(path):
 
 
 def main():
-    raise SystemExit("Retired workflow: use current lessons/ text and course-assets/ boards; follow Prompts/README.md. Do not recreate archive/.")
+    raise SystemExit("Retired workflow: use current lessons/ text and course-assets/ boards; follow scripts/video/PREPARATION.md. Do not recreate archive/.")
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sync", action="store_true")
     ap.add_argument("--render-closes", action="store_true")
@@ -119,7 +119,7 @@ def main():
     html = (ROOT / "index.html").read_text()
     rows, canonical, panels = [], set(), []
     for slug, section, md, boards in KITS:
-        prompt = ROOT / f"Prompts/{slug}-video-prompt.txt"
+        prompt = ROOT / f"gemini-notebook/{slug}/PROMPT.txt"
         markdown = ROOT / f"lessons/{md}.md"
         entry = {"lesson": slug, "section_id": section,
                  "markdown": str(markdown.relative_to(ROOT)),
@@ -149,7 +149,7 @@ def main():
             if upload:
                 assert target.name in prompt.read_text(), f"Upload board missing from prompt: {target.name}"
             else:
-                assert target.name in (ROOT / "Prompts/AVOID-TRAPS-VIDEO-KITS.md").read_text(), f"Post-only board missing from checklist: {target.name}"
+                assert target.name in (ROOT / "scripts/video/kits/AVOID-TRAPS-VIDEO-KITS.md").read_text(), f"Post-only board missing from checklist: {target.name}"
             with Image.open(target) as im:
                 im.verify()
             im = Image.open(target).convert("RGB")

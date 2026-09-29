@@ -173,7 +173,7 @@ def main():
     protected_paths = [BASE, ROLL1, ROLL3, TRANSFORMER, snapshot,
                        ROOT / 'course-assets/layers/layers.mp4',
                        ROOT / 'index.html', ROOT / 'lessons/layers.md',
-                       ROOT / 'Prompts/layers-video-prompt.txt',
+                       ROOT / 'gemini-notebook/layers/PROMPT.txt',
                        *sorted((ROOT / 'course-assets/layers').glob('*.jpg'))]
     protected = {str(p): sha(p) for p in protected_paths}
     boundaries = sorted(set([output_frame(f) for f in old['boundaries']]

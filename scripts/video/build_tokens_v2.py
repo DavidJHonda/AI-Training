@@ -17,7 +17,7 @@ Five boards, all at the roll's own visual cuts (scenes.py):
   B4 Humans See a Cat                  5390-6110   compact, ring each panel then the banner
   B5 How AI Splits Text Into Tokens    6404-8390   dense, dive to each of the five rows, pull back
 
-Board 2 is the face board: the roll was fed `Prompts/tokens-building-blocks-faceless.jpg` and the
+Board 2 is the face board: the roll was fed `gemini-notebook/tokens/assets/tokens-building-blocks-faceless.jpg` and the
 canonical `course-assets/tokens/tokens-building-blocks.jpg` replaces it here, as the kit specifies.
 
 Four pauses of one second at idea boundaries only: after Board 1 into "how do your words become

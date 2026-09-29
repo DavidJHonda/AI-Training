@@ -100,7 +100,7 @@ def main():
   parts.append(a)
  audio=np.concatenate(parts);writewav(OUT/'edited.wav',audio);assert len(audio)==len(frames)*SPF
  writewav(OUT/'repaired-section.wav',audio[output_frame(4364)*SPF:output_frame(5008)*SPF])
- protected={str(p):sha(p) for p in [SOURCE,ROOT/'lessons/transformer.md',ROOT/'Prompts/transformer-video-prompt.txt',*sorted((ROOT/'course-assets/transformer').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [SOURCE,ROOT/'lessons/transformer.md',ROOT/'gemini-notebook/transformer/PROMPT.txt',*sorted((ROOT/'course-assets/transformer').glob('*.jpg'))]}
  states=[];spans={}
  for key,r in renderers.items():
   available=[i for i,item in enumerate(mapped) if item and item[0]==key];spans[key]=[min(available),max(available)+1]

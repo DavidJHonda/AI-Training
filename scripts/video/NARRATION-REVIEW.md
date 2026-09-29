@@ -140,6 +140,13 @@ The evaluation still includes a proposed board-highlighting and camera plan for
 David's review before editing, following `EDIT-SPEC.md` section 1b. Inspect the
 current board images and actual narration; identify each board's whole-card or
 section-level highlight sequence and full-view or complete-card zoom treatment.
+Also identify engaging Notebook graphics and animations to retain, with source
+timestamps and their teaching purpose (Edit Spec section 8). Added examples may
+stay when they support and do not contradict the lesson. Judge animations in
+motion with narration; disclose when only still frames were inspected. Give a
+specific reason for each proposed replacement, prefer targeted repairs where
+effective, and distinguish content corrections from standard cleanup and optional
+polish. An inserted still is not automatically better than an existing animation.
 Flag unusual or uncertain choices with a brief reason. If assets or narration
 cannot be inspected, state that limitation and leave the affected plan provisional.
 Combine this plan with proposed narration changes and selective pauses for one

@@ -68,7 +68,7 @@ def main():
  assert not DEST.exists(),'Never overwrite a review candidate';assert sha(SOURCE)==EXPECTED
  OUT.mkdir(exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
  snapshot,old,renderers,specs,mapped=setup()
- protected={str(p):sha(p) for p in [SOURCE,ROOT/'lessons/embeddings.md',ROOT/'Prompts/embeddings-video-prompt.txt',*sorted((ROOT/'course-assets/embeddings').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [SOURCE,ROOT/'lessons/embeddings.md',ROOT/'gemini-notebook/embeddings/PROMPT.txt',*sorted((ROOT/'course-assets/embeddings').glob('*.jpg'))]}
  source=readwav(OUT/'source.wav')[:TOTAL*SPF];parts=[source[a:b].copy() for a,b in AUDIO_KEEP];fade=240
  for i,part in enumerate(parts):
   if i:part[:fade]*=np.linspace(0,1,fade)

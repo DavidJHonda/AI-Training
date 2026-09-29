@@ -28,10 +28,17 @@ assert.ok(!json.includes('\u2014'));
 const page=fs.readFileSync(path.join(root,'course-assets/hallucination/hallucination-check-claim.jpg'));
 const prep=fs.readFileSync(path.join(root,'course-assets/hallucination/hallucination-check-claim.jpg'));
 assert.ok(page.equals(prep),'Page and prep boards must be byte-identical');
-const prompt=fs.readFileSync(path.join(root,'Prompts/hallucination-video-prompt.txt'),'utf8');
-assert.ok(prompt.trim().split(/\s+/).length<=500);
-for (const file of prompt.matchAll(/`(hallucination-[^`]+\.jpg)`/g)) {
-  assert.ok(fs.existsSync(path.join(root,'course-assets/hallucination',file[1])),file[1]);
+const registry=JSON.parse(fs.readFileSync(path.join(root,'gemini-notebook/upload-sets.json'),'utf8'));
+const kit=registry.lessons.find(lesson=>lesson.slug==='hallucination');
+if (kit) {
+  const prompt=fs.readFileSync(path.join(root,kit.prompt),'utf8');
+  assert.ok(prompt.trim().split(/\s+/).length<=500);
+  for (const file of prompt.matchAll(/`(hallucination-[^`]+\.jpg)`/g)) {
+    assert.ok(fs.existsSync(path.join(root,'course-assets/hallucination',file[1])),file[1]);
+  }
+} else {
+  assert.ok(registry.needs_preparation.some(lesson=>lesson.slug==='hallucination'));
+  assert.ok(!fs.existsSync(path.join(root,'gemini-notebook/hallucination/PROMPT.txt')));
 }
 assert.ok(fs.readFileSync(path.join(root,'lessons/hallucination.md'),'utf8').includes('### Check the Claim'));
-console.log('PASS: lesson renders, board precedes close, export copy matches, no em dash, identical assets, prompt under 500 words.');
+console.log('PASS: lesson renders, board precedes close, export copy matches, no em dash, identical assets, prep availability matches registry.');

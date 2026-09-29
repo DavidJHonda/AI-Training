@@ -13,7 +13,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  (OUT/'states').mkdir(exist_ok=True)
- protected=[SOURCE,ROOT/'course-assets/tokens/tokens.mp4',ROOT/'lessons/tokens.md',ROOT/'Prompts/tokens-video-prompt.txt']
+ protected=[SOURCE,ROOT/'course-assets/tokens/tokens.mp4',ROOT/'lessons/tokens.md',ROOT/'gemini-notebook/tokens/PROMPT.txt']
  hashes={str(p):sha(p) for p in protected}
  with wave.open(str(OUT/'source.wav')) as w:audio=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(float)
  seed=audio[round(189.82*SR):round(189.97*SR)].copy();seed-=seed.mean();loop=np.r_[seed,seed[::-1]]

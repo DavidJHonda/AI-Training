@@ -63,8 +63,6 @@ def main():
             H45_DONOR,
             ROOT / "index.html",
             ROOT / "lessons/critical-thinking.md",
-            ROOT / "Prompts/critical-thinking-video-prompt.txt",
-            ROOT / "Prompts/critical-thinking-upload-files.txt",
             ROOT / "course-assets/critical-thinking/critical-thinking.mp4",
             ROOT / "course-assets/critical-thinking/critical-thinking-close.jpg",
             *BOARDS.values(),

@@ -8,6 +8,7 @@ except ImportError:
 
 
 from pathlib import Path
+import argparse
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -17,6 +18,7 @@ from editorial_typography import draw_board_title, face
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "course-assets/does-ai-think/does-ai-think-side-by-side.jpg"
+UPLOAD_OUT = REPO / "gemini-notebook/does-ai-think/assets/does-ai-think-side-by-side-faceless.jpg"
 ASSET_DIR = REPO / "scripts" / "video" / "assets" / "does-ai-think-unified"
 LEFT_ASSET = ASSET_DIR / "when-you-think.jpg"
 RIGHT_ASSET = ASSET_DIR / "what-ai-does.jpg"
@@ -125,7 +127,12 @@ def preserve_source_scenes():
 
 
 def main():
-    preserve_source_scenes()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--upload-variant", action="store_true",
+                        help="Render the same text layout without loading photographic panels.")
+    args = parser.parse_args()
+    if not args.upload_variant:
+        preserve_source_scenes()
 
     image = Image.new("RGB", (W, H), LAVENDER)
     draw = ImageDraw.Draw(image)
@@ -134,14 +141,15 @@ def main():
     card = (40, 127, 1560, 1392)
     draw.rounded_rectangle(card, radius=16, fill=WHITE)
 
-    image_h = 425
-    joined = Image.new("RGB", (1520, image_h), WHITE)
-    joined.paste(fit_crop(Image.open(LEFT_ASSET).convert("RGB"), (760, image_h)), (0, 0))
-    joined.paste(fit_crop(Image.open(RIGHT_ASSET).convert("RGB"), (760, image_h)), (760, 0))
-    mask = Image.new("L", joined.size, 0)
-    mask_draw = ImageDraw.Draw(mask)
-    mask_draw.rounded_rectangle((0, 0, 1520, image_h + 24), radius=16, fill=255)
-    image.paste(joined, (40, 127), mask)
+    if not args.upload_variant:
+        image_h = 425
+        joined = Image.new("RGB", (1520, image_h), WHITE)
+        joined.paste(fit_crop(Image.open(LEFT_ASSET).convert("RGB"), (760, image_h)), (0, 0))
+        joined.paste(fit_crop(Image.open(RIGHT_ASSET).convert("RGB"), (760, image_h)), (760, 0))
+        mask = Image.new("L", joined.size, 0)
+        mask_draw = ImageDraw.Draw(mask)
+        mask_draw.rounded_rectangle((0, 0, 1520, image_h + 24), radius=16, fill=255)
+        image.paste(joined, (40, 127), mask)
 
     heading_y = 584
     draw.text((74, heading_y), "When You Think", font=HEAVY_38, fill=GREEN)
@@ -174,8 +182,10 @@ def main():
         text="Similar-looking answers can come from very different processes.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
-    save_course_image(image, OUT, quality=95, subsampling=0)
-    print(f"Built {OUT}")
+    output = UPLOAD_OUT if args.upload_variant else OUT
+    output.parent.mkdir(parents=True, exist_ok=True)
+    save_course_image(image, output, quality=95, subsampling=0)
+    print(f"Built {output}")
 
 
 if __name__ == "__main__":

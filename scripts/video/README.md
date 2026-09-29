@@ -1,6 +1,6 @@
 # Shared video workflow
 
-Current instructions, consolidated 2026-09-15. Start here for each video task.
+Current instructions, updated 2026-09-29. Start here for each video task.
 Read the task-specific reference below; do not load every technical recipe for a
 routine edit. User instructions and already-approved plans take precedence.
 
@@ -8,16 +8,17 @@ routine edit. User instructions and already-approved plans take precedence.
 
 | Task | Read after this page |
 |---|---|
-| Prepare Markdown, prompt, or upload bundle | [Prompts guide](../../Prompts/README.md) |
-| Stage a lesson's uploads in one folder | `sync_gemini_notebook.py` builds `gemini-notebook/<slug>/` from `Prompts/upload-sets.json` |
+| Prepare Markdown, prompt, or upload bundle | [Preparation guide](PREPARATION.md) |
+| Stage a lesson's uploads in one folder | `sync_gemini_notebook.py` builds `gemini-notebook/<slug>/` from `gemini-notebook/upload-sets.json` |
 | Evaluate narration or compare generations | [Narration Review](NARRATION-REVIEW.md) |
 | Build or repair a video | [Edit Spec](EDIT-SPEC.md) |
 | Replace course-board visuals | [Board Retrofit](RETROFIT-PLAYBOOK.md), plus Edit Spec |
 | Diagnose rendering, timing, or audio seams | Relevant section of [Technical Recipes](TECHNICAL-RECIPES.md) |
-| Publish an approved candidate | Ship checklist and shipping rules below |
+| Ship an approved candidate locally | Ship checklist and local shipping rules below |
+| Publish a batch to Vercel | Batch deployment rules below |
 
 Edit Spec owns scope and visual/audio treatment. Narration Review owns teaching
-verdicts. The Prompts guide owns generation materials. Technical recipes explain
+verdicts. The Preparation guide owns generation materials. Technical recipes explain
 implementation; old example paths, timings, and treatments do not override these
 current rules. A lesson-specific kit supplies that lesson's details, not a second
 set of global production rules.
@@ -29,8 +30,11 @@ set of global production rules.
   status from filenames. Lesson IDs, source slugs, and asset folder names can differ.
 - Current boards and illustrations are canonical JPGs in `course-assets/<lesson>/`.
   Use the exact assets referenced by the lesson, preserving dimensions and layout.
-- Current upload text lives in `lessons/`; prompts and raw generations in `Prompts/`.
-  Raw rolls commonly use `<slug>-reroll.mp4` and `<slug>-reroll-2.mp4`.
+- Current upload text lives in `lessons/`. Editable generation prompts, upload variants,
+  and lesson prep notes live in `gemini-notebook/<lesson>/`; its registry is
+  `gemini-notebook/upload-sets.json`. Only upload copies, generated lesson READMEs,
+  and sync metadata are derived. Shared prep rules and section kits live here in
+  `scripts/video/`. Raw generations stay in `Prompts/` and commonly use `<slug>-reroll.mp4` and `<slug>-reroll-2.mp4`.
 - Review candidates stay in `Prompts/<lesson>-vN.mp4`. Never overwrite a candidate
   the owner may have open; give each rebuild a new version.
 - Finished videos live beside boards as `course-assets/<lesson>/<lesson>.mp4`.
@@ -66,7 +70,7 @@ set of global production rules.
    full production pass from a narrow repair; see Edit Spec section 1.
 2. **Prepare only what is needed.** For generation, use current Markdown, selected
    JPGs, and a self-contained prompt. Complete the
-   [lesson-arc pass](../../Prompts/README.md#prepare-the-lesson-arc): progression,
+   [lesson-arc pass](PREPARATION.md#prepare-the-lesson-arc): progression,
    essential bridges, diagram relationships, and distinct overview/detail roles.
    For an existing-video repair, do not regenerate
    materials or reroll solely because a visual needs fixing.
@@ -85,16 +89,49 @@ set of global production rules.
    pauses only where students need breathing room, including existing and target
    total gaps. Present these together as one plan for approval before the first
    build. Reuse approval already given; return only for material plan changes.
-5. **Build the candidate.** Preserve useful Notebook drawings. Use exact current
+5. **Build the candidate.** Preserve engaging Notebook graphics and animations
+   that support the lesson; consistent added examples are allowed. Judge their
+   teaching value in motion with narration, and prefer targeted repairs over
+   replacing effective scenes with stills (Edit Spec section 8). Use exact current
    lesson boards, the prescribed highlights, and the standard close. Rebuild from
    pristine sources in one assembly where available; do not stack lossy repairs.
    If only a finished video survives, disclose that source limitation.
 6. **Verify and report.** Check the actual encoded candidate, not just the plan.
    Report completed work, remaining defects, and unperformed checks. A narrow
    repair can be ready for review without being ready to ship.
-7. **Ship only when authorized.** Approval to build is not approval to publish.
-   Follow the checklist below and honor any instruction to leave deployment to
-   another task.
+7. **Ship locally when authorized.** Approval to build is not approval to ship.
+   “Ship it” means install, verify, and commit the approved video locally under
+   the rules below. GitHub pushes and Vercel deployments happen only on a separate
+   explicit request to publish a batch.
+
+## Local shipping and batch deployment (owner rule, 2026-09-29)
+
+Individual video shipping stops at a local Git commit:
+
+1. Complete the ship checklist, then install the approved candidate at the
+   canonical `course-assets/<lesson>/<lesson>.mp4` path.
+2. Update that video's `LESSON_VIDEOS` reference, cache key, and displayed runtime
+   in `index.html` as needed. Verify the installed file and local lesson reference.
+3. Commit only the approved release changes locally. Preserve unrelated working
+   changes; do not stage an entire shared file when only one entry belongs to the
+   release. Keep audit/build records locally without automatically adding them to
+   the release commit.
+4. Record the local commit, installed file hash, and pending deployment status in
+   the review. Report **shipped locally; queued for batch deployment**. Perform
+   the render-scratch cleanup below after the local commit.
+
+Do not run `git push`, trigger Vercel, wait for a deployment, or describe the video
+as live during an individual ship. Local installation does not establish what is
+currently served by the public site.
+
+When David separately requests a batch deployment, inspect all outgoing commits
+and confirm the batch includes only intended release changes before pushing to
+the configured GitHub/Vercel deployment workflow. A push publishes all outgoing
+commits on that branch, not just the latest video's commit. Use the authorization
+already given for that batch; do not ask again for the same scope. After deployment,
+verify the public lesson references and served video files for every included
+video, then record the deployment and report which videos are live. If deployment
+or verification fails, retain the pending status and report the actual result.
 
 ## Ship checklist (editor's verification of the finished file)
 
@@ -105,7 +142,11 @@ Before shipping a standard lesson video:
 - Boards match current lesson assets and wording. Compact/dense framing, full-view
   openings, spoken highlight onsets, and constant 5px outline rings meet Edit Spec.
   No Notebook recreation/highlighting remains on course boards.
-- Kept drawings support the narration. No unlicensed/watermarked stock photographs,
+- Kept graphics and animations support the narration without contradicting the
+  lesson. Check motion, reveals, labels, and final states; added examples are
+  acceptable when consistent and not misleading. The review identifies useful
+  scenes retained and the specific reasons for replacements (Edit Spec section 8).
+  No unlicensed/watermarked stock photographs,
   legible profanity, or inappropriate source imagery remains. Apply Edit Spec's
   stock-photo and engine-corner-mark treatment, and inspect its results.
 - The standard close is the literal final frame and has the prescribed motion.
@@ -161,8 +202,8 @@ Do not delete raw generations when shipping; they may be needed for a later repa
 
 ## Asset retention and safe preparation
 
-Keep current boards in `course-assets/`, Markdown in `lessons/`, and active sources
-and candidates in `Prompts/`. Do not recreate `archive/`, `illustrations/`, or
+Keep current boards in `course-assets/`, Markdown in `lessons/`, prep sources in
+`gemini-notebook/<lesson>/`, and raw video/audio sources and candidates in `Prompts/`. Do not recreate `archive/`, `illustrations/`, or
 `video-audit-current/`, or retain obsolete boards solely for old video plans.
 Remove superseded material only within David's authorized cleanup scope, after
 checking replacements and active dependencies. Keep raw rolls until he authorizes
@@ -182,4 +223,7 @@ shortcut that could discard the user's uncommitted changes.
 
 Record candidate path, source/donor paths and hashes, manifest, build and QA commands,
 approved scope, tests/listening completed, remaining issues, and shipping approval
-status in the active review. Keep the user-facing update concise and link to it.
+status in the active review. Distinguish candidate, shipped locally/pending batch,
+and verified live; record the local commit and file hash at shipping, and public
+verification only after batch deployment. Keep the user-facing update concise
+and link to it.

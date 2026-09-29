@@ -62,7 +62,9 @@ Second, Use It Well: the moves that get a better answer, and a look at what the 
 
 Giving AI the right details helps it give you a better answer.
 
-Third, Think Before You Trust: what to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use.
+Third, Think Before You Trust: what to do with the answer that comes back.
+
+Question it, verify it, and decide whether it’s good enough to use.
 
 The result depends on how you use the tool.
 

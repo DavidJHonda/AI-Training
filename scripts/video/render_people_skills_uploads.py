@@ -14,7 +14,8 @@ from render_people_skills_cards import ROOT, SPECS
 def save(image, name, canonical):
     with Image.open(ROOT / 'course-assets/people-skills' / canonical) as page:
         assert image.size == page.size, (name, image.size, page.size)
-    output = ROOT / 'Prompts' / name
+    output = ROOT / 'gemini-notebook/people-skills/assets' / name
+    output.parent.mkdir(parents=True, exist_ok=True)
     image.save(output, quality=95, subsampling=0)
     print(f'{output.relative_to(ROOT)}: {image.width}x{image.height}')
 

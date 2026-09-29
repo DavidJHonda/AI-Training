@@ -87,7 +87,7 @@ def main():
   if i:x[:FADE]*=np.linspace(0,1,FADE)
   if i<2:x[-FADE:]*=np.linspace(1,0,FADE)
  audio=np.concatenate(parts);writewav(OUT/'edited.wav',audio);writewav(OUT/'join-review.wav',audio[102*48000:118*48000]);assert len(audio)==len(frames)*SPF
- protected={str(p):sha(p) for p in [SOURCE,DONOR,ROOT/'index.html',ROOT/'lessons/layers.md',ROOT/'Prompts/layers-video-prompt.txt',*sorted((ROOT/'course-assets/layers').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [SOURCE,DONOR,ROOT/'index.html',ROOT/'lessons/layers.md',ROOT/'gemini-notebook/layers/PROMPT.txt',*sorted((ROOT/'course-assets/layers').glob('*.jpg'))]}
  states=[]
  for key,r in renderers.items():
   available=[i for i,item in enumerate(mapped) if item and item[0]==key];wanted={0,len(r.cameras)-1};at=0

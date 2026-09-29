@@ -1,0 +1,1 @@
+This candidate is superseded by [Vector Space v7 review notes](/Users/davidobrien/Developer/AI-Training/video-audit/vector-space-build-2026-09-28-v7/REVIEW.md). V7 uses a complete relationships sentence to avoid the unreliable single-word deletion at the ending. V6 remains unchanged for traceability.

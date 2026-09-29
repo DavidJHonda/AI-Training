@@ -7,6 +7,7 @@ except ImportError:
     from course_credit import save_course_image
 
 
+import argparse
 import shutil
 from pathlib import Path
 
@@ -25,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-art-v2.png"
 OUTPUT = ROOT / "course-assets/why-learn-ai/why-learn-ai-press.jpg"
 REVIEW_OUTPUT = ROOT / "board-review-why-learn-ai" / "ai-is-the-press-v2.jpg"
+UPLOAD_OUTPUT = ROOT / "gemini-notebook/why-learn-ai/assets/why-learn-ai-press-faceless.jpg"
 
 WIDTH = 1600
 ART_WIDTH = 1520
@@ -43,8 +45,7 @@ def cover(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     return image.crop((left, top, left + size[0], top + size[1]))
 
 
-def render() -> Image.Image:
-    art = cover(Image.open(ART).convert("RGB"), (ART_WIDTH, ART_HEIGHT))
+def render(*, upload_variant: bool = False) -> Image.Image:
     banner_top = ART_TOP + ART_HEIGHT + TAKEAWAY_GAP
     height = banner_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
 
@@ -55,11 +56,19 @@ def render() -> Image.Image:
     )
     draw_board_title(draw, "AI Is the Press")
 
-    mask = Image.new("L", art.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle(
-        (0, 0, ART_WIDTH - 1, ART_HEIGHT - 1), radius=14, fill=255
-    )
-    image.paste(art, (40, ART_TOP), mask)
+    if upload_variant:
+        # Render a text-only board from the native layout; no artwork is loaded.
+        draw.rounded_rectangle(
+            (40, ART_TOP, 40 + ART_WIDTH, ART_TOP + ART_HEIGHT),
+            radius=14, fill="#ffffff",
+        )
+    else:
+        art = cover(Image.open(ART).convert("RGB"), (ART_WIDTH, ART_HEIGHT))
+        mask = Image.new("L", art.size, 0)
+        ImageDraw.Draw(mask).rounded_rectangle(
+            (0, 0, ART_WIDTH - 1, ART_HEIGHT - 1), radius=14, fill=255
+        )
+        image.paste(art, (40, ART_TOP), mask)
 
     draw_takeaway_band(
         image,
@@ -73,7 +82,19 @@ def render() -> Image.Image:
 
 
 def main() -> None:
-    image = render()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--upload-variant", action="store_true",
+                        help="Render only the text-only Notebook upload; leave canonical assets untouched")
+    args = parser.parse_args()
+    image = render(upload_variant=args.upload_variant)
+    if args.upload_variant:
+        with Image.open(OUTPUT) as canonical:
+            if image.size != canonical.size:
+                raise ValueError(f"Upload size {image.size} differs from canonical {canonical.size}")
+        UPLOAD_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        image.save(UPLOAD_OUTPUT, quality=95, subsampling=0, optimize=True)
+        print(f"Wrote {UPLOAD_OUTPUT} ({image.width}x{image.height})")
+        return
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     REVIEW_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     save_course_image(image, OUTPUT, quality=95, subsampling=0, optimize=True)

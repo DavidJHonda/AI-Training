@@ -22,7 +22,9 @@ Ask the desk. Ask AI.
 
 You ask the desk, “Give me 10 ideas for my history project.” The desk gives you nothing.
 
-You ask AI, “Give me 10 ideas for my history project.” AI gives you ten history project ideas: Ancient Egypt, the printing press, the Silk Road, the moon landing, the Roman Empire, the Industrial Revolution, the civil rights movement, the history of voting, the invention of flight, and the Berlin Wall.
+You ask AI, “Give me 10 ideas for my history project.”
+
+AI gives you ten history project ideas: Ancient Egypt, the printing press, the Silk Road, the moon landing, the Roman Empire, the Industrial Revolution, the civil rights movement, the history of voting, the invention of flight, and the Berlin Wall.
 
 AI is software built to do things that used to take a human brain.
 
@@ -42,11 +44,19 @@ Different AI systems do different jobs. Let’s look at two kinds you already us
 
 **Teaching content:**
 
-Two ways you already use AI.
+Here are two ways you already use AI.
 
-Recommendation AI. The job: choose from what already exists. How it works: rank the available options and select the likely best match. Everyday examples: your next Netflix show, Spotify song, or Maps route.
+Recommendation AI. The job: choose from what already exists.
 
-Generative AI. The job: make something that didn’t exist. How it works: use learned patterns to create a new output from your prompt, the question or instructions you give it. Everyday examples: an email, essay, image, website, song, or video.
+How it works: rank the available options and select the likely best match.
+
+Everyday examples: your next Netflix show, Spotify song, or Maps route.
+
+Generative AI. The job: make something that didn’t exist.
+
+How it works: use learned patterns to create a new output from your prompt, the question or instructions you give it.
+
+Everyday examples: an email, essay, image, website, song, or video.
 
 AI can recommend. AI can create. This course focuses on generative AI.
 

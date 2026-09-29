@@ -1,9 +1,14 @@
 # Edit spec: scope and production standards
 
-Updated 2026-09-26. [README](README.md) is the shared workflow and shipping
+Updated 2026-09-29. [README](README.md) is the shared workflow and shipping
 checklist; [Narration Review](NARRATION-REVIEW.md) owns teaching verdicts;
 [Technical Recipes](TECHNICAL-RECIPES.md) holds implementation details.
 This file owns build scope and board/audio treatment.
+
+**Shipping is local by default (owner rule, 2026-09-29).** “Ship it” authorizes
+installing, verifying, and committing the approved video locally. GitHub pushes
+and Vercel deployment require a separate batch-publishing request. Follow the
+[local shipping and batch deployment rules](README.md#local-shipping-and-batch-deployment-owner-rule-2026-09-29).
 
 ## 1. Scope: full production or narrow repair
 
@@ -25,8 +30,8 @@ silently expanding the task. Reuse approval already given for the same work.
 Every changed span must meet the applicable standards below. A narrow candidate
 may retain known pre-existing defects outside scope, but the review must list
 them and must not label it ready to ship. All standard videos must satisfy the
-whole-file ship checklist before publication. Passing that checklist is separate
-from the owner's authorization to publish.
+whole-file ship checklist before local shipping. Passing that checklist is separate
+from the owner's authorization to ship locally or publish a batch.
 
 ## 1b. Review the board plan before the first build (owner rule, 2026-09-16)
 
@@ -51,13 +56,17 @@ boards and preserve previously approved treatment elsewhere.
   from a zoom. Flag uncertain framing for a preview rather than promising a benefit.
 - Identify unusual treatments and their reasons. Do not add pauses to accommodate
   outline changes or camera motion.
+- Identify engaging Notebook graphics/animations to retain, with source timestamps
+  and the teaching purpose they serve. For each proposed visual repair or
+  replacement, identify the specific problem and how the change improves teaching;
+  separate content corrections, production-standard cleanup, and optional polish.
 
 Present this with proposed narration changes and selective pauses as ONE edit
 plan for David's approval before the first build. Analysis, timing measurements,
 and previews needed to make that plan reviewable can proceed. Once approved,
 execute the plan without asking again unless a material change becomes necessary.
 Existing approval of the same treatment remains valid. The plan is a production
-proposal, not a factor in the narration verdict or authorization to publish.
+proposal, not a factor in the narration verdict or authorization to ship or publish.
 
 ## 2. Every course board is the current page asset
 
@@ -71,6 +80,10 @@ Use the existing JPG directly; do not recreate its HTML or reflow its text.
 A temporary padded video canvas may fit the asset to 16:9 without changing the
 canonical file. Recheck highlight coordinates when an asset changes. Current
 assets, rather than superseded copies retained for old videos, govern new inserts.
+
+This applies to actual recreations of course boards, not every Notebook diagram
+or animation that teaches the same idea. Independent supporting scenes are judged
+under rule 8 and can remain within a board's topic block (rule 8b).
 
 ## 3. Open at full view
 
@@ -112,10 +125,11 @@ text reads at full view. AI Chat boards are always compact (Next Level Moves,
 2026-09-11): never dive into a conversation; ring each speech bubble in turn at
 full view, and the ring traces the bubble's own border, not the text inside it.
 
-## 5. Rings: ours only
+## 5. Course-board rings: ours only
 
 - Outline only, drawn after the camera crop, rounded corners. No fills, tints,
-  chips, or Notebook washes anywhere in the candidate.
+  chips, or Notebook washes on course boards. Supporting Notebook scenes may
+  retain their own effective emphasis and animation under rule 8.
 - **Stroke weight is a fixed on-screen width** (owner rule 2026-09-26): 6 px at
   1080p, which is 4 px in the 1280x720 delivery frame, whatever the camera's zoom
   on the board — full view, dive, or pan. `ken_burns_path.ring_px(out_h)` is the
@@ -193,12 +207,48 @@ at 30fps. Longer narration adds hold time, not more zoom. Preserve compliant clo
 in narrow repairs. Replace Notebook's close/outro in full production; the course
 close is the literal final frame. The AI Brain Break activity is exempt.
 
-## 8. Everything else stays Notebook
+## 8. Preserve engaging Notebook graphics and animations (owner rule 2026-09-29)
 
-Outside the board spans, keep Notebook's graphics and motion. Do not replace an
-engaging, accurate scene because a board exists. Do not invent course-style
-boards for the video; new custom supporting graphics follow the style rule in
-section 8d.
+**Choose visuals for their teaching value.** Keep engaging Gemini Notebook
+graphics and animations when they support the narrated point and do not contradict
+the lesson. An animation may explain a process, relationship, or change more
+effectively than an inserted still. Preserve its useful motion, sequence, and
+timing; do not flatten it or replace it merely because we can create a cleaner
+graphic, a course board exists, or its example is absent from the lesson text.
+
+Added examples and visual analogies are acceptable when they make the lesson
+clearer, remain consistent with its meaning and qualifiers, and do not introduce
+misleading claims. Illustrative numbers and charts can express a lesson's point
+without being sourced statistics. Do not reject them solely because the values
+are unsupported; judge their role and meaning in the narrated scene. Distinguish
+that use from a consequential factual claim or a false attribution to a source.
+Clarify an example as illustrative only when needed for understanding.
+
+Owner calibration (2026-09-29, Why Learn AI? Version 2): retain the animated
+capability chart at 0:44–0:49 and cumulative project/experience chart at 1:46–1:51,
+including their numbers. They express improvement and learning through projects;
+the owner approved both as effective illustrations. No numerical cleanup or added
+disclaimer is required for these spans. This does not approve every numerical
+claim elsewhere; assess each in its teaching context.
+
+Review the scene in motion with its narration, including revealed labels, arrows,
+numbers, and the final state. Ask what the student will understand from it. If it
+teaches the intended point accurately and engagingly, retain it. A still frame
+alone cannot establish whether an animation works; disclose any unviewed motion.
+
+When a scene has a specific problem, prefer the smallest effective repair that
+preserves its teaching value: correct a label, remove a misleading number, or
+retime a reveal before replacing the whole scene. Replace it when it contradicts
+or misleads, obscures the point, distracts, or fails an applicable production
+standard. Identify that reason separately from optional aesthetic preferences.
+Use rule 8d when an existing scene cannot serve the teaching need effectively.
+
+Actual course-board recreations still receive the canonical asset and treatment
+(rules 2–5); independent supporting graphics are not board recreations merely
+because they explain the same point. Keep useful scenes around and within board
+topic blocks under rule 8b. Do not invent course-style boards for the video; a new
+supporting image follows the owner’s photographic preference in rule 8d. The
+Notebook stock-photo and mark cleanup rules still apply.
 
 The engine burns a "Gemini Notebook" mark into the bottom-right corner of every
 scene it renders (present on the September 4–9 rolls too; the audit of 2026-09-11
@@ -218,7 +268,7 @@ glyph strokes, using a mask learned from that roll's own paper frames. Frames it
 declines are listed in the manifest and must be looked at. Board legs and the
 close never carry it.
 
-## 8b. Use Notebook's drawings to break up a board run (owner rule 2026-09-12)
+## 8b. Use supporting drawings to break up a board run (owner rule 2026-09-12)
 
 A lesson whose boards would otherwise run back to back for minutes is less
 engaging than one that breathes. Make Your Move v4 set the pattern: from the
@@ -238,7 +288,7 @@ narration (1/7 required lines against 7/7). A lesson with short boards and Noteb
 own scenes between them is left alone. (Your Choices was the old example; its two
 50-second board runs were broken with donor drawings from two rerolls, 2026-09-26.) The 1b board plan states each
 board's planned on-screen time and where it breaks; every candidate's report states
-the longest unbroken board run and lists every Notebook span used and where, so David
+the longest unbroken board run and lists every supporting illustration used and where, so David
 can pull any of it back before shipping.
 
 **Where the pictures come from (2026-09-23):** first the roll's own drawings (for
@@ -249,10 +299,14 @@ other rolls under the base roll's invented-statistics slides, a keyboard drawing
 a third under a drawn person); then the live video's own drawings when a reroll
 replaces it (Layers v3: the live animation under the scale beat). Donor drawings
 carry the same bans as the roll's own (no photographs or photorealistic imagery,
-logos, invented figures, restatements of a course board in Notebook's words;
-illustrated, cartoon, and stylized people are allowed, owner rule 2026-09-26). When no roll drew
-anything for a beat, say so in the report and let the dense dive-and-pan carry the
-board rather than inventing filler.
+logos, misleading numerical claims, recreated course boards;
+illustrated, cartoon, and stylized people are allowed, owner rule 2026-09-26).
+Independent examples and animations explaining a board's idea are allowed under
+rule 8; matching the topic does not make a scene a recreated board.
+When available drawings are weak, repetitive, misleading, or missing, propose a
+custom supporting illustration under rule 8d. If no relevant illustration is
+planned, say so in the report and let the dense dive-and-pan carry the board;
+do not invent decorative filler.
 
 - **Under a board's introduction.** Where Notebook drew a scene for the sentences
   that introduce a board, keep that scene and bring the board in about three
@@ -263,8 +317,8 @@ board rather than inventing filler.
 - **Inside a long board.** After an item's ring has held for a few seconds, cut to
   the drawing Notebook made for that item's narration, and return to the board
   about one second before the next item's title so the cut back lands on a
-  still view, not on a moving dive. Do this only where Notebook drew something
-  for that span; never invent a filler.
+  still view, not on a moving dive. Use a relevant existing drawing or a custom
+  illustration included in the approved edit plan under rule 8d; never invent filler.
 - **Never** a Notebook rendering of a course board, with or without its
   highlight, even for a second (rule 2). Check every in-time span against the
   roll's scene cuts: Notebook often cuts from a drawing back to its board render

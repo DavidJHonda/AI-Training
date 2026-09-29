@@ -78,53 +78,6 @@ def render_comparison():
     draw_takeaway_band(im,top=footer,left=40,right=1560,text=TAKEAWAY,font=face("medium",30))
     return im,geometry
 def main():
-    audit=ROOT/"video-audit/support-trap-reroll-materials-2026-09-07"
-    audit.mkdir(parents=True,exist_ok=True)
-    html=(ROOT/"index.html").read_text()
-    protected=[ROOT/"index.html",ROOT/"course-assets/support-trap/support-trap.mp4"]+[asset_path('illustrations', s) for _,s,_ in SOURCES]
-    original={str(p):sha(p) for p in protected}
-    rows=[]
-    for name,source,upload in SOURCES:
-        src=asset_path('illustrations', source);target=asset_path('lessons', name)
-        assert asset_path("illustrations", source).relative_to(ROOT).as_posix() in html
-        shutil.copy2(src,target)
-        with Image.open(target) as im:w,h=im.size
-        rows.append(dict(file=str(target.relative_to(ROOT)),source=str(src.relative_to(ROOT)),
-                         notebook_upload=upload,sha256=sha(target),source_sha256=sha(src),width=w,height=h))
-    im,geometry=render_comparison()
-    path=ROOT/"course-assets/support-trap/support-trap-1-comparison-notebook.jpg"
-    save_course_image(im, path,quality=95,subsampling=0,optimize=True)
-    rows.insert(1,dict(file=str(path.relative_to(ROOT)),source="scripts/video/prepare_support_trap_reroll.py",
-                      notebook_upload=True,sha256=sha(path),width=im.width,height=im.height,
-                      purpose="Face-free upload surrogate; replace with illustrated comparison in final video.",
-                      geometry=geometry))
-    pill,sticky=close_board_copy("supporttrap")
-    md=ROOT/"lessons/support-trap.md";prompt=ROOT/"Prompts/support-trap-video-prompt.txt"
-    assert pill in md.read_text() and sticky in md.read_text()
-    close=ROOT/"course-assets/support-trap/support-trap-close.jpg"
-    with Image.open(close) as im:
-        assert im.size==(3840,2160)
-    rows.append(dict(file=str(close.relative_to(ROOT)),source="index.html:CLOSE_BOARDS.supporttrap",
-                     notebook_upload=True,sha256=sha(close),width=3840,height=2160,pill=pill,sticky=sticky,
-                     note="Existing current close verified and retained; no redesign."))
-    words=len(prompt.read_text().split());assert words<=500
-    assert all(sha(Path(p))==h for p,h in original.items())
-    entry=dict(lesson="support-trap",section_id="supporttrap",prepared="2026-09-07",
-               markdown=str(md.relative_to(ROOT)),markdown_sha256=sha(md),markdown_words=len(md.read_text().split()),
-               prompt=str(prompt.relative_to(ROOT)),prompt_sha256=sha(prompt),prompt_words=words,boards=rows)
-    manifest=ROOT/"Prompts/AVOID-TRAPS-SOURCE-MANIFEST.json"
-    data=json.loads(manifest.read_text())
-    data["lessons"]=[entry if e["lesson"]=="support-trap" else e for e in data["lessons"]]
-    # Mechanical update only; preserve all other lesson entries.
-    manifest.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n")
-    (audit/"manifest.json").write_text(json.dumps(dict(**entry,protected_unchanged=original),ensure_ascii=False,indent=2)+"\n")
-    sheet=Image.new("RGB",(1600,1300),"white");d=ImageDraw.Draw(sheet)
-    for i,row in enumerate(rows):
-        img=Image.open(ROOT/row["file"]);img.thumbnail((510,570))
-        x=(i%3)*533;y=(i//3)*650
-        d.text((x+8,y+8),Path(row["file"]).name,fill="black")
-        d.text((x+8,y+28),"UPLOAD" if row["notebook_upload"] else "POST ONLY",fill="black")
-        sheet.paste(img,(x+8,y+58))
-    save_course_image(sheet, audit/"contact-sheet.jpg",quality=90)
-    print(json.dumps({"prompt_words":words,"md_words":entry["markdown_words"],"boards":rows},ensure_ascii=False,indent=2))
+    raise SystemExit("Retired preparation workflow. Rebuild Support Trap from its current lesson under scripts/video/PREPARATION.md; do not reuse the September 7 kit.")
+
 if __name__=="__main__":main()

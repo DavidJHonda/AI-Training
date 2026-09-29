@@ -85,7 +85,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--prepare-only',action='store_true');args=ap.parse_args()
  assert not DEST.exists(),'Never overwrite a candidate';assert sha(SOURCE)==EXPECTED
  OUT.mkdir(exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
- snap,boards,specs,rs,mapped,reuse=setup();protected={str(p):sha(p) for p in [SOURCE,ROOT/'index.html',ROOT/'lessons/how-ai-answers.md',ROOT/'Prompts/how-ai-answers-video-prompt.txt',*sorted((ROOT/'course-assets/how-ai-answers').glob('*.jpg'))]}
+ snap,boards,specs,rs,mapped,reuse=setup();protected={str(p):sha(p) for p in [SOURCE,ROOT/'index.html',ROOT/'lessons/how-ai-answers.md',ROOT/'gemini-notebook/how-ai-answers/PROMPT.txt',*sorted((ROOT/'course-assets/how-ai-answers').glob('*.jpg'))]}
  states=[]
  for key,r in rs.items():
   wanted={0,len(r.cameras)-1};at=0

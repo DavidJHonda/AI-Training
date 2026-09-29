@@ -67,7 +67,7 @@ def prepare():
         im=rd.at(f);p=OUT/f'donor-{key}.png';cv2.imwrite(str(p),im)
         stills[key]=im;provenance[key]={'path':str(p),'sha256':sha(p),'source_frame':f,'source_sha256':EXPECTED}
     rd.c.release()
-    protected={str(p):sha(p) for p in [SRC,ROOT/'lessons/one-more-thing.md',ROOT/'Prompts/one-more-thing-video-prompt.txt',*sorted((ROOT/'course-assets/one-more-thing').glob('*.jpg'))]}
+    protected={str(p):sha(p) for p in [SRC,ROOT/'lessons/one-more-thing.md',ROOT/'gemini-notebook/one-more-thing/PROMPT.txt',*sorted((ROOT/'course-assets/one-more-thing').glob('*.jpg'))]}
     states=[]
     def frame(f):
         patch=next((p for p in PATCHES if p[0]<=f<p[1]),None)

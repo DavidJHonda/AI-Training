@@ -18,7 +18,7 @@ So here’s the question worth asking: what’s in your hands, and what isn’t?
 
 Out of your hands: how AI changes future jobs, how quickly AI changes, how much work AI can produce, how other people use AI, and what the next headline predicts.
 
-In your hands: build real depth in something you care about, stay curious and keep what works, practice coming up with your own ideas, choose how you use AI and how you work with other people, and make something real instead of waiting to see what happens.
+In your hands: build real depth in something you care about, stay curious and keep what works, practice coming up with your own ideas, choose how you use AI and how you work with other people, and make something real with AI instead of waiting to see what happens.
 
 You don’t control every outcome. Your choices still matter.
 

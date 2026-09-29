@@ -197,7 +197,8 @@ close is the literal final frame. The AI Brain Break activity is exempt.
 
 Outside the board spans, keep Notebook's graphics and motion. Do not replace an
 engaging, accurate scene because a board exists. Do not invent course-style
-boards for the video; a new replacement graphic is Notebook-style.
+boards for the video; new custom supporting graphics follow the style rule in
+section 8d.
 
 The engine burns a "Gemini Notebook" mark into the bottom-right corner of every
 scene it renders (present on the September 4–9 rolls too; the audit of 2026-09-11
@@ -273,7 +274,7 @@ board rather than inventing filler.
 - Everything still passes rule 10: transition guard at every seam, corner mark
   cleaned on re-timed frames, and the audio untouched.
 
-## 8c. Photographs never ship (owner rule 2026-09-13)
+## 8c. Notebook stock photographs never ship (owner rule 2026-09-13)
 
 Notebook drops stock photographs into its rolls: people, machines, buildings,
 old computers. None of them ship, whether or not a watermark is visible and
@@ -281,20 +282,77 @@ whether or not a person is in frame. Two earlier rolls surfaced Getty watermarks
 mid-span, so the source and license of any Notebook photograph is unknowable
 from the frames, and a public course video cannot carry that question.
 
-People rule (owner rule 2026-09-26): "No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed." A drawn,
+Notebook people rule (owner rule 2026-09-26): "No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed." A drawn,
 cartoon, or stylized person in a Notebook scene ships; a photographed or
-photorealistic one never does. Every video prompt carries that sentence verbatim.
+photorealistic one from Notebook never does. Every Notebook video prompt carries
+that sentence verbatim. The owner’s 2026-09-29 preference for newly generated
+supporting images is different: realistic high school students, under rule 8d.
+That preference does not authorize unknown-source Notebook stock photographs.
 
-Cover every photograph span with a drawing: Notebook's own drawing from
+Cover every Notebook photograph span with a suitable supporting image: its own drawing from
 elsewhere in the roll (`keep(..., video_from=)`), a drawing from another roll or
 the previous live video of the same lesson (`keep(..., video_from=, video_src=)`),
-or, when nothing fits, a still from the roll's own next drawn scene. Match the
+or a custom supporting illustration under rule 8d. A still from the roll's own
+next drawn scene may also fit. Match the
 narration where a drawing exists for it: Why Learn AI v3 borrowed the live
 video's Macintosh, gear-bolt-globe, and Winning the Race drawings under exactly
 the lines they were drawn for. The candidate's report lists every photograph
 replaced and what covers it. Course boards that contain the course's own
 photographs (the career boards, the study boards) are page assets and are not
 affected by this rule.
+
+## 8d. Custom supporting illustrations (owner rule 2026-09-29)
+
+When Notebook graphics are weak, repetitive, misleading, or missing, propose a
+purpose-built illustration that supports the specific narrated idea. First apply
+rule 8: preserve effective Notebook graphics and animations, and consider a
+targeted repair before a replacement. State the teaching benefit of the new
+illustration; visual consistency or polish alone is not a reason to replace an
+effective animation. Use canonical assets for actual course boards (rule 2).
+
+**Style for graphics we create (owner direction 2026-09-29):**
+
+- **People and settings:** use realistic, photographic-looking high-school-age
+  students with natural proportions, expressions, and poses in believable school,
+  home, or study settings. Avoid cartoon, anime, exaggerated features, and a
+  childish illustration style. Use realistic objects for accompanying scene inserts.
+- **Course fit:** take current course imagery as the visual reference for maturity,
+  color, lighting, and level of realism. Keep related custom scenes visually
+  consistent. Do not default to a sketchbook or cartoon style merely because the
+  surrounding Notebook scenes are drawn.
+- **Clothing:** ordinary student clothing is appropriate. Video-only supporting
+  images do not need Dallas Stars jerseys or the exact characters used on lesson
+  pages. Actual course boards still use their canonical assets.
+- **Show the intended action:** the picture must make the narrated idea clear.
+  For “make something real with AI,” show a student using AI to create a usable
+  result, with the AI interaction and resulting work visible. Drawing or crafting
+  by hand alone does not communicate that point. Choose the scene for what it
+  teaches, not just an attractive person at a laptop.
+- **Explanatory graphics:** use clear diagrams, charts, or process visuals when
+  those explain the idea better. They need not contain a person or imitate a
+  photograph. Keep them readable at the final video size, with minimal text.
+
+Purpose-generated photographic-looking assets are allowed; rule 8c still excludes
+unknown-source Notebook photographs. Preserve effective existing Notebook drawings
+and animations under rule 8. This style rule governs new custom graphics and is
+not a reason to replace useful existing motion.
+
+Keep text minimal, and avoid misleading numerical
+claims or diagram relationships. Illustrative values follow rule 8. Each new graphic should help explain
+that moment, not merely decorate the break.
+
+Include the illustration's purpose and placement in the edit plan (rule 1b),
+reusing approval already given for the same work. Preserve approved narration
+and timing for visual-only replacements. Inspect the final encoded result for
+accuracy, readability, cropping, and transitions; the source illustration alone
+is not sufficient verification. Retain the final asset and its generation/edit
+prompts with the build record, and list its output span in the review.
+
+Layers v9 is the reference example: replace repeated stack imagery with a long
+number row showing the two tracked values, then a separate illustration of “it”
+through successive updates. Both pictures support their narrated beats while
+the approved audio and duration stay unchanged. Custom illustrations supplement
+the canonical boards; they do not replace or restate them as newly designed boards.
 
 ## 9. Narration changes and targeted repairs
 

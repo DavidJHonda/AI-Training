@@ -42,11 +42,11 @@ Repeat with more examples. The patterns build.
 
 What does the model learn during training? Patterns. Here’s one you picked up as a child. Which word comes next?
 
-### Board 3: How AI Learns Patterns
+### Board 3: Patterns AI Learns
 
 **Image file:** `how-an-llm-works-patterns.jpg`
 
-![How AI Learns Patterns](how-an-llm-works-patterns.jpg)
+![Patterns AI Learns](how-an-llm-works-patterns.jpg)
 
 **Teaching content:**
 

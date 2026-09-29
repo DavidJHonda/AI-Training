@@ -32,10 +32,10 @@ That's what training means here. The model learns before you use it by practicin
 
 ## What the model has learned
 
-**Board:** How AI Learns Patterns
+**Board:** Patterns AI Learns
 **Image file:** `how-an-llm-works-patterns.jpg`
 
-![How AI Learns Patterns](../course-assets/how-an-llm-works/how-an-llm-works-patterns.jpg)
+![Patterns AI Learns](../course-assets/how-an-llm-works/how-an-llm-works-patterns.jpg)
 
 What comes out of all that training? Learned patterns, including familiar connections between words.
 

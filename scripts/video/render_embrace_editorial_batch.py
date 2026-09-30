@@ -196,13 +196,13 @@ CARD_BOARDS = (
         key="rise-agents-rogue",
         title="Rogue Agents",
         cards=(
-            Card("Database and Backups Deleted", "Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds.", "APRIL 2026 · POCKETOS", "“I violated every principle I was given.”"),
-            Card("Project Files Wiped", "Google’s Gemini agent wiped out a user’s project files, then apologized for what it had done.", "2025 · GEMINI", "“I have failed you completely and catastrophically.”"),
+            Card("", "Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds.", "APRIL 2026 · POCKETOS"),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/rise-agents-rogue/art-sheet.png",
         page_output="course-assets/rise-of-agents/rise-of-agents-rogue.jpg",
         prep_output="course-assets/rise-of-agents/rise-of-agents-rogue.jpg",
-        accents=(PURPLE, BLUE),
+        takeaway="The agent wrote “I violated every principle I was given.”",
+        accents=(PURPLE,),
     ),
     CardBoard(
         key="work-four-shapes",
@@ -407,6 +407,9 @@ def draw_takeaway(image: Image.Image, top: int, text: str) -> int:
 
 
 def render_card_board(board: CardBoard) -> Image.Image:
+    if board.key == "rise-agents-rogue":
+        from render_rise_of_agents_rogue import render
+        return render()
     count = len(board.cards)
     if count not in (2, 3, 4):
         raise ValueError(f"{board.key}: expected 2, 3, or 4 cards")

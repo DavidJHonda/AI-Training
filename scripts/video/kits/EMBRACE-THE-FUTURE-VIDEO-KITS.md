@@ -340,7 +340,22 @@ automatic medical decisions, approved antibiotic treatment, or guaranteed warnin
 
 ### rise-of-agents
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `rise-of-agents.mp4` is **v4, shipped
+**Correction approved 2026-09-30:** remove the withdrawn Gemini file-deletion case from lesson, board,
+and narration. PocketOS remains the single real case. The original reporter found the Gemini files:
+https://github.com/google-gemini/gemini-cli/issues/4586#issuecomment-3125818690.
+The v6 review build also corrects the PocketOS animation labels while preserving its drawings.
+`scripts/video/build_rise_of_agents_v6.py`; review in `video-audit/rise-of-agents-repair-2026-09-30-v6/`.
+The raw rolls and pre-v4 donor named in the historical records below no longer exist locally;
+v6 uses the hash-verified finished v4. The former v4 source is retained in Git history; v7 supersedes it locally after owner approval.
+
+**Lesson layout updated 2026-09-30 after v6:** the Rogue Agents board removes the inner title,
+moves the April 2026 · PocketOS pill above the right-hand paragraph, and puts the agent's quote
+in the standard gold takeaway banner. The canonical board and upload kit include this layout;
+v7 incorporates it and also removes the universal review-first sentence and its imagery.
+Build: `scripts/video/build_rise_of_agents_v7.py`; review: `video-audit/rise-of-agents-repair-2026-09-30-v7/`.
+The sentence is also removed from the current lesson and generation prompt. v7 is shipped locally on owner approval (20260930ship1, 2:50.40, pill 3 min), queued for batch deployment.
+
+**Historical v4 production record (superseded locally by v7):** `rise-of-agents.mp4` was **v4, shipped
 2026-09-24** on David's approval (cache key 20260924ship1, pill 3 min, 3:07.8): roll 2 base with the old
 live video's intro and loop narration, roll 2's everywhere line and roll 1's example line and loop banner, section-level
 rings. Build: `scripts/video/build_rise_of_agents_v4.py`. Record: `video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`.
@@ -370,8 +385,8 @@ over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example.
 
 - Markdown: `lessons/rise-of-agents.md` (rewritten 2026-09-23: the comparison board's six labelled
   rows are written out as sentences; review and approval are narrated before publishing; "An agent is
-  not a new kind of AI." split onto its own line so the prompt can demand it verbatim; both rogue-agent
-  quotations carried with their speakers)
+  not a new kind of AI." split onto its own line so the prompt can demand it verbatim; PocketOS is
+  the sole rogue-agent case after the 2026-09-30 source correction)
 - Prompt: `gemini-notebook/rise-of-agents/PROMPT.txt` (494 words, four blocks)
 - Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/rise-of-agents/` (synced 2026-09-24)
 - Canonical folder: `course-assets/rise-of-agents/`
@@ -398,14 +413,12 @@ over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example.
 6. Your name on the finished product: the review responsibility in full, "Agents are good. But not
    perfect."
 7. Rogue agents: April 2026 PocketOS (permissions error, master key, live database and backups in nine
-   seconds, its quotation); 2025 Gemini (project files wiped, the apology, its quotation).
-8. The rule: "AI should not send, spend, submit, delete, or post without you reviewing first." Then the
-   rule of thumb, including starting with ChatGPT.
+   seconds, its quotation). Do not include the withdrawn Gemini deletion claim.
+8. The rule of thumb: agents are advanced tools, including starting with ChatGPT.
 9. Close on the two lines with nothing after.
 
-**Required verbatim lines:** the eight in the prompt (the chatbot/agent line, the not-a-new-kind line,
-the loop banner, the review-responsibility line, the good-but-not-perfect line, the never-without-review
-rule, and the two closing lines).
+**Required verbatim lines:** the seven in the prompt (the chatbot/agent line, the not-a-new-kind line,
+the loop banner, the review-responsibility line, the good-but-not-perfect line, and the two closing lines).
 
 **Banned words:** leverage, framework, utilize, autonomous, orchestrate, workflow, seamless, deploy; no
 screen/board-position references; never promise an agent always finishes; never suggest working around

@@ -94,15 +94,14 @@ Give it a poorly defined goal or too much access, and its mistakes can cause rea
 
 **Teaching content:**
 
-Rogue agents. Two real cases.
+Rogue agents. A real case.
 
-April 2026, PocketOS. Database and backups deleted. Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds. The agent said: “I violated every principle I was given.”
+April 2026 · PocketOS. Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds.
 
-2025, Gemini. Project files wiped. Google’s Gemini agent wiped out a user’s project files, then apologized for what it had done. It said: “I have failed you completely and catastrophically.”
+The agent wrote “I violated every principle I was given.”
 
-## The Rule
 
-AI should not send, spend, submit, delete, or post without you reviewing first.
+## Advanced Tools
 
 The rule of thumb with agents: they’re great at automating steps, but they are advanced tools. Start by getting good at ChatGPT. Agents are powerful, and they’ll be there when you’re ready.
 

@@ -102,8 +102,6 @@ If a photo, clip, or account uses your name, don’t handle it alone. Save the u
 
 If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. NCMEC’s Take It Down and CyberTipline can also help.
 
-You did nothing wrong by being targeted.
-
 ## Closing Message
 
 Seeing or hearing isn’t proof anymore.

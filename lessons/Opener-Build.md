@@ -12,7 +12,13 @@
 
 What makes you valuable?
 
-Your choices. Your questions. Your judgment. Your skills.
+Your choices.
+
+Your questions.
+
+Your judgment.
+
+Your skills.
 
 And you’ll always be Smarter Than the Tool.
 
@@ -22,7 +28,9 @@ This is the last section where you build new skills, and it’s the one you keep
 
 Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. That skill made you a better cyclist, and it carried over into other physical activities, such as skating or playing basketball. Whether you became a serious cyclist or just rode for fun, the skill stayed with you.
 
-Nobody could give you balance. You had to build it.
+Nobody could give you balance.
+
+You had to build it.
 
 This section is about skills like that: the ones you build once and keep forever.
 
@@ -36,7 +44,7 @@ Some of them are AI skills. The most important ones aren’t. You’ll build bot
 
 **Teaching content:**
 
-This road map shows what we’ll explore in this section, Build Your Skills.
+This road map shows what we’ll explore in this section. Build Your Skills.
 
 One. Use AI With Skill and Care: choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share.
 

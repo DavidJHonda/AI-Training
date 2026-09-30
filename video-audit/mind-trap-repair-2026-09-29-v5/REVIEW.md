@@ -1,5 +1,18 @@
 # Mind Trap v5 — approved review build, September 29, 2026
 
+## Shipped locally — September 30, 2026
+
+David authorized this exact candidate with “ship it” after the build report disclosed the remaining listening check. Installed and committed locally as `4475d92e` (`Ship Mind Trap v5 locally`); **queued for batch deployment**. No push or deployment was performed.
+
+- Installed path: `course-assets/mind-trap/mind-trap.mp4`.
+- Installed SHA-256: `ec2084ebb4dc3d8485d59ae79476cf8f450dd2a574288dbbd81b19f73b24312e`, verified byte-identical to the reviewed v5 candidate.
+- `index.html` Mind Trap reference: `course-assets/mind-trap/mind-trap.mp4?v=20260930ship1`. The displayed 4 min remains appropriate for 3:52.13.
+- Release commit contains only the canonical MP4 and the single lesson cache-key change. Unrelated work was preserved. Current canonical boards and lesson text matched the build's protected hashes before installation.
+- Existing encoded-file QA below applies to the unchanged candidate bytes. The agent did not perform perceptual audio listening; the owner's shipping authorization does not convert that unperformed check into a pass.
+- Scoped render-scratch cleanup completed after commit: 11 regenerable files, approximately 0.07 GB reclaimed. Candidate, QA images, transition strips, transcripts, review clips, and audit records remain.
+
+The remainder of this document records the earlier build and verification state. Its review-only status was superseded by the shipping authorization above.
+
 Scope: the user approved all refinements in the live evaluation: the generic-advice label, optional narration tightening, comparison readability, and the ELIZA camera crop. Build only; no local shipping, commit, or deployment is authorized by this request.
 
 Candidate: `Prompts/mind-trap-v5.mp4` — **3:52.13**, 6,964 frames at 30 fps, 1280×720. Encoded-file verification results are below.

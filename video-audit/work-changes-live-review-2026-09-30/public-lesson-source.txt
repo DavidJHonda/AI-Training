@@ -1,0 +1,110 @@
+function WorkChangesSection(props) {
+  var E = React.createElement;
+  // LAB 12: the lesson's boss assignment made real, with this course as the product.
+  // packets/course-reviews.txt is engineered: three loud themes, one root cause
+  // shared by every 2-star review (lost progress, no accounts), and a buried
+  // Dallas Stars gag that only the rare-complaints question uncovers.
+  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-workchanges-steps", {});
+  const REVIEW_LAB_STEPS = [
+    { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading the other 95 before doing any actual thinking. That was the old job.") },
+    { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
+    { title: "Create a separate project", body: E("span", null, "Go to ", E("a", { href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new project. Before you name or create it, choose Project-only memory. Then name it Course Review Project and click Create project. This assignment has its own source and goal, so it deserves its own context.") },
+    { title: "Hand AI the grind", body: "Start a new chat inside Course Review Project and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). Don’t send yet." },
+    { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
+    { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews and see whether they share the same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
+    { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
+    { title: "Prep the presentation", body: "Time to make the call. Have ChatGPT pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." }
+  ];
+  var labCheckedCount = Object.keys(labChecked).filter(function(k) { return labChecked[k]; }).length;
+
+  return E("div", null,
+    E(LessonHeader, { sectionId: "workchanges" }),
+    E(BodyP, null,
+      "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
+    E(BodyP, null,
+      "Some familiar job titles may still be around: entrepreneur, teacher, lawyer, or designer. But what those jobs look like is already changing, including what people do each day."),
+
+    E(SectionKicker, null, "YOU ALREADY KNOW THE PIECES"),
+    E(BodyP, null,
+      "To understand this, let’s review two concepts you already learned. First: AI is best at specific things, and that’s where you’ll use it in your job."),
+    E("img", {
+      src: "course-assets/work-changes/work-changes-four-shapes-of-ai-work.jpg?v=20260914attribution1",
+      alt: "Four AI Strengths at Work. Reshape Your Material: turn existing material into a more useful form. Explore Possibilities: generate options and explore different directions. Find What Matters: pull key ideas and relevant details from long documents. Work Through Problems: break down a problem, compare approaches, and plan next steps.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
+    }),
+    E(BodyP, null,
+      "Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart? ", E("strong", null, "It’s what you already know"), "."),
+
+    E(SectionKicker, null, "YOUR FIRST ASSIGNMENT"),
+    E(BodyP, null,
+      "Here’s the same job before AI and with AI. AI can give you more time for the interesting stuff."),
+    E("img", {
+      src: "course-assets/work-changes/work-changes-assignment.jpg?v=20260921batch5",
+      alt: "Your First Assignment. Your manager asks you to analyze 500 customer reviews and recommend a fix. Before AI, a Latina female student and a South Asian male student spend the week completing the first pass before the real thinking begins. With AI, the same two students use the faster first pass to improve the work, investigate why, recommend the fix, and present the findings.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "Your First Assignment"),
+      E("p", null, E("strong", null, "The assignment: "), "Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”"),
+      E("p", null, E("strong", null, "Before AI: "), "You complete the entire first pass, then investigate why, recommend the fix, and present the findings. The boss adds comments, and you spend the next week reanalyzing."),
+      E("p", null, E("strong", null, "With AI: "), "AI completes the first pass. You improve its work, investigate why, recommend the fix, and present the findings. Your week on the real questions pays off.")),
+    E(BodyP, null,
+      "Do you see the point? The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know. AI doesn’t just help you work faster. ", E("strong", null, "It can help you focus on what’s really important"), "."),
+    E(SectionKicker, null, "THE CONCEPTS"),
+    E(BodyP, null,
+      "There are two terms you’ll hear that describe how AI is changing the nature of work."),
+    E("img", {
+      src: "course-assets/work-changes/work-changes-automation-and-augmentation.jpg?v=20260914attribution1",
+      alt: "Two ways AI changes the work. Automation means AI takes over a step. Augmentation means AI helps a person do more.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    E(BodyP, null,
+      "Whatever career you choose, AI will do some tasks for you and help you do others. But here’s the important point: the work still has your name on it. You own the outcome."),
+
+    E(SectionKicker, null, "HOW WORK IS CHANGING"),
+    E(BodyP, null,
+      "Put automation and augmentation together, and three changes show up across almost every career."),
+    E("img", {
+      src: "course-assets/work-changes/work-changes-productivity-and-possibilities.jpg?v=20260925work2",
+      alt: "How Work Is Changing. More Kinds of Work. With AI’s help, you can take on tasks outside your specialty, such as design, marketing, or customer support. You can handle more of a project yourself. More Productive. AI helps you complete tasks faster, so you’ll accomplish more in the same amount of time. More Meaningful. When AI handles routine tasks, you have more time to solve problems, develop ideas, and make decisions that need your knowledge and judgment.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
+    }),
+    E(SectionKicker, null, "THE PART THAT MATTERS"),
+    E(BodyP, null,
+      "AI is already changing some entry-level work. Basic research, starter code, and simple analysis often helped new graduates learn a profession. AI can now handle or assist with some of that work."),
+    E(BodyP, null,
+      E("strong", null, "AI can make you productive before it makes you knowledgeable."),
+      " That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it."),
+    E(BodyP, null,
+      "You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school."),
+    closeBoard("workchanges"),
+
+    E(InteractiveBox, {
+      variant: "lab",
+      surface: "teal",
+      labNumber: "13",
+      title: "Your First Assignment, For Real",
+      hint: "Click the box after you finish each step.",
+      lead: "You just read about this exact assignment. Now live it: real file, real AI, ten minutes. The product with the bad reviews? This course.",
+      action: E(ActivityCounter, { count: labCheckedCount, total: REVIEW_LAB_STEPS.length })},
+      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+        REVIEW_LAB_STEPS.map(function(st, i) {
+          var done = !!labChecked[i];
+          return E("div", {
+            key: i,
+            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
+          },
+            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("div", { style: { flex: 1, minWidth: 0 } },
+              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
+        }))),
+
+    E(LessonRule, null),
+    E(NextLessonGate, {
+      onClick: function() { props.completeAndNavigate && props.completeAndNavigate("computecost"); },
+      label: "Next: Data Centers"
+    })
+  );
+}

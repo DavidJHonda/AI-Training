@@ -43,22 +43,13 @@ The source lists and reserved-narration directions below document previous produ
 
 ## Hallucination
 
-**v11 SHIPPED 2026-09-21** (cache key 20260921ship2, pill 5 min): roll 1 of 2026-09-21 as the whole narration (two cuts: a 'banner' lead-in and a post-close sentence); canonical Boards 1, 2, 4 with full-height card rings; the post-only pizza board walked twice (also covers Notebook's fabricated Reddit screenshots); Why board's arrows changed to the Check the Claim style. Review: `video-audit/hallucination-comparison-2026-09-21/`.
+**Fresh full-video reroll prep — September 30, 2026.** David chose a reroll after the v15 repair. The active instructions are now [the lesson-owned prep notes](../../../gemini-notebook/hallucination/PREP-NOTES.md), [PROMPT.txt](../../../gemini-notebook/hallucination/PROMPT.txt), and the `hallucination` entry in `gemini-notebook/upload-sets.json`.
 
-Reviewed against the current page and all five canonical JPGs on 2026-09-18. Corrected Markdown links and the manifest; added the spoken application of all three source-check steps to both examples. The fake study is a deliberately invented example; a failed search alone does not prove a real-world claim false. Removed unsupported blanket claims about AI's intent from the prompt. Pauses remain selective editing decisions.
+The complete source is `lessons/hallucination.md`. The overview and both worked examples explicitly name all three checking steps. The pizza application explains why finding a real comment is not enough: a joke does not support the advice. Preserve the invented-study example, all four causes, the distinction between invention and misreading, the failed-search qualifier, and both closing lines.
 
-Scene directions: draw the opening chat before revealing Board 1; leave it for the definition. Teach Board 2's four explanations in order. Reserve one continuous Board 3 span for the pizza question, mistaken answer, real joke, and takeaway. Use the brief checking-mindset scene before Board 4, then narrate the named checks and both applications. Finish on the supplied close with its two lines verbatim. Review changed scene directions before generation and the highlighting plan before first edits. This prep review does not establish a verdict on any existing video.
+Run the lesson sync and upload every file in `gemini-notebook/hallucination/upload/`: one Markdown and five JPGs. The pizza board now has a text-only upload stand-in; the canonical illustration replaces it in editing. Older directions to omit that source or reserve a continuous pizza-board span are superseded. Read the current prep notes for generation and review details.
 
-- Prompt: **retired; fresh prep required**
-- Markdown: `lessons/hallucination.md`
-- Upload checklist: **retired; fresh prep required**
-- Notebook sources:
-  1. `course-assets/hallucination/hallucination-example.jpg`
-  2. `course-assets/hallucination/hallucination-why-ai-makes-things-up.jpg`
-  3. `course-assets/hallucination/hallucination-check-claim.jpg`
-  4. `course-assets/hallucination/hallucination-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/hallucination/hallucination-glue-on-pizza.jpg` (faces; Board 3 narration reserved in the Markdown)
+Historical production evidence remains in `video-audit/hallucination-comparison-2026-09-21/`, `video-audit/hallucination-live-review-2026-09-29/`, and `video-audit/hallucination-v15-2026-09-30/`. The page still references the installed video with cache key `20260921ship21`; preparation does not change that release.
 
 ## Training Bias
 

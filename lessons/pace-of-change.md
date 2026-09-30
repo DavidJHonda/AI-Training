@@ -24,7 +24,7 @@ Doing. In 2023 it told you the steps to do a thing, and wished you luck. In 2026
 
 ## A RACE TO DOMINATE
 
-The AI companies are in a race to dominate the industry, so they release new models every couple of months. Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it.
+The AI companies are in a race to dominate the industry, so they release new models every couple of months. New releases can improve what AI can do, how fast it works, or how much it costs.
 
 A limitation can disappear quickly, so today’s “no” is not necessarily permanent.
 

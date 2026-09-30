@@ -118,6 +118,12 @@ the Right or Wrong? activity is not narrated.
 
 ### pace-of-change
 
+**Local release 2026-09-30:** v10 (4:22.40), cache key `20260930ship10`, pill 4 min.
+Approved source wording correction, three supporting visuals, final-board framing repair, and
+removal of the four-idea preview while preserving the conceptual-map transition. Installed locally;
+pending batch deployment. Review: `video-audit/pace-of-change-build-2026-09-30-v10/REVIEW.md`.
+The v8 production notes below describe the prior source.
+
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `pace-of-change.mp4` is **v8, shipped
 2026-09-24** (David's approval; 4:52, cache key `20260924ship1`, pill 5 min). v8 is roll 4 of 2026-09-24
 with four narration cuts (the two 2026-as-a-projection lines, "autonomous agent", the compounding
@@ -138,10 +144,9 @@ the race-beat reroll (rolls 3 and 4 of 2026-09-24) gave v6 (v5 re-pictured), the
   under `## READ THAT THIRD ONE AGAIN`; the required lines split onto their own lines; Board 4 now
   carries both tags and the ASI card's "Nobody knows whether it is possible."; the Markdown-only
   two-groups sentence and the "Now switch…" connective removed, their guardrail now in the prompt).
-  **Page-match call (David's 9/21 rule, Markdown = the page):** the race paragraph now reads the page's
-  "Each new ChatGPT, Claude, or Gemini release is a new, stronger LLM replacing the one before it."
-  instead of the 9/18 generalization "not every release improves every task"; the prompt still forbids
-  claiming every release improves every task. If the page sentence should soften, fix the page first.
+  **Approved source correction (2026-09-30):** page and Markdown now say releases can improve
+  capability, speed, or cost. The prompt forbids claiming every release improves every task or
+  immediately replaces the previous model. v10 carries the approved overbroad-narration cut.
 - Prompt: `gemini-notebook/pace-of-change/PROMPT.txt` (493 words, four blocks)
 - Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/pace-of-change/` (synced 2026-09-24)
 - Canonical folder: `course-assets/pace-of-change/`
@@ -157,8 +162,8 @@ the race-beat reroll (rolls 3 and 4 of 2026-09-24) gave v6 (v5 re-pictured), the
 1. Hook: the argument is louder because the technology is advancing at blazing speeds.
 2. ChatGPT: 2023 vs. 2026: all four rows, both years each, in order (answering, images, context
    window, doing).
-3. The race (over a drawn scene, board gone): new models every couple of months, each release a new,
-   stronger LLM; "A limitation can disappear quickly, so today's 'no' is not necessarily permanent."
+3. The race (over a drawn scene, board gone): new models every couple of months, possible improvements
+   in capability, speed, or cost; "A limitation can disappear quickly, so today's 'no' is not necessarily permanent."
 4. Why So Fast?: three concepts by name with their explanations; then "Slow down and read that third
    one again." and "AI is already helping people build better AI."
 5. Four future ideas (drawn scene): four ideas, one happening in limited form, three not demonstrated;

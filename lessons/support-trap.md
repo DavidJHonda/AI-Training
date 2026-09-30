@@ -26,27 +26,31 @@ Notice: the AI’s words might even be the kinder ones. The difference is what h
 
 Support Trap is mistaking supportive words for support.
 
-### Board 2: Use AI to Get Ready for People
+AI can help you understand feelings, organize your thoughts, and get ready for hard conversations.
 
-**Image file:** `support-trap-role.jpg`
+But, it cannot take the place of someone who cares.
 
-![Use AI to Get Ready for People](support-trap-role.jpg)
+### Board 2: Where AI Fits in Emotional Support
+
+**Image file:** `support-trap-jobs.jpg`
+
+![Where AI Fits in Emotional Support](support-trap-jobs.jpg)
 
 **Teaching content:**
 
-Use AI to get ready for people. What can be real?
+There are three different jobs: ordinary venting, preparation, and danger.
 
-A calm response can help you name a feeling, organize your thoughts, or prepare for a hard conversation.
+Ordinary venting: put an everyday frustration into words to cool down before you share. The job may end in the chat.
 
-What is missing?
+Preparation: draft an email, rehearse a hard conversation, or make a study plan. Then act outside the chat.
 
-AI cannot notice what changed, show up, take responsibility, or check on you tomorrow.
+Danger: if someone may be unsafe, leave the chat and reach a person who can act. Leave the chat. Get help.
 
 Use AI to prepare for people, not replace them.
 
-## Three Different Jobs
+## Where the Chat Leads
 
-There are three different jobs here: ordinary venting, preparation, and danger. The difference is what needs to happen next.
+The difference is what needs to happen next.
 
 Sometimes the job can end in the chat: putting an ordinary frustration into words may help you cool down before you post something you regret. Not every emotional conversation needs another step.
 

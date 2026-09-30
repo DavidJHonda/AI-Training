@@ -10,8 +10,8 @@ The Markdown carries the full current page/board teaching, with production-only 
 
 ## What must land this time
 
-- Require the complete benefits sentence verbatim: naming a feeling, **organizing your thoughts**, and preparing for a hard conversation. Then develop the practical examples.
-- Require all four limitations together: notice what changed, show up, take responsibility, check tomorrow. The prior video does teach showing up elsewhere; do not misreport it as globally absent.
+- Require the updated introduction verbatim: “AI can help you understand feelings, organize your thoughts, and get ready for hard conversations.” and “But, it cannot take the place of someone who cares.” Then develop the practical examples.
+- Preserve the board banner verbatim: “Use AI to prepare for people, not replace them.”
 - The three jobs are **Ordinary Venting, Preparation, Danger**. The published graphic's Task Execution / System Collaboration / Multi-Agent Workflow labels are wrong. Both narration and visuals must keep the actual distinction. Orientation names the three once; examples develop them afterward.
 - Preserve both lunch replies and the outcome comparison, including the possibility that the chatbot's words sound kinder.
 - Keep the exact content note before the story, visible warning, 2025 attribution to Laura Reiley, Sophie Rottenberg's age of 29, Harry, “sometimes” encouraging help, “died by suicide,” and the mother's black-box account. Never invent a causal explanation, diagnosis, motive, or details of the death.
@@ -23,7 +23,7 @@ The Markdown carries the full current page/board teaching, with production-only 
 Upload every file in `upload/`: **one Markdown and four JPGs, five files total**. Paste `PROMPT.txt` into video customization; do not upload it or these notes. Save the full generation to the next unused `Prompts/support-trap-reroll.mp4` / `support-trap-reroll-N.mp4` name.
 
 - Comparison: render a text-only source at the canonical 1600×1511 dimensions, keeping the scenario, both replies, all six comparison sections, and takeaway. Remove all photo panels from this upload variant.
-- Role: upload the canonical 1600×885 board; it has no people or faces.
+- Where AI Fits in Emotional Support: upload the canonical 1600×1020 board; its generated object illustrations have no people or faces. Added to the visible lesson on September 30 to match the video’s ordinary-venting, preparation, and danger teaching.
 - Danger: render a text-only source at the canonical 1600×901 dimensions, preserving all three actions and the complete safety text. Conservatively omit all photos, including the small person in the first panel.
 - Close: upload the canonical 1590×600 image.
 
@@ -39,9 +39,13 @@ Preserve useful new or existing drawings and animations; correct faulty labels r
 
 This update prepares sources only. It does not generate a video, approve a production build or splice plan, replace the published lesson/video, or update the external tracker. Bundle checks establish consistency, not a teaching verdict.
 
-## Preparation checks completed
+## Preparation checks completed September 29 (historical)
 
 - Prompt: 468 words, four required blocks in order; all ten verbatim sentences appear as standalone Markdown lines.
 - Upload bundle: five files, all Markdown image references resolve, and lesson-specific sync `--check` reports OK.
 - Both rendered upload variants visually inspected: full teaching text readable, no clipped text or photo panels, canonical dimensions retained.
 - `index.html` and the canonical finished MP4 hashes remain unchanged from the start of this prep update.
+
+## September 30 board update
+
+The visible lesson now uses Where AI Fits in Emotional Support in place of the older Use AI to Get Ready for People board. The introduction explains AI’s uses and the need for someone who cares; the new board retains the banner “Use AI to prepare for people, not replace them.” The canonical JPG, printed teaching in Markdown, prompt board numbering, and five-file upload bundle are synchronized. The danger board is now Board 3. The older role asset remains available for existing video recipes but is no longer displayed or uploaded. Preserve the detailed examples under Where the Chat Leads as supporting narration after the overview board. The v9 review candidate and installed video were not rebuilt by this board update.

@@ -20,9 +20,9 @@ Most of the cows it learned from appeared on green pasture. The model had picked
 
 **Scene (your own drawing, no board):**
 
-This is training bias. The data showed the model a narrow slice of reality, so the model treated that slice as the whole picture.
+This is training bias.
 
-Training data can create two different traps. It can be skewed, so AI sees a distorted picture. It can also be stale, so AI sees an old picture.
+Training data can create two different problems: bias from skewed examples, and outdated answers from stale information.
 
 Skewed data creates three overlapping problems.
 
@@ -62,35 +62,9 @@ You cannot fact-check your way out of this trap because every individual fact ma
 
 ## When Training Data Gets Old
 
-Skewed data gives AI a distorted picture. Old data gives it an outdated one.
+Stale data is a separate limitation: information that was accurate during training may no longer be current.
 
-Training eventually stops. Anything that happens afterward was not part of that training, so it may be missing from the answer. AI can miss information that changed after training. Checking a current source helps you catch an outdated or incorrect answer.
-
-We encountered a wrong answer about a current fact while building this course. We asked Claude to check an example sentence from the Tokens lesson.
-
-This historical conversation shows why a current fact needs a current-source check. It does not establish why the first answer was wrong. Stale training is one possible explanation, but the conversation alone cannot distinguish stale information from hallucination or another error.
-
-### Board 4: Stale Information in Real Life
-
-**Image file:** `training-bias-stale.jpg`
-
-![Stale Information in Real Life](training-bias-stale.jpg)
-
-**Teaching content:**
-
-You: What about “Cooper Flagg is an amazing basketball player for the Dallas Mavericks”?
-
-AI: One flag: is Cooper Flagg actually on the Mavericks? I believe he was drafted by a different team. You should verify that.
-
-You: Search the web and check the date. Was he the first pick in the 2025 NBA draft?
-
-AI: Yes. Dallas selected Cooper Flagg with the first pick in 2025. My earlier answer relied on older information.
-
-**Takeaway:** When the date matters, verify with a current source.
-
-**Scene (your own drawing, no board):**
-
-The conversation establishes two things: Claude questioned a correct fact, and it corrected the answer after checking a current source. Claude attributed its earlier answer to older information, but that self-explanation is not evidence of the root cause. When the date matters, verify the fact with a current source.
+Training eventually stops. Anything that happens afterward was not part of that training, so it may be missing from the answer. When the date matters, verify with a current source.
 
 ## When AI Looks Something Up
 
@@ -98,7 +72,7 @@ AI does not always have to answer from training alone. It can retrieve outside i
 
 This approach is called Retrieval-Augmented Generation, or RAG:
 
-### Board 5: How RAG Works
+### Board 4: How RAG Works
 
 **Image file:** `training-bias-rag.jpg`
 

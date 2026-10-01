@@ -5,7 +5,7 @@ User authorization: “Build please” (2026-09-30), approving the repair propos
 Candidate: `Prompts/your-choices-v4.mp4` — **2:43.77 (2:44)**, 1280×720, 30 fps, 4,913 frames, H.264/AAC.
 SHA-256: `77e76ad3d88a85594742312f980e77d326f42694b2e2ca167d0519305455c66c`.
 
-Status: built and technically checked; **not installed or shipped**. Listening and normal-speed audiovisual approval remain outstanding. The original course MP4 and its course reference were not changed.
+Status: **owner requested a reroll after review (2026-09-30); v4 is not approved for shipping**. Candidate retained as a record. Updated preparation lives in `gemini-notebook/your-choices/`, with the source Markdown in `lessons/your-choices.md`. The original course MP4 and its course reference were not changed. The technical checks and listening limitations below describe this candidate, not approval to ship it.
 
 ## Changes
 

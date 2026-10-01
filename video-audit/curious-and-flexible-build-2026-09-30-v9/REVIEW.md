@@ -62,3 +62,11 @@ V9 assembles the unchanged v7 packets before frame 5569 with a newly encoded fin
 PASS: 6,376 decoded frames, exact 30 fps timeline, 1280×720, copied AAC and decoded PCM identical. All 16 declared transition boundaries pass; every boundary sequence was visually inspected (14 unchanged sequences carry byte-identical v7 packets; both final-region sequences inspected anew in v9). Full-resolution reveal/settled frames and the final close were inspected. The worst average luma difference across 182 unchanged-picture samples is 0.625 on a 0–255 scale. Source hashes remain unchanged.
 
 The full-video contact sheets and individual cutaway states show no clipping of the new interface copy. The original final diagram begins with its brief blank-paper reveal; corrected labels wait until its panels appear. Continuous playback/listening remains unperformed. Ready for the owner’s review, not asserted ready to ship.
+
+## Local release — October 1, 2026
+
+User approved: “ship it.” Installed the exact v9 bytes at the canonical course path and updated only its video cache key to `20261001ship9`. Runtime remains 3:32.533; the rounded “4 min” label is unchanged.
+
+Local commit: `aaf9454cfc3ad63d49eb3073215d9ebc53ed49fc`. Committed and installed SHA-256: `f34ee905c30cea0e839e9f0bb0ed390575dd2aff4d7801ec619c43906b1fdecf`. Exactly two release files committed; unrelated working edits preserved.
+
+**Shipped locally; queued for batch deployment.** No push or deployment performed. Existing auditory-review limitation remains documented; user approved shipping after disclosure.

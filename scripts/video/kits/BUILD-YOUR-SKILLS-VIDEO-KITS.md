@@ -6,7 +6,7 @@ below describe historical work and do not authorize reuse.
 
 > **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `scripts/video/PREPARATION.md`, add it to `gemini-notebook/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
 
-Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Listed in current course order: Opener → Your Choices → Next Level Moves → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curious & Flexible → Make Your Move.
+Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Current course order, updated 2026-10-01: Opener → Next Level Moves → Know the App → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curious & Flexible → Make Your Move.
 
 This guide describes source preparation, not current video shipping status. No video was generated, edited, or deployed in this pass. Earlier status labels are not evidence that a finished video matches this source set.
 
@@ -39,15 +39,28 @@ Registry entry: `build-your-skills-opener`. Upload the four files in `gemini-not
 
 ### your-choices
 
-**Kit rebuilt 2026-09-25 on the 2026-09-20 recipe** after the live review (`video-audit/your-choices-live-review-2026-09-24/REVIEW.md`: REROLL; "the app and" dropped from the four-choices sentence at 0:11, the see-every-choice framing never spoken). The page's age-rules section was cut on 2026-09-25 (commit 98934901), so the Markdown carries none and the prompt forbids adding them; order is intro → Four Choices → Board 1 → Board 2 → close. Board sections hold only the printed cards, each choice introduced as "Your first/second/third/fourth choice"; the old recap sentence after Board 2 is gone. Prompt: 5 verbatim lines (four-choices sentence, won't-make-all-four, see-every-choice pair, close); guardrails against invented tiers, locks, prices, and menus (the live roll drew a "Tier Locked" settings board). No face boards. Registry entry `your-choices`; save the roll as `Prompts/your-choices-reroll.mp4`. Live (2026-09-12, cache key 20260912ship2, 3:00) stays live until a roll wins; all four cards and both closing lines are RICH donors.
+**Current title: Know the App (2026-10-01).** Moved after Next Level Moves, referred to as “Your Moves” in the planning discussion. The opening now uses the approved phone-camera analogy, including the family-photo flash and hockey-player zoom examples. The model section now uses two short paragraphs to explain LLM/model terminology, models’ different capabilities, and how knowing which model to choose helps students get better answers. The board supplies the examples. The former model-discovery lab is replaced by “Does This Need More?”, an eight-situation TRY IT with randomized question order that asks for the better fit: Regular Chat / Needs More and distinct correct/incorrect feedback for each choice, using the same ScenarioRow/FeedbackPill pattern as Your Home Base. It reinforces when more could help without requiring access to paid features, and stays outside the video narration; the first board is now Which Model?, with everyday and more capable cards, descriptions above separately spaced examples, and a default-first takeaway. The Thinking section first distinguishes choosing which LLM to use from changing how much time AI spends on the task, then introduces the approved English-exam analogy with “Think about it like this” and a How Much Thinking? board with Less Thinking and More Thinking cards, the group-project examples, EXAMPLE labels, separators, and a gold takeaway. The old combined reasoning/research board is retained as an unused asset; Research now opens with the approved In-N-Out cheeseburger versus first-house analogy and includes How Much Research?, contrasting Regular Chat and Deep Research with the Dallas driving-time question and Texas A&M/UT Austin physics-program comparison. Before the Research board, the prose clarifies that regular chat can look things up too, while Research supports a fuller investigation across sources. All three teaching boards share the two-card format, EXAMPLE labels, separators, and gold takeaway banner. The closing now reads “Model. Thinking. Research.” / “Use them when the work demands more.” The `your-choices` filenames and `choosemodel` lesson ID remain stable.
+
+**Prep updated 2026-09-30 — owner requested a reroll after reviewing v4.** The stitched review candidate is not approved for shipping. The installed local video is still `course-assets/your-choices/your-choices.mp4`, cache key `20260926ship1`, 2:42.10. This is a fresh complete-generation kit, not a request for more donor stitching. The installed video is unchanged; the page opening was revised on 2026-10-01. Public deployment status was not checked.
+
+**Lesson arc:** the phone camera normally works with point and tap → flash and zoom help with particular pictures → knowing when to change a setting helps get the result you want → available AI choices depend on the app and subscription → everyday versus more capable models, with movie and summer-business examples → the essay analogy explains thinking effort → two group-project examples contrast less and more thinking → the cheeseburger/house analogy explains when more information is needed → research gathers and compares sources → Model. Thinking. Research. Use them when the work demands more. The opening orients; the three boards develop the choices without restarting the lesson. No extra recap follows Board 3.
+
+The Markdown matches the updated page opening, model-section prose, and existing board wording. After the 2026-10-01 review of `Prompts/know-the-app-1.mp4` through `-3.mp4`, its board Teaching content was rewritten as natural spoken sentences while retaining every card point and quoted example. The 494-word prompt uses the four required blocks. Required spoken sentences stand alone in the source Markdown. Eight passages remain verbatim: app/subscription availability; optional adjustment; the LLM/model bridge and capability distinction; model choice versus time spent thinking; the distinction from human thinking; regular search versus Research; and both closing lines. Four longer example requests are now also quoted in the prompt because all three new rolls shortened or altered board examples.
+
+The prompt asks for one consistent narrator and the lesson's plain language. It rejects guarantees of correct answers, claims that defaults bypass reasoning, mandatory adjustment of all three options, formal expansions, extra recaps, and age rules. Visual guidance allows useful drawn scenes and a simple optional-choice overview, while excluding fabricated settings dashboards, locks, tiers, prices, invented model names, and menu paths. Do not upload the repair's custom diagrams or candidates as generation sources.
+
+All four canonical JPGs upload; none contains a visible face requiring an upload variant. The three teaching boards were standardized to measured EE-2FB geometry and course typography on 2026-10-01, preserving the approved copy and illustrations; exports use quality 95 and 4:4:4 color sampling. Rebuild with `scripts/video/render_your_choices_boards.cjs`. Registry entry: `know-the-app`. Upload the five files in `gemini-notebook/know-the-app/upload/`, paste `PROMPT.txt` into customization, and save as `Prompts/know-the-app-4.mp4`. Review the complete narration against the current lesson before deciding on production edits. The three new raw rolls are retained. The installed video is a donor for older general concepts only: it teaches four choices, starts with a music-app analogy, and closes with different lines, so it cannot fill the missing current-lesson examples. See `video-audit/know-the-app-2026-10-01/REVIEW.md`.
+
+References: `video-audit/your-choices-evaluation-2026-09-30/REVIEW.md` and `video-audit/your-choices-build-2026-09-30-v4/REVIEW.md`.
 
 - Markdown: `lessons/your-choices.md`
-- Prompt: `gemini-notebook/your-choices/PROMPT.txt`
-- Upload checklist: `gemini-notebook/your-choices/README.txt`
+- Prompt: `gemini-notebook/know-the-app/PROMPT.txt`
+- Upload checklist: `gemini-notebook/know-the-app/README.txt`
 - Canonical folder: `course-assets/your-choices/`
 - Boards in lesson order:
   - `your-choices-choose-tool.jpg` — upload
-  - `your-choices-choose-how.jpg` — upload
+  - `your-choices-thinking.jpg` — upload
+  - `your-choices-research.jpg` — upload
   - `your-choices-close.jpg` — upload
 
 ### next-level-moves
@@ -110,9 +123,14 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 
 ### creative-thinking
 
+**Prep refreshed 2026-09-30 for an owner-requested reroll.** Keep the current lesson's complete definition, Jobs example, four professions, four habits, and close. The AI passage must teach that receiving an answer is only the beginning; do not restore the old similar/identical-output, equalized-baseline, or exclusive-advantage claims. Required sentences stand alone in the Markdown, and prose bridges sit outside board teaching sections. All three canonical boards upload without face variants. The v7 repair remains an unshipped review candidate; this prep does not change the installed video.
+
 - Markdown: `lessons/creative-thinking.md`
-- Prompt: **retired; fresh prep required**
-- Upload checklist: **retired; fresh prep required**
+- Prompt: `gemini-notebook/creative-thinking/PROMPT.txt`
+- Upload checklist: `gemini-notebook/creative-thinking/README.txt`
+- Prep notes: `gemini-notebook/creative-thinking/PREP-NOTES.md`
+- Registry entry: `creative-thinking`
+- Save the next roll as `Prompts/creative-thinking-reroll.mp4` (or the next unused numbered name).
 - Canonical folder: `course-assets/creative-thinking/`
 - Boards in lesson order:
   - `creative-thinking-creative-professions.jpg` — upload
@@ -146,7 +164,7 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 ## Teaching and scene directions
 
 - Opener: keep the creed, balance/bike example, section map, reflection question, and close in order. The map takeaway is exactly “Build the skills you keep when the tool changes.” The reflection question is deliberately left for students to keep in mind; do not turn it into a pause-and-answer exercise.
-- Your Choices: teach app, model, reasoning, and research with both availability qualifications: “depending on the app and your subscription” and “You won’t make all four choices every time.” Keep the default when it works. Preserve the source’s dated age-rule framing; do not invent updated policies or promise controls every student will see.
+- Know the App: teach model, thinking, and research with the availability qualification “depending on the app and your subscription” and the default-first guidance “You won’t need to change them every time.” Distinguish which LLM is used from how much time AI spends on the task. Leave the details about steps, weighing options, and checking to the Thinking board. Explain that regular chat can look things up too, while Research supports a fuller investigation across sources. Keep the TRY IT outside narration. Do not add age rules, invented product controls, or a fourth choice.
 - Next Level Moves: introduce Think, Learn, Start, Iterate and explicitly reconnect each example to its move. Summer business = Think; profit = Learn; college = Start; early/later business plan = Iterate. Read both sides of each dialogue without inventing additional turns. Quoted questions may remain unanswered where the example ends. Speak all profit amounts: $300 sales, $120 labor, $30 gas/supplies, $150 total costs, $150 profit, and Sales minus Costs equals Profit. The Markdown and JPG already contained the numbers; the missing amounts in the prompt are restored.
 - Honesty & Privacy: retain all honesty categories, three process steps, sharing tiers, six photo details, and recovery advice. After the photo, explicitly teach cropping/removing identifiers and checking the image before upload, or typing the problem instead. Preserve that a deleted chat may remain in company systems and that exposed credentials must be changed. Board 2 is omitted from upload but taught in a continuous span and inserted in editing.
 - People Skills: reroll from the 2026-09-26 Maya scene rewrite. Teach the scene, its outcome, all four general practices and the Maya application question, the People Skills Matter More capstone, and both closing lines. The previous narration no longer covers the current page.

@@ -54,7 +54,7 @@ Work well with people: listen, explain ideas clearly, collaborate, build trust, 
 
 Critical thinking and judgment: decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.
 
-Create and solve problems: find new angles, combine ideas, test possibilities, and improve what already exists.
+Create and solve: find new angles, combine ideas, test possibilities, and improve what already exists.
 
 Stay curious and flexible: keep learning, explore new tools, test new approaches, and change when something better appears.
 

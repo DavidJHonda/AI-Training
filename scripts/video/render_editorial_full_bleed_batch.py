@@ -215,7 +215,7 @@ BOARDS = (
                 "Decide what matters, evaluate information, recognize tradeoffs, and take responsibility for decisions.",
             ),
             (
-                "Create and Solve Problems",
+                "Create and Solve",
                 "Find new angles, combine ideas, test possibilities, and improve what already exists.",
             ),
             (

@@ -1,4 +1,4 @@
-# Lab 09 facilitator note: Build Your Course Notebook
+# Lab facilitator note: Build Your Course Notebook
 
 For whoever is running the session (Nate / Luke). The lab lives at the end of the
 **Learn with AI** lesson in the app; students follow its nine steps on their own
@@ -23,7 +23,7 @@ authoritative if these notes ever disagree with the student-facing steps.
 
 | Time | What happens |
 |------|--------------|
-| 0–3 | Everyone opens Learn with AI, scrolls to LAB 09, and signs into Gemini Notebook. |
+| 0–3 | Everyone opens Learn with AI, scrolls to the Build Your Course Notebook lab, and signs into Gemini Notebook. |
 | 3–8 | **Demo on the shared screen:** run steps 1–6 once (open, download, sign in, notebook, source, quiz) while emphasizing that the answers should come from the uploaded course packet. |
 | 8–26 | **Everyone builds:** students work through the nine live steps on their own machines. Circulate. |
 | 26–30 | If time remains, ask two volunteers to share one quiz question and how they did. Keep it informal. |

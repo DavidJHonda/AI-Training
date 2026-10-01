@@ -57,11 +57,15 @@ grid has several items.
 ### InteractiveBox
 
 The shared activity shell. The live variants are TRY IT and LAB. Surface color is a
-separate choice from activity type.
+separate choice from activity type. The `title` appears once above the box as
+`TRY IT: Title` or `LAB: Title`, followed by the optional purpose-setting `lead`.
+Only the activity label is uppercase; the descriptive title keeps its authored
+title case. Custom `leadLabel` group exercises retain their separate label and
+internal title.
 
 Every TRY IT supplies an `instructions` array to `InteractiveBox`. The shell renders
-the ordered steps inside the activity surface, after its title and before the
-interactive content. Keep the purpose-setting `lead` outside the box. Instructions
+the ordered steps at the top of the activity surface, before the interactive
+content. LAB hints and progress counters remain inside the box. Instructions
 should be short imperative actions that explain how to complete the activity; do not
 repeat the lesson or use a hand-styled `<ol>`.
 

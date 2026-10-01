@@ -1920,16 +1920,18 @@ function ActivityInstructions(props) {
 
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
-  // A `lead` (priming kicker + paragraph rendered before the box) implies `primed`:
-  // the box drops its own eyebrow so the kicker is the single TRY IT / LAB marker.
-  var primed = props.primed || props.lead != null;
-  var iconAndLabel = variant === "lab" ? "\u2692 LAB" + (props.labNumber ? " " + props.labNumber : "") : "\u270E TRY IT";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
   var hasTitle = props.title !== undefined && props.title !== null && props.title !== "";
+  // Standard activity titles belong in the heading above the box. Custom group
+  // exercise labels keep their existing separate label and internal title.
+  var externalTitle = hasTitle && !props.leadLabel;
+  var hasLead = props.lead != null || externalTitle;
+  var primed = props.primed || hasLead;
+  var iconAndLabel = variant === "lab" ? "\u2692 LAB" : "\u270E TRY IT";
   var hasHint = props.hint !== undefined && props.hint !== null && props.hint !== "";
   var hasInstructions = Array.isArray(props.instructions) && props.instructions.length > 0;
   var hasChildren = props.children !== undefined && props.children !== null && props.children !== false;
-  var hasTextStack = hasTitle || hasHint;
+  var hasTextStack = (hasTitle && !externalTitle) || hasHint;
   var surface = props.surface === "mint" ? "mint" : props.surface === "sand" ? "sand" : props.surface === "teal" ? "teal" : "default";
   var containerStyle = surface === "mint"
     ? { background: "var(--tryBand)", border: "none", borderRadius: 16, padding: "26px 28px" }
@@ -1964,7 +1966,7 @@ function InteractiveBox(props) {
     margin: 0
   };
   var eyebrowEl = primed ? null : /*#__PURE__*/React.createElement("div", { style: eyebrowStyle }, iconAndLabel);
-  var titleEl = hasTitle ? /*#__PURE__*/React.createElement("h3", { style: titleStyle }, props.title) : null;
+  var titleEl = hasTitle && !externalTitle ? /*#__PURE__*/React.createElement("h3", { style: titleStyle }, props.title) : null;
   var hintEl = hasHint ? /*#__PURE__*/React.createElement("p", { style: hintStyle }, props.hint) : null;
   var stack = /*#__PURE__*/React.createElement("div", null, eyebrowEl, titleEl, hintEl);
   var topRow;
@@ -1989,16 +1991,16 @@ function InteractiveBox(props) {
       style: { marginTop: hasInstructions ? 24 : (hasTextStack || hasAction ? 18 : 0) }
     }, props.children) : null
   );
-  if (props.lead == null) return boxEl;
-  // The lead (kicker + priming paragraph) renders BEFORE the box, as a sibling. On screen
+  if (!hasLead) return boxEl;
+  // The heading and introduction render BEFORE the box, as siblings. On screen
   // it primes the activity; in the content-only export it removes itself (see ActivityLead),
   // so the hidden box leaves no orphaned "TRY IT" text behind in the PDF.
   return /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, labNumber: props.labNumber, label: props.leadLabel }, props.lead),
+    /*#__PURE__*/React.createElement(ActivityLead, { variant: variant, label: props.leadLabel, title: externalTitle ? props.title : null }, props.lead),
     boxEl);
 }
 // Primes a TRY IT / LAB just before its (eyebrow-less, "primed") box: an accent-colored
-// "TRY IT" / "LAB NN" kicker plus a purpose-and-task paragraph.
+// "TRY IT: Title" / "LAB: Title" heading plus a purpose-and-task paragraph.
 // Dropped entirely from the content-only PDF/Gemini Notebook export (?print=...): the box is
 // already hidden there, so the kicker + priming paragraph would otherwise be a dangling
 // reference to an activity that isn't in the document.
@@ -2008,12 +2010,17 @@ function ActivityLead(props) {
   } catch (ex) {}
   var variant = props.variant === "lab" ? "lab" : "try";
   var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
-  var label = props.label || (variant === "lab" ? ("LAB" + (props.labNumber ? " " + props.labNumber : "")) : "TRY IT");
+  var label = props.label || (variant === "lab" ? "LAB" : "TRY IT");
   return /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(SectionKicker, { style: { color: accent, display: "flex", alignItems: "center", gap: 10 } },
-      /*#__PURE__*/React.createElement("span", { style: { width: 24, height: 2, background: accent, borderRadius: 2, flexShrink: 0 } }),
-      label),
-    /*#__PURE__*/React.createElement(BodyP, null, props.children));
+    /*#__PURE__*/React.createElement(SectionKicker, {
+      as: props.title ? "h3" : "div",
+      style: { color: accent, display: "flex", alignItems: "flex-start", gap: 10, textTransform: "none", letterSpacing: "normal", fontSize: props.title ? 22 : 18, lineHeight: 1.3 }
+    },
+      /*#__PURE__*/React.createElement("span", { "aria-hidden": true, style: { width: 24, height: 2, marginTop: props.title ? 14 : 11, background: accent, borderRadius: 2, flexShrink: 0 } }),
+      /*#__PURE__*/React.createElement("span", { style: { minWidth: 0 } },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 18, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap" } }, label + (props.title ? ":" : "")),
+        props.title ? /*#__PURE__*/React.createElement("span", { style: { color: "var(--ink)" } }, " " + props.title) : null)),
+    props.children != null ? /*#__PURE__*/React.createElement(BodyP, null, props.children) : null);
 }
 function LessonRule() {
   return React.createElement("div", {
@@ -3655,14 +3662,14 @@ function SectionBadge(props) {
   var NAME = { training: "Training", patterns: "Patterns", probability: "Probability", prediction: "Prediction" };
   return /*#__PURE__*/React.createElement(SectionKicker, { as: "h2" }, NAME[props.active]);
 }
-// LAB 02, in How an LLM Works. The lesson explains predict-a-word-then-run-it-again;
+// LAB, in How an LLM Works. The lesson explains predict-a-word-then-run-it-again;
 // this is that loop at a size a student can watch. Prediction drives the lab: same
 // opening line, brand new chat, different story.
 function ContinueTheStoryLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-story-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in Lab 01. Start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project."] },
     { title: "Set the rule", body: "Open a new chat and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
     { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let ChatGPT take the next one." },
     { title: "Go five rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
@@ -3673,8 +3680,7 @@ function ContinueTheStoryLab(props) {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "02",
-    title: "Continue the Story",
+    title: "Build a Story",
     hint: "Click the box after you finish each step.",
     lead: "You just followed the loop: predict a word, add it on, run the whole thing again. Here it is at a size you can actually watch. You and ChatGPT are going to write a story, one sentence each.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
@@ -3883,7 +3889,7 @@ function LabStepList(props) {
     }));
 }
 
-// LAB 01, in What Is AI?. Moved here from Which App? so every later lesson can assume
+// LAB, in What Is AI?. Moved here from Which App? so every later lesson can assume
 // the student has a free ChatGPT account. Nothing before this lesson sends anyone to an app.
 function SetUpChatGPTLab(props) {
   var E = React.createElement;
@@ -3913,8 +3919,7 @@ function SetUpChatGPTLab(props) {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "01",
-    title: "Set It Up and Use It",
+    title: "Set Up ChatGPT and Try It",
     hint: "Click the box after you finish each step.",
     lead: "You know what AI is now. Set up the free version of ChatGPT, the main hands-on tool in this course. A computer is best, but you can begin on a phone. If you are under 18, get permission from a parent or legal guardian before creating the account.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
@@ -4038,7 +4043,7 @@ function BayesianMindReaderTryIt(props) {
 
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Bayesian Mind Reader",
+      variant: "try", surface: "mint", title: "Guess My Number",
       lead: "See how each clue changes the probabilities and helps the game find your secret number.",
       instructions: [
         "Choose a whole number from 1 to 200 and keep it secret.",
@@ -4392,7 +4397,8 @@ function WelcomeSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What Are You Most Curious About?",
+      title: "Choose Your Question",
+      lead: "These six questions are a preview of what you’ll learn in this course.",
       instructions: ["Choose the question you’d most like to be able to explain by the end of this course."]
     },
       E(InnerCard, null,
@@ -4684,6 +4690,7 @@ function AIMultiplierTryIt(props) {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
+    title: "Multiply Your Effort",
     lead: "What does it look like when AI multiplies your effort? Try this quick game. The multipliers are made up, but you still supply the effort.",
     instructions: [
       "Select one of the three goals below.",
@@ -4753,7 +4760,7 @@ function WhyDeeperSection(props) {
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
 }
-// LAB 03, in Does AI Think?. The game manufactures exactly the illusion this lesson
+// LAB, in Does AI Think?. The game manufactures exactly the illusion this lesson
 // exists to puncture, so the last two steps do the puncturing. Step 4 is deliberately
 // written so both outcomes are interesting: no lab in this course may depend on
 // getting the model to fail on demand.
@@ -4761,7 +4768,7 @@ function TwentyQuestionsLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-twenty-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in Lab 01. Start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project."] },
     { title: "Write your word down first", body: "One everyday object. Put it in your notes or on paper before you start. Lock it in, because once the questions get close it is very tempting to drift." },
     { title: "Set up the game", body: "Send this to ChatGPT, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
     { title: "Play the round", body: "Answer each question with yes or no until AI guesses your object or reaches 20 questions. If it guesses wrong, tell it so and keep going until its questions run out." },
@@ -4772,8 +4779,7 @@ function TwentyQuestionsLab(props) {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "03",
-    title: "Twenty Questions",
+    title: "Play Twenty Questions",
     hint: "Click the box after you finish each step.",
     lead: "Can AI work out what you’re thinking of just by asking questions? Play Twenty Questions, then look back at the clues you gave it.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
@@ -4943,7 +4949,7 @@ function WhyBotherSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Can You Catch It?",
+      title: "Spot the Mistake",
       lead: "Five AI answers sound completely confident and hide a mistake. What you know changes what you can recognize.",
       instructions: [
         "Read each AI answer.",
@@ -5317,6 +5323,7 @@ function ControlStressGame() {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
+    title: "Catch What’s In Your Hands",
     lead: "Can you separate what’s in your hands from what isn’t while the pressure builds? Find out.",
     instructions: [
       "Start the round and read each statement before the next one arrives.",
@@ -5408,7 +5415,6 @@ function MessyNotesLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "05",
     title: "Make Sense of the Mess",
     hint: "Click the box after you finish each step.",
     lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. In this exercise, you’ll use Gemini Notebook to turn them into a clear summary.",
@@ -5577,6 +5583,7 @@ function TransformerClaimsTryIt(props) {
   useEffect(function() { if (answeredCount >= CLAIMS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint",
+    title: "Take an AI Brain Break",
     lead: /*#__PURE__*/React.createElement(React.Fragment, null,
       "You’ve earned a brain break. Watch this very confident explanation of AI. ",
       /*#__PURE__*/React.createElement("strong", null, "Spoiler alert: every claim is false."),
@@ -6121,8 +6128,7 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      title: "Crack the Picture Open",
-      labNumber: "09",
+      title: "Broaden the Picture",
       hint: "Click the box after you finish each step.",
       lead: "You know the tell: sameness. Now go catch it live, then use the questions from this lesson to make the model show you more of what its first answer left out. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: BIAS_LAB_STEPS.length })},
@@ -6466,7 +6472,7 @@ function TokenTrueFalseTryIt(props) {
   return E(React.Fragment, null, poppinsOverlay, E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Beat the Tokenizer: guess how many tokens are in each.",
+    title: "Guess the Token Count",
     lead: "These examples use the same tokenizer shown in the lesson. Some splits may surprise you.",
     instructions: [
       "Read the text and predict how many tokens it contains.",
@@ -6747,7 +6753,7 @@ function EmbeddingsSection(props) {
     }));
   }) : null;
   var clubTryIt = E("div", null,
-    E(InteractiveBox, { surface: "mint", title: "Build your own vector", lead: "Can a row of numbers carry enough meaning for you to recognize something after its name disappears?", instructions: [
+    E(InteractiveBox, { surface: "mint", title: "Build Your Own Vector", lead: "Can a row of numbers carry enough meaning for you to recognize something after its name disappears?", instructions: [
       "Score each club from 0 to 10 on all five dimensions.",
       E(React.Fragment, null, "Select ", E("strong", null, "Hide the names and match"), " when every score is filled."),
       "Look at each mystery club’s scores. Which club matches the scores?"
@@ -7075,7 +7081,7 @@ function Game2048TryIt(props) {
 
   return E(React.Fragment, null,
     E(InteractiveBox, {
-      variant: "try", surface: "mint", title: "How high can you score?",
+      variant: "try", surface: "mint", title: "Play 2048",
       lead: "Time to give your brain a rest with a game. You’ll build your own version later in the course.",
       instructions: [
         "Use the arrow keys or swipe to slide every tile.",
@@ -7621,8 +7627,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "07",
-      title: "Set Up Your Context",
+      title: "Set Up Your First Project",
       hint: "Click the box after you finish each step.",
       lead: "Time to build a context you control. In a few minutes you’ll create a ChatGPT project, keep it in its own lane, and give it only what it needs. You’ll use this project in the next coding lab.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
@@ -7763,7 +7768,7 @@ function DocumentChatSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Pick the Better Move",
+      title: "Help AI Find the Answer",
       lead: "Better retrieval starts by making the right passage easier to find.",
       instructions: [
         "Read the document situation and the question being asked.",
@@ -7855,7 +7860,7 @@ function ModelSelectionSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "It’s in the Name",
+    title: "Name That App",
     lead: "Each name has a story. See if you can match the story to the app.",
     instructions: [
       "Read the clue.",
@@ -7991,7 +7996,7 @@ function YourChoicesTryIt() {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Does This Need More?",
+    title: "Regular Chat or More Help?",
     lead: "When would you start with regular chat, and when could more help? You can do this TRY IT right here, whatever options your AI app offers.",
     instructions: ["Choose the better fit for each situation: Regular Chat or Needs More.", "Read the feedback. If you miss one, try the other choice."],
     action: E(ActivityCounter, { count: count, total: ROUNDS.length })
@@ -8033,7 +8038,7 @@ function CareerExplorationPlanLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in Lab 01."]
+      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
     },
     {
       title: "Start a new chat",
@@ -8099,7 +8104,6 @@ function CareerExplorationPlanLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "14",
     title: "Build a Career Exploration Plan",
     hint: "Click the box after you finish each step.",
     lead: "You are not choosing your future today. In about 15 minutes, you will use the four moves from this lesson to identify one career field worth exploring and leave with a clear plan for what to learn next.",
@@ -8131,7 +8135,7 @@ function CareerFieldControl(props) {
       }
     }),
     E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
-      "This field was saved in Lab 14. Change it here if you chose a different one."));
+      "This field was saved in the Next Level Moves lab. Change it here if you chose a different one."));
 }
 function CareerMoveSelector(props) {
   var E = React.createElement;
@@ -8351,7 +8355,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
 }
 
-// Playable dino game shown at the top of LAB 07, so students see the finished
+// Playable dino game shown at the top of LAB, so students see the finished
 // product before the steps. Built to the exact spec of the lab's starter prompt:
 // run, jump on spacebar/tap, speed up over time, keep score, desktop and phone.
 function DinoGameDemo() {
@@ -8481,7 +8485,7 @@ function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
     { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and sign in." },
-    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in Lab 07. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
+    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in the Context Window lab. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
     { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
     { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. Specific asks beat \u201cmake it better.\u201d If the free plan says you reached a tool limit, your first game still counts; note the reset time and make the change later." },
@@ -8553,7 +8557,6 @@ function HallucinationSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "08",
       title: "Build the Dino Game",
       hint: "Click the box after you finish each step.",
       lead: "You just saw the downside of AI working through patterns. When a fact is missing, AI can fill the space with something that sounds true. Now see the upside. A simple game follows familiar coding patterns, and AI is extremely good at putting those patterns together. You’re going to make your own version of the classic no-wifi dinosaur game without writing a single line of code.",
@@ -8707,7 +8710,7 @@ function CriticalThinkingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "What’s the problem with these claims?",
+    title: "Challenge the Claim",
     lead: "This isn’t new. You already use critical thinking every day. Use it to spot the problem in each scenario.",
     instructions: [
       "Read the claim and its evidence.",
@@ -8960,7 +8963,7 @@ function WhatItDoesBestSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Does this match an AI strength?",
+      title: "Is AI a Good Fit?",
       lead: "The same AI can be a strong fit for one job and a weak fit for another.",
       instructions: [
         "Read the task.",
@@ -9162,8 +9165,7 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "06",
-    title: "Build a Rubric. Test the Work.",
+    title: "Build a Rubric",
     hint: "Click the box after you finish each step.",
     lead: "A rubric is a guide for evaluating your work. It lists what matters and how many points out of 100 each part is worth. In this LAB, you’ll use a rubric to evaluate an essay we already wrote.",
     action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
@@ -9211,7 +9213,6 @@ function CourseNotebookLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "04",
     title: "Build Your Course Notebook",
     hint: "Click the box after you complete each step.",
     lead: "In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a Gemini Notebook study notebook and use it to quiz yourself.",
@@ -9495,7 +9496,6 @@ function CreativeThinkingCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "17",
     title: "Solve a Problem in Your Field",
     hint: "Click the box after you finish each step.",
     lead: "Continue your career exploration. In about 10 minutes, you will use creative-thinking techniques to develop a stronger solution to a realistic problem from the field.",
@@ -9560,7 +9560,7 @@ function PeopleSkillsCareerLab() {
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you used in Lab 14. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      body: "Open the ChatGPT conversation you used in the Next Level Moves lab. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
       content: E(CareerFieldControl, { id: "people-skills-career-field", value: careerField, onChange: setCareerField })
     },
     {
@@ -9588,10 +9588,9 @@ function PeopleSkillsCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "16",
     title: "Practice the People Side of Work",
     hint: "Click the box after you finish each step.",
-    lead: "Continue the career exploration you began in Lab 14. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
+    lead: "Continue the career exploration you began in the Next Level Moves lab. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -9682,7 +9681,6 @@ function BeCuriousCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "18",
     title: "Prepare for Change in Your Field",
     hint: "Click the box after you finish each step.",
     lead: "Continue your career exploration. In about 10 minutes, you will separate current changes from uncertain predictions and build a short watchlist for the field.",
@@ -10046,7 +10044,6 @@ function MakeYourMoveCareerLab() {
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    labNumber: "19",
     title: "Make One Move",
     hint: "Click the box after you finish each step.",
     lead: "Finish the Career Explorer by turning one idea into a real step. In about 10 minutes, you will create a practical 30-day plan and begin moving outside the chat.",
@@ -10417,7 +10414,7 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Who makes the call?",
+      title: "Who Makes the Call?",
       lead: "Three decisions, three sizes. Same question every time.",
       instructions: [
         "Read the decision.",
@@ -10462,7 +10459,7 @@ function FlatteryTrapSection(props) {
     prefix: "Go to ",
     href: "https://chatgpt.com",
     linkLabel: "chatgpt.com",
-    suffix: " and sign in with the free account you set up in Lab 01."
+    suffix: " and sign in with the free account you set up in the What Is AI? lesson."
   }, {
     title: "Start a new chat outside a project",
     body: "Start a new chat outside any project."
@@ -10576,7 +10573,6 @@ function FlatteryTrapSection(props) {
       variant: "lab",
       surface: "teal",
       title: "Make Feedback Useful",
-      labNumber: "10",
       hint: "Click the box after you finish each step.",
       lead: "Change one setting so AI points to what needs work instead of just telling you it looks good. Then run the same prompt before and after to see what changes. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},
@@ -10742,7 +10738,7 @@ function OneAppOneYearTryIt(props) {
   var isPrintMode = false;
   try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
   if (isPrintMode) {
-    return E(InteractiveBox, { variant: "try", surface: "mint", title: "One app, one year", instructions: [
+    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Where Does Your Time Go?", instructions: [
       "Enter the app you use most and its average daily time.",
       "Run the calculation and read what that time becomes across one year.",
       "Run the same calculation for AI chat and compare the totals.",
@@ -10898,6 +10894,7 @@ function OneAppOneYearTryIt(props) {
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
+    title: "Where Does Your Time Go?",
     lead: "Raskin’s estimate is too large to picture. Start with one app and one year: your own.",
     instructions: [
       "Name the app you use most and enter its average daily time.",
@@ -11068,7 +11065,7 @@ function SupportTrapSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "How does AI fit into each of these?",
+      title: "Choose the Right Support",
       lead: "Five moments, rising stakes, the same three choices every time. Practice the decision now, so it’s easier to make when it matters.",
       instructions: [
         "Read the situation.",
@@ -11489,7 +11486,7 @@ function PrivacySection(props) {
   /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "What should you share with AI?",
+      title: "Clean Up the Prompt",
       lead: "Privacy decisions often hide inside an otherwise harmless prompt. See whether you can catch them before you send.",
       instructions: [
         "Read the prompt one highlighted section at a time.",
@@ -13302,7 +13299,7 @@ function QuestionsValuableSection(props) {
 }
 function BigUpsideSection(props) {
   var E = React.createElement;
-  // LAB 11: the lesson's thesis made personal. The 200M-shape giveaway is a real,
+  // LAB: the lesson's thesis made personal. The 200M-shape giveaway is a real,
   // public website, so the lab is a field trip to it: pull a structure, spin it,
   // have ChatGPT connect the shape to the job.
   const [vaultChecked, setVaultChecked] = useState({});
@@ -13384,8 +13381,7 @@ function BigUpsideSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "12",
-      title: "Open the Vault",
+      title: "Explore a Protein Shape",
       hint: "Click the box after you finish each step.",
       lead: "The 200 million protein shapes aren’t just a story. They’re a website, open right now, and you’re allowed in. Five minutes to hold the Nobel Prize database in your hands.",
       action: E(ActivityCounter, { count: vaultCheckedCount, total: VAULT_LAB_STEPS.length })},
@@ -13464,7 +13460,7 @@ function WhatPeopleSaySection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Right or Wrong?",
+      title: "Did the Prediction Come True?",
       lead: "Smart people have always made confident predictions about new technology. History did not reward all of them.",
       instructions: [
         "Read the expert prediction.",
@@ -13500,7 +13496,7 @@ function WhatPeopleSaySection(props) {
 }
 function PaceOfChangeSection(props) {
   var E = React.createElement;
-  // LAB 10: the three-years box's "Doing" row made personal. The student rebuilds
+  // LAB: the three-years box's "Doing" row made personal. The student rebuilds
   // the 2048 fun-beat they played in Vector Space by directing ChatGPT, the same
   // move they learned in the dino lab, now framed as evidence of the pace. A new
   // project keeps this game's context separate from the dino game.
@@ -13574,8 +13570,7 @@ function PaceOfChangeSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "11",
-      title: "Build the Game You Played",
+      title: "Build Your Own 2048",
       hint: "Click the box after you finish each step.",
       lead: "Here’s something you couldn’t do three years ago. Remember the sliding-tile game from Vector Space? You’re about to build it, by typing sentences. Ten minutes, no code.",
       action: E(ActivityCounter, { count: buildCheckedCount, total: BUILD_LAB_STEPS.length })},
@@ -13768,7 +13763,7 @@ function BigDownsideSection(props) {
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Which idea explains it?",
+      title: "Spot the Downside",
       lead: "The same downside mechanisms reappear in situations that look completely different.",
       instructions: [
         "Read the new scenario.",
@@ -13797,7 +13792,7 @@ function BigDownsideSection(props) {
 }
 function WorkChangesSection(props) {
   var E = React.createElement;
-  // LAB 12: the lesson's boss assignment made real, with this course as the product.
+  // LAB: the lesson's boss assignment made real, with this course as the product.
   // packets/course-reviews.txt is engineered: three loud themes, one root cause
   // shared by every 2-star review (lost progress, no accounts), and a buried
   // Dallas Stars gag that only the rare-complaints question uncovers.
@@ -13879,8 +13874,7 @@ function WorkChangesSection(props) {
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
-      labNumber: "13",
-      title: "Your First Assignment, For Real",
+      title: "Turn Reviews into Recommendations",
       hint: "Click the box after you finish each step.",
       lead: "You just read about this exact assignment. Now live it: real file, real AI, ten minutes. The product with the bad reviews? This course.",
       action: E(ActivityCounter, { count: labCheckedCount, total: REVIEW_LAB_STEPS.length })},
@@ -14239,7 +14233,7 @@ function EnergyPerspectiveTryIt(props) {
   var answeredCount = Object.keys(answers).length;
   useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Does it use more than an AI chat?",
+    variant: "try", surface: "mint", title: "Compare the Energy Use",
     lead: "A typical short question-and-answer with ChatGPT uses around 1/3 of a watt-hour of electricity. Longer answers, harder reasoning, and image or video generation can use more. The real bill comes from running billions of requests a day.",
     instructions: [
       "Read the everyday activity.",

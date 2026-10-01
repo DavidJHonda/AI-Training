@@ -72,7 +72,9 @@ function editorialHtml(board) {
   .grid{display:grid;grid-template-columns:744px 744px;gap:32px}
   .card{background:#fff;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(35,25,83,.08)}
   .card:after{content:'';position:absolute;inset:0;border:1px solid rgba(79,47,196,.22);border-radius:14px;pointer-events:none}.card:nth-child(2):after{border-color:rgba(15,122,74,.22)}
-  .art{display:block;width:744px;height:339px;background-image:url('data:image/png;base64,${artData}');background-size:1488px auto;background-repeat:no-repeat;border-bottom:1px solid rgba(79,47,196,.2);position:relative}.art:after{content:'';position:absolute;inset:0;background:#4f2fc4;opacity:.10}.art0{background-position:0 -169px}.art1{background-position:-744px -169px}.card:nth-child(2) .art{border-color:rgba(15,122,74,.2)}.card:nth-child(2) .art:after{background:#0f7a4a}
+  /* Give each half 8px of horizontal crop clearance from the sheet's white divider.
+     Preserve the original vertical scale (1488 * 847 / 1857) and card geometry. */
+  .art{display:block;width:744px;height:339px;background-image:url('data:image/png;base64,${artData}');background-size:1504px 678.6946688206785px;background-repeat:no-repeat;border-bottom:1px solid rgba(79,47,196,.2);position:relative}.art:after{content:'';position:absolute;inset:0;background:#4f2fc4;opacity:.10}.art0{background-position:0 -169px}.art1{background-position:-760px -169px}.card:nth-child(2) .art{border-color:rgba(15,122,74,.2)}.card:nth-child(2) .art:after{background:#0f7a4a}
   .text{padding:32px 34px 34px}.label{font-size:40px;line-height:48px;letter-spacing:-.02em;font-weight:700;color:#4f2fc4;margin-bottom:14px;white-space:nowrap}.card:nth-child(2) .label{color:#0f7a4a}
   .copy{font-size:29px;line-height:41px;font-weight:500;color:#3a3550}
   .did{margin-top:22px;padding-top:20px;border-top:1px solid rgba(79,47,196,.18)}.card:nth-child(2) .did{border-top-color:rgba(15,122,74,.18)}
@@ -95,10 +97,11 @@ function fourCardFullBleedHtml(board) {
   .grid{display:grid;grid-template-columns:744px 744px;gap:32px}
   .card{background:#fff;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(35,25,83,.08)}
   .card:after{content:'';position:absolute;inset:0;border:1px solid color-mix(in srgb,var(--accent) 22%,white);border-radius:14px;pointer-events:none}
-  .art{width:744px;height:339px;background-image:url('data:image/png;base64,${artData}');background-size:1488px 992px;background-repeat:no-repeat;border-bottom:1px solid color-mix(in srgb,var(--accent) 20%,white);position:relative}
+  /* Crop the sheet's center divider out of all four illustration windows. */
+  .art{width:744px;height:339px;background-image:url('data:image/png;base64,${artData}');background-size:1504px 992px;background-repeat:no-repeat;border-bottom:1px solid color-mix(in srgb,var(--accent) 20%,white);position:relative}
   .art:after{content:'';position:absolute;inset:0;background:var(--accent);opacity:.10}
   .card:nth-child(1){--accent:#4f2fc4}.card:nth-child(2){--accent:#1652f0}.card:nth-child(3){--accent:#0e8f86}.card:nth-child(4){--accent:#a9760c}
-  .card:nth-child(1) .art{background-position:0 -78px}.card:nth-child(2) .art{background-position:-744px -78px}.card:nth-child(3) .art{background-position:0 -574px}.card:nth-child(4) .art{background-position:-744px -574px}
+  .card:nth-child(1) .art{background-position:0 -78px}.card:nth-child(2) .art{background-position:-760px -78px}.card:nth-child(3) .art{background-position:0 -574px}.card:nth-child(4) .art{background-position:-760px -574px}
   .text{padding:32px 34px 34px;height:252px}.label{font-size:40px;line-height:48px;letter-spacing:-.02em;font-weight:700;color:var(--accent);margin-bottom:14px;white-space:nowrap}.copy{font-size:29px;line-height:41px;font-weight:500;color:#3a3550}
   .credit{font-size:20px;line-height:24px;min-height:24px;font-weight:500;color:#615b78;text-align:right;margin-top:6px}
   </style></head><body><div class="board"><h1>${board.title}</h1><div class="grid">${board.cards.map(c=>`<div class="card"><div class="art"></div><div class="text"><div class="label">${c[0].replace(/\b\w/g, letter => letter.toUpperCase()).toLowerCase().replace(/(^|\s)\S/g, letter => letter.toUpperCase())}</div><div class="copy">${c[1]}</div></div></div>`).join('')}</div><div class="credit">${credit}</div></div></body></html>`;

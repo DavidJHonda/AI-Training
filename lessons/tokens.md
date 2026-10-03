@@ -2,9 +2,11 @@
 
 # Tokens
 
-Math is the magic that powers AI.
+Computers only process numbers.
 
-But you ask AI questions in words, not numbers.
+That seems counterintuitive, because when you write an email, send a text, or type on your phone, you see words. Behind the scenes, those words are converted to numbers so the computer can work with them.
+
+The same applies to AI. Consider this simple chat:
 
 ### Board 1: You Use Words. AI Uses Numbers.
 
@@ -20,51 +22,59 @@ You ask: “What’s the best Avengers movie?”
 
 AI answers: “Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending.”
 
-You ask in words, and the answer comes back in words.
+You sent and received words. How did your words become numbers that AI could work with? And how did AI’s response turn back into words you could read?
 
-## How Your Words Become Numbers
+## What Doesn’t Work
 
-How do your words become numbers that AI can use?
-
-One idea is to assign each word in every language a unique number. That way, you type the word, AI gets a number.
+One idea is to assign each word in every language a unique number. That way, whatever word you type, AI gets a number.
 
 But that breaks down fast. People keep inventing words, names, and slang. They also make typos and include things like emojis and code. Even a list of a million words couldn’t cover everything a person might type.
 
-## Words Into Pieces
+## Reusable Chunks of Text
 
-Instead of giving every word its own number, AI uses reusable pieces of text called tokens.
+Instead, AI uses reusable chunks of text called **tokens**. Think of them as building blocks for language.
 
-Think of them as building blocks for language.
+### Board 2: What Tokens Look Like
 
-A token can be a whole word or just part of one.
+**Image file:** `tokens-how-ai-splits-text.jpg`
 
-The full collection of tokens is called the model’s vocabulary. The same pieces can combine in different ways, so the vocabulary doesn’t need a new entry for every new word. For example, un can be reused in unbelievable and unusual.
-
-### Board 2: Building Blocks for Language
-
-**Image file:** `tokens-building-blocks-faceless.jpg`
-
-![Building Blocks for Language](tokens-building-blocks-faceless.jpg)
+![What Tokens Look Like](tokens-how-ai-splits-text.jpg)
 
 **Teaching content:**
 
-Tokens are building blocks for language.
+Here is what tokens look like.
 
-The text unbelievable goes in, and three tokens come out: un, belie, and vable. One word, built from three pieces.
+Unbelievable becomes un, belie, and vable. One word, built from three chunks.
 
-The same piece shows up in different words. The piece un starts unbelievable, unmatchable, and unusual. The letters after un may be split into more than one token. The vocabulary reuses the piece un instead of storing a separate entry for every whole word that starts with it.
+Unusual becomes un and usual. Unmatchable becomes un, match, and able. All three words reuse the same chunk, un.
 
-Reuse the pieces. Build more words.
+Basketball becomes basket and ball. That is two tokens.
 
-## Where the Pieces Come From
+I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space.
 
-When setting up AI, engineers choose how text will be split into tokens and how large the vocabulary will be. A program analyzes a large collection of text to build that vocabulary. Each token gets a number, its token ID. Think of it as an address in the vocabulary: it identifies the token, but says nothing about what it means.
+The web address shown on the board breaks into eight tokens. Even a web address breaks into chunks.
 
-The model uses those same tokens and IDs during training and when you chat.
+A token can be a whole word or just part of one. The full collection of tokens is called the model’s **vocabulary**.
 
-These vocabularies can be large: ChatGPT’s holds about 200,000 tokens and Gemini’s about 256,000. Anthropic hasn’t published Claude’s.
+When setting up AI, engineers run a program that analyzes a large collection of text to build the vocabulary. Each token gets a number, its **token ID**. Think of it as an address: it identifies the token, but says nothing about what it means.
 
-### Board 3: What Happens When You Hit Send
+### Board 3: You See a Word. AI Starts With a Number.
+
+**Image file:** `tokens-cat-token-id.jpg`
+
+![You See a Word. AI Starts With a Number.](tokens-cat-token-id.jpg)
+
+**Teaching content:**
+
+You see a word. AI starts with a number.
+
+When you read the word cat, you know what it means: fur, whiskers, the animal.
+
+For AI, it starts with a token ID. Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.
+
+A token ID identifies the token. Meaning comes later.
+
+### Board 4: What Happens When You Hit Send
 
 **Image file:** `tokens-how-tokenization-works.jpg`
 
@@ -80,47 +90,9 @@ Step two, split into tokens: a program called a tokenizer breaks the text into r
 
 Step three, look up token IDs: the tokenizer finds each chunk’s number in its vocabulary.
 
-For the word unbelievable, the tokenizer in this example, called cl100k_base, produces three chunks with three IDs. The ID for un is 359, the ID for belie is 32898, and the ID for vable is 24694.
+For unbelievable, the ID for un is 359, the ID for belie is 32898, and the ID for vable is 24694.
 
 Tokenization turns text into token IDs the model can use.
-
-### Board 4: Humans See a Cat. AI Starts With a Token ID.
-
-**Image file:** `tokens-cat-token-id.jpg`
-
-![Humans See a Cat. AI Starts With a Token ID.](tokens-cat-token-id.jpg)
-
-**Teaching content:**
-
-Humans see a cat. AI starts with a token ID.
-
-For you, it is instant understanding. You know what cat means: fur, whiskers, the animal.
-
-For AI, it starts with a token ID. Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.
-
-A token ID identifies the token. Meaning comes later.
-
-## All the Text You Send
-
-All the text you send to AI gets split into tokens. Here are some examples.
-
-### Board 5: How AI Splits Text Into Tokens
-
-**Image file:** `tokens-how-ai-splits-text.jpg`
-
-![How AI Splits Text Into Tokens](tokens-how-ai-splits-text.jpg)
-
-**Teaching content:**
-
-Here is how AI splits text into tokens.
-
-These examples use the cl100k_base tokenizer. The numbers below the chunks on the board are token IDs.
-
-Example two: basketball becomes basket and ball. That is two tokens.
-
-Example four: I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space.
-
-Example five: the web address shown on the board breaks into eight tokens. Even a web address breaks into chunks.
 
 ## How the Answer Becomes Words Again
 

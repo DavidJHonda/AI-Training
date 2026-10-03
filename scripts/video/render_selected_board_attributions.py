@@ -22,7 +22,7 @@ BOARDS = {
     "tokens-cat-token-id-editorial": (1600, 885),
     "tokens-building-blocks-editorial": (1600, 1518),
     "tokens-how-tokenization-works-editorial": (1600, 909),
-    "tokens-how-ai-splits-text-verified-editorial": (1600, 1288),
+    "tokens-how-ai-splits-text-verified-editorial": (1600, 1321),
     "embeddings-meaning-row-editorial": (1600, 848),
     "embeddings-new-dimension-editorial": (1600, 1038),
     "embeddings-taste-test-to-ai-editorial": (1600, 1029),

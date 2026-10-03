@@ -681,7 +681,7 @@ def render_flow(title: str, steps: list[Card], takeaway: str | None, out_path: P
 
 
 def render_cat_token_id(out_path: Path) -> None:
-    render_cards("Humans See a Cat. AI Starts With a Token ID.", [
+    render_cards("You See a Word. AI Starts With a Number.", [
         Card("Instant Understanding", "You know what cat means: fur, whiskers, the animal.", TEAL, "human-cat"),
         Card("Token ID", "Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.", PURPLE, "token-id-written"),
     ], "A token ID identifies the token. Meaning comes later.", out_path)
@@ -2164,34 +2164,35 @@ def render_one_chunk(out_path: Path) -> None:
 
 
 def render_token_splits(out_path: Path) -> None:
-    """Render the five token examples at canonical board type sizes.
+    """Render the seven token examples at canonical board type sizes.
 
     This board is intentionally tall. The examples determine the canvas height;
     they are never scaled down to fit a preselected shell.
     """
     rows = (
         ("01", "unbelievable", (("un", "359"), ("belie", "32898"), ("vable", "24694")), "3 tokens (one word, three chunks)"),
-        ("02", "basketball", (("basket", "60864"), ("ball", "4047")), "2 tokens"),
-        ("03", "ChatGPT", (("Chat", "16047"), ("G", "38"), ("PT", "2898")), "3 tokens (this name splits into three chunks)"),
-        ("04", "I ♥ AI", (("I", "40"), ("SP ♥", "68679"), ("SP AI", "15592")), "3 tokens (SP marks a leading space)"),
-        ("05", "https://www.quickbookstraining.com", (("https", "2485"), ("://", "1129"), ("www", "2185"), (".quick", "92074"), ("book", "2239"), ("str", "496"), ("aining", "2101"), (".com", "916")), "8 tokens (even a web address breaks into chunks)"),
+        ("02", "unusual", (("un", "359"), ("usual", "81324")), "2 tokens (reuses the chunk un)"),
+        ("03", "unmatchable", (("un", "359"), ("match", "6481"), ("able", "481")), "3 tokens (reuses the chunk un)"),
+        ("04", "basketball", (("basket", "60864"), ("ball", "4047")), "2 tokens"),
+        ("05", "ChatGPT", (("Chat", "16047"), ("G", "38"), ("PT", "2898")), "3 tokens (this name splits into three chunks)"),
+        ("06", "I ♥ AI", (("I", "40"), ("SP ♥", "68679"), ("SP AI", "15592")), "3 tokens (SP marks a leading space)"),
+        ("07", "https://www.quickbookstraining.com", (("https", "2485"), ("://", "1129"), ("www", "2185"), (".quick", "92074"), ("book", "2239"), ("str", "496"), ("aining", "2101"), (".com", "916")), "8 tokens (even a web address breaks into chunks)"),
     )
     stage_top = 127
     first_row_top = 155
-    standard_row_h = 190
-    final_row_h = 245
-    stage_bottom = first_row_top + standard_row_h * 4 + final_row_h + 88
+    standard_row_h = 150
+    final_row_h = 210
+    stage_bottom = first_row_top + standard_row_h * (len(rows) - 1) + final_row_h + 16
     height = stage_bottom + 40
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "How AI Splits Text Into Tokens")
+    draw_board_title(draw, "What Tokens Look Like")
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
 
     number_font = face("bold", 40)
     example_font = face("heavy", 29)
     token_font = face("bold", 29)
-    id_font = face("bold", 29)
     note_font = face("medium", 29)
 
     def draw_heart(cx: int, cy: int, size: int) -> None:
@@ -2219,9 +2220,9 @@ def render_token_splits(out_path: Path) -> None:
         if suffix:
             draw.text((cursor, center_y), suffix, font=font, fill=INK, anchor="lm")
 
-    def draw_chip(x: int, top: int, label: str, token_id: str, alternate: bool) -> int:
+    def draw_chip(x: int, top: int, label: str, alternate: bool) -> int:
         text_w = round(draw.textlength(label.replace("♥", ""), font=token_font)) + (26 if "♥" in label else 0)
-        chip_w = max(86, text_w + 44, round(draw.textlength(token_id, font=id_font)) + 24)
+        chip_w = max(86, text_w + 44)
         if x + chip_w > 1520:
             raise ValueError(f"Token chip overflows board: {label}")
         draw.rounded_rectangle(
@@ -2232,7 +2233,6 @@ def render_token_splits(out_path: Path) -> None:
             width=2,
         )
         draw_label_with_heart(x + chip_w // 2, top + 31, label, token_font)
-        draw.text((x + chip_w // 2, top + 84), token_id, font=id_font, fill=BODY, anchor="mm")
         return x + chip_w
 
     top = first_row_top
@@ -2241,29 +2241,28 @@ def render_token_splits(out_path: Path) -> None:
             draw.line((80, top, 1520, top), fill=mix(PURPLE, 0.16), width=2)
         draw.text((82, top + 34), number, font=number_font, fill=PURPLE, anchor="la")
 
-        if row_index < 4:
-            if row_index == 3:
+        if row_index < len(rows) - 1:
+            if "♥" in source:
                 draw_label_with_heart(273, top + 34, "“I ♥ AI”", example_font)
             else:
                 draw.text((162, top + 34), f'“{source}”', font=example_font, fill=INK, anchor="la")
             draw.text((565, top + 34), "→", font=example_font, fill=MUTED, anchor="ma")
             chip_x = 620
             chip_top = top + 14
-            for token_index, (label, token_id) in enumerate(tokens):
-                chip_x = draw_chip(chip_x, chip_top, label, token_id, token_index % 2 == 1) + 10
-            draw.text((162, top + 130), note, font=note_font, fill=BODY, anchor="la")
+            for token_index, (label, _) in enumerate(tokens):
+                chip_x = draw_chip(chip_x, chip_top, label, token_index % 2 == 1) + 10
+            draw.text((162, top + 100), note, font=note_font, fill=BODY, anchor="la")
             top += standard_row_h
         else:
             draw.text((162, top + 34), f'“{source}”', font=example_font, fill=INK, anchor="la")
             draw.text((865, top + 34), "→", font=example_font, fill=MUTED, anchor="ma")
             chip_x = 162
             chip_top = top + 82
-            for token_index, (label, token_id) in enumerate(tokens):
-                chip_x = draw_chip(chip_x, chip_top, label, token_id, token_index % 2 == 1) + 10
-            draw.text((162, top + 196), note, font=note_font, fill=BODY, anchor="la")
+            for token_index, (label, _) in enumerate(tokens):
+                chip_x = draw_chip(chip_x, chip_top, label, token_index % 2 == 1) + 10
+            draw.text((162, top + 168), note, font=note_font, fill=BODY, anchor="la")
             top += final_row_h
 
-    draw.text((80, stage_bottom - 48), "Numbers below the chunks are token IDs. Tokenizer: cl100k_base.", font=note_font, fill=BODY, anchor="lm")
     save(canvas, out_path)
 
 

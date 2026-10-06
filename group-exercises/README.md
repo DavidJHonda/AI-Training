@@ -13,6 +13,8 @@ course order can change.
 | How an LLM Works | `aihistory` | One Word at a Time | [Activity](how-an-llm-works/one-word-at-a-time.html) |
 | Does AI Think? | `doesaithink` | Spot What’s Wrong | [Activity](does-ai-think/spot-whats-wrong.html) |
 | In Your Hands | `control` | Prompetition | [Activity](in-your-hands/prompetition.html) |
+| Beyond the New Average | `whybother` | Five discussion questions | Inline in `WhyBotherSection` in `index.html`; no standalone page |
+| Learn with AI | `studying` | Teach Us Something Ridiculous | Inline `RidiculousStudyGroupExercise` in `index.html`; two blanks build a prompt for ChatGPT Study mode |
 
 An exercise may support several lessons, but its file has one home. Link to the
 same file from the lesson and the Group Exercises directory page. Update this

@@ -38,7 +38,7 @@ Keep the **Design system**, **Lesson structure**, and **Working agreements** sec
 - Colors (text): --ink #0e0a1f, --inkSoft #3a3550, --inkMuted #6e6986, --inkFaint #b3aec8
 - Colors (lines): --rule #e7e3f2
 - Colors (semantic): --green #1f9d5f, --red #d4334a, --info #3b82f6, --info-bg #eff6ff
-- Sand/amber presentation colors: legacy token names --seeBand #faf6ec, --seeAccent #a36a17, and --seeRule rgba(163, 106, 23, 0.35). Live static content still uses these values, but SEE IT is no longer a course activity type.
+- Sand/amber presentation colors: legacy token names --seeBand #faf6ec, --seeAccent #a36a17, and --seeRule rgba(163, 106, 23, 0.35). Static content uses these values; SEE IT is no longer a course activity type.
 - TRY IT band: --tryBand #eef4eb (mint activity surface), --tryRule rgba(63, 107, 63, 0.18) (mint hairline divider), --tryAccent #2f7d4f (green accent; mint InteractiveBox eyebrows and TRY IT Takeaway completions). The AIBubble reuses the same mint as its fill, documented under UserBubble/AIBubble.
 - Typography: --sans (Plus Jakarta Sans, Google Fonts) for all reading text, --serif (Instrument Serif, Google Fonts) for display moments only (lesson titles, activity numerals, and selected editorial display phrases), never explanatory prose or feedback. --mono (system monospace stack). Source Serif 4 is no longer used; it was retired when all explanatory and feedback prose moved to sans.
 - Shadows: --shadowSoft (0 4px 12px rgba(14, 10, 31, 0.05)) for inner cards, pills, and counters; --shadowElevated (0 8px 22px rgba(14, 10, 31, 0.05)) for support cards. Active-glow and a few one-off elevated/inset shadows remain inlined per-use, mostly on assessment and diagram surfaces.

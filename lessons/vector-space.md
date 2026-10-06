@@ -70,7 +70,9 @@ The coordinates didn’t match either city exactly, but distance helped us find 
 
 A map uses two numbers to describe a position. Comparing positions helps us find the closest match. We can do the same with more than two numbers.
 
-Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a vector. Think of those numbers as coordinates that place the drink on a map. We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest.
+Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a vector. Think of those numbers as coordinates that place the drink on a map.
+
+We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest.
 
 ### Board 4: Three Drinks
 
@@ -130,7 +132,13 @@ Neither Mystery Drink had an exact match. But by comparing numbers across all di
 
 This is the idea behind distance: smaller gaps mean closer positions.
 
-AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. We can’t picture a map with thousands of dimensions, but the core idea is the same. After the layers update a token’s vector, it doesn’t need to match another vector exactly.
+AI uses this idea on a much larger scale.
+
+Its embeddings have thousands of dimensions, with values learned during training.
+
+We can’t picture a map with thousands of dimensions, but the core idea is the same.
+
+After the layers update a token’s vector, it doesn’t need to match another vector exactly.
 
 Its position in vector space helps represent its meaning.
 

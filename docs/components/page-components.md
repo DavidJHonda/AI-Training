@@ -106,8 +106,8 @@ appears below it when expanded. It uses the existing mint `--tryBand` and green 
 the course sans-serif type, and the standard activity spacing. Keyboard activation
 and expanded state use native disclosure semantics.
 
-Pass the introduction through `lead`; it appears inside the mint activity area
-only when the disclosure is expanded, above the white content card. It uses the
+Pass the introduction through `lead`; it appears on the page background above the mint activity box
+only when the disclosure is expanded. It uses the
 same body typography as TRY IT introductions. Expanded content sits in a shared white `InnerCard`. Pass the
 authored title and instructions as children, without repeating the introduction. The component adds no completion
 requirement and is excluded from printing. The `label` prop can replace the summary
@@ -115,10 +115,14 @@ text, and `optional: false` hides the Optional label for an informational use.
 The `boxed: true` prop keeps a mint background around the summary as well.
 Welcome uses the boxed variant for **Taking the Course as a Group?** immediately after
 How the Course Works. Welcome has no TRY IT or end-of-lesson group exercise.
-Why Learn AI? includes five discussion questions directly in its disclosure.
+Why Learn AI? and Beyond the New Average each include five discussion questions directly in their disclosures.
 Discussion exercises offer five questions so leaders can choose among them.
-Use `discussion: true` to place the introduction above the mint box while keeping
-it inside the disclosure. Render `DiscussionQuestions` inside the white card: five
+Learn with AI includes **Teach Us Something Ridiculous** in its optional disclosure.
+The leader collects suggestions and a verbal or show-of-hands vote, then enters a
+subject and ridiculous situation. The assembled prompt uses `CopyableLabPrompt`,
+with copying enabled once both fields contain text, and a link opens ChatGPT Study
+mode in a new tab. Leaders can demonstrate on a shared screen or use small groups.
+All exercise introductions use this same placement inside the disclosure. Render `DiscussionQuestions` inside the white card: five
 rows with large green serif numbers, mint hairline dividers, bold main questions,
 and separate regular-weight context or follow-up lines. Its `questions` items use
 `title`, optional `context` before the title, and optional `followUp` after it.
@@ -140,8 +144,8 @@ launch link for **Spot What’s Wrong** (Does AI Think?) and **Prompetition**
 (In Your Hands). Their HTML, pictures, and source notes live together in the
 corresponding lesson folders. Spot What’s Wrong uses 12 verified available puzzles,
 manual clue reveals, image enlargement, and replay. Prompetition uses three targets,
-per-target prompt drafts in session storage, copying, detail checklists, and optional
-local result images held in memory for comparison; it does not call an image API.
+detail checklists and optional
+local result images held in memory for comparison. Students write prompts directly in ChatGPT, individually or with others. The target image discourages dragging and context-menu saving, including in the enlarged view; this is not copy protection. The page does not call an image API.
 
 ### Activity support
 

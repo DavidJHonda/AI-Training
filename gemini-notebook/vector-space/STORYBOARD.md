@@ -2,6 +2,8 @@
 
 Use the spoken source in `lessons/vector-space.md`. Quoted cues below identify where a visual changes; they are not additional narration. Timings will be measured against the new audio. The map scenes show only the map panel and its point labels/coordinates or vectors. No instruction cards, action buttons, progress counters, or vector-order key.
 
+Production-only timing: the narrator asks each comparison question and gives its answer next. Do not upload this document or turn its hold instructions into spoken directions. Measure pauses in the new recording; versions 4–6 supply no timing offsets for the next roll.
+
 | Beat | Narration cue | Visual action | Hold / comparison |
 | --- | --- | --- | --- |
 | Opening | “Each token starts with a row of numbers…” | Supporting drawing of a token and a row of numbers changing through layers. | Carry the question into the answer; no opening title card. Avoid invented readable vector values. |
@@ -17,6 +19,7 @@ Use the spoken source in `lessons/vector-space.md`. Quoted cues below identify w
 | Second city question | “Which city is closest?” | Hold state 6. | Same brief comparison pause. |
 | Second city answer | “New York City is closest…” | `cities-7.png`: add the New York connection and ring. | Hold through the no-exact-match conclusion. |
 | More dimensions | “We can do the same with more than two numbers.” | Transition from cities to `drinks-0.png`, the empty Soft drinks and Coffee and tea neighborhoods. | Establish seven drink characteristics in narration; no added key or ratings table. |
+| Simplified map | “We can’t draw all seven dimensions…” | Hold `drinks-0.png`. | Speak the caveat before adding the drinks; the picture is a simplified view. |
 | Coke | “Let’s add Coke…” | `drinks-1.png`: reveal Coke and [9, 1, 10, 2, 3, 8, 1]. | Name each dimension with its value; keep vector readable. |
 | Pepsi | “Next, add Pepsi.” | `drinks-2.png`: reveal Pepsi and [9, 1, 10, 2, 3, 8, 10]. | Explain why Coke and Pepsi share the Soft drinks neighborhood. |
 | Hot coffee | “Now add hot coffee.” | `drinks-3.png`: reveal hot coffee and [1, 9, 0, 9, 8, 10, 0], above its circle. | Explain Coffee and tea as the farther neighborhood. |
@@ -28,12 +31,14 @@ Use the spoken source in `lessons/vector-space.md`. Quoted cues below identify w
 | Second drink question | “Which drink is the closest match?” | Hold state 6 with both B and coffee vectors visible. | Same brief comparison pause. |
 | Second drink answer | “Hot coffee is closest…” | `drinks-7.png`: add the hot-coffee ring and short match connection. | Hold through the seven-number vector-space conclusion. |
 | Distance | “Neither Mystery Drink had an exact match…” | Keep the completed drink map available for the short recap. | Transition to a supporting drawing for the thousands-of-dimensions explanation rather than a long unrelated hold. |
+| Learned values | “Its embeddings have thousands of dimensions, with values learned during training.” | Supporting drawing of many dimensions. | No invented fixed dimension count or extra numerical example. |
 | Meaning callback | “After the layers update a token’s vector…” | Supporting drawing connects a changed row of numbers to a changed position. | Avoid literal 3D coordinates or claims that meaning is a nearest-word lookup. |
 | Sentence | “The CAT sat on the mat…” | Introduce the complete sentence with CAT and IT distinguishable. | Use the lesson’s wording, including “May rainstorm.” |
 | Context illustration | “Here’s how context changes IT’s position.” | Show `vector-space-meaning-map.jpg` complete. | Keep both IT positions visible together. This is a static explanatory illustration. |
 | Context start | “IT’s starting position…” | Highlight [.12, −.34, …] at the starting marker. | Full context remains visible. |
 | Context update | “The layers update the numbers.” | Guide attention along the purple path. | The intermediate dots do not specify an exact number of model layers. |
 | Context result | “Follow the path to IT’s updated position…” | Highlight [.41, .06, …], then IT beside CAT. | Preserve the distinction between the two tokens. Finish on the contextual-connection takeaway. |
+| Separate token | “IT remains a separate token, now near CAT.” | Highlight IT and CAT as distinct items in the complete illustration. | Keep the mathematical representation clear; no literal physical travel. |
 | Close | “Meaning is a position in vector space.” | Use the canonical `vector-space-close.jpg`, complete and uncropped. | Speak “Similar meanings usually sit close together.” End without extra recap or CTA. |
 
 All state filenames above are relative to `reference-frames/`. Board assets are in `assets/` or the canonical `course-assets/vector-space/` folder, as identified in the narration source and registry. Use the supplied course colors and current Edit Spec for any added highlights. The full state previews are in the two sequence review sheets.

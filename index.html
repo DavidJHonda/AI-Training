@@ -2109,9 +2109,8 @@ function GroupExercise(props) {
         E("span", { className: "group-exercise-labels" },
           E("span", { className: "group-exercise-label" }, props.label || "Group Exercise"),
           props.optional !== false ? E("span", { className: "group-exercise-optional" }, "Optional") : null))),
-    props.discussion && props.lead ? E(BodyP, { style: { marginTop: 12 } }, props.lead) : null,
+    props.lead ? E(BodyP, { style: { marginTop: 12 } }, props.lead) : null,
     E("div", { className: "group-exercise-content" },
-      !props.discussion && props.lead ? E(BodyP, null, props.lead) : null,
       E(InnerCard, { style: { minHeight: 88, boxSizing: "border-box" } }, props.children)));
 }
 function StandaloneGroupExercise(props) {
@@ -4848,7 +4847,7 @@ function WhyDeeperSection(props) {
     }),
     closeBoard("whydeeper"),
     /*#__PURE__*/E(AIMultiplierTryIt, null),
-    E(GroupExercise, { id: "whydeeper-group-exercise", discussion: true, lead: "Explore how AI is changing your life today and what it could mean for your future. Five discussion questions give your group a place to start." },
+    E(GroupExercise, { id: "whydeeper-group-exercise", lead: "Explore how AI is changing your life today and what it could mean for your future. Five discussion questions give your group a place to start." },
       E(DiscussionQuestions, { questions: [
         { title: "How are you using AI today?", followUp: "What has surprised you about it?" },
         { title: "How could AI jump-start your future?", followUp: "What could it help you start doing now?" },
@@ -5092,6 +5091,14 @@ function WhyBotherSection(props) {
             feedback: answered ? s.feedback : null
           }, CATCH_CHOICES.map(function(label, optIdx) { return PillButton(label, optIdx); }));
         }))),
+    E(GroupExercise, { id: "whybother-group-exercise", lead: "What do you bring to the tool? Explore how your knowledge and skills can take you beyond the new average. Your group leader can choose from these five questions and decide how to discuss them." },
+      E(DiscussionQuestions, { questions: [
+        { title: "You and another person have the same AI and the same assignment. What could make your finished work better?", followUp: "Pick a specific example: a presentation, an app, a business idea, or something else." },
+        { title: "What’s something you know enough about to challenge an AI answer?", followUp: "It could be a class subject, sport, game, hobby, or job. What would you notice that a beginner might miss?" },
+        { context: "“If AI can do it, there’s no reason to learn it.”", title: "Where do you agree or disagree?", followUp: "Choose a skill and make your case. Does your answer change depending on how you plan to use it?" },
+        { context: "You’re choosing someone to work with on a project.", title: "Would you rather work with someone who’s great with AI or someone who knows the subject deeply?", followUp: "What would each bring? When might your choice change?" },
+        { title: "What would you like to become the person people turn to for help with?", followUp: "What could you start practicing now to build that knowledge or skill?" }
+      ] })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
@@ -5493,13 +5500,12 @@ function ControlSection(props) {
     E(StandaloneGroupExercise, {
       id: "control-group-exercise", title: "Prompetition",
       href: "group-exercises/in-your-hands/prompetition.html",
-      lead: "How close can your team get to a target picture using only words? Write a prompt, generate an image, and improve it. Compare results to see which details and choices made the difference.",
+      lead: "Make something real with AI. Your challenge is to recreate a target picture using only words. You choose what to describe, how to guide the AI, and what to change. Compare your results and see which choices made the difference.",
       instructions: [
-        "Work in teams with access to an AI app that can generate images. Display a target picture on the shared screen.",
-        "Describe the target in a prompt without uploading the target image. Use your words to guide the AI.",
-        "Generate a picture, compare it with the target, and revise your prompt. The activity page has space to write and copy your prompt.",
-        "Show the group your results. You can load a saved result beside the target and reveal the key details to compare.",
-        "Choose which result comes closest and explain why. Try another target when you are ready."
+        "Ask ChatGPT to create a picture. Describe the target picture in your own words. Don’t upload the target image.",
+        "Compare the picture ChatGPT creates with the target. Tell ChatGPT what to change and try again.",
+        "You can load a saved result beside the target and reveal the key details to compare.",
+        "Walk around and look at other people’s pictures. Which came closest to the target? What did they describe that you might have missed?"
       ]
     }),
 
@@ -9518,6 +9524,59 @@ function CourseNotebookLab() {
     })
   );
 }
+function RidiculousStudyGroupExercise() {
+  var E = React.createElement;
+  var _subject = useState(""), subject = _subject[0], setSubject = _subject[1];
+  var _situation = useState(""), situation = _situation[0], setSituation = _situation[1];
+  var ready = !!subject.trim() && !!situation.trim();
+  var prompt = "Teach us " + (subject.trim() || "[subject]") + " using " + (situation.trim() || "[ridiculous situation]") + ".\nWe’re high school students. Ask us one question at a time and wait for our answer.";
+
+  function field(id, label, value, onChange, placeholder, examples) {
+    return E("div", { style: { marginBottom: 22 } },
+      E("label", { htmlFor: id, style: { display: "block", marginBottom: 8, fontWeight: 700, color: "var(--ink)", fontSize: 17 } }, label),
+      E("input", {
+        id: id, type: "text", value: value, placeholder: placeholder, autoComplete: "off",
+        "aria-describedby": id + "-examples",
+        onChange: function(event) { onChange(event.target.value); },
+        style: {
+          width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 9,
+          background: "var(--bg)", color: "var(--ink)", padding: "12px",
+          fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.4, outlineColor: "var(--tryAccent)"
+        }
+      }),
+      E("p", { id: id + "-examples", style: { margin: "8px 0 0", color: "var(--inkMuted)", fontSize: 14, lineHeight: 1.5 } }, examples));
+  }
+
+  return E(GroupExercise, {
+    id: "studying-group-exercise",
+    lead: "ChatGPT’s Study mode can guide you through a topic with questions, hints, and explanations. Choose something to learn and a ridiculous situation to learn it through. Your group leader can run this on a shared screen or let smaller groups try their own combinations."
+  },
+    E("h3", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, margin: "0 0 18px" } }, "Teach Us Something Ridiculous"),
+    E(BodyP, null,
+      E("strong", null, "Trying this on your own? "), "Pick your own subject and ridiculous situation, then work through ChatGPT’s questions yourself."),
+    E(ActivityInstructions, { steps: [
+      "Suggest subjects and ridiculous situations. Vote aloud or by a show of hands, then have the leader fill in the winning choices below.",
+      E("span", null, "Select ", E("strong", null, "Copy Prompt"), ", then ", E("strong", null, "Open Study Mode"), ". Sign in if needed and check that Study is selected. Paste the prompt and send it."),
+      "Answer ChatGPT’s questions together. Ask for a hint or a different explanation when you get stuck."
+    ] }),
+    E("div", { style: { marginTop: 24 } },
+      field("study-group-subject", "What do you want to learn?", subject, setSubject, "Enter the winning subject", "Ideas: gravity, negotiation, probability, or how an engine works."),
+      field("study-group-situation", "What’s the ridiculous situation?", situation, setSituation, "Enter the winning situation", "Ideas: penguins running a theme park, raccoons opening a restaurant, or a zombie buying a car.")),
+    E("div", { style: { "--labAccent": "var(--tryAccent)" } },
+      E(CopyableLabPrompt, {
+        key: prompt, text: prompt, disabled: !ready, disabledLabel: "Copy Prompt",
+        disabledMessage: "Fill in both blanks to copy your prompt.", hidePlaceholderHint: true
+      })),
+    E("div", { style: { marginTop: 20 } },
+      E("a", {
+        href: "https://chatgpt.com/studymode", target: "_blank", rel: "noopener noreferrer",
+        "aria-label": "Open Study Mode (opens in a new tab)",
+        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 24px", minHeight: 44 }
+      }, "Open Study Mode ↗")),
+    E(BodyP, { style: { marginTop: 24, marginBottom: 0 } },
+      E("strong", null, "Afterward: "), "What can you explain now that you couldn’t explain before?"));
+}
+
 function StudyingWithAISection(props) {
   var E = React.createElement;
 
@@ -9591,6 +9650,7 @@ function StudyingWithAISection(props) {
       E("p", null, "Use AI to strengthen the learning, not skip it.")),
     closeBoard("studying"),
     E(CourseNotebookLab, null),
+    E(RidiculousStudyGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#eef4eb">
+<title>Spot What’s Wrong · Be Smarter Than the Tool</title>
+<link rel="icon" href="../../icons/favicon-32x32.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root { --bg:#f6f5fb; --card:#fff; --ink:#0e0a1f; --inkSoft:#3a3550; --inkMuted:#6e6986; --tryBand:#eef4eb; --tryAccent:#2f7d4f; --tryRule:rgba(63,107,63,.18); --shadowSoft:0 4px 12px rgba(14,10,31,.05); --sans:"Plus Jakarta Sans",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); }
+main { max-width:1440px; margin:auto; padding:clamp(16px,2.5vw,36px); }
+header { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:20px; }
+.eyebrow { color:var(--tryAccent); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; margin:0 0 6px; }
+h1 { font-family:var(--serif); font-size:clamp(36px,4.5vw,58px); font-weight:400; line-height:1.05; margin:0; }
+h2 { font-size:clamp(22px,2vw,28px); margin:0; line-height:1.3; }
+h3 { font-size:20px; margin:0 0 12px; }
+.intro { margin:0 0 22px; font-size:17px; line-height:1.65; color:var(--inkSoft); max-width:88ch; }
+button,a,textarea,input { font:inherit; }
+button,.button { min-height:46px; padding:12px 20px; border:0; border-radius:10px; background:var(--ink); color:#fff; font-weight:700; cursor:pointer; text-decoration:none; display:inline-flex; justify-content:center; align-items:center; }
+.secondary { background:var(--card); color:var(--inkSoft); border:1px solid var(--tryRule); }
+button:disabled { opacity:.45; cursor:default; }
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible { outline:3px solid var(--tryAccent); outline-offset:3px; }
+.band { background:var(--tryBand); padding:clamp(16px,2vw,28px); border-radius:20px; }
+.card { background:var(--card); padding:clamp(18px,2vw,28px); border-radius:14px; box-shadow:var(--shadowSoft); min-width:0; }
+.round-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 22px; margin-bottom:18px; }
+.round-label { font-size:13px; color:var(--inkMuted); font-weight:700; }
+.picture-button { display:block; width:100%; background:var(--card); border-radius:14px; padding:0; overflow:hidden; }
+.picture-button img { display:block; width:100%; height:min(55vh,650px); object-fit:contain; }
+.caption { color:var(--inkMuted); font-size:13px; margin:10px 0 0; line-height:1.5; }
+.actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:22px; }
+.action-group { display:flex; flex-wrap:wrap; gap:12px; }
+.answer { margin-top:18px; }
+.answer p,.finish p { font-size:18px; line-height:1.6; color:var(--inkSoft); margin:0 0 12px; }
+.answer p:last-child { margin-bottom:0; }
+.finish { padding:clamp(24px,5vw,65px); }
+.finish h2 { font-family:var(--serif); font-weight:400; font-size:clamp(32px,4vw,50px); margin-bottom:22px; }
+.status { color:var(--inkSoft); font-size:14px; min-height:21px; margin:8px 0; }
+[hidden] { display:none !important; }
+dialog { padding:18px; border:0; border-radius:16px; background:var(--bg); max-width:96vw; max-height:96vh; }
+dialog::backdrop { background:rgba(14,10,31,.8); }
+dialog img { display:block; max-width:90vw; max-height:78vh; object-fit:contain; margin:14px auto 0; }
+@media(max-width:650px) { header { align-items:flex-start; } header button { font-size:13px; padding:10px 12px; } .picture-button img { height:auto; max-height:60vh; } .actions { align-items:stretch; } .action-group { flex:1; } }
+</style></head><body><main>
+<header><div><p class="eyebrow">Does AI Think? · Group Exercise</p><h1>Spot What’s Wrong</h1></div><button class="secondary" id="fullscreen" type="button">Full Screen</button></header>
+<p class="intro">These AI-generated pictures were deliberately made with something odd. Find the detail and explain why it does not make sense. The leader reveals each clue when the group is ready.</p>
+<section class="band" id="round" aria-labelledby="picture-title">
+ <div class="round-heading"><span class="round-label" id="progress"></span><h2 id="picture-title" tabindex="-1"></h2></div>
+ <button type="button" class="picture-button" id="enlarge" aria-label="Enlarge puzzle image"><img id="picture" alt=""></button>
+ <p class="caption">Select the picture to enlarge it. Look closely, then explain why the detail does not make sense.</p>
+ <section class="answer card" id="answer" hidden aria-labelledby="answer-title"><h3 id="answer-title">What to Notice</h3><p id="clue"></p><p>What do you know about the world that helped you spot it?</p></section>
+ <div class="actions"><button type="button" class="secondary" id="previous">Previous</button><div class="action-group"><button type="button" id="reveal" aria-controls="answer" aria-expanded="false">Reveal Detail</button><button type="button" class="secondary" id="next">Next Picture</button></div></div>
+</section>
+<section class="band finish" id="finish" hidden aria-labelledby="finish-title"><h2 id="finish-title" tabindex="-1">You brought the understanding.</h2><p>Which detail was hardest to spot? What did you have to know to recognize the problem?</p><p>These pictures were deliberately made with oddities. Finding them is practice in observation and judgment, not a test that settles whether AI thinks.</p><div class="actions"><button type="button" class="secondary" id="back">Back to Pictures</button><button type="button" id="replay">Play Again</button></div></section>
+
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<dialog id="zoom" aria-label="Enlarged picture"><button type="button" id="close-zoom">Close Picture</button><img id="zoom-image" alt=""></dialog>
+</main><script>
+(function(){ 'use strict';
+
+var full = document.getElementById('fullscreen');
+full.hidden = !document.fullscreenEnabled;
+full.addEventListener('click', async function () {
+ try { if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }
+ catch (_) { document.getElementById('status').textContent = 'Full screen is unavailable in this browser.'; }
+});
+document.addEventListener('fullscreenchange', function () { full.textContent = document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'; });
+var zoom = document.getElementById('zoom');
+var zoomImage = document.getElementById('zoom-image');
+function enlarge(image) { if(!image.complete || !image.naturalWidth) return; zoomImage.src=image.src; zoomImage.alt=image.alt; zoom.showModal(); }
+document.getElementById('close-zoom').addEventListener('click',function(){zoom.close();});
+var pictures = [{"file": "01-porch-dog.jpg", "title": "Porch Dog", "answer": "The dog has six legs. Count the six separate paws attached to one body."}, {"file": "05-cat-mirror.jpg", "title": "Cat Mirror", "answer": "The cat’s mouth is closed, but its reflection is yawning."}, {"file": "06-cafe-lemonade.jpg", "title": "Cafe Lemonade", "answer": "The straw passes through the side of the glass below the rim."}, {"file": "07-backpack.jpg", "title": "Backpack", "answer": "The backpack strap passes through the student’s upper arm."}, {"file": "08-birthday-cake.jpg", "title": "Birthday Cake", "answer": "The front-right candle has a flame pointing downward."}, {"file": "09-skateboard.jpg", "title": "Skateboard", "answer": "One skateboard wheel is mounted on top of the deck."}, {"file": "10-front-porch.jpg", "title": "Front Porch", "answer": "The porch railing blocks the top of the stairs, with no opening."}, {"file": "11-guitar.jpg", "title": "Guitar", "answer": "The guitar strings have a gap between the sound hole and the bridge."}, {"file": "12-school-lockers.jpg", "title": "School Lockers", "answer": "The open locker’s hinges are on its free edge, separated from the frame’s hinges."}, {"file": "13-picnic-basket.jpg", "title": "Picnic Basket", "answer": "The basket handle passes through the middle of the plate."}, {"file": "14-shop-window.jpg", "title": "Shop Window", "answer": "The reflection holds a yellow shopping bag, but the person’s hands are empty."}, {"file": "15-parked-bicycles.jpg", "title": "Parked Bicycles", "answer": "The two bicycle frames share a single central wheel."}];
+var index=0, revealed=pictures.map(function(){return false;});
+var picture=document.getElementById('picture');
+var status=document.getElementById('status');
+var reveal=document.getElementById('reveal');
+function render(){
+ var current=pictures[index];
+ document.getElementById('round').hidden=false;document.getElementById('finish').hidden=true;
+ document.getElementById('progress').textContent='Picture '+(index+1)+' of '+pictures.length;
+ document.getElementById('picture-title').textContent=current.title;
+ picture.alt='Observation puzzle: '+current.title;
+ picture.src=current.file;
+ document.getElementById('answer').hidden=!revealed[index];
+ document.getElementById('clue').textContent=current.answer;
+ reveal.textContent=revealed[index]?'Hide Detail':'Reveal Detail';
+ reveal.setAttribute('aria-expanded',String(revealed[index]));
+ document.getElementById('previous').disabled=index===0;
+ document.getElementById('next').textContent=index===pictures.length-1?'Finish':'Next Picture';
+ status.textContent='';
+}
+picture.addEventListener('error',function(){status.textContent='This picture could not load. Try reloading the page or continue to the next picture.';});
+document.getElementById('enlarge').addEventListener('click',function(){enlarge(picture);});
+reveal.addEventListener('click',function(){revealed[index]=!revealed[index];render();});
+document.getElementById('previous').addEventListener('click',function(){if(index>0)index--;render();document.getElementById('picture-title').focus();});
+document.getElementById('next').addEventListener('click',function(){
+ if(index<pictures.length-1){index++;render();document.getElementById('picture-title').focus();}
+ else {document.getElementById('round').hidden=true;document.getElementById('finish').hidden=false;status.textContent='';document.getElementById('finish-title').focus();}
+});
+document.getElementById('back').addEventListener('click',function(){render();document.getElementById('picture-title').focus();});
+document.getElementById('replay').addEventListener('click',function(){index=0;revealed=pictures.map(function(){return false;});render();document.getElementById('picture-title').focus();});
+render();
+
+}());
+</script></body></html>

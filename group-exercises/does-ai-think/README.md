@@ -1,8 +1,13 @@
 # Spot What’s Wrong: image review
 
-15 AI-generated draft images for a follow-up to Be the Last Person Standing. Created with the built-in image-generation tool. These are not yet connected to a course activity.
+Spot What’s Wrong is the optional group activity for **Does AI Think?**.
+Open `spot-whats-wrong.html` for the classroom activity or `review.html` for the
+image review. It uses the 12 complete puzzles currently available in this folder.
+The images were created with the built-in image-generation tool.
 
-Open `review.html` to inspect the set. Each image has a collapsible answer. The three difficulty groups are provisional and should be tried with students on a classroom screen before final ordering.
+The activity shows one image at a time, supports enlargement, and reveals a clue
+on request. It follows the available images in their original order. The original
+difficulty groups below remain provisional.
 
 All pictures were deliberately prompted to include an inconsistency. This is an observation exercise, not a reliable method for detecting AI. An odd detail can also result from editing, staging, or an unusual real object. Finding nothing wrong does not establish that an image is real.
 
@@ -32,3 +37,12 @@ All pictures were deliberately prompted to include an inconsistency. This is an 
 - The fork, blocked porch, skateboard, and unusual bicycle construction could be staged or custom-built in real life. Present them as deliberate oddities, not proof of AI.
 - Strings and hinges are the smallest clues; validate them from the back of the room.
 - Source paths, initial prompts, and revision prompts are recorded in `generation-prompts.json`. Only selected JPGs are kept here.
+
+## Current activity selection
+
+The original source manifest below documents 15 proposed puzzles. Files 02, 03,
+and the original 04 are absent from the checked-in image set, so they are not
+used. Do not silently restore them from old generated sources.
+`04-fake-trap-try-storefront-a.jpg` is retained as an unused review asset: no
+verified puzzle clue has been assigned to it. The current review page and activity
+include 01 and 05–15, with displayed rounds numbered 1–12.

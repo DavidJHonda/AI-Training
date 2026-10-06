@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>What’s Missing? · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb;
+      --card: #fff;
+      --primaryDeep: #4c2dff;
+      --ink: #0e0a1f;
+      --inkSoft: #3a3550;
+      --inkMuted: #6e6986;
+      --tryAccent: #2f7d4f;
+      --tryBand: #eef4eb;
+      --tryRule: rgba(63, 107, 63, 0.18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, 0.05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body { min-height: 100%; margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    .activity-shell {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: clamp(12px, 1.6vw, 20px);
+      padding: clamp(14px, 2vw, 28px);
+    }
+    .activity-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; width: min(1320px, 100%); margin: 0 auto; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; color: var(--tryAccent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+    h1 { margin: 0; font-family: var(--serif); font-size: clamp(31px, 3.6vw, 50px); font-weight: 400; line-height: 1; }
+    .fullscreen-button, .primary-button, .secondary-button { min-height: 46px; border: 0; border-radius: 10px; padding: 11px 19px; font-weight: 800; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+    .fullscreen-button, .primary-button { background: var(--ink); color: #fff; }
+    .secondary-button { background: var(--card); color: var(--primaryDeep); box-shadow: var(--shadowSoft); }
+    .fullscreen-button:hover, .primary-button:hover, .secondary-button:hover { transform: translateY(-1px); }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--primaryDeep); outline-offset: 3px; }
+
+    .activity-card, .finish-card { width: min(1320px, 100%); margin: 0 auto; border-radius: 20px; background: var(--tryBand); }
+    .activity-card { display: flex; flex-direction: column; gap: clamp(16px, 1.8vw, 24px); min-width: 0; padding: clamp(16px, 2vw, 28px); }
+    .scenario-panel, .answer-panel { padding: clamp(20px, 2.5vw, 34px); border-radius: 14px; background: var(--card); box-shadow: var(--shadowSoft); }
+    .progress-line { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .progress-label { margin: 0; color: var(--inkMuted); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .progress-marks { display: flex; gap: 4px; }
+    .progress-mark { width: 18px; height: 3px; border-radius: 999px; background: #d9d6e8; }
+    .progress-mark.is-current { background: var(--ink); }
+    .scenario-title { margin: 0 0 22px; font-size: clamp(27px, 2.5vw, 36px); line-height: 1.15; }
+    .section-label { margin: 0 0 9px; color: var(--tryAccent); font-size: 14px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .request-text { margin: 0; color: var(--inkSoft); font-size: clamp(19px, 1.6vw, 23px); line-height: 1.5; }
+    .answer-panel { padding-top: clamp(18px, 2vw, 28px); padding-bottom: clamp(18px, 2vw, 28px); }
+    .answer-intro, .answer-outro { margin: 0; color: var(--inkSoft); font-size: clamp(18px, 1.45vw, 21px); line-height: 1.52; }
+    .answer-list { margin: 13px 0 0; padding-left: 1.45em; color: var(--inkSoft); font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; }
+    .answer-list li { padding-left: .2em; }
+    .answer-list li + li { margin-top: 7px; }
+    .answer-outro { margin-top: 15px; }
+    .discussion { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+    .discussion h3 { margin: 0; font-size: clamp(20px, 1.9vw, 27px); line-height: 1.3; }
+    .discussion p { margin: 0; color: var(--inkSoft); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.45; }
+    .reveal-panel { padding-top: 18px; border-top: 1px solid var(--tryRule); }
+    .reveal-title { margin: 0 0 16px; color: var(--tryAccent); font-size: clamp(20px, 1.9vw, 27px); line-height: 1.3; }
+    .check-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .check-grid.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .check-card { min-width: 0; padding: clamp(17px, 1.65vw, 23px); border-radius: 12px; background: var(--card); box-shadow: var(--shadowSoft); }
+    .check-card h4 { margin: 0 0 8px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.3; }
+    .check-card p { margin: 0; color: var(--inkSoft); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.5; }
+    .reveal-note { margin: 16px 0 0; color: var(--inkSoft); font-size: clamp(16px, 1.3vw, 19px); font-weight: 700; line-height: 1.5; }
+    .stage-footer { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 4px; }
+
+    .finish-card { min-height: calc(100vh - 120px); display: none; place-items: center; padding: clamp(28px, 6vw, 80px); text-align: center; }
+    .finish-card.is-visible { display: grid; }
+    .finish-inner { max-width: 850px; }
+    .finish-card h2 { margin: 0 0 18px; font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); font-weight: 400; line-height: 1.05; }
+    .finish-card p { margin: 0 auto 18px; color: var(--inkSoft); font-size: clamp(18px, 2vw, 25px); line-height: 1.5; }
+    .finish-card p:last-of-type { margin-bottom: 28px; }
+    .finish-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .secondary-button { display: inline-flex; align-items: center; text-decoration: none; }
+    [hidden] { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 900px) { .check-grid, .check-grid.is-two { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) {
+      .activity-shell { display: block; padding: 12px; }
+      .activity-header { align-items: flex-start; margin-bottom: 12px; }
+      h1 { font-size: 30px; }
+      .fullscreen-button { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+      .activity-card { min-height: calc(100dvh - 90px); }
+      .stage-footer .primary-button { width: 100%; }
+    }
+    @media (max-height: 720px) and (min-width: 761px) {
+      .activity-shell { padding: 10px 16px; }
+      h1 { font-size: 32px; }
+      .activity-card { padding: 16px 20px; }
+      .scenario-panel, .answer-panel { padding: 18px 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="activity-shell">
+    <header class="activity-header">
+      <div>
+        <p class="eyebrow">Group Exercise 03</p>
+        <h1>What’s Missing?</h1>
+      </div>
+      <button class="fullscreen-button" id="fullscreen-button" type="button">Enter Full Screen</button>
+    </header>
+
+    <section class="activity-card" id="round-view" aria-labelledby="scenario-title">
+      <div class="scenario-panel">
+        <div class="progress-line">
+          <p class="progress-label" id="progress">Round 1 of 3</p>
+          <div class="progress-marks" aria-hidden="true"><span class="progress-mark is-current"></span><span class="progress-mark"></span><span class="progress-mark"></span></div>
+        </div>
+        <h2 class="scenario-title" id="scenario-title" tabindex="-1"></h2>
+        <h3 class="section-label">The Request</h3>
+        <p class="request-text" id="request-text"></p>
+      </div>
+
+      <section class="answer-panel" aria-labelledby="answer-title">
+        <h3 class="section-label" id="answer-title">The AI Answer</h3>
+        <p class="answer-intro" id="answer-intro"></p>
+        <p class="answer-outro" id="answer-middle" hidden></p>
+        <ul class="answer-list" id="answer-list"></ul>
+        <p class="answer-outro" id="answer-outro" hidden></p>
+      </section>
+
+      <div class="discussion" id="discussion">
+        <h3 id="discussion-question"></h3>
+        <p id="discussion-instruction"></p>
+      </div>
+
+      <section class="reveal-panel" id="reveal-panel" aria-labelledby="reveal-title" hidden>
+        <h3 class="reveal-title" id="reveal-title" tabindex="-1">A Few Things We Still Need to Know</h3>
+        <ul class="check-grid" id="check-grid"></ul>
+        <p class="reveal-note">Your group may have found other useful questions. What matters is explaining how the missing information could change the answer.</p>
+      </section>
+      <p class="sr-only" id="round-announcement" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="stage-footer">
+        <button class="primary-button" id="show-checks" type="button">Show What’s Missing</button>
+        <button class="primary-button" id="next-button" type="button" hidden>Next Scenario</button>
+      </div>
+    </section>
+
+    <section class="finish-card" id="finish-view" aria-labelledby="finish-title">
+      <div class="finish-inner">
+        <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
+        <h2 id="finish-title" tabindex="-1">One last thing</h2>
+        <p>AI gave us an answer before it had enough information.</p>
+        <p>Before you use an answer, ask what is missing. Add the details you know, and check the assumptions AI made.</p>
+        <div class="finish-actions">
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+          <a class="secondary-button" id="back-link" href="../../index.html">Back to Group Exercises</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      "use strict";
+
+      var rounds = [
+        {
+          title: "The AI Club Announcement",
+          question: "What did AI leave out that students need in order to attend?",
+          instruction: "With a neighbor, identify the missing details and explain why they matter. You have about 45 seconds.",
+          request: "Write an announcement inviting students to our new AI club’s first meeting.",
+          answerIntro: "Curious about AI? Join our new AI club!",
+          answerMiddle: "At our first meeting, you’ll meet other students, try a fun AI challenge, and help choose activities for the year. Beginners are welcome. No experience needed.",
+          answerPoints: [],
+          answerOutro: "Bring a friend and come ready to explore. We can’t wait to see you there!",
+          checks: [
+            { title: "When is the meeting?", detail: "The announcement needs a date and time. Students can’t plan to attend without them." },
+            { title: "Where is the meeting?", detail: "It needs a room or meeting location. Interested students need to know where to go." }
+          ]
+        },
+        {
+          title: "Pizza for Everyone",
+          question: "What did AI need to know before deciding what to order?",
+          instruction: "With a neighbor, identify two or three missing details. Explain how each one could change the order. You have about 45 seconds.",
+          request: "Plan a simple pizza celebration for our group.",
+          answerIntro: "Keep it simple with six large pepperoni pizzas and three two-liter bottles of soda.",
+          answerPoints: [
+            "Order from a nearby pizza place.",
+            "Ask for the pizzas to be sliced and ready to serve.",
+            "Put plates, cups, and napkins on a table.",
+            "Have everyone help themselves, then finish with a quick group game.",
+            "Ask a few volunteers to help clean up."
+          ],
+          checks: [
+            { title: "How many people are coming?", detail: "Six pizzas might be plenty or nowhere near enough." },
+            { title: "Can everyone eat what we’re ordering?", detail: "An all-pepperoni order may leave some people without food. Check dietary needs and allergies before choosing." },
+            { title: "Can we afford it?", detail: "The plan chooses an order without knowing the budget or checking the price." }
+          ]
+        },
+        {
+          title: "The Study Plan",
+          question: "What is missing that could make this study plan less useful?",
+          instruction: "With a neighbor, identify two or three things the plan should account for. Explain how they could help the student prepare. You have about 45 seconds.",
+          request: "Help me prepare for my math exam next week.",
+          answerIntro: "Study from 7 to 9 p.m. every evening for the next six days.",
+          answerPoints: [
+            "Spend the first hour rereading your class notes.",
+            "Spend the second hour reviewing examples in the textbook.",
+            "Work through the material in the order it was taught.",
+            "On the last evening, reread your notes from beginning to end."
+          ],
+          answerOutro: "Stick to this routine so you feel prepared on exam day.",
+          checks: [
+            { title: "Which topics need the most work?", detail: "The plan doesn’t ask what is on the exam or where the student is struggling. It could spend too much time on material they already understand." },
+            { title: "When can the student actually study?", detail: "The schedule assumes every evening is free. Work, sports, family responsibilities, or other homework could make it difficult to follow." },
+            { title: "Can the student solve problems without looking at the examples?", detail: "Rereading can make the material feel familiar. Practice problems would help reveal what the student can do independently and what still needs work." }
+          ]
+        }
+      ];
+
+      var roundIndex = 0;
+      var revealed = false;
+      var roundView = document.getElementById("round-view");
+      var finishView = document.getElementById("finish-view");
+      var revealPanel = document.getElementById("reveal-panel");
+      var showChecksButton = document.getElementById("show-checks");
+      var nextButton = document.getElementById("next-button");
+      var announcement = document.getElementById("round-announcement");
+      var fullscreenButton = document.getElementById("fullscreen-button");
+
+      function fillList(list, items, makeItem) {
+        list.replaceChildren();
+        items.forEach(function(item) { list.appendChild(makeItem(item)); });
+      }
+
+      function renderRound(options) {
+        var round = rounds[roundIndex];
+        revealed = false;
+        document.getElementById("progress").textContent = "Round " + (roundIndex + 1) + " of " + rounds.length;
+        document.querySelectorAll(".progress-mark").forEach(function(mark, index) { mark.classList.toggle("is-current", index === roundIndex); });
+        document.getElementById("scenario-title").textContent = round.title;
+        document.getElementById("discussion-question").textContent = round.question;
+        document.getElementById("discussion-instruction").textContent = round.instruction;
+        document.getElementById("request-text").textContent = "“" + round.request + "”";
+        document.getElementById("answer-intro").textContent = round.answerIntro;
+        var middle = document.getElementById("answer-middle");
+        middle.textContent = round.answerMiddle || "";
+        middle.hidden = !round.answerMiddle;
+        fillList(document.getElementById("answer-list"), round.answerPoints, function(point) {
+          var item = document.createElement("li");
+          item.textContent = point;
+          return item;
+        });
+        document.getElementById("answer-list").hidden = round.answerPoints.length === 0;
+        var outro = document.getElementById("answer-outro");
+        outro.textContent = round.answerOutro || "";
+        outro.hidden = !round.answerOutro;
+        fillList(document.getElementById("check-grid"), round.checks, function(check) {
+          var item = document.createElement("li");
+          item.className = "check-card";
+          var heading = document.createElement("h4");
+          heading.textContent = check.title;
+          var detail = document.createElement("p");
+          detail.textContent = check.detail;
+          item.append(heading, detail);
+          return item;
+        });
+        document.getElementById("check-grid").classList.toggle("is-two", round.checks.length === 2);
+        revealPanel.hidden = true;
+        showChecksButton.hidden = false;
+        nextButton.hidden = true;
+        nextButton.textContent = roundIndex === rounds.length - 1 ? "Finish" : "Next Scenario";
+        announcement.textContent = options && options.announce === false ? "" : "Round " + (roundIndex + 1) + " of " + rounds.length + ". " + round.title + ".";
+        if (!options || options.focus !== false) document.getElementById("scenario-title").focus();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        revealPanel.hidden = false;
+        showChecksButton.hidden = true;
+        nextButton.hidden = false;
+        announcement.textContent = "A Few Things We Still Need to Know are now shown below the AI answer. Your group may have found other useful questions.";
+        document.getElementById("reveal-title").focus();
+      }
+
+      function advance() {
+        if (!revealed) return;
+        if (roundIndex === rounds.length - 1) {
+          roundView.hidden = true;
+          finishView.classList.add("is-visible");
+          document.getElementById("finish-title").focus();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+        roundIndex += 1;
+        renderRound();
+      }
+
+      function playAgain() {
+        roundIndex = 0;
+        finishView.classList.remove("is-visible");
+        roundView.hidden = false;
+        renderRound();
+      }
+
+      function updateFullscreenLabel() {
+        fullscreenButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen";
+      }
+
+      showChecksButton.addEventListener("click", reveal);
+      nextButton.addEventListener("click", advance);
+      document.getElementById("play-again").addEventListener("click", playAgain);
+      fullscreenButton.addEventListener("click", function() {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+        } else if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(function() {});
+        }
+      });
+      document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      document.getElementById("back-link").addEventListener("click", function() {
+        try {
+          var progressState = JSON.parse(localStorage.getItem("llm-explorer-progress") || "{}");
+          progressState.activeSection = "groupexercises";
+          progressState.visited = Array.isArray(progressState.visited) ? progressState.visited : [];
+          if (progressState.visited.indexOf("groupexercises") === -1) progressState.visited.push("groupexercises");
+          localStorage.setItem("llm-explorer-progress", JSON.stringify(progressState));
+        } catch (error) {}
+      });
+
+      renderRound({ focus: false, announce: false });
+    })();
+  </script>
+</body>
+</html>

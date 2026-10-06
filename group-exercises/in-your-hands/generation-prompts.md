@@ -1,6 +1,6 @@
 # Prompetition image prompts
 
-Created using the built-in image-generation tool. These are proposed activity images; no exercise page has been built.
+Created using the built-in image-generation tool. These are the three targets for `prompetition.html`, the group activity in In Your Hands. The page supports prompt drafts, copying, optional local image comparison, and a detail checklist for each target.
 
 ## astronaut
 

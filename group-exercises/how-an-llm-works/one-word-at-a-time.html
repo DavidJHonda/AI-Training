@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>One Word at a Time · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root { --bg:#f6f5fb; --card:#fff; --ink:#0e0a1f; --inkSoft:#3a3550; --inkMuted:#6e6986; --tryAccent:#2f7d4f; --tryBand:#eef4eb; --tryRule:rgba(63,107,63,.18); --shadowSoft:0 4px 12px rgba(14,10,31,.05); --sans:"Plus Jakarta Sans",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); }
+    main { max-width:1320px; margin:auto; padding:clamp(18px,3vw,40px); }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:22px; }
+    .eyebrow { margin:0 0 6px; color:var(--tryAccent); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    h1 { margin:0; font-family:var(--serif); font-size:clamp(36px,5vw,60px); line-height:1.05; font-weight:400; }
+    .intro { max-width:78ch; font-size:18px; line-height:1.6; color:var(--inkSoft); margin:0 0 24px; }
+    button,input { font:inherit; }
+    button { border:0; border-radius:10px; padding:13px 20px; min-height:46px; background:var(--ink); color:white; font-weight:700; cursor:pointer; }
+    button.secondary { background:var(--card); color:var(--inkSoft); border:1px solid var(--tryRule); }
+    button:disabled { opacity:.45; cursor:default; }
+    button:focus-visible,input:focus-visible,summary:focus-visible { outline:3px solid var(--tryAccent); outline-offset:3px; }
+    .activity { background:var(--tryBand); border-radius:20px; padding:clamp(18px,3vw,32px); }
+    .round-line { display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:16px; }
+    h2 { font-size:22px; margin:0; }
+    #word-count { color:var(--inkMuted); font-size:14px; }
+    .story-card { background:var(--card); border-radius:14px; box-shadow:var(--shadowSoft); padding:clamp(22px,3vw,40px); }
+    .story { font-family:var(--serif); font-size:clamp(30px,3.6vw,48px); line-height:1.35; overflow-wrap:anywhere; margin:0; white-space:pre-wrap; }
+    #story { min-height:180px; max-height:43vh; overflow-y:auto; }
+    .starter { color:var(--inkMuted); }
+    .latest { color:var(--tryAccent); }
+    form { margin-top:24px; }
+    label { display:block; font-size:17px; font-weight:700; margin-bottom:10px; }
+    .entry { display:flex; gap:12px; }
+    input { width:100%; min-width:0; padding:12px 16px; font-size:22px; border:1px solid var(--tryRule); border-radius:10px; color:var(--ink); background:var(--card); }
+    .entry button { flex-shrink:0; }
+    .help { color:var(--inkMuted); margin:10px 0 0; font-size:14px; line-height:1.5; }
+    #message { min-height:24px; margin:8px 0; color:var(--inkSoft); font-size:15px; }
+    .actions { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    details { margin-top:24px; color:var(--inkSoft); }
+    summary { cursor:pointer; font-weight:700; padding:8px 0; }
+    details p { font-size:18px; line-height:1.6; overflow-wrap:anywhere; }
+    .compare-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin:20px 0 28px; }
+    .compare-grid h3 { margin:0 0 16px; color:var(--tryAccent); font-size:16px; }
+    .compare-grid .story { font-size:clamp(26px,2.6vw,36px); }
+    .reflection { font-size:clamp(23px,2.5vw,30px); line-height:1.4; margin:0 0 12px; }
+    .takeaway { color:var(--inkSoft); font-size:17px; line-height:1.6; max-width:78ch; margin:0 0 24px; }
+    [hidden] { display:none !important; }
+    @media(max-width:650px) { header { align-items:flex-start; } header button { font-size:13px; padding:10px; } .entry { flex-wrap:wrap; } .entry button { width:100%; } .compare-grid { grid-template-columns:1fr; } #story { min-height:150px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><p class="eyebrow">Group Exercise</p><h1>One Word at a Time</h1></div>
+    <button type="button" class="secondary" id="fullscreen">Full Screen</button>
+  </header>
+  <p class="intro">Take turns adding one word to the story. Each word must fit what came before, but it can take the story somewhere unexpected. Choose someone to type each word for the group.</p>
+  <section class="activity" id="writing" aria-labelledby="round-title">
+    <div class="round-line"><h2 id="round-title">Story 1</h2><span id="word-count">0 words added</span></div>
+    <div class="story-card"><p class="story" id="story" aria-label="Your group’s story"></p></div>
+    <form id="word-form" novalidate>
+      <label for="word">What’s the next word?</label>
+      <div class="entry"><input id="word" name="word" type="text" maxlength="80" autocomplete="off" aria-describedby="word-help message"><button type="submit">Add Word</button></div>
+      <p class="help" id="word-help">Type one word and press Enter. Include punctuation with the word, such as “dragon.”</p>
+    </form>
+    <p id="message" role="status" aria-live="polite"></p>
+    <div class="actions"><button type="button" class="secondary" id="undo" disabled>Undo Last Word</button><button type="button" id="next" disabled>Start Second Story</button></div>
+    <p class="help" id="round-help">After a few rounds around the group, try the same opening again. Your first story stays saved in this tab.</p>
+    <details id="previous" hidden><summary>Read your first story</summary><p id="first-story"></p></details>
+  </section>
+  <section class="activity" id="comparison" hidden aria-labelledby="comparison-title">
+    <h2 id="comparison-title" tabindex="-1">Same opening. Two stories.</h2>
+    <div class="compare-grid">
+      <article class="story-card"><h3>Story 1</h3><p class="story" id="compare-first"></p></article>
+      <article class="story-card"><h3>Story 2</h3><p class="story" id="compare-second"></p></article>
+    </div>
+    <h3 class="reflection">Which word changed the direction of your story the most?</h3>
+    <p class="takeaway">Each new word changed what came next. That's how an LLM works.</p>
+    <button type="button" class="secondary" id="back">Back to Second Story</button>
+  </section>
+</main>
+<script>
+(function () {
+  'use strict';
+  var opening = 'When I opened my backpack, I found';
+  var storageKey = 'group-one-word-at-a-time-v1';
+  var state = { stories: [[], []], round: 0, comparing: false };
+  var input = document.getElementById('word');
+  var message = document.getElementById('message');
+  function validWord(word) { return typeof word === 'string' && word.length <= 80 && !/\s/u.test(word) && /[\p{L}\p{N}]/u.test(word); }
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(storageKey));
+    if (saved && Array.isArray(saved.stories) && saved.stories.length === 2 && saved.stories.every(function (words) { return Array.isArray(words) && words.every(validWord); }) && (saved.round === 0 || saved.round === 1) && typeof saved.comparing === 'boolean') state = saved;
+  } catch (_) {}
+  function save() { try { sessionStorage.setItem(storageKey, JSON.stringify(state)); } catch (_) {} }
+  function storyText(words) { return opening + (words.length ? ' ' + words.join(' ') : '…'); }
+  function render() {
+    var words = state.stories[state.round];
+    document.getElementById('writing').hidden = state.comparing;
+    document.getElementById('comparison').hidden = !state.comparing;
+    document.getElementById('round-title').textContent = 'Story ' + (state.round + 1);
+    document.getElementById('word-count').textContent = words.length + (words.length === 1 ? ' word added' : ' words added');
+    var story = document.getElementById('story');
+    story.replaceChildren();
+    var starter = document.createElement('span');
+    starter.className = 'starter';
+    starter.textContent = opening;
+    story.appendChild(starter);
+    if (words.length) {
+      story.appendChild(document.createTextNode(' ' + words.slice(0, -1).join(' ') + (words.length > 1 ? ' ' : '')));
+      var latest = document.createElement('span');
+      latest.className = 'latest';
+      latest.textContent = words[words.length - 1];
+      story.appendChild(latest);
+    } else story.appendChild(document.createTextNode('…'));
+    story.scrollTop = story.scrollHeight;
+    document.getElementById('undo').disabled = !words.length;
+    document.getElementById('next').disabled = !words.length;
+    document.getElementById('next').textContent = state.round === 0 ? 'Start Second Story' : 'Compare Stories';
+    document.getElementById('round-help').textContent = state.round === 0 ? 'After a few rounds around the group, try the same opening again. Your first story stays saved in this tab.' : 'After a few rounds around the group, compare your two stories. Both stories stay saved in this tab.';
+    document.getElementById('previous').hidden = state.round === 0;
+    document.getElementById('first-story').textContent = storyText(state.stories[0]);
+    document.getElementById('compare-first').textContent = storyText(state.stories[0]);
+    document.getElementById('compare-second').textContent = storyText(state.stories[1]);
+  }
+  document.getElementById('word-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var word = input.value.trim();
+    if (!validWord(word)) {
+      message.textContent = 'Add one word at a time. You can include punctuation with it.';
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+      return;
+    }
+    state.stories[state.round].push(word);
+    input.value = '';
+    input.removeAttribute('aria-invalid');
+    save(); render();
+    message.textContent = 'Added “' + word + '”. Next person’s turn.';
+    input.focus();
+  });
+  document.getElementById('undo').addEventListener('click', function () {
+    var removed = state.stories[state.round].pop();
+    if (removed === undefined) return;
+    input.value = removed;
+    input.removeAttribute('aria-invalid');
+    save(); render();
+    message.textContent = 'Last word removed. Edit it or type another word.';
+    input.focus(); input.select();
+  });
+  document.getElementById('next').addEventListener('click', function () {
+    if (input.value.trim()) { message.textContent = 'Add your typed word or clear the field before continuing.'; input.focus(); return; }
+    if (!state.stories[state.round].length) return;
+    if (state.round === 0) state.round = 1;
+    else state.comparing = true;
+    message.textContent = ''; save(); render();
+    if (state.comparing) document.getElementById('comparison-title').focus();
+    else input.focus();
+  });
+  document.getElementById('back').addEventListener('click', function () { state.comparing = false; save(); render(); input.focus(); });
+  var fullscreen = document.getElementById('fullscreen');
+  fullscreen.hidden = !document.fullscreenEnabled;
+  fullscreen.addEventListener('click', async function () {
+    try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }
+    catch (_) { message.textContent = 'Full screen is unavailable in this browser.'; }
+  });
+  document.addEventListener('fullscreenchange', function () { fullscreen.textContent = document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'; });
+  render();
+}());
+</script>
+</body>
+</html>

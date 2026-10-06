@@ -96,6 +96,53 @@ label with a semantic `<strong>` element, matching the Transformer activity. Kee
 the surrounding directions in normal weight. Supply rich React content in the
 `instructions` array rather than Markdown asterisks in a plain string.
 
+### GroupExercise
+
+An optional group exercise appears below a lesson's TRY IT or LAB and before its
+completion navigation. The native `details` disclosure starts collapsed. Its
+summary reads **GROUP EXERCISE**, with an **Optional** label and a left-side
+chevron. The heading has no background or box padding; the mint activity box
+appears below it when expanded. It uses the existing mint `--tryBand` and green `--tryAccent` tokens,
+the course sans-serif type, and the standard activity spacing. Keyboard activation
+and expanded state use native disclosure semantics.
+
+Pass the introduction through `lead`; it appears inside the mint activity area
+only when the disclosure is expanded, above the white content card. It uses the
+same body typography as TRY IT introductions. Expanded content sits in a shared white `InnerCard`. Pass the
+authored title and instructions as children, without repeating the introduction. The component adds no completion
+requirement and is excluded from printing. The `label` prop can replace the summary
+text, and `optional: false` hides the Optional label for an informational use.
+The `boxed: true` prop keeps a mint background around the summary as well.
+Welcome uses the boxed variant for **Taking the Course as a Group?** immediately after
+How the Course Works. Welcome has no TRY IT or end-of-lesson group exercise.
+Why Learn AI? includes five discussion questions directly in its disclosure.
+Discussion exercises offer five questions so leaders can choose among them.
+Use `discussion: true` to place the introduction above the mint box while keeping
+it inside the disclosure. Render `DiscussionQuestions` inside the white card: five
+rows with large green serif numbers, mint hairline dividers, bold main questions,
+and separate regular-weight context or follow-up lines. Its `questions` items use
+`title`, optional `context` before the title, and optional `followUp` after it.
+What Is AI? includes **Be the Last Person Standing** below its individual LAB,
+with the existing instructions and a Start Now link that opens the activity in a new tab.
+Its content is shared with the entry on the Group Exercises page. Add group exercises
+where they contribute to the lesson; they are not required in every lesson.
+Discussion questions can appear directly in the disclosure; standalone interactive
+activities open in a new tab. Store standalone pages in `group-exercises/<lesson-slug>/`
+with each activity’s pictures and source notes beside its HTML,
+and record their home lessons in [the exercise map](../../group-exercises/README.md).
+How an LLM Works includes **One Word at a Time**,
+linking to `group-exercises/how-an-llm-works/one-word-at-a-time.html`. A shared screen accepts one
+word per turn, supports undo, saves two stories in session storage, and compares
+them from the same opening. The reflection connects each new word to what comes next in an LLM.
+
+`StandaloneGroupExercise` supplies the shared title, instructions, and new-tab
+launch link for **Spot What’s Wrong** (Does AI Think?) and **Prompetition**
+(In Your Hands). Their HTML, pictures, and source notes live together in the
+corresponding lesson folders. Spot What’s Wrong uses 12 verified available puzzles,
+manual clue reveals, image enlargement, and replay. Prompetition uses three targets,
+per-target prompt drafts in session storage, copying, detail checklists, and optional
+local result images held in memory for comparison; it does not call an image API.
+
 ### Activity support
 
 - `ScenarioRow` and `FeedbackPill` support parallel response activities.

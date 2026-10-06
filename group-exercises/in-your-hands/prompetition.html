@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#eef4eb">
+<title>Prompetition · Be Smarter Than the Tool</title>
+<link rel="icon" href="../../icons/favicon-32x32.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root { --bg:#f6f5fb; --card:#fff; --ink:#0e0a1f; --inkSoft:#3a3550; --inkMuted:#6e6986; --tryBand:#eef4eb; --tryAccent:#2f7d4f; --tryRule:rgba(63,107,63,.18); --shadowSoft:0 4px 12px rgba(14,10,31,.05); --sans:"Plus Jakarta Sans",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); }
+main { max-width:1440px; margin:auto; padding:clamp(16px,2.5vw,36px); }
+header { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:20px; }
+.eyebrow { color:var(--tryAccent); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; margin:0 0 6px; }
+h1 { font-family:var(--serif); font-size:clamp(36px,4.5vw,58px); font-weight:400; line-height:1.05; margin:0; }
+h2 { font-size:clamp(22px,2vw,28px); margin:0; line-height:1.3; }
+h3 { font-size:20px; margin:0 0 12px; }
+.intro { margin:0 0 22px; font-size:17px; line-height:1.65; color:var(--inkSoft); max-width:88ch; }
+button,a,textarea,input { font:inherit; }
+button,.button { min-height:46px; padding:12px 20px; border:0; border-radius:10px; background:var(--ink); color:#fff; font-weight:700; cursor:pointer; text-decoration:none; display:inline-flex; justify-content:center; align-items:center; }
+.secondary { background:var(--card); color:var(--inkSoft); border:1px solid var(--tryRule); }
+button:disabled { opacity:.45; cursor:default; }
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible { outline:3px solid var(--tryAccent); outline-offset:3px; }
+.band { background:var(--tryBand); padding:clamp(16px,2vw,28px); border-radius:20px; }
+.card { background:var(--card); padding:clamp(18px,2vw,28px); border-radius:14px; box-shadow:var(--shadowSoft); min-width:0; }
+.round-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 22px; margin-bottom:18px; }
+.round-label { font-size:13px; color:var(--inkMuted); font-weight:700; }
+.picture-button { display:block; width:100%; background:var(--card); border-radius:14px; padding:0; overflow:hidden; }
+.picture-button img { display:block; width:100%; height:min(55vh,650px); object-fit:contain; }
+.caption { color:var(--inkMuted); font-size:13px; margin:10px 0 0; line-height:1.5; }
+.actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:22px; }
+.action-group { display:flex; flex-wrap:wrap; gap:12px; }
+.answer { margin-top:18px; }
+.answer p,.finish p { font-size:18px; line-height:1.6; color:var(--inkSoft); margin:0 0 12px; }
+.answer p:last-child { margin-bottom:0; }
+.finish { padding:clamp(24px,5vw,65px); }
+.finish h2 { font-family:var(--serif); font-weight:400; font-size:clamp(32px,4vw,50px); margin-bottom:22px; }
+.status { color:var(--inkSoft); font-size:14px; min-height:21px; margin:8px 0; }
+[hidden] { display:none !important; }
+dialog { padding:18px; border:0; border-radius:16px; background:var(--bg); max-width:96vw; max-height:96vh; }
+dialog::backdrop { background:rgba(14,10,31,.8); }
+dialog img { display:block; max-width:90vw; max-height:78vh; object-fit:contain; margin:14px auto 0; }
+@media(max-width:650px) { header { align-items:flex-start; } header button { font-size:13px; padding:10px 12px; } .picture-button img { height:auto; max-height:60vh; } .actions { align-items:stretch; } .action-group { flex:1; } }
+
+.image-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:20px; }
+.image-grid.has-result { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.image-card { padding:18px; }
+.image-card .picture-button img { height:min(48vh,560px); }
+.image-card #remove-result { margin-top:14px; }
+.workspace { margin-top:22px; }
+label { display:block; font-size:17px; font-weight:700; margin-bottom:10px; }
+textarea { width:100%; resize:vertical; min-height:130px; font-size:17px; line-height:1.5; padding:14px; border:1px solid var(--tryRule); border-radius:10px; margin-bottom:14px; color:var(--ink); }
+.upload-label { margin-top:24px; }
+input[type=file] { max-width:100%; font-size:14px; }
+#detail-list { font-size:18px; line-height:1.6; color:var(--inkSoft); padding-left:24px; }
+@media(max-width:760px) { .image-grid.has-result { grid-template-columns:minmax(0,1fr); } .image-card .picture-button img { height:auto; max-height:60vh; } }
+</style></head><body><main>
+<header><div><p class="eyebrow">In Your Hands · Group Exercise</p><h1>Prompetition</h1></div><button class="secondary" id="fullscreen" type="button">Full Screen</button></header>
+<p class="intro">Work in teams to recreate the target image with an AI image generator. Decide which details matter, write your prompt, then compare and improve your result. Which team can get closest?</p>
+<section class="band" aria-labelledby="challenge-title">
+ <div class="round-heading"><span class="round-label" id="progress"></span><h2 id="challenge-title" tabindex="-1"></h2></div>
+ <div class="image-grid" id="image-grid"><div class="card image-card"><h3>Target Image</h3><button type="button" class="picture-button" id="enlarge-target" aria-label="Enlarge target image"><img id="target-image" alt=""></button></div>
+ <div class="card image-card" id="result-card" hidden><h3>Your Result</h3><button type="button" class="picture-button" id="enlarge-result" aria-label="Enlarge your result"><img id="result-image" alt="Your generated result for comparison"></button><button type="button" class="secondary" id="remove-result">Remove Result</button></div></div>
+ <div class="workspace card">
+ <label for="prompt">Your team’s prompt</label><textarea id="prompt" rows="4" maxlength="6000" placeholder="Describe the picture you want AI to create. Include the details that matter."></textarea>
+ <div class="action-group"><button type="button" id="copy" disabled>Copy Prompt</button><a class="button secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Open ChatGPT ↗</a></div>
+ <p class="caption">Use an AI app that can generate images. Describe the target in words, without uploading it. You can revise your prompt and try again.</p>
+ <label class="upload-label" for="result-file">Compare a saved result (optional)</label><input id="result-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" aria-describedby="upload-note"><p class="caption" id="upload-note">Choose an image from your device to show it beside the target. It stays in this browser tab.</p>
+ </div>
+ <div class="card answer" id="details" hidden aria-labelledby="details-title"><h3 id="details-title">Details to Compare</h3><ul id="detail-list"></ul><p>Which details did your prompt capture? What would you change in the next version?</p><p>Show the group your results and choose which comes closest. Explain your choices.</p></div>
+ <div class="actions"><button type="button" class="secondary" id="previous">Previous</button><div class="action-group"><button type="button" id="show-details" aria-controls="details" aria-expanded="false">Show Key Details</button><button type="button" class="secondary" id="next">Next Image</button></div></div>
+</section>
+<section class="band finish" id="finish" hidden aria-labelledby="finish-title"><h2 id="finish-title" tabindex="-1">Your choices shaped the result.</h2><p>Which change to your prompt made the biggest difference? Compare what different teams noticed and how they described it.</p><p>You chose what to ask for, checked what AI made, and decided what to improve.</p><button type="button" class="secondary" id="back">Back to Challenge</button></section>
+
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<dialog id="zoom" aria-label="Enlarged picture"><button type="button" id="close-zoom">Close Picture</button><img id="zoom-image" alt=""></dialog>
+</main><script>
+(function(){ 'use strict';
+
+var full = document.getElementById('fullscreen');
+full.hidden = !document.fullscreenEnabled;
+full.addEventListener('click', async function () {
+ try { if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }
+ catch (_) { document.getElementById('status').textContent = 'Full screen is unavailable in this browser.'; }
+});
+document.addEventListener('fullscreenchange', function () { full.textContent = document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'; });
+var zoom = document.getElementById('zoom');
+var zoomImage = document.getElementById('zoom-image');
+function enlarge(image) { if(!image.complete || !image.naturalWidth) return; zoomImage.src=image.src; zoomImage.alt=image.alt; zoom.showModal(); }
+document.getElementById('close-zoom').addEventListener('click',function(){zoom.close();});
+var challenges = [{"file": "astronaut.jpg", "title": "Breakfast in a Big World", "details": ["A tiny astronaut beside an enormous cereal box and mug.", "A black tuxedo, bow tie, and space helmet.", "Eating cereal in an ordinary kitchen.", "Warm daylight and a realistic photographic style."]}, {"file": "eiffel-cat.jpg", "title": "An Unusual Visitor", "details": ["A giant orange cat perched on the Eiffel Tower.", "Lederhosen with suspenders.", "The cat eating French fries.", "Paris at sunrise, with the city far below."]}, {"file": "kitten-parade.jpg", "title": "Follow the Leader", "details": ["A mother cat leading four kittens.", "A small white dog at the back of the line.", "The dog wearing a red Christmas sweater.", "A garden path, viewed from the side in natural light."]}];
+var index=0, drafts=challenges.map(function(){return ''; }), shown=challenges.map(function(){return false;}), results=challenges.map(function(){return null;});
+var key='group-prompetition-drafts-v1';
+try {var saved=JSON.parse(sessionStorage.getItem(key));if(Array.isArray(saved)&&saved.length===challenges.length&&saved.every(function(x){return typeof x==='string'&&x.length<=6000;}))drafts=saved;}catch(_){}
+var prompt=document.getElementById('prompt'),target=document.getElementById('target-image'),result=document.getElementById('result-image'),status=document.getElementById('status');
+var uploadVersion=0;
+function save(){try{sessionStorage.setItem(key,JSON.stringify(drafts));}catch(_){}}
+function render(){
+ uploadVersion++;
+ document.querySelector('section.band').hidden=false;document.getElementById('finish').hidden=true;
+ document.getElementById('progress').textContent='Challenge '+(index+1)+' of '+challenges.length;
+ document.getElementById('challenge-title').textContent=challenges[index].title;
+ target.src=challenges[index].file;target.alt='Target for '+challenges[index].title;
+ document.getElementById('result-card').hidden=!results[index];
+ document.getElementById('image-grid').classList.toggle('has-result',!!results[index]);
+ if(results[index])result.src=results[index];else result.removeAttribute('src');
+ prompt.value=drafts[index];document.getElementById('copy').disabled=!prompt.value.trim();
+ document.getElementById('result-file').value='';
+ document.getElementById('details').hidden=!shown[index];
+ var list=document.getElementById('detail-list');list.replaceChildren();
+ challenges[index].details.forEach(function(text){var li=document.createElement('li');li.textContent=text;list.appendChild(li);});
+ document.getElementById('show-details').textContent=shown[index]?'Hide Key Details':'Show Key Details';
+ document.getElementById('show-details').setAttribute('aria-expanded',String(shown[index]));
+ document.getElementById('previous').disabled=index===0;
+ document.getElementById('next').textContent=index===challenges.length-1?'Finish':'Next Image';
+ status.textContent='';
+}
+prompt.addEventListener('input',function(){drafts[index]=prompt.value;save();document.getElementById('copy').disabled=!prompt.value.trim();});
+document.getElementById('copy').addEventListener('click',async function(){
+ var text=prompt.value;
+ try {await navigator.clipboard.writeText(text);status.textContent='Prompt copied. Paste it into your AI app.';}
+ catch(_){prompt.focus();prompt.select();status.textContent='Your prompt is selected. Use your browser’s copy command.';}
+});
+document.getElementById('enlarge-target').addEventListener('click',function(){enlarge(target);});
+document.getElementById('enlarge-result').addEventListener('click',function(){enlarge(result);});
+target.addEventListener('error',function(){status.textContent='The target image could not load. Try reloading the page.';});
+document.getElementById('result-file').addEventListener('change',function(event){
+ var file=event.target.files[0];if(!file)return;
+ if(!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)||file.size>15*1024*1024){status.textContent='Choose a PNG, JPG, WebP, or GIF image under 15 MB.';event.target.value='';return;}
+ var current=index,version=++uploadVersion,url=URL.createObjectURL(file),test=new Image();
+ test.onload=function(){if(version!==uploadVersion){URL.revokeObjectURL(url);return;}if(results[current])URL.revokeObjectURL(results[current]);results[current]=url;render();status.textContent='Your result is ready to compare.';};
+ test.onerror=function(){URL.revokeObjectURL(url);if(version===uploadVersion)status.textContent='That file could not be opened as an image. Choose another.';};test.src=url;
+});
+document.getElementById('remove-result').addEventListener('click',function(){if(results[index])URL.revokeObjectURL(results[index]);results[index]=null;render();document.getElementById('result-file').focus();});
+document.getElementById('show-details').addEventListener('click',function(){shown[index]=!shown[index];render();});
+document.getElementById('previous').addEventListener('click',function(){if(index>0)index--;render();document.getElementById('challenge-title').focus();});
+document.getElementById('next').addEventListener('click',function(){
+ if(index<challenges.length-1){index++;render();document.getElementById('challenge-title').focus();}
+ else {uploadVersion++;document.querySelector('section.band').hidden=true;document.getElementById('finish').hidden=false;status.textContent='';document.getElementById('finish-title').focus();}
+});
+document.getElementById('back').addEventListener('click',function(){render();document.getElementById('challenge-title').focus();});
+window.addEventListener('pagehide',function(event){if(!event.persisted)results.forEach(function(url){if(url)URL.revokeObjectURL(url);});});
+render();
+
+}());
+</script></body></html>

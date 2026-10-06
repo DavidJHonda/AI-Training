@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Render Welcome's text-led How the Course Works Flow board."""
+"""Render Welcome's text-led How the Course Works Flow board.
+
+Copy synchronized with the approved October 6, 2026 image edit.
+The installed JPG is the current visual master; rerendering changes its layout.
+"""
 
 from __future__ import annotations
 
@@ -41,17 +45,17 @@ STEPS = (
     (
         PURPLE,
         "Watch or Read",
-        "After this Welcome, each lesson begins with a short video. The video and written lesson cover the same material. Choose either.",
+        "Watch the video at the top of each lesson, or read the lesson. Your choice.",
     ),
     (
         TEAL,
         "Do the Activity",
-        "Finish the activity at the end of each lesson. TRY ITs are short exercises inside the course. LABs take you into AI to practice what you’ve learned.",
+        "Finish the activity at the end of each lesson.",
     ),
     (
         BLUE,
         "Mark It Complete",
-        "At the bottom of the lesson, select the Mark as complete button. That records the lesson as complete and moves you forward.",
+        "At the bottom of the lesson, select the Mark as complete button.",
     ),
 )
 
@@ -142,32 +146,13 @@ def render() -> Image.Image:
         )
         draw.text((center, marker_y), str(index), font=number_font, fill=WHITE, anchor="mm")
         draw_inner_title(draw, (center, title_y), title, fill=accent, anchor="ma")
-        if index == 1:
+        if index != 3:
             centered_lines(draw, center, body_y, lines, body_font, BODY, line_height)
-        elif index == 2:
-            second_lines = (
-                [("Finish the activity at the end of", body_font)],
-                [("each lesson.", body_font)],
-                [("TRY ITs", body_bold_font), (" are short exercises inside", body_font)],
-                [("the course.", body_font)],
-                [("LABs", body_bold_font), (" take you into AI to practice", body_font)],
-                [("what you’ve learned.", body_font)],
-            )
-            for line_index, segments in enumerate(second_lines):
-                centered_segments(
-                    draw,
-                    center,
-                    body_y + line_index * line_height,
-                    segments,
-                    BODY,
-                )
         else:
             third_lines = (
                 "At the bottom of the lesson,",
                 None,
-                "button. That records the lesson",
-                "as complete and moves you",
-                "forward.",
+                "button.",
             )
             for line_index, line in enumerate(third_lines):
                 y = body_y + line_index * line_height

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // The finished board is now the source of truth; individual artwork was retired.
+// Copy updated October 6, 2026: What You’ll Need; shorter setup guidance.
 // Keep this command as a lossless export helper for existing workflows.
 const fs = require('node:fs');
 const path = require('node:path');

@@ -2,7 +2,7 @@
 
 # Vector Space
 
-Each token starts with a row of numbers called an **embedding**. As AI processes your message, the layers change those numbers to reflect the context.
+Each token starts with a row of numbers called an embedding. As AI processes your message, the layers change those numbers to reflect the context.
 
 But those new numbers might not match the starting numbers for any token.
 
@@ -18,125 +18,143 @@ That’s the idea behind vector space.
 
 ## Let’s Start With a Map
 
-A map uses two numbers to describe position: latitude and longitude. Dallas, Texas, is roughly 33° north, 97° west. New York City and Mountain View, California, have their own coordinates, using those same two dimensions.
+A map uses two numbers to describe position: latitude and longitude. Imagine a map with only three cities. Follow along as we add new positions and use distance to find the closest city.
 
-Imagine these are the only three cities on our map.
+### Board 1: Three Cities
 
-### Board 1: Three Cities, Two Coordinates Each
+**Image file:** `vector-space-cities-established.jpg`
 
-**Image file:** `vector-space-cities.jpg`
-
-![Three Cities, Two Coordinates Each](vector-space-cities.jpg)
+![Three cities and their coordinates](../gemini-notebook/vector-space/assets/vector-space-cities-established.jpg)
 
 **Teaching content:**
 
-Three cities, two coordinates each. A United States map marks three cities, each with two approximate coordinates. Mountain View is at 37° north, 122° west. Dallas is at 33° north, 97° west. New York City is at 41° north, 74° west.
+Let’s add Dallas to the map. Dallas has the coordinates 32.78 degrees north, 96.80 degrees west.
 
-Latitude and longitude give each city a position.
+Next, add Mountain View at 37 degrees north, 122 degrees west.
 
-## Finding a Nearby City
+Then add New York City at 41 degrees north, 74 degrees west.
 
-Someone hands you two sets of coordinates. For each position, which of the three cities is closest? The first position is 38° north, 120° west. The second position is 40° north, 76° west.
+## New Coordinates
 
-The position 38° north, 120° west is closest to Mountain View. The position 40° north, 76° west is closest to New York City.
+Now you get coordinates that don’t match one of our existing cities. Your goal is to find the closest city.
 
-### Board 2: Use the Map to Find the Closest City
+### Board 2: The First New Position
 
-**Image file:** `vector-space-cities-closest.jpg`
+**Image file:** `vector-space-cities-mystery-a-match.jpg`
 
-![Use the Map to Find the Closest City](vector-space-cities-closest.jpg)
+![The first new position is closest to Mountain View](../gemini-notebook/vector-space/assets/vector-space-cities-mystery-a-match.jpg)
 
 **Teaching content:**
 
-Use the map to find the closest city. The same map keeps Mountain View at 37° north, 122° west, Dallas at 33° north, 97° west, and New York City at 41° north, 74° west in place. Two new positions are added: 38° north, 120° west, and 40° north, 76° west. A dotted line connects 38° north, 120° west to Mountain View, the nearest of the three cities. Another dotted line connects 40° north, 76° west to New York City, the nearest of the three cities.
+The first is 38 degrees north, 120 degrees west. Let’s add that position to the map.
 
-When nothing matches exactly, distance finds the closest one.
+The diamond marks the new position. Which of our three cities is closest?
 
-## A Position Still Tells Us Something
+Mountain View is closest, even without an exact match. The short connection joins the diamond to Mountain View, and the ring marks that city.
 
-Those coordinates don’t match any of our cities. But their position still tells us something: which city they’re near.
+### Board 3: The Second New Position
+
+**Image file:** `vector-space-cities-mystery-b-match.jpg`
+
+![The second new position is closest to New York City](../gemini-notebook/vector-space/assets/vector-space-cities-mystery-b-match.jpg)
+
+**Teaching content:**
+
+Next, try 40 degrees north, 76 degrees west. Let’s add this second diamond. Which city is closest?
+
+New York City is closest to the second point. The new connection and ring identify that match.
+
+The coordinates didn’t match either city exactly, but distance helped us find the closest match.
 
 ## From Places to Meaning
 
-These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a vector.
+A map uses two numbers to describe a position. Comparing positions helps us find the closest match. We can do the same with more than two numbers.
 
-### Board 3: Three Drinks, Seven Dimensions Each
+Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a vector. Think of those numbers as coordinates that place the drink on a map. We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest.
 
-**Image file:** `vector-space-taste.jpg`
+### Board 4: Three Drinks
 
-![Three Drinks, Seven Dimensions Each](vector-space-taste.jpg)
+**Image file:** `vector-space-drinks-established.jpg`
 
-**Teaching content:**
-
-Three drinks, seven dimensions each. The Drink column lists Coke, Pepsi, and Coffee. Each drink is rated on the same seven dimensions, in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, and Citrus. The ratings run from 0 to 10, where 0 is low and 10 is high.
-
-Look across the rows. Coke’s and Pepsi’s numbers are nearly the same. Coffee’s numbers are different in almost every column.
-
-Coke and Pepsi have more similar profiles than either does to coffee.
-
-## From Ratings to Positions
-
-Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s vector space.
-
-We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away.
-
-### Board 4: A Map of Drink Similarities
-
-**Image file:** `vector-space-neighborhoods.jpg`
-
-![A Map of Drink Similarities](vector-space-neighborhoods.jpg)
+![Coke and Pepsi in Soft drinks; hot coffee in Coffee and tea](../gemini-notebook/vector-space/assets/vector-space-drinks-established.jpg)
 
 **Teaching content:**
 
-A map of drink similarities. The map places Coke and Pepsi as nearby points inside the soft drinks neighborhood. Coffee sits farther from both, in the hot drinks neighborhood. Each drink shows its seven scores in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions: the line between Coke and Pepsi is short, and the lines from each of them to coffee are long. The positions picture how similar or different the ratings are.
+Let’s add Coke to the map. Its coordinates are sweetness 9, bitterness 1, fizz 10, heat 2, caffeine 3, darkness 8, and citrus 1.
 
-Similar scores place Coke and Pepsi close together in the soft drinks neighborhood.
+Next, add Pepsi. Its coordinates are sweetness 9, bitterness 1, fizz 10, heat 2, caffeine 3, darkness 8, and citrus 10.
 
-## Finding a Nearby Drink
+Pepsi’s scores are close to Coke’s, so it sits near Coke in the Soft drinks neighborhood.
 
-Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match. The mystery drink’s ratings are 9, 1, 10, 2, 3, 8, 9. Its closest match is Pepsi.
+Now add hot coffee. Its coordinates are sweetness 1, bitterness 9, fizz 0, heat 9, caffeine 8, darkness 10, and citrus 0.
 
-### Board 5: Use the Map to Find the Closest Drink
+Hot coffee’s scores differ more from Coke’s and Pepsi’s, so it sits farther away in the Coffee and tea neighborhood.
 
-**Image file:** `vector-space-closest-drink.jpg`
+## Mystery Drinks
 
-![Use the Map to Find the Closest Drink](vector-space-closest-drink.jpg)
+Now you get numbers that don’t match any of our existing drinks. Your goal is to find the closest drink.
+
+### Board 5: Mystery Drink A
+
+**Image file:** `vector-space-drinks-mystery-a-match.jpg`
+
+![Mystery A and the closest match, Pepsi](../gemini-notebook/vector-space/assets/vector-space-drinks-mystery-a-match.jpg)
 
 **Teaching content:**
 
-Use the map to find the closest drink. The same map keeps Coke, Pepsi, and coffee in place, with the seven dimensions in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Coke and Pepsi sit in the soft drinks neighborhood, and coffee sits in the hot drinks neighborhood. A new point labeled Mystery Drink, with ratings 9, 1, 10, 2, 3, 8, 9, sits close to Pepsi, joined by a short dotted line. Its first six scores match Pepsi’s. Its Citrus score is 9, compared with Pepsi’s 10.
+Let’s add Mystery Drink A. Its coordinates are sweetness 9, bitterness 1, fizz 10, heat 2, caffeine 3, darkness 8, and citrus 9.
 
-The mystery drink’s ratings are closest to Pepsi’s.
+Mystery Drink A is near Coke and Pepsi. Its first six numbers match both. Compare the last number, citrus: Mystery Drink A is 9, Coke is 1, and Pepsi is 10. Which is closest?
+
+Pepsi is closest: the citrus gap is only 1, compared with 8 for Coke. The short connection and ring identify Pepsi.
+
+### Board 6: Mystery Drink B
+
+**Image file:** `vector-space-drinks-mystery-b-match.jpg`
+
+![Mystery B and the closest match, hot coffee](../gemini-notebook/vector-space/assets/vector-space-drinks-mystery-b-match.jpg)
+
+**Teaching content:**
+
+Now add Mystery Drink B. Its coordinates are sweetness 2, bitterness 8, fizz 0, heat 8, caffeine 7, darkness 9, and citrus 0.
+
+Mystery Drink B is in the Coffee and tea neighborhood. Compare its seven numbers with hot coffee’s vector. Which drink is the closest match?
+
+Hot coffee is closest to Mystery Drink B. Its ratings are similar across all seven dimensions. The new connection and ring identify hot coffee.
+
+Each drink’s seven numbers give it a position in vector space. Comparing those numbers helps us find the closest match.
 
 ## Distance
 
-The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. That puts the mystery drink closer to Pepsi.
+Neither Mystery Drink had an exact match. But by comparing numbers across all dimensions, you found the closest match.
 
-This is the idea behind distance: compare the numbers in matching positions across the vectors.
+This is the idea behind distance: smaller gaps mean closer positions.
 
-Smaller gaps mean closer positions.
+AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. We can’t picture a map with thousands of dimensions, but the core idea is the same. After the layers update a token’s vector, it doesn’t need to match another vector exactly.
 
-AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. Similar meanings usually occupy nearby positions in vector space.
+Its position in vector space helps represent its meaning.
 
 ## When the Numbers Change
 
 In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space.
 
-The sentence: “The CAT sat on the mat during the May rainstorm because IT was tired.”
+“The CAT sat on the mat during the May rainstorm because IT was tired.”
 
 On its own, IT could refer to many things. As the layers process this sentence, they update IT’s numbers to carry information connecting it to CAT. Changing those numbers also changes its position in vector space.
 
-### Board 6: How Context Changes IT’s Position
+### Board 7: How Context Changes IT’s Position
 
 **Image file:** `vector-space-meaning-map.jpg`
 
-![How Context Changes IT’s Position](vector-space-meaning-map.jpg)
+![How Context Changes IT’s Position](../course-assets/vector-space/vector-space-meaning-map.jpg)
 
 **Teaching content:**
 
-How context changes IT’s position. A tabletop meaning map has three neighborhoods. The objects neighborhood holds a mat and a chair. The weather neighborhood holds a cloud and a rainstorm. The animals neighborhood holds a cat, a dog, a kitten, and a bowl labeled Pet.
+Here’s how context changes IT’s position. The map groups objects such as a mat and chair, weather such as a cloud and rainstorm, and animals such as a cat, dog, and kitten, with a pet bowl nearby.
 
-A blue IT marker begins outside the neighborhoods at its starting position, with numbers .12, −.34, and so on. A path labeled “The layers update the numbers” leads through three intermediate points. IT ends at its updated position, with numbers .41, .06, and so on, right next to CAT inside the animals neighborhood. The move pictures how changing the numbers changed IT’s position.
+IT’s starting position has numbers beginning 0.12, minus 0.34. The layers update the numbers. Follow the path to IT’s updated position, with numbers beginning 0.41, 0.06.
+
+IT remains a separate token, now near CAT.
 
 IT’s new position reflects its connection to CAT in this sentence.
 

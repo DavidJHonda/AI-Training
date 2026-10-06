@@ -4,7 +4,9 @@
 
 Computers only process numbers.
 
-That seems counterintuitive, because when you write an email, send a text, or type on your phone, you see words. Behind the scenes, those words are converted to numbers so the computer can work with them.
+That seems counterintuitive, because when you write an email, send a text, or type on your phone, you see words.
+
+Behind the scenes, those words are converted to numbers so the computer can work with them.
 
 The same applies to AI. Consider this simple chat:
 
@@ -21,6 +23,8 @@ You use words. AI uses numbers.
 You ask: “What’s the best Avengers movie?”
 
 AI answers: “Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending.”
+
+## From Words to Numbers and Back
 
 You sent and received words. How did your words become numbers that AI could work with? And how did AI’s response turn back into words you could read?
 
@@ -46,13 +50,19 @@ Here is what tokens look like.
 
 Unbelievable becomes un, belie, and vable. One word, built from three chunks.
 
-Unusual becomes un and usual. Unmatchable becomes un, match, and able. All three words reuse the same chunk, un.
+Unusual becomes un and usual. That is two tokens.
+
+Unmatchable becomes un, match, and able. That is three tokens.
+
+All three words reuse the same chunk, un.
 
 Basketball becomes basket and ball. That is two tokens.
 
 I ♥ AI becomes I, then a space with the heart, then a space with AI. That is three tokens. On the board, SP marks a leading space.
 
 The web address shown on the board breaks into eight tokens. Even a web address breaks into chunks.
+
+## Vocabulary and Token IDs
 
 A token can be a whole word or just part of one. The full collection of tokens is called the model’s **vocabulary**.
 

@@ -105,6 +105,44 @@
     .lesson-closing-board > figcaption { display: none; }
   }
 
+  .vs-map-demo { margin: 18px 0 28px; padding: 24px; border: 1.5px solid color-mix(in srgb, var(--info) 30%, transparent); border-radius: 20px; background: color-mix(in srgb, var(--info) 8%, var(--card)); font-family: var(--sans); break-inside: avoid; }
+  .vs-map-panel { background: var(--card); border-radius: 16px; overflow: hidden; }
+  .vs-map-instructions { position: relative; margin: 0 0 20px; padding: 20px 24px; border: 1px solid color-mix(in srgb, var(--info) 22%, transparent); border-radius: 16px; background: var(--card); color: var(--inkSoft); font-size: 17px; line-height: 1.65; }
+  .vs-map-instruction-text { display: grid; padding-bottom: 28.05px; }
+  .vs-map-demo[data-kind="drinks"] .vs-map-instruction-text,
+  .vs-map-demo[data-kind="context"] .vs-map-instruction-text { padding-bottom: 0; }
+  .vs-map-instruction-text > div { grid-area: 1 / 1; }
+  .vs-map-instruction-measure { visibility: hidden; pointer-events: none; }
+  .vs-map-instructions .vs-map-controls { margin-top: 14px; padding: 0; border: 0; }
+  .vs-map-instructions::before { content: ""; position: absolute; top: 12px; bottom: 12px; left: 0; width: 4px; background: var(--primary); }
+  .vs-map-frame { padding: 24px; }
+  .vs-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .vs-map-geographic text { paint-order: stroke; stroke: var(--seeBand); stroke-width: 4px; stroke-linejoin: round; }
+  .vs-map-caption { margin: 16px 0 10px; color: var(--inkSoft); font-size: 17px; line-height: 1.65; min-height: 82px; }
+  .vs-map-note { margin: 0; color: var(--inkMuted); font-size: 13px; line-height: 1.5; }
+  .vs-map-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 16px 24px; border-top: 1px solid var(--rule); }
+  .vs-map-complete { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; color: var(--inkSoft); font-size: 14px; font-weight: 600; }
+  .vs-map-complete svg { width: 22px; height: 22px; color: var(--green); flex-shrink: 0; }
+  .vs-map-controls button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .vs-map-sentence { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--inkSoft); }
+  .vs-map-sentence strong { color: var(--primaryDeep); }
+  .vs-map-numbers { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 14px 16px; border-radius: 10px; background: var(--info-bg); color: var(--ink); }
+  .vs-map-numbers strong { font-family: var(--mono); font-size: 22px; }
+  .vs-map-it { transition: transform 1600ms cubic-bezier(.4,0,.2,1); }
+  .vs-map-reveal { animation: vsMapAppear 650ms ease-out both; }
+  @keyframes vsMapAppear { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .vs-map-it { transition: none; } .vs-map-reveal { animation: none; } }
+  @media (max-width: 540px) {
+    .vs-map-demo { padding: 12px; }
+    .vs-map-panel { border-radius: 12px; }
+    .vs-map-instructions { margin-bottom: 12px; padding: 16px; border-radius: 12px; font-size: 16px; }
+    .vs-map-frame { padding: 16px 12px; }
+    .vs-map-caption { font-size: 16px; min-height: 130px; }
+    .vs-map-controls { padding: 14px 12px; gap: 10px; }
+  }
+
+  @media print { .vs-map-reveal { animation: none; } .vs-map-it { transition: none; } }
+
   :root {
     /* surfaces */
     --bg: #f6f5fb;
@@ -7050,39 +7088,186 @@ function Game2048TryIt(props) {
       E(InnerCard, null,
         E("div", { ref: rootRef }))));
 }
-function VectorSpaceSection(props) {
-  var E = React.createElement;
-  var vsTasteProfile = E("img", {
-    src: "course-assets/vector-space/vector-space-taste.jpg?v=20260914attribution1",
-    alt: "Three Drinks, Seven Dimensions Each. Coke, Pepsi, and coffee have colored number tiles on the same seven dimensions, rated from 0 to 10. Citrus is green and every score has equal emphasis. Coke and Pepsi have more similar profiles than either does to coffee.",
+// Shared lesson/video scenes. Controlled steps let a capture use the exact lesson
+// diagram; the learner wrapper owns pacing, replay, and reduced-motion behavior.
+var VECTOR_MAP_SEQUENCES = {
+  cities: {
+    instructions: "Dallas has the coordinates 32.78° N, 96.80° W. Add Dallas to the map.",
+    intro: "A map uses two numbers to describe position: latitude and longitude. Imagine a map with only three cities. Follow along as we add new positions and use distance to find the closest city.",
+    title: "Add a position to the map",
+    labels: ["Add Dallas", "Add Mountain View", "Add New York City", "Plot the first position", "Show the closest city", "Plot the second position", "Show the closest city"],
+    captions: [
+      "Dallas has the coordinates 32.78° N, 96.80° W. Add Dallas to the map.",
+      "Mountain View has the coordinates 37° N, 122° W. Add Mountain View to the map.",
+      "New York City has the coordinates 41° N, 74° W. Add New York City to the map.",
+      "Now you get coordinates that don't match one of our existing cities. Your goal is to find the closest city. The first is 38° N, 120° W.",
+      "The diamond marks 38° N, 120° W. Which of our three cities is closest?",
+      "Mountain View is closest, even without an exact match. Next, try 40° N, 76° W. Where will it land?",
+      "Now add 40° N, 76° W. Which city is closest to this second diamond?",
+      "New York City is closest to the second point.\n\nThe coordinates didn’t match either city exactly, but distance helped us find the closest match."
+    ]
+  },
+  drinks: {
+    instructions: true,
+    intro: "Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a vector. Think of those numbers as coordinates that place the drink on a map. We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest.",
+    title: "Build a map from the numbers",
+    labels: ["Add Coke", "Add Pepsi", "Add hot coffee", "Plot Mystery Drink A", "Find the closest drink", "Plot Mystery Drink B", "Find the closest drink"],
+    captions: [
+      "Coke’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–1. Add Coke to the map.",
+      "Pepsi’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–10. Add Pepsi to the map.",
+      "Pepsi’s scores are close to Coke’s, so it sits near Coke in the Soft drinks neighborhood.\n\nHot coffee’s coordinates are Sweet–1, Bitter–9, Fizz–0, Heat–9, Caffeine–8, Dark–10, and Citrus–0. Add hot coffee to the map.",
+      "Hot coffee’s scores differ more from Coke’s and Pepsi’s, so it sits farther away in the Coffee and tea neighborhood.\n\nNow you get numbers that don’t match any of our existing drinks. Your goal is to find the closest drink.\nMystery Drink A’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–9. Add Mystery Drink A to the map.",
+      "Mystery Drink A is near Coke and Pepsi. Its first six numbers match both.\n\nCompare the last number, citrus: Mystery Drink A is 9, Coke is 1, and Pepsi is 10. Which is closest?",
+      "Pepsi is closest: the citrus gap is only 1, compared with 8 for Coke.\n\nMystery Drink B’s coordinates are Sweet–2, Bitter–8, Fizz–0, Heat–8, Caffeine–7, Dark–9, and Citrus–0. Add Mystery Drink B to the map.",
+      "Mystery Drink B is in the coffee and tea neighborhood.\n\nCompare its seven numbers with hot coffee’s vector. Which drink is the closest match?",
+      "Hot coffee is closest to Mystery Drink B. Its ratings are similar across all seven dimensions.\n\nEach drink’s seven numbers give it a position in vector space. Comparing those numbers helps us find the closest match."
+    ]
+  },
+  context: {
+    instructions: true,
+    title: "Watch IT’s position change",
+    labels: ["Apply the sentence"],
+    captions: [
+      "IT starts with a row of numbers. In this sentence, “was tired” connects IT to CAT. See how the layers update IT’s position.",
+      "The layers update IT’s numbers and its position changes.\n\nIT remains a separate token, now carrying information that connects it to CAT."
+    ]
+  }
+};
+var VECTOR_DRINKS = [
+  { name: "Coke", values: [9, 1, 10, 2, 3, 8, 1], x: 135, y: 164, at: 1 },
+  { name: "Pepsi", values: [9, 1, 10, 2, 3, 8, 10], x: 315, y: 145, at: 2 },
+  { name: "Hot coffee", values: [1, 9, 0, 9, 8, 10, 0], x: 567, y: 208, at: 3, ly: 164 },
+  { name: "Mystery A", values: [9, 1, 10, 2, 3, 8, 9], x: 295, y: 150, at: 4, lx: 303, ly: 86 },
+  { name: "Mystery B", values: [2, 8, 0, 8, 7, 9, 0], x: 548, y: 229, at: 6, lx: 530, ly: 325 }
+];
+function VectorMapDiagram(props) {
+  var E = React.createElement, step = props.step, kind = props.kind;
+  var ink = "var(--ink)", purple = "var(--primaryDeep)", blue = "var(--info)", gold = "var(--seeAccent)";
+  var text = function(x, y, value, opts) {
+    return E("text", Object.assign({ x: x, y: y, fill: ink, fontSize: 24, fontWeight: 700 }, opts || {}), value);
+  };
+  var line = function(x1, y1, x2, y2, color, reveal) {
+    return E("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: color, strokeWidth: 4, strokeDasharray: "6 6", className: reveal ? "vs-map-reveal" : undefined });
+  };
+  var point = function(x, y, label, options) {
+    var o = options || {}, color = o.color || (o.diamond ? gold : purple);
+    var labelX = o.lx != null ? o.lx : x + 16, labelY = o.ly != null ? o.ly : y + 7, labelSize = o.fontSize || 24;
+    return E("g", { key: label, className: o.reveal ? "vs-map-reveal" : undefined },
+      o.diamond ? E("path", { d: "M" + x + " " + (y - 11) + " l11 11 -11 11 -11 -11 Z", fill: gold, stroke: "var(--card)", strokeWidth: 2 })
+        : E("circle", { cx: x, cy: y, r: 8, fill: color, stroke: "var(--card)", strokeWidth: 2 }),
+      text(labelX, labelY, label, { fill: color, fontSize: labelSize, textAnchor: o.anchor || "start" }),
+      o.coordinates ? text(labelX, labelY + 18, o.coordinates, {fill:color,fontSize:labelSize * 0.75,fontWeight:400,textAnchor:o.anchor || "start"}) : null);
+  };
+  var contents = [];
+  if (kind === "cities") {
+    // Census-derived base and markers share the Albers projection generated by
+    // scripts/video/build_vector_space_us_map.py. Keep these constants in sync.
+    var xy = function(lon, lat) {
+      var n = 0.6028370046288244, c = 1.351221325417899;
+      var theta = n * (lon + 96) * Math.PI / 180;
+      var rho = Math.sqrt(c - 2 * n * Math.sin(lat * Math.PI / 180)) / n;
+      return [365.66482362552307 + 718.3230492926465 * rho * Math.sin(theta),
+        -738.5903603982459 + 718.3230492926465 * rho * Math.cos(theta)];
+    };
+    var mv = xy(-122,37), da = xy(-96.80,32.78), ny = xy(-74,41), a = xy(-120,38), b = xy(-76,40);
+    var cityLabelOffset = 222 - mv[1];
+    contents.push(E("image", { key: "land", href: "course-assets/vector-space/vector-space-us-map.svg?v=20261006b", x: 0, y: 0, width: 720, height: 370 }));
+    if (step >= 5) contents.push(line(a[0],a[1],mv[0],mv[1],gold,true), E("circle",{cx:mv[0],cy:mv[1],r:15,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
+    if (step >= 7) contents.push(line(b[0],b[1],ny[0],ny[1],gold,true), E("circle",{cx:ny[0],cy:ny[1],r:15,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
+    if (step >= 2) contents.push(point(mv[0],mv[1],"Mountain View",{lx:mv[0],ly:mv[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"37° N, 122° W"}));
+    if (step >= 3) contents.push(point(ny[0],ny[1],"New York City",{lx:ny[0],ly:ny[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"41° N, 74° W"}));
+    if (step >= 1) contents.push(point(da[0],da[1],"Dallas",{lx:da[0],ly:da[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"32.78° N, 96.80° W"}));
+    if (step >= 4) contents.push(point(a[0],a[1],"38 N, 120 W",{ diamond:true,reveal:true,lx:151,ly:142 }));
+    if (step >= 6) contents.push(point(b[0],b[1],"40 N, 76 W",{ diamond:true,reveal:true,lx:b[0]-24,ly:b[1]-24,anchor:"end" }));
+  } else if (kind === "drinks") {
+    contents.push(
+      E("path", {key:"soft",d:"M30 124 C24 70 103 44 189 56 C247 25 374 47 407 107 C449 166 414 273 341 300 C246 327 158 296 93 285 C27 267 11 179 30 124Z",fill:"var(--primaryFaint)"}),
+      E("path", {key:"brewed",d:"M469 164 C504 121 581 131 634 150 C695 170 716 241 695 299 C680 361 598 371 535 360 C467 367 432 300 445 246 C435 214 444 185 469 164Z",fill:"var(--info-bg)"}),
+      text(145,38,"Soft drinks",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}),
+      text(570,123,"Coffee and tea",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}));
+    if (step >= 5) contents.push(line(295,150,315,145,gold,true), E("circle",{cx:315,cy:145,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
+    if (step >= 7) contents.push(line(548,229,567,208,gold,true), E("circle",{cx:567,cy:208,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
+    VECTOR_DRINKS.forEach(function(d,i) {
+      if (step < d.at) return;
+      var vector = ["[", ...d.values.map(function(v,j) {
+        var compared = step >= 5 && (i===0 || i===1 || i===3) && j===6;
+        return E("tspan", {key:j,fontWeight:compared?800:400}, (j?", ":"")+v);
+      }), "]"];
+      contents.push(point(d.x,d.y,d.name,{reveal:true,diamond:i>=3,lx:d.lx == null?d.x:d.lx,ly:d.ly == null?d.y+53.143305542655185:d.ly,anchor:"middle",fontSize:18,coordinates:vector}));
+      if (i === 3) contents.push(E("line",{key:"mystery-a-label",x1:295,y1:137,x2:300,y2:112,stroke:gold,strokeWidth:1.5}));
+      if (i === 4) contents.push(E("line",{key:"mystery-b-label",x1:548,y1:242,x2:530,y2:304,stroke:gold,strokeWidth:1.5}));
+    });
+  } else {
+    contents.push(E("ellipse",{key:"objects",cx:131,cy:108,rx:108,ry:80,fill:"var(--seeBand)"}),E("ellipse",{key:"weather",cx:365,cy:96,rx:109,ry:70,fill:"var(--info-bg)"}),E("ellipse",{key:"animals",cx:552,cy:257,rx:143,ry:96,fill:"var(--primaryFaint)"}));
+    contents.push(text(131,61,"Objects",{textAnchor:"middle",fill:gold}),text(365,50,"Weather",{textAnchor:"middle",fill:blue}),text(552,204,"Animals",{textAnchor:"middle",fill:purple}));
+    contents.push(point(69,101,"Mat",{color:gold}),point(123,143,"Chair",{color:gold}),point(315,87,"Cloud",{color:blue}),point(297,131,"Rainstorm",{color:blue}),point(560,236,"CAT"),point(583,285,"Dog"),point(477,313,"Kitten"));
+    contents.push(E("path", { key:"journey",d:"M155 285 C260 310 365 220 501 237",fill:"none",stroke:"var(--primary)",strokeWidth:3,strokeDasharray:"6 7",opacity:step?1:0,className:step?"vs-map-reveal":undefined }));
+    contents.push(E("g",{key:"it",className:"vs-map-it",style:{transform:step?"translate(501px, 237px)":"translate(155px, 285px)"}},E("rect",{x:-24,y:-18,width:48,height:36,rx:9,fill:blue}),text(0,8,"IT",{fill:"var(--card)",textAnchor:"middle"})));
+  }
+  return E("svg",{viewBox:"0 0 720 370",role:"img","aria-label":VECTOR_MAP_SEQUENCES[kind].captions[props.step],className:"vs-map-svg"+(kind === "cities" ? " vs-map-geographic" : "")},contents.map(function(child,i){return React.cloneElement(child,{key:child.key || "item-"+i});}));
+}
+function VectorMapFrame(props) {
+  var E = React.createElement, kind = props.kind, step = props.step, config = VECTOR_MAP_SEQUENCES[kind];
+  return E("div", {className:"vs-map-frame","data-map":kind,"data-step":step},
+    kind === "context" ? E("p",{className:"vs-map-sentence"},"The ",E("strong",null,"CAT")," sat on the mat during the May rainstorm because ",E("strong",null,"IT")," was tired.") : null,
+    E(VectorMapDiagram,{kind:kind,step:step}),
+    kind === "context" ? E("div",{className:"vs-map-numbers"},E("span",null,step?"IT · updated numbers":"IT · starting numbers"),E("strong",null,step?"[.41, .06, …]":"[.12, −.34, …]")) : null,
+    !config.instructions ? E("p",{className:"vs-map-caption",role:"status","aria-live":props.quiet?"off":"polite","aria-atomic":"true"},config.captions[step]) : null,
+    config.note ? E("p",{className:"vs-map-note"},config.note) : null);
+}
+function VectorMapBox(props) {
+  var instructionBody = function(value) {
+    var paragraphs = value.split("\n\n");
+    var isConclusion = props.instructionOptions && value === props.instructionOptions[props.instructionOptions.length - 1];
+    return paragraphs.map(function(paragraph,i) {
+      var content = paragraph.split("\n").map(function(line,j) {
+        return j === 0 ? line : React.createElement(React.Fragment, {key:j}, React.createElement("br"), line);
+      });
+      return React.createElement(BodyP, {key:i, marginBottom:i < paragraphs.length - 1 ? 28.05 : 0},
+        isConclusion && i > 0 ? React.createElement("strong", null, content) : content);
+    });
+  };
+  return React.createElement("section", {className:"vs-map-demo", "data-kind":props.kind, "aria-label":props.label},
+    props.instructions ? React.createElement("div", {className:"vs-map-instructions"},
+      React.createElement("div", {className:"vs-map-instruction-text"},
+        React.createElement("div", {role:"status", "aria-live":props.quiet?"off":"polite", "aria-atomic":"true"}, instructionBody(props.instructions)),
+        (props.instructionOptions || []).map(function(value,i){return React.createElement("div", {key:i,className:"vs-map-instruction-measure","aria-hidden":"true"}, instructionBody(value));})),
+      props.controls) : null,
+    React.createElement("div", {className:"vs-map-panel"}, props.children, !props.instructions ? props.controls : null));
+}
+function VectorMapControls(props) {
+  var E = React.createElement, done = props.step >= props.config.labels.length;
+  return E("div", {className:"vs-map-controls no-print"},
+    done ? E("div", {className:"vs-map-complete",role:"status"},
+      E("svg", {viewBox:"0 0 24 24","aria-hidden":"true",fill:"none"},
+        E("circle", {cx:12,cy:12,r:10,stroke:"currentColor",strokeWidth:2}),
+        E("path", {d:"M7 12l3 3 7-7",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"})), "Complete")
+      : E(ActivityButton, {onClick:props.onAdvance}, props.config.instructions?"See It":props.config.labels[props.step]),
+    done ? E(ActivityButton, {onClick:props.onReplay,style:{background:"var(--primaryFaint)",color:"var(--primaryDeep)"}}, "Replay") : null,
+    props.onPlay ? E(ActivityButton, {onClick:props.onPlay}, "Play sequence") : null);
+}
+function VectorMapDemo(props) {
+  var E = React.createElement, config = VECTOR_MAP_SEQUENCES[props.kind];
+  var state = useState(0), current = state[0], setCurrent = state[1];
+  var isPrint = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print");
+  var step = isPrint ? config.labels.length : current;
+  var controls = !isPrint ? E(VectorMapControls, {config:config,step:current,
+    onAdvance:function(){setCurrent(function(s){return Math.min(s+1,config.labels.length);});},
+    onReplay:function(){setCurrent(0);}}) : null;
+  return E(VectorMapBox,{kind:props.kind,label:config.title,instructions:config.instructions?config.captions[step]:null,instructionOptions:config.captions,controls:controls,quiet:isPrint},
+    E(VectorMapFrame,{kind:props.kind,step:step}));
+}
+
+function VectorContextIllustration() {
+  return React.createElement("img", {
+    src: "course-assets/vector-space/vector-space-meaning-map.jpg?v=20260914attribution1",
+    alt: "How Context Changes IT’s Position. IT’s starting numbers [.12, −.34, …] change to [.41, .06, …] as the layers update them. A path shows its starting position and its updated position near CAT on a meaning map with object, weather, and animal neighborhoods. IT remains a separate token; its new position reflects its connection to CAT in this sentence.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
   });
-  // Body-scale bullets: prose that happens to be listed, not a box. Matches BodyP
-  // typography so the worked answers read at the same weight as the paragraphs
-  // around them. Local to this lesson; promote it if a second lesson needs it.
-  // Each item is { lead, body }: the coordinates on their own line, the answer on
-  // the next one starting at the same x, so the numbers stay a scannable column.
-  var bulletList = function(items) {
-    return E("ul", { style: { listStyle: "disc", padding: 0, margin: "0 0 18px" } },
-      items.map(function(item, i) {
-        // The li's own color drives ::marker and the inner divs carry the reading
-        // color, so the dot is primary WITHOUT a text-node bullet. A literal "•"
-        // span renders identically but the .md export emits it on top of its own
-        // list marker ("- •38 N, 120 W"), which then feeds the video generator.
-        return E("li", { key: i, style: {
-          color: "var(--primary)", fontSize: 17, lineHeight: 1.65,
-          marginBottom: i === items.length - 1 ? 0 : 16,
-          marginLeft: 62, listStylePosition: "outside"
-        } },
-          E("div", { style: { color: "var(--inkSoft)" } }, item.lead),
-          item.body ? E("div", { style: { color: "var(--inkSoft)" } }, item.body) : null);
-      }));
-  };
-  // Coordinates and vectors set in mono, so they read as positions rather than
-  // sentence text and tie back to the Taste Profile table.
-  var mono = function(text) {
-    return E("strong", { style: { fontFamily: "var(--mono)", fontSize: "0.92em", fontWeight: 700, color: "var(--ink)" } }, text);
-  };
+}
+
+function VectorSpaceSection(props) {
+  var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
     E(BodyP, null,
@@ -7097,62 +7282,23 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       "."),
     E(SectionKicker, null, "Let’s Start With a Map"),
-    E(BodyP, null,
-      "A map uses two numbers to describe position: latitude and longitude. Dallas, Texas, is roughly 33° north, 97° west. New York City and Mountain View, California, have their own coordinates, using those same two dimensions."),
-    E(BodyP, null,
-      "Imagine these are the only three cities on our map."),
-    E("img", {
-      src: "course-assets/vector-space/vector-space-cities.jpg?v=20260914attribution1",
-      alt: "Three Cities, Two Coordinates Each. A United States map marks Mountain View at roughly 37 north, 122 west; Dallas at 33 north, 97 west; and New York City at 41 north, 74 west.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
-    E(BodyP, null,
-      "Someone hands you two sets of coordinates. For each position, which of the three cities is closest?"),
-    bulletList([
-      { lead: mono("38 N, 120 W") },
-      { lead: mono("40 N, 76 W") }
-    ]),
-    E("img", {
-      src: "course-assets/vector-space/vector-space-cities-closest.jpg?v=20260914attribution1",
-      alt: "Use the Map to Find the Closest City. The same U.S. map shows cities as solid colored dots and new positions as filled dark orange diamonds with matching lines and white callout boxes outlined in dark orange. Dotted lines connect 38 north, 120 west to Mountain View and 40 north, 76 west to New York City, the nearest of the three cities.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
-    E(BodyP, null,
-      "Those coordinates don’t match any of our cities. But their position still tells us something: which city they’re near."),
+    E(BodyP, null, VECTOR_MAP_SEQUENCES.cities.intro),
+    E(VectorMapDemo, { kind: "cities" }),
     E(SectionKicker, null, "From Places to Meaning"),
     E(BodyP, null,
-      "These ratings for Coke, Pepsi, and coffee describe seven characteristics. Each drink gets a row of numbers called a ",
+      "A map uses two numbers to describe a position. Comparing positions helps us find the closest match. We can do the same with more than two numbers."),
+    E(BodyP, null,
+      "Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a ",
       E("strong", null, "vector"),
-      "."),
-    vsTasteProfile,
-    E(BodyP, null,
-      "Just as latitude and longitude give a city a position, a drink’s seven ratings give it a position in a space with seven dimensions. That’s ",
-      E("strong", null, "vector space"),
-      ". We can picture the similarities on a map: Coke and Pepsi sit close together, while coffee sits farther away."),
-    E("img", {
-      src: "course-assets/vector-space/vector-space-neighborhoods.jpg?v=20260914attribution1",
-      alt: "A Map of Drink Similarities. Coke and Pepsi are nearby points, with coffee farther from both. Each drink shows seven colored scores in this order: Sweet, Bitter, Fizz, Heat, Caffeine, Dark, Citrus. Coke: 9, 1, 10, 2, 3, 8, 1. Pepsi: 9, 1, 10, 2, 3, 8, 10. Coffee: 1, 9, 0, 9, 8, 10, 0. Dotted lines compare the gaps between positions.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
-    E(BodyP, null,
-      "Now someone gives you the ratings for a mystery drink. They don’t match Coke, Pepsi, or coffee exactly. Just as you did with the cities, use the map to find the closest match."),
-    bulletList([
-      { lead: mono("9, 1, 10, 2, 3, 8, 9") }
-    ]),
-    E("img", {
-      src: "course-assets/vector-space/vector-space-closest-drink.jpg?v=20260914attribution1",
-      alt: "Use the Map to Find the Closest Drink. The same map keeps Coke, Pepsi, coffee, and their scores in place. A new mystery point with ratings 9, 1, 10, 2, 3, 8, 9 sits close to Pepsi, joined by a short dark orange dotted line. Its first six scores match Pepsi, and its Citrus score is 9 compared with Pepsi’s 10. The mystery drink’s ratings are closest to Pepsi’s.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
+      ". Think of those numbers as coordinates that place the drink on a map. We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest."),
+    E(VectorMapDemo, { kind: "drinks" }),
     E(SectionKicker, null, "Distance"),
     E(BodyP, null,
-      "The mystery drink’s first six scores match Pepsi’s. Only Citrus differs: 9 instead of 10, a gap of just 1. Compared with Coke, the Citrus gap is 8. That puts the mystery drink closer to Pepsi."),
-    E(BodyP, null,
-      "This is the idea behind ",
+      "Neither Mystery Drink had an exact match. But by comparing numbers across all dimensions, you found the closest match. This is the idea behind ",
       E("strong", null, "distance"),
-      ": compare the numbers in matching positions across the vectors. Smaller gaps mean closer positions."),
+      ": smaller gaps mean closer positions."),
     E(BodyP, null,
-      "AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. Similar meanings usually occupy nearby positions in vector space."),
+      "AI uses this idea on a much larger scale. Its embeddings have thousands of dimensions, with values learned during training. We can’t picture a map with thousands of dimensions, but the core idea is the same. After the layers update a token’s vector, it doesn’t need to match another vector exactly. Its position in vector space helps represent its meaning."),
     E(SectionKicker, null, "When the Numbers Change"),
     E(BodyP, null,
       "In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space:"),
@@ -7176,11 +7322,7 @@ function VectorSpaceSection(props) {
       ". Changing those numbers also changes its position in ",
       E("strong", null, "vector space"),
       "."),
-    E("img", {
-      src: "course-assets/vector-space/vector-space-meaning-map.jpg?v=20260914attribution1",
-      alt: "How Context Changes IT’s Position. A realistic tabletop meaning map shows a blue IT marker following a purple path through three intermediate points toward a ragdoll cat. The animal neighborhood also contains a dog, kitten, and pet bowl. Adjoining object and weather neighborhoods contain a mat, chair, cloud, and rainstorm. Starting numbers [.12, −.34, …] change to [.41, .06, …]. The separate IT marker ends near CAT, illustrating their contextual connection. Takeaway: IT’s new position reflects its connection to CAT in this sentence.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
-    }),
+    E(VectorContextIllustration, null),
     closeBoard("vectorspace"),
     E(Game2048TryIt, null),
     E(LessonRule, null),

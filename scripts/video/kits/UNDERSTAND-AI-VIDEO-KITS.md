@@ -226,9 +226,9 @@ The three banner lines are spoken forms of the on-board banners (the board text 
 
 ## Tokens
 
-Lesson and preparation revised 2026-10-03 under David’s approved sequence. The existing finished video has not been regenerated.
+**Full-lesson reroll materials updated 2026-10-04 at David’s request.** The [rebuilt-lesson review](../../../video-audit/tokens-rebuilt-lesson-review-2026-10-04/REVIEW.md) recommends a fresh narration base: the current v11 and checked donors lack the everyday-computing opening and complete unusual/unmatchable breakdowns. The lesson retains David’s October 3 sequence. No new roll has been generated or installed; the current course video remains v11 (`20260929ship1`).
 
-Current sources: `lessons/tokens.md`, `gemini-notebook/tokens/PROMPT.txt`, and the Tokens entry in `gemini-notebook/upload-sets.json`. Upload the six files assembled in `gemini-notebook/tokens/upload/`; paste the prompt separately. See [Tokens prep notes](../../../gemini-notebook/tokens/PREP-NOTES.md).
+Current sources: `lessons/tokens.md`, `gemini-notebook/tokens/PROMPT.txt`, and the Tokens entry in `gemini-notebook/upload-sets.json`. Upload the six files assembled in `gemini-notebook/tokens/upload/`; paste the prompt separately. Save as `Prompts/tokens-reroll.mp4`, or the next unused numbered reroll filename. Preserve previous rolls as potential donors. See [Tokens prep notes](../../../gemini-notebook/tokens/PREP-NOTES.md) for generation and review checks.
 
 **Beat spine**
 
@@ -240,7 +240,7 @@ Chat → What Tokens Look Like → You See a Word. AI Starts With a Number. → 
 
 **Narration and verification**
 
-The prompt contains the current seven required verbatim passages. Explain the three un examples together, then basketball, spaces/symbols, and the URL’s eight-token count; do not narrate the ChatGPT row or URL fragments. Define vocabulary after the examples. Speak IDs only for cat and unbelievable, and explain the reply becoming readable text after Send. Preserve complete-board framing and evaluate new timing from the new roll; old board numbers and edit timings are historical.
+The prompt contains nine required verbatim passages, adding the everyday conversion sentence and both post-chat questions to the seven existing requirements. Explain the three un examples and their counts together, then basketball, spaces/symbols, and the URL’s eight-token count; do not narrate the ChatGPT row, URL fragments, or row numbers. Define vocabulary after the examples; the Markdown now separates that prose from board teaching. No token IDs in supporting drawings or narration before their definition. Speak IDs only for cat and unbelievable, and explain the reply becoming readable text after Send. Preserve complete-board framing and evaluate new timing from the new roll; old board numbers and edit timings are historical. The review contains a provisional five-board highlighting/camera proposal; actual spans and any pauses require the new narration.
 
 ## Embeddings
 
@@ -488,54 +488,13 @@ and is spoken as a word. **Materials updated 2026-09-22 for a second reroll** (b
 
 ## Vector Space
 
-**REROLL MATERIALS READY 2026-09-28 (David):** after reviewing the live video, David requested a reroll because the opening is critical to understanding. This supersedes the Sept. 22 decision to keep the live version without another reroll. The live v5 remains unchanged. Current review: `video-audit/vector-space-live-review-2026-09-28/REVIEW.md`. These are preparation materials; no new generation or candidate has been produced.
+**Preparation updated 2026-10-06.** The current kit is [Vector Space prep notes](../../../gemini-notebook/vector-space/PREP-NOTES.md), with the narration in `lessons/vector-space.md`, the editable `PROMPT.txt`, and the ordered upload registry entry. This supersedes the September 28 static-map/single-mystery preparation. No new roll or video has been generated or published in this preparation pass.
 
-**Notebook sources** (`lessons/vector-space.md` plus, in board order)
+The approved treatment shows only the map section for the city and drink activities. Narration supplies instructions while cities, drinks, mystery points, and answer connections appear in the live lesson's order. Labels and coordinates/vectors stay visible. Each of the four closest-match questions gets a brief natural comparison pause before its answer. The final context example uses the restored canonical illustration, with both IT positions visible together.
 
-1. `course-assets/vector-space/vector-space-cities.jpg`
-2. `course-assets/vector-space/vector-space-cities-closest.jpg`
-3. `course-assets/vector-space/vector-space-taste.jpg`
-4. `course-assets/vector-space/vector-space-neighborhoods.jpg`
-5. `course-assets/vector-space/vector-space-closest-drink.jpg`
-6. `course-assets/vector-space/vector-space-meaning-map.jpg`
-7. `course-assets/vector-space/vector-space-close.jpg`
+Upload all nine files from `gemini-notebook/vector-space/upload/`: narration, six current map-state JPGs, context illustration, and close. Paste `gemini-notebook/vector-space/PROMPT.txt` into customization. Do not upload the storyboard, cue JSON, reference frames, or review sheets. Save the raw roll as `Prompts/vector-space-reroll.mp4`, or the next unused numbered name.
 
-**Upload folder:** `gemini-notebook/vector-space/upload/` (eight files). Paste the separate `gemini-notebook/vector-space/PROMPT.txt` into the customization box. Save as `Prompts/vector-space-reroll.mp4`, or the next unused numbered filename.
-
-**Post-production boards:** none withheld. The current boards have no human faces; the meaning map's animals do not require a faceless upload variant. Upload the canonical boards, including the close. Generated scenes follow the no-photos rule; the existing canonical illustration stays intact.
-
-**Lesson arc:** numbers need not match a token's starting numbers to carry meaning; city positions demonstrate this, drink ratings extend it to more dimensions, and IT/CAT applies changing positions to context.
-
-**Beat spine**
-
-1. Establish embeddings and layers changing their numbers for context. Speak the complete opening question and answer from David's screenshot, verbatim, before moving to the city example. Do not replace it with a question about preserving the original meaning.
-2. Three cities share two dimensions, latitude and longitude. Give their coordinates accurately, particularly Mountain View at 37 N, 122 W.
-3. Two new positions: 38 N, 120 W is closest to Mountain View; 40 N, 76 W is closest to New York City. Explain the dotted connections. Explicitly return to the opening idea: the coordinates do not match a city, but their position still tells us which city is near.
-4. Move from places to meaning: seven drink ratings, each row a vector. Compare Coke/Pepsi with coffee; do not read table rows digit by digit. State the city-to-drink definition and then explain the similarity map's neighborhoods, values, and short/long dotted distances.
-5. Give the mystery drink's ratings and Pepsi answer. Work the comparison: first six scores match Pepsi; Citrus 9 against 10 is a gap of 1, against Coke's 1 a gap of 8. Generalize to comparing matching positions across vectors.
-6. Scale to thousands of dimensions with values learned during training; similar meanings usually occupy nearby positions.
-7. Read the CAT/IT sentence. Explain IT's ambiguity, the layers updating its numbers and position, and its contextual connection to CAT. Walk the starting numbers, update path, and ending numbers on the map. Connect this example back to the opening rather than presenting a detached final fact.
-8. End with the two current closing lines, in order, with nothing after.
-
-**Required verbatim passages**
-
-The canonical list is in `gemini-notebook/vector-space/PROMPT.txt`. It includes all six sentences from the screenshot, the closest-city callback, the city-to-drink definition, the existing required takeaway lines, and both closing lines. Each quoted passage occupies its own line in the Markdown. Evaluate these requirements on the new roll; the older live video's accepted omissions do not set the target for this reroll.
-
-**Markdown preparation**
-
-- Preserve the current page's teaching and wording. The opening's bold styling was removed and its sentences separated so every required line stands alone; no teaching was rewritten.
-- Separate the city question, closest-city callback, city-to-drink bridge, and mystery-drink introduction from the preceding board's Teaching content using prose headings. These are transitions, not extra board narration.
-- Preserve all six boards, map values, worked answers, the agreed comparison instead of a digit-by-digit table read, and both closing lines.
-- Do not add a new overview board or flowchart. This lesson's examples supply the progression.
-
-**Generation guardrails**
-
-- Teach the opening answer immediately; do not postpone it until after the city example. Preserve the explanatory transitions.
-- The maps illustrate relationships. Do not describe nearest-word lookup or literal physical movement.
-- Speak IT and CAT as words, not spelled letters. Use plain source language, without “numerically quantify,” “semantic,” “coreference,” or “algorithm.”
-- No invented charts, vectors, similarity scores, exact dimension/layer counts, placeholder text, logos, or URLs. No photos or photorealistic imagery. Illustrated, cartoon, and stylized people are allowed.
-- Do not narrate the on-page 2048 game or production labels. Do not ask the viewer to pause or guess. No title card, preview, or extra ending.
-- Board pictures accompany board teaching; drawings accompany the prose between them. Preserve useful drawn transitions for the edit, rather than planning to extend boards over every transition.
+See `STORYBOARD.md` for visual directions and `reveal-cues.json` for the 16 exact states. The older map boards, prior prompt wording, and context-animation renderer are superseded for this new production plan; existing video candidates and source assets remain preserved. The current kit keeps the complete opening answer, both city examples, both mystery drinks, revised distance/meaning callback, and the two unchanged closing lines. No human-face upload variants are needed.
 
 ## How AI Answers
 

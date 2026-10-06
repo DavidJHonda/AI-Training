@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><base href="../"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vector Space · map sequences</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How AI Answers · Guided demonstration</title><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap"><style>
@@ -944,7 +944,7 @@
     .course-toolkit-title h3{font-size:17px}
   }
 
-body{margin:0;background:var(--bg);font-family:var(--sans)}main{max-width:900px;margin:32px auto;padding:0 16px}.preview-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px}.preview-tools button{font:inherit;padding:10px 18px;border:1px solid var(--rule);border-radius:8px;background:var(--card);cursor:pointer}.capture{max-width:none;margin:0;padding:0;width:1280px;height:720px;background:var(--card);display:flex;align-items:center;justify-content:center}.capture .vs-map-demo{display:flex;flex-direction:column;width:1280px;height:720px;margin:0;border-radius:20px;box-sizing:border-box}.capture .guided-demo-panel{flex:1;min-height:0}.capture .vs-map-frame{width:100%;height:100%;box-sizing:border-box}.capture .vs-map-svg{height:100%;width:100%}.capture .vs-map-caption,.capture .vs-map-note{display:none}.capture .vs-map-reveal{animation:none}.capture > img{max-width:100%!important;max-height:100%;width:auto!important;margin:0!important;object-fit:contain}.capture .vs-map-caption{min-height:0;font-size:20px;margin:12px 0}.capture .vs-map-note{font-size:15px}
+main{max-width:900px;margin:32px auto;padding:0 16px}h1{font-family:var(--serif);font-size:42px;font-weight:400;margin:0 0 20px;color:var(--ink)}.capture{max-width:none;width:1280px;height:720px;margin:0;padding:0;background:var(--card);display:flex;align-items:center;justify-content:center}.capture .answer-build-scene{width:900px}.capture .answer-build-token{animation:none}
 </style></head><body><main id="preview"></main><script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script><script>
 var useState=React.useState,useEffect=React.useEffect,useRef=React.useRef;
@@ -1043,179 +1043,109 @@ function GuidedDemonstration(props) {
 }
 
 
-var VECTOR_MAP_SEQUENCES = {
-  cities: {
-    instructions: "Dallas has the coordinates 32.78° N, 96.80° W. Add Dallas to the map.",
-    intro: "A map uses two numbers to describe position: latitude and longitude. Imagine a map with only three cities. Follow along as we add new positions and use distance to find the closest city.",
-    title: "Add a position to the map",
-    labels: ["Add Dallas", "Add Mountain View", "Add New York City", "Plot the first position", "Show the closest city", "Plot the second position", "Show the closest city"],
-    captions: [
-      "Dallas has the coordinates 32.78° N, 96.80° W. Add Dallas to the map.",
-      "Mountain View has the coordinates 37° N, 122° W. Add Mountain View to the map.",
-      "New York City has the coordinates 41° N, 74° W. Add New York City to the map.",
-      "Now you get coordinates that don't match one of our existing cities. Your goal is to find the closest city. The first is 38° N, 120° W.",
-      "The diamond marks 38° N, 120° W. Which of our three cities is closest?",
-      "Mountain View is closest, even without an exact match. Next, try 40° N, 76° W. Where will it land?",
-      "Now add 40° N, 76° W. Which city is closest to this second diamond?",
-      "New York City is closest to the second point.\n\nThe coordinates didn’t match either city exactly, but distance helped us find the closest match."
+var ANSWER_BUILD_STATES = [
+  {
+    reply: [], options: null,
+    instruction: [
+      React.createElement(React.Fragment, null, "You ask, ", React.createElement("strong", null, "“What should I name my new dog?”")),
+      "Before AI writes anything, it calculates what could come next. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary."
     ]
   },
-  drinks: {
-    instructions: true,
-    intro: "Imagine a taste test where you rate Coke, Pepsi, and hot coffee on seven characteristics. Each drink gets seven numbers, called a vector. Think of those numbers as coordinates that place the drink on a map. We can’t draw all seven dimensions, but a simplified picture shows which drinks are closest.",
-    title: "Build a map from the numbers",
-    labels: ["Add Coke", "Add Pepsi", "Add hot coffee", "Plot Mystery Drink A", "Find the closest drink", "Plot Mystery Drink B", "Find the closest drink"],
-    captions: [
-      "Coke’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–1. Add Coke to the map.",
-      "Pepsi’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–10. Add Pepsi to the map.",
-      "Pepsi’s scores are close to Coke’s, so it sits near Coke in the Soft drinks neighborhood.\n\nHot coffee’s coordinates are Sweet–1, Bitter–9, Fizz–0, Heat–9, Caffeine–8, Dark–10, and Citrus–0. Add hot coffee to the map.",
-      "Hot coffee’s scores differ more from Coke’s and Pepsi’s, so it sits farther away in the Coffee and tea neighborhood.\n\nNow you get numbers that don’t match any of our existing drinks. Your goal is to find the closest drink.\nMystery Drink A’s coordinates are Sweet–9, Bitter–1, Fizz–10, Heat–2, Caffeine–3, Dark–8, and Citrus–9. Add Mystery Drink A to the map.",
-      "Mystery Drink A is near Coke and Pepsi. Its first six numbers match both.\n\nCompare the last number, citrus: Mystery Drink A is 9, Coke is 1, and Pepsi is 10. Which is closest?",
-      "Pepsi is closest: the citrus gap is only 1, compared with 8 for Coke.\n\nMystery Drink B’s coordinates are Sweet–2, Bitter–8, Fizz–0, Heat–8, Caffeine–7, Dark–9, and Citrus–0. Add Mystery Drink B to the map.",
-      "Mystery Drink B is in the coffee and tea neighborhood.\n\nCompare its seven numbers with hot coffee’s vector. Which drink is the closest match?",
-      "Hot coffee is closest to Mystery Drink B. Its ratings are similar across all seven dimensions.\n\nEach drink’s seven numbers give it a position in vector space. Comparing those numbers helps us find the closest match."
-    ]
+  {
+    reply: [], options: [["You",18],["A",14],["Great",9],["All other tokens",59]],
+    instruction: "See which token AI chooses."
   },
-  context: {
-    instructions: true,
-    title: "Watch IT’s position change",
-    labels: ["Apply the sentence"],
-    captions: [
-      "IT starts with a row of numbers. In this sentence, “was tired” connects IT to CAT. See how the layers update IT’s position.",
-      "The layers update IT’s numbers and its position changes.\n\nIT remains a separate token, now carrying information that connects it to CAT."
-    ]
+  {
+    reply: ["You"], options: [["could",32],["can",26],["should",14],["All other tokens",28]],
+    selectionInstruction: "AI selected **You** and added it to the reply.\n\nSee what could come next.",
+    instruction: "**You** is now part of the context, alongside your question. The next-token possibilities have changed.\n\nReveal the next selected token."
+  },
+  {
+    reply: ["You","could"], options: [["name",48],["call",29],["try",8],["All other tokens",15]],
+    selectionInstruction: "AI selected **could**. The reply now says **You could**.\n\nSee the next possibilities.",
+    instruction: "The reply now says **You could**. AI uses your question and those words to predict again.\n\nReveal the next selected token."
+  },
+  {
+    reply: ["You","could","name"], options: [["him",35],["your",28],["the",12],["All other tokens",25]],
+    selectionInstruction: "AI selected **name** and added it to the reply.\n\nSee what could follow **You could name**.",
+    instruction: "AI added **name**. The words already written stay in the context. Notice what could follow **You could name**.\n\nReveal the next selected token."
+  },
+  {
+    reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]],
+    selectionInstruction: "AI selected **him** and added it to the reply.\n\nLook at the new possibilities.",
+    instruction: "Now the reply says **You could name him**. Compare these possibilities with the starts you saw earlier. A dog’s name fits here.\n\nWhich name might come next? Reveal the one selected in this example."
+  },
+  {
+    reply: ["You","could","name","him","Spot"], options: [[".",72],["!",8],[",",5],["All other tokens",15]],
+    selectionInstruction: "This time AI selected **Spot** and added it to the reply. A different run could select another name; the highest probability does not make a token the only possible choice.\n\nSee what could come next.",
+    instruction: "**Spot** is now part of the reply. The next possibilities include punctuation.\n\nReveal the next selected token."
+  },
+  {
+    reply: ["You","could","name","him","Spot","."], options: [["End of answer",82],["He",6],["It",3],["All other tokens",9]],
+    selectionInstruction: "AI selected a **period** and added it to the reply. Punctuation can be a token too.\n\nSee what could come next.",
+    instruction: "The **period** is a token too. A sentence ending does not automatically end the reply; AI could keep writing.\n\nReveal what it selects next to finish this answer."
+  },
+  {
+    reply: ["You","could","name","him","Spot","."], options: [["End of answer",82],["He",6],["It",3],["All other tokens",9]], selected:"End of answer", finished:true,
+    instruction: "AI selected a special **end-of-answer token**. That means AI's answer is complete.\n\nEach selected token became context for the next prediction. This whole process of generating an answer is called inference."
   }
-};
-var VECTOR_DRINKS = [
-  { name: "Coke", values: [9, 1, 10, 2, 3, 8, 1], x: 135, y: 164, at: 1 },
-  { name: "Pepsi", values: [9, 1, 10, 2, 3, 8, 10], x: 315, y: 145, at: 2 },
-  { name: "Hot coffee", values: [1, 9, 0, 9, 8, 10, 0], x: 567, y: 208, at: 3, ly: 164 },
-  { name: "Mystery A", values: [9, 1, 10, 2, 3, 8, 9], x: 295, y: 150, at: 4, lx: 303, ly: 86 },
-  { name: "Mystery B", values: [2, 8, 0, 8, 7, 9, 0], x: 548, y: 229, at: 6, lx: 530, ly: 325 }
-];
-function VectorMapDiagram(props) {
-  var E = React.createElement, step = props.step, kind = props.kind;
-  var ink = "var(--ink)", purple = "var(--primaryDeep)", blue = "var(--info)", gold = "var(--seeAccent)";
-  var text = function(x, y, value, opts) {
-    return E("text", Object.assign({ x: x, y: y, fill: ink, fontSize: 24, fontWeight: 700 }, opts || {}), value);
-  };
-  var line = function(x1, y1, x2, y2, color, reveal) {
-    return E("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: color, strokeWidth: 4, strokeDasharray: "6 6", className: reveal ? "vs-map-reveal" : undefined });
-  };
-  var point = function(x, y, label, options) {
-    var o = options || {}, color = o.color || (o.diamond ? gold : purple);
-    var labelX = o.lx != null ? o.lx : x + 16, labelY = o.ly != null ? o.ly : y + 7, labelSize = o.fontSize || 24;
-    return E("g", { key: label, className: o.reveal ? "vs-map-reveal" : undefined },
-      o.diamond ? E("path", { d: "M" + x + " " + (y - 11) + " l11 11 -11 11 -11 -11 Z", fill: gold, stroke: "var(--card)", strokeWidth: 2 })
-        : E("circle", { cx: x, cy: y, r: 8, fill: color, stroke: "var(--card)", strokeWidth: 2 }),
-      text(labelX, labelY, label, { fill: color, fontSize: labelSize, textAnchor: o.anchor || "start" }),
-      o.coordinates ? text(labelX, labelY + 18, o.coordinates, {fill:color,fontSize:labelSize * 0.75,fontWeight:400,textAnchor:o.anchor || "start"}) : null);
-  };
-  var contents = [];
-  if (kind === "cities") {
-    // Census-derived base and markers share the Albers projection generated by
-    // scripts/video/build_vector_space_us_map.py. Keep these constants in sync.
-    var xy = function(lon, lat) {
-      var n = 0.6028370046288244, c = 1.351221325417899;
-      var theta = n * (lon + 96) * Math.PI / 180;
-      var rho = Math.sqrt(c - 2 * n * Math.sin(lat * Math.PI / 180)) / n;
-      return [365.66482362552307 + 718.3230492926465 * rho * Math.sin(theta),
-        -738.5903603982459 + 718.3230492926465 * rho * Math.cos(theta)];
-    };
-    var mv = xy(-122,37), da = xy(-96.80,32.78), ny = xy(-74,41), a = xy(-120,38), b = xy(-76,40);
-    var cityLabelOffset = 222 - mv[1];
-    contents.push(E("image", { key: "land", href: "course-assets/vector-space/vector-space-us-map.svg?v=20261006b", x: 0, y: 0, width: 720, height: 370 }));
-    if (step >= 5) contents.push(line(a[0],a[1],mv[0],mv[1],gold,true), E("circle",{cx:mv[0],cy:mv[1],r:15,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
-    if (step >= 7) contents.push(line(b[0],b[1],ny[0],ny[1],gold,true), E("circle",{cx:ny[0],cy:ny[1],r:15,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
-    if (step >= 2) contents.push(point(mv[0],mv[1],"Mountain View",{lx:mv[0],ly:mv[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"37° N, 122° W"}));
-    if (step >= 3) contents.push(point(ny[0],ny[1],"New York City",{lx:ny[0],ly:ny[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"41° N, 74° W"}));
-    if (step >= 1) contents.push(point(da[0],da[1],"Dallas",{lx:da[0],ly:da[1]+cityLabelOffset,anchor:"middle",reveal:true,fontSize:18,coordinates:"32.78° N, 96.80° W"}));
-    if (step >= 4) contents.push(point(a[0],a[1],"38 N, 120 W",{ diamond:true,reveal:true,lx:151,ly:142 }));
-    if (step >= 6) contents.push(point(b[0],b[1],"40 N, 76 W",{ diamond:true,reveal:true,lx:b[0]-24,ly:b[1]-24,anchor:"end" }));
-  } else if (kind === "drinks") {
-    contents.push(
-      E("path", {key:"soft",d:"M30 124 C24 70 103 44 189 56 C247 25 374 47 407 107 C449 166 414 273 341 300 C246 327 158 296 93 285 C27 267 11 179 30 124Z",fill:"var(--primaryFaint)"}),
-      E("path", {key:"brewed",d:"M469 164 C504 121 581 131 634 150 C695 170 716 241 695 299 C680 361 598 371 535 360 C467 367 432 300 445 246 C435 214 444 185 469 164Z",fill:"var(--info-bg)"}),
-      text(145,38,"Soft drinks",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}),
-      text(570,123,"Coffee and tea",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}));
-    if (step >= 5) contents.push(line(295,150,315,145,gold,true), E("circle",{cx:315,cy:145,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
-    if (step >= 7) contents.push(line(548,229,567,208,gold,true), E("circle",{cx:567,cy:208,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
-    VECTOR_DRINKS.forEach(function(d,i) {
-      if (step < d.at) return;
-      var vector = ["[", ...d.values.map(function(v,j) {
-        var compared = step >= 5 && (i===0 || i===1 || i===3) && j===6;
-        return E("tspan", {key:j,fontWeight:compared?800:400}, (j?", ":"")+v);
-      }), "]"];
-      contents.push(point(d.x,d.y,d.name,{reveal:true,diamond:i>=3,lx:d.lx == null?d.x:d.lx,ly:d.ly == null?d.y+53.143305542655185:d.ly,anchor:"middle",fontSize:18,coordinates:vector}));
-      if (i === 3) contents.push(E("line",{key:"mystery-a-label",x1:295,y1:137,x2:300,y2:112,stroke:gold,strokeWidth:1.5}));
-      if (i === 4) contents.push(E("line",{key:"mystery-b-label",x1:548,y1:242,x2:530,y2:304,stroke:gold,strokeWidth:1.5}));
-    });
-  } else {
-    contents.push(E("ellipse",{key:"objects",cx:131,cy:108,rx:108,ry:80,fill:"var(--seeBand)"}),E("ellipse",{key:"weather",cx:365,cy:96,rx:109,ry:70,fill:"var(--info-bg)"}),E("ellipse",{key:"animals",cx:552,cy:257,rx:143,ry:96,fill:"var(--primaryFaint)"}));
-    contents.push(text(131,61,"Objects",{textAnchor:"middle",fill:gold}),text(365,50,"Weather",{textAnchor:"middle",fill:blue}),text(552,204,"Animals",{textAnchor:"middle",fill:purple}));
-    contents.push(point(69,101,"Mat",{color:gold}),point(123,143,"Chair",{color:gold}),point(315,87,"Cloud",{color:blue}),point(297,131,"Rainstorm",{color:blue}),point(560,236,"CAT"),point(583,285,"Dog"),point(477,313,"Kitten"));
-    contents.push(E("path", { key:"journey",d:"M155 285 C260 310 365 220 501 237",fill:"none",stroke:"var(--primary)",strokeWidth:3,strokeDasharray:"6 7",opacity:step?1:0,className:step?"vs-map-reveal":undefined }));
-    contents.push(E("g",{key:"it",className:"vs-map-it",style:{transform:step?"translate(501px, 237px)":"translate(155px, 285px)"}},E("rect",{x:-24,y:-18,width:48,height:36,rx:9,fill:blue}),text(0,8,"IT",{fill:"var(--card)",textAnchor:"middle"})));
-  }
-  return E("svg",{viewBox:"0 0 720 370",role:"img","aria-label":VECTOR_MAP_SEQUENCES[kind].captions[props.step],className:"vs-map-svg"+(kind === "cities" ? " vs-map-geographic" : "")},contents.map(function(child,i){return React.cloneElement(child,{key:child.key || "item-"+i});}));
-}
-function VectorMapFrame(props) {
-  var E = React.createElement, kind = props.kind, step = props.step, config = VECTOR_MAP_SEQUENCES[kind];
-  return E("div", {className:"vs-map-frame","data-map":kind,"data-step":step},
-    kind === "context" ? E("p",{className:"vs-map-sentence"},"The ",E("strong",null,"CAT")," sat on the mat during the May rainstorm because ",E("strong",null,"IT")," was tired.") : null,
-    E(VectorMapDiagram,{kind:kind,step:step}),
-    kind === "context" ? E("div",{className:"vs-map-numbers"},E("span",null,step?"IT · updated numbers":"IT · starting numbers"),E("strong",null,step?"[.41, .06, …]":"[.12, −.34, …]")) : null,
-    !config.instructions ? E("p",{className:"vs-map-caption",role:"status","aria-live":props.quiet?"off":"polite","aria-atomic":"true"},config.captions[step]) : null,
-    config.note ? E("p",{className:"vs-map-note"},config.note) : null);
-}
-function VectorMapBox(props) {
-  return React.createElement(GuidedDemoShell, Object.assign({},props,{className:"vs-map-demo"}));
-}
-function VectorMapControls(props) {
-  return React.createElement(GuidedDemoControls, {
-    done:props.step >= props.config.labels.length,
-    actionLabel:props.config.instructions ? "See It" : props.config.labels[props.step],
-    onAdvance:props.onAdvance,onReplay:props.onReplay,onPlay:props.onPlay
+].reduce(function(states, current, index, authored) {
+  // Reveal the selection and append it while preserving the chart for inspection.
+  // The following action shows probabilities for the updated reply.
+  if (current.selectionInstruction) states.push({
+    reply:current.reply, options:authored[index-1].options, added:true,
+    selected:current.reply[current.reply.length-1], instruction:answerInstruction(current.selectionInstruction)
+  });
+  current.instruction = answerInstruction(current.instruction);
+  states.push(current);
+  return states;
+}, []);
+// Authored emphasis becomes semantic strong text in both visible and measured copy.
+function answerInstruction(value) {
+  if (typeof value !== "string") return value;
+  return value.split("\n\n").map(function(paragraph) {
+    return React.createElement(React.Fragment, null, paragraph.split(/\*\*(.*?)\*\*/g).map(function(text, index) {
+      return index % 2 ? React.createElement("strong", {key:index}, text) : text;
+    }));
   });
 }
-function VectorMapDemo(props) {
-  var E = React.createElement, config = VECTOR_MAP_SEQUENCES[props.kind];
-  var state = useState(0), current = state[0], setCurrent = state[1];
-  var isPrint = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print");
-  var step = isPrint ? config.labels.length : current;
-  var controls = !isPrint ? E(VectorMapControls, {config:config,step:current,
-    onAdvance:function(){setCurrent(function(s){return Math.min(s+1,config.labels.length);});},
-    onReplay:function(){setCurrent(0);}}) : null;
-  return E(VectorMapBox,{kind:props.kind,label:config.title,instructions:config.instructions?config.captions[step]:null,instructionOptions:config.captions,controls:controls,quiet:isPrint},
-    E(VectorMapFrame,{kind:props.kind,step:step}));
+function AnswerBuildScene(props) {
+  var E = React.createElement, state = props.state, step = props.step;
+  var options = state.options || ANSWER_BUILD_STATES[1].options;
+  var replyText = state.reply.join(" ").replace(" .", ".");
+  return E("div", {className:"answer-build-scene", "data-step":step, role:"group","aria-label":"Growing reply and next-token probabilities"},
+      E("p", {className:"answer-build-label"}, "Reply so far"),
+      E("div", {className:"answer-build-reply"},
+        E("div", {className:"answer-build-measure","aria-hidden":"true",inert:""}, "You could name him Spot."),
+        E("div", {"aria-label":replyText || "The reply has not started"},
+          state.reply.length ? state.reply.map(function(token,i){
+            return E(React.Fragment,{key:i}, i > 0 && token !== "." ? " " : null,
+              E("span",{className:"answer-build-token"+(i===state.reply.length-1 && state.added ? " is-new" : "")},token));
+          }) : E("span", {className:"answer-build-empty"}, "No tokens yet"))),
+    E("div", {className:"answer-build-prediction"},
+      E("p", {className:"answer-build-label"}, state.finished ? "Final selection" : "Possible next tokens"),
+      E("div", {className:"answer-build-options"},
+        !state.options ? E("p", {className:"answer-build-waiting"}, "No prediction yet") : null,
+        E("ul", {className:"answer-build-list",style:{visibility:state.options?"visible":"hidden"},"aria-hidden":state.options?undefined:"true",inert:state.options?undefined:""},
+          options.map(function(option,i){var combined = option[0] === "All other tokens", selected = option[0] === state.selected; return E("li", {key:option[0],className:"answer-build-option"+(combined?" is-combined":"")+(selected?" is-selected":"")},
+            E("span", {className:"answer-build-option-name"},combined ? "Other" : option[0],combined ? E("span",{className:"answer-build-combined"},"(combined)") : null),
+            E("span", {className:"answer-build-bar","aria-hidden":"true"},E("span",{style:{width:option[1]+"%"}})),
+            E("span", {className:"answer-build-percent"},option[1]+"%"));})))),
+    props.isPrint ? E("p", {className:"answer-build-print"}, "You ask, “What should I name my new dog?” The probabilities shown are illustrative, not live model output; “Other (combined)” includes the rest of the vocabulary. The first prediction included You (18%), A (14%), and Great (9%). This example selected You, then could, name, and him. With You could name him in the context, the next prediction included Spot (22%), Max (17%), and Buddy (14%). Selecting Spot, a period, and then the end-of-answer token completed the reply. Each addition changed the context for the next prediction.") : null);
 }
-
-function VectorContextIllustration() {
-  return React.createElement("img", {
-    src: "course-assets/vector-space/vector-space-meaning-map.jpg?v=20260914attribution1",
-    alt: "How Context Changes IT’s Position. IT’s starting numbers [.12, −.34, …] change to [.41, .06, …] as the layers update them. A path shows its starting position and its updated position near CAT on a meaning map with object, weather, and animal neighborhoods. IT remains a separate token; its new position reflects its connection to CAT in this sentence.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 16 }
+function AnswerBuildDemo() {
+  return React.createElement(GuidedDemonstration, {
+    label:"Build an answer one token at a time",kind:"answer",states:ANSWER_BUILD_STATES,
+    renderScene:function(state,step,isPrint){return React.createElement(AnswerBuildScene,{state:state,step:step,isPrint:isPrint});}
   });
 }
 
 function Preview(){
- var E=React.createElement,params=new URLSearchParams(location.search),single=params.get('scene');
- var initialKind=VECTOR_MAP_SEQUENCES[single]?single:'cities';
- var initialStep=Math.max(0,Math.min(Number(params.get('step'))||0,VECTOR_MAP_SEQUENCES[initialKind].labels.length));
- var state=useState({kind:initialKind,step:initialStep}),value=state[0],set=state[1];
- var playing=useState(params.get('autoplay')==='1'),auto=playing[0],setAuto=playing[1];
- useEffect(function(){window.setVectorScene=function(kind,step){if(!VECTOR_MAP_SEQUENCES[kind]||step<0||step>VECTOR_MAP_SEQUENCES[kind].labels.length)throw new Error('Invalid map state');setAuto(false);set({kind:kind,step:step});};},[]);
- useEffect(function(){if(!auto)return;var id=setTimeout(function(){if(value.step<VECTOR_MAP_SEQUENCES[value.kind].labels.length)set({kind:value.kind,step:value.step+1});else setAuto(false);},3000);return function(){clearTimeout(id);};},[auto,value]);
- if(params.get('capture')==='1'){document.getElementById('preview').className='capture';return value.kind==='context'?E(VectorContextIllustration,null):E(VectorMapBox,{kind:value.kind,label:VECTOR_MAP_SEQUENCES[value.kind].title,quiet:true},E(VectorMapFrame,{kind:value.kind,step:value.step,quiet:true}));}
- var config=VECTOR_MAP_SEQUENCES[value.kind];
- var controls=E(VectorMapControls,{config:config,step:value.step,
- onAdvance:function(){setAuto(false);set({kind:value.kind,step:value.step+1});},
- onReplay:function(){setAuto(false);set({kind:value.kind,step:0});},
- onPlay:function(){set({kind:value.kind,step:0});setAuto(true);}});
- return E(React.Fragment,null,E('div',{className:'preview-tools'},E('a',{href:'../index.html'},'Back to course'),['cities','drinks','context'].map(function(k){return E('button',{key:k,onClick:function(){setAuto(false);set({kind:k,step:0});}},VECTOR_MAP_SEQUENCES[k].title);})),
- config.intro ? E(BodyP,null,config.intro) : null,
- value.kind === 'context' ? E(VectorContextIllustration,null) : E(VectorMapBox,{kind:value.kind,label:config.title,instructions:config.instructions?config.captions[value.step]:null,instructionOptions:config.captions,controls:controls},E(VectorMapFrame,{kind:value.kind,step:value.step})));
-
+ var E=React.createElement,params=new URLSearchParams(location.search),capture=params.get('capture')==='1';
+ var state=useState(Math.max(0,Math.min(Number(params.get('step'))||0,ANSWER_BUILD_STATES.length-1))),step=state[0],setStep=state[1];
+ useEffect(function(){window.setAnswerScene=function(n){if(!Number.isInteger(n)||n<0||n>=ANSWER_BUILD_STATES.length)throw new Error('Invalid answer state');setStep(n);};},[]);
+ if(capture){document.getElementById('preview').className='capture';return E(AnswerBuildScene,{state:ANSWER_BUILD_STATES[step],step:step});}
+ return E(React.Fragment,null,E('h1',null,'How AI Answers'),E(BodyP,null,'Follow one possible reply. At each reveal, watch what joins the answer and what becomes possible next. We show words as single tokens to make the example easier to follow.'),E(AnswerBuildDemo));
 }
 ReactDOM.createRoot(document.getElementById('preview')).render(React.createElement(Preview));
 </script></body></html>

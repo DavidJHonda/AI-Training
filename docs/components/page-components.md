@@ -54,6 +54,23 @@ grid has several items.
 
 ## Activities
 
+### Guided demonstrations
+
+Use the [guided demonstration format](guided-demonstrations.md) for explanations
+that learners reveal one change at a time, following the Vector Space maps. The
+standard is an introduction outside a blue box, a white instruction card with a
+stable control position, and a white visual panel below it. Use See It for reveals,
+no step list or counter, and Complete plus Replay at the end. A necessary
+explanation-only state may use Continue. The conclusion stays in the instruction
+card; there is no separate title or takeaway banner inside the box.
+
+This is distinct from the TRY IT and LAB shell below. See It is a button label,
+not an `InteractiveBox` variant. `GuidedDemoShell` and `GuidedDemoControls` now
+provide the shared shell, instruction sizing, and controls used by Vector Space
+and How AI Answers. `GuidedDemonstration` accepts authored states and a separate
+scene renderer for new sequences. The linked standard covers layout, copy,
+progression, access, and video reuse.
+
 ### InteractiveBox
 
 The shared activity shell. The live variants are TRY IT and LAB. Surface color is a

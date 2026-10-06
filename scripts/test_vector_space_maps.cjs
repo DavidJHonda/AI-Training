@@ -46,7 +46,7 @@ const output = path.resolve(__dirname, '../output/vector-space-interactions');
           assert.equal(await demo.locator('.vs-map-svg g').evaluateAll(groups=>groups.filter(g=>g.querySelectorAll('text').length===2).every(g=>/^\[.*\]$/.test(g.querySelectorAll('text')[1].textContent))),true,'Every drink has a vector under its name');
         }
       }
-      assert.equal(await demo.locator('.vs-map-complete').innerText(),'Complete');
+      assert.equal(await demo.locator('.guided-demo-complete').innerText(),'Complete');
       const afterBox=await demo.locator('.vs-map-svg').boundingBox();
       assert.equal(afterBox.width,mapBox.width);assert.equal(afterBox.height,mapBox.height);
       await page.waitForTimeout(1700);
@@ -59,14 +59,14 @@ const output = path.resolve(__dirname, '../output/vector-space-interactions');
       assert.equal(await demos.evaluateAll(nodes=>nodes.every(n=>n.getBoundingClientRect().right<=innerWidth && n.scrollWidth<=n.clientWidth)),true,`Maps fit at ${width}`);
       for(let i=0;i<2;i++) {
         const demo=demos.nth(i),next=demo.getByRole('button').first();
-        while(await demo.locator('.vs-map-complete').count()===0)await next.click();
+        while(await demo.locator('.guided-demo-complete').count()===0)await next.click();
         await demo.screenshot({path:path.join(output,`mobile-${width}-${i}.png`)});
       }
     }
     await page.goto(base+'/?print=lesson:vectorspace');
     await page.locator('.vs-map-demo').first().waitFor();
     assert.deepEqual(await page.locator('.vs-map-frame').evaluateAll(nodes=>nodes.map(n=>n.dataset.step)),['7','7']);
-    assert.equal(await page.locator('.vs-map-controls').count(),0);
+    assert.equal(await page.locator('.guided-demo-controls').count(),0);
     await page.emulateMedia({media:'print'});
     assert.equal(await page.locator('.vs-map-demo').first().isVisible(),true);
     assert.deepEqual(errors,[]);

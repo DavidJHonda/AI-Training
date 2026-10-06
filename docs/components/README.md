@@ -22,6 +22,9 @@ they should not function as decorative witnesses beside an explanation.
 
 - [Page components](page-components.md) explains the roles of the live React
   components. `index.html` remains authoritative for implementation details.
+- [Guided demonstrations](guided-demonstrations.md) defines the consistent
+  instruction, reveal, and completion experience established by the Vector Space
+  interactivities, including the blue shell and reuse in video.
 - [Board system](boards/README.md) defines the shared shell, the Friendly Schematic
   and Editorial Explainer families, the named `EE-2FB`, `EE-3FB`, `EE-4FB`,
   `EE-LONG`, `EE-FLOW`, and `EE-CHAT` formats, utility exceptions, accessibility

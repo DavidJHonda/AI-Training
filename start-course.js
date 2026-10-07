@@ -1,19 +1,29 @@
 // Shared entry dialog for the introduction and guest lesson. The course owns
 // enrollment, validation, and browser storage; this shell only opens its form.
 (() => {
+  const filePreview = location.protocol === 'file:';
+  // A file opened from Finder has no server to resolve the public course routes.
+  // Use the real course document; avoid an iframe across opaque file origins.
+  if (filePreview) {
+    document.querySelectorAll('a[href="/course"]').forEach(link => { link.href = 'index.html'; });
+    document.querySelectorAll('a[href="/course/why-learn-ai"]').forEach(link => { link.href = 'index.html?sample=why-learn-ai'; });
+    return;
+  }
   let dialog;
   let trigger;
   function knownLearner() {
     try { return !!localStorage.getItem('llm-user-name'); } catch (_) { return false; }
   }
   function openEntry(button) {
-    if (knownLearner()) { location.assign('/course'); return; }
+    const requireEntry = button.hasAttribute('data-entry-required');
+    if (!requireEntry && knownLearner()) { location.assign('/course'); return; }
     trigger = button;
     if (!dialog) {
       dialog = document.createElement('dialog');
       dialog.className = 'start-dialog';
       dialog.setAttribute('aria-label', 'Start the course');
       dialog.innerHTML = '<button type="button" class="start-dialog-close" aria-label="Close course entry">Close ×</button><iframe title="First name and country" src="/course?entry=dialog"></iframe>';
+      if (requireEntry) dialog.querySelector('iframe').src = '/course?entry=dialog&enroll=1';
       document.body.append(dialog);
       dialog.querySelector('button').addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', event => {

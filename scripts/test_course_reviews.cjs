@@ -350,7 +350,7 @@ const field = (ui, id, value) => node(ui, n => n.props.id === id).props.onChange
 const settle = () => new Promise(resolve => setImmediate(resolve));
 (async () => {
   let ui = client();
-  assert.ok(node(ui, n => n.type === 'StudentReviewsList'));
+  assert.equal(node(ui, n => n.type === 'StudentReviewsList'), undefined);
   assert.equal(ui.render().filter(n => n.type === 'textarea').length, 2);
   assert.ok(!node(ui, n => n.props.id === 'review-public-name'));
   assert.equal(ui.render().filter(n => n.props.role === 'radiogroup').length, 1);
@@ -383,7 +383,7 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   assert.equal(storage.get('submitted'), 'ui-review');
   assert.ok(node(ui, n => n.children.includes('Edit my review')));
   assert.ok(!node(ui, n => n.children.includes('Write another review')));
-  assert.equal(node(ui, n => n.type === 'StudentReviewsList').props.refreshKey, 1);
+  assert.equal(node(ui, n => n.type === 'StudentReviewsList'), undefined);
   for (const key of ['confidenceBefore', 'confidenceAfter', 'mostUseful', 'changedBehavior']) assert.ok(!(key in ui.requests[0]));
   const originalRow = reviews.rows.find(r => r[2] === 'ui-review').slice();
   const summaryBeforeEdit = getPublic().ratingSummary;

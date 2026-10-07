@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<base href="/">
 <meta charset="UTF-8">
+<base id="course-base" href="./">
+<script>if (location.protocol !== "file:") document.getElementById("course-base").href = "/";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Keep the site out of search results for now. Delete this line when ready to be indexed. -->
 <meta name="robots" content="noindex, nofollow">
@@ -998,8 +999,8 @@
     .course-toolkit-title h3{font-size:17px}
   }
 </style>
-<link rel="stylesheet" href="/entry-flow.css?v=20261007launch1">
-<script defer src="/start-course.js?v=20261007launch1"></script>
+<link rel="stylesheet" href="entry-flow.css?v=20261007sample2">
+<script defer src="start-course.js?v=20261007sample3"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -2341,7 +2342,6 @@ function NextCardUnlocked(props) {
 
 function NextLessonGate(props) {
   var ctx = useContext(LessonContext) || {};
-  if (ctx.sample) return null;
   var activeSection = ctx.activeSection;
   var onNavigate = ctx.onNavigate;
   var isNav = !!props.nav;
@@ -13440,7 +13440,6 @@ function ReviewsSection(props) {
     try { return localStorage.getItem(REVIEW_SUBMITTED_KEY) === reviewId ? "success" : "idle"; }
     catch (e) { return "idle"; }
   }), status = _status[0], setStatus = _status[1];
-  var _reviewRefresh = useState(0), reviewRefresh = _reviewRefresh[0], setReviewRefresh = _reviewRefresh[1];
   var _error = useState(""), error = _error[0], setError = _error[1];
 
   var editReview = function() {
@@ -13507,7 +13506,6 @@ function ReviewsSection(props) {
           if (text.trim() !== "review-ok") throw new Error("Review was not accepted");
           try { localStorage.setItem(REVIEW_SUBMITTED_KEY, payload.reviewId); } catch (e) {}
           setStatus("success");
-          setReviewRefresh(function(value) { return value + 1; });
           if (props.markComplete) props.markComplete("reviews");
         })
         .catch(function() {
@@ -13574,7 +13572,6 @@ function ReviewsSection(props) {
             E("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 18px" } },
               E(ActivityButton, { size: "large", disabled: status === "sending" || !hasRating, onClick: submitReview, style: { padding: "16px 26px", fontSize: 16, borderRadius: 12, background: status === "sending" || !hasRating ? "#9c9f9d" : "var(--ink)" } }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : (hasTestimonial ? "Post my review" : "Submit my rating"))),
               !hasRating ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)" } }, "Choose a star rating to submit.") : null))),
-    E(StudentReviewsList, { refreshKey: reviewRefresh }),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("groupexercises"); }, label: "Next: Group Exercises (optional)" }));
 }
@@ -15063,7 +15060,7 @@ function StickyLessonBar(props) {
 
   var go = function(id) {
     if (!id) return;
-    props.onNavigate(id);
+    if (props.onNavigate(id) === false) return;
     var el = document.getElementById("main-content");
     if (el) {
       var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -15121,10 +15118,23 @@ class LessonErrorBoundary extends React.Component {
   }
 }
 function LLMExplorer() {
-  const sampleMode = window.location.pathname.replace(/\/$/, "") === "/course/why-learn-ai";
+  const filePreview = window.location.protocol === "file:";
+  const courseUrl = filePreview ? "index.html" : "/course";
+  const introductionUrl = filePreview ? "landing.html" : "/";
+  const sampleMode = window.location.pathname.replace(/\/$/, "") === "/course/why-learn-ai" ||
+    (filePreview && new URLSearchParams(window.location.search).get("sample") === "why-learn-ai");
   const embeddedEntry = new URLSearchParams(window.location.search).get("entry") === "dialog";
-  const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
-  const [signup, setSignup] = useState({ firstName: "", country: "" });
+  const requireEntry = new URLSearchParams(window.location.search).get("enroll") === "1";
+  const [hasName, setHasName] = useState(function() { try { return !requireEntry && !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
+  const [signup, setSignup] = useState(function() {
+    if (requireEntry) {
+      try {
+        var saved = JSON.parse(localStorage.getItem(STUDENT_PROFILE_KEY) || "{}") || {};
+        return { firstName: saved.firstName || localStorage.getItem("llm-user-name") || "", country: saved.country || "" };
+      } catch(e) {}
+    }
+    return { firstName: "", country: "" };
+  });
   const [expandedIllustration, setExpandedIllustration] = useState(null);
   const [usingCourseOpen, setUsingCourseOpen] = useState(false);
   const illustrationTriggerRef = useRef(null);
@@ -15154,12 +15164,38 @@ function LLMExplorer() {
   useEffect(function() {
     if (!sampleMode) retryPendingCompletionReport();
   }, []);
-  const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
+  const [storedProgress, setProgress] = useLocalStorage("llm-explorer-progress", {
     activeSection: "welcome",
     visited: ["welcome"],
     completed: [],
     testYourselfQuiz: null
   });
+  // Preview the real course shell without displaying or changing saved progress.
+  const progress = sampleMode ? { activeSection: "whydeeper", visited: [], completed: [], testYourselfQuiz: null } : storedProgress;
+  const samplePromptRef = useRef(null);
+  const samplePromptTriggerRef = useRef(null);
+  const showSamplePrompt = function() {
+    samplePromptTriggerRef.current = document.activeElement;
+    if (samplePromptRef.current && !samplePromptRef.current.open) {
+      samplePromptRef.current.showModal();
+      document.body.classList.add("sample-prompt-open");
+    }
+    return false;
+  };
+  const samplePrompt = sampleMode ? React.createElement("dialog", {
+    ref: samplePromptRef, className: "sample-prompt", "aria-labelledby": "sample-prompt-title",
+    "aria-describedby": "sample-prompt-description",
+    onClose: function() {
+      document.body.classList.remove("sample-prompt-open");
+      if (samplePromptTriggerRef.current) samplePromptTriggerRef.current.focus();
+    }
+  },
+    React.createElement("h2", { id: "sample-prompt-title" }, "Ready for the rest?"),
+    React.createElement("p", { id: "sample-prompt-description" }, "You’re trying a sample lesson. Start the course to explore every lesson and save your progress."),
+    React.createElement("p", { className: "sample-prompt-facts" }, "Free. No account required. Learn at your own pace."),
+    React.createElement("div", { className: "sample-prompt-actions" },
+      React.createElement("a", { href: courseUrl + "?enroll=1", className: "sample-start", "data-start-course": "", "data-entry-required": "", onClick: function() { samplePromptRef.current.close(); } }, "Start the Course →"),
+      React.createElement("button", { type: "button", onClick: function() { samplePromptRef.current.close(); } }, "Keep trying the lesson"))) : null;
   const activeSection = sampleMode ? "whydeeper" : progress.activeSection;
   useEffect(function() {
     document.body.classList.toggle("course-entry", !hasName && !sampleMode);
@@ -15226,7 +15262,7 @@ function LLMExplorer() {
     openIllustrationFromEvent(event);
   };
   const setActiveSection = (id) => {
-    if (sampleMode) return;
+    if (sampleMode) return showSamplePrompt();
     setProgress(prev => ({
       ...prev,
       activeSection: id,
@@ -15234,7 +15270,7 @@ function LLMExplorer() {
     }));
   };
   const completeAndNavigate = (id) => {
-    if (sampleMode) return;
+    if (sampleMode) return showSamplePrompt();
     setProgress(prev => {
       const currentId = prev.activeSection;
       const completed = prev.completed || [];
@@ -15248,16 +15284,18 @@ function LLMExplorer() {
     });
   };
   const markComplete = (id) => {
-    if (sampleMode) return;
+    if (sampleMode) return showSamplePrompt();
     setProgress(prev => {
       const completed = prev.completed || [];
       return isOptionalLesson(id) || completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
     });
   };
   const setTestYourselfQuiz = (quiz) => {
+    if (sampleMode) return showSamplePrompt();
     setProgress(prev => ({ ...prev, testYourselfQuiz: quiz }));
   };
   const resetTestYourselfQuiz = () => {
+    if (sampleMode) return showSamplePrompt();
     setProgress(prev => ({ ...prev, testYourselfQuiz: null }));
   };
   useEffect(function() {
@@ -15341,29 +15379,18 @@ function LLMExplorer() {
       })
     );
   }
-  if (sampleMode) {
-    var E = React.createElement;
-    return E("div", { className: "sample-shell" },
-      E("header", { className: "sample-topbar" },
-        E("a", { href: "/" }, "← Back to introduction"),
-        E("a", { href: "/course", className: "sample-start", "data-start-course": "" }, "Start the Course →")),
-      E("main", { id: "main-content", onClick: openIllustrationFromEvent, onKeyDown: openIllustrationFromKeyboard },
-        E(LessonContext.Provider, { value: { activeSection: "whydeeper", sample: true } },
-          E(LessonErrorBoundary, null, E(WhyDeeperSection, {})))),
-      E("section", { className: "sample-bottom", "aria-labelledby": "sample-start-title" },
-        E("h2", { id: "sample-start-title" }, "Like this? Start the Course."),
-        E("a", { href: "/course", className: "sample-start", "data-start-course": "" }, "Start the Course →"),
-        E("p", null, "Free. No account required. Learn at your own pace.")),
-      E(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
-  }
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
-  if (!hasName) {
+  if (!hasName && !sampleMode) {
     var signupValid = !!signup.firstName.trim() && COURSE_COUNTRIES.indexOf(signup.country) !== -1;
     var setField = function(k) { return function(e) { var v = e.target.value; setSignup(function(prev) { var next = Object.assign({}, prev); next[k] = v; return next; }); }; };
     var submitName = function() {
       if (!signupValid) return;
+      var previousProfile = getStudentProfile();
+      var returningLearner = false;
+      try { returningLearner = !!localStorage.getItem("llm-user-name"); } catch(ex) {}
+      var alreadyRegistered = returningLearner && previousProfile.firstName === signup.firstName.trim() && previousProfile.country === signup.country.trim();
       // Keep a stable student ID so reviews and completions can be matched
       // without collecting email or the retired registration fields.
       var payload = {
@@ -15375,14 +15402,16 @@ function LLMExplorer() {
       };
       try { localStorage.setItem("llm-user-name", payload.firstName); } catch(ex) {}
       saveStudentProfile(payload);
-      try { localStorage.setItem("llm-signup-pending", JSON.stringify(payload)); } catch(ex) {}
-      sendSignup(payload);
+      if (!alreadyRegistered) {
+        try { localStorage.setItem("llm-signup-pending", JSON.stringify(payload)); } catch(ex) {}
+        sendSignup(payload);
+      }
       setHasName(true);
-      setProgress(prev => ({ ...prev, activeSection: "welcome", visited: (prev.visited || []).includes("welcome") ? prev.visited : [...(prev.visited || []), "welcome"] }));
+      if (!returningLearner) setProgress(prev => ({ ...prev, activeSection: "welcome", visited: (prev.visited || []).includes("welcome") ? prev.visited : [...(prev.visited || []), "welcome"] }));
     };
     var E = React.createElement;
     return E("div", { className: "gate-screen" },
-      E("a", { href: "/", className: "entry-back" }, "← Back to introduction"),
+      E("a", { href: introductionUrl, className: "entry-back" }, "← Back to introduction"),
       E("main", { className: "gate-splash" },
         E("section", { className: "gate-ask", id: "gate-entry", "aria-labelledby": "gate-start-title" },
           E("div", { className: "gate-content" },
@@ -15406,7 +15435,7 @@ function LLMExplorer() {
       margin: "0 auto",
       padding: "12px 32px 80px"
     }
-  }, /*#__PURE__*/React.createElement("style", null, `
+  }, samplePrompt, /*#__PURE__*/React.createElement("style", null, `
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes haloPulse {
@@ -15568,13 +15597,13 @@ function LLMExplorer() {
     var nextSection = REQUIRED_SECTIONS.find(function(s) { return !completedIds.includes(s.id); });
     var ctaIsNew = completedIds.length === 0;
     var ctaTarget = (nextSection || SECTIONS[0]).id;
-    var ctaLabel = ctaIsNew ? "Start Lesson 01" : (nextSection ? "Continue" : "Review course");
+    var ctaLabel = sampleMode ? "Start the Course" : (ctaIsNew ? "Start Lesson 01" : (nextSection ? "Continue" : "Review course"));
     var ctaTargetIdx = SECTIONS.findIndex(function(s) { return s.id === ctaTarget; });
     var ctaTargetSection = SECTIONS[ctaTargetIdx] || SECTIONS[0];
     var ctaTargetLabel = ctaTargetSection.title || ctaTargetSection.label || "";
     // verb-first CTA (treatment 2): destination shown as quiet subtext (just the lesson name).
-    var ctaSub = !nextSection ? "" : ctaTargetLabel;
-    var ctaAria = !nextSection ? "Review course from the start"
+    var ctaSub = sampleMode || !nextSection ? "" : ctaTargetLabel;
+    var ctaAria = sampleMode ? "Start the Course" : !nextSection ? "Review course from the start"
       : (ctaIsNew ? ("Start Lesson 01, " + ctaTargetLabel)
         : ("Continue to " + ctaTargetLabel));
     return /*#__PURE__*/React.createElement(React.Fragment, null,
@@ -15589,13 +15618,13 @@ function LLMExplorer() {
           ),
           /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
             /*#__PURE__*/React.createElement("div", { className: "course-progress-block" },
-              /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, getName() === "Friend" ? "Student" : getName()),
+              /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, sampleMode ? "Sample lesson" : (getName() === "Friend" ? "Student" : getName())),
               /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: REQUIRED_SECTIONS.filter(function(s) { return (progress.completed || []).includes(s.id); }).length })
             ),
             /*#__PURE__*/React.createElement("button", {
               className: "course-cta",
               onClick: function() {
-                setActiveSection(ctaTarget);
+                if (setActiveSection(ctaTarget) === false) return;
                 var el = document.getElementById("main-content");
                 if (el && el.scrollIntoView) {
                   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -15646,6 +15675,9 @@ function LLMExplorer() {
     );
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",
+    onClickCapture: sampleMode ? function(event) {
+      if (event.target.closest("a[href]")) { event.preventDefault(); event.stopPropagation(); showSamplePrompt(); }
+    } : undefined,
     onClick: openIllustrationFromEvent,
     onKeyDown: openIllustrationFromKeyboard,
     style: {
@@ -15657,11 +15689,14 @@ function LLMExplorer() {
       position: "relative",
       marginTop: 0
     }
-  }, /*#__PURE__*/React.createElement(LessonContext.Provider, { value: { activeSection: activeSection, onNavigate: setActiveSection } },
+  }, /*#__PURE__*/React.createElement(LessonContext.Provider, { value: { activeSection: activeSection, onNavigate: setActiveSection, sample: sampleMode } },
     /*#__PURE__*/React.createElement(LessonErrorBoundary, { key: activeSection, onHome: function() { setActiveSection("welcome"); } },
       /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
     )
   )),/*#__PURE__*/React.createElement("footer", {
+    onClickCapture: sampleMode ? function(event) {
+      if (event.target.closest("button, a")) { event.preventDefault(); event.stopPropagation(); showSamplePrompt(); }
+    } : undefined,
     className: "no-print",
     style: {
       marginTop: 20,

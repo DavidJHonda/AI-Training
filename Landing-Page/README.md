@@ -1,8 +1,35 @@
 # Course landing page plan
 
-Last updated: September 25, 2026
+Last updated: October 7, 2026
 
-Status: planning only. This directory holds the page plan, copy, scripts, and future design references until we build the page. Creating these documents does not change the current course entry page, URLs, or saved progress.
+Status: landing page and course entry flow implemented for release. The lesson source remains in `index.html`; production URLs are served through `vercel.json` rewrites.
+
+## Current implementation
+
+- `/` serves `landing.html`, styled by `landing.css`, with public reviews from `landing.js`.
+- `/course` serves the existing course application. Existing storage keys and schemas are unchanged.
+- `/course/why-learn-ai` renders the real Why Learn AI lesson in guest mode, including video, image enlargement, and the activity. Guest visits do not change the learner’s saved course position or completion record.
+- Start buttons on the landing page and sample use `start-course.js` to open an accessible native dialog. It embeds the actual course entry form, so country validation and enrollment delivery remain in one implementation. `entry-flow.css` styles the dialog, compact standalone entry, and sample shell.
+- Recognized learners bypass the dialog. New learners enter Welcome; returning learners keep their saved lesson and progress.
+- `/index.html`, root `?print=` links, and root `?review=closing-boards` links still serve the course. Asset URLs resolve from the site root.
+- The two current sample reviews remain by David’s request. He plans to replace them. Reviews show source submission dates in a scrollable region, with older-page loading when needed.
+- The saved creator illustration is used. The introduction video remains a future addition.
+- Existing search-engine noindex settings are preserved.
+
+## Local evaluation
+
+From the repository root, run `python3 scripts/serve-site.py --port 8878`, then open <http://127.0.0.1:8878/>. This server reads the same exact URL rewrite rules as Vercel. A generic static server does not implement the new URLs.
+
+The earlier `preview.html`, `sample.html`, and `entry.html` files are design drafts; edit the root-level production files for the current implementation. Localhost browser storage is separate from the public site’s storage.
+
+## Verification
+
+- New-learner dialog: required fields, valid country selection, and entry into Welcome passed on an isolated local server that intercepted enrollment POSTs.
+- Returning learner: seeded a saved Tokens lesson with two completed lessons, visited the sample, then entered `/course`; the saved progress record remained byte-for-byte unchanged and no enrollment was sent.
+- Guest sample: renders without enrollment, opens the video, and runs the activity selection. Its Start button opens the same dialog.
+- Dialog: mobile layout and Escape from inside the embedded form verified; focus returns to the Start link.
+- Legacy print URL, route compatibility, script syntax, and whitespace checks passed.
+- `design-check.sh` reports the same two pre-existing baseline mismatches as before these changes: two off-allowlist fonts and five em dashes versus an expected six. No new mismatch was introduced.
 
 ## Purpose
 

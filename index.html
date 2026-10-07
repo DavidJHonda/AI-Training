@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Keep the site out of search results for now. Delete this line when ready to be indexed. -->
@@ -997,6 +998,8 @@
     .course-toolkit-title h3{font-size:17px}
   }
 </style>
+<link rel="stylesheet" href="/entry-flow.css?v=20261007launch1">
+<script defer src="/start-course.js?v=20261007launch1"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -2338,6 +2341,7 @@ function NextCardUnlocked(props) {
 
 function NextLessonGate(props) {
   var ctx = useContext(LessonContext) || {};
+  if (ctx.sample) return null;
   var activeSection = ctx.activeSection;
   var onNavigate = ctx.onNavigate;
   var isNav = !!props.nav;
@@ -15117,6 +15121,8 @@ class LessonErrorBoundary extends React.Component {
   }
 }
 function LLMExplorer() {
+  const sampleMode = window.location.pathname.replace(/\/$/, "") === "/course/why-learn-ai";
+  const embeddedEntry = new URLSearchParams(window.location.search).get("entry") === "dialog";
   const [hasName, setHasName] = useState(function() { try { return !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
   const [signup, setSignup] = useState({ firstName: "", country: "" });
   const [expandedIllustration, setExpandedIllustration] = useState(null);
@@ -15134,6 +15140,7 @@ function LLMExplorer() {
     } catch (e) {}
   };
   useEffect(function() {
+    if (sampleMode) return;
     try {
       var pending = localStorage.getItem("llm-signup-pending");
       if (!pending) return;
@@ -15145,7 +15152,7 @@ function LLMExplorer() {
     } catch (e) {}
   }, []);
   useEffect(function() {
-    retryPendingCompletionReport();
+    if (!sampleMode) retryPendingCompletionReport();
   }, []);
   const [progress, setProgress] = useLocalStorage("llm-explorer-progress", {
     activeSection: "welcome",
@@ -15153,7 +15160,27 @@ function LLMExplorer() {
     completed: [],
     testYourselfQuiz: null
   });
-  const activeSection = progress.activeSection;
+  const activeSection = sampleMode ? "whydeeper" : progress.activeSection;
+  useEffect(function() {
+    document.body.classList.toggle("course-entry", !hasName && !sampleMode);
+    document.body.classList.toggle("entry-embedded", embeddedEntry);
+    if (embeddedEntry && hasName && window.parent !== window) {
+      window.parent.postMessage({ type: "course-entered" }, window.location.origin);
+    }
+    const escape = function(event) {
+      if (event.key === "Escape" && !event.defaultPrevented && embeddedEntry && window.parent !== window) window.parent.postMessage({ type: "course-entry-close" }, window.location.origin);
+    };
+    window.addEventListener("keydown", escape);
+    var resize;
+    var entry = document.querySelector(".gate-screen");
+    if (embeddedEntry && entry && window.parent !== window) {
+      resize = new ResizeObserver(function() {
+        window.parent.postMessage({ type: "course-entry-size", height: Math.ceil(entry.getBoundingClientRect().height) }, window.location.origin);
+      });
+      resize.observe(entry);
+    }
+    return function() { window.removeEventListener("keydown", escape); if (resize) resize.disconnect(); };
+  }, [hasName, embeddedEntry, sampleMode]);
   const closeExpandedIllustration = function() {
     setExpandedIllustration(null);
     window.setTimeout(function() {
@@ -15199,6 +15226,7 @@ function LLMExplorer() {
     openIllustrationFromEvent(event);
   };
   const setActiveSection = (id) => {
+    if (sampleMode) return;
     setProgress(prev => ({
       ...prev,
       activeSection: id,
@@ -15206,6 +15234,7 @@ function LLMExplorer() {
     }));
   };
   const completeAndNavigate = (id) => {
+    if (sampleMode) return;
     setProgress(prev => {
       const currentId = prev.activeSection;
       const completed = prev.completed || [];
@@ -15219,6 +15248,7 @@ function LLMExplorer() {
     });
   };
   const markComplete = (id) => {
+    if (sampleMode) return;
     setProgress(prev => {
       const completed = prev.completed || [];
       return isOptionalLesson(id) || completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
@@ -15231,7 +15261,7 @@ function LLMExplorer() {
     setProgress(prev => ({ ...prev, testYourselfQuiz: null }));
   };
   useEffect(function() {
-    if (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; })) {
+    if (!sampleMode && (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; }))) {
       setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
     }
   }, [progress.activeSection]);
@@ -15311,6 +15341,21 @@ function LLMExplorer() {
       })
     );
   }
+  if (sampleMode) {
+    var E = React.createElement;
+    return E("div", { className: "sample-shell" },
+      E("header", { className: "sample-topbar" },
+        E("a", { href: "/" }, "← Back to introduction"),
+        E("a", { href: "/course", className: "sample-start", "data-start-course": "" }, "Start the Course →")),
+      E("main", { id: "main-content", onClick: openIllustrationFromEvent, onKeyDown: openIllustrationFromKeyboard },
+        E(LessonContext.Provider, { value: { activeSection: "whydeeper", sample: true } },
+          E(LessonErrorBoundary, null, E(WhyDeeperSection, {})))),
+      E("section", { className: "sample-bottom", "aria-labelledby": "sample-start-title" },
+        E("h2", { id: "sample-start-title" }, "Like this? Start the Course."),
+        E("a", { href: "/course", className: "sample-start", "data-start-course": "" }, "Start the Course →"),
+        E("p", null, "Free. No account required. Learn at your own pace.")),
+      E(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }));
+  }
   const Component = SECTION_COMPONENTS[activeSection];
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   if (!Component || !currentSection) return null;
@@ -15337,46 +15382,11 @@ function LLMExplorer() {
     };
     var E = React.createElement;
     return E("div", { className: "gate-screen" },
+      E("a", { href: "/", className: "entry-back" }, "← Back to introduction"),
       E("main", { className: "gate-splash" },
-        E("header", { className: "gate-hero" },
-          E("img", { className: "gate-mark", src: "icons/logo-mark-white-cropped.png", alt: "Course logo", width: 132 }),
-          E("p", { className: "gate-eyebrow" }, "AI for High School Students"),
-          E("h1", { className: "gate-title" },
-            E("span", { className: "l1" }, "Be Smarter"),
-            E("span", { className: "l2" }, "Than the Tool")),
-          E("p", { className: "gate-tagline" }, "Built by high school students. For high school students."),
-          E("p", { className: "gate-intro" }, "We’re Luke and Nate. We built this free course to help students like us understand AI, use it well, and think for themselves."),
-          E("div", { className: "gate-go gate-hero-go" },
-            E("button", { type: "button", onClick: function() {
-              document.getElementById("gate-entry").scrollIntoView({ block: "start" });
-              document.getElementById("gate-start-title").focus({ preventScroll: true });
-            } }, "Start the course", E("span", { "aria-hidden": true }, "→"))),
-          E("p", { className: "gate-entry-note" }, "Free. No account.")),
-        E("section", { className: "gate-benefits", "aria-labelledby": "gate-benefits-title" },
-          E("div", { className: "gate-content" },
-            E("h2", { className: "gate-section-title", id: "gate-benefits-title" }, "What you’ll learn"),
-            E("ul", { className: "gate-benefit-list" },
-              [["GET RESULTS", "Learn to work with AI, ask better questions, and get better results."],
-               ["GET SMART", "See how AI learns, predicts, and produces an answer."],
-               ["GET WISE", "Spot mistakes, question confident answers, and decide what to trust."],
-               ["GET PREPARED", "Think ahead about what AI changes in school, work, and careers."],
-               ["GET AHEAD", "Put what you learn to work in school, your own projects, and whatever comes next."]].map(function(item) {
-                return E("li", { className: "gate-benefit-row", key: item[0] }, E("h3", null, item[0]), E("p", null, item[1]));
-              })),
-            E("p", { className: "gate-curiosity" }, "No experience needed. Just bring your curiosity."),
-            E("div", { className: "gate-certificate" },
-              E("button", { type: "button", className: "gate-certificate-thumb zoomable-illustration", "aria-label": "Enlarge sample certificate", "aria-haspopup": "dialog", title: "Open larger view", onClick: function(event) {
-                illustrationTriggerRef.current = event.currentTarget;
-                setExpandedIllustration({ src: "course-assets/the-final/the-final-certificate-sample.jpg?v=20260915site1", alt: "Sample certificate of completion for Be Smarter Than the Tool, with YOUR NAME and Your completion date placeholders, the website besmarterthanthetool.com, and signatures from Luke and Nate O’Brien.", kind: "image" });
-              } }, E("img", { src: "course-assets/the-final/the-final-certificate-sample.jpg?v=20260915site1", alt: "Sample course certificate with YOUR NAME placeholder and besmarterthanthetool.com in the footer", width: 1760, height: 1360 })),
-              E("div", null,
-                E("strong", null, "Build your skills. Earn your certificate."),
-                E("span", null, "Pass the final exam to earn your certificate of completion."))))),
         E("section", { className: "gate-ask", id: "gate-entry", "aria-labelledby": "gate-start-title" },
-          E("img", { className: "gate-watermark", src: "icons/logo-mark-white-cropped.png", alt: "", "aria-hidden": true }),
           E("div", { className: "gate-content" },
             E("h2", { id: "gate-start-title", tabIndex: -1 }, "Start the course"),
-            E("p", { className: "gate-device-note" }, "Read and watch on any device. For the hands-on labs, a computer works best."),
             E("div", { className: "gate-form" },
               E("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "First name or nickname", className: "gate-field gate-span2", "aria-label": "First name or nickname", autoComplete: "given-name" }),
               E(CountrySelect, { value: signup.country, onChange: function(country) { setSignup(function(prev) { return Object.assign({}, prev, { country: country }); }); } })),

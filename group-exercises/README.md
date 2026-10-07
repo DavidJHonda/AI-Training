@@ -15,10 +15,37 @@ course order can change.
 | In Your Hands | `control` | Prompetition | [Activity](in-your-hands/prompetition.html) |
 | Beyond the New Average | `whybother` | Five discussion questions | Inline in `WhyBotherSection` in `index.html`; no standalone page |
 | Learn with AI | `studying` | Teach Us Something Ridiculous | Inline `RidiculousStudyGroupExercise` in `index.html`; two blanks build a prompt for ChatGPT Study mode |
+| AI Is Different | `aivscode` | Five discussion questions about AI’s kryptonite and guardrails | Inline in `AIvsCodeSection` in `index.html`; no standalone page |
+| Where AI Works Best | `whatitdoesbest` | Five discussion questions about applying AI’s four strengths | Inline in `WhatItDoesBestSection` in `index.html`; no standalone page |
+| Your Home Base | `modelselection` | Find Your Match | [Activity](your-home-base/find-your-match.html); shared `HomeBaseGroupExercise` introduction in the lesson and directory |
+| Questions Matter | `questionsvaluable` | Make the Question Better | [Activity](questions-matter/make-the-question-better.html); shared `QuestionsMatterGroupExercise` introduction in the lesson and directory |
 
 An exercise may support several lessons, but its file has one home. Link to the
 same file from the lesson and the Group Exercises directory page. Update this
 table when adding an exercise or changing its home lesson.
+
+## Discussion question format
+
+Use **Beyond the New Average** (`WhyBotherSection` in `index.html`) as the model.
+Each discussion exercise offers exactly five questions inside `GroupExercise`
+using `DiscussionQuestions`. Include a main question plus optional short context
+and a follow-up. The introduction lets the group leader choose which questions
+to discuss and how to discuss them. Keep the disclosure optional, collapsed by
+default, and below the lesson’s individual activity.
+
+## Activity instruction format
+
+Activity-based lesson exercises use the shared `GroupActivityCard` through
+`GroupExercise` or `StandaloneGroupExercise` in `index.html`. Keep the introduction
+above the mint frame. Inside the white card, use a title with a divider, numbered
+instruction rows with green serif numerals, and a tinted footer containing setup
+details and the launch link. Supporting notes belong below the steps, without a
+number. Footer details can include an existing duration, equipment, or round count;
+do not invent a time estimate. On phones, the footer stacks above a full-width button.
+
+Learn with AI keeps its prompt builder between the steps and the footer, with
+**Open Study Mode** as its launch label. Discussion questions retain their separate
+five-question format. See [Page components](../docs/components/page-components.md#groupexercise).
 
 ## Existing activities awaiting lesson placement
 
@@ -42,7 +69,10 @@ HTML and any future activity assets belong together in those folders.
 - The four original root HTML files are compatibility redirects, not editable
   activity sources. Edit the versions in the subfolders. Keep the redirects so
   existing bookmarks and previously generated previews continue to work.
-- When nesting an activity, verify its icon, image, and course-return paths.
+- Standalone group exercises open in a new tab. Finish screens say “Close this
+  tab to return to the course.” Keep replay and within-activity controls, but do
+  not add course-return links or change the course’s saved navigation state.
+- When nesting an activity, verify its icon, image, and launch paths.
 
 ## Folder layout
 
@@ -69,6 +99,10 @@ group-exercises/
     prompetition.html
     *.jpg
     generation-prompts.md
+  your-home-base/
+    find-your-match.html
+  questions-matter/
+    make-the-question-better.html
 ```
 
 The story and discussion scenario activities have inline styles/scripts and no

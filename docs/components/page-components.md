@@ -82,7 +82,13 @@ internal title.
 
 Every TRY IT supplies an `instructions` array to `InteractiveBox`. The shell renders
 the ordered steps at the top of the activity surface, before the interactive
-content. LAB hints and progress counters remain inside the box. Instructions
+content. Each step has a solid green circle with a white sans-serif number and
+body-sized text aligned beside it. Wrapped lines stay aligned with the text,
+not the number. The list uses the available width, with compact spacing between
+steps and a 24 px gap before the activity content. Preserve semantic ordered-list
+markup and bold button labels. This circle treatment applies to TRY IT instructions;
+LABs and the separate Group Exercise formats keep their own styling.
+LAB hints and progress counters remain inside the box. Instructions
 should be short imperative actions that explain how to complete the activity; do not
 repeat the lesson or use a hand-styled `<ol>`.
 
@@ -108,15 +114,40 @@ and expanded state use native disclosure semantics.
 
 Pass the introduction through `lead`; it appears on the page background above the mint activity box
 only when the disclosure is expanded. It uses the
-same body typography as TRY IT introductions. Expanded content sits in a shared white `InnerCard`. Pass the
-authored title and instructions as children, without repeating the introduction. The component adds no completion
+same body typography as TRY IT introductions. Expanded content sits in a shared white `InnerCard`.
+For an activity, pass `title`, `instructions`, optional `note`, `meta`, and `href`
+to render the shared `GroupActivityCard`: a title separated by a mint hairline,
+ordered rows with green serif numerals, and a lightly tinted footer pairing setup
+details with the launch link. Keep supporting notes outside the numbered steps.
+Only include a duration when one has been authored; equipment or round counts
+can supply the footer details otherwise. The footer stacks on small screens.
+Optional children, such as the Learn with AI prompt builder, appear after the
+steps and before the footer. `launchLabel` defaults to Start Now.
+When a step tells someone to select a named button, bold the button's label with
+`strong`, matching the TRY IT instruction convention. Use the wording shown on
+the button and keep the surrounding direction in normal weight.
+Discussion exercises continue to pass `DiscussionQuestions` as children without
+an activity title. The component adds no completion
 requirement and is excluded from printing. The `label` prop can replace the summary
 text, and `optional: false` hides the Optional label for an informational use.
 The `boxed: true` prop keeps a mint background around the summary as well.
 Welcome uses the boxed variant for **Taking the Course as a Group?** immediately after
 How the Course Works. Welcome has no TRY IT or end-of-lesson group exercise.
-Why Learn AI? and Beyond the New Average each include five discussion questions directly in their disclosures.
-Discussion exercises offer five questions so leaders can choose among them.
+Why Learn AI?, Beyond the New Average, AI Is Different, and Where AI Works Best each include five discussion questions directly in their disclosures.
+Discussion exercises use exactly five questions so leaders can choose among them.
+Use Beyond the New Average (`WhyBotherSection`) as the model for this format.
+Your Home Base includes **Find Your Match**, a twelve-round room activity linked
+through `HomeBaseGroupExercise` in both the lesson and Group Exercises directory.
+It opens directly on the first scenario, with instructions on the lesson page.
+It uses three app areas, shuffled scenarios, a Best Match reveal button, and
+the same elimination, rejoin, and shared-win rules as Be the Last Person Standing.
+Students can participate from their seats using one, two, or three fingers.
+Questions Matter includes **Make the Question Better**, a ten-round AI club room
+activity linked through `QuestionsMatterGroupExercise` in the lesson and directory.
+Four room areas represent Open-Minded, Specific, On Target, and Open-Ended.
+Each situation asks which quality would improve the question most; the reveal
+explains why, gives a stronger question, and tells incorrect players to sit down.
+It uses the same shuffled rounds, elimination, rejoin, and shared-win rules.
 Learn with AI includes **Teach Us Something Ridiculous** in its optional disclosure.
 The leader collects suggestions and a verbal or show-of-hands vote, then enters a
 subject and ridiculous situation. The assembled prompt uses `CopyableLabPrompt`,
@@ -131,7 +162,9 @@ with the existing instructions and a Start Now link that opens the activity in a
 Its content is shared with the entry on the Group Exercises page. Add group exercises
 where they contribute to the lesson; they are not required in every lesson.
 Discussion questions can appear directly in the disclosure; standalone interactive
-activities open in a new tab. Store standalone pages in `group-exercises/<lesson-slug>/`
+activities open in a new tab. Their finish screens say “Close this tab to return
+to the course.” Keep replay and within-activity controls instead of links that
+load a second copy of the course. Store standalone pages in `group-exercises/<lesson-slug>/`
 with each activity’s pictures and source notes beside its HTML,
 and record their home lessons in [the exercise map](../../group-exercises/README.md).
 How an LLM Works includes **One Word at a Time**,
@@ -139,9 +172,12 @@ linking to `group-exercises/how-an-llm-works/one-word-at-a-time.html`. A shared 
 word per turn, supports undo, saves two stories in session storage, and compares
 them from the same opening. The reflection connects each new word to what comes next in an LLM.
 
-`StandaloneGroupExercise` supplies the shared title, instructions, and new-tab
-launch link for **Spot What’s Wrong** (Does AI Think?) and **Prompetition**
-(In Your Hands). Their HTML, pictures, and source notes live together in the
+`StandaloneGroupExercise` passes the activity props to `GroupExercise` for the
+shared card and new-tab launch link. This format is used by **Be the Last Person
+Standing**, **One Word at a Time**, **Spot What’s Wrong**, **Prompetition**,
+**Find Your Match**, and **Make the Question Better**. **Teach Us Something
+Ridiculous** uses the same card with its inline prompt builder and Open Study Mode
+footer link. The standalone activities’ HTML, pictures, and source notes live together in the
 corresponding lesson folders. Spot What’s Wrong uses 12 verified available puzzles,
 manual clue reveals, image enlargement, and replay. Prompetition uses three targets,
 detail checklists and optional

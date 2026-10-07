@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>Find Your Match · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb; --card: #fff; --ink: #0e0a1f; --inkSoft: #3a3550;
+      --inkMuted: #6e6986; --primaryDeep: #4c2dff; --rule: #e7e3f2;
+      --tryBand: #eef4eb; --tryAccent: #2f7d4f; --tryRule: rgba(63, 107, 63, .18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, .05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+    button, a { font: inherit; }
+    button, .button { min-height: 46px; padding: 12px 22px; border: 0; border-radius: 10px; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--primaryDeep); outline-offset: 4px; }
+    .primary { background: var(--ink); color: var(--card); }
+    .secondary { background: var(--card); color: var(--inkSoft); box-shadow: var(--shadowSoft); }
+    .shell { max-width: 1440px; margin: auto; padding: clamp(16px, 3vw, 40px); }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 24px; }
+    .eyebrow { margin: 0 0 8px; color: var(--tryAccent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.1; }
+    h2 { margin: 0 0 20px; font-size: clamp(25px, 3vw, 40px); line-height: 1.3; }
+    p, li { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.65; color: var(--inkSoft); }
+    .card { background: var(--tryBand); border-radius: 20px; padding: clamp(20px, 3vw, 40px); }
+    .inner { padding: clamp(22px, 3vw, 42px); background: var(--card); border-radius: 14px; box-shadow: var(--shadowSoft); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 66px 0 22px; }
+    .app { padding: 16px; display: flex; align-items: center; justify-content: center; gap: 14px; border: 2px solid transparent; border-radius: 12px; background: var(--card); box-shadow: var(--shadowSoft); font-size: clamp(19px, 2.3vw, 30px); font-weight: 800; }
+    .app-copy { display: flex; flex-direction: column; gap: 5px; text-align: center; min-width: 0; }
+    .app-principle { color: var(--inkSoft); font-size: clamp(13px, 1.4vw, 18px); font-weight: 400; font-style: italic; line-height: 1.4; }
+    .number { font-family: var(--serif); font-size: 1.5em; font-weight: 400; color: var(--tryAccent); }
+    .app.matched { border-color: var(--tryAccent); }
+    .round-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    #progress { margin: 0; font-size: 15px; font-weight: 800; color: var(--tryAccent); }
+    .round-top p:last-child { margin: 0; font-size: 15px; }
+    #scenario { font-size: clamp(25px, 3vw, 43px); line-height: 1.45; font-weight: 700; margin: 0; }
+    .answer { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--tryRule); }
+    .answer h2 { color: var(--tryAccent); font-size: clamp(23px, 2.5vw, 34px); margin-bottom: 8px; }
+    .answer p { margin: 0; }
+    .answer .sit-instruction { color: var(--tryAccent); font-weight: 800; margin-bottom: 8px; }
+    #finish-view { text-align: center; }
+    #finish-view .actions { justify-content: center; }
+    #finish-view p { max-width: 60ch; margin-left: auto; margin-right: auto; }
+    #finish-title { font-family: var(--serif); font-size: clamp(38px, 5vw, 64px); font-weight: 400; }
+    @media (max-width: 600px) {
+      header { align-items: flex-start; }
+      #fullscreen { font-size: 12px; padding: 10px; }
+      .apps { gap: 8px; }
+      .app { padding: 10px 6px; gap: 5px; font-size: 16px; }
+      .actions button, .actions a { flex: 1 1 auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><p class="eyebrow">Your Home Base · Group Exercise</p><h1>Find Your Match</h1></div>
+      <button class="secondary" id="fullscreen" type="button">Enter Full Screen</button>
+    </header>
+
+    <section class="card" id="round-view" aria-labelledby="scenario" hidden>
+      <div class="round-top"><p id="progress"></p><p>Which app’s underlying idea best matches this activity?</p></div>
+      <div class="inner">
+        <h2 id="scenario" tabindex="-1"></h2>
+        <section class="answer" id="answer" aria-labelledby="answer-title" hidden>
+          <h2 id="answer-title" tabindex="-1" aria-describedby="sit-instruction reason"></h2>
+          <p class="sit-instruction" id="sit-instruction"></p>
+          <p id="reason"></p>
+        </section>
+      </div>
+      <div class="apps" aria-label="Choose your room area">
+        <div class="app" id="app-chatgpt"><span class="number">1</span><span class="app-copy"><span>ChatGPT</span><em class="app-principle">The Anything Box</em></span></div>
+        <div class="app" id="app-claude"><span class="number">2</span><span class="app-copy"><span>Claude</span><em class="app-principle">The Thinking Partner</em></span></div>
+        <div class="app" id="app-gemini"><span class="number">3</span><span class="app-copy"><span>Gemini</span><em class="app-principle">Built Into Google</em></span></div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="reveal" type="button">Best Match</button>
+        <button class="primary" id="next" type="button" hidden>Next Scenario</button>
+      </div>
+    </section>
+
+    <section class="card" id="finish-view" aria-labelledby="finish-title" hidden>
+      <div class="inner">
+        <p class="eyebrow">Game Complete</p>
+        <h2 id="finish-title" tabindex="-1">Pick a home base. Learn it deeply.</h2>
+        <p id="finish-status"></p>
+        <p>The kind of help you need changes which app is the best match. Their abilities overlap, and the skills you build transfer.</p>
+        <p>Close this tab to return to the course.</p>
+        <div class="actions"><button class="primary" id="again" type="button">Play Again</button></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      "use strict";
+      var profiles = {
+        chatgpt: "ChatGPT: The Anything Box",
+        claude: "Claude: The Thinking Partner",
+        gemini: "Gemini: Built Into Google"
+      };
+      var scenarios = [
+        { text: "I’m starting a lawn-care business. I need a name, a logo, a flyer, and a simple website.", app: "chatgpt", reason: "Several different kinds of creation fit the Anything Box." },
+        { text: "My physics answer is wrong, but I don’t know where I went off track. I want help examining my reasoning one step at a time.", app: "claude", reason: "Working through difficult reasoning fits the Thinking Partner." },
+        { text: "Our coach sent tournament details by email. The packing list is in a shared document, and the games are on my calendar. Help me get ready.", app: "gemini", reason: "The work connects information across tools the student already uses." },
+        { text: "I have an idea for a summer business. Before I spend money, I want someone to challenge my assumptions and find weaknesses in the plan.", app: "claude", reason: "The main job is examining an idea and its tradeoffs." },
+        { text: "Our club needs a mascot picture, a welcome message, and a short trivia game for its first meeting.", app: "chatgpt", reason: "A mix of visual, writing, and interactive work fits the Anything Box." },
+        { text: "College information is scattered across my inbox, saved brochures, and a comparison spreadsheet. Help me bring it together.", app: "gemini", reason: "The starting point is information already spread across connected work." },
+        { text: "Two colleges appeal to me for different reasons. I want to talk through what matters most and what I’d be giving up with each choice.", app: "claude", reason: "Comparing priorities and tradeoffs fits the Thinking Partner." },
+        { text: "I want to turn an inside joke into a birthday card, a funny picture, and a tiny game my friend can play.", app: "chatgpt", reason: "One idea becomes several different types of output." },
+        { text: "My group’s presentation is tomorrow. Our draft, teacher feedback, and teammates’ updates are in different places. Help me see what still needs doing.", app: "gemini", reason: "The job depends on bringing existing work and communications together." },
+        { text: "I’m preparing for a debate. I want to test my argument against the strongest opposing case and find where my evidence falls short.", app: "claude", reason: "Careful examination of an argument fits the Thinking Partner." },
+        { text: "I’m making a science-fiction game. I need character pictures, dialogue, and help writing the code.", app: "chatgpt", reason: "The task spans images, writing, and coding." },
+        { text: "I’m planning college visits. The confirmations are in my email, my questions are in saved notes, and my available dates are on my calendar.", app: "gemini", reason: "The useful connection is between messages, documents, and schedules." }
+      ];
+      var order = [], current = 0, revealed = false;
+      var get = function (id) { return document.getElementById(id); };
+      function showView(name) {
+        ["round", "finish"].forEach(function (view) { get(view + "-view").hidden = view !== name; });
+      }
+      function showRound() {
+        revealed = false;
+        get("scenario").textContent = order[current].text;
+        get("progress").textContent = "Round " + (current + 1) + " of " + order.length;
+        get("answer").hidden = true;
+        get("answer-title").textContent = "";
+        get("sit-instruction").textContent = "";
+        get("reason").textContent = "";
+        get("reveal").hidden = false;
+        get("next").hidden = true;
+        get("next").textContent = current === order.length - 1 ? "Finish Game" : "Next Scenario";
+        Object.keys(profiles).forEach(function (app) { get("app-" + app).classList.remove("matched"); });
+        showView("round");
+        get("scenario").focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+      function start() {
+        order = scenarios.slice();
+        for (var i = order.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = order[i]; order[i] = order[j]; order[j] = temp;
+        }
+        current = 0;
+        showRound();
+      }
+      function finish() {
+        showView("finish");
+        get("finish-status").textContent = "If one player remains, they win. If several remain, they share the win. If everyone went out, play again for a rematch.";
+        get("finish-title").focus();
+      }
+      get("again").addEventListener("click", start);
+      get("reveal").addEventListener("click", function () {
+        if (revealed) return;
+        revealed = true;
+        var round = order[current];
+        get("answer-title").textContent = "Best Match is " + profiles[round.app];
+        var otherApps = Object.keys(profiles).filter(function (app) { return app !== round.app; }).map(function (app) { return profiles[app].split(":")[0]; });
+        get("sit-instruction").textContent = "Sit down if you chose " + otherApps.join(" or ") + ".";
+        get("reason").textContent = round.reason;
+        get("answer").hidden = false;
+        get("app-" + round.app).classList.add("matched");
+        get("reveal").hidden = true;
+        get("next").hidden = false;
+        get("answer-title").focus({ preventScroll: true });
+      });
+      get("next").addEventListener("click", function () {
+        if (!revealed) return;
+        if (current === order.length - 1) finish();
+        else { current++; showRound(); }
+      });
+      var fullButton = get("fullscreen");
+      if (!document.fullscreenEnabled) fullButton.hidden = true;
+      fullButton.addEventListener("click", async function () {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else await document.documentElement.requestFullscreen();
+        } catch (error) { fullButton.textContent = "Full Screen Unavailable"; }
+      });
+      document.addEventListener("fullscreenchange", function () { fullButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen"; });
+      start();
+    }());
+  </script>
+</body>
+</html>

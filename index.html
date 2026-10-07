@@ -451,6 +451,17 @@
     .using-course-modal h2{ font-size:27px; }
   }
   .oay-input::placeholder{ color:#aaa6b5; opacity:1; font-weight:500; }
+  /* TRY IT directions use numbered circles above the activity content. */
+  .activity-instructions--try { list-style: none; margin: 0; padding: 0 4px; color: var(--inkSoft); font-family: var(--sans); font-size: 17px; line-height: 1.5; }
+  .activity-instructions--try > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: 12px; }
+  .activity-instructions--try > li + li { margin-top: 10px; }
+  .activity-instruction-number { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--tryAccent); color: #fff; font-size: 15px; font-weight: 700; line-height: 1; }
+  .activity-instruction-copy { padding-top: 1px; }
+  .activity-instruction-copy strong { color: var(--ink); }
+  @media (max-width: 520px) {
+    .activity-instructions--try { padding: 0; }
+    .activity-instructions--try > li { gap: 10px; }
+  }
   /* Group exercise headings reveal a mint activity surface below. */
   .group-exercise { margin: 0 0 var(--blockGap); color: var(--inkSoft); font-family: var(--sans); }
   .group-exercise > summary { display: block; min-height: 44px; box-sizing: border-box; padding: 0; border-radius: 4px; cursor: pointer; list-style: none; }
@@ -473,6 +484,30 @@
     .group-exercise--boxed .group-exercise-content { padding: 0 20px 20px; }
   }
   .discussion-questions { list-style: none; margin: 0; padding: 0; }
+  .group-activity-title { margin: 0; padding: 24px 30px; border-bottom: 1px solid var(--tryRule); color: var(--ink); font-size: 26px; font-weight: 700; line-height: 1.25; letter-spacing: -.025em; }
+  .group-activity-body { padding: 6px 30px 24px; }
+  .group-activity-steps { list-style: none; margin: 0; padding: 0; }
+  .group-activity-step { display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: start; gap: 22px; padding: 16px 0; }
+  .group-activity-step + .group-activity-step { border-top: 1px solid var(--tryRule); }
+  .group-activity-number { color: var(--tryAccent); font-family: var(--serif); font-size: 38px; font-weight: 400; line-height: 1; }
+  .group-activity-copy { padding-top: 3px; font-size: 17px; line-height: 1.55; }
+  .group-activity-note { margin: 8px 0 0; color: var(--inkMuted); font-size: 15px; line-height: 1.6; }
+  .group-activity-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding: 18px 30px; border-top: 1px solid var(--tryRule); border-radius: 0 0 14px 14px; background: color-mix(in srgb, var(--tryBand) 65%, var(--card)); }
+  .group-activity-meta { flex: 1 1 220px; margin: 0; color: var(--inkSoft); font-size: 14px; line-height: 1.6; }
+  .group-activity-launch { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; box-sizing: border-box; min-height: 44px; padding: 13px 22px; border-radius: 10px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 700; line-height: 1.4; text-decoration: none; }
+  .group-activity-launch:hover { background: var(--inkSoft); }
+  .group-activity-launch:focus-visible { outline: 3px solid var(--tryAccent); outline-offset: 3px; }
+  @media (max-width: 520px) {
+    .group-exercise--activity .group-exercise-content { padding: 14px; }
+    .group-activity-title { padding: 20px; font-size: 22px; }
+    .group-activity-body { padding: 4px 20px 20px; }
+    .group-activity-step { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; padding: 14px 0; }
+    .group-activity-number { font-size: 32px; }
+    .group-activity-copy { padding-top: 0; font-size: 16px; }
+    .group-activity-footer { padding: 18px 20px; }
+    .group-activity-meta { flex-basis: 100%; }
+    .group-activity-launch { width: 100%; }
+  }
   .discussion-question { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 24px; padding: 22px 8px; }
   .discussion-question + .discussion-question { border-top: 1px solid var(--tryRule); }
   .discussion-question-number { font-family: var(--serif); font-size: 44px; font-weight: 400; line-height: 1; color: var(--tryAccent); }
@@ -1975,9 +2010,11 @@ function LabeledCardStack(props) {
 function ActivityInstructions(props) {
   var steps = props.steps || [];
   if (!steps.length) return null;
+  var circles = props.variant === "try";
   return React.createElement("ol", {
-    className: "activity-instructions no-print",
-    style: {
+    className: "activity-instructions no-print" + (circles ? " activity-instructions--try" : ""),
+    role: "list",
+    style: circles ? undefined : {
       fontFamily: "var(--sans)",
       fontSize: 17,
       lineHeight: 1.65,
@@ -1989,8 +2026,10 @@ function ActivityInstructions(props) {
   }, steps.map(function(step, i) {
     return React.createElement("li", {
       key: i,
-      style: { marginBottom: i === steps.length - 1 ? 0 : 6, lineHeight: 1.4 }
-    }, step);
+      style: circles ? undefined : { marginBottom: i === steps.length - 1 ? 0 : 6, lineHeight: 1.4 }
+    }, circles ? React.createElement(React.Fragment, null,
+      React.createElement("span", { className: "activity-instruction-number", "aria-hidden": true }, String(i + 1)),
+      React.createElement("div", { className: "activity-instruction-copy" }, step)) : step);
   }));
 }
 
@@ -2062,7 +2101,7 @@ function InteractiveBox(props) {
     topRow,
     hasInstructions ? /*#__PURE__*/React.createElement("div", {
       style: { marginTop: hasTextStack || hasAction ? 18 : 0 }
-    }, /*#__PURE__*/React.createElement(ActivityInstructions, { steps: props.instructions })) : null,
+    }, /*#__PURE__*/React.createElement(ActivityInstructions, { steps: props.instructions, variant: props.leadLabel ? undefined : variant })) : null,
     hasChildren ? /*#__PURE__*/React.createElement("div", {
       style: { marginTop: hasInstructions ? 24 : (hasTextStack || hasAction ? 18 : 0) }
     }, props.children) : null
@@ -2101,7 +2140,7 @@ function ActivityLead(props) {
 function GroupExercise(props) {
   var E = React.createElement;
   var headingId = props.id ? props.id + "-heading" : undefined;
-  return E("details", { id: props.id, className: "group-exercise no-print" + (props.boxed ? " group-exercise--boxed" : "") },
+  return E("details", { id: props.id, className: "group-exercise no-print" + (props.boxed ? " group-exercise--boxed" : "") + (props.title ? " group-exercise--activity" : "") },
     E("summary", { "aria-labelledby": headingId },
       E("span", { id: headingId, className: "group-exercise-summary-row" },
         E("svg", { className: "group-exercise-chevron", viewBox: "0 0 20 20", fill: "none", "aria-hidden": true, focusable: "false" },
@@ -2111,19 +2150,31 @@ function GroupExercise(props) {
           props.optional !== false ? E("span", { className: "group-exercise-optional" }, "Optional") : null))),
     props.lead ? E(BodyP, { style: { marginTop: 12 } }, props.lead) : null,
     E("div", { className: "group-exercise-content" },
-      E(InnerCard, { style: { minHeight: 88, boxSizing: "border-box" } }, props.children)));
+      props.title ? E(GroupActivityCard, props, props.children) : E(InnerCard, { style: { minHeight: 88, boxSizing: "border-box" } }, props.children)));
+}
+function GroupActivityCard(props) {
+  var E = React.createElement;
+  return E(InnerCard, { style: { padding: 0 } },
+    E("h3", { className: "group-activity-title" }, props.title),
+    E("div", { className: "group-activity-body" },
+      E("ol", { className: "group-activity-steps", role: "list" },
+        props.instructions.map(function(step, i) {
+          return E("li", { key: i, className: "group-activity-step" },
+            E("span", { className: "group-activity-number", "aria-hidden": true }, String(i + 1)),
+            E("div", { className: "group-activity-copy" }, step));
+        })),
+      props.note ? E("p", { className: "group-activity-note" }, props.note) : null,
+      props.children),
+    E("div", { className: "group-activity-footer" },
+      props.meta ? E("p", { className: "group-activity-meta" }, props.meta) : null,
+      props.href ? E("a", {
+        className: "group-activity-launch",
+        href: props.href, target: "_blank", rel: "noopener noreferrer",
+        "aria-label": (props.launchLabel || "Start " + props.title) + " (opens in a new tab)"
+      }, props.launchLabel || "Start Now", E("span", { "aria-hidden": true }, "↗")) : null));
 }
 function StandaloneGroupExercise(props) {
-  var E = React.createElement;
-  return E(GroupExercise, { id: props.id, lead: props.lead },
-    E("h3", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, margin: "0 0 18px" } }, props.title),
-    E(ActivityInstructions, { steps: props.instructions }),
-    E("div", { style: { marginTop: 24 } },
-      E("a", {
-        href: props.href, target: "_blank", rel: "noopener noreferrer",
-        "aria-label": "Start " + props.title + " (opens in a new tab)",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44 }
-      }, "Start Now ↗")));
+  return React.createElement(GroupExercise, props);
 }
 function DiscussionQuestions(props) {
   var E = React.createElement;
@@ -3872,20 +3923,19 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "A full paragraph runs this loop many times, fast enough to look like thought."),
     closeBoard("aihistory"),
     /*#__PURE__*/E(ContinueTheStoryLab, null),
-    E(GroupExercise, { id: "aihistory-group-exercise", lead: "Build a story together, one word at a time. Each person adds a word that fits what came before. Start again with the same opening and see where your choices take you." },
-      E("h3", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, margin: "0 0 18px" } }, "One Word at a Time"),
-      E(ActivityInstructions, { steps: [
+    E(StandaloneGroupExercise, {
+      id: "aihistory-group-exercise",
+      title: "One Word at a Time",
+      lead: "Build a story together, one word at a time. Each person adds a word that fits what came before. Start again with the same opening and see where your choices take you.",
+      instructions: [
         "Choose someone to type the words on a shared screen.",
         "Start with “When I opened my backpack, I found…” and take turns adding exactly one word. Each word must fit the story so far.",
-        "After a few rounds around the group, select Start Second Story. Use the same opening and take turns again.",
-        "Select Compare Stories. Which word changed the direction of your story the most?"
-      ] }),
-      E("div", { style: { marginTop: 24 } },
-        E("a", {
-          href: "group-exercises/how-an-llm-works/one-word-at-a-time.html", target: "_blank", rel: "noopener noreferrer",
-          "aria-label": "Start One Word at a Time (opens in a new tab)",
-          style: { display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44 }
-        }, "Start Now ↗"))),
+        E("span", null, "After a few rounds around the group, select ", E("strong", null, "Start Second Story"), ". Use the same opening and take turns again."),
+        E("span", null, "Select ", E("strong", null, "Compare Stories"), ". Which word changed the direction of your story the most?")
+      ],
+      meta: "One shared classroom screen",
+      href: "group-exercises/how-an-llm-works/one-word-at-a-time.html"
+    }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
@@ -4750,9 +4800,9 @@ function AIMultiplierTryIt(props) {
     lead: "What does it look like when AI multiplies your effort? Try this quick game. The multipliers are made up, but you still supply the effort.",
     instructions: [
       "Select one of the three goals below.",
-      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 1:Just you"), "."),
+      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 1: Just you"), "."),
       React.createElement("span", null, "After the countdown, tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can."),
-      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 2:AI has your back"), "."),
+      React.createElement("span", null, "Select ", React.createElement("strong", null, "Round 2: AI has your back"), "."),
       React.createElement("span", null, "After the countdown, tap ", React.createElement("strong", null, "Your Effort"), " as fast as you can."),
       "Compare the scores and see what changed with AI."
     ]
@@ -4760,37 +4810,58 @@ function AIMultiplierTryIt(props) {
 }
 
 function LastPersonStandingGroupExercise(props) {
-  var E = React.createElement;
-  var activity = {
-      variant: "try",
-      surface: "mint",
-      title: "Be the Last Person Standing",
-      leadLabel: "Group Exercise 01",
-      lead: "AI can create images that are difficult to distinguish from real photographs. You’ll see fifteen pairs of pictures in a shuffled order. Each pair contains one real photograph and one AI-generated image. Can you tell which is real?",
-      instructions: [
-        "Choose one side of the room for picture A and the other for picture B.",
-        "You have 15 seconds to move to the side of the room for the picture you think is real. When time runs out, both pictures blur.",
-        "The group leader clicks the picture to see the results.",
-        "If you guessed incorrectly, sit down. Then, repeat until one person is standing.",
-        "If everyone is out, everyone stands up for the next round. If several people remain after the final round, they share the win.",
-        "Seated players can keep guessing for fun."
-      ]
-    };
-  var launch = E(React.Fragment, null,
-    E("p", { style: { fontSize: 15, color: "var(--inkMuted)", margin: "0 0 10px" } }, "About 10–15 minutes · One shared classroom screen"),
-      props.disclosure ? null : E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 18px", fontWeight: 700 } }, "Featured in What Is AI? Also works well alongside Fake Trap."),
-      E("a", {
-        href: "group-exercises/what-is-ai/be-the-last-person-standing.html",
-        target: "_blank",
-        rel: "noopener noreferrer",
-        "aria-label": "Start Be the Last Person Standing (opens in a new tab)",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44, cursor: "pointer" }
-      }, "Start Now ↗"));
-  if (!props.disclosure) return E(InteractiveBox, activity, launch);
-  return E(GroupExercise, { id: "llms-group-exercise", lead: activity.lead },
-    E("h3", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, margin: "0 0 12px" } }, activity.title),
-    E(ActivityInstructions, { steps: activity.instructions }),
-    E("div", { style: { marginTop: 24 } }, launch));
+  return React.createElement(StandaloneGroupExercise, {
+    id: "llms-group-exercise",
+    title: "Be the Last Person Standing",
+    lead: "AI can create images that are difficult to distinguish from real photographs. You’ll see fifteen pairs of pictures in a shuffled order. Each pair contains one real photograph and one AI-generated image. Can you tell which is real?",
+    instructions: [
+      "Choose one side of the room for picture A and the other for picture B.",
+      "You have 15 seconds to move to the side of the room for the picture you think is real. When time runs out, both pictures blur.",
+      "The group leader clicks the picture to see the results.",
+      "If you guessed incorrectly, sit down. Then, repeat until one person is standing.",
+      "If everyone is out, everyone stands up for the next round. If several people remain after the final round, they share the win."
+    ],
+    note: "Seated players can keep guessing for fun." + (props.disclosure ? "" : " Featured in What Is AI? Also works well alongside Fake Trap."),
+    meta: "About 10–15 minutes · One shared classroom screen",
+    href: "group-exercises/what-is-ai/be-the-last-person-standing.html"
+  });
+}
+
+function QuestionsMatterGroupExercise() {
+  return React.createElement(StandaloneGroupExercise, {
+    id: "questionsvaluable-group-exercise",
+    title: "Make the Question Better",
+    lead: "Your AI club has a question. Which quality would improve it most for this situation? Consider the purpose, move to your choice, and see who stays in the game.",
+    instructions: [
+      "Choose four areas of the room: 1 for Open-Minded, 2 for Specific, 3 for On Target, and 4 for Open-Ended.",
+      "The leader shows a situation and a question. Move to the area for the quality that would improve the question most. You can also play from your seat by holding up one, two, three, or four fingers.",
+      "Judge the question in its situation. A broad question can be useful for brainstorming. Choose the biggest improvement, even when more than one quality could help.",
+      React.createElement("span", null, "Once everyone has chosen, the leader selects ", React.createElement("strong", null, "Best Improvement"), " and reads the explanation and stronger question."),
+      "If you guessed incorrectly, sit out the remaining rounds. Keep playing until one person remains. You can stop there or play the remaining situations for fun.",
+      "If everyone is out, everyone rejoins for the next round. If several players remain after the final round, they share the win."
+    ],
+    note: "Players who are out can keep guessing for fun.",
+    meta: "10 shuffled AI club situations · One shared classroom screen",
+    href: "group-exercises/questions-matter/make-the-question-better.html"
+  });
+}
+
+function HomeBaseGroupExercise() {
+  return React.createElement(StandaloneGroupExercise, {
+    id: "modelselection-group-exercise",
+    title: "Find Your Match",
+    lead: "Which app’s underlying idea best matches the activity? Move to your choice, then see who stays in the game. All three might help. Match the activity to the app’s guiding idea from the lesson.",
+    instructions: [
+      "Choose three areas of the room: 1 for ChatGPT, 2 for Claude, and 3 for Gemini. Treat all three as available choices for this game.",
+      "The leader shows each scenario. Move to the area for the app you think is the best match. You can also play from your seat by holding up one, two, or three fingers.",
+      React.createElement("span", null, "Once everyone has chosen, the leader selects ", React.createElement("strong", null, "Best Match"), " and reads the short explanation."),
+      "If you guessed incorrectly, sit out the remaining rounds. Keep playing until one person remains. You can stop there or play the remaining scenarios for fun.",
+      "If everyone is out, everyone rejoins for the next round. If several players remain after the final round, they share the win."
+    ],
+    note: "Players who are out can keep guessing for fun.",
+    meta: "12 shuffled scenarios · One shared classroom screen",
+    href: "group-exercises/your-home-base/find-your-match.html"
+  });
 }
 
 function WhyDeeperSection(props) {
@@ -4959,12 +5030,13 @@ function DoesAIThinkSection(props) {
     E(TwentyQuestionsLab, null),
     E(StandaloneGroupExercise, {
       id: "doesaithink-group-exercise", title: "Spot What’s Wrong",
+      meta: "12 pictures · One shared classroom screen",
       href: "group-exercises/does-ai-think/spot-whats-wrong.html",
       lead: "Look closely at twelve pictures with deliberately unusual details. Can your group spot what does not make sense and explain why?",
       instructions: [
         "Show each picture on a shared screen. Select it to enlarge it if needed.",
         "Find something that does not make sense. Explain what you noticed and why it seems wrong.",
-        "The leader selects Reveal Detail when the group is ready, then moves to the next picture.",
+        E("span", null, "The leader selects ", E("strong", null, "Reveal Detail"), " when the group is ready, then selects ", E("strong", null, "Next Picture"), "."),
         "At the end, discuss which detail was hardest to spot and what you had to know to recognize it."
       ]
     }),
@@ -5443,7 +5515,7 @@ function ControlStressGame() {
     title: "Catch What’s In Your Hands",
     lead: "Can you separate what’s in your hands from what isn’t while the pressure builds? Find out.",
     instructions: [
-      "Start the round and read each statement before the next one arrives.",
+      E("span", null, "Select ", E("strong", null, "Start the round"), " and read each statement before the next one arrives."),
       "Click only statements that are in your hands; let the rest go by.",
       "Watch the stress meter, which rises only when you make a mistake."
     ]
@@ -5499,6 +5571,7 @@ function ControlSection(props) {
     E(ControlStressGame, null),
     E(StandaloneGroupExercise, {
       id: "control-group-exercise", title: "Prompetition",
+      meta: "ChatGPT · Individual or shared devices",
       href: "group-exercises/in-your-hands/prompetition.html",
       lead: "Make something real with AI. Your challenge is to recreate a target picture using only words. You choose what to describe, how to guide the AI, and what to change. Compare your results and see which choices made the difference.",
       instructions: [
@@ -5691,6 +5764,14 @@ function AIvsCodeSection(props) {
     ),
     closeBoard("aivscode"),
     /*#__PURE__*/React.createElement(MessyNotesLab, null),
+    React.createElement(GroupExercise, { id: "aivscode-group-exercise", lead: "Can you make AI safe? Explore AI’s kryptonite and why guardrails help without getting everything right. Your group leader can choose from these five questions and decide how to discuss them." },
+      React.createElement(DiscussionQuestions, { questions: [
+        { title: "Why can’t companies just tell AI, “Never give a wrong answer”?", followUp: "Think about the difference between following written rules and answering from learned patterns." },
+        { context: "An AI refuses to help with homework because it might be helping someone cheat.", title: "Is that a good safety feature?", followUp: "When would that refusal help? When would it get in the way of learning?" },
+        { context: "You ask AI to critique your essay. It avoids saying anything negative because it’s trained to be encouraging.", title: "Is that helping you?", followUp: "What’s the difference between being supportive and saying everything is good?" },
+        { context: "An AI company adds a warning: “AI can make mistakes.”", title: "Is that enough?", followUp: "What would you expect the company to do beyond showing a warning? What responsibility does the user have?" },
+        { title: "Would you rather use an AI that sometimes refuses harmless requests or one that sometimes answers harmful requests?", followUp: "What makes that choice difficult? Could your answer depend on what the app is used for?" }
+      ] })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
@@ -6400,9 +6481,9 @@ function TrainingKitchenHelper(props) {
     variant: "try", surface: "mint", title: "Train a Kitchen Helper",
     lead: "During training, people compare an LLM’s answers and choose which ones they prefer. That feedback helps shape future answers. Now it’s your turn. Choose the answers you prefer for a pretend AI called the Kitchen Helper, then see how your choices shape its replies.",
     instructions: [
-      React.createElement("span", null, "Read both answers and choose ", React.createElement("strong", null, "A"), " or ", React.createElement("strong", null, "B"), ". There isn’t one right choice."),
+      React.createElement("span", null, "Read both answers, then select ", React.createElement("strong", null, "Choose A"), " or ", React.createElement("strong", null, "Choose B"), ". There isn’t one right choice."),
       React.createElement("span", null, "Select ", React.createElement("strong", null, "Next question"), " and repeat for all three questions."),
-      React.createElement("span", null, "Select ", React.createElement("strong", null, "Try your helper"), ", then ask both new questions."),
+      React.createElement("span", null, "Select ", React.createElement("strong", null, "Try your helper"), ", then select ", React.createElement("strong", null, "Ask this question"), " for each new question."),
       React.createElement("span", null, "Select ", React.createElement("strong", null, "See the other style"), " to compare.")
     ]
   },
@@ -8113,6 +8194,7 @@ function ModelSelectionSection(props) {
             });
           }));
       }))),
+  React.createElement(HomeBaseGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
@@ -8223,7 +8305,7 @@ function YourChoicesTryIt() {
     surface: "mint",
     title: "Regular Chat or More Help?",
     lead: "When would you start with regular chat, and when could more help? You can do this TRY IT right here, whatever options your AI app offers.",
-    instructions: ["Choose the better fit for each situation: Regular Chat or Needs More.", "Read the feedback. If you miss one, try the other choice."],
+    instructions: [E("span", null, "Choose the better fit for each situation: ", E("strong", null, "Regular Chat"), " or ", E("strong", null, "Needs More"), "."), "Read the feedback. If you miss one, try the other choice."],
     action: E(ActivityCounter, { count: count, total: ROUNDS.length })
   },
     E(InnerCard, null, order.map(function(roundId, i) {
@@ -9294,6 +9376,14 @@ function WhatItDoesBestSection(props) {
             });
           }));
         }))),
+    E(GroupExercise, { id: "whatitdoesbest-group-exercise", lead: "Where would it help you? Connect AI’s four strengths to things you do in school and everyday life. Your group leader can choose from these five questions and decide how to discuss them." },
+      E(DiscussionQuestions, { questions: [
+        { title: "What’s something you already have that would be more useful in a different form?", followUp: "Think about notes, instructions, messages, or other material. What would you ask AI to turn it into?" },
+        { title: "When have you been stuck because you couldn’t think of enough possibilities?", followUp: "Where could AI’s suggestions help? How would you choose which ideas were worth pursuing?" },
+        { title: "When have you had too much information and struggled to find what mattered?", followUp: "What would you want AI to look for? What would you still need to read yourself?" },
+        { title: "What’s a problem in a club, team, or school day that AI could help you work through?", followUp: "What could it contribute? What would require people to act or decide?" },
+        { context: "The course creators gave AI an A+ for coding and a C- for lesson drafts.", title: "Could both grades be fair?", followUp: "What makes work “good” in each case? Why might success at one job tell you little about another?" }
+      ] })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
@@ -9549,16 +9639,18 @@ function RidiculousStudyGroupExercise() {
 
   return E(GroupExercise, {
     id: "studying-group-exercise",
-    lead: "ChatGPT’s Study mode can guide you through a topic with questions, hints, and explanations. Choose something to learn and a ridiculous situation to learn it through. Your group leader can run this on a shared screen or let smaller groups try their own combinations."
-  },
-    E("h3", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, margin: "0 0 18px" } }, "Teach Us Something Ridiculous"),
-    E(BodyP, null,
-      E("strong", null, "Trying this on your own? "), "Pick your own subject and ridiculous situation, then work through ChatGPT’s questions yourself."),
-    E(ActivityInstructions, { steps: [
+    title: "Teach Us Something Ridiculous",
+    lead: "ChatGPT’s Study mode can guide you through a topic with questions, hints, and explanations. Choose something to learn and a ridiculous situation to learn it through. Your group leader can run this on a shared screen or let smaller groups try their own combinations.",
+    instructions: [
       "Suggest subjects and ridiculous situations. Vote aloud or by a show of hands, then have the leader fill in the winning choices below.",
       E("span", null, "Select ", E("strong", null, "Copy Prompt"), ", then ", E("strong", null, "Open Study Mode"), ". Sign in if needed and check that Study is selected. Paste the prompt and send it."),
       "Answer ChatGPT’s questions together. Ask for a hint or a different explanation when you get stuck."
-    ] }),
+    ],
+    note: "Trying this on your own? Pick your own subject and ridiculous situation, then work through ChatGPT’s questions yourself.",
+    meta: "ChatGPT Study mode · Shared screen or small groups",
+    href: "https://chatgpt.com/studymode",
+    launchLabel: "Open Study Mode"
+  },
     E("div", { style: { marginTop: 24 } },
       field("study-group-subject", "What do you want to learn?", subject, setSubject, "Enter the winning subject", "Ideas: gravity, negotiation, probability, or how an engine works."),
       field("study-group-situation", "What’s the ridiculous situation?", situation, setSituation, "Enter the winning situation", "Ideas: penguins running a theme park, raccoons opening a restaurant, or a zombie buying a car.")),
@@ -9567,12 +9659,6 @@ function RidiculousStudyGroupExercise() {
         key: prompt, text: prompt, disabled: !ready, disabledLabel: "Copy Prompt",
         disabledMessage: "Fill in both blanks to copy your prompt.", hidePlaceholderHint: true
       })),
-    E("div", { style: { marginTop: 20 } },
-      E("a", {
-        href: "https://chatgpt.com/studymode", target: "_blank", rel: "noopener noreferrer",
-        "aria-label": "Open Study Mode (opens in a new tab)",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 24px", minHeight: 44 }
-      }, "Open Study Mode ↗")),
     E(BodyP, { style: { marginTop: 24, marginBottom: 0 } },
       E("strong", null, "Afterward: "), "What can you explain now that you couldn’t explain before?"));
 }
@@ -11093,8 +11179,8 @@ function OneAppOneYearTryIt(props) {
   if (isPrintMode) {
     return E(InteractiveBox, { variant: "try", surface: "mint", title: "Where Does Your Time Go?", instructions: [
       "Enter the app you use most and its average daily time.",
-      "Run the calculation and read what that time becomes across one year.",
-      "Run the same calculation for AI chat and compare the totals.",
+      E("span", null, "Select ", E("strong", null, "Do the math"), " to see what that time becomes across one year."),
+      E("span", null, "Enter your average daily AI-chat time and select ", E("strong", null, "Run the same math"), ". Compare the totals."),
       "Answer the final question about when an AI chat should end."
     ] },
       E(InnerCard, { style: { marginBottom: 0 } },
@@ -11251,8 +11337,8 @@ function OneAppOneYearTryIt(props) {
     lead: "Raskin’s estimate is too large to picture. Start with one app and one year: your own.",
     instructions: [
       "Name the app you use most and enter its average daily time.",
-      "Run the calculation and read what that time becomes across one year.",
-      "Enter your average daily AI-chat time and run the same calculation. This step is skipped if AI was your first app.",
+      E("span", null, "Select ", E("strong", null, "Do the math"), " to see what that time becomes across one year."),
+      E("span", null, "Enter your average daily AI-chat time and select ", E("strong", null, "Run the same math"), ". This step is skipped if AI was your first app."),
       "Compare the totals, then answer the final question about when an AI chat should end."
     ]
   },
@@ -11944,7 +12030,7 @@ function WheresTheLineSection(props) {
     E(BodyP, null, "A responsible decision considers the people who live with it."),
 
     closeBoard("wherestheline"),
-    E(InteractiveBox, { variant: "try", surface: "mint", title: "Does It Cross the Line?", lead: "Where would you draw the line? In these scenarios, you’re the judge. Your choices won’t be marked right or wrong. Instead, you’ll see another angle to consider. Think about who benefits, who could be harmed, and whether that changes your decision.", instructions: ["Read each scenario.", "Choose Crosses the line, Doesn’t cross the line, or It depends.", "Read Something to consider."] },
+    E(InteractiveBox, { variant: "try", surface: "mint", title: "Does It Cross the Line?", lead: "Where would you draw the line? In these scenarios, you’re the judge. Your choices won’t be marked right or wrong. Instead, you’ll see another angle to consider. Think about who benefits, who could be harmed, and whether that changes your decision.", instructions: ["Read each scenario.", E("span", null, "Choose ", E("strong", null, "Crosses the line"), ", ", E("strong", null, "Doesn’t cross the line"), ", or ", E("strong", null, "It depends"), "."), "Read Something to consider."] },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } }, scenarios.map(function(sc, i) {
         var picked = picks[sc.id] || null;
         return E("section", { key: sc.id, style: { paddingTop: i ? 26 : 0, marginTop: i ? 26 : 0, borderTop: i ? "1px solid var(--rule)" : "none" }, "aria-labelledby": "line-scenario-" + sc.id },
@@ -13123,6 +13209,8 @@ function GroupExercisesSection(props) {
     E(LessonHeader, { sectionId: "groupexercises" }),
     E("p", { style: { margin: "0 0 16px", color: "var(--primary)", fontSize: 13, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" } }, "Optional · For clubs, classrooms, and other groups"),
     E(LastPersonStandingGroupExercise, null),
+    E(HomeBaseGroupExercise, null),
+    E(QuestionsMatterGroupExercise, null),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -13623,6 +13711,7 @@ function QuestionsValuableSection(props) {
         checked: labChecked,
         onToggle: function(index) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[index] = !prev[index]; return next; }); }
       })),
+    React.createElement(QuestionsMatterGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Art of Prompting" })
   );

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Start the Course | Be Smarter Than the Tool</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f5fb;color:#152563;font-family:system-ui,sans-serif}header{max-width:720px;margin:0 auto;padding:24px}header a{font-size:14px;color:inherit;text-underline-offset:4px}a:focus-visible{outline:3px solid #152563;outline-offset:5px}iframe{display:block;width:100%;height:calc(100dvh - 70px);border:0;visibility:hidden}iframe.ready{visibility:visible}.status{text-align:center;padding:24px;font-size:15px}.status a{color:inherit}
+</style>
+</head>
+<body>
+<header><a href="preview.html">← Back to introduction</a></header>
+<p id="status" class="status" role="status">Loading the course entry form…</p>
+<iframe id="course-entry" title="First name and country" src="../index.html"></iframe>
+<noscript><p class="status"><a href="../index.html">Open the course entry page</a></p></noscript>
+<script>
+// Local preview adapter: reuse the actual form and its existing validation,
+// enrollment, and saved-progress behavior without editing the course source.
+const frame = document.getElementById('course-entry');
+const status = document.getElementById('status');
+frame.addEventListener('load', () => {
+  const doc = frame.contentDocument;
+  const style = doc.createElement('style');
+  style.textContent = `
+    .gate-hero,.gate-benefits,.gate-footer,.gate-device-note,.gate-watermark{display:none!important}
+    .gate-screen{padding:24px!important;min-height:0!important}
+    .gate-splash{max-width:640px!important;border-radius:24px!important}
+    .gate-ask{padding:38px 32px!important}
+    .gate-ask h2{margin-bottom:28px!important}
+    .gate-country{grid-column:1/-1}
+    .gate-hint{font-size:13px!important;margin:20px auto 26px!important}
+    @media(max-width:480px){.gate-screen{padding:12px!important}.gate-ask{padding:30px 22px!important}.gate-ask h2{font-size:26px!important}}
+  `;
+  doc.head.append(style);
+  let ready = false;
+  const update = () => {
+    if (doc.querySelector('.course-shell')) {
+      window.location.replace('../index.html');
+      return;
+    }
+    if (!ready && doc.querySelector('.gate-form')) {
+      ready = true;
+      status.hidden = true;
+      frame.classList.add('ready');
+    }
+  };
+  new MutationObserver(update).observe(doc.body, {childList:true,subtree:true});
+  update();
+});
+setTimeout(() => {
+  if (!frame.classList.contains('ready')) {
+    status.textContent = 'The course is taking longer to load. ';
+    const link = document.createElement('a');
+    link.href = '../index.html'; link.textContent = 'Open the course directly';
+    status.append(link);
+  }
+}, 15000);
+</script>
+</body>
+</html>

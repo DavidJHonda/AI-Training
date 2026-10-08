@@ -3309,7 +3309,7 @@ const SECTION_GROUPS = [{
   sections: ["openerskills", "aitips", "choosemodel", "integrity", "wherestheline", "peopleskills", "creativethinking", "becurious", "makeyourmove"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerfinish", "whatyoulearned", "reviews", "groupexercises", "resources"]
+  sections: ["openerfinish", "whatyoulearned", "reviews", "resources"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -3368,7 +3368,6 @@ const SECTION_META = {
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
   openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
-  groupexercises: { kicker: "LEARN TOGETHER", label: "Group Exercises", icon: "\uD83D\uDC65", optional: true },
   resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA" },
   reviews: { kicker: "TELL US WHAT YOU THINK", label: "What Do You Think?", icon: "\u2B50" },
 };
@@ -9121,6 +9120,7 @@ function CriticalThinkingSection(props) {
       }))),
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
+  React.createElement(WhatsMissingGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
 }
@@ -12046,6 +12046,7 @@ function WheresTheLineSection(props) {
               E("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--primary)", lineHeight: 1.2 } }, "Something To Consider"),
               E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, sc.consider))) : null));
       }))),
+  React.createElement(WhereDoYouStandGroupExercise, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
 }
@@ -13207,64 +13208,62 @@ function CourseToolkit(props) {
   }));
 }
 
-function GroupExercisesSection(props) {
+function WhereDoYouStandGroupExercise() {
   var E = React.createElement;
-  return E("div", null,
-    E(LessonHeader, { sectionId: "groupexercises" }),
-    E("p", { style: { margin: "0 0 16px", color: "var(--primary)", fontSize: 13, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" } }, "Optional · For clubs, classrooms, and other groups"),
-    E(LastPersonStandingGroupExercise, null),
-    E(HomeBaseGroupExercise, null),
-    E(QuestionsMatterGroupExercise, null),
-    E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "Where Do You Stand?",
-      leadLabel: "Group Exercise 02",
-      lead: "AI can create difficult choices. You’ll see three scenarios. For each, decide where you stand. Then, when you learn more, does your position change?",
-      instructions: [
-        E(React.Fragment, null, "Choose three areas of the room: ", E("strong", null, "Crosses the line"), ", ", E("strong", null, "Doesn’t cross it"), ", and ", E("strong", null, "It depends"), "."),
-        "Read the scenario and move to the area that matches your view.",
-        "The leader counts each group, enters the votes, and shows the results.",
-        E(React.Fragment, null, "Read ", E("strong", null, "Something to Consider"), "."),
-        "If your view changed, move to that side of the room.",
-        "Return to your seats for the next scenario."
-      ]
-    },
-      E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 10px" } }, "You can also vote from your seat by holding up one, two, or three fingers."),
-      E("p", { style: { fontSize: 15, color: "var(--inkMuted)", margin: "0 0 10px" } }, "About 8–10 minutes · One shared classroom screen"),
-      E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 18px", fontWeight: 700 } }, "Works well alongside Where’s the Line?"),
-      E("a", {
-        href: "group-exercises/where-do-you-stand/where-do-you-stand.html",
-        target: "_blank",
-        rel: "noopener noreferrer",
-        "aria-label": "Start Where Do You Stand? (opens in a new tab)",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44, cursor: "pointer" }
-      }, "Start Now ↗")),
-    E(InteractiveBox, {
-      variant: "try",
-      surface: "mint",
-      title: "What’s Missing?",
-      leadLabel: "Group Exercise 03",
-      lead: "AI can give a polished answer before it has enough information. Look at three everyday examples with your group. What did AI need to know first?",
-      instructions: [
-        "Read the AI answer on the screen.",
-        "With a neighbor, identify important information AI was missing.",
-        "Explain how those missing details could change the answer.",
-        "The leader reveals examples to compare with your ideas, then moves to the next example."
-      ]
-    },
-      E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 10px" } }, "Your group may notice other useful questions. You do not need to match the examples."),
-      E("p", { style: { fontSize: 15, color: "var(--inkMuted)", margin: "0 0 10px" } }, "About 6–8 minutes · One shared classroom screen"),
-      E("p", { style: { fontSize: 16, lineHeight: 1.55, color: "var(--inkSoft)", margin: "0 0 18px", fontWeight: 700 } }, "Works well alongside Questions Matter or Critical Thinking."),
-      E("a", {
-        href: "group-exercises/whats-missing/whats-missing.html",
-        target: "_blank",
-        rel: "noopener noreferrer",
-        "aria-label": "Start What’s Missing? (opens in a new tab)",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", borderRadius: 8, background: "var(--ink)", color: "#fff", fontFamily: "var(--sans)", fontWeight: 700, fontSize: 15, textDecoration: "none", padding: "12px 28px", minHeight: 44, cursor: "pointer" }
-      }, "Start Now ↗")),
-    E(LessonRule, null),
-    E(NextLessonGate, { nav: true, onClick: function() { props.onNavigate && props.onNavigate("resources"); }, label: "Next: Resources" }));
+  return E(StandaloneGroupExercise, {
+    id: "wherestheline-group-exercise", title: "Where Do You Stand?",
+    lead: "AI can create difficult choices. You’ll see three scenarios. For each, decide where you stand. Then, when you learn more, does your position change?",
+    instructions: [
+      E(React.Fragment, null, "Choose three areas of the room: ", E("strong", null, "Crosses the line"), ", ", E("strong", null, "Doesn’t cross it"), ", and ", E("strong", null, "It depends"), "."),
+      "Read the scenario and move to the area that matches your view.",
+      "The leader counts each group, enters the votes, and shows the results.",
+      E(React.Fragment, null, "Read ", E("strong", null, "Something to Consider"), "."),
+      "If your view changed, move to that side of the room.",
+      "Return to your seats for the next scenario."
+    ],
+    note: "You can also vote from your seat by holding up one, two, or three fingers.",
+    meta: "About 8–10 minutes · One shared classroom screen",
+    href: "group-exercises/where-do-you-stand/where-do-you-stand.html"
+  });
+}
+function WhatsMissingGroupExercise() {
+  return React.createElement(StandaloneGroupExercise, {
+    id: "critical-group-exercise", title: "What’s Missing?",
+    lead: "AI can give a polished answer before it has enough information. Look at three everyday examples with your group. What did AI need to know first?",
+    instructions: [
+      "Read the AI answer on the screen.",
+      "With a neighbor, identify important information AI was missing.",
+      "Explain how those missing details could change the answer.",
+      "The leader reveals examples to compare with your ideas, then moves to the next example."
+    ],
+    note: "Your group may notice other useful questions. You do not need to match the examples.",
+    meta: "About 6–8 minutes · One shared classroom screen",
+    href: "group-exercises/whats-missing/whats-missing.html"
+  });
+}
+function GroupActivityDirectory(props) {
+  var E = React.createElement;
+  var activities = [
+    { title: "Be the Last Person Standing", lesson: "llms", href: "group-exercises/what-is-ai/be-the-last-person-standing.html", note: "Spot the real photograph. About 10–15 minutes." },
+    { title: "Find Your Match", lesson: "modelselection", href: "group-exercises/your-home-base/find-your-match.html", note: "Match the task to the AI app. 12 shuffled scenarios." },
+    { title: "Make the Question Better", lesson: "questionsvaluable", href: "group-exercises/questions-matter/make-the-question-better.html", note: "Choose the biggest improvement to a question. 10 shuffled situations." },
+    { title: "What’s Missing?", lesson: "critical", href: "group-exercises/whats-missing/whats-missing.html", note: "Find the information AI needed first. About 6–8 minutes." },
+    { title: "Where Do You Stand?", lesson: "wherestheline", href: "group-exercises/where-do-you-stand/where-do-you-stand.html", note: "Discuss difficult choices about AI. About 8–10 minutes." }
+  ];
+  return E(GroupExercise, {
+    id: "resources-group-activities", label: "Group Activities",
+    lead: "For teachers, club leaders, and anyone learning together. These five activities use one shared screen. Find instructions in the related lesson, or open an activity to begin."
+  }, E("ul", { className: "course-toolkit", style: { listStyle: "none", padding: 0, margin: 0 } },
+    activities.map(function(activity) {
+      var lesson = SECTION_META[activity.lesson];
+      return E("li", { key: activity.lesson, className: "course-toolkit-row" },
+        E("span", { "aria-hidden": true, style: { fontSize: 24 } }, lesson.icon),
+        E("div", { className: "course-toolkit-copy" },
+          E("div", { className: "course-toolkit-title" }, E("h3", null, activity.title)),
+          E("p", null, activity.note),
+          E("button", { className: "course-toolkit-lesson", onClick: function() { props.onNavigate(activity.lesson); }, "aria-label": "View lesson: " + lesson.label, style: { fontSize: 14, textDecoration: "underline", textUnderlineOffset: 3 } }, lesson.label)),
+        E("div", { className: "course-toolkit-actions" }, E("a", { href: activity.href, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open " + activity.title + " (opens in a new tab)" }, "Open activity ↗")));
+    })));
 }
 
 function ResourcesSection(props) {
@@ -13286,6 +13285,7 @@ function ResourcesSection(props) {
     E(SectionKicker, null, "YOUR AI TOOLKIT"),
     E(BodyP, null, "Keep these guides handy for the next time you work with AI. Each PDF opens in a new tab, where you can read, save, or print it. Select a title to revisit its lesson."),
     E(CourseToolkit, { onNavigate: props.onNavigate }),
+    E(GroupActivityDirectory, { onNavigate: props.onNavigate }),
     E("section", { className: "resources-tools" },
     E(SectionKicker, null, "LEARN THE TOOLS"),
     E(BodyP, null, "Each of the three companies from Your Home Base teaches its own app. Start with the one you use."),
@@ -13573,7 +13573,7 @@ function ReviewsSection(props) {
               E(ActivityButton, { size: "large", disabled: status === "sending" || !hasRating, onClick: submitReview, style: { padding: "16px 26px", fontSize: 16, borderRadius: 12, background: status === "sending" || !hasRating ? "#9c9f9d" : "var(--ink)" } }, status === "sending" ? "Sending…" : (status === "error" ? "Try again" : (hasTestimonial ? "Post my review" : "Submit my rating"))),
               !hasRating ? E("span", { style: { fontFamily: "var(--sans)", fontSize: 14, color: "var(--inkMuted)" } }, "Choose a star rating to submit.") : null))),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("groupexercises"); }, label: "Next: Group Exercises (optional)" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("resources"); }, label: "Next: Resources" }));
 }
 function WhatYouLearnedSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -14822,7 +14822,17 @@ function RatQuizTryIt(props) {
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, sc.q)),
           /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); } }));
-      })));
+      })),
+    /*#__PURE__*/React.createElement("section", { className: "rat-story-followup no-print", "aria-labelledby": "rat-story-title", style: { marginTop: 28 } },
+      /*#__PURE__*/React.createElement("h3", { id: "rat-story-title", style: { fontSize: 22, lineHeight: 1.3, color: "var(--ink)", margin: "0 0 12px" } }, "Want more of the Hanoi rat story?"),
+      /*#__PURE__*/React.createElement(BodyP, null, "A plan to eliminate rats became a reason to breed them. Watch how a clear goal produced an unexpected result."),
+      /*#__PURE__*/React.createElement(StoryPoster, {
+        eyebrow: "Optional video", title: "The Hanoi Rat Story", duration: "4:28",
+        image: "course-assets/unexpected-results/rat-story/hanoi-street.jpg",
+        alt: "Play The Hanoi Rat Story (optional video, 4 minutes 28 seconds)",
+        video: { src: "course-assets/unexpected-results/rat-story/rat-story.mp4?v=20261007edit1", caption: "Made with Gemini Notebook; edited with original illustrations." }
+      }),
+      /*#__PURE__*/React.createElement(BodyP, { marginBottom: 0 }, "That’s why predicting AI’s effects takes more than understanding the technology. We also have to watch what people do with it.")));
 }
 const SECTION_COMPONENTS = {
   welcome: WelcomeSection,
@@ -14870,7 +14880,6 @@ const SECTION_COMPONENTS = {
   openerskills: OpenerSkillsSection,
   openerfinish: FinishSmarterOpenerSection,
   whatyoulearned: WhatYouLearnedSection,
-  groupexercises: GroupExercisesSection,
   resources: ResourcesSection,
   reviews: ReviewsSection,
   questionsvaluable: QuestionsValuableSection,
@@ -15300,7 +15309,7 @@ function LLMExplorer() {
   };
   useEffect(function() {
     if (!sampleMode && (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; }))) {
-      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: "welcome" }); });
+      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: prev.activeSection === "groupexercises" ? "resources" : "welcome" }); });
     }
   }, [progress.activeSection]);
   useEffect(function() {
@@ -15327,6 +15336,7 @@ function LLMExplorer() {
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
+  if (printParam === "lesson:groupexercises") printParam = "lesson:resources";
   // The certificate rides the same ?print= route as the lesson and packet exports, so
   // the printed page carries the certificate and nothing else.
   if (printParam === "certificate") {

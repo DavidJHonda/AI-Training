@@ -185,6 +185,13 @@ local result images held in memory for comparison. Students write prompts direct
 
 ### Activity support
 
+Unexpected Results includes an optional **The Hanoi Rat Story** companion video
+after all five questions inside `RatQuizTryIt`. `StoryPoster` opens its inline
+player; it is available without completing the quiz. Its source and original
+illustrations live in `course-assets/unexpected-results/rat-story/`. The AI
+connection appears both on the unvoiced closing card and beneath the player.
+This supplemental video does not replace `LESSON_VIDEOS.unexpected`.
+
 - `ScenarioRow` and `FeedbackPill` support parallel response activities.
 - `ActivityInstructions` is rendered by `InteractiveBox`; callers provide the steps
   through the `instructions` prop rather than placing the list manually.

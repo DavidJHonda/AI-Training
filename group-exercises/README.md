@@ -8,15 +8,15 @@ course order can change.
 
 | Home lesson | App section ID | Exercise | Location |
 | --- | --- | --- | --- |
-| Why Learn AI? | `whydeeper` | Five discussion questions | Inline in `WhyDeeperSection` in `index.html`; no standalone page |
+| Why Learn AI? | `whydeeper` | Five discussion questions | [Discussion](group-session.html?id=whydeeper); shared questions in `../group-activities-data.js` |
 | What Is AI? | `llms` | Be the Last Person Standing | [Activity](what-is-ai/be-the-last-person-standing.html) |
 | How an LLM Works | `aihistory` | One Word at a Time | [Activity](how-an-llm-works/one-word-at-a-time.html) |
 | Does AI Think? | `doesaithink` | Spot What’s Wrong | [Activity](does-ai-think/spot-whats-wrong.html) |
 | In Your Hands | `control` | Prompetition | [Activity](in-your-hands/prompetition.html) |
-| Beyond the New Average | `whybother` | Five discussion questions | Inline in `WhyBotherSection` in `index.html`; no standalone page |
-| Learn with AI | `studying` | Teach Us Something Ridiculous | Inline `RidiculousStudyGroupExercise` in `index.html`; two blanks build a prompt for ChatGPT Study mode |
-| AI Is Different | `aivscode` | Five discussion questions about AI’s kryptonite and guardrails | Inline in `AIvsCodeSection` in `index.html`; no standalone page |
-| Where AI Works Best | `whatitdoesbest` | Five discussion questions about applying AI’s four strengths | Inline in `WhatItDoesBestSection` in `index.html`; no standalone page |
+| Beyond the New Average | `whybother` | Five discussion questions | [Discussion](group-session.html?id=whybother); shared questions in `../group-activities-data.js` |
+| Learn with AI | `studying` | Teach Us Something Ridiculous | [Activity](group-session.html?id=studying); also inline in `RidiculousStudyGroupExercise` |
+| AI Is Different | `aivscode` | Five discussion questions about AI’s kryptonite and guardrails | [Discussion](group-session.html?id=aivscode); shared questions in `../group-activities-data.js` |
+| Where AI Works Best | `whatitdoesbest` | Five discussion questions about applying AI’s four strengths | [Discussion](group-session.html?id=whatitdoesbest); shared questions in `../group-activities-data.js` |
 | Your Home Base | `modelselection` | Find Your Match | [Activity](your-home-base/find-your-match.html); shared `HomeBaseGroupExercise` introduction in the lesson and directory |
 | Questions Matter | `questionsvaluable` | Make the Question Better | [Activity](questions-matter/make-the-question-better.html); shared `QuestionsMatterGroupExercise` introduction in the lesson and directory |
 
@@ -47,15 +47,26 @@ Learn with AI keeps its prompt builder between the steps and the footer, with
 **Open Study Mode** as its launch label. Discussion questions retain their separate
 five-question format. See [Page components](../docs/components/page-components.md#groupexercise).
 
-## Existing activities awaiting lesson placement
+## Shared public directory
 
-- [Where Do You Stand?](where-do-you-stand/where-do-you-stand.html): currently suggested alongside
-  Where’s the Line?; a home lesson has not yet been assigned in this revision.
-- [What’s Missing?](whats-missing/whats-missing.html): currently suggested alongside Questions
-  Matter or Critical Thinking; a home lesson has not yet been selected.
+`../group-activities-data.js` is the directory used by both the splash-page
+Group Activities dialog and the optional For Groups page under Finish Smarter. It includes all existing activities and
+discussions in course order. Add new entries there with type, lesson, section,
+description, and destination. Keep the lesson and section labels aligned with
+`SECTION_META` and `SECTION_GROUPS` in `index.html`.
 
-These use activity-named folders until their home lessons are decided. Their
-HTML and any future activity assets belong together in those folders.
+The four five-question discussions use this same data in both their lesson and
+the public `group-session.html?id=...` view. The public study activity includes a
+prompt builder. These pages require no course enrollment and do not change saved
+course progress. `group-session.html` without an ID provides a full-page directory.
+
+- [Where Do You Stand?](where-do-you-stand/where-do-you-stand.html) belongs to
+  Where’s the Line? (`wherestheline`).
+- [What’s Missing?](whats-missing/whats-missing.html) belongs to
+  Critical Thinking (`critical`).
+
+Run `node scripts/test-group-directory.cjs` from the repository root to check
+coverage, shared question references, and local destinations.
 
 ## Shared assets and compatibility
 

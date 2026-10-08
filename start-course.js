@@ -2,6 +2,19 @@
 // enrollment, validation, and browser storage; this shell only opens its form.
 (() => {
   const filePreview = location.protocol === 'file:';
+  function knownLearner() {
+    try { return !!localStorage.getItem('llm-user-name'); } catch (_) { return false; }
+  }
+  function updateCourseLabels() {
+    const label = knownLearner() ? 'Continue the Course' : 'Start the Course';
+    document.querySelectorAll('[data-course-entry-label]').forEach(node => { node.textContent = label; });
+  }
+  updateCourseLabels();
+  window.addEventListener('pageshow', updateCourseLabels);
+  window.addEventListener('focus', updateCourseLabels);
+  window.addEventListener('storage', event => {
+    if (event.key === 'llm-user-name' || event.key === null) updateCourseLabels();
+  });
   // A file opened from Finder has no server to resolve the public course routes.
   // Use the real course document; avoid an iframe across opaque file origins.
   if (filePreview) {
@@ -11,9 +24,6 @@
   }
   let dialog;
   let trigger;
-  function knownLearner() {
-    try { return !!localStorage.getItem('llm-user-name'); } catch (_) { return false; }
-  }
   function openEntry(button) {
     const requireEntry = button.hasAttribute('data-entry-required');
     if (!requireEntry && knownLearner()) { location.assign('/course'); return; }

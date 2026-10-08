@@ -5,7 +5,9 @@ const summary = document.getElementById('review-summary');
 const retry = document.getElementById('review-retry');
 const more = document.getElementById('review-more');
 let nextCursor = null;
+let retryCursor = null;
 async function loadReviews(cursor = null) {
+  list.querySelector('.review-load-error')?.remove();
   retry.hidden = true;
   more.disabled = true;
   list.setAttribute('aria-busy', 'true');
@@ -53,10 +55,20 @@ async function loadReviews(cursor = null) {
     }
   } catch (_) {
     const p = document.createElement('p'); p.className = 'review-status';
-    p.textContent = 'Student reviews couldn’t be loaded right now.'; list.replaceChildren(p); retry.hidden = false;
+    retryCursor = cursor;
+    if (cursor && list.querySelector('.review')) {
+      p.classList.add('review-load-error');
+      p.textContent = 'More reviews couldn’t be loaded right now. You can try again below.';
+      list.append(p);
+    } else {
+      p.textContent = 'Student reviews couldn’t be loaded right now.';
+      list.replaceChildren(p);
+      summary.hidden = true;
+    }
+    retry.hidden = false;
     more.hidden = true;
   } finally { clearTimeout(timeout); more.disabled = false; list.setAttribute('aria-busy', 'false'); }
 }
-retry.addEventListener('click', () => loadReviews());
+retry.addEventListener('click', () => loadReviews(retryCursor));
 more.addEventListener('click', () => loadReviews(nextCursor));
 loadReviews();

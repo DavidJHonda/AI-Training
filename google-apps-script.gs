@@ -271,6 +271,7 @@ function doGet(e) {
   try {
     var params = e && e.parameter ? e.parameter : {};
     if (params.action === "feedback_status") return textResponse_("feedback-ready");
+    if (params.action === "contact_status") return textResponse_("contact-ready");
     if (params.action !== "public_reviews") throw new Error("Unknown action");
     return jsonResponse_(getPublicReviews_(params, diagnostic));
   } catch (error) {
@@ -357,6 +358,10 @@ function jsonResponse_(value) {
 function doPost(e) {
   try {
     var data = parseRequest_(e);
+    if (data.eventType === "course_contact") {
+      sendCourseContact_(data);
+      return textResponse_("contact-ok");
+    }
     if (data.eventType === "lesson_feedback") {
       sendLessonFeedback_(data);
       return textResponse_("feedback-ok");
@@ -424,6 +429,50 @@ function sendLessonFeedback_(data) {
       "Lesson: " + title + "\nLesson ID: " + lessonId + "\nReport ID: " + id + "\n\n" + message);
     properties.setProperty(prefix + id, JSON.stringify({ at: now, hash: hash }));
     budget.count++; properties.setProperty("lesson-feedback-budget", JSON.stringify(budget));
+    rate.count++; cache.put(rateKey, JSON.stringify(rate), Math.max(1, Math.ceil((rate.until - now) / 1000)));
+    var all = properties.getProperties();
+    Object.keys(all).forEach(function(key) {
+      if (key.indexOf(prefix) === 0 && JSON.parse(all[key]).at < now - 86400000) properties.deleteProperty(key);
+    });
+  } finally { lock.releaseLock(); }
+}
+
+// Contact messages go only to the course inbox, with the visitor as Reply-To.
+function sendCourseContact_(data) {
+  var id = typeof data.reportId === "string" ? data.reportId : "";
+  var client = typeof data.clientId === "string" ? data.clientId : "";
+  var name = typeof data.name === "string" ? data.name.trim() : "";
+  var email = typeof data.email === "string" ? data.email.trim() : "";
+  var message = typeof data.message === "string" ? data.message.trim() : "";
+  if (!/^[a-zA-Z0-9-]{16,80}$/.test(id) || !/^[a-zA-Z0-9-]{16,80}$/.test(client) ||
+      name.length > 100 || /[\x00-\x1f\x7f]/.test(name) ||
+      email.length > 254 || !/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)+$/.test(email) ||
+      !message || message.length > 5000 || data.website) throw new Error("Invalid contact message");
+  var hash = Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, JSON.stringify([name, email, message])));
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    var now = Date.now(), prefix = "course-contact-sent:";
+    var receipt = properties.getProperty(prefix + id);
+    if (receipt) {
+      if (JSON.parse(receipt).hash !== hash) throw new Error("Contact request changed");
+      return;
+    }
+    var day = new Date(now).toISOString().slice(0,10);
+    var budget = JSON.parse(properties.getProperty("course-contact-budget") || "{}");
+    if (budget.day !== day) budget = { day: day, count: 0 };
+    var cache = CacheService.getScriptCache();
+    var rateKey = "course-contact-client:" + client;
+    var rate = JSON.parse(cache.get(rateKey) || "{}");
+    if (!rate.until || rate.until <= now) rate = { until: now + 3600000, count: 0 };
+    if (budget.count >= 20 || rate.count >= 3 || MailApp.getRemainingDailyQuota() <= 10) throw new Error("Contact sending limit reached");
+    MailApp.sendEmail({
+      to: NOTIFICATION_EMAIL, replyTo: email, subject: "Course contact" + (name ? ": " + name : ""),
+      body: "Name: " + (name || "Not provided") + "\nEmail: " + email + "\nMessage ID: " + id + "\n\n" + message
+    });
+    properties.setProperty(prefix + id, JSON.stringify({ at: now, hash: hash }));
+    budget.count++; properties.setProperty("course-contact-budget", JSON.stringify(budget));
     rate.count++; cache.put(rateKey, JSON.stringify(rate), Math.max(1, Math.ceil((rate.until - now) / 1000)));
     var all = properties.getProperties();
     Object.keys(all).forEach(function(key) {

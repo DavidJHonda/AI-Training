@@ -404,13 +404,13 @@
   .lesson-feedback-label{display:block;font-size:17px;font-weight:700;margin-bottom:8px}
   .lesson-feedback-modal textarea{display:block;box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--rule);border-radius:8px;font:inherit;font-size:16px;line-height:1.5;resize:vertical;color:var(--ink);background:var(--card);margin-bottom:12px}
   .lesson-feedback-modal textarea:focus{outline:2px solid var(--primary);outline-offset:2px}
-  .lesson-feedback-modal .lesson-feedback-note{font-size:14px}
   .lesson-feedback-modal .lesson-feedback-error{color:#a32137;font-size:15px}
   .lesson-feedback-modal button:disabled{opacity:.6;cursor:wait;transform:none}
   .lesson-feedback-honeypot,.lesson-feedback-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   @media(max-width:480px){.lesson-feedback-modal{padding:22px 18px}.lesson-feedback-modal h2{font-size:21px}.lesson-feedback-modal .using-course-modal-header{gap:12px}}
   .using-course-link{ display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 10px; color:var(--inkMuted); font-family:var(--sans); font-size:13px; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
   .using-course-link:hover{ color:var(--primary); }
+  button.using-course-link{ border:0; background:none; cursor:pointer; }
   .using-course-link:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; border-radius:6px; }
   .gate-footer .using-course-link{ color:#d5dcf6; }
   .gate-footer .using-course-link:hover{ color:#ffd24a; }
@@ -427,6 +427,13 @@
   .using-course-modal-close:hover{ background:var(--primaryDeep); box-shadow:0 5px 14px rgba(76,45,255,.28); transform:translateY(-1px); }
   .using-course-modal-close:focus-visible{ background:var(--primaryDeep); outline:3px solid #ffd24a; outline-offset:3px; }
   .using-course-modal-close:active{ transform:translateY(0); }
+  .reset-progress-dialog{ box-sizing:border-box; position:fixed; inset:0; margin:auto; width:min(520px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; padding:30px; border:1px solid var(--rule); border-radius:22px; background:var(--card); color:var(--ink); box-shadow:0 28px 80px rgba(14,10,31,.34); }
+  .reset-progress-dialog::backdrop{ background:rgba(14,10,31,.62); }
+  .reset-progress-dialog h2{ margin:0 0 16px; font-family:var(--serif); font-size:32px; line-height:1.15; }
+  .reset-progress-dialog p{ margin:0 0 24px; font-size:16px; line-height:1.65; color:var(--inkSoft); }
+  .reset-progress-actions{ display:flex; flex-wrap:wrap; justify-content:flex-end; gap:12px; }
+  .reset-progress-cancel{ min-height:44px; padding:10px 18px; border:1px solid var(--rule); border-radius:999px; background:var(--card); color:var(--ink); font:700 14px var(--sans); cursor:pointer; }
+  .reset-progress-cancel:focus-visible{ outline:3px solid var(--primary); outline-offset:3px; }
   @media (max-width:700px){
     .gate-screen{ padding:0; }
     .gate-splash{ border-radius:0; box-shadow:none; }
@@ -526,7 +533,7 @@
   .finish-letter-disclosure{ margin:0 0 24px; }
   .finish-letter-disclosure summary{ min-height:54px; box-sizing:border-box; padding:15px 22px; border:1px solid var(--rule); border-radius:16px; background:var(--card); box-shadow:var(--shadowSoft); cursor:pointer; font-family:var(--sans); font-size:16px; font-weight:800; color:var(--primary); }
   .finish-letter-disclosure summary:focus-visible{ outline:3px solid var(--primary); outline-offset:3px; }
-  .finish-letter{ margin-top:14px; padding:52px 60px 54px; border-radius:26px; background:#fbf9ef; }
+  .finish-letter{ margin:14px 0 24px; padding:52px 60px 54px; border-radius:26px; background:#fbf9ef; }
   .finish-letter p{ font-family:var(--sans); font-size:17px; line-height:1.68; color:var(--inkSoft); margin:0 0 22px; max-width:66ch; }
   .finish-letter p b{ color:var(--ink); }
   .finish-letter a{ color:var(--primary); }
@@ -1000,7 +1007,11 @@
   }
 </style>
 <link rel="stylesheet" href="entry-flow.css?v=20261007sample2">
-<script defer src="start-course.js?v=20261007sample3"></script>
+<script defer src="start-course.js?v=20261008continue1"></script>
+<link rel="stylesheet" href="contact.css?v=20261008contact1">
+<link rel="stylesheet" href="group-activities.css?v=20261008groups4">
+<script src="group-activities-data.js?v=20261008groups1"></script>
+<script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -1264,7 +1275,6 @@ const LESSON_VIDEOS = {
   // The Finish Smarter opener's video will be REAL footage of Luke and Nate
   // delivering their letter and the five big ideas, not a generated cut. The
   // card holds the position until it's recorded.
-  openerfinish: { comingSoon: true, title: "A Message from Luke and Nate" },
   // Embrace the Future is final. These cards reserve the completed video position
   // while the nine final video cuts are produced and approved.
   openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4?v=20260924ship1", duration: "3 min", title: "Monsters, or open water? Nobody knows what’s coming.", cta: "Both walk the same section map." },
@@ -1652,6 +1662,46 @@ const USING_THIS_COURSE_POLICY = {
   ]
 };
 
+function ResetProgressLink() {
+  var E = React.createElement;
+  var dialogRef = useRef(null), triggerRef = useRef(null);
+  var previousOverflow = useRef("");
+  function close() { dialogRef.current.close(); }
+  return E(React.Fragment, null,
+    E("button", {
+      type: "button", ref: triggerRef, className: "using-course-link",
+      "aria-haspopup": "dialog",
+      onClick: function() {
+        previousOverflow.current = document.body.style.overflow;
+        dialogRef.current.showModal();
+        document.body.style.overflow = "hidden";
+      }
+    }, "↺ Reset Progress"),
+    E("dialog", {
+      ref: dialogRef, className: "reset-progress-dialog",
+      "aria-labelledby": "reset-progress-title", "aria-describedby": "reset-progress-description",
+      onClose: function() {
+        document.body.style.overflow = previousOverflow.current;
+        triggerRef.current.focus();
+      }
+    },
+      E("h2", { id: "reset-progress-title" }, "Start over?"),
+      E("p", { id: "reset-progress-description" }, "This will erase your saved progress and scores on this browser."),
+      E("div", { className: "reset-progress-actions" },
+        E("button", { type: "button", autoFocus: true, className: "reset-progress-cancel", onClick: close }, "Cancel"),
+        E("button", {
+          type: "button", className: "using-course-modal-close",
+          onClick: function() {
+            var keys = [];
+            for (var i = 0; i < localStorage.length; i++) { keys.push(localStorage.key(i)); }
+            keys.forEach(function(k) {
+              if (k.startsWith("llm-") || k.startsWith("seeit-") || k === "final-exam" || k === FINAL_ATTEMPT_KEY || k === "ai-different-messy-notes-lab-v1") localStorage.removeItem(k);
+            });
+            window.location.reload();
+          }
+        }, "Reset Progress"))));
+}
+
 function UsingCourseLink(props) {
   return React.createElement("a", {
     href: "#using-this-course",
@@ -1730,18 +1780,18 @@ function LessonFeedback(props) {
     finally { clearTimeout(timeout); requestRef.current = null; }
   }
   return E(React.Fragment, null,
-    E("button", { type: "button", ref: triggerRef, className: "using-course-link lesson-feedback-link", "aria-haspopup": "dialog", onClick: function() { setOpen(true); } }, "Report a problem"),
+    E("button", { type: "button", ref: triggerRef, className: "using-course-link lesson-feedback-link", "aria-haspopup": "dialog", onClick: function() { setOpen(true); } }, "Lesson Feedback"),
     open ? ReactDOM.createPortal(E("div", { className: "using-course-modal-backdrop", onMouseDown: function(event) { if (event.target === event.currentTarget) close(); } },
       E("section", { ref: dialogRef, className: "using-course-modal lesson-feedback-modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "lesson-feedback-title" },
-        E("div", { className: "using-course-modal-header" }, E("h2", { id: "lesson-feedback-title" }, "Help us improve this lesson"), E("button", { type: "button", className: "using-course-modal-close", onClick: close }, "Close")),
+        E("div", { className: "using-course-modal-header" }, E("h2", { id: "lesson-feedback-title" }, "Lesson Feedback"), E("button", { type: "button", className: "using-course-modal-close", onClick: close }, "Close")),
         E("p", null, E("strong", null, "Lesson: "), title),
-        status === "sent" ? E("p", { role: "status" }, "Thanks! Your feedback has been sent to Nate and Luke.") :
+        status === "sent" ? E("p", { role: "status" }, "Thanks! Your feedback has been sent.") :
           E("form", { onSubmit: send },
             E("label", { htmlFor: "lesson-feedback-message", className: "lesson-feedback-label" }, "What should we fix or improve?"),
-            E("p", { id: "lesson-feedback-help" }, "Tell us about a broken link, outdated instructions, a confusing explanation, or a suggestion."),
-            E("textarea", { ref: inputRef, id: "lesson-feedback-message", rows: 5, required: true, maxLength: 2500, readOnly: busy, value: message, "aria-describedby": "lesson-feedback-help lesson-feedback-note", onChange: function(event) { setMessage(event.target.value); reportId.current = null; setStatus("idle"); } }),
+            E("p", { id: "lesson-feedback-help" }, "Let us know what you thought of this lesson. We’d love to hear your ideas, what was confusing, or anything that didn’t work."),
+            E("textarea", { ref: inputRef, id: "lesson-feedback-message", rows: 5, required: true, maxLength: 2500, readOnly: busy, value: message, "aria-describedby": "lesson-feedback-help lesson-feedback-reply-note", onChange: function(event) { setMessage(event.target.value); reportId.current = null; setStatus("idle"); } }),
             E("div", { className: "lesson-feedback-honeypot", "aria-hidden": "true" }, E("label", null, "Leave this empty", E("input", { tabIndex: -1, autoComplete: "off", value: trap, onChange: function(event) { setTrap(event.target.value); } }))),
-            E("p", { id: "lesson-feedback-note", className: "lesson-feedback-note" }, "Sent privately to Nate and Luke. No email app needed."),
+            E("p", { id: "lesson-feedback-reply-note", style: { fontSize: 14 } }, "We don’t collect your email address, so we can’t reply. But we read every message."),
             status === "error" ? E("p", { role: "alert", className: "lesson-feedback-error" }, "We couldn’t confirm that your feedback was sent. Your message is still here. Please try again shortly.") : null,
             E("button", { type: "submit", className: "using-course-modal-close", disabled: busy || !message.trim() }, busy ? "Sending…" : "Send feedback"),
             E("span", { role: "status", className: "lesson-feedback-status" }, busy ? "Sending your feedback." : "")))), document.body) : null);
@@ -3309,7 +3359,7 @@ const SECTION_GROUPS = [{
   sections: ["openerskills", "aitips", "choosemodel", "integrity", "wherestheline", "peopleskills", "creativethinking", "becurious", "makeyourmove"]
 }, {
   label: "Finish Smarter",
-  sections: ["openerfinish", "whatyoulearned", "reviews", "resources"]
+  sections: ["openerfinish", "whatyoulearned", "reviews", "resources", "forgroups"]
 }];
 const SECTION_META = {
   welcome: { kicker: "START HERE", label: "Welcome", icon: "\uD83D\uDC4B" },
@@ -3369,6 +3419,7 @@ const SECTION_META = {
   openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
   resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA" },
+  forgroups: { kicker: "LEARN TOGETHER", label: "For Groups", icon: "👥", optional: true },
   reviews: { kicker: "TELL US WHAT YOU THINK", label: "What Do You Think?", icon: "\u2B50" },
 };
 const SECTIONS = SECTION_GROUPS
@@ -4922,13 +4973,7 @@ function WhyDeeperSection(props) {
     closeBoard("whydeeper"),
     /*#__PURE__*/E(AIMultiplierTryIt, null),
     E(GroupExercise, { id: "whydeeper-group-exercise", lead: "Explore how AI is changing your life today and what it could mean for your future. Five discussion questions give your group a place to start." },
-      E(DiscussionQuestions, { questions: [
-        { title: "How are you using AI today?", followUp: "What has surprised you about it?" },
-        { title: "How could AI jump-start your future?", followUp: "What could it help you start doing now?" },
-        { context: "The printing press, electricity, and the internet changed people’s lives.", title: "What might make the AI revolution different?" },
-        { title: "What excites you about a future with AI?", followUp: "What concerns you?" },
-        { title: "As AI becomes more capable, what will be most important for you to learn, and why?" }
-      ] })),
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whydeeper"; }).questions })),
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("llms"); }, label: "Next: What Is AI?" }));
 }
@@ -5167,13 +5212,7 @@ function WhyBotherSection(props) {
           }, CATCH_CHOICES.map(function(label, optIdx) { return PillButton(label, optIdx); }));
         }))),
     E(GroupExercise, { id: "whybother-group-exercise", lead: "What do you bring to the tool? Explore how your knowledge and skills can take you beyond the new average. Your group leader can choose from these five questions and decide how to discuss them." },
-      E(DiscussionQuestions, { questions: [
-        { title: "You and another person have the same AI and the same assignment. What could make your finished work better?", followUp: "Pick a specific example: a presentation, an app, a business idea, or something else." },
-        { title: "What’s something you know enough about to challenge an AI answer?", followUp: "It could be a class subject, sport, game, hobby, or job. What would you notice that a beginner might miss?" },
-        { context: "“If AI can do it, there’s no reason to learn it.”", title: "Where do you agree or disagree?", followUp: "Choose a skill and make your case. Does your answer change depending on how you plan to use it?" },
-        { context: "You’re choosing someone to work with on a project.", title: "Would you rather work with someone who’s great with AI or someone who knows the subject deeply?", followUp: "What would each bring? When might your choice change?" },
-        { title: "What would you like to become the person people turn to for help with?", followUp: "What could you start practicing now to build that knowledge or skill?" }
-      ] })),
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whybother"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
@@ -5768,13 +5807,7 @@ function AIvsCodeSection(props) {
     closeBoard("aivscode"),
     /*#__PURE__*/React.createElement(MessyNotesLab, null),
     React.createElement(GroupExercise, { id: "aivscode-group-exercise", lead: "Can you make AI safe? Explore AI’s kryptonite and why guardrails help without getting everything right. Your group leader can choose from these five questions and decide how to discuss them." },
-      React.createElement(DiscussionQuestions, { questions: [
-        { title: "Why can’t companies just tell AI, “Never give a wrong answer”?", followUp: "Think about the difference between following written rules and answering from learned patterns." },
-        { context: "An AI refuses to help with homework because it might be helping someone cheat.", title: "Is that a good safety feature?", followUp: "When would that refusal help? When would it get in the way of learning?" },
-        { context: "You ask AI to critique your essay. It avoids saying anything negative because it’s trained to be encouraging.", title: "Is that helping you?", followUp: "What’s the difference between being supportive and saying everything is good?" },
-        { context: "An AI company adds a warning: “AI can make mistakes.”", title: "Is that enough?", followUp: "What would you expect the company to do beyond showing a warning? What responsibility does the user have?" },
-        { title: "Would you rather use an AI that sometimes refuses harmless requests or one that sometimes answers harmful requests?", followUp: "What makes that choice difficult? Could your answer depend on what the app is used for?" }
-      ] })),
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aivscode"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whatitdoesbest"); }, label: "Next: Where AI Works Best" })
   );
@@ -9381,13 +9414,7 @@ function WhatItDoesBestSection(props) {
           }));
         }))),
     E(GroupExercise, { id: "whatitdoesbest-group-exercise", lead: "Where would it help you? Connect AI’s four strengths to things you do in school and everyday life. Your group leader can choose from these five questions and decide how to discuss them." },
-      E(DiscussionQuestions, { questions: [
-        { title: "What’s something you already have that would be more useful in a different form?", followUp: "Think about notes, instructions, messages, or other material. What would you ask AI to turn it into?" },
-        { title: "When have you been stuck because you couldn’t think of enough possibilities?", followUp: "Where could AI’s suggestions help? How would you choose which ideas were worth pursuing?" },
-        { title: "When have you had too much information and struggled to find what mattered?", followUp: "What would you want AI to look for? What would you still need to read yourself?" },
-        { title: "What’s a problem in a club, team, or school day that AI could help you work through?", followUp: "What could it contribute? What would require people to act or decide?" },
-        { context: "The course creators gave AI an A+ for coding and a C- for lesson drafts.", title: "Could both grades be fair?", followUp: "What makes work “good” in each case? Why might success at one job tell you little about another?" }
-      ] })),
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whatitdoesbest"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
@@ -13034,23 +13061,15 @@ function TheFinalQuiz(props) {
         "Same 25 questions, no clock. Best score: " + (record.bestScore != null ? record.bestScore + "%" : res.pct + "%") + "."))
   ]);
 }
-// Closing letter from Luke and Nate: the bookend to the welcome gate's "Why We
-// Built This".
+// A short closing note before the final exam and Five Big Ideas keepsake.
 function FinishLetter() {
   var E = React.createElement;
-  return E("details", { className: "finish-letter-disclosure", open: true },
-    E("summary", null, "Read the letter"),
-    E("div", { className: "finish-letter" },
-      E("p", { className: "finish-letter-greeting" }, "Hi,"),
-      E("p", null, "Congratulations. You made it to the end of ", E("b", null, "Be Smarter Than the Tool"), ". We hope you enjoyed our course. Some subjects were tough, but we hope you still had some fun."),
-      E("p", null, "You now have a foundation for understanding AI. When someone makes a big claim about it, you’ll know what questions to ask."),
-      E("p", null, "And here’s our prediction. Ten years from now you’ll think back to this course and return to ", E("a", { href: "https://besmarterthanthetool.com" }, E("b", null, "BeSmarterThanTheTool"), ".com"), ". After shaking the cobwebs off the first page, you’ll re-read some of what you learned here. And you’ll chuckle to yourself, because"),
-      E("p", { className: "finish-letter-pullquote" }, "your future AI knowledge will make this course feel like the training wheels on your first bike."),
-      E("p", null, "That’s what we want for every person our age. We hope this course is just the beginning of what you learn and build."),
-      E("p", null, "Before you go, take the Final and earn your certificate. Tell us what you thought in What Do You Think? Your feedback helps us make the course better. Resources has ideas for what to do next."),
-      E("p", null, "Thanks for learning with us. And if you’re a hockey fan, GO STARS!"),
-      E("p", { className: "finish-letter-sig" }, "Luke and Nate"),
-      E("p", { className: "finish-letter-byline" }, "Two high school students who built this course")));
+  return E("div", { className: "finish-letter", "aria-label": "Closing note" },
+    E("p", null, "You’ve covered a lot. You now have a foundation for understanding AI, asking better questions, and deciding what to trust."),
+    E("p", null, "We hope this course is just the beginning of what you learn and do with AI."),
+    E("p", null, "Next, take the Final and earn your certificate. Then tell us what you thought of the course. Your feedback helps us improve it."),
+    E("p", null, "Thanks for learning with us."),
+    E("p", { className: "finish-letter-sig" }, "Nate and Luke"));
 }
 function FiveBigIdeasKeepsake() {
   var E = React.createElement;
@@ -13243,27 +13262,58 @@ function WhatsMissingGroupExercise() {
 }
 function GroupActivityDirectory(props) {
   var E = React.createElement;
-  var activities = [
-    { title: "Be the Last Person Standing", lesson: "llms", href: "group-exercises/what-is-ai/be-the-last-person-standing.html", note: "Spot the real photograph. About 10–15 minutes." },
-    { title: "Find Your Match", lesson: "modelselection", href: "group-exercises/your-home-base/find-your-match.html", note: "Match the task to the AI app. 12 shuffled scenarios." },
-    { title: "Make the Question Better", lesson: "questionsvaluable", href: "group-exercises/questions-matter/make-the-question-better.html", note: "Choose the biggest improvement to a question. 10 shuffled situations." },
-    { title: "What’s Missing?", lesson: "critical", href: "group-exercises/whats-missing/whats-missing.html", note: "Find the information AI needed first. About 6–8 minutes." },
-    { title: "Where Do You Stand?", lesson: "wherestheline", href: "group-exercises/where-do-you-stand/where-do-you-stand.html", note: "Discuss difficult choices about AI. About 8–10 minutes." }
-  ];
-  return E(GroupExercise, {
-    id: "resources-group-activities", label: "Group Activities",
-    lead: "For teachers, club leaders, and anyone learning together. These five activities use one shared screen. Find instructions in the related lesson, or open an activity to begin."
-  }, E("ul", { className: "course-toolkit", style: { listStyle: "none", padding: 0, margin: 0 } },
-    activities.map(function(activity) {
-      var lesson = SECTION_META[activity.lesson];
-      return E("li", { key: activity.lesson, className: "course-toolkit-row" },
-        E("span", { "aria-hidden": true, style: { fontSize: 24 } }, lesson.icon),
-        E("div", { className: "course-toolkit-copy" },
-          E("div", { className: "course-toolkit-title" }, E("h3", null, activity.title)),
-          E("p", null, activity.note),
-          E("button", { className: "course-toolkit-lesson", onClick: function() { props.onNavigate(activity.lesson); }, "aria-label": "View lesson: " + lesson.label, style: { fontSize: 14, textDecoration: "underline", textUnderlineOffset: 3 } }, lesson.label)),
-        E("div", { className: "course-toolkit-actions" }, E("a", { href: activity.href, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open " + activity.title + " (opens in a new tab)" }, "Open activity ↗")));
-    })));
+  var activities = window.COURSE_GROUP_ACTIVITIES;
+  var sections = Array.from(new Set(activities.map(function(activity) { return activity.section; })));
+  var typeState = React.useState("All"), selectedType = typeState[0], setType = typeState[1];
+  var sectionState = React.useState(""), selectedSection = sectionState[0], setSection = sectionState[1];
+  var searchState = React.useState(""), search = searchState[0], setSearch = searchState[1];
+  var query = search.trim().toLocaleLowerCase();
+  var matches = activities.filter(function(activity) {
+    return (selectedType === "All" || activity.type === selectedType) &&
+      (!selectedSection || activity.section === selectedSection) &&
+      [activity.title, activity.note, activity.lessonTitle, activity.section, activity.type].join(" ").toLocaleLowerCase().includes(query);
+  });
+  return E("section", { id: "for-groups-activities", className: "for-groups-directory", "aria-labelledby": "for-groups-activities-title" },
+    E("h2", { id: "for-groups-activities-title" }, "Group Activities"),
+    E(BodyP, null, "Browse activities and guided discussions from across the course. Open one to begin, or visit its related lesson."),
+    E("div", { className: "group-directory-controls" },
+      E("div", { className: "group-directory-filters", role: "group", "aria-label": "Activity type" },
+        ["All", "Activity", "Discussion"].map(function(type) {
+          var count = activities.filter(function(activity) { return type === "All" || activity.type === type; }).length;
+          var label = type === "All" ? "All" : type === "Activity" ? "Activities" : "Discussions";
+          return E("button", { key: type, type: "button", "aria-pressed": selectedType === type, onClick: function() { setType(type); } }, label + " " + count);
+        })),
+      E("select", { "aria-label": "Course section", value: selectedSection, onChange: function(event) { setSection(event.target.value); } },
+        E("option", { value: "" }, "All sections"),
+        sections.map(function(section) { return E("option", { key: section, value: section }, section); })),
+      E("input", { type: "search", "aria-label": "Search activities", placeholder: "Search activities", value: search, onChange: function(event) { setSearch(event.target.value); } })),
+    E("p", { className: "group-directory-status", role: "status", "aria-live": "polite" }, matches.length + " of " + activities.length + " activities and discussions shown"),
+    !matches.length ? E("p", { className: "group-directory-empty" }, "No activities match. Try another search or change the filters.") : null,
+    sections.map(function(section) {
+      var entries = matches.filter(function(activity) { return activity.section === section; });
+      if (!entries.length) return null;
+      return E("section", { key: section, className: "group-directory-section" },
+        E("h3", null, section, E("span", null, entries.length + " in this section")),
+        E("ul", { className: "group-directory-rows" }, entries.map(function(activity) {
+          var lesson = SECTION_META[activity.lesson];
+          return E("li", { key: activity.id },
+            E("span", { className: "group-directory-badge " + (activity.type === "Discussion" ? "is-discussion" : "is-activity") }, activity.type),
+            E("div", { className: "group-directory-description" }, E("h4", null, activity.title), E("p", null, activity.note)),
+            E("p", { className: "group-directory-related" }, E("span", null, "Related lesson:"),
+              E("button", { type: "button", className: "group-directory-lesson-link", onClick: function() { props.onNavigate(activity.lesson); }, "aria-label": "View lesson: " + lesson.label }, lesson.label)),
+            E("a", { href: activity.href, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open " + activity.title + " (opens in a new tab)" }, activity.type === "Discussion" ? "Open discussion ↗" : "Open activity ↗"));
+        })));
+    }));
+}
+
+function ForGroupsSection(props) {
+  var E = React.createElement;
+  return E("div", null,
+    E(LessonHeader, { sectionId: "forgroups" }),
+    E(BodyP, null, "Learning with a club or class? This is a place for teachers, club leaders, and anyone learning together. Choose what works for your group and go at your own pace."),
+    E(GroupActivityDirectory, { onNavigate: props.onNavigate }),
+    E(LessonRule, null),
+    E(NextLessonGate, { nav: true, onClick: function() { props.onNavigate("welcome"); }, label: "🗺️ Back to Start" }));
 }
 
 function ResourcesSection(props) {
@@ -13271,7 +13321,6 @@ function ResourcesSection(props) {
   var link = function(href, text) {
     return E("a", { href: href, target: "_blank", rel: "noopener noreferrer", style: { color: "var(--primary)", fontWeight: 700 } }, text);
   };
-  var stack = function(items) { return E(LabeledCardStack, { items: items }); };
   var toolList = function(items) {
     return E("ul", { className: "resources-tools-list" }, items.map(function(item) {
       return E("li", { key: item.eyebrow, className: "resources-tools-row" },
@@ -13285,7 +13334,6 @@ function ResourcesSection(props) {
     E(SectionKicker, null, "YOUR AI TOOLKIT"),
     E(BodyP, null, "Keep these guides handy for the next time you work with AI. Each PDF opens in a new tab, where you can read, save, or print it. Select a title to revisit its lesson."),
     E(CourseToolkit, { onNavigate: props.onNavigate }),
-    E(GroupActivityDirectory, { onNavigate: props.onNavigate }),
     E("section", { className: "resources-tools" },
     E(SectionKicker, null, "LEARN THE TOOLS"),
     E(BodyP, null, "Each of the three companies from Your Home Base teaches its own app. Start with the one you use."),
@@ -13297,27 +13345,8 @@ function ResourcesSection(props) {
       { eyebrow: "ANTHROPIC", headline: link("https://academy.claude.com/", "Claude Academy"),
         body: "Learn to work with Claude." }
     ])),
-    E(SectionKicker, null, "GO ONE LEVEL DEEPER"),
-    E(BodyP, null, "Understand AI gave you tokens, embeddings, attention, and prediction. These go further."),
-    stack([
-      { eyebrow: "3BLUE1BROWN", headline: link("https://www.3blue1brown.com/lessons/mini-llm/", "Large Language Models Explained Briefly"),
-        body: ["A short, animated explanation of how language models learn and generate answers. A good place to see the ideas from Understand AI come together. Ready for more? ", link("https://www.3blue1brown.com/lessons/gpt/", "Transformers, the tech behind LLMs"), " is the more technical next step, with vectors and matrices."] },
-      { eyebrow: "ANDREJ KARPATHY", headline: link("https://www.youtube.com/watch?v=7xTGNNLPyMI", "Deep Dive into LLMs like ChatGPT"),
-        body: "Optional, and long: roughly three and a half hours from an OpenAI co-founder on how models are trained, why they make things up, and what they can and can’t do. For students who want considerably more detail. Watch it in chapters." }
-    ]),
-    E(SectionKicker, null, "TAKE A SECOND COURSE"),
-    stack([
-      { eyebrow: "UNIVERSITY OF HELSINKI", headline: link("https://www.elementsofai.com/", "Elements of AI"),
-        body: "A free, structured course with exercises on the broader foundations of AI: what it is, how it’s used, and where its limits are. About 30 hours at your own pace, no programming required. Start with the first course, Introduction to AI." }
-    ]),
-    E(SectionKicker, null, "KEEP UP"),
-    E(BodyP, null, "You don’t need to follow every AI announcement. Find a source you enjoy and check in when you’re curious."),
-    stack([
-      { eyebrow: "ETHAN MOLLICK", headline: link("https://www.oneusefulthing.org/", "One Useful Thing"),
-        body: "Research-based writing on AI in education, work, and everyday life from a Wharton professor who tests the newest models himself. A useful perspective, and free to read. Start with the most recent post." }
-    ]),
     E(LessonRule, null),
-    E(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("welcome"); }, label: "🗺️ Back to Start" }));
+    E(NextLessonGate, { nav: true, onClick: function() { props.completeAndNavigate && props.completeAndNavigate("forgroups"); }, label: "Next: For Groups" }));
 }
 function StudentReviewsList(props) {
   var E = React.createElement;
@@ -14881,6 +14910,7 @@ const SECTION_COMPONENTS = {
   openerfinish: FinishSmarterOpenerSection,
   whatyoulearned: WhatYouLearnedSection,
   resources: ResourcesSection,
+  forgroups: ForGroupsSection,
   reviews: ReviewsSection,
   questionsvaluable: QuestionsValuableSection,
   creativethinking: CreativeThinkingSection,
@@ -15309,7 +15339,7 @@ function LLMExplorer() {
   };
   useEffect(function() {
     if (!sampleMode && (!SECTION_COMPONENTS[progress.activeSection] || !SECTIONS.find(function(s) { return s.id === progress.activeSection; }))) {
-      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: prev.activeSection === "groupexercises" ? "resources" : "welcome" }); });
+      setProgress(function(prev) { return Object.assign({}, prev, { activeSection: prev.activeSection === "groupexercises" ? "forgroups" : "welcome" }); });
     }
   }, [progress.activeSection]);
   useEffect(function() {
@@ -15336,7 +15366,7 @@ function LLMExplorer() {
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
-  if (printParam === "lesson:groupexercises") printParam = "lesson:resources";
+  if (printParam === "lesson:groupexercises") printParam = "lesson:forgroups";
   // The certificate rides the same ?print= route as the lesson and packet exports, so
   // the printed page carries the certificate and nothing else.
   if (printParam === "certificate") {
@@ -15470,6 +15500,8 @@ function LLMExplorer() {
           margin-bottom: 0;
         }
         .lockup-zone { display: flex; align-items: center; gap: 30px; min-width: 0; }
+        .course-home-logo { display: block; flex: 0 0 auto; border-radius: 8px; }
+        .course-home-logo:focus-visible { outline: 3px solid #ffd24a; outline-offset: 6px; }
         .course-logo-mark { display: block; width: auto; height: 96px; flex: 0 0 auto; }
         .course-title-lockup { min-width: 0; transform: translate(-6px, 8px); }
         .course-title-main {
@@ -15620,7 +15652,8 @@ function LLMExplorer() {
       /*#__PURE__*/React.createElement("header", { className: "course-header" },
         /*#__PURE__*/React.createElement("div", { className: "course-topbar" },
           /*#__PURE__*/React.createElement("div", { className: "lockup-zone" },
-            /*#__PURE__*/React.createElement("img", { className: "course-logo-mark", src: "icons/logo-mark-white-cropped.png", alt: "AI Leadership Society", height: 96 }),
+            /*#__PURE__*/React.createElement("a", { href: introductionUrl, className: "course-home-logo", "aria-label": "Course Home" },
+              /*#__PURE__*/React.createElement("img", { className: "course-logo-mark", src: "icons/logo-mark-white-cropped.png", alt: "AI Leadership Society", height: 96 })),
             /*#__PURE__*/React.createElement("div", { className: "course-title-lockup" },
               /*#__PURE__*/React.createElement("h1", { className: "course-title-main" }, "Be Smarter ", /*#__PURE__*/React.createElement("span", { className: "title-em" }, "Than the Tool")),
               /*#__PURE__*/React.createElement("div", { className: "course-title-subtitle" }, COURSE_SUBTITLE)
@@ -15705,6 +15738,7 @@ function LLMExplorer() {
     )
   )),/*#__PURE__*/React.createElement("footer", {
     onClickCapture: sampleMode ? function(event) {
+      if (event.target.closest("a[data-course-home], a[data-course-contact]")) return;
       if (event.target.closest("button, a")) { event.preventDefault(); event.stopPropagation(); showSamplePrompt(); }
     } : undefined,
     className: "no-print",
@@ -15718,21 +15752,15 @@ function LLMExplorer() {
       flexWrap: "wrap",
       gap: 4
     }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function() {
-      if (confirm("This will reset all progress and scores. Are you sure?")) {
-        var keys = [];
-        for (var i = 0; i < localStorage.length; i++) { keys.push(localStorage.key(i)); }
-        keys.forEach(function(k) { if (k.startsWith("llm-") || k.startsWith("seeit-")) localStorage.removeItem(k); });
-        window.location.reload();
-      }
-    },
-    style: { background: "none", border: "none", cursor: "pointer", fontSize: 12, color: "var(--inkMuted)", minHeight: 44, padding: "8px 10px", font: "inherit" }
-  }, "\u21BA Reset Progress"),
+  }, React.createElement("a", { href: introductionUrl, className: "using-course-link", "data-course-home": "" }, "Course Home"),
+  React.createElement("span", { "aria-hidden": "true" }, "·"),
+  React.createElement(ResetProgressLink),
   /*#__PURE__*/React.createElement("span", { "aria-hidden": "true" }, "·"),
   /*#__PURE__*/React.createElement(UsingCourseLink, { onOpen: openUsingCourse }),
   React.createElement("span", { "aria-hidden": "true" }, "·"),
-  React.createElement(LessonFeedback, { key: activeSection, lessonId: activeSection })),
+  React.createElement(LessonFeedback, { key: activeSection, lessonId: activeSection }),
+  React.createElement("span", { "aria-hidden": "true" }, "·"),
+  React.createElement("a", { href: "mailto:besmarterthanthetool@gmail.com", className: "using-course-link", "data-course-contact": "", "aria-haspopup": "dialog" }, "Contact Us")),
   /*#__PURE__*/React.createElement(IllustrationLightbox, { image: expandedIllustration, onClose: closeExpandedIllustration }),
   usingCourseModal);
 }

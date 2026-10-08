@@ -1249,7 +1249,7 @@ const LESSON_VIDEOS = {
   embeddings: { src: "course-assets/embeddings/embeddings.mp4?v=20261008ship12", duration: "5 min", title: "How a token's meaning becomes a row of numbers." },
   attention: { src: "course-assets/transformer/transformer.mp4?v=20260929ship1", duration: "4 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "course-assets/layers/layers.mp4?v=20260929ship1", duration: "3 min", title: "Meaning builds up, layer by layer." },
-  vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20261006ship-vector-space-v17", duration: "4 min", title: "Where a token's numbers finally land." },
+  vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20261008ship-vector-space-v18", duration: "4 min", title: "Where a token's numbers finally land." },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20261006ship1", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "course-assets/one-more-thing/one-more-thing.mp4?v=20260929ship1", duration: "3 min", title: "Different choices, temperature, and the scale of the math." },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener.mp4?v=20260929ship1", duration: "4 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
@@ -7397,10 +7397,10 @@ var VECTOR_MAP_SEQUENCES = {
   }
 };
 var VECTOR_DRINKS = [
-  { name: "Coke", values: [9, 1, 10, 2, 3, 8, 1], x: 135, y: 164, at: 1 },
-  { name: "Pepsi", values: [9, 1, 10, 2, 3, 8, 10], x: 315, y: 145, at: 2 },
+  { name: "Coke", values: [9, 1, 10, 2, 3, 8, 1], x: 185, y: 164, at: 1, lx: 169, ly: 163, anchor: "end" },
+  { name: "Pepsi", values: [9, 1, 10, 2, 3, 8, 10], x: 255, y: 145, at: 2, lx: 255, ly: 199 },
   { name: "Hot coffee", values: [1, 9, 0, 9, 8, 10, 0], x: 567, y: 208, at: 3, ly: 164 },
-  { name: "Mystery A", values: [9, 1, 10, 2, 3, 8, 9], x: 295, y: 150, at: 4, lx: 303, ly: 86 },
+  { name: "Mystery A", values: [9, 1, 10, 2, 3, 8, 9], x: 235, y: 150, at: 4, lx: 235, ly: 90 },
   { name: "Mystery B", values: [2, 8, 0, 8, 7, 9, 0], x: 548, y: 229, at: 6, lx: 530, ly: 325 }
 ];
 function VectorMapDiagram(props) {
@@ -7444,11 +7444,11 @@ function VectorMapDiagram(props) {
     if (step >= 6) contents.push(point(b[0],b[1],"40 N, 76 W",{ diamond:true,reveal:true,lx:b[0]-24,ly:b[1]-24,anchor:"end" }));
   } else if (kind === "drinks") {
     contents.push(
-      E("path", {key:"soft",d:"M30 124 C24 70 103 44 189 56 C247 25 374 47 407 107 C449 166 414 273 341 300 C246 327 158 296 93 285 C27 267 11 179 30 124Z",fill:"var(--primaryFaint)"}),
+      E("path", {key:"soft",d:"M84 130 C72 89 123 69 177 77 C221 56 311 71 335 116 C368 158 351 223 306 248 C249 270 181 253 131 244 C81 233 62 174 84 130Z",fill:"var(--primaryFaint)"}),
       E("path", {key:"brewed",d:"M469 164 C504 121 581 131 634 150 C695 170 716 241 695 299 C680 361 598 371 535 360 C467 367 432 300 445 246 C435 214 444 185 469 164Z",fill:"var(--info-bg)"}),
-      text(145,38,"Soft drinks",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}),
+      text(210,55,"Soft drinks",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}),
       text(570,123,"Coffee and tea",{fontSize:16,fontWeight:600,textAnchor:"middle",fill:"var(--inkMuted)"}));
-    if (step >= 5) contents.push(line(295,150,315,145,gold,true), E("circle",{cx:315,cy:145,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
+    if (step >= 5) contents.push(line(235,150,255,145,gold,true), E("circle",{cx:255,cy:145,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
     if (step >= 7) contents.push(line(548,229,567,208,gold,true), E("circle",{cx:567,cy:208,r:16,fill:"none",stroke:gold,strokeWidth:3,className:"vs-map-reveal"}));
     VECTOR_DRINKS.forEach(function(d,i) {
       if (step < d.at) return;
@@ -7456,8 +7456,8 @@ function VectorMapDiagram(props) {
         var compared = step >= 5 && (i===0 || i===1 || i===3) && j===6;
         return E("tspan", {key:j,fontWeight:compared?800:400}, (j?", ":"")+v);
       }), "]"];
-      contents.push(point(d.x,d.y,d.name,{reveal:true,diamond:i>=3,lx:d.lx == null?d.x:d.lx,ly:d.ly == null?d.y+53.143305542655185:d.ly,anchor:"middle",fontSize:18,coordinates:vector}));
-      if (i === 3) contents.push(E("line",{key:"mystery-a-label",x1:295,y1:137,x2:300,y2:112,stroke:gold,strokeWidth:1.5}));
+      contents.push(point(d.x,d.y,d.name,{reveal:true,diamond:i>=3,lx:d.lx == null?d.x:d.lx,ly:d.ly == null?d.y+53.143305542655185:d.ly,anchor:d.anchor || "middle",fontSize:18,coordinates:vector}));
+      if (i === 3) contents.push(E("line",{key:"mystery-a-label",x1:235,y1:137,x2:235,y2:116,stroke:gold,strokeWidth:1.5}));
       if (i === 4) contents.push(E("line",{key:"mystery-b-label",x1:548,y1:242,x2:530,y2:304,stroke:gold,strokeWidth:1.5}));
     });
   } else {

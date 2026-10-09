@@ -4,7 +4,27 @@
 
 You type a question, hit send, and an answer starts appearing. Behind that chat, computers in a data center do an enormous amount of math.
 
-Let’s assume an LLM uses one trillion weights to generate each new token. At roughly two calculations per weight, writing 1,000 tokens, or around 750 words, takes about two quadrillion calculations. That’s a 2 followed by 15 zeroes.
+Let’s imagine an LLM that uses one trillion weights to generate each new token. At roughly two calculations per weight, the math adds up fast.
+
+### Board 1: The Math Adds Up Fast
+
+**Image file:** `data-centers-math.jpg`
+
+![The Math Adds Up Fast](data-centers-math.jpg)
+
+**Teaching content:**
+
+The math adds up fast.
+
+One token takes one pass through our example model’s trillion weights: about 2 trillion calculations.
+
+A short answer of about 100 tokens written by AI takes about 200 trillion calculations.
+
+A longer conversation, with about 1,000 tokens written by AI across the conversation, takes about 2 quadrillion calculations.
+
+In this example, even a short answer takes trillions of calculations.
+
+## Compute
 
 The ability to run that math is called compute.
 
@@ -14,7 +34,7 @@ Now imagine serving millions of people. That’s why AI companies need data cent
 
 Think of a big warehouse packed with thousands of specialized chips, called GPUs, running around the clock.
 
-### Board 1: Inside a Data Center
+### Board 2: Inside a Data Center
 
 **Image file:** `data-centers-data-center.jpg`
 
@@ -40,7 +60,7 @@ Somebody pays for all that arithmetic.
 
 Running those computers affects more than the company using them. It also affects the communities around them.
 
-### Board 2: What a Data Center Means for Its Neighbors
+### Board 3: What a Data Center Means for Its Neighbors
 
 **Image file:** `data-centers-physical-footprint.jpg`
 
@@ -82,7 +102,7 @@ That is about the staff of a big supermarket.
 
 Companies are responding in three ways: arranging more power, improving cooling, and building more efficient chips.
 
-### Board 3: Meeting the Demand
+### Board 4: Meeting the Demand
 
 **Image file:** `data-centers-meeting-demand.jpg`
 

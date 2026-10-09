@@ -21,7 +21,7 @@ def main():
  old=json.loads((OLD/'edit-manifest.json').read_text());assert old['render_sha256']==EXPECTED
  for i,p in SOURCES.items():assert sha(p)==HASHES[i]
  OUT.mkdir(exist_ok=True)
- protected={str(p):sha(p) for p in [SOURCE,*SOURCES.values(),ROOT/'course-assets/one-more-thing/one-more-thing.mp4',ROOT/'lessons/one-more-thing.md',*sorted((ROOT/'course-assets/one-more-thing').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [SOURCE,*SOURCES.values(),ROOT/'course-assets/the-next-token/the-next-token.mp4',ROOT/'lessons/the-next-token.md',*sorted((ROOT/'course-assets/the-next-token').glob('*.jpg'))]}
  audio=readwav(OLD/'edited.wav');parts=[audio[a*1600:z*1600].copy() for a,z in KEEP];fade=240
  for i,p in enumerate(parts):
   if i:p[:fade]*=np.linspace(0,1,fade)

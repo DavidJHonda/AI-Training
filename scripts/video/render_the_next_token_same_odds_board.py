@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the One More Thing probability board for page and video use."""
+"""Render The Next Token probability board for page and video use."""
 
 try:
     from .course_credit import save_course_image
@@ -166,7 +166,7 @@ def render() -> None:
         text="The best chance is not a guarantee.", font=face("medium", 32),
     )
 
-    output = ROOT / "course-assets/one-more-thing/one-more-thing-draws.jpg"
+    output = ROOT / "course-assets/the-next-token/the-next-token-draws.jpg"
     output.parent.mkdir(parents=True, exist_ok=True)
     save_course_image(image.convert("RGB"), output, quality=95, subsampling=0, optimize=True)
     print(output.relative_to(ROOT))

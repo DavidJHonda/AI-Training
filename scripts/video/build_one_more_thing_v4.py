@@ -79,10 +79,10 @@ SRC = ROOT / 'Prompts/one-more-thing-2.mp4'
 DONOR = ROOT / 'Prompts/one-more-thing-1.mp4'
 OUT = ROOT / 'video-audit/one-more-thing-build-2026-09-23'
 DEST = ROOT / 'Prompts/one-more-thing-v9.mp4'
-A = ROOT / 'course-assets/one-more-thing'
-B = {'1-draws': A / 'one-more-thing-draws.jpg',
-     '2-temperature': A / 'one-more-thing-temperature.jpg',
-     '3-bill': A / 'one-more-thing-bill.jpg'}
+A = ROOT / 'course-assets/the-next-token'
+B = {'1-draws': A / 'the-next-token-draws.jpg',
+     '2-temperature': A / 'the-next-token-temperature.jpg',
+     '3-bill': A / 'the-next-token-bill.jpg'}
 
 # Board rectangles, measured on each canonical JPG (board px): panel bodies and card edges, never shadows.
 PROBS, OTHER_ROW, PICKS = [88, 274, 659, 701], [96, 642, 651, 691], [948, 275, 1529, 730]   # the two headed panels ring outside their titles, not through them.
@@ -109,7 +109,7 @@ G1_GAIN, G2_GAIN = 1.6, 0.9                  # matched locally, not file to file
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[A / 'one-more-thing.mp4', ROOT / 'lessons/one-more-thing.md', DONOR, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[A / 'the-next-token.mp4', ROOT / 'lessons/the-next-token.md', DONOR, *B.values()])
     b.load_audio([(6.77, 7.10), (15.89, 16.31), (21.75, 22.09), (43.23, 43.67), (52.14, 52.41), (56.76, 57.20),
                   (61.63, 61.96), (67.61, 67.99), (73.89, 74.23), (80.53, 80.85), (84.44, 84.74), (91.64, 92.05),
                   (112.87, 113.16), (117.85, 118.13), (120.22, 120.66), (145.50, 145.81), (166.72, 167.11),
@@ -161,7 +161,7 @@ def main():
 
     b.render_legs()
     for k in b.boards: b.state_sheet(k)
-    b.make_close('inference')   # the lesson's internal id; assets are slugged one-more-thing
+    b.make_close('inference')   # the lesson's internal id; current assets are slugged the-next-token
     b.manifest({'narration': 'roll 2 uncut, plus two audio-only grafts from roll 1 at +2.1 dB (David, 2026-09-22)',
                 'review': 'video-audit/one-more-thing-comparison-2026-09-22/REVIEW.md'})
     print('Prepared', b.total, f'{b.total / FPS:.2f}s',

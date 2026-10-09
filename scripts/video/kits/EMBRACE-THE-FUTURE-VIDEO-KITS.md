@@ -183,6 +183,12 @@ timelines beyond the Markdown; no redrawn board diagrams; the lab is not narrate
 
 ### big-downside
 
+**Reroll materials ready, 2026-10-09.** The finalized three-idea lesson replaces the six-idea teaching in the existing video. Use `gemini-notebook/big-downside/PREP-NOTES.md`, `PROMPT.txt`, and the six files in its `upload/` folder. The current prompt is 470 words. The jailbreak upload is text-only and retains all teaching text; restore the canonical illustration during editing. Save the next raw generation as `Prompts/big-downside-reroll.mp4`. The package includes the latest safety wording, “They didn’t,” the cheating banner, attempted record concealment, Safety Runs Behind, and the clean two-line close. No video generation or edit has been performed for this revision.
+
+#### Historical production record: earlier six-idea lesson
+
+The records below preserve earlier work. They are not upload instructions for the current reroll.
+
 **Live `big-downside.mp4` is v3, shipped 2026-09-24** (David's approval; 5:38, cache key `20260924ship1`,
 pill 6 min). Rolls 3 and 4 (2026-09-24, on the fixed materials below) were reviewed in
 `video-audit/big-downside-review-2026-09-24/REVIEW.md`: roll 3 is the base (six-idea frame, no positional screen

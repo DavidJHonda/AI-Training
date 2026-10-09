@@ -47,7 +47,7 @@ const ASSETS = {
   layers: "course-assets/layers/layers-close.jpg",
   vectorspace: "course-assets/vector-space/vector-space-close.jpg",
   prediction: "course-assets/how-ai-answers/how-ai-answers-close.jpg",
-  inference: "course-assets/one-more-thing/one-more-thing-close.jpg",
+  inference: "course-assets/the-next-token/the-next-token-close.jpg",
   openerprotect: "course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg",
   hallucination: "course-assets/hallucination/hallucination-close.jpg",
   trainingbias: "course-assets/training-bias/training-bias-close.jpg",
@@ -190,6 +190,8 @@ function htmlWithLiveCloseBoards() {
           top: "0",
           width: `${width}px`,
           background: "#ffffff",
+          // Cover fractional-pixel screenshot rounding outside the stage edge.
+          boxShadow: "0 0 0 4px #ffffff",
           boxSizing: "content-box",
           overflow: "hidden",
           zIndex: "2147483647"

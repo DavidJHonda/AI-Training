@@ -179,7 +179,7 @@ def render() -> None:
         text="You remember the conversation. AI reads it again.", font=face("medium", 32),
     )
 
-    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-memory-v2.jpg"
+    page_path = ROOT / "course-assets/the-next-token/one-more-thing-memory-v2.jpg"
     video_path = asset_path('lessons', 'one-more-thing-2-two-sides.jpg')
     review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/02-two-sides-chat.jpg"
     for path in (page_path, video_path, review_path):

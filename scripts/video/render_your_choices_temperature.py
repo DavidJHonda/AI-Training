@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the temperature board, now taught in One More Thing."""
+"""Render the temperature board, retained from the former One More Thing lesson (now The Next Token)."""
 
 from __future__ import annotations
 
@@ -92,8 +92,8 @@ def save_pair(image: Image.Image) -> None:
     shutil.copyfile(page, prep)
     # Keep the migrated lesson assets in sync; retain legacy video source names.
     for relative in (
-        "course-assets/one-more-thing/one-more-thing-temperature.jpg",
-        "course-assets/one-more-thing/one-more-thing-temperature.jpg",
+        "course-assets/the-next-token/the-next-token-temperature.jpg",
+        "course-assets/the-next-token/the-next-token-temperature.jpg",
         "board-review-understand-ai-retrofit/boards/one-more-thing/02-temperature.jpg",
     ):
         destination = ROOT / relative

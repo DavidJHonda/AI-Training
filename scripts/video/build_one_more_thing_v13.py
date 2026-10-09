@@ -14,10 +14,10 @@ OUT=ROOT/'video-audit/one-more-thing-build-2026-09-28-v13'
 DEST=ROOT/'Prompts/one-more-thing-v13.mp4'
 SOURCES={i:ROOT/f'Prompts/one-more-thing-{i}.mp4' for i in (1,2,3)}
 HASHES={1:'5e8795c37d85523bb5543c47b9bdb9c7fce097332f90f0628bf3be93e94dfc16',2:'a2221a10c59738c7f48ee83d7db118135d3911d80a582d15fba1039048df80f6',3:'97db2239069fb406ec3ca97081038c0a50784e911e3d587ca6da97eeb2f705b8'}
-LIVE=ROOT/'course-assets/one-more-thing/one-more-thing.mp4'
+LIVE=ROOT/'course-assets/the-next-token/the-next-token.mp4'
 LIVE_HASH='bd076d8d401a95a87e82ad3e317766f61c4bce3985120e4e313971425ad3eea8'
 OLD=ROOT/'video-audit/one-more-thing-build-2026-09-23b'
-ASSET=ROOT/'course-assets/one-more-thing'
+ASSET=ROOT/'course-assets/the-next-token'
 AUDIO=[(1,0,1113,'Opening and leading probability'),(1,1218,2451,'Qualified probability, five picks, variety'),(2,1944,2040,'Each token shapes what comes next'),(1,2724,3160,'Temperature bridge and apps'),(1,3255,5025,'Temperature comparison and model setup'),(2,4210,5535,'Full math example and qualification'),(1,5643,5787,'Current closing message')]
 TAIL=120
 
@@ -90,7 +90,7 @@ class Assembly:
  def donor(self,a,z,key,roll,start,end,transform=None):
   self.add(a,z,key,'donor',roll=roll,source_start=fr(start),source_end=fr(end),transform=transform)
  def board(self,a,z,key,base,rings=(),push_amount=.02):
-  b=Build(ROOT,SOURCES[1],OUT,DEST);p,cw,ch,ox,oy=b.compose(ASSET/f'one-more-thing-{base}.jpg',key)
+  b=Build(ROOT,SOURCES[1],OUT,DEST);p,cw,ch,ox,oy=b.compose(ASSET/f'the-next-token-{base}.jpg',key)
   full=[cw/2,ch/2,float(cw)];n=z-a;end=cw*(1-min(push_amount,.04*n/900))
   for ring in rings:
    x,y,w,h=ring['rect'];m=30
@@ -98,7 +98,7 @@ class Assembly:
    end=min(cw,max(end,need))
   spec=dict(image=str(p),fps=30,out_w=1280,out_h=720,upscale=3,beats=[dict(label='full board',frames=n,**{'from':full},to=[cw/2,ch/2,end])],rings=list(rings))
   (OUT/f'leg-{key}.json').write_text(json.dumps(spec,indent=2)+'\n');self.renderers[key]=Renderer(spec)
-  self.add(a,z,key,'board',asset=str(ASSET/f'one-more-thing-{base}.jpg'),sha256=sha(ASSET/f'one-more-thing-{base}.jpg'),canvas_offset=[ox,oy],density='compact',spec=str(OUT/f'leg-{key}.json'))
+  self.add(a,z,key,'board',asset=str(ASSET/f'the-next-token-{base}.jpg'),sha256=sha(ASSET/f'the-next-token-{base}.jpg'),canvas_offset=[ox,oy],density='compact',spec=str(OUT/f'leg-{key}.json'))
  def frame(self,f):
   r=next(r for r in self.spans if r['start_frame']<=f<r['end_frame']);k=f-r['start_frame'];n=r['end_frame']-r['start_frame'];kind=r['kind']
   if kind=='board':return self.renderers[r['key']].at(k)[0]
@@ -120,7 +120,7 @@ def setup():
  for i,p in SOURCES.items():assert sha(p)==HASHES[i],f'Roll {i} changed'
  assert sha(LIVE)==LIVE_HASH,'Live donor changed'
  OUT.mkdir(exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
- protected={str(p):sha(p) for p in [*SOURCES.values(),LIVE,ROOT/'lessons/one-more-thing.md',ROOT/'gemini-notebook/one-more-thing/PROMPT.txt',*sorted(ASSET.glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [*SOURCES.values(),LIVE,ROOT/'lessons/the-next-token.md',ROOT/'gemini-notebook/the-next-token/PROMPT.txt',*sorted(ASSET.glob('*.jpg'))]}
  audio=prepare_audio();a=Assembly()
  # Opening follows the three questions, without fabricated statistics.
  a.donor(0,fr(4.24),'opening-branches',3,137.2,140.5,'branch')
@@ -162,7 +162,7 @@ def setup():
  a.add(end,outframe(2,179.28),'imagined-model-qualification','still')
  start=outframe(2,179.28);end=CLOSE
  a.board(start,end,'math-takeaway','bill',[ring(br[3]['rect'],outframe(2,181.3)-start,end-start,'#6e51ff',22)],push_amount=0)
- compose_canonical_for_video(ASSET/'one-more-thing-close.jpg',OUT/'close.png','#ffffff');a.close=cv2.imread(str(OUT/'close.png'));a.add(CLOSE,TOTAL,'standard-close','close')
+ compose_canonical_for_video(ASSET/'the-next-token-close.jpg',OUT/'close.png','#ffffff');a.close=cv2.imread(str(OUT/'close.png'));a.add(CLOSE,TOTAL,'standard-close','close')
  for left,right in zip(a.spans,a.spans[1:]):assert left['end_frame']==right['start_frame'],(left,right)
  assert a.spans[0]['start_frame']==0 and a.spans[-1]['end_frame']==TOTAL
  m=dict(candidate=str(DEST),source_hashes={str(SOURCES[i]):h for i,h in HASHES.items()},fps=30,frames=TOTAL,duration=TOTAL/30,audio_timeline=ROWS,audio=audio,visual_timeline=a.spans,scale_donor=scale_meta,protected_hashes=protected,boundaries=sorted(set([r['start_frame'] for r in a.spans[1:]]+[r['start_frame'] for r in ROWS[1:]])),close=dict(start_frame=CLOSE,prehold=48,push=150,endpoint=1.2,settle=TOTAL-CLOSE-198),approved_wording_exceptions=['Every choice starts with calculations: shorter bridge accepted','these weights instead of those weights'],scope='Approved combined production build. Review only, no publication.',listening_performed=False,pacing_exception='Temperature comparison retained continuously because candidate donors have wrong distributions; the narration compares its three columns. Initial math walk retained through its three explicit calculations; donor break at scope/estimate qualification.')

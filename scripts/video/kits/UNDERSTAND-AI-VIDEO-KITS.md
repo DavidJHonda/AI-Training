@@ -13,7 +13,7 @@ in `gemini-notebook/<slug>/assets/` that the canonical board replaces in the edi
 in `gemini-notebook/upload-sets.json` and staged in `gemini-notebook/<slug>/` by the sync.
 
 Course order: Opener → Training → AI is Math → Tokens → Embeddings → Transformer → Layers →
-Vector Space → How AI Answers → One More Thing.
+Vector Space → How AI Answers → The Next Token.
 
 Every lesson in this section has a live video shipped 2026-09-16 to 2026-09-18 under the
 old method (Scene-labelled Markdown, withheld face boards, no verbatim list). David asked on
@@ -626,41 +626,67 @@ Open questions
 
 - Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all four board titles and the step numbers added; FINAL VECTOR label folded in. The question-mark sentence stays: Board 2 labels the tile FINAL TOKEN.
 
-## One More Thing
+## The Next Token
 
-Reroll materials updated 2026-09-28 after David’s v12 review. Live video remains `one-more-thing.mp4?v=20260923ship3`; v12 is a visual-repair review candidate, not the new narration. The new closing copy and canonical closing JPG are updated locally. No video published.
+Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The internal lesson ID remains `inference`; current lesson, asset, and prep paths use `the-next-token`. Directories and current filenames were renamed on 2026-10-09; historical raw rolls, versioned build scripts, and audit records retain their original names. This is preparation only: no new roll, edit, or publication. The installed video remains v14, `the-next-token.mp4?v=20260929ship1`, 3:24.23. Its 2026-09-29 shipping receipt records publication verification; no fresh public verification is claimed here.
 
-- Prompt: `gemini-notebook/one-more-thing/PROMPT.txt` (464 words).
-- Narration source: `lessons/one-more-thing.md`.
-- Ready-to-upload folder: `gemini-notebook/one-more-thing/upload/` (Markdown and four JPGs).
-- Paste `gemini-notebook/one-more-thing/PROMPT.txt` into customization; do not upload it as a source.
-- Canonical uploads: `one-more-thing-draws.jpg`, `one-more-thing-temperature.jpg`, `one-more-thing-bill.jpg`, `one-more-thing-close.jpg`, all from `course-assets/one-more-thing/`.
-- No face variants or post-only boards. All three teaching boards remain unchanged.
-- Save as `Prompts/one-more-thing-reroll.mp4`, or the next unused numbered filename.
+### Prepared sources
+
+- Prompt: `gemini-notebook/the-next-token/PROMPT.txt` (442 words).
+- Narration source: `lessons/the-next-token.md`.
+- Ready-to-upload folder: `gemini-notebook/the-next-token/upload/` (one Markdown and three JPGs).
+- Uploads in teaching order: `course-assets/the-next-token/the-next-token-draws.jpg`, `gemini-notebook/the-next-token/assets/the-next-token-temperature.jpg`, and `course-assets/the-next-token/the-next-token-close.jpg`.
+- The temperature JPG is a complete, unhighlighted capture of the current demonstration. It replaces the former static temperature board in this kit. No face variants or post-only boards.
+- The old calculation board is excluded. Its teaching and the scale activity remain saved in `docs/parking-lot.html` for Data Centers; neither belongs in this narration.
+- Paste the prompt into customization; upload only the four files in `upload/`. Save the raw roll as `Prompts/the-next-token-reroll.mp4`, or the next unused numbered filename. Preserve existing rolls.
 
 ### Lesson arc and scene directions
 
-The same dog-name example connects three questions: why unchanged odds can produce different choices, how temperature changes those odds, and how much calculation each token requires.
+AI builds an answer one token at a time; the dog-name example shows different selections from unchanged odds, then how temperature changes those odds while learned weights stay the same.
 
-1. Start immediately with the three questions. Give each its own relevant visual: changing answer paths → contrasting odds → calculation scale. This visual preview accompanies the existing questions; no extra preview speech or title card. Introduce the dog only when the narration reaches the example. Avoid the previous opening’s consecutive dog holds.
-2. Establish the open token in “You could name him…” and Spot leading at 22%. Explain about 22 selections out of 100, on average, if the odds stay the same. Use a consistent unfinished sentence throughout; avoid the old generated “The dog was Max…” paths.
-3. **Same Probabilities, Different Choices:** retain the unchanged odds and the five picks in order, Max, Spot, Buddy, Rex, Max. They are separate selections at the same open token, one possible set, not five tokens in one reply. Spot appears once despite the highest probability. Another set could differ. No recital of all six percentages: the printed table stays available for reference.
-4. Leave the board for the two connected ideas: other likely choices add variety, and one changed token changes what follows. The Markdown gives this prose its own section so it can receive drawn scenes.
-5. Bridge explicitly: “So what changes how predictable those choices are?” Immediately answer with the temperature definition. Return visually to the same starting odds, then compare how they change.
-6. **How Temperature Changes the Odds:** explain low versus high using Spot’s 22% starting chance, 36% at low and 16% at high. Explain what happens to less likely choices. Do not recite every cell or tell viewers to adjust a slider. Preserve the distinction between reshaping probabilities and changing what the model learned.
-7. Bridge: “Every choice starts with calculations. Now count what an answer takes.” Training created the weights; they stay fixed during use. Draw the imagined trillion-weight model and the roughly two-calculations-per-weight explanation.
-8. **The Math Adds Up Fast:** walk through one token ≈ 2 trillion calculations, 100 generated tokens ≈ 200 trillion, and 1,000 generated tokens ≈ 2 quadrillion. Keep the generated-token scope and imagined-model qualification. Use relevant drawn scenes at conceptual transitions; do not force continuous board holds.
-9. End with “Math and probability, one token at a time.” Then “Every time you hit send.” Nothing after. The close now ties together choices, temperature and calculations.
+1. Open directly with the two current introductory paragraphs: token-by-token building and probabilities, followed by sampling and temperature. Use answer-building visuals. No title card, three-question preview, or promise of a calculation section.
+2. Establish the dog prompt and the open token in “You could name him.” Spot leads at 22%. Preserve “about 22 times out of 100 tries, on average, if the odds stay the same,” followed by “That’s called sampling.”
+3. **Same Probabilities, Different Choices:** keep the odds unchanged for five separate picks at the same open token: Max, Spot, Buddy, Rex, Max. This is one possible set, not five names in one answer. Spot appears once; another set could differ. The highest probability does not guarantee selection.
+4. Leave the board for the two connected ideas: giving other likely tokens a chance adds variety, and one changed token can change what follows. Preserve “can make answers repetitive,” rather than the old categorical wording.
+5. Introduce temperature as changing how concentrated or spread out the probabilities are. Explicitly say it is already set behind the scenes in chat apps. The demonstration compares settings; it does not ask viewers to change their app.
+6. **How Temperature Changes the Odds:** return to the same unfinished reply. Starting probabilities use what AI learned during training and the current context. Reveal the starting odds, then lower temperature (Spot 22% → 36%), then higher temperature from the same starting odds (22% → 16%). Explain smaller versus larger chances for less likely names. These are illustrative probabilities; Other combines the remaining vocabulary.
+7. Compare all three Spot values with a single continuous outline around the full row. State that temperature changes the probabilities used to pick a token, without changing what AI learned. Do not imply that choosing a different token retrains AI.
+8. End with “The best chance isn’t a guarantee.” Then “Different choices. Same learned weights.” End on the current closing board, with nothing after. No calculation section or matching-activity narration.
 
-### Required verbatim audio
+### Required verbatim audio and narration review
 
-The prompt contains twelve required passages, each standing alone in the Markdown: the 22%-over-100 explanation; Spot picked once / another five could differ; best chance is not a guarantee; the temperature connecting question; temperature’s definition; the named apps handling it behind the scenes; temperature’s learning distinction; the bridge to calculations; weights stay fixed; even a short answer takes trillions; and both new closing lines.
+The prompt requires eight passages: both opening paragraphs, the qualified 22%-over-100 explanation, “That’s called sampling,” temperature already set behind the scenes, the distinction between probability changes and learning, and both closing lines. Each is a standalone paragraph in the narration source. Formatting emphasis is not spoken.
 
-### Source decisions and review priorities
+David approved avoiding a recital of every table cell on 2026-09-28. Preserve that choice: both uploaded teaching graphics retain the full numbers, while the narration explains their relationships and the key Spot comparisons. Numerical coverage does not require reading all cells. The source Markdown removes webpage-only instructions and labels, and keeps variety/branching prose outside Board 1 so it can receive its own visuals.
 
-- David approved reducing numerical recitation on 2026-09-28. This lesson’s narration source intentionally does not transcribe every probability-table cell. Preserve the unchanged-odds relationship, five outcomes and low/high contrast. The source JPGs retain all numbers.
-- The temperature and math bridges are video narration additions grounded in the existing lesson. Page prose remains unchanged; the approved closing message is updated in the page, Markdown and closing JPG.
-- Review the generated opening for three meaningful visual beats, not two dog views. Review whether the temperature question receives an immediate answer and a visual connection to the same example.
-- Board timings and outline onsets must be measured against the new roll. Use current Edit Spec: full-board introductions, fixed 4px outlines, purposeful drawing breaks. Do not inherit v12 timing. Highlight the five picks as spoken where it helps follow the sequence; a percentage recital is not requested.
-- Keep numbers hypothetical; no real model sizes, hardware or cost claims. No on-page “How Big Is 2 Quadrillion?” activity narration. Do not add technical labels such as sampling, softmax, parameters or FLOPs.
-- Older One More Thing raw rolls were not found locally during the review. The live file contains reusable branching and calculation scenes, but the reroll should supply a coherent new opening and transitions.
+Judge the new roll first on the complete teaching arc, required lines, spoken comparisons, and the distinction between changing a choice and changing learned weights. Check that lower and higher temperature are compared to the same baseline. Do not accept a roll that omits the behind-the-scenes setting or treats the starting probabilities as fixed values memorized during training. Sampling is now an explicit taught term. Avoid extra technical labels, computation scale, or claims about real model sizes, hardware, and costs.
+
+### Temperature capture and later edit
+
+The live component is `TemperatureScene` in `index.html`, using `TEMPERATURE_STATES` and `TEMPERATURE_DATA`. Regenerate its standalone preview with `node scripts/video/preview_temperature.cjs`. With the local course server running, `BASE_URL=http://127.0.0.1:8793 node scripts/video/capture_temperature_board.cjs` captures step 2 into the registered upload asset. It contains all columns, no outline, no controls, and only “Answer so far” above the unfinished reply. Refresh the upload bundle after recapturing.
+
+For the eventual video edit, use `/previews/temperature.html?capture=1&step=0` and advance with `window.setTemperatureScene(step)` as narration reaches each comparison:
+
+| State | Visible teaching | Edit cue |
+| --- | --- | --- |
+| 0 | Starting odds only | Spot starts at 22%. |
+| 1 | Starting and low-temperature columns | Spot rises to 36%; less likely names get smaller chances. |
+| 2 | All three columns | Higher temperature starts from the same baseline; Spot falls to 16%. |
+| 3 | All three columns; full Spot row outlined | Compare 22%, 36%, 16%; learning stays unchanged. |
+
+Capture the scene without the Guided Demonstration shell, instructions, buttons, or a cursor. Preserve the white-panel layout; do not restore the deleted prompt box. Use the current Edit Spec for final framing and outline treatment. Reveal on spoken cues, not a fixed timer. Measure timing, pauses, and outline onset against the new roll; no old timings carry over automatically.
+
+### Existing-video reference and reusable visuals
+
+The installed v14 file is `course-assets/the-next-token/the-next-token.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/one-more-thing.txt`; its source record matches that hash. Shipping receipt: `video-audit/one-more-thing-repair-2026-09-29-v14/shipping-receipt.json`.
+
+Approximate source ranges from the transcript and sequential sampled frames, for later evaluation rather than cut instructions:
+
+- 0–12 s: obsolete three-question opening; replace.
+- 12–69 s: dog example, qualified 22%-over-100 explanation, unchanged odds and five selections; useful teaching. The 100-trial grid around 37–45 s is a possible visual donor.
+- 69–81 s: variety and branching continuation; possible visual donors, including the name pattern around 69–78 s and branching around 78–81 s.
+- 81–134 s: temperature teaching; replace its static comparison with the current scene and retain the behind-the-scenes and unchanged-learning concepts.
+- 135–195 s: computation; excluded from this lesson and available for a later Data Centers review.
+- 195–204 s: obsolete close; replace.
+
+The previous evaluation used the matching transcript and sampled visual frames; it did not audition audio joins or certify full audiovisual playback. Recheck useful scenes in motion with narration before reuse. Verify the source hash before extracting anything, and do not bind a future edit to an unchecked, replaceable live filename. No donor extraction or audio graft is part of this prep update.

@@ -73,7 +73,7 @@ const BOARDS = [
   { section: "studying", out: "learn-with-ai-3-habits.jpg", width: 900, vw: 960, wrapUp: 1,
     find: ["One notebook per subject", "Trace it back to learn it", "Reading the original material"] },
 
-  // One More Thing teaching boards are deterministic Editorial assets. Do not
+  // The Next Token teaching boards are deterministic Editorial assets. Do not
   // recapture the accessible HTML fallbacks and overwrite the canonical images.
 
   // NO CLOSE BOARDS BELONG IN THIS FILE. Canonical white-background closing JPGs

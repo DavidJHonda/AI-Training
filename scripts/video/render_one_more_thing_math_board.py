@@ -197,8 +197,8 @@ def render() -> None:
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
 
-    page_path = ROOT / "course-assets/one-more-thing/one-more-thing-bill.jpg"
-    video_path = ROOT / "course-assets/one-more-thing/one-more-thing-bill.jpg"
+    page_path = ROOT / "course-assets/the-next-token/the-next-token-bill.jpg"
+    video_path = ROOT / "course-assets/the-next-token/the-next-token-bill.jpg"
     review_path = ROOT / "board-review-understand-ai-retrofit/boards/one-more-thing/03-the-math.jpg"
     for path in (page_path, video_path, review_path):
         path.parent.mkdir(parents=True, exist_ok=True)

@@ -274,7 +274,7 @@ CARD_BOARDS = (
 FLOW_BOARDS = (
     FlowBoard(
         key="voice-clone",
-        title="How the Voice-Clone Scam Works",
+        title="The Voice-Clone Scam",
         steps=(
             Card("Voice Clip", "Scammers pull a short voice clip from a video posted online."),
             Card("Voice Cloned", "AI generates new speech that sounds like someone you know."),
@@ -609,10 +609,20 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
         draw_board_title(draw, board.title)
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
 
-    panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
+    source_art = ROOT / board.art_sheet
+    if source_art.exists():
+        panels = split_art_sheet(Image.open(source_art).convert("RGB"), count)
+    else:
+        # Retired source sheets can be recovered from the finished native board.
+        # Preserve its artwork and geometry when updating labels or headings.
+        with Image.open(ROOT / board.page_output) as current:
+            panels = [current.crop((left, art_top, left + art_width, art_top + art_height)).convert("RGB")
+                      for left in art_lefts]
     mask = rounded_mask((art_width, art_height), 14)
     for left, panel, accent in zip(art_lefts, panels, accents):
-        art = accent_wash(cover(panel, (art_width, art_height)), accent)
+        art = cover(panel, (art_width, art_height))
+        if source_art.exists():
+            art = accent_wash(art, accent)
         image.paste(art, (left, art_top), mask)
         ImageDraw.Draw(image).rounded_rectangle(
             (left, art_top, left + art_width, art_top + art_height),

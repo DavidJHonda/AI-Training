@@ -205,7 +205,7 @@ def main() -> None:
         "Similar-looking answers can come from very different processes.",
     )
     standard_title_and_banner(
-        "one-more-thing/one-more-thing-bill.jpg",
+        "the-next-token/the-next-token-bill.jpg",
         (1600, 890),
         "The Math Adds Up Fast",
         762,

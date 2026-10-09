@@ -54,7 +54,7 @@ a decision map, not an instruction to rebuild every asset.
 | Layers | Editorial technical explainer | Normalize | Preserve the repeated-operation and resolution diagrams; unify peer-board shell and type. |
 | Vector Space | Data and map utility | Normalize | Preserve exact coordinates and neighborhoods; standardize only the frame. |
 | How AI Answers | Technical utility | Keep | The token-by-token build and last-token board are intentionally technical. |
-| One More Thing | Worked-example utility | Keep | Preserve the probability-drawing sequence and content watchlist. |
+| The Next Token | Worked-example utility | Keep | Preserve the probability-drawing sequence and content watchlist. |
 
 ## Avoid Traps
 
@@ -77,7 +77,7 @@ a decision map, not an instruction to rebuild every asset.
 | Opener | Opener utility | Keep | Preserve creed and section map. |
 | Loudest Voices | Editorial Explainer: Long Version | Keep | Preserve “Even the Experts Don’t Know” as the `EE-LONG` reference: three evidence-rich cards with full-size quotations and explicit qualifications. |
 | Pace of Change | Editorial Explainer | Keep | Use the three new boards as current family exemplars; retain the three-years page comparison. |
-| Big Downside | Editorial Explainer | Keep | Preserve escalation and voice-clone sequence; apply only future shell normalization. |
+| Big Downside | Editorial Explainer | Adopted | Three-idea revision: three-card full-bleed guardrail layers, retained jailbreak and voice-clone illustrations, simplified cyberattack case, and standard two-line close. Renderers: `render_big_downside_guardrails.py`, `render_big_downside_goal.py`, and `generate-closing-boards.cjs --lesson bigdownside`. Historical timeline and Policy Puppetry removed from the page and upload set. |
 | Big Upside | Editorial timeline and examples | Keep | Preserve the timeline, discovery, and practical-help separation. |
 | Rise of Agents | Editorial Explainer: Flow | Keep | Preserve Goal, Plan, Act, Check and the return loop. This is the `EE-FLOW` reference. |
 | Work Changes | Editorial comparison | Keep | Preserve Automate versus Augment and the outcomes board. |

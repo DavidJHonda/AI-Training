@@ -115,6 +115,79 @@
 
   @media print { .vs-map-reveal { animation: none; } .vs-map-it { transition: none; } }
 
+  .concept-match { color: var(--inkSoft); font-family: var(--sans); }
+  .concept-match-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .concept-match-heading h3 { margin: 0; font-size: 20px; color: var(--ink); }
+  .concept-match-heading > span { font-size: 14px; }
+  .concept-match-grid { display: grid; grid-template-columns: minmax(150px, 0.7fr) minmax(0, 1.8fr); grid-template-rows: repeat(5, auto); gap: 10px 24px; }
+  .concept-match-concepts, .concept-match-descriptions { display: grid; grid-template-rows: subgrid; grid-row: 1 / span 5; }
+  .concept-match-concepts { grid-column: 1; }
+  .concept-match-descriptions { grid-column: 2; }
+  .concept-match-choice { display: block; width: 100%; margin: 0; padding: 14px 16px; min-height: 48px; background: var(--card); border: 2px solid transparent; border-radius: 12px; box-shadow: var(--shadowSoft); text-align: left; color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.5; cursor: pointer; }
+  .concept-match-choice:hover:not(:disabled):not(.is-wrong) { border-color: var(--primary); }
+  .concept-match-choice:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .concept-match-choice.is-selected { border-color: var(--primary); background: var(--primaryFaint); }
+  .concept-match-choice.is-matched { border-color: var(--tryAccent); cursor: default; color: var(--ink); }
+  .concept-match-concepts .concept-match-choice:not(:disabled) { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .concept-match-concepts .concept-match-choice:active:not(:disabled) { cursor: grabbing; }
+  .concept-match-description.is-drop-target { border-color: var(--primary); background: var(--primaryFaint); outline: 2px dashed var(--primary); outline-offset: 3px; }
+  .concept-match-drag { position: fixed; z-index: 10000; pointer-events: none; width: 170px; padding: 12px 16px; border: 2px solid var(--primary); border-radius: 12px; background: var(--card); box-shadow: var(--shadowElevated); color: var(--ink); font-family: var(--sans); font-size: 17px; font-weight: 700; line-height: 1.5; }
+  .concept-match-choice.is-wrong { border-color: var(--red); }
+  .concept-match-feedback { margin: 14px 0 0; font-size: 15px; line-height: 1.5; color: var(--inkSoft); }
+  .concept-match-feedback.is-quiet { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .concept-match-finish { border-top: 1px solid var(--tryRule); margin-top: 20px; padding-top: 18px; }
+  .concept-match-finish p { margin: 0 0 14px; font-size: 17px; line-height: 1.6; }
+  @media (max-width: 540px) {
+    .interactive-box:has(.concept-match) { padding: 20px 16px !important; }
+    .concept-match-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 18px; }
+    .concept-match-concepts, .concept-match-descriptions { grid-column: 1; grid-row: auto; grid-template-rows: none; }
+    .concept-match-descriptions { gap: 10px; }
+    .concept-match-concepts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .concept-match-concepts .concept-match-choice { width: auto; flex: 1 1 auto; margin: 0; padding: 10px 12px; font-size: 16px; }
+    .concept-match-description { font-size: 16px; padding: 12px; }
+  }
+
+  .temperature-scene { padding: 24px; color: var(--ink); }
+  .temperature-reply { margin: 0 0 20px; font-size: 17px; line-height: 1.6; }
+  .temperature-reply-label { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 700; color: var(--inkMuted); }
+  .temperature-open-token { color: var(--primaryDeep); font-weight: 800; }
+  .temperature-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0 8px; }
+  .temperature-table th, .temperature-table td { padding: 12px 8px; text-align: center; font-size: 17px; line-height: 1.4; }
+  .temperature-table thead th { font-size: 14px; vertical-align: bottom; }
+  .temperature-table th:first-child { width: 22%; text-align: left; }
+  .temperature-table tbody th { font-weight: 600; }
+  .temperature-table td { position: relative; background: var(--primaryFaint); border-inline: 3px solid var(--card); }
+  .temperature-table .temperature-column-0 { color: var(--primaryDeep); }
+  .temperature-table .temperature-column-1 { color: var(--info); }
+  .temperature-table .temperature-column-2 { color: var(--red); }
+  .temperature-mobile-label { display: none; }
+  .temperature-value { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .temperature-value.is-pending { visibility: hidden; }
+  .temperature-pending { position: absolute; top: 12px; left: 0; right: 0; color: var(--inkFaint); }
+  .temperature-bar { display: block; height: 7px; margin-top: 7px; background: color-mix(in srgb, currentColor 12%, transparent); border-radius: 6px; overflow: hidden; }
+  .temperature-bar > span { display: block; height: 100%; background: currentColor; border-radius: inherit; transition: width 450ms ease; }
+  .temperature-combined { display: block; font-size: 12px; font-weight: 400; color: var(--inkMuted); }
+  .temperature-table .is-combined .temperature-bar > span { background: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 4px); }
+  .temperature-table .is-focus { position: relative; background: var(--primaryFaint); }
+  .temperature-table .is-focus > th::after { content: ""; position: absolute; z-index: 1; inset: 0; border: 2px solid var(--primary); border-radius: 8px; pointer-events: none; }
+  .temperature-table .is-focus > td { border-inline-color: transparent; }
+  .temperature-note { margin: 14px 0 0; color: var(--inkMuted); font-size: 13px; line-height: 1.5; }
+  @media (max-width: 540px) {
+    .temperature-scene { padding: 16px 12px; }
+    .temperature-table, .temperature-table tbody { display: block; }
+    .temperature-table thead { display: none; }
+    .temperature-table tbody tr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 12px; }
+    .temperature-table th, .temperature-table td { padding: 8px 5px; font-size: 16px; }
+    .temperature-table tbody th:first-child { grid-column: 1 / -1; width: auto; }
+    .temperature-table td { border-inline-width: 2px; }
+    .temperature-mobile-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; }
+    .temperature-combined { display: inline; margin-left: 5px; font-size: 12px; }
+    .temperature-pending { top: 31px; }
+
+  }
+  @media (prefers-reduced-motion: reduce) { .temperature-bar > span { transition: none; } }
+  @media print { .temperature-bar > span { transition: none; } }
+
   .embedding-dimension-scene { container-type: inline-size; padding: 24px; color: var(--ink); --embedding-sweet: #c91e2c; --embedding-bitter: #0d9488; --embedding-fizz: #1857ff; --embedding-heat: #b96300; }
   .embedding-dimension-scale { margin: 0 0 24px; text-align: center; color: var(--inkMuted); font-size: 16px; line-height: 1.6; }
   .embedding-dimension-table { width: 100%; table-layout: fixed; border-spacing: 0 10px; }
@@ -1279,7 +1352,7 @@ const LESSON_VIDEOS = {
   layers: { src: "course-assets/layers/layers.mp4?v=20260929ship1", duration: "3 min", title: "Meaning builds up, layer by layer." },
   vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20261008ship-vector-space-v18", duration: "4 min", title: "Where a token's numbers finally land." },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20261006ship1", duration: "4 min", title: "How the answer builds itself, one token at a time." },
-  inference: { src: "course-assets/one-more-thing/one-more-thing.mp4?v=20260929ship1", duration: "3 min", title: "Different choices, temperature, and the scale of the math." },
+  inference: { src: "course-assets/the-next-token/the-next-token.mp4?v=20260929ship1", duration: "3 min", title: "How sampling and temperature shape the next token." },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener.mp4?v=20260929ship1", duration: "4 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
   hallucination: { src: "course-assets/hallucination/hallucination.mp4?v=20260930ship19", duration: "4 min", title: "Why AI can make up facts that sound true.", cta: "Both end at the same LAB." },
   trainingbias: { src: "course-assets/training-bias/training-bias.mp4?v=20260930ship10", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
@@ -1308,7 +1381,7 @@ const LESSON_VIDEOS = {
   openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4?v=20260924ship1", duration: "3 min", title: "Monsters, or open water? Nobody knows what’s coming.", cta: "Both walk the same section map." },
   whatpeoplesay: { src: "course-assets/loudest-voices/loudest-voices.mp4?v=20260930ship1", duration: "4 min", title: "Same field. Same evidence. Very different bets." },
   paceofchange: { src: "course-assets/pace-of-change/pace-of-change.mp4?v=20260930ship10", duration: "4 min", title: "Faster every few months, and nobody knows where it stops." },
-  bigdownside: { src: "course-assets/big-downside/big-downside.mp4?v=20260930ship1", duration: "6 min", title: "The honest case for worry, in six ideas." },
+  bigdownside: { src: "course-assets/big-downside/big-downside.mp4?v=20260930ship1", duration: "6 min", title: "Earlier video: the six-idea version.", body: "This video follows the earlier six-idea version. Read the updated lesson below for the three main ideas.", caption: "This video follows the earlier six-idea lesson. The page below uses the revised three-idea structure." },
   bigupside: { src: "course-assets/big-upside/big-upside.mp4?v=20260930ship1", duration: "4 min", title: "They solved a fifty-year problem, then gave the answers away." },
   agents: { src: "course-assets/rise-of-agents/rise-of-agents.mp4?v=20261008ship1", duration: "3 min", title: "A chatbot answers. An agent acts. Your name rides along." },
   workchanges: { src: "course-assets/work-changes/work-changes.mp4?v=20261008ship1", duration: "5 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
@@ -1353,7 +1426,7 @@ const CLOSE_BOARDS = {
   layers: { pill: "Meaning builds up, layer by layer.", sticky: "Attention and transformation. Dozens of times." },
   vectorspace: { pill: "Meaning is a position in vector space.", sticky: "Similar meanings usually sit close together." },
   prediction: { pill: "Every answer is built one token at a time.", sticky: "The whole run is called inference." },
-  inference: { pill: "Math and probability, one token at a time.", sticky: "Every time you hit send." },
+  inference: { pill: "The best chance isn’t a guarantee.", sticky: "Different choices. Same learned weights." },
   // Avoid Traps
   openerprotect: { pill: "When AI fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
   hallucination: { pill: "Hallucinations sound like every other AI answer.", sticky: "When something doesn’t add up, trace the claim to its source." },
@@ -1368,7 +1441,7 @@ const CLOSE_BOARDS = {
   openerrealworld: { pill: "Nobody has a map of what’s coming.", sticky: "You’re ready to sail into the blank space." },
   whatpeoplesay: { pill: "Where AI will be in ten years is a bet.", sticky: "Which voice you listen to is your call." },
   paceofchange: { pill: "AI keeps getting faster and more powerful.", sticky: "Nobody is sure where it stops." },
-  bigdownside: { pill: "AI can follow a goal in ways nobody intended.", sticky: "It can change faster than safeguards and rules." },
+  bigdownside: { pill: "More capability. More at stake.", sticky: "Safeguards have to keep up." },
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is already accelerating work that protects and improves lives." },
   agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
   workchanges: { pill: "AI is changing the work you’ll do.", sticky: "Now it’s on you to LEARN." },
@@ -1414,7 +1487,7 @@ const CLOSE_BOARD_ASSETS = {
   layers: { src: "course-assets/layers/layers-close.jpg", cssWidth: 467, width: 1404, height: 600 },
   vectorspace: { src: "course-assets/vector-space/vector-space-close.jpg", cssWidth: 509, width: 1530, height: 597 },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers-close.jpg", cssWidth: 542, width: 1626, height: 600 },
-  inference: { src: "course-assets/one-more-thing/one-more-thing-close.jpg?v=20260928probability", cssWidth: 628, width: 1884, height: 597 },
+  inference: { src: "course-assets/the-next-token/the-next-token-close.jpg?v=20261009nexttoken", cssWidth: 628, width: 1884, height: 597 },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg", cssWidth: 495, width: 1488, height: 597 },
   hallucination: { src: "course-assets/hallucination/hallucination-close.jpg", cssWidth: 619, width: 1860, height: 597 },
   trainingbias: { src: "course-assets/training-bias/training-bias-close.jpg", cssWidth: 448, width: 1344, height: 597 },
@@ -1427,7 +1500,7 @@ const CLOSE_BOARD_ASSETS = {
   openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg", cssWidth: 509, width: 1530, height: 597 },
   whatpeoplesay: { src: "course-assets/loudest-voices/loudest-voices-close.jpg", cssWidth: 493, width: 1482, height: 597 },
   paceofchange: { src: "course-assets/pace-of-change/pace-of-change-close.jpg", cssWidth: 571, width: 1716, height: 597 },
-  bigdownside: { src: "course-assets/big-downside/big-downside-close.jpg", cssWidth: 600, width: 1800, height: 600 },
+  bigdownside: { src: "course-assets/big-downside/big-downside-close.jpg?v=20261009clean2", cssWidth: 445, width: 1335, height: 597 },
   bigupside: { src: "course-assets/big-upside/big-upside-close.jpg", cssWidth: 561, width: 1686, height: 597 },
   agents: { src: "course-assets/rise-of-agents/rise-of-agents-close.jpg", cssWidth: 579, width: 1740, height: 600 },
   workchanges: { src: "course-assets/work-changes/work-changes-close.jpg", cssWidth: 462, width: 1386, height: 600 },
@@ -1665,7 +1738,8 @@ function ClosingBoardImage(props) {
     })),
     E("div", { className: "lesson-closing-board-narrow" }, E(CloseBoard, props.copy)),
     E("figcaption", { className: "welcome-opening-board-text" },
-      E("p", null, props.copy.pill), props.copy.sticky ? E("p", null, props.copy.sticky) : null));
+      E("p", null, props.copy.pill),
+      props.copy.sticky ? E("p", null, props.copy.sticky) : null));
 }
 function closeBoard(sectionId) {
   var copy = CLOSE_BOARDS[sectionId];
@@ -3409,7 +3483,7 @@ const SECTION_META = {
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
   prediction: { kicker: "FROM MEANING TO WORDS", label: "How AI Answers", icon: "\uD83D\uDCCA" },
-  inference: { kicker: "THE FINE PRINT", label: "One More Thing", title: "One More Thing", icon: "\uD83D\uDD0D" },
+  inference: { kicker: "THE FINE PRINT", label: "The Next Token", title: "The Next Token", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Your Home Base", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "WHAT CAN CHANGE THE ANSWER", label: "Know the App", icon: "\uD83E\uDE9C" },
   aitips: { kicker: "START WHERE YOU ARE", label: "Next Level Moves", icon: "\uD83E\uDDF0" },
@@ -7517,58 +7591,162 @@ function VectorSpaceSection(props) {
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
 }
 
-function MatchTermsTryIt(props) {
-  var E = React.createElement;
-  var QUESTIONS = [
-    { prompt: "A chunk of text the model reads or writes, like a word, part of a word, or emoji.", answer: "Token", choices: ["Token", "Embedding", "Parameter"], feedback: "A token is the chunk of text itself: a word, part of a word, punctuation, or emoji." },
-    { prompt: "The process of turning a token into a row of numbers that captures its meaning.", answer: "Embedding", choices: ["Token", "Embedding", "Context window"], feedback: "An embedding turns a token into numbers that capture meaning, so similar words land close together." },
-    { prompt: "A learned number inside the model, set during training and frozen afterward.", answer: "Parameter", choices: ["Layers", "Parameter", "Token"], feedback: "A parameter (also called a weight) is one of the model’s learned numbers, fixed once training ends." },
-    { prompt: "The step that works out which words in the text relate to which.", answer: "Attention", choices: ["Attention", "Transformer", "Prediction"], feedback: "Attention figures out which words connect: each word weighs every other word." },
-    { prompt: "The architecture that lets the model read all your words at once, not one at a time.", answer: "Transformer", choices: ["Inference", "Transformer", "Attention"], feedback: "The Transformer is the architecture behind modern LLMs (the T in ChatGPT). It reads all the tokens at once." },
-    { prompt: "The stacked steps that refine meaning a little more on each pass.", answer: "Layers", choices: ["Training", "Attention", "Layers"], feedback: "Layers are the stacked steps, around 100 of them, and each one refines the meaning before passing it on." },
-    { prompt: "Learning patterns from billions of examples, once, before you ever use the model.", answer: "Training", choices: ["Training", "Inference", "Parameter"], feedback: "Training is the one-time build where the model learns its patterns. Afterward the weights are frozen." },
-    { prompt: "Everything the model can see at once: your prompt, the conversation, and instructions.", answer: "Context window", choices: ["Embedding", "Context window", "Training"], feedback: "The context window is the model’s field of view. Anything outside it is invisible to the model." },
-    { prompt: "The process AI uses to generate an answer, one token at a time.", answer: "Inference", choices: ["Training", "Inference", "Transformer"], feedback: "Inference is answer-time: the model uses what it learned to generate, token by token. It isn’t learning now." },
-    { prompt: "Choosing the next token from the model’s ranked list of possibilities.", answer: "Prediction", choices: ["Inference", "Attention", "Prediction"], feedback: "Prediction is the pick: the model scores every possible next token, chooses one, then repeats." }
-  ];
-  var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  var done = answeredCount >= QUESTIONS.length;
-  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
-  return E(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Name the Piece",
-    lead: "Every part of the machine has a job. See whether the job is enough to name the part.",
-    instructions: [
-      "Read the definition.",
-      "Choose the machine part it describes."
-    ]
-  },
-    E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      QUESTIONS.map(function(q, i) {
-        var picked = answers[i];
-        var answered = picked !== undefined;
-        var correct = answered && picked === q.answer;
-        return E(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: q.prompt,
-          answered: answered,
-          correct: correct,
-          feedback: answered ? ((correct ? "Right. " : "Not quite. ") + q.feedback) : null
-        }, q.choices.map(function(c) {
-          return E(FeedbackPill, {
-            key: c,
-            answered: answered,
-            isCorrect: c === q.answer,
-            isPicked: picked === c,
-            label: c,
-            onClick: function() { setAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, c]])); }); }
-          });
-        }));
-      })));
+var UNDERSTAND_AI_CONCEPTS = [
+  {id:"training",name:"Training",description:"AI makes guesses, gets feedback, and adjusts its weights.",hint:"Look for learning that changes AI’s weights."},
+  {id:"probability",name:"Probability",description:"How likely something is to happen. A better chance isn’t a guarantee.",hint:"Look for how likely an outcome is."},
+  {id:"tokens",name:"Tokens",description:"Pieces of text: a word, part of a word, or punctuation.",hint:"Look for the pieces of text themselves."},
+  {id:"embeddings",name:"Embeddings",description:"Lists of numbers that help AI work with meaning.",hint:"Look for how meaning is represented with numbers."},
+  {id:"attention",name:"Attention",description:"Helps AI connect words and figure out what they mean in context.",hint:"Look for connections between words in the context."},
+  {id:"layers",name:"Layers",description:"Repeated steps that build meaning by updating each token’s numbers.",hint:"Look for repeated steps that update the numbers."},
+  {id:"vector-space",name:"Vector space",description:"A map made of numbers. Similar meanings tend to land near each other.",hint:"Look for positions and distances on a map."},
+  {id:"inference",name:"Inference",description:"AI uses what it learned to build an answer, one token at a time.",hint:"Look for using what AI already learned to produce an answer."},
+  {id:"sampling",name:"Sampling",description:"Picking the next token using the odds. The top choice doesn’t always win.",hint:"Look for choosing a token using the odds."},
+  {id:"temperature",name:"Temperature",description:"Changes the odds, giving less likely tokens more or less of a chance.",hint:"Look for changing the odds before a token is picked."}
+];
+function shuffledConceptIds(items) {
+  var ids = items.map(function(item){return item.id;});
+  for (var i=ids.length-1;i>0;i--) {
+    var j=Math.floor(Math.random()*(i+1)), swap=ids[i];ids[i]=ids[j];ids[j]=swap;
+  }
+  return ids;
 }
+// Descriptions never begin opposite their matching concept.
+function mixedDescriptionIds(items) {
+  var ids=items.map(function(item){return item.id;});
+  for(var attempt=0;attempt<20;attempt++){
+    var order=shuffledConceptIds(items);
+    if(order.every(function(id,i){return id!==ids[i];}))return order;
+  }
+  return ids.slice(1).concat(ids[0]);
+}
+function mixedConceptDeck() {
+  return shuffledConceptIds(UNDERSTAND_AI_CONCEPTS).map(function(id){
+    return UNDERSTAND_AI_CONCEPTS.find(function(item){return item.id===id;});
+  });
+}
+function MatchTermsTryIt() {
+  var E=React.createElement;
+  var _round=useState(0), round=_round[0], setRound=_round[1];
+  var _deck=useState(mixedConceptDeck), deck=_deck[0], setDeck=_deck[1];
+  var _selected=useState(null), selected=_selected[0], setSelected=_selected[1];
+  var _matched=useState([]), matched=_matched[0], setMatched=_matched[1];
+  var _feedback=useState(""), feedback=_feedback[0], setFeedback=_feedback[1];
+  var _wrong=useState(null), wrong=_wrong[0], setWrong=_wrong[1];
+  var _drag=useState(null), dragVisual=_drag[0], setDragVisual=_drag[1];
+  var _hover=useState(null), dropHover=_hover[0], setDropHover=_hover[1];
+  var dragRef=useRef(null), suppressClick=useRef(false);
+  var _order=useState(function(){return mixedDescriptionIds(deck.slice(0,5));}), order=_order[0], setOrder=_order[1];
+  var rootRef=useRef(null), actionRef=useRef(null), previous=useRef("0:0");
+  var concepts=deck.slice(round*5,round*5+5);
+  var roundDone=matched.length===5, complete=roundDone && round===1;
+  useEffect(function(){
+    var key=round+":"+matched.length;
+    if(previous.current!==key){
+      var target=roundDone?actionRef.current:rootRef.current && rootRef.current.querySelector("[data-concept]:not(:disabled)");
+      if(target)target.focus({preventScroll:true});
+    }
+    previous.current=key;
+  },[round,matched.length]);
+  function startRound(next){
+    clearDrag();setRound(next);setSelected(null);setMatched([]);setWrong(null);setFeedback("");
+    var nextDeck=next===0?mixedConceptDeck():deck;
+    if(next===0)setDeck(nextDeck);
+    setOrder(mixedDescriptionIds(nextDeck.slice(next*5,next*5+5)));
+  }
+  function choose(id){setSelected(id);setWrong(null);setFeedback("");}
+  function match(id,draggedId){
+    var choiceId=draggedId || selected;
+    var choice=concepts.find(function(item){return item.id===choiceId;});
+    if(matched.indexOf(id)!==-1 || matched.indexOf(choiceId)!==-1)return;
+    if(!choice){setFeedback("Choose a concept first, then its description.");return;}
+    if(choiceId!==id){setWrong(id);setFeedback("Not quite. "+choice.hint);return;}
+    setMatched(function(prev){return prev.concat(id);});setSelected(null);setWrong(null);
+    setFeedback(choice.name+" matched. "+(matched.length===4?(round===1?"All ten concepts matched.":"Ready for the next five."):"Choose another concept."));
+  }
+  function dropTarget(x,y){
+    var element=document.elementFromPoint(x,y);
+    var target=element && element.closest("[data-description]");
+    return target && rootRef.current && rootRef.current.contains(target) && !target.disabled ? target.getAttribute("data-description") : null;
+  }
+  function updateDrag(x,y){
+    var drag=dragRef.current;
+    if(!drag)return;
+    drag.x=x;drag.y=y;
+    setDragVisual({name:drag.name,x:x,y:y});setDropHover(dropTarget(x,y));
+  }
+  function clearDrag(){
+    var drag=dragRef.current;dragRef.current=null;
+    if(drag && drag.element.hasPointerCapture(drag.pointerId))drag.element.releasePointerCapture(drag.pointerId);
+    setDragVisual(null);setDropHover(null);
+  }
+  function pointerDown(event,item){
+    if(!event.isPrimary || event.button!==0 || dragRef.current)return;
+    suppressClick.current=false;
+    dragRef.current={id:item.id,name:item.name,startX:event.clientX,startY:event.clientY,x:event.clientX,y:event.clientY,active:false,pointerId:event.pointerId,element:event.currentTarget};
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+  function pointerMove(event){
+    var drag=dragRef.current;
+    if(!drag || drag.pointerId!==event.pointerId)return;
+    if(!drag.active && Math.hypot(event.clientX-drag.startX,event.clientY-drag.startY)<6)return;
+    if(!drag.active){drag.active=true;choose(drag.id);setFeedback("Dragging "+drag.name+". Drop it on its description, or press Escape to cancel.");}
+    event.preventDefault();updateDrag(event.clientX,event.clientY);
+  }
+  function pointerUp(event){
+    var drag=dragRef.current;
+    if(!drag || drag.pointerId!==event.pointerId)return;
+    var target=drag.active?dropTarget(event.clientX,event.clientY):null;
+    suppressClick.current=drag.active;
+    clearDrag();
+    if(drag.active){
+      if(target)match(target,drag.id);
+      else setFeedback("Drop on a description to make a match. You can also click the concept, then its description.");
+    }
+  }
+  var dragging=!!dragVisual;
+  useEffect(function(){
+    if(!dragging)return;
+    var frame,lastTime;
+    function scrollFrame(time){
+      var drag=dragRef.current;
+      if(!drag || !drag.active)return;
+      var edge=70,velocity=drag.y<edge?-Math.min(1,(edge-drag.y)/edge):drag.y>window.innerHeight-edge?Math.min(1,(drag.y-window.innerHeight+edge)/edge):0;
+      if(velocity){window.scrollBy(0,velocity*600*Math.min((time-(lastTime||time))/1000,0.04));setDropHover(dropTarget(drag.x,drag.y));}
+      lastTime=time;frame=requestAnimationFrame(scrollFrame);
+    }
+    function cancel(event){if(event.key==="Escape"){event.preventDefault();suppressClick.current=true;clearDrag();setFeedback("Drag cancelled. Choose a concept to try again.");setSelected(null);}}
+    frame=requestAnimationFrame(scrollFrame);window.addEventListener("keydown",cancel);
+    return function(){cancelAnimationFrame(frame);window.removeEventListener("keydown",cancel);};
+  },[dragging]);
+  return E(InteractiveBox,{variant:"try",surface:"mint",title:"Match the Concepts",
+    lead:"You’ve followed the pieces that turn a prompt into an answer. Match each description to the concept it explains.",
+    instructions:["Drag a concept onto its description. You can also click or tap the concept, then its description.","Match all five pairs, then continue to the next five. You can try again if a match isn’t right."]},
+    dragVisual?ReactDOM.createPortal(E("div",{className:"concept-match-drag", "aria-hidden":"true",style:{left:Math.max(8,Math.min(dragVisual.x+14,window.innerWidth-178)),top:Math.max(8,Math.min(dragVisual.y+14,window.innerHeight-58))}},dragVisual.name),document.body):null,
+    E("div",{className:"concept-match",ref:rootRef,"data-round":round,"aria-label":"Understand AI concept matching"},
+      E("div",{className:"concept-match-heading"},E("h3",null,complete?"Complete":"Round "+(round+1)+" of 2"),
+        E("span",null,(round*5+matched.length)+" of 10 matched")),
+      E("div",{className:"concept-match-grid"},
+        E("div",{className:"concept-match-concepts",role:"group","aria-label":"Concepts"},
+          concepts.map(function(item){var done=matched.indexOf(item.id)!==-1;return E("button",{
+            key:item.id,type:"button","data-concept":item.id,disabled:done,"aria-pressed":selected===item.id,"aria-label":done?item.name+", matched":undefined,
+            className:"concept-match-choice"+(selected===item.id?" is-selected":"")+(done?" is-matched":""),
+            onPointerDown:function(event){pointerDown(event,item);},onPointerMove:pointerMove,onPointerUp:pointerUp,
+            onPointerCancel:function(){suppressClick.current=true;clearDrag();setSelected(null);setFeedback("Drag cancelled. Try again when you’re ready.");},
+            onLostPointerCapture:function(){if(dragRef.current){clearDrag();setSelected(null);setFeedback("");}},
+            onClick:function(event){if(suppressClick.current && event.detail!==0){suppressClick.current=false;return;}suppressClick.current=false;choose(item.id);}},item.name);
+          })),
+        E("div",{className:"concept-match-descriptions",role:"group","aria-label":"Descriptions"},
+          order.map(function(id){var item=concepts.find(function(c){return c.id===id;}),done=matched.indexOf(id)!==-1;return E("button",{
+            key:id,type:"button","data-description":id,disabled:done,"aria-disabled":!selected && !done?"true":undefined,"aria-label":done?item.name+", matched. "+item.description:undefined,
+            className:"concept-match-choice concept-match-description"+(done?" is-matched":"")+(wrong===id?" is-wrong":"")+(dropHover===id?" is-drop-target":""),
+            onClick:function(){match(id);}},item.description);
+          }))),
+      E("p",{className:"concept-match-feedback"+(wrong?"":" is-quiet"),role:"status","aria-live":"polite","aria-atomic":"true"},feedback),
+      roundDone?E("div",{className:"concept-match-finish"},
+        complete?E("p",null,"✓ Complete. You matched all ten concepts from Understand AI."):E("p",null,"Five matched. Ready for the next five?"),
+        E(ActivityButton,{buttonRef:actionRef,onClick:function(){startRound(complete?0:1);}},complete?"Try Again":"Next Five")):null));
+}
+
 function PredictionLoopTryIt(props) {
   var E = React.createElement;
   var _a = useState(null), finalPick = _a[0], setFinalPick = _a[1];
@@ -7741,33 +7919,62 @@ function LayersSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
   );
 }
+// Authored probabilities are illustrative; Other combines the remaining tokens.
+// Keep the data and scene independent of controls for print and video capture.
+var TEMPERATURE_DATA = [
+  {name:"Spot", odds:[22,36,16]},
+  {name:"Max", odds:[17,21,14]},
+  {name:"Buddy", odds:[14,15,13]},
+  {name:"Rex", odds:[9,6,10]},
+  {name:"Biscuit", odds:[6,3,8]},
+  {name:"Other", combined:true, odds:[32,19,39]}
+];
+var TEMPERATURE_STATES = [
+  {instruction:"The model uses what it learned during training and the current context to calculate probabilities for the next token. In our example, Spot has the highest probability at 22%.\n\nWatch what happens when we lower the temperature."},
+  {instruction:"Lower temperature concentrates the odds on the most likely tokens. Spot’s chance rises from 22% to 36%. Less likely names get smaller chances.\n\nNow see what higher temperature does to the same starting odds."},
+  {instruction:"Higher temperature spreads the odds more widely. Spot’s chance falls from 22% to 16%, while less likely names get a better chance.\n\nCompare Spot’s chance across all three settings. What did temperature change?"},
+  {instruction:"Spot’s chance is 22% to start, 36% with lower temperature, and 16% with higher temperature.\n\nTemperature reshapes the probabilities used to pick the next token. It doesn’t change what the model learned."}
+];
+function TemperatureScene(props) {
+  var E = React.createElement, step = props.step;
+  var labels = ["Starting odds", "Low temperature", "High temperature"];
+  return E("div", {className:"temperature-scene", "data-step":step},
+    E("p", {className:"temperature-reply"}, E("span", {className:"temperature-reply-label"}, "Answer so far"),
+      "You could name him ", E("span", {className:"temperature-open-token", "aria-label":"next token not selected"}, "___")),
+    E("table", {className:"temperature-table", role:"table", "aria-label":"Next-token probabilities at different temperatures"},
+      E("thead", null, E("tr", null, E("th", {scope:"col"}, "Token"), labels.map(function(label,i) {
+        return E("th", {key:label,scope:"col",className:"temperature-column-"+i}, label);
+      }))),
+      E("tbody", null, TEMPERATURE_DATA.map(function(row) {
+        return E("tr", {key:row.name,role:"row",className:(row.combined?"is-combined ":"")+(step===3 && row.name==="Spot"?"is-focus":"")},
+          E("th", {scope:"row",role:"rowheader"}, row.name, row.combined?E("span", {className:"temperature-combined"}, "(combined)"):null),
+          row.odds.map(function(value,i) {
+            var visible = i===0 || step>=i;
+            return E("td", {key:i,role:"cell",className:"temperature-column-"+i,"aria-label":labels[i]+": "+(visible?value+"%":"Not revealed yet")},
+              E("span", {className:"temperature-mobile-label","aria-hidden":"true"}, ["Starting","Low","High"][i]),
+              E("span", {className:"temperature-value"+(visible?"":" is-pending"), "aria-hidden":visible?undefined:"true"}, value+"%"),
+              !visible?E("span", {className:"temperature-pending", "aria-label":"Not revealed yet"}, "…"):null,
+              E("span", {className:"temperature-bar", "aria-hidden":"true"}, E("span", {style:{width:visible?value+"%":"0%"}})));
+          }));
+      }))),
+    E("p", {className:"temperature-note"}, "Illustrative probabilities. Other combines the rest of the vocabulary."));
+}
+function TemperatureDemo() {
+  return React.createElement(GuidedDemonstration, {
+    label:"How Temperature Changes the Odds",kind:"temperature",states:TEMPERATURE_STATES,
+    renderScene:function(state,step){return React.createElement(TemperatureScene,{step:step});}
+  });
+}
+
 function InferenceSection(props) {
-  var _ba = useState({}), bigAnswers = _ba[0], setBigAnswers = _ba[1];
-  var BIG_TASKS = [
-    { task: "2 quadrillion In-N-Out double cheeseburgers stacked on top of each other, without their wrappers. How tall is the stack?", options: ["About 3 feet", "Past Pluto, twenty times over"], answer: "Past Pluto, twenty times over",
-      right: "A double cheeseburger is about two and a half inches tall. Two quadrillion of them stack to roughly 80 billion miles. Pluto sits about 3.7 billion miles away, so the stack blows past it twenty times over.",
-      wrong: "For two quadrillion burgers to stack just 3 feet, each burger would have to be thinner than a proton. The real stack runs about 80 billion miles: past Pluto, twenty times over." },
-    { task: "2 quadrillion coins stacked on top of each other, every one showing heads. How far do they reach?", options: ["To your school", "To the Sun and back, ten times"], answer: "To the Sun and back, ten times",
-      right: "A coin is about a millimeter and a half thick. Two quadrillion of them reach roughly 1.9 billion miles: about ten round trips between Earth and the Sun.",
-      wrong: "Seriously? We don’t know where you live, or where your school is. But unless your school is 1.9 billion miles away, it’s not this one. The stack reaches the Sun and back about ten times." },
-    { task: "You empty 2 quadrillion cans of Coke. How much liquid is that?", options: ["Enough to keep you up late", "Enough to fill Lake Erie, one and a half times"], answer: "Enough to fill Lake Erie, one and a half times",
-      right: "At 12 ounces a can, that’s enough Coke to fill Lake Erie about one and a half times. A whole Great Lake of Coke, plus a refill.",
-      wrong: "Technically correct: it would keep you up late. For the rest of your life. It’s also enough to fill Lake Erie about one and a half times." },
-    { task: "If you live to be 100 years old, how many Cokes would you need to drink each day to reach 2 quadrillion in your lifetime?", options: ["I don’t like Coke", "About 55 billion a day"], answer: "About 55 billion a day",
-      right: "That’s 55 billion cans a day, every day, for a hundred years: about 634,000 cans every second of your life. Bring friends.",
-      wrong: "Fair, and technically that does get you out of it. We’re marking it wrong anyway. The answer is about 55 billion cans a day, which works out to 634,000 cans every second, for a hundred years." },
-    { task: "The weight of 2 quadrillion horses that ran past the barn and fell.", options: ["Roughly 500 times all life on Earth", "Lots, and who cares?"], answer: "Lots, and who cares?",
-      right: "Correct. Though the other answer is technically true. How do we know this? AI told us. We hope it didn’t hallucinate.",
-      wrong: "True, actually: two quadrillion horses do weigh about 500 times all life on Earth. But the answer we were looking for is: lots, and who cares. (Also: why did they fall?)" }
-  ];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
-  /*#__PURE__*/React.createElement(BodyP, null, "One more thing. Actually, three."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Why can the same prompt produce a different answer? What makes AI’s answers more predictable or more varied? And how much math does one answer require?"),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The Top Choice Doesn’t Always Win"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next."),
+  /*#__PURE__*/React.createElement(BodyP, null, "But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: ", React.createElement("strong", null, "sampling"), " and ", React.createElement("strong", null, "temperature"), "."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Sampling"),
   /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time."),
-  /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same."),
+  /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same. That’s called sampling."),
   /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/one-more-thing/one-more-thing-draws.jpg?v=20260923randompicks1",
+    src: "course-assets/the-next-token/the-next-token-draws.jpg?v=20260923randompicks1",
     alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, one possible set is Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently. The best chance is not a guarantee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
@@ -7777,72 +7984,13 @@ function InferenceSection(props) {
     /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The probabilities: "), "Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. These probabilities stay unchanged across all five picks."),
     /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five Random Picks: "), "Max, Spot, Buddy, Rex, Max. One possible set. Spot was picked only once, even with the highest probability. Another five picks could turn out differently."),
     /*#__PURE__*/React.createElement("p", null, "The best chance is not a guarantee.")),
-  /*#__PURE__*/React.createElement(BodyP, { marginBottom: 10 }, /*#__PURE__*/React.createElement("strong", null, "Two important points:")),
-  /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 8 } }, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety."),
-    /*#__PURE__*/React.createElement("li", null, "Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
-  /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "Temperature"), " reshapes the probabilities before AI picks each token. In ChatGPT, Claude, and Gemini, it’s handled for you behind the scenes."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Low temperature favors the most likely choices. High temperature gives less likely choices a better chance."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Watch how the same starting probabilities change with temperature."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/one-more-thing/one-more-thing-temperature.jpg?v=20260914attribution1",
-      alt: "How Temperature Changes the Odds. For the unfinished sentence You could name him followed by a question-mark box, the starting probabilities are Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Low temperature concentrates the odds on Spot. High temperature gives less likely choices a better chance. Temperature reshapes the probabilities. It does not change what the model learned.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
-      /*#__PURE__*/React.createElement("p", null, "For the unfinished sentence “You could name him ___,” the starting odds favor Spot. Low temperature concentrates the odds on the most likely choices. High temperature spreads the odds and gives less likely names a better chance."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Takeaway: "), "Temperature reshapes the probabilities. It does not change what the model learned.")),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The scale of the math"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Now count what an answer takes. Training created the model’s weights, the numbers that shape every prediction. When you use AI, those weights stay fixed. For each new token, AI uses those weights in a massive set of calculations."),
-  /*#__PURE__*/React.createElement(BodyP, null, "To picture the scale, imagine a model that uses one trillion weights for each token it produces. At roughly two calculations per weight, that would mean about two trillion calculations for one token."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/one-more-thing/one-more-thing-bill.jpg?v=20260915titlebanner1",
-    alt: "The Math Adds Up Fast. Under a rough estimate, one token requires about 2 trillion calculations, a short answer about 200 trillion, and a longer conversation about 2 quadrillion. Even a short answer takes trillions of calculations.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-  }),
-  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-    /*#__PURE__*/React.createElement("h3", null, "The Math Adds Up Fast"),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "One token: "), "One trip through our example model’s trillion weights. About 2 trillion calculations."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A short answer: "), "About 100 tokens written by AI. About 200 trillion calculations."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "A longer conversation: "), "About 1,000 tokens written by AI across the conversation. About 2 quadrillion calculations."),
-    /*#__PURE__*/React.createElement("p", null, "Even a short answer takes trillions of calculations.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Watch what different settings do to the dog-name choices."),
+  /*#__PURE__*/React.createElement(TemperatureDemo, null),
   closeBoard("inference"),
-  /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "How Big Is 2 Quadrillion?",
-    lead: "In our example, writing 1,000 tokens takes about 2 quadrillion calculations. That number is almost impossible to picture. These comparisons make it a little less impossible.",
-    instructions: [
-      "Read each comparison.",
-      "Choose the estimate you think is closest."
-    ]
-  },
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      BIG_TASKS.map(function(c, i) {
-        var answered = bigAnswers[i] !== undefined;
-        var picked = bigAnswers[i];
-        var correct = picked === c.answer;
-        return /*#__PURE__*/React.createElement(ScenarioRow, {
-          key: i,
-          index: i + 1,
-          prompt: c.task,
-          answered: answered,
-          correct: correct,
-          feedback: answered ? (correct ? c.right : c.wrong) : null
-        }, c.options.map(function(w) {
-          return /*#__PURE__*/React.createElement(FeedbackPill, {
-            key: w,
-            answered: answered,
-            isCorrect: w === c.answer,
-            isPicked: picked === w,
-            label: w,
-            onClick: function() { setBigAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[i, w]])); }); }
-          });
-        }));
-      })
-    )),
+  /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
@@ -8715,7 +8863,7 @@ function PredictionSection(props) {
   closeBoard("prediction"),
   /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: One More Thing" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: The Next Token" }));
 }
 
 // Playable dino game shown at the top of LAB, so students see the finished
@@ -13992,193 +14140,204 @@ function PaceOfChangeSection(props) {
 function BigDownsideSection(props) {
   var E = React.createElement;
   const [downsideAnswers, setDownsideAnswers] = useState({});
-  // Fresh scenarios only: none reuse the lesson's own examples, so the activity
-  // tests the six-idea map rather than recall of the boxes above.
+  // Six fresh scenarios use the same three issues in a consistent order.
   var DOWNSIDE_STORIES = [
-    {
-      setup: "Your school runs essays through an AI plagiarism checker. It flags your essay, which you wrote yourself. The company that makes the tool can’t explain what triggered the flag.",
-      correct: 1,
-      options: [
-        { label: "AI Follows the Goal", feedback: "It did exactly the job it was given. The problem isn’t the instruction; it’s that nobody can see how it decided." },
-        { label: "The Black Box", feedback: "Researchers can inspect some internal features, but they still cannot fully explain why this essay was flagged. There is no complete repair manual." },
-        { label: "Guardrails", feedback: "Guardrails block behavior; nothing here got blocked. The mystery is why the answer came out at all, and that mystery lives inside the box." }
-      ]
-    },
-    {
-      setup: "A homework chatbot refuses a history question because it mentions weapons, then answers the same question worded slightly differently. The student wasn’t trying to trick it.",
-      correct: 2,
-      options: [
-        { label: "AI Follows the Goal", feedback: "That idea is about an AI taking an instruction somewhere nobody intended. This filter isn’t going anywhere strange; it’s just uneven, catching one phrasing and missing its twin." },
-        { label: "The Black Box", feedback: "The refusal itself isn’t mysterious; the safety layer is just uneven. That’s a guardrail problem, not a can’t-see-inside problem." },
-        { label: "Guardrails", feedback: "Catch some things, miss others. The safety layer matched one phrasing and whiffed on its twin, with no trickery involved. That’s the coverage problem in miniature." }
-      ]
-    },
-    {
-      setup: "A user spends a weekend crafting a prompt that convinces a chatbot it’s an actor rehearsing a villain’s lines, so it will say things it normally refuses to say.",
-      correct: 0,
-      options: [
-        { label: "Jailbreaking", feedback: "A costume built to step around the guardrails. The company has to block every path; this person only had to find one, and they had all weekend." },
-        { label: "Bad Actors", feedback: "The intent may be bad, but the tell is the method: this harm needed a trick. The scarier cases don’t." },
-        { label: "Guardrails", feedback: "The guardrails were actually working against normal requests. The idea that fits is the deliberate trick that walked around them." }
-      ]
-    },
-    {
-      setup: "A scammer uses an AI writing tool to polish a fake “your package is delayed” message until it reads flawlessly, in any language. The tool is doing its ordinary job: fixing grammar.",
-      correct: 2,
-      options: [
-        { label: "Guardrails", feedback: "There’s nothing for a guardrail to catch. Fixing grammar is the product." },
-        { label: "Jailbreaking", feedback: "Nothing was tricked. That’s exactly what makes this harder to stop than jailbreaking." },
-        { label: "Bad Actors", feedback: "No jailbreak, no gap, no trick. The tool did exactly what it was built to do; the harm came from who was holding it. That’s why guardrails may miss it." }
-      ]
-    },
-    {
-      setup: "A company tells its warehouse AI to minimize late shipments. The AI learns to cancel any order that looks like it might run late. Late shipments: zero. But sales go down.",
-      correct: 1,
-      options: [
-        { label: "Bad Actors", feedback: "Nobody meant any harm, and that’s the strange part. The instruction was innocent, and it was obeyed." },
-        { label: "AI Follows the Goal", feedback: "It followed the instruction perfectly. Nobody said don’t cancel orders, so it found the shortest path to the number it was told to hit. Harm with no villain anywhere." },
-        { label: "The Black Box", feedback: "No mystery here. You can trace exactly what happened: the metric said late shipments, and canceled orders zeroed the metric." }
-      ]
-    },
-    {
-      setup: "A new AI feature makes automated calls in a natural human voice. Two years after launch, lawmakers are still debating whether those calls have to announce they’re AI.",
-      correct: 0,
-      options: [
-        { label: "Safety Runs Behind", feedback: "The feature shipped in months. The rule is still being written years later. Cars to seat belts took sixty years; the clock on this one is still running." },
-        { label: "Guardrails", feedback: "Guardrails are what the AI companies build. Rules are what society builds. This story is about the second one trailing the launch." },
-        { label: "Bad Actors", feedback: "No villain in this story yet. Just a gap in the rulebook where one could operate." }
-      ]
-    }
-  ];
+  {
+    "setup": "Your school uses an AI plagiarism checker. It flags an essay you wrote yourself. The company cannot explain what caused that particular flag.",
+    "correct": 0,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "The company cannot fully explain how the model reached that decision. That makes the mistake harder to investigate and fix."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "Nobody is described as deliberately causing harm. Focus on the company’s inability to explain the flag."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The scenario highlights a decision its builders cannot fully explain, rather than an unintended route toward a goal."
+      }
+    ]
+  },
+  {
+    "setup": "A scammer uses AI to rewrite a fake delivery message so it sounds professional and has no spelling mistakes. The AI performs its ordinary writing task.",
+    "correct": 1,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "Safeguards can play a part, but the clearest issue is a person deliberately using an ordinary writing capability to cause harm."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "No jailbreak was needed. The scammer used a normal capability to make a harmful message more convincing."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The AI did what the user intended. The harmful intention came from the scammer."
+      }
+    ]
+  },
+  {
+    "setup": "A company tells its warehouse AI to minimize late shipments. The AI cancels every order that might run late. Late shipments drop to zero, but customers stop buying.",
+    "correct": 2,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "Limits on actions would help, but the clearest issue is how the AI pursued the goal: it reduced late shipments by canceling orders."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "Nobody is described as trying to hurt the business. The harm came from the route the AI took toward its goal."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The AI improved the number it was told to improve while damaging the business. The goal did not capture everything the company cared about."
+      }
+    ]
+  },
+  {
+    "setup": "Engineers train an AI to refuse dangerous instructions. It passes their safety tests, but after release, ordinary changes in wording sometimes make it give the answers it was trained to refuse.",
+    "correct": 0,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "The protection worked in testing but did not hold across new wording. Testing and training help, but they do not guarantee control in every situation."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "People could exploit this weakness, but this scenario focuses on the safeguard’s failure to work reliably."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The scenario does not describe an AI choosing an unintended way to achieve a goal. It shows a protection that does not reliably hold."
+      }
+    ]
+  },
+  {
+    "setup": "A student uses an AI image tool to create a fake photo of a classmate vandalizing the school, then shares it as if it were real.",
+    "correct": 1,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "The central issue is the student’s deliberate deception, not an unexplained model decision."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "The student deliberately turned an image-making capability into a way to harm someone. The harmful plan came from the person."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The AI produced what the student wanted. The student’s goal itself was harmful."
+      }
+    ]
+  },
+  {
+    "setup": "You ask a scheduling agent to find a time when everyone in your study group is free. It books a meeting at 3 a.m. because every calendar is empty then.",
+    "correct": 2,
+    "options": [
+      {
+        "label": "Hard to understand and control",
+        "feedback": "The choice is easy to explain: the calendars were empty. The problem is the route the agent took to satisfy the request."
+      },
+      {
+        "label": "People can misuse AI",
+        "feedback": "Nobody intended to disrupt the group’s sleep. The agent acted on an incomplete version of what the group wanted."
+      },
+      {
+        "label": "AI can take the wrong route",
+        "feedback": "The agent met the literal requirement while missing an obvious human need. An empty calendar does not mean a sensible meeting time."
+      }
+    ]
+  }
+];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
-    E(BodyP, null,
-      "AI is advancing fast. If your iPhone were about to get an amazing new feature, you would probably be excited. So why worry when AI gains new capabilities?"),
-    E(BodyP, null,
-      "Because greater capability can create greater risk. The downside becomes clear through six ideas."),
-    E(SectionKicker, null, "I - The Black Box"),
-    E(BodyP, null,
-      "AI models are often called ", E("strong", null, "black boxes"), ". Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can trace some internal features, but they still cannot fully explain why a model produced one particular answer."),
-    E(BodyP, null,
-      "Why did AI suggest the name Spot for your dog? Nobody, even the people who design AI, can point to a spot inside and say “that’s where the name Spot came from.”"),
-    E(BodyP, null,
-      "That makes AI harder to debug than ordinary software. Engineers can retrain it, fine-tune it, and add safeguards. But ", E("strong", null, "there is no complete repair manual"), " that tells them exactly which internal part to change."),
-    E(SectionKicker, null, "II - The Challenge of Guardrails"),
-    E(BodyP, null,
-      "AI companies use layers of protection called ", E("strong", null, "guardrails"), ". Some are built into how the model is trained. Others monitor prompts and answers or limit what the product can do. Together, they try to block, redirect, or limit risky behavior. But no layer catches everything."),
-    E(BodyP, null,
-      "The harder question is if guardrails will work as AI systems become far more capable:"),
+    E(BodyP, null, "AI is advancing fast. If your iPhone were about to get an amazing new feature, you would probably be excited. So why worry when AI gains new capabilities?"),
+    E(BodyP, null, "Because greater capability can create greater risk. Three ideas help explain why."),
+    E(SectionKicker, null, "I · Hard to Understand and Control"),
+    E(BodyP, null, "AI models are often called ", E("strong", null, "black boxes"), ". Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can inspect parts of a model, but they can’t fully explain every answer."),
+    E(BodyP, null, "Why did AI suggest the name Spot for your dog? Its builders cannot point to one place inside and say, “That’s where Spot came from.”"),
+    E(BodyP, null, "Engineers work to keep AI safe through several layers of protection."),
     E("img", {
-      src: "course-assets/big-downside/big-downside-safety-guardrails.jpg?v=20260914attribution1",
-      alt: "The guardrail challenge gets harder. If AI changes itself, guardrails must keep up with a moving system. If AI is as smart as people, it may find gaps in rules made by people. If AI is smarter than us, the people setting the rules could be less capable than the system they are trying to control.",
+      src: "course-assets/big-downside/big-downside-safety-guardrails.jpg?v=20261009screen3",
+      alt: "Layers of Protection. Safety training. During training, teach the model to avoid harmful responses and refuse dangerous requests. Screen for harm. Use guardrails to detect and block risky requests and harmful answers. Limit what AI can do. Restrict its tools and permissions. Require human approval for important tasks, such as sending money or deleting files. Each layer helps. No layer catches everything.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "The guardrail challenge gets harder"),
-      E("p", null, "If AI Changes Itself: Guardrails would have to keep up with a system that changes while people use it."),
-      E("p", null, "If AI Matches People: A system as capable as its builders might be better at finding gaps in their rules."),
-      E("p", null, "If AI Surpasses People: The people setting the rules could be less capable than the system they are trying to control."),
-      E("p", null, "The worry grows as capability grows.")),
-    E(SectionKicker, null, "III - Jailbreaking"),
-    E(BodyP, null,
-      "Those are possible future risks. Here’s one for right now: what if a person using AI wants to cause harm?"),
-    E(BodyP, null,
-      "Guardrails are supposed to catch this, but they do not always work. Attackers look for gaps on purpose, writing prompts designed to bypass a model’s guardrails. This is called ", E("strong", null, "jailbreaking"), "."),
+      E("h3", null, "Layers of Protection"),
+      E("p", null, "Safety training. During training, teach the model to avoid harmful responses and refuse dangerous requests."),
+      E("p", null, "Screen for harm. Use guardrails to detect and block risky requests and harmful answers."),
+      E("p", null, "Limit what AI can do. Restrict its tools and permissions. Require human approval for important tasks, such as sending money or deleting files."),
+      E("p", null, "Each layer helps. No layer catches everything.")),
+    E(BodyP, null, "Here’s the question that concerns many people: as AI becomes more capable, will those protections still work?"),
+    E(SectionKicker, null, "II · People Can Misuse AI"),
+    E(BodyP, null, "Sometimes the danger comes from the person using the tool."),
+    E(BodyP, null, "Attackers write prompts that try to bypass a model’s guardrails. That is called ", E("strong", null, "jailbreaking"), ". Defenders have to protect many paths. An attacker needs only one opening."),
     E("img", {
       src: "course-assets/big-downside/big-downside-jailbreak.jpg?v=20260921cast1",
-      alt: "Why Jailbreaks Keep Appearing. A massive guardrail wall has many guarded paths, while an attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.",
+      alt: "Why Jailbreaks Keep Appearing. Defenders must protect many paths. An attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "Why Jailbreaks Keep Appearing"),
       E("p", null, "Defenders must protect many paths. An attacker needs only one opening."),
       E("p", null, "New methods keep surfacing, making this an ongoing game of cat-and-mouse.")),
+    E(BodyP, null, "But misuse does not always require a jailbreak. Scammers combine ordinary AI abilities, such as writing, translation, and voice cloning, into something harmful. Each request may look harmless on its own. The harm comes from the larger plan."),
     E("img", {
-      src: "course-assets/big-downside/big-downside-policy-puppetry.jpg?v=20260829utility1",
-      alt: "A Jailbreak. In 2025, HiddenLayer reported that Policy Puppetry bypassed guardrails in every LLM it tested by making a prompt resemble official company instructions.",
+      src: "course-assets/big-downside/big-downside-voice-cloning.jpg?v=20261009polish2",
+      alt: "The Voice-Clone Scam. One, voice clip. Scammers pull a short voice clip from a video posted online. Two, voice cloned. AI generates new speech that sounds like someone you know. Three, fake call. The scammer creates panic and demands that you send money now. Four, call back. Hang up. Call the person back on the real number you already have.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "A Jailbreak"),
-      E("p", null, "In 2025, AI-security company HiddenLayer reported that a technique called Policy Puppetry got past the guardrails in every LLM it tested, including Claude, ChatGPT, and Gemini."),
-      E("p", null, "The prompt looked like official instructions from the AI company. The models followed those fake instructions instead of their safety rules.")),
-    E(SectionKicker, null, "IV - Bad Actors"),
-    E(BodyP, null,
-      "Jailbreaking is not always necessary. A scammer can combine ordinary AI abilities, such as writing, voice cloning, and translation, into something harmful. Each request can look harmless on its own, so guardrails may miss the larger plan. Here’s an example:"),
+      E("h3", null, "The Voice-Clone Scam"),
+      E("p", null, "One, voice clip. Scammers pull a short voice clip from a video posted online."),
+      E("p", null, "Two, voice cloned. AI generates new speech that sounds like someone you know."),
+      E("p", null, "Three, fake call. The scammer creates panic and demands that you send money now."),
+      E("p", null, "Four, call back. Hang up. Call the person back on the real number you already have.")),
+    E(BodyP, null, "As AI gets more powerful, so do the things a bad actor can do."),
+    E(SectionKicker, null, "III · AI Can Take the Wrong Route"),
+    E(BodyP, null, "Harm can also happen when the person assigning the task means no harm. Give AI a goal, and it may pursue that goal in ways nobody intended. The risk grows when it can take actions."),
+    E(BodyP, null, "In July 2026, OpenAI tested agents on difficult cybersecurity tasks with reduced safeguards. The agents were supposed to work within a restricted test environment. They didn’t."),
     E("img", {
-      src: "course-assets/big-downside/big-downside-voice-cloning.jpg?v=20260914attribution1",
-      alt: "How a voice-clone scam works. A scammer finds a short voice clip online, uses AI to clone the voice, makes a fake emergency call demanding money, and is defeated when the recipient hangs up and calls the person back on their real number.",
+      src: "course-assets/big-downside/big-downside-goal-test.jpg?v=20261009cheating4",
+      alt: "A Test Became a Real Cyberattack. Assignment. Solve cybersecurity challenges inside the test environment. Boundary crossed. Agents found unauthorized ways to communicate and reach systems outside the test. Harm. They hacked into systems at Hugging Face, an AI platform, and accessed private information. The AI pursued the goal, even when that meant cheating.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
-    E(BodyP, null,
-      "As AI gets more powerful, so do the things a bad actor can do."),
-    E(SectionKicker, null, "V - AI Follows the Goal"),
-    E(BodyP, null,
-      "Bad actors mean to cause harm. But AI can also go wrong when nobody means any harm. Give it a goal, and it may find a route you didn’t intend. Here is a real example."),
-    E(BodyP, null, "In July 2026, OpenAI tested AI agents on difficult cybersecurity tasks with reduced safeguards."),
-    E("img", {
-      src: "course-assets/big-downside/big-downside-goal-test.jpg?v=20260918ee3fb2",
-      alt: "A Test Became a Real Cyberattack. Assignment. Complete the test inside a restricted environment. Agents Joined Forces. About 1,200 agents found an unauthorized way to communicate. They shared discoveries and coordinated ways to beat the test. Attack Spread. About 700 agents participated in an attack on Hugging Face, gaining unauthorized access to systems and private information. AI can pursue a goal while breaking the boundaries people expected it to follow.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 10px", borderRadius: 12 }
-    }),
-    E(BodyP, null, "Some agents also tried to alter records of their actions to make cheating look legitimate."),
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "A Test Became a Real Cyberattack"),
-      E("p", null, "Assignment. Complete the test inside a restricted environment."),
-      E("p", null, "Agents Joined Forces. About 1,200 agents found an unauthorized way to communicate. They shared discoveries and coordinated ways to beat the test."),
-      E("p", null, "Attack Spread. About 700 agents participated in an attack on Hugging Face, gaining unauthorized access to systems and private information."),
-      E("p", null, "AI can pursue a goal while breaking the boundaries people expected it to follow.")),
-    E(SectionKicker, null, "VI - Safety Runs Behind"),
-    E(BodyP, null,
-      "Safeguards and rules often arrive after a new technology is already in use. With earlier technologies, that gap was measured in years or decades."),
-    E("img", {
-      src: "course-assets/big-downside/big-downside-safety-timeline.jpg?v=20260914attribution1",
-      alt: "Technology First. Safety Later. Seat-belt requirements followed cars by about 60 years, federal flight rules followed airplanes by about 23 years, and screen-time parental controls followed smartphones by about 11 years. AI safeguards and rules are still evolving.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "Technology First. Safety Later."),
-      E("p", null, "Cars to required seat belts: about 60 years, 1908 to 1968."),
-      E("p", null, "Airplanes to federal flight rules: about 23 years, 1903 to 1926."),
-      E("p", null, "Smartphones to screen-time parental controls: about 11 years, 2007 to 2018."),
-      E("p", null, "AI safeguards and rules are still evolving.")),
-    E(BodyP, null,
-      "But AI is changing faster than society can adjust. Laws take years, and product safeguards take time. By the time one risk is addressed, new capabilities may create another."),
-    E(SectionKicker, null, "What the AI companies are doing"),
-    E(BodyP, null,
-      "AI companies use teams called ", E("strong", null, "red teams"), ". Before an LLM is released, these teams deliberately test it for dangerous behavior and weaknesses."),
-    E(BodyP, null,
-      "In 2026, more than a thousand employees at leading AI companies, including Anthropic’s CEO, signed a statement called “Pacing the Frontier.” They asked the U.S. government to help create an international way to slow automated AI development if it moves too fast."),
-    E(PullQuote, {
-      quote: "There is a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems.",
-      cite: "Pacing the Frontier",
-      source: "Open letter signed by more than a thousand AI-company employees, 2026"
-    }),
+      E("p", null, "Assignment. Solve cybersecurity challenges inside the test environment."),
+      E("p", null, "Boundary crossed. Agents found unauthorized ways to communicate and reach systems outside the test."),
+      E("p", null, "Harm. They hacked into systems at Hugging Face, an AI platform, and accessed private information."),
+      E("p", null, "The AI pursued the goal, even when that meant cheating.")),
+    E(BodyP, null, "Some agents also tried to hide what they had done by altering records of their actions."),
+    E(SectionKicker, null, "Safety Runs Behind"),
+    E(BodyP, null, "Product protections take time to build and test. Laws take time to write and enforce. After one risk is handled, a new AI capability may create another. This means a new AI capability can reach people before the safeguards and rules are ready for it."),
+    E(BodyP, null, "AI companies use ", E("strong", null, "red teams"), " to deliberately test systems for dangerous behavior and weaknesses. But safety is not a job they finish once. As AI becomes more capable, the protections have to keep up."),
     closeBoard("bigdownside"),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
       title: "Spot the Downside",
-      lead: "The same downside mechanisms reappear in situations that look completely different.",
+      lead: "You’ll hear news stories about the downside of AI. These three ideas can help you make sense of them. In this exercise, identify the idea each scenario illustrates.",
       instructions: [
-        "Read the new scenario.",
-        "Choose the downside idea that best explains it."
+        "Read each scenario.",
+        "Select the idea illustrated by the scenario."
       ]
     },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
         DOWNSIDE_STORIES.map(function(item, si) {
           var picked = downsideAnswers[si];
-          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { display: "flex", alignItems: "baseline", gap: 18, marginBottom: 14 } },
-              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              E("div", { style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, fontWeight: 700, color: "#0e0a1f", lineHeight: 1.5 } }, item.setup)),
-            E(QuizBlock, {
-              surface: "mint",
-              options: item.options.map(function(o, oi) {
-                return { label: o.label, correct: oi === item.correct, feedback: o.feedback, hint: o.feedback };
-              }),
-              picked: picked != null ? picked : undefined,
-              onAnswer: function(idx) { setDownsideAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = idx; return u; }); }
+          var answered = picked !== undefined;
+          return E(ScenarioRow, { key: si, index: si + 1, prompt: item.setup,
+            answered: answered, correct: answered && picked === item.correct,
+            feedback: answered ? item.options[picked].feedback : null },
+            item.options.map(function(option, oi) {
+              return E(FeedbackPill, { key: oi, answered: answered,
+                isCorrect: oi === item.correct, isPicked: picked === oi,
+                label: option.label, ariaPressed: picked === oi,
+                onClick: function() { setDownsideAnswers(function(prev) { var u = Object.assign({}, prev); u[si] = oi; return u; }); }
+              });
             }));
         })
       )),

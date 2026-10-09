@@ -220,3 +220,25 @@ content benefits from responsiveness, interaction, selection, or extended readin
 
 The visual shell should match across both surfaces, but their internal layouts do
 not need to be identical.
+
+### Understand AI concept matching
+
+`MatchTermsTryIt` ends The Next Token with two rounds of five concept-description
+pairs. `UNDERSTAND_AI_CONCEPTS` holds the approved descriptions and retry hints.
+Drag a concept onto its description, or select the concept and then its description.
+Pointer dragging supports mouse, pen, and touch, highlights the current drop target,
+and scrolls near the viewport edge. Escape or pointer cancellation ends a drag;
+wrong or outside drops do not lock either card. All ten concepts are shuffled before splitting into two rounds, including on
+Try Again. Description order is shuffled with no matching concept directly across
+from its own description; matched pairs stay visible and locked. Success changes only the border color to
+green; it adds no visible labels or checkmarks and preserves card dimensions.
+Matched names remain available to assistive technology. Wrong matches leave the selected
+concept available and announce its hint. Completing round one reveals Next Five;
+completing round two reveals Complete and Try Again. Keyboard focus moves to an
+available concept after a match and to the round action after all five are matched.
+The exercise does not gate lesson completion and is excluded from content-only print.
+
+Run `node scripts/preview_concept_matching.cjs` to regenerate
+`previews/concept-matching.html`, and `node scripts/test_concept_matching.cjs`
+to verify interaction, focus, both rounds, retry, mobile layout, and print behavior.
+The former giant-number quiz is preserved in `docs/parking-lot.html` for Data Centers.

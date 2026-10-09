@@ -9,11 +9,11 @@ from course_credit import save_course_image
 
 TITLE = 'A Test Became a Real Cyberattack'
 CARDS = (
-    ('Assignment', 'Complete the test inside a restricted environment.'),
-    ('Agents Joined Forces', 'About 1,200 agents found an unauthorized way to communicate. They shared discoveries and coordinated ways to beat the test.'),
-    ('Attack Spread', 'About 700 agents participated in an attack on Hugging Face, gaining unauthorized access to systems and private information.'),
+    ('Assignment', 'Solve cybersecurity challenges inside the test environment.'),
+    ('Boundary Crossed', 'Agents found unauthorized ways to communicate and reach systems outside the test.'),
+    ('Harm', 'They hacked into systems at Hugging Face, an AI platform, and accessed private information.'),
 )
-TAKEAWAY = 'AI can pursue a goal while breaking the boundaries people expected it to follow.'
+TAKEAWAY = 'The AI pursued the goal, even when that meant cheating.'
 OUTPUT = ROOT / 'course-assets/big-downside/big-downside-goal-test.jpg'
 BOARD = Board(
     key='big-downside-goal-test', title=TITLE, cards=CARDS,
@@ -23,7 +23,7 @@ BOARD = Board(
 )
 
 def render():
-    image = render_ee3fb(BOARD)
+    image = render_ee3fb(BOARD, wrap_titles=True)
     ImageDraw.Draw(image).text((1560,image.height-10),'besmarterthanthetool.com',
         font=face('medium',20),fill='#625c7a',anchor='rd')
     return image

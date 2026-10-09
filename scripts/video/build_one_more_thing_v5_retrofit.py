@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One More Thing v5: the current course boards and the canonical close, as a visual-only retrofit of the shipped v4 (2026-09-18). Review only.
 
-The shipped file (course-assets/one-more-thing/one-more-thing.mp4, 6502 frames) is the v4 "engaging visuals" candidate of 2026-09-09
+The shipped file (course-assets/the-next-token/the-next-token.mp4, 6502 frames) is the v4 "engaging visuals" candidate of 2026-09-09
 (build_one_more_thing_review_repair.py --engaging-visuals: three static board canvases with outline rings that change at spoken
 events, Notebook motion graphics kept in three spans, four pauses and one join, standard close). The raw roll (Prompts/one-more-thing-2.mp4)
 no longer exists, so this build takes the finished file as its picture source, re-renders the three board canvases from the current
@@ -17,11 +17,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from make_close_board import close_board_copy
 
 ROOT = Path(__file__).resolve().parents[2]
-LIVE = ROOT / 'course-assets/one-more-thing/one-more-thing.mp4'
+LIVE = ROOT / 'course-assets/the-next-token/the-next-token.mp4'
 OUT = ROOT / 'video-audit/one-more-thing-repair-2026-09-18'
 DEST = ROOT / 'Prompts/one-more-thing-v5.mp4'
-D = ROOT / 'course-assets/one-more-thing'
-A = dict(probability=D / 'one-more-thing-draws.jpg', temperature=D / 'one-more-thing-temperature.jpg', math=D / 'one-more-thing-bill.jpg')
+D = ROOT / 'course-assets/the-next-token'
+A = dict(probability=D / 'the-next-token-draws.jpg', temperature=D / 'the-next-token-temperature.jpg', math=D / 'the-next-token-bill.jpg')
 FPS, SR, W, H = 30, 48000, 1280, 720
 PURPLE, EDITORIAL, BLUE, RED, TEAL = '#6e51ff', '#4f2fc4', '#1652f0', '#c41f28', '#0e8f86'
 BG = (251, 245, 246)   # BGR #f6f5fb, the shipped stage color
@@ -53,7 +53,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True); (OUT / 'states').mkdir(exist_ok=True)
     assert sha(LIVE) == SHIPPED_SHA, 'live file is not the 2026-09-09 ship'
-    protected = [LIVE, ROOT / 'lessons/one-more-thing.md', D / 'one-more-thing-close.jpg', *A.values()]; hashes = {str(p): sha(p) for p in protected}
+    protected = [LIVE, ROOT / 'lessons/the-next-token.md', D / 'the-next-token-close.jpg', *A.values()]; hashes = {str(p): sha(p) for p in protected}
     assert close_board_copy('inference') == ('Not a mind. Math, at a scale nobody can picture.', 'Every time you hit send.')
 
     # ---- the shipped timeline (audio is copied from the shipped file at mux; only the output-frame mapping is replayed)
@@ -159,7 +159,7 @@ def main():
     manifest = dict(output=str(DEST), source=str(LIVE), retrofit_of_sha256=SHIPPED_SHA, fps=FPS, total_frames=total, duration=total / FPS, timeline=timeline, states=schedule,
                     close_start_frame=close_start, visual_clips=[dict(start_frame=a, end_frame=b, label=l, picture='shipped file, same output frames') for a, b, l in CLIPS],
                     highlight_style='outline_only', close_camera=dict(prehold_frames=PREHOLD, push_frames=PUSH, settled_frames=total - close_start - PREHOLD - PUSH, zoom_endpoint=1.2),
-                    assets={k: dict(path=str(p.relative_to(ROOT)), sha256=sha(p)) for k, p in A.items()}, close_asset=dict(path='course-assets/one-more-thing/one-more-thing-close.jpg', sha256=sha(D / 'one-more-thing-close.jpg')),
+                    assets={k: dict(path=str(p.relative_to(ROOT)), sha256=sha(p)) for k, p in A.items()}, close_asset=dict(path='course-assets/the-next-token/the-next-token-close.jpg', sha256=sha(D / 'the-next-token-close.jpg')),
                     audio_note='copied from the shipped file at mux (-c:a copy)', protected_hashes=hashes,
                     scope='Review only; visual-only retrofit of the shipped 2026-09-09 file (current course boards + canonical close); live unchanged')
     (OUT / 'edit-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')

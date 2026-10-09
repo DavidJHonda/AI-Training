@@ -301,7 +301,7 @@ Representative source lessons:
 | `lessons/questions-matter.md`, `lessons/prompting-matters.md`, `lessons/evaluation-matters.md`, `lessons/critical-thinking.md` | Worked comparisons, practical questions, proportional checking |
 | `lessons/ai-is-math.md`, `lessons/tokens.md`, `lessons/embeddings.md` | Building from examples to terminology and showing intermediate reasoning |
 | `lessons/does-ai-think.md`, `lessons/transformer.md`, `lessons/layers.md` | Analogy limits, consistent examples, technical scaffolding |
-| `lessons/how-ai-answers.md`, `lessons/one-more-thing.md` | Following one example through a process and labeling simplifications |
+| `lessons/how-ai-answers.md`, `lessons/the-next-token.md` | Following one example through a process and labeling simplifications |
 | `lessons/hallucination.md`, `lessons/document-trap.md`, `lessons/training-bias.md`, `lessons/flattery-trap.md` | Reveals, mechanisms, precise distinctions, actions tied to the failure |
 | `lessons/engagement-trap.md`, `lessons/support-trap.md` | Nuance, emotional calibration, practical consequences |
 | `lessons/loudest-voices.md`, `lessons/big-downside.md`, `lessons/big-upside.md`, `lessons/work-changes.md` | Uncertainty, competing considerations, connection to the learner's future |

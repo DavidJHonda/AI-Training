@@ -90,10 +90,10 @@ DONOR = ROOT / 'Prompts/one-more-thing-4.mp4'
 DRAWING = ROOT / 'Prompts/one-more-thing-2.mp4'      # picture only: the branching-paths scene
 OUT = ROOT / 'video-audit/one-more-thing-build-2026-09-23b'
 DEST = ROOT / 'Prompts/one-more-thing-v11.mp4'
-A = ROOT / 'course-assets/one-more-thing'
-B = {'1-draws': A / 'one-more-thing-draws.jpg',
-     '2-temperature': A / 'one-more-thing-temperature.jpg',
-     '3-bill': A / 'one-more-thing-bill.jpg'}
+A = ROOT / 'course-assets/the-next-token'
+B = {'1-draws': A / 'the-next-token-draws.jpg',
+     '2-temperature': A / 'the-next-token-temperature.jpg',
+     '3-bill': A / 'the-next-token-bill.jpg'}
 
 # Board rectangles, measured on each canonical JPG (board px): panel bodies and card edges, never shadows.
 PROBS, PICKS = [88, 274, 659, 701], [948, 275, 1529, 730]
@@ -114,7 +114,7 @@ WEIGHTS_IN, WEIGHTS_PIC_END = 6869, 7481     # roll 4's weights scene, its own c
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[A / 'one-more-thing.mp4', ROOT / 'lessons/one-more-thing.md',
+    b = Build(ROOT, SRC, OUT, DEST, protected=[A / 'the-next-token.mp4', ROOT / 'lessons/the-next-token.md',
                                                DONOR, DRAWING, *B.values()])
     b.load_audio([(16.60, 16.93), (23.88, 24.16), (28.93, 29.25), (33.96, 34.21), (42.65, 42.93),
                   (54.14, 54.35), (65.38, 65.84), (72.02, 72.32), (75.79, 76.12), (127.74, 127.96),
@@ -170,7 +170,7 @@ def main():
 
     b.render_legs()
     for k in b.boards: b.state_sheet(k)
-    b.make_close('inference')   # the lesson's internal id; assets are slugged one-more-thing
+    b.make_close('inference')   # the lesson's internal id; current assets are slugged the-next-token
     b.manifest({'narration': 'roll 3 with one replacement graft from roll 4 at +1.0 dB and two banned-phrase cuts',
                 'review': 'video-audit/one-more-thing-comparison-2026-09-23/REVIEW.md'})
     print('Prepared', b.total, f'{b.total / FPS:.2f}s',

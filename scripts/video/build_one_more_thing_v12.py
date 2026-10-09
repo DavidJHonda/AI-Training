@@ -14,7 +14,7 @@ from editspec_build import Build, Reader, sha
 from build_embeddings_v7 import Renderer
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / 'course-assets/one-more-thing/one-more-thing.mp4'
+SRC = ROOT / 'course-assets/the-next-token/the-next-token.mp4'
 EXPECTED = 'bd076d8d401a95a87e82ad3e317766f61c4bce3985120e4e313971425ad3eea8'
 OLD = ROOT / 'video-audit/one-more-thing-build-2026-09-23b'
 OUT = ROOT / 'video-audit/one-more-thing-repair-2026-09-28-v12'
@@ -67,7 +67,7 @@ def prepare():
         im=rd.at(f);p=OUT/f'donor-{key}.png';cv2.imwrite(str(p),im)
         stills[key]=im;provenance[key]={'path':str(p),'sha256':sha(p),'source_frame':f,'source_sha256':EXPECTED}
     rd.c.release()
-    protected={str(p):sha(p) for p in [SRC,ROOT/'lessons/one-more-thing.md',ROOT/'gemini-notebook/one-more-thing/PROMPT.txt',*sorted((ROOT/'course-assets/one-more-thing').glob('*.jpg'))]}
+    protected={str(p):sha(p) for p in [SRC,ROOT/'lessons/the-next-token.md',ROOT/'gemini-notebook/the-next-token/PROMPT.txt',*sorted((ROOT/'course-assets/the-next-token').glob('*.jpg'))]}
     states=[]
     def frame(f):
         patch=next((p for p in PATCHES if p[0]<=f<p[1]),None)

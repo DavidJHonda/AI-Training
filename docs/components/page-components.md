@@ -167,8 +167,8 @@ to the course.” Keep replay and within-activity controls instead of links that
 load a second copy of the course. Store standalone pages in `group-exercises/<lesson-slug>/`
 with each activity’s pictures and source notes beside its HTML,
 and record their home lessons in [the exercise map](../../group-exercises/README.md).
-How an LLM Works includes **One Word at a Time**,
-linking to `group-exercises/how-an-llm-works/one-word-at-a-time.html`. A shared screen accepts one
+What’s an LLM? includes **One Word at a Time**,
+linking to `group-exercises/whats-an-llm/one-word-at-a-time.html`. A shared screen accepts one
 word per turn, supports undo, saves two stories in session storage, and compares
 them from the same opening. The reflection connects each new word to what comes next in an LLM.
 

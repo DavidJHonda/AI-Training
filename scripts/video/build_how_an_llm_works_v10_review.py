@@ -22,7 +22,7 @@ OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-17-v10'
 DEST = ROOT / 'Prompts/how-an-llm-works-v10.mp4'
 SOURCES = {n: ROOT/'Prompts'/f'how-the-model-{n}.mp4'
            for n in ('learns-1', 'learns-2', 'answers-1', 'answers-2')}
-ASSETS = {k: ROOT/'course-assets/how-an-llm-works'/f'how-an-llm-works-{suffix}.jpg'
+ASSETS = {k: ROOT/'course-assets/whats-an-llm'/f'how-an-llm-works-{suffix}.jpg'
           for k, suffix in [('llm','llm'), ('training','training'), ('patterns','patterns'),
                             ('odds','same-word-different-odds'),
                             ('prediction','one-word-at-a-time'), ('close','close')]}
@@ -77,7 +77,7 @@ def prepare():
                *[ROOT/'lessons'/n for n in ('how-an-llm-works.md',
                  'how-an-llm-works-part-1.md','how-an-llm-works-part-2.md')],
                *ASSETS.values()]
-    live=ROOT/'course-assets/how-an-llm-works/how-an-llm-works.mp4'
+    live=ROOT/'course-assets/whats-an-llm/whats-an-llm.mp4'
     if live.exists(): protected.append(live)
     b=Build(ROOT,SOURCES['learns-1'],OUT,DEST,protected=protected)
     b.tall_margin=False

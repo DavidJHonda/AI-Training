@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Match the first Art of Prompting split board to the approved tight spacing."""
+"""Match the first Prompting Matters split board to the approved tight spacing."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "scripts/video"))
 from editorial_typography import face  # noqa: E402
 
 
-ASSET = ROOT / "course-assets/art-of-prompting/art-of-prompting-four-moves.jpg"
+ASSET = ROOT / "course-assets/prompting-matters/prompting-matters-four-moves.jpg"
 FRAME = (234, 231, 253)
 WIDTH = 1600
 HEIGHT = 1474

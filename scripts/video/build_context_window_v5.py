@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build Context Window v5 review copy (v4 plus the 1:20 hands-flash cover; v4 = this file before that row) from the LIVE video (2026-09-26 Work With AI review, approved plan).
 
-Source: course-assets/context-window/context-window.mp4 (shipped 2026-09-21 as v3, SHA 6b3a4d39...). Its
+Source: course-assets/context-matters/context-matters.mp4 (shipped 2026-09-21 as v3, SHA 6b3a4d39...). Its
 rolls (context-window-1, -2) and the archived live v3 are gone, so the live file is the only source: every
 cutaway below is one of its own Notebook drawings, moved, re-timed or shown a second time, and every
 kept frame is one encode generation further from Notebook. Boards and close are re-rendered from the
@@ -41,14 +41,14 @@ import ken_burns_path as kb  # noqa: E402
 from editspec_build import (Build, fr, sha, readwav, writewav, FPS, SR, SPF, W, H,  # noqa: E402
                             PURPLE, BLUE, TEAL, AMBER, NEUTRAL)
 
-A = ROOT / "course-assets/context-window"
+A = ROOT / "course-assets/context-matters"
 SRC = A / "context-window.mp4"
 AUDIT = ROOT / "video-audit/context-window-repair-2026-09-26"
 OUT = AUDIT / "build"
 DEST = ROOT / "Prompts/context-window-v5.mp4"   # v5 (David, 2026-09-26): hands-drawing flash at 1:20 covered; v4 kept
 COMPARE, SOURCES, HEADSTART, OUTSIDE, CLOSE = (A / f"context-window-{n}.jpg" for n in
     ("same-question", "five-sources", "head-start", "outside-the-window", "close"))
-LESSON = ROOT / "lessons/context-window.md"
+LESSON = ROOT / "lessons/context-matters.md"
 
 # ---- ring rects (canonical JPG pixels; the 09-21 v3 measurements, card bodies not shadows; assets unchanged)
 CMP_STRIP, CMP_BANNER = [40, 127, 1560, 251], [40, 1139, 1560, 1227]

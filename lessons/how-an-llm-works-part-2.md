@@ -1,4 +1,6 @@
-# How an LLM Works: How the Model Answers
+> Retired split-generation source. Use [the current lesson](whats-an-llm.md) and `gemini-notebook/whats-an-llm/` for new videos. Boards for removed content were deleted at the owner’s request on 2026-10-08.
+
+# What’s an LLM?: How the Model Answers
 
 ## Using the learned patterns
 
@@ -13,7 +15,7 @@ There are two connected actions to watch: calculate the chances of possible next
 **Board:** Same Word. Different Odds.
 **Image file:** `how-an-llm-works-same-word-different-odds.jpg`
 
-![Same Word. Different Odds.](../course-assets/how-an-llm-works/how-an-llm-works-same-word-different-odds.jpg)
+*Historical board: Same Word. Different Odds. (deleted; not part of the current kit).*
 
 Let's start with “I'd like to buy peanut butter and.” In this illustrated example, the model gives “jelly” a 41 percent chance, “bread” 27 percent, “bananas” 16 percent, and “honey” 5 percent. Other possible words account for the remaining probability. These numbers illustrate the idea; they aren't fixed values for every model.
 
@@ -30,7 +32,7 @@ That's probability: using the learned patterns and the current text to work out 
 **Board:** One Word at a Time
 **Image file:** `how-an-llm-works-one-word-at-a-time.jpg`
 
-![One Word at a Time](../course-assets/how-an-llm-works/how-an-llm-works-one-word-at-a-time.jpg)
+![One Word at a Time](../course-assets/whats-an-llm/whats-an-llm-one-word-at-a-time.jpg)
 
 Those probabilities guide the model's choice of the next word. Choosing a word doesn't finish the job. The model adds it to the text, then calculates again using the updated text.
 
@@ -47,7 +49,7 @@ The connection is the whole lesson: training changes the internal numbers to lea
 **Board:** Close
 **Image file:** `how-an-llm-works-close.jpg`
 
-![Close](../course-assets/how-an-llm-works/how-an-llm-works-close.jpg)
+![Close](../course-assets/whats-an-llm/whats-an-llm-close.jpg)
 
 Training builds the patterns.
 

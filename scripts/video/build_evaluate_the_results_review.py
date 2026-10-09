@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the approved Evaluate the Results best-of review candidate.
+"""Build the approved Evaluation Matters best-of review candidate.
 
 Full production pass from the two pristine Notebook rolls:
 * roll 2 supplies the richer complete opening;
@@ -28,11 +28,11 @@ SRC2 = ROOT / "Prompts/evaluate-the-results-2.mp4"
 AUDIT = ROOT / "video-audit/evaluate-the-results-repair-2026-09-16"
 DEST = ROOT / "Prompts/evaluate-the-results-v5.mp4"
 BOARDS = {
-    "quick": ROOT / "course-assets/evaluate-the-results/evaluate-the-results-quick-pass.jpg",
-    "decide": ROOT / "course-assets/evaluate-the-results/evaluate-the-results-decide.jpg",
-    "dig": ROOT / "course-assets/evaluate-the-results/evaluate-the-results-dig.jpg",
-    "move": ROOT / "course-assets/evaluate-the-results/evaluate-the-results-move.jpg",
-    "example": ROOT / "course-assets/evaluate-the-results/evaluate-the-results-check-before-use.jpg",
+    "quick": ROOT / "course-assets/evaluation-matters/evaluation-matters-quick-pass.jpg",
+    "decide": ROOT / "course-assets/evaluation-matters/evaluation-matters-decide.jpg",
+    "dig": ROOT / "course-assets/evaluation-matters/evaluation-matters-dig.jpg",
+    "move": ROOT / "course-assets/evaluation-matters/evaluation-matters-move.jpg",
+    "example": ROOT / "course-assets/evaluation-matters/evaluation-matters-check-before-use.jpg",
 }
 
 
@@ -51,9 +51,9 @@ def main():
         protected=[
             SRC2,
             ROOT / "index.html",
-            ROOT / "lessons/evaluate-the-results.md",
-            ROOT / "course-assets/evaluate-the-results/evaluate-the-results.mp4",
-            ROOT / "course-assets/evaluate-the-results/evaluate-the-results-close.jpg",
+            ROOT / "lessons/evaluation-matters.md",
+            ROOT / "course-assets/evaluation-matters/evaluation-matters.mp4",
+            ROOT / "course-assets/evaluation-matters/evaluation-matters-close.jpg",
             *BOARDS.values(),
         ],
     )

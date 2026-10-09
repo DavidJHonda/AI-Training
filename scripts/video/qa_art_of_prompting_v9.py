@@ -60,7 +60,7 @@ def main():
     record={'frames':i,'fps':fps,'duration':i/fps,'audio_byte_and_timestamp_identical':True,
             'audio':a,'unaffected_max_mae_160x90':max_diff,'unaffected_max_mae_frame':max_at,
             'close':close,'close_ratio':ratio,'source_still_matches':sha(SOURCE)==SHA,
-            'canonical_live_unchanged':sha(ROOT/'course-assets/art-of-prompting/art-of-prompting.mp4')==SHA}
+            'canonical_live_unchanged':sha(ROOT/'course-assets/prompting-matters/prompting-matters.mp4')==SHA}
     (OUT/'verification.json').write_text(json.dumps(record,indent=2)+'\n')
     files=sorted((OUT/'encoded').glob('*.jpg'))
     for start in range(0,len(files),6):

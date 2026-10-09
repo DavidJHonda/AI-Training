@@ -61,7 +61,7 @@ R2_DC = (3019, 3151)        # 1:40.63-1:45.03 data-center aisle (no people)
 # y 127-758); banners by banner_rect.
 # v5 (David 2026-09-23, "highlights on this board extend too far right"): the 2026 boxes end at x=1520 (white card margin 1521-1559,
 # stage from 1560); the row rings now end at 1532, 12 px past the box, instead of 1600.
-B1_ROWS = {"Answering": [65, 218, 1532, 382], "Images": [65, 392, 1532, 565], "Context Window": [65, 566, 1532, 795], "Doing": [65, 796, 1532, 944]}
+B1_ROWS = {"Answering": [65, 218, 1532, 382], "Images": [65, 392, 1532, 565], "Context Matters": [65, 566, 1532, 795], "Doing": [65, 796, 1532, 944]}
 B2_BT, B2_MC, B2_AB = [40, 128, 526, 732], [558, 128, 1042, 732], [1076, 128, 1560, 732]
 B34_L, B34_R = [40, 127, 784, 759], [816, 127, 1560, 759]
 
@@ -110,7 +110,7 @@ def main():
     b.board("compare", B1, B1_IN, B1_OUT, "dense", [
         target("Answering row: answering", 31.96, B1_ROWS["Answering"], PURPLE, B1_ROWS["Answering"]),
         target("Images row: Next is images", 46.34, B1_ROWS["Images"], PURPLE, B1_ROWS["Images"]),
-        target("Context Window row: Then there is the context window", 63.12, B1_ROWS["Context Window"], PURPLE, B1_ROWS["Context Window"]),
+        target("Context Window row: Then there is the context window", 63.12, B1_ROWS["Context Matters"], PURPLE, B1_ROWS["Context Matters"]),
         target("Doing row: Finally, the doing phase", 82.90, B1_ROWS["Doing"], PURPLE, B1_ROWS["Doing"]),
     ], lead_camera=True)
     # Board 2 (1600x773): COMPACT, full view; three whole-card rings; the third ring ends at "Let's slow down" so the board is whole

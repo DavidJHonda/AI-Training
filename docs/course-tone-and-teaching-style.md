@@ -160,7 +160,7 @@ Move from a general value to an observable behavior.
 
 Short groups of moves help readers remember what to do. Each move needs a clear verb and enough explanation to use it. Let the content determine the number of moves.
 
-Explain when the advice applies. **Evaluate the Results** scales the depth of checking to the task, the learner's knowledge, and the consequences of being wrong. **Art of Prompting** explains that a quick question does not need every prompting technique.
+Explain when the advice applies. **Evaluation Matters** scales the depth of checking to the task, the learner's knowledge, and the consequences of being wrong. **Prompting Matters** explains that a quick question does not need every prompting technique.
 
 Avoid turning useful habits into rituals the learner must perform every time. Give the reader criteria for choosing the next step.
 
@@ -211,7 +211,7 @@ Examples from the lessons:
 >
 > Read. Understand. Validate.
 
-*Evaluate the Results*
+*Evaluation Matters*
 
 > A missing passage can change the answer.
 >
@@ -298,7 +298,7 @@ Representative source lessons:
 | --- | --- |
 | `lessons/welcome.md`, `lessons/why-learn-ai.md`, `lessons/what-is-ai.md` | Author identity, accessible openings, concrete humor, learner agency |
 | `lessons/does-school-matter.md`, `lessons/learn-with-ai.md` | Respect for students' real questions and the value of learning |
-| `lessons/questions-matter.md`, `lessons/art-of-prompting.md`, `lessons/evaluate-the-results.md`, `lessons/critical-thinking.md` | Worked comparisons, practical questions, proportional checking |
+| `lessons/questions-matter.md`, `lessons/prompting-matters.md`, `lessons/evaluation-matters.md`, `lessons/critical-thinking.md` | Worked comparisons, practical questions, proportional checking |
 | `lessons/ai-is-math.md`, `lessons/tokens.md`, `lessons/embeddings.md` | Building from examples to terminology and showing intermediate reasoning |
 | `lessons/does-ai-think.md`, `lessons/transformer.md`, `lessons/layers.md` | Analogy limits, consistent examples, technical scaffolding |
 | `lessons/how-ai-answers.md`, `lessons/one-more-thing.md` | Following one example through a process and labeling simplifications |

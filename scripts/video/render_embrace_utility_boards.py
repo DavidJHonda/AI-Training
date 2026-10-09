@@ -127,7 +127,7 @@ def render_three_years() -> Image.Image:
             "Photoreal images with signs you can actually read, and full video with sound and dialogue.",
         ),
         (
-            "Context Window",
+            "Context Matters",
             "The free chatbots most people used could only hold a few pages at once. Push a long chat far enough and the beginning fell out of its head.",
             "Some current models can hold a million tokens, which is a whole novel series in view at the same time.",
         ),

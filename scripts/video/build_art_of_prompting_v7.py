@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting v7 candidate (2026-09-26).
+"""Build the Prompting Matters v7 candidate (2026-09-26).
 
 v6 plus the good-question board's rings re-rendered at the fixed 4 px (David:
 "re-render the good-question board rings at 4 px", then "do it"), so every ring
@@ -32,14 +32,14 @@ ROOT = v4.ROOT
 OUT = v5.OUT
 SOURCE = OUT / "art-of-prompting-20260916ship1.mp4"
 M16 = ROOT / "video-audit/art-of-prompting-repair-2026-09-16/edit-manifest.json"
-GOOD = ROOT / "course-assets/art-of-prompting/art-of-prompting-good-question.jpg"
+GOOD = ROOT / "course-assets/prompting-matters/prompting-matters-good-question.jpg"
 GOOD_IN, GOOD_KEEP = 797, 675  # live leg start; frames kept before v4's cut
 
 
 def restore_source():
     if not SOURCE.exists():
         SOURCE.write_bytes(subprocess.run(
-            ["git", "show", "56eec4cf^:course-assets/art-of-prompting/art-of-prompting.mp4"],
+            ["git", "show", "56eec4cf^:course-assets/prompting-matters/prompting-matters.mp4"],
             cwd=ROOT, check=True, capture_output=True).stdout)
     assert v4.sha(SOURCE) == v4.LIVE_SHA
 

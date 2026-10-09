@@ -133,7 +133,7 @@ def main():
                 'candidate_sha256':sha(DEST),'frames':i,'fps':30,'duration':i/30,
                 'changed_spans':SPANS,'audio':'copied AAC stream; no audio edits',
                 'document_min_tracking_inliers':doc.min_inliers,'paper_min_tracking_inliers':paper.min_inliers,
-                'close_asset_sha256':sha(ROOT/'course-assets/art-of-prompting/art-of-prompting-close.jpg'),
+                'close_asset_sha256':sha(ROOT/'course-assets/prompting-matters/prompting-matters-close.jpg'),
                 'source_limitation':'Only finished v8 used; one additional picture encode at CRF16. Raw rolls unavailable.'}
         (OUT/'manifest.json').write_text(json.dumps(record,indent=2)+'\n')
         print(json.dumps(record,indent=2))

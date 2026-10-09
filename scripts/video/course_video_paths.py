@@ -4,6 +4,8 @@ import re
 ROOT = Path(__file__).resolve().parents[2]
 ALIASES = {'does-school-matter': 'beyond-the-new-average', 'beyond-the-average': 'beyond-the-new-average', 'which-app': 'your-home-base', 'opener-work': 'work-with-ai-opener', 'opener-understand': 'understand-ai-opener', 'opener-avoid': 'avoid-traps-opener', 'opener-build': 'build-your-skills-opener', 'opener-embrace': 'embrace-the-future-opener', 'transformers-quiz': 'ai-brain-break'}
 
+ALIASES.update({'how-an-llm-works': 'whats-an-llm', 'art-of-prompting': 'prompting-matters', 'context-window': 'context-matters', 'evaluate-the-results': 'evaluation-matters'})
+
 def current_video_paths():
     text = (ROOT / 'index.html').read_text()
     return [ROOT / p for p in sorted(set(re.findall(r'course-assets/[A-Za-z0-9_./-]+\.mp4', text)))]

@@ -10,12 +10,12 @@ course order can change.
 | --- | --- | --- | --- |
 | Why Learn AI? | `whydeeper` | Five discussion questions | [Discussion](group-session.html?id=whydeeper); shared questions in `../group-activities-data.js` |
 | What Is AI? | `llms` | Be the Last Person Standing | [Activity](what-is-ai/be-the-last-person-standing.html) |
-| How an LLM Works | `aihistory` | One Word at a Time | [Activity](how-an-llm-works/one-word-at-a-time.html) |
+| What’s an LLM? | `aihistory` | One Word at a Time | [Activity](whats-an-llm/one-word-at-a-time.html) |
 | Does AI Think? | `doesaithink` | Spot What’s Wrong | [Activity](does-ai-think/spot-whats-wrong.html) |
 | In Your Hands | `control` | Prompetition | [Activity](in-your-hands/prompetition.html) |
 | Beyond the New Average | `whybother` | Five discussion questions | [Discussion](group-session.html?id=whybother); shared questions in `../group-activities-data.js` |
 | Learn with AI | `studying` | Teach Us Something Ridiculous | [Activity](group-session.html?id=studying); also inline in `RidiculousStudyGroupExercise` |
-| AI Is Different | `aivscode` | Five discussion questions about AI’s kryptonite and guardrails | [Discussion](group-session.html?id=aivscode); shared questions in `../group-activities-data.js` |
+| AI Is Different | `aivscode` | Five discussion questions about written rules, learned patterns, consistency, and flexibility | [Discussion](group-session.html?id=aivscode); shared questions in `../group-activities-data.js` |
 | Where AI Works Best | `whatitdoesbest` | Five discussion questions about applying AI’s four strengths | [Discussion](group-session.html?id=whatitdoesbest); shared questions in `../group-activities-data.js` |
 | Your Home Base | `modelselection` | Find Your Match | [Activity](your-home-base/find-your-match.html); shared `HomeBaseGroupExercise` introduction in the lesson and directory |
 | Questions Matter | `questionsvaluable` | Make the Question Better | [Activity](questions-matter/make-the-question-better.html); shared `QuestionsMatterGroupExercise` introduction in the lesson and directory |
@@ -94,7 +94,7 @@ group-exercises/
     fake-trap-try-*.jpg
     image-sources.md
     generation-prompts.md
-  how-an-llm-works/
+  whats-an-llm/
     one-word-at-a-time.html
   where-do-you-stand/
     where-do-you-stand.html

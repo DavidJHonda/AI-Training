@@ -44,12 +44,12 @@ window.COURSE_GROUP_ACTIVITIES = [
   {
     "id": "aihistory",
     "lesson": "aihistory",
-    "lessonTitle": "How an LLM Works",
+    "lessonTitle": "What’s an LLM?",
     "section": "Start Smarter",
     "title": "One Word at a Time",
     "type": "Activity",
     "note": "Build two stories together, one word at a time, and compare how they turn out.",
-    "href": "group-exercises/how-an-llm-works/one-word-at-a-time.html"
+    "href": "group-exercises/whats-an-llm/one-word-at-a-time.html"
   },
   {
     "id": "doesaithink",
@@ -127,31 +127,28 @@ window.COURSE_GROUP_ACTIVITIES = [
     "section": "Work With AI",
     "title": "AI Is Different",
     "type": "Discussion",
-    "note": "Discuss AI mistakes, guardrails, and the responsibilities of companies and users.",
+    "note": "Rules, patterns, and messy information. Discuss what makes AI different and why that difference matters.",
     "href": "group-exercises/group-session.html?id=aivscode",
     "questions": [
       {
-        "title": "Why can’t companies just tell AI, “Never give a wrong answer”?",
-        "followUp": "Think about the difference between following written rules and answering from learned patterns."
+        "title": "When is getting the same result every time exactly what you want?",
+        "followUp": "Think beyond passwords. Where would software that “gets creative” cause problems?"
       },
       {
-        "context": "An AI refuses to help with homework because it might be helping someone cheat.",
-        "title": "Is that a good safety feature?",
-        "followUp": "When would that refusal help? When would it get in the way of learning?"
+        "title": "What makes the messy playlist hard to turn into written rules?",
+        "followUp": "Pick an example: a crossed-out song, an arrow, an abbreviation, or a joke. How would a person figure out what it means? What might AI misinterpret?"
       },
       {
-        "context": "You ask AI to critique your essay. It avoids saying anything negative because it’s trained to be encouraging.",
-        "title": "Is that helping you?",
-        "followUp": "What’s the difference between being supportive and saying everything is good?"
+        "title": "Your club has sign-ups in a spreadsheet, handwritten notes, and a group chat. What’s different about working with each?",
+        "followUp": "Which information is already organized into consistent fields? What would someone have to interpret before combining it into one list?"
       },
       {
-        "context": "An AI company adds a warning: “AI can make mistakes.”",
-        "title": "Is that enough?",
-        "followUp": "What would you expect the company to do beyond showing a warning? What responsibility does the user have?"
+        "title": "You give the cooking robot and the chef the same ingredients twice. Would you expect the same dish both times?",
+        "followUp": "When would you prefer the robot’s consistency? When would you prefer the chef’s flexibility?"
       },
       {
-        "title": "Would you rather use an AI that sometimes refuses harmless requests or one that sometimes answers harmful requests?",
-        "followUp": "What makes that choice difficult? Could your answer depend on what the app is used for?"
+        "title": "A friend says, “AI is more advanced, so every app should use it for everything.” Do you agree?",
+        "followUp": "Choose one app you use. Where might learned patterns help? Where would you keep a written rule?"
       }
     ]
   },

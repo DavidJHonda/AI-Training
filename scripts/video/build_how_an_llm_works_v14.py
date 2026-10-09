@@ -83,8 +83,8 @@ def prepare():
         q = smoothstep(n / 23)
         odds.cameras[first + 60 + n] = tuple(full[j] + (left[j] - full[j]) * q for j in range(3))
 
-    protected = {str(p): sha(p) for p in [SOURCE, ROOT/'course-assets/how-an-llm-works/how-an-llm-works.mp4',
-        ROOT/'lessons/how-an-llm-works.md', *sorted((ROOT/'course-assets/how-an-llm-works').glob('*.jpg'))]}
+    protected = {str(p): sha(p) for p in [SOURCE, ROOT/'course-assets/whats-an-llm/whats-an-llm.mp4',
+        ROOT/'lessons/whats-an-llm.md', *sorted((ROOT/'course-assets/whats-an-llm').glob('*.jpg'))]}
     boundaries = {254, TRAINING_IN, 2789, 3059, 3117, 3721, 4029, 4221, 4605, 4732,
                   4971, 7012, 7350, LOOP_IN, LOOP_END}
     preview = []

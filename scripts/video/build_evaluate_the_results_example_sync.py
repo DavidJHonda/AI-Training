@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate the Results: swap the refreshed Check Before You Use illustration into the shipped video.
+"""Evaluation Matters: swap the refreshed Check Before You Use illustration into the shipped video.
 
 Tenth of the 2026-09-21 illustration syncs. The cast refresh replaced the board in place: same
 board, same 1600x1394 dimensions, same title, photograph, the CLAIM / SOURCES / DECISION row and
@@ -41,7 +41,7 @@ FF = imageio_ffmpeg.get_ffmpeg_exe()
 FPS = 30
 TOTAL = 7708
 SPAN = (6549, 7372)          # half-open output frames: the Check Before You Use leg, 823 frames
-ASSET = ROOT / 'course-assets/evaluate-the-results/evaluate-the-results-check-before-use.jpg'
+ASSET = ROOT / 'course-assets/evaluation-matters/evaluation-matters-check-before-use.jpg'
 SHIPPED = ROOT / 'video-audit/evaluate-the-results-repair-2026-09-16/edit-manifest.json'
 AUDIT = ROOT / 'video-audit/evaluate-the-results-illustration-sync-2026-09-21'
 BASELINE = AUDIT / 'baseline-live-2026-09-16.mp4'
@@ -69,7 +69,7 @@ def decoded_frames(path: Path) -> tuple[int, float]:
 
 
 def main() -> None:
-    assert BASELINE.exists(), f'{BASELINE} missing: cp course-assets/evaluate-the-results/evaluate-the-results.mp4 {BASELINE}'
+    assert BASELINE.exists(), f'{BASELINE} missing: cp course-assets/evaluation-matters/evaluation-matters.mp4 {BASELINE}'
     assert sha(BASELINE) == BASELINE_SHA, 'baseline snapshot changed'
     assert not DEST.exists(), f'{DEST} exists; version-suffix a rebuild instead of overwriting'
     asset_sha = sha(ASSET)

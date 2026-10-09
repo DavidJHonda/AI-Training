@@ -28,6 +28,11 @@ def _canonical_paths():
             if name in paths and paths[name] != row["new"]:
                 raise ValueError("Ambiguous canonical asset filename: " + name)
             paths[name] = row["new"]
+    # Canonical filenames take priority over aliases from earlier migrations.
+    for section in ("assets", "generated_assets"):
+        for row in _manifest().get(section, []):
+            for previous in row.get("previous_names", []):
+                paths.setdefault(Path(previous).name, row["new"])
     return paths
 
 def asset_path(origin, filename):

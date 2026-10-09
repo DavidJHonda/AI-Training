@@ -19,10 +19,10 @@ AUDIT = ROOT / "video-audit/context-window-reroll-2026-09-21"
 VEHICLE_DONOR = AUDIT / "context-window-live.mp4"        # byte-identical copy of the live v3, kept for this graft
 OUT = AUDIT / "build-v2"
 DEST = ROOT / "Prompts/context-window-v2.mp4"
-A = ROOT / "course-assets/context-window"
+A = ROOT / "course-assets/context-matters"
 COMPARE, SOURCES, HEADSTART, OUTSIDE, CLOSE = (A / f"context-window-{n}.jpg" for n in
     ("same-question", "five-sources", "head-start", "outside-the-window", "close"))
-LIVE, LESSON = A / "context-window.mp4", ROOT / "lessons/context-window.md"
+LIVE, LESSON = A / "context-window.mp4", ROOT / "lessons/context-matters.md"
 
 # Every row boundary sits inside a measured silence (ffmpeg silencedetect, -40 dB / 0.18 s).
 # v2 (David, 2026-09-21): the board used to hold from 0:57 to 1:20 with nothing left to show on it. It now

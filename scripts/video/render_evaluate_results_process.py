@@ -15,7 +15,7 @@ from render_evaluate_results_dig import CARDS as DIG
 from render_evaluate_results_move import CARD_COPY as MOVE
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'course-assets/evaluate-the-results'
+OUT = ROOT / 'course-assets/evaluation-matters'
 BG, INK, BODY, PURPLE, LINE = '#eae7fd', '#0e0a1f', '#3a3550', '#4f2fc4', '#655f87'
 STAGES = (
     ('quick-pass', 'Quick Pass', tuple(zip(('Read', 'Understand', 'Validate'), QUICK)), 'Before you use it: read, understand, validate.'),

@@ -21,7 +21,7 @@ a decision map, not an instruction to rebuild every asset.
 | Welcome | Opener and roadmap utility | Keep | Preserve the creed, illustrated course path, and toolkit roles. |
 | Why Learn AI? | Editorial Explainer | Keep | The three-advantage path is a strong structured board. |
 | What Is AI? | Editorial Explainer plus story frame | Keep | Preserve the category comparison, movie task, and LLM decoder as different teaching jobs. |
-| How an LLM Works | Worked-example utility | Normalize | Keep the map, loop, odds, and myths; align shell details only when touched. |
+| What’s an LLM? | Worked-example utility | Normalize | Keep the LLM definition, familiar patterns, and next-word loop; detailed training, odds, and learn-once boards retired 2026-10-08. |
 | Does AI Think? | Editorial Explainer: Side-by-Side Comparison (`EE-COMPARE`) plus Chinese Room teaching illustration | Keep | Green/purple illustrated comparison with five aligned labeled rows; shared scenario omitted. |
 | In Your Hands | Friendly Schematic | Keep | Preserve the noise-versus-leverage metaphor and action board. |
 | Does School Matter? | Friendly Schematic | Keep | Preserve the question, AI answer, judgment flow. |
@@ -32,13 +32,13 @@ a decision map, not an instruction to rebuild every asset.
 | Lesson | Primary treatment | Status | Direction |
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve creed and section-map standards. |
-| AI Is Different | Editorial Explainer | Keep | Preserve the software comparison and Kryptonite classification. |
+| AI Is Different | Editorial Explainer: Two-Card Full-Bleed (`EE-2FB`) plus password-rule board | Adopted | Cooking comparison uses two 744×339 illustrations, 56/40/29 px type, and equal text areas. Rebuild with `scripts/video/render_ai_is_different_cooking.cjs`. The closing message precedes the messy-notes LAB, followed by the Group Exercise. |
 | Where AI Works Best | Editorial Explainer sequence | Keep | The four-board family is a strong example of one framework spread across readable frames. |
 | Which App? | Comparison utility | Keep | Keep the visual; maintain a content watchlist as products change. |
 | Questions Matter | Editorial Explainer | Keep | Preserve the answer timeline and value-shift comparison. |
-| Art of Prompting | Worked-example utility | Normalize | Keep the text-rich bad/better examples; normalize shell only when revised. |
-| Context Window | Friendly Schematic plus comparison | Keep | Preserve the visual boundary idea and the source-availability board. |
-| Evaluate the Results | Editorial Explainer sequence | Keep | Use as a process-family exemplar. |
+| Prompting Matters | Worked-example utility | Normalize | Keep the text-rich bad/better examples; normalize shell only when revised. |
+| Context Matters | Friendly Schematic plus comparison | Keep | Preserve the visual boundary idea and the source-availability board. |
+| Evaluation Matters | Editorial Explainer sequence | Keep | Use as a process-family exemplar. |
 | Critical Thinking | Friendly Schematic plus worked example | Normalize | Preserve the equation and reaction sequence; align only shared shell details. |
 
 ## Understand AI

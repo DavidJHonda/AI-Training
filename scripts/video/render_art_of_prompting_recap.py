@@ -14,7 +14,7 @@ from editorial_takeaway import draw_takeaway_band
 from editorial_typography import draw_board_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = ROOT / "course-assets/art-of-prompting/art-of-prompting-good-question.jpg"
+OUTPUT = ROOT / "course-assets/prompting-matters/prompting-matters-good-question.jpg"
 ITEMS = (
     ("Open-Minded", "You haven’t picked the answer in advance.", "#6540ec"),
     ("Specific", "It gives enough detail to get an answer that fits.", "#1652f0"),

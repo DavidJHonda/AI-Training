@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Evaluate the Results v7 = v6 minus the Check Before You Use section (David 2026-09-27: "3:19 to 3:41. Let's delete that
+"""Evaluation Matters v7 = v6 minus the Check Before You Use section (David 2026-09-27: "3:19 to 3:41. Let's delete that
 section"; the board was removed from the page the same day). v6 notes follow.
 
-Evaluate the Results v6: best-of build from the three 2026-09-27 rolls (David approved the plan 2026-09-27). Review only.
+Evaluation Matters v6: best-of build from the three 2026-09-27 rolls (David approved the plan 2026-09-27). Review only.
 
 Plan: video-audit/evaluate-the-results-reroll-review-2026-09-27/REVIEW.md + edit-plan.csv.
 Base: Prompts/evaluate-the-results-3.mp4 (narration: all five check names, all three student-ready lines, the revision
@@ -30,14 +30,14 @@ SRC2_ALT = ROOT / 'Prompts/../Prompts/evaluate-the-results-2.mp4'   # a second s
 SRC3_PIC = ROOT / 'Prompts/../Prompts/evaluate-the-results-3.mp4'   # roll 3's own drawing, borrowed ahead of its source position
 OUT = ROOT / 'video-audit/evaluate-the-results-v7-2026-09-27'
 DEST = ROOT / 'Prompts/evaluate-the-results-v7.mp4'
-A = ROOT / 'course-assets/evaluate-the-results'
+A = ROOT / 'course-assets/evaluation-matters'
 B = {k: A / f'evaluate-the-results-{v}.jpg' for k, v in
      dict(quick='quick-pass', decide='decide', dig='dig', move='move').items()}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
     b = Build(ROOT, SRC3, OUT, DEST, protected=[SRC1, SRC2, A / 'evaluate-the-results.mp4', A / 'evaluate-the-results-close.jpg',
-                                                ROOT / 'lessons/evaluate-the-results.md', *B.values()])
+                                                ROOT / 'lessons/evaluation-matters.md', *B.values()])
     # every boundary below sits inside one of roll 3's measured silences (sil.py, floor -75.9 dB, threshold +10 dB)
     b.load_audio([(10.69, 11.23), (33.76, 34.49), (49.96, 50.43), (60.77, 61.34), (71.67, 72.36), (76.33, 77.00), (91.80, 92.54),
                   (102.52, 103.11), (152.02, 152.66), (169.28, 170.00), (202.04, 202.60), (222.08, 222.80)])

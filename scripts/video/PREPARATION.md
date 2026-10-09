@@ -27,7 +27,7 @@ hold Notebook's own diagrams just as long), and break the holds in the edit plan
 ## Prepare the lesson arc
 
 Before finalizing the Markdown and prompt, check how the ideas connect. The Training
-and Evaluate the Results rerolls showed the value of writing the transitions as
+and Evaluation Matters rerolls showed the value of writing the transitions as
 carefully as the individual teaching points. Apply this pass to each new preparation
 or reroll; a flowchart is not required for every lesson.
 

@@ -110,7 +110,7 @@ class Build:
         corner mark cleaned. Check the two rolls' speech loudness before grafting (they should sit within ~1 dB).
         cover_intro: the other roll usually opens the span on its own rendering of a course board (never ships); the
         frames before its first scene cut (within 3s) are covered by the first frame after that cut.
-        picture_from: AUDIO-ONLY graft (2026-09-13, How an LLM Works: a garbled word replaced by the same line from
+        picture_from: AUDIO-ONLY graft (2026-09-13, What’s an LLM?: a garbled word replaced by the same line from
         roll 1): the sound is the second roll's, the picture stays this roll's own frames from that source frame on."""
         import sys; sys.path.insert(0, str(self.root / 'scripts/video')); from gemini_mark import clean_frame, glyph_mask
         src2 = Path(src2); wav = self.out / f'graft-{key}.wav'
@@ -123,7 +123,7 @@ class Build:
         if picture_from is not None:
             self.grafts[key] = dict(key=key, source=str(src2), sha256=sha(src2), audio_in=s, audio_out=e, picture_from=picture_from, audio_only=True, gain_db=gain_db, fade_end_to_silence=fade_end_to_silence)
             self.rows.append(dict(kind='source', source_start=picture_from, source_end=picture_from + (e - s), start_frame=self.cursor, end_frame=self.cursor + e - s, label=label, visual=visual, graft_audio=str(src2), audio_start=s, audio_end=e))   # visual=<board key>: keep our board leg on screen (picture_from in that leg's source span)
-            if video_end is not None:   # 2026-09-16 (How an LLM Works v6): the borrowed picture holds its last frame before this source frame instead of running into the roll's next scene
+            if video_end is not None:   # 2026-09-16 (What’s an LLM? v6): the borrowed picture holds its last frame before this source frame instead of running into the roll's next scene
                 assert visual == 'source'; self.rows[-1]['video_start'] = picture_from; self.rows[-1]['video_end'] = video_end
             self.parts.append(data); self.cursor += e - s; return
         mask = glyph_mask(); leg = self.out / f'leg-{key}.mkv'; counts = dict(cloned_frames=0, inpainted_frames=0, declined=[])

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the narrow Context Window label repair and save encoded evidence."""
+"""Verify the narrow Context Matters label repair and save encoded evidence."""
 from pathlib import Path
 import hashlib, json, subprocess
 import av, cv2, imageio_ffmpeg

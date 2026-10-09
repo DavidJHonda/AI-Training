@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting v5 review candidate (2026-09-26).
+"""Build the Prompting Matters v5 review candidate (2026-09-26).
 
 v4 (the two approved 'framework' sentence cuts, see build_art_of_prompting_v4.py)
 plus David's framing note on v4: "Board at :59. Zoom in closer. We don't need to
@@ -39,7 +39,7 @@ from ken_burns_path import FFMPEG, draw_ring, fit_window, hex_bgr, ring_px, smoo
 ROOT = v4.ROOT
 OUT = ROOT / "video-audit/art-of-prompting-repair-2026-09-26"
 DEST = ROOT / "Prompts/art-of-prompting-v5.mp4"
-ASSETS = ROOT / "course-assets/art-of-prompting"
+ASSETS = ROOT / "course-assets/prompting-matters"
 W, H, UP = 1280, 720, 3
 
 # Canvas offsets from Build.compose (identical to the 09-16 legs).

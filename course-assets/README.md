@@ -4,7 +4,7 @@ Finished videos, boards, and illustrations are grouped by lesson. Lesson text st
 
 - Approved website credits are part of the standard JPG. There are no separate `-attributed` files or uncredited originals for these boards.
 - Do not recreate `source-illustrations` folders. Removed source records remain in the manifest for historical reference.
-- Name lesson boards, illustrations, and downloads `<lesson-folder>-<content-description>.<extension>`, using lowercase words separated by hyphens. Omit sequence numbers and version or implementation labels. Examples: `welcome-course-toolkit.jpg`, `your-home-base-big-three.jpg`, and `context-window-close.jpg`. Meaningful words such as `four-moves` remain. Shared assets use descriptive names.
+- Name lesson boards, illustrations, and downloads `<lesson-folder>-<content-description>.<extension>`, using lowercase words separated by hyphens. Omit sequence numbers and version or implementation labels. Examples: `welcome-course-toolkit.jpg`, `your-home-base-big-three.jpg`, and `context-matters-close.jpg`. Meaningful words such as `four-moves` remain. Shared assets use descriptive names.
 - Keep approved filenames stable after this standardization. Update all references when a rename is necessary. Never change dimensions or teaching-content positions as part of a filename cleanup; video highlights depend on that geometry.
 - Shared lesson filenames remain separate; byte-identical copies of upgraded boards carry the same website credit.
 - `manifest.json` maps every original path to its current canonical file. It records current hashes, original migration hashes, deduplication history, and previous filenames. Original generator aliases resolve to the current files through `scripts/video/course_asset_paths.py`.

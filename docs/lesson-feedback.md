@@ -50,7 +50,7 @@ services and verifies routing, fixed recipient, validation, duplicate suppressio
 failed-send retry, quota/rate limits, and existing enrollment/review/completion
 routes. No real email is sent.
 
-Browser checks covered Resources and Evaluate the Results lesson identification,
+Browser checks covered Resources and Evaluation Matters lesson identification,
 keyboard focus and Escape, reopening drafts, unsupported deployment protection,
 failed submission and retry, success, and a 390px mobile viewport. All requests
 were intercepted; live delivery was not exercised.

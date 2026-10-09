@@ -1,173 +1,81 @@
 ## WORK WITH AI
 
-# AI Is Different
+# AI is Different
 
-AI is taking the world by storm. It has superpowers that set it apart from any other software. The reason is simple:
+You’re signing into Spotify. You enter the wrong password. Should the app open because you were close? Or because your spelling was creative?
 
-AI is built on a different foundation.
+No. You want it to follow a rule: **let me in only if the password matches.**
 
-Consider how normal (non-AI) software is created, like the calculator app on your phone or Microsoft Excel. A programmer sits down and writes code line-by-line that tells the software exactly what to do.
-
-The core of normal software is something called **Rules**. The best way to understand them is the most common kind: **IF-THEN-ELSE** statements. Here’s what that looks like.
+Non-AI software is based on instructions like this that people wrote. A calculator follows instructions for mathematical operations. A spreadsheet applies formulas to the information you enter.
 
 ### Board 1: Rules Look Like This
 
 **Image file:** `ai-is-different-rules.jpg`
 
-![Rules Look Like This](ai-is-different-rules.jpg)
+![Rules Look Like This](../course-assets/ai-is-different/ai-is-different-rules.jpg)
 
 **Teaching content:**
 
-Rules look like this.
-
-A user enters a password. IF the password matches, THEN open the app. ELSE show the message “Password doesn’t match. Please try again.”
+Rules look like this. A user enters a password. If the password matches, then the app opens. Otherwise, the app shows “Password doesn’t match. Please try again.”
 
 Written rules return the same result every time.
 
-## AI IS Based On Patterns
+## When rules aren’t enough
 
-AI is different. A programmer doesn’t write out the rules for every situation. Instead, AI uses patterns it learned during training. A language model learns patterns first, then uses them to answer one word at a time.
+You and your friends hand-wrote a Spotify playlist for your homecoming dance.
 
-### Board 2: Two Ideas Behind Every Answer
+But the handwritten notes are messy. There are crossed-out ideas, arrows pointing to replacement songs, abbreviations, and a few jokes in the margins. Before you can build the playlist, someone has to figure out which songs you actually chose.
 
-**Image file:** `ai-is-different-learn-once.jpg`
+Imagine a programmer tried to write a separate instruction for every possible scribble, pointing arrow, and scratch-through. Impossible.
 
-![Two Ideas Behind Every Answer.](ai-is-different-learn-once.jpg)
+This is where AI’s foundation matters.
 
-**Teaching content:**
+An LLM learns patterns during training.
 
-Two ideas behind every answer.
+So it doesn’t need pre-written instructions to make sense of your notes. AI can help turn the planning mess into a list you can use.
 
-Learn First. Training: how the model learns. It learns from enormous amounts of data before you use it.
+AI is still software.
 
-Patterns: what the model learns. Training turns examples into learned numerical patterns.
+People still write the code that trains and runs AI. The difference is that they haven’t written each answer or a separate rule for every request.
 
-Patterns power every answer.
+### Board 2: A Cooking Analogy
 
-Answer One Word at a Time. Probability: how it scores possible next words. It uses the words so far to work out how likely each next word is.
+**Image file:** `ai-is-different-cooking-analogy-faceless.jpg`
 
-Prediction: how it chooses and repeats. It chooses a likely next word, adds it, and runs the process again.
-
-Learn patterns first. Use them to build every answer.
-
-## A Robot and a Chef
-
-That’s the difference: someone writes the rules for ordinary software. AI learns patterns it can use in situations it hasn’t seen before.
-
-Wrapping your head around this is important, so here’s a cooking analogy.
-
-Normal software is like a robot cooking a recipe from a cookbook: someone wrote every step, and the robot follows the rules and makes the same exact dish every time.
-
-AI is like a chef: no one handed it a cookbook. AI cooked thousands of dishes, recognized the cooking patterns, so it can handle a dish it’s never made. Same kitchen, completely different way to get to dinner.
-
-That difference shows up everywhere: how each one solves a problem, how it reaches an answer, how it fails, and whether you can even trace why.
-
-## RULES (Normal Software) VS PATTERNS (AI Software)
-
-Watch what each one does with the same question.
-
-### Board 3: Rules vs. Patterns
-
-**Image file:** `ai-is-different-rules-vs-patterns-faceless.jpg`
-
-![Rules vs. Patterns](ai-is-different-rules-vs-patterns-faceless.jpg)
+![A Cooking Analogy](../gemini-notebook/ai-is-different/assets/ai-is-different-cooking-analogy-faceless.jpg)
 
 **Teaching content:**
 
-Rules vs. Patterns.
+Here’s a cooking analogy. Rule-based software is like a cooking robot following a recipe. Someone wrote the steps. The robot measures the ingredients, follows the instructions, and repeats the process.
 
-The question: “What’s the best game for my new PS5?”
+Same recipe. Same result every time.
 
-Normal Software. Fixed rules. Follows written instructions. First ask: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2. Ask again: Marvel’s Spider-Man 2.
+AI is like a chef who learned from preparing many different dishes. The chef recognizes patterns: which ingredients work together, how cooking methods affect food, and what substitutions might work.
 
-AI Software. Built from patterns. Builds a fresh response. First ask: Marvel’s Spider-Man 2. Ask again: NHL 26. Ask again: God of War Ragnarök.
+The chef doesn’t need a recipe.
 
-Rules repeat the programmed answer. Patterns build a fresh one.
+Learned patterns. Different dishes.
 
-## Why the Answers Differ
+## Structured vs. Unstructured Data
 
-In this example, normal software follows a rule: when you ask for the best PS5 game, show the top game on a preset list. AI builds an answer using learned patterns, so you can ask the same question again and get a different recommendation.
+To calculate your GPA in a spreadsheet, you put grades and credits into the right rows and columns. That’s **structured data**: information organized into consistent fields.
 
-## STRUCTURED VS UNSTRUCTURED DATA
+But suppose you took a picture while visiting a college and want to know the names of the dorms. That’s **unstructured data**: the information isn’t arranged into consistent fields. AI can use visible signs and other clues to help identify the buildings.
 
-Here’s another AI superpower: your information doesn’t have to arrive neatly organized. To calculate your GPA in a spreadsheet, you enter grades and credits into rows and columns. That’s **structured data**. AI can also read those details scribbled on the back of a Chick-fil-A receipt or buried in a copied text message. That’s **unstructured data**. It can help turn that mess into a table, ready for the calculation.
+## The downside
 
-A good example is how we wrote this lesson. We sketched out messy notes on a legal pad. We scratched through lines, drew arrows to move things around, the works. It was MESSY. Just saving a picture of those notes wouldn’t turn them into a lesson. Something still had to make sense of them.
+Using learned patterns makes AI flexible, but its response can be harder to predict and inspect than a written rule like the password check.
 
-That something was AI. It read the notes, followed the changes, and turned them into a first draft.
+It might miss a crossed-out song or confidently give you the wrong dorm name.
 
-### Board 4: Structured vs. Unstructured Data
-
-**Image file:** `ai-is-different-structured-faceless.jpg`
-
-![Structured vs. Unstructured Data](ai-is-different-structured-faceless.jpg)
-
-**Teaching content:**
-
-Structured vs. Unstructured Data.
-
-Normal Software. The idea: you fit information into a structure the software expects. Input and output: you use the fields, file types, and commands the software was built to handle.
-
-AI Software. The idea: AI can make sense of messy information and help you organize or transform it. Input and output: give it notes, pictures, PDFs, or audio. Ask for a summary, table, first draft, or image.
-
-Available inputs and outputs depend on the app.
-
-You bring the mess. AI helps make sense of it.
-
-## THE RIGHT TOOL FOR THE JOB
-
-Here’s the catch: a superpower isn’t the same as the right tool. When a job is exact, runs the same way every time, and has to stay consistent, like calculating a GPA or checking a password, normal software wins.
-
-AI earns its place on the messy, open-ended jobs no one could write a rule for. So the skill isn’t reaching for AI every time. It’s knowing which kind of job you’re looking at, and picking the tool that fits.
-
-## AI’S KRYPTONITE
-
-A human can hold Kryptonite, toss it in a backpack, whatever. Not Superman, for him it can be fatal.
-
-AI has its own Kryptonite. It’s not fatal, but you need to be aware of it.
-
-Because AI runs on learned patterns and not rules, it’s harder to control.
-
-Trained behavior is harder to predict, inspect, and lock down than written rules.
-
-And no one, not the engineers who built it, the researchers who study it, or the company that ships it, can fully predict what it will do. And sometimes, people use its superpowers to cause harm. You need to recognize these risks.
-
-### Board 5: AI’s Kryptonite
-
-**Image file:** `ai-is-different-weak-spots-faceless.jpg`
-
-![AI’s Kryptonite](ai-is-different-weak-spots-faceless.jpg)
-
-**Teaching content:**
-
-AI’s Kryptonite.
-
-Scams that scale: AI generates code, convincing messages, and fake identities in seconds.
-
-Deepfakes: convincing fakes can target and humiliate anyone, including students.
-
-Confident but wrong: medical and safety answers can sound correct even when they are flat wrong.
-
-Trained behavior is harder to predict, inspect, and lock down.
-
-## THE INDUSTRY’S ANSWER: GUARDRAILS
-
-AI companies don’t ignore this.
-
-During training, they teach AI to avoid harmful behavior.
-
-They also add a safety layer to the apps: guardrails.
-
-These help block, redirect, or limit harmful requests. But none are perfect. They can miss something dangerous or block something harmless.
-
-### Board 6: Close
-
-**Image file:** `ai-is-different-close.jpg`
-
-![Close board](ai-is-different-close.jpg)
+It might look great, but still have mistakes.
 
 ## Closing Message
 
-AI’s foundation gives it new superpowers.
+**Image file:** `ai-is-different-close.jpg`
 
-Those superpowers come with Kryptonite.
+![Closing Message](../course-assets/ai-is-different/ai-is-different-close.jpg)
+
+Different jobs need different tools.
+
+Choose the tool that fits the work.

@@ -26,7 +26,7 @@ SOURCE = ROOT / "Prompts/context-window-4.mp4"
 VISUAL_DONOR = ROOT / "Prompts/context-window-3.mp4"
 DEST = ROOT / "Prompts/context-window-v1.mp4"
 AUDIT = ROOT / "video-audit/context-window-repair-2026-09-16"
-ASSETS = ROOT / "course-assets/context-window"
+ASSETS = ROOT / "course-assets/context-matters"
 
 
 def frame_count(path: Path) -> int:

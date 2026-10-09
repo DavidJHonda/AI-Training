@@ -168,6 +168,34 @@ quizzes and labs into a linear reveal component. Existing activities should adop
 the pattern when their lesson is revised, not through an automatic course-wide
 conversion.
 
+### Embeddings: adding a dimension
+
+`EMBEDDING_DIMENSION_DATA`, `EMBEDDING_DIMENSION_STATES`, and
+`EmbeddingDimensionScene` begin with the ratings scale and six dimension headings visible,
+and a prompt about rating Coffee. The first action fills Coffee’s row; the second
+fills Coke’s. Row order is Coffee, Coke, Pepsi, keeping Coke and Pepsi adjacent.
+Then ask which drink has Sweet 9, Bitter 1, and Fizz 10, then highlight Coke’s
+three values and define vector, dimension, and value. The next action adds Pepsi.
+Pause for a comparison before highlighting Coke and Pepsi’s six matching values.
+The next action adds the Citrus heading and empty rating tiles. A separate final
+action fills the Citrus values: Coffee 0, Coke 1, and Pepsi 10.
+
+The visual follows the original drink board: shared colored column headings,
+colored number tiles, and outlined drink rows. Reserve space for Pepsi and Citrus
+so earlier values stay in place. On narrow screens, transpose the table to keep
+drink values side by side, with dimensions down the left. Use native table headers
+and hide unrevealed values from assistive technology. The finished view retains
+all three drinks. Replay returns to the headings and Coffee prompt, with drink names and values hidden.
+
+This replaces both static taste-profile boards and their repeated explanation.
+The ratings are illustrative taste-test scores, not measured product claims.
+Print shows the completed comparison and explanation.
+
+Run `node scripts/video/preview_embedding_dimension.cjs` to regenerate the preview
+from the live components. `previews/embedding-dimension.html?capture=1&step=7`
+shows only the finished scene; `window.setEmbeddingDimensionScene(step)` selects
+any of its eight states. This does not update the recorded lesson video.
+
 ### How AI Answers pilot
 
 `ANSWER_BUILD_STATES` and `AnswerBuildScene` supply a second reference. Introduce

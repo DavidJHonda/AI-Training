@@ -170,7 +170,7 @@ def main():
     alternative = ALT_OUT / "context-window-2-outside-alternative.jpg"
     targets = [
         alternative,
-        REPO / "course-assets/context-window/context-window-outside.jpg",
+        REPO / "course-assets/context-matters/context-window-outside.jpg",
         asset_path('lessons', "context-window-2-outside.jpg"),
         REPO / "board-review-first-four" / "current-selected" / "work-with-ai" / "context-window-2-outside.jpg",
     ]

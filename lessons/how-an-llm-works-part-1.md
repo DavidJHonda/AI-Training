@@ -1,11 +1,13 @@
-# How an LLM Works: How the Model Learns
+> Retired split-generation source. Use [the current lesson](whats-an-llm.md) and `gemini-notebook/whats-an-llm/` for new videos. Boards for removed content were deleted at the owner’s request on 2026-10-08.
+
+# What’s an LLM?: How the Model Learns
 
 ## The app and the model
 
 **Board:** What's an LLM?
 **Image file:** `how-an-llm-works-llm.jpg`
 
-![What's an LLM?](../course-assets/how-an-llm-works/how-an-llm-works-llm.jpg)
+![What's an LLM?](../course-assets/whats-an-llm/whats-an-llm-llm.jpg)
 
 How does an AI model learn that “jelly” fits after “peanut butter and”? It learns from examples before you ever ask it a question. Let's follow that example to see what learning means.
 
@@ -18,7 +20,7 @@ Large models are trained on huge amounts of text and code. Language means they w
 **Board:** How Training Works
 **Image file:** `how-an-llm-works-training.jpg`
 
-![How Training Works](../course-assets/how-an-llm-works/how-an-llm-works-training.jpg)
+*Historical board: How Training Works (deleted; not part of the current kit).*
 
 Imagine a training example that says “peanut butter and jelly.” The example already contains the answer. The model's job is to predict that answer from the words before it.
 
@@ -35,7 +37,7 @@ That's what training means here. The model learns before you use it by practicin
 **Board:** Patterns AI Learns
 **Image file:** `how-an-llm-works-patterns.jpg`
 
-![Patterns AI Learns](../course-assets/how-an-llm-works/how-an-llm-works-patterns.jpg)
+![Patterns AI Learns](../course-assets/whats-an-llm/whats-an-llm-patterns.jpg)
 
 What comes out of all that training? Learned patterns, including familiar connections between words.
 

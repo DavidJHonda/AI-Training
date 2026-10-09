@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting v6 review candidate (2026-09-26).
+"""Build the Prompting Matters v6 review candidate (2026-09-26).
 
 v5 plus David's note on it: "at 1:29, zoom in to the right side of the board like
 you did for the left side. at 2:44, do the right side of the board the same zoom

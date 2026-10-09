@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove ten redundant restatement sentences from the shipped How an LLM Works video.
+"""Remove ten redundant restatement sentences from the shipped What’s an LLM? video.
 
 Run with .video-venv/bin/python. Retains a source backup; writes a review candidate.
 The live video is replaced only after the candidate is checked.
@@ -65,7 +65,7 @@ def main():
     AUDIT.mkdir(parents=True, exist_ok=True)
     SOURCE.parent.mkdir(parents=True, exist_ok=True)
     if not SOURCE.exists():
-        shutil.copy2(ROOT / 'course-assets/how-an-llm-works/how-an-llm-works.mp4', SOURCE)
+        shutil.copy2(ROOT / 'course-assets/whats-an-llm/whats-an-llm.mp4', SOURCE)
     assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == SOURCE_SHA
     cap = cv2.VideoCapture(str(SOURCE))
     assert int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) == ORIGINAL_FRAMES

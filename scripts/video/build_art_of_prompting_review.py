@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting best-of review candidate (2026-09-16).
+"""Build the Prompting Matters best-of review candidate (2026-09-16).
 
 Full production pass from Prompts/art-of-prompting-1.mp4. The approved plan:
 replace the thin four-quality list with three board-covered donor runs, mute the
@@ -35,7 +35,7 @@ Q_DONOR = ROOT / "Prompts/questions-matter-1.mp4"
 OUT = ROOT / "video-audit/art-of-prompting-repair-2026-09-16"
 DEST = ROOT / "Prompts/art-of-prompting-v3.mp4"
 
-ASSET_DIR = ROOT / "course-assets/art-of-prompting"
+ASSET_DIR = ROOT / "course-assets/prompting-matters"
 GOOD = ASSET_DIR / "art-of-prompting-good-question.jpg"
 MOVES12 = ASSET_DIR / "art-of-prompting-four-moves.jpg"
 MOVES34 = ASSET_DIR / "art-of-prompting-four-moves-continued.jpg"

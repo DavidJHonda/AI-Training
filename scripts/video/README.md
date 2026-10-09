@@ -1,6 +1,6 @@
 # Shared video workflow
 
-Current instructions, updated 2026-09-29. Start here for each video task.
+Current instructions, updated 2026-10-08. Start here for each video task.
 Read the task-specific reference below; do not load every technical recipe for a
 routine edit. User instructions and already-approved plans take precedence.
 
@@ -12,6 +12,7 @@ routine edit. User instructions and already-approved plans take precedence.
 | Stage a lesson's uploads in one folder | `sync_gemini_notebook.py` builds `gemini-notebook/<slug>/` from `gemini-notebook/upload-sets.json` |
 | Evaluate narration or compare generations | [Narration Review](NARRATION-REVIEW.md) |
 | Build or repair a video | [Edit Spec](EDIT-SPEC.md) |
+| Improve learning with supporting scenes and timed illustrations | [Learning Illustration Pass](LEARNING-ILLUSTRATION-PASS.md), plus Edit Spec sections 8–8d |
 | Replace course-board visuals | [Board Retrofit](RETROFIT-PLAYBOOK.md), plus Edit Spec |
 | Diagnose rendering, timing, or audio seams | Relevant section of [Technical Recipes](TECHNICAL-RECIPES.md) |
 | Ship an approved candidate locally | Ship checklist and local shipping rules below |

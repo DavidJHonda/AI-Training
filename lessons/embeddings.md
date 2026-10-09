@@ -8,9 +8,9 @@ It’s the same as the number assigned to your Student ID. It might let you in t
 
 ### Board 1: An ID Identifies You. It Doesn’t Describe You.
 
-**Image file:** `embeddings-student-id-faceless.jpg`
+**Image file:** `embeddings-student-id-faceless-no-banner.jpg`
 
-![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id-faceless.jpg)
+![An ID Identifies You. It Doesn’t Describe You.](embeddings-student-id-faceless-no-banner.jpg)
 
 **Teaching content:**
 
@@ -18,65 +18,88 @@ An ID identifies you. It doesn’t describe you.
 
 Four students at a cafeteria table wear Student ID badges numbered 1024, 2048, 3072, and 4096. One of them is standing, slipping french fries into his shirt pocket. The badge numbers tell you which student is which. They tell you nothing about who each student is.
 
-His ID won’t tell you he steals fries.
 
 ## How Numbers Can Represent Meaning
 
-Imagine you and your friends rate Coke and coffee on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic.
+Imagine you and your friends rate drinks on six characteristics: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Each score runs from 0 to 10. A higher number means more of that characteristic.
 
-### Board 2: Meaning Becomes an Ordered Row of Numbers
+### Board 2: Six Characteristics
 
-**Image file:** `embeddings-meaning-row.jpg`
+**Image file:** `embeddings-ratings-headings.jpg`
 
-![Meaning Becomes an Ordered Row of Numbers](embeddings-meaning-row.jpg)
+![Six characteristics with the drink rows still empty](embeddings-ratings-headings.jpg)
 
 **Teaching content:**
 
-Meaning becomes an ordered row of numbers.
+The table has a place for each drink and six ratings: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Ratings run from 0 for low to 10 for high.
 
-Ratings run from 0 for low to 10 for high. Each row is a drink. Coke and coffee are scored on the same six characteristics in the same order: Sweet, Bitter, Fizz, Heat, Caffeine, and Dark.
+### Board 3: Coffee
 
-Coke scores 9 for Sweet, 1 for Bitter, 10 for Fizz, 2 for Heat, 3 for Caffeine, and 8 for Dark.
+**Image file:** `embeddings-ratings-coffee.jpg`
+
+![Coffee fills the first row](embeddings-ratings-coffee.jpg)
+
+**Teaching content:**
+
+You and your friends tasted Coffee and rated it on six characteristics. Let’s put those ratings in the table.
 
 Coffee scores 1 for Sweet, 9 for Bitter, 0 for Fizz, 9 for Heat, 8 for Caffeine, and 10 for Dark.
 
-Each position always means the same thing. The number says how much.
+### Board 4: Add Coke
 
-If someone asked you, “Which drink scores 9 for Sweet, 1 for Bitter, and 10 for Fizz?” you’d immediately answer Coke.
+**Image file:** `embeddings-ratings-coke.jpg`
 
-You’ve turned each drink’s characteristics into a row of numbers that describes it.
-
-The whole row of numbers is a vector.
-
-Each position in the row is a dimension, such as Sweet or Bitter.
-
-The number in that position is its value.
-
-## When You Need Another Dimension
-
-Now add a third drink to the taste test: Pepsi. Score it on the same six dimensions and a problem shows up. Pepsi scores the same as Coke. On these six numbers alone, you cannot tell them apart.
-
-To tell them apart, you add a seventh dimension, Citrus. In your ratings, Pepsi scores 10 and Coke scores 1. Their numerical profiles now capture a difference the first six dimensions missed.
-
-### Board 3: One New Dimension Separates Similar Meanings
-
-**Image file:** `embeddings-new-dimension.jpg`
-
-![One New Dimension Separates Similar Meanings](embeddings-new-dimension.jpg)
+![Coffee first, Coke second](embeddings-ratings-coke.jpg)
 
 **Teaching content:**
 
-One new dimension separates similar meanings.
+Next, you taste Coke and rate it on the same six characteristics.
 
-Ratings still run from 0 for low to 10 for high. Each row is a drink. The six original dimensions are Sweet, Bitter, Fizz, Heat, Caffeine, and Dark. Citrus is the new seventh dimension.
+Coke scores 9 for Sweet, 1 for Bitter, 10 for Fizz, 2 for Heat, 3 for Caffeine, and 8 for Dark.
 
-Coke scores 9 for Sweet, 1 for Bitter, 10 for Fizz, 2 for Heat, 3 for Caffeine, and 8 for Dark. Pepsi scores exactly the same on all six: 9, 1, 10, 2, 3, and 8. Coffee scores 1, 9, 0, 9, 8, and 10 on the same six.
+Compare Coke and Coffee. Which drink scores 9 for Sweet, 1 for Bitter, and 10 for Fizz? That’s Coke.
 
-On Citrus, Coke scores 1, Pepsi scores 10, and coffee scores 0.
+A row of numbers like this is called a vector.
 
-Coke and Pepsi match on the first six dimensions. The seventh, Citrus, is where they differ.
+Each position is a dimension, such as Sweet, and the number there is its value.
 
-Six numbers match. The seventh tells them apart.
+### Board 5: Add Pepsi
+
+**Image file:** `embeddings-ratings-pepsi.jpg`
+
+![Coffee, Coke, and Pepsi; Coke and Pepsi have identical six-number profiles](embeddings-ratings-pepsi.jpg)
+
+**Teaching content:**
+
+Now let’s add Pepsi to the same taste test.
+
+Compare Coke and Pepsi’s six-number profiles. If you hid the drink names, could these numbers tell you which was which? All six values match. With only these numbers, you cannot tell Coke and Pepsi apart.
+
+### Board 6: Add Citrus
+
+**Image file:** `embeddings-ratings-citrus-column.jpg`
+
+![The Citrus column appears with its values still empty](embeddings-ratings-citrus-column.jpg)
+
+**Teaching content:**
+
+Let’s add Citrus, a rating of citrus flavor from 0 to 10.
+
+Citrus gives us a seventh dimension.
+
+Now rate each drink for citrus flavor, using the same 0-to-10 scale.
+
+### Board 7: Compare the Citrus Ratings
+
+**Image file:** `embeddings-ratings-citrus-values.jpg`
+
+![The Citrus values fill in: Coffee 0, Coke 1, Pepsi 10](embeddings-ratings-citrus-values.jpg)
+
+**Teaching content:**
+
+In your taste-test ratings, Coffee scores 0 for Citrus, Coke scores 1, and Pepsi scores 10. The first six values still match for Coke and Pepsi, but their seven-number profiles now differ.
+
+Another dimension can capture a difference the earlier numbers missed.
 
 ## How AI Uses This Idea
 
@@ -86,7 +109,7 @@ Just as each drink has a numerical profile, each token has its own row of number
 
 That row is called an embedding.
 
-### Board 4: From Taste Ratings to AI Embeddings
+### Board 8: From Taste Ratings to AI Embeddings
 
 **Image file:** `embeddings-taste-test-to-ai.jpg`
 
@@ -112,7 +135,7 @@ Both use a row of numbers to describe something.
 
 What happens when you type “cat” into AI? Follow its token ID to the matching row in the embedding table.
 
-### Board 5: Inside a Real Model
+### Board 9: Inside a Real Model
 
 **Image file:** `embeddings-inside-real-model.jpg`
 

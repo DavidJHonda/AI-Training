@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting v8 review candidate (2026-09-27).
+"""Build the Prompting Matters v8 review candidate (2026-09-27).
 
 v7 with the good-question board (live 0:26-0:49) swapped for David's new compact
 "Four Qualities of a Good Question" board (four numbered cards in one row plus the

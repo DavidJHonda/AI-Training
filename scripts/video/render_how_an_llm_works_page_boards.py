@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Render the two former HTML-only How an LLM Works boards as canonical JPGs.
+"""Render the current One Word at a Time board as a canonical JPG.
+
+The former numerical-odds board was retired by the owner on 2026-10-08.
 
 The markup and CSS below preserve the approved page rendering at a 1600px
 native board width. Chrome creates lossless captures; Pillow crops the board
@@ -17,7 +19,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 TMP = Path("/private/tmp/how-an-llm-works-page-boards")
 FONT = ROOT / "scripts/video/assets/fonts/PlusJakartaSans-wght.ttf"
-ASSETS = ROOT / "course-assets/how-an-llm-works"
+ASSETS = ROOT / "course-assets/whats-an-llm"
 
 
 SHARED = f"""
@@ -38,27 +40,6 @@ body {{ overflow:hidden; }}
 """
 
 
-ODDS = """
-.odds-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.6%; min-height:350px; }
-.odds-panel { display:flex; flex-direction:column; min-width:0; border-radius:17px; background:#fff;
-  overflow:hidden; box-shadow:0 8px 18px rgba(28,19,82,.08); }
-.phrase { min-height:92px; margin:3.7% 5.2% 0; padding:3.5% 4%; display:flex; align-items:center;
-  border-radius:12px; font:500 clamp(18px,1.908cqw,29px)/1.45 'Plus Jakarta Sans',sans-serif; color:#3a3550; }
-.purple .phrase { background:#e5defe; border:2px solid #c8baf6; }
-.teal .phrase { background:#e1f5f1; border:2px solid #b5ded8; }
-.rows { flex:1; display:grid; grid-template-rows:repeat(4,minmax(54px,1fr)); padding:3.4% 5.2% 4.2%; }
-.row { display:grid; grid-template-columns:minmax(82px,.85fr) 2.5fr 56px; align-items:center; gap:3.2%;
-  border-bottom:1px solid #e5e2ed; }
-.row:last-child { border-bottom:0; }
-.word,.percent { font-size:clamp(18px,1.908cqw,29px); font-weight:700; color:#3a3550; }
-.percent { text-align:right; }
-.track { height:clamp(12px,1.447cqw,22px); border-radius:999px; background:#efedf4; overflow:hidden; }
-.fill { height:100%; border-radius:inherit; }
-.purple .fill { background:#4f2fc4; }
-.teal .fill { background:#0e8f86; }
-.teal .jelly .fill { background:#4f2fc4; }
-.teal .jelly .word,.teal .jelly .percent { color:#4f2fc4; }
-"""
 
 
 PREDICTION = """
@@ -87,20 +68,6 @@ def document(css: str, body: str) -> str:
 
 def prepare() -> None:
     TMP.mkdir(parents=True, exist_ok=True)
-    odds = f"""<section class="board" aria-label="Same Word. Different Odds.">
-      <h1>Same Word. Different Odds.</h1><div class="odds-grid">
-      <section class="odds-panel purple"><div class="phrase">I’d like to buy peanut butter and _____.</div><div class="rows">
-      <div class="row jelly"><div class="word">jelly</div><div class="track"><div class="fill" style="width:41%"></div></div><div class="percent">41%</div></div>
-      <div class="row"><div class="word">bread</div><div class="track"><div class="fill" style="width:27%"></div></div><div class="percent">27%</div></div>
-      <div class="row"><div class="word">bananas</div><div class="track"><div class="fill" style="width:16%"></div></div><div class="percent">16%</div></div>
-      <div class="row"><div class="word">honey</div><div class="track"><div class="fill" style="width:5%"></div></div><div class="percent">5%</div></div></div></section>
-      <section class="odds-panel teal"><div class="phrase">I’d like to buy a peanut butter and banana _____.</div><div class="rows">
-      <div class="row"><div class="word">sandwich</div><div class="track"><div class="fill" style="width:54%"></div></div><div class="percent">54%</div></div>
-      <div class="row"><div class="word">smoothie</div><div class="track"><div class="fill" style="width:16%"></div></div><div class="percent">16%</div></div>
-      <div class="row"><div class="word">toast</div><div class="track"><div class="fill" style="width:9%"></div></div><div class="percent">9%</div></div>
-      <div class="row jelly"><div class="word">jelly</div><div class="track"><div class="fill" style="width:2%"></div></div><div class="percent">2%</div></div></div></section></div>
-      <div class="takeaway">{CHECK}<span>The surrounding words change the odds.</span></div>
-      <div class="credit">besmarterthanthetool.com</div></section>"""
     prediction = f"""<section class="board" aria-label="One Word at a Time"><h1>One Word at a Time</h1>
       <div class="content">
       <div class="step"><div class="sentence">I want to buy peanut butter and</div><div class="result"><span class="predict-arrow">→</span><span class="new-word">jelly</span></div></div>
@@ -110,7 +77,6 @@ def prepare() -> None:
       <div class="step"><div class="sentence">I want to buy peanut butter and jelly <span class="prior">for</span></div><div class="result"><span class="predict-arrow">→</span><span class="new-word">lunch</span></div></div></div>
       <div class="takeaway">{CHECK}<span>Add a word. Use the updated sentence. Predict again.</span></div>
       <div class="credit">besmarterthanthetool.com</div></section>"""
-    (TMP / "same-word-different-odds.html").write_text(document(ODDS, odds))
     (TMP / "one-word-at-a-time.html").write_text(document(PREDICTION, prediction))
     print(TMP)
 
@@ -127,8 +93,7 @@ def finish_one(stem: str, filename: str) -> None:
 
 
 def finish() -> None:
-    finish_one("same-word-different-odds", "how-an-llm-works-same-word-different-odds.jpg")
-    finish_one("one-word-at-a-time", "how-an-llm-works-one-word-at-a-time.jpg")
+    finish_one("one-word-at-a-time", "whats-an-llm-one-word-at-a-time.jpg")
 
 
 if __name__ == "__main__":

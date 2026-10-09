@@ -517,7 +517,7 @@ def render_all() -> None:
     base.render_cards("Four Qualities of a Good Question", qualities[:2], "A good question leaves room for a useful answer.", board_path("questions-matter", "03a-open-minded-and-specific.jpg"))
     base.render_cards("Four Qualities of a Good Question, Continued", qualities[2:], "A good question leaves room for a useful answer.", board_path("questions-matter", "03b-on-target-and-open-ended.jpg"))
 
-    # Art of Prompting
+    # Prompting Matters
     prompting_review_a = board_path("art-of-prompting", "01a-four-qualities-review.jpg")
     prompting_review_b = board_path("art-of-prompting", "01b-four-qualities-review-continued.jpg")
     prompting_review_a.parent.mkdir(parents=True, exist_ok=True)
@@ -527,7 +527,7 @@ def render_all() -> None:
     render_prompt_move("Move 2: Describe the Answer You Want", "The model fills in every blank you leave, so describe the target.", ["The shape: a table, list, or steps", "The limits: length, tone, and what to skip", "An example to match or a role to take"], "Write a caption for our lacrosse championship photo.", "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags or emojis. Sound like a senior wrote it.", board_path("art-of-prompting", "03-describe-answer.jpg"))
     render_prompt_move("Move 3: One Job at a Time", "Big work goes in steps. One prompt, one job, so you can check each part before building on it.", [], "Write a five-page Cold War paper with an outline, thesis, research, MLA citations, and a conclusion.", "Step 1: Help me shape a strong thesis for a five-page paper on how the space race reflected Cold War tensions.", board_path("art-of-prompting", "04-one-job.jpg"))
 
-    # Context Window
+    # Context Matters
     render_comparison(
         "Same Question. Different Answers.",
         "What car should I buy after I graduate from college?",
@@ -540,7 +540,7 @@ def render_all() -> None:
         board_path("context-window", "01-same-question-different-answers.jpg"),
         "Same prompt. Different context. Different suggestion.",
     )
-    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-window/context-window-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
+    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-matters/context-matters-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
     render_four_cards("Outside the Window", [
         base.Card("Older Chats", "A new conversation starts cold unless the app saved a note about it.", PURPLE, "transcript"),
         base.Card("Unsent Web Pages", "Search works only when the app fetches a page and puts its text into the window.", BLUE, "search"),
@@ -549,7 +549,7 @@ def render_all() -> None:
     ], "If it isn’t in the window, the model can’t see it.", board_path("context-window", "03-outside-window.jpg"))
     render_teaching_board("Same Prompt. Different Context. Different Suggestion.", context_close, board_path("context-window", "04-context-changes-answer.jpg"), "AI predicts. You choose.")
 
-    # Evaluate the Results
+    # Evaluation Matters
     base.render_flow("Run the Quick Pass", [
         base.Card("Read", "Read every word. Passing along unread AI output means owning mistakes you never noticed.", BLUE, "document"),
         base.Card("Understand", "You cannot judge an answer you do not understand. Ask AI to explain what is unclear.", PURPLE, "question"),

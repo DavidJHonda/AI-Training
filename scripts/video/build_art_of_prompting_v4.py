@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Art of Prompting v4 review candidate (2026-09-26).
+"""Build the Prompting Matters v4 review candidate (2026-09-26).
 
 Narrow narration repair on the live 20260916ship1 video (the only source: the
 09-16 raw rolls and donor were deleted 2026-09-15). Two approved complete-sentence
@@ -31,7 +31,7 @@ import imageio_ffmpeg
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-LIVE = ROOT / "course-assets/art-of-prompting/art-of-prompting.mp4"
+LIVE = ROOT / "course-assets/prompting-matters/prompting-matters.mp4"
 LIVE_SHA = "c0b9ecb5460aee21892e7a663356346d681073ee55217d6e507a4dd3a7f347ab"
 OUT = ROOT / "video-audit/art-of-prompting-repair-2026-09-26"
 DEST = ROOT / "Prompts/art-of-prompting-v4.mp4"

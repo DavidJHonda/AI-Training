@@ -75,9 +75,9 @@ def setup():
         return r.render(camera, active)
 
     protected = {str(p): sha(p) for p in [SOURCE,
-        ROOT/'course-assets/how-an-llm-works/how-an-llm-works.mp4',
-        ROOT/'lessons/how-an-llm-works.md',
-        *sorted((ROOT/'course-assets/how-an-llm-works').glob('*.jpg'))]}
+        ROOT/'course-assets/whats-an-llm/whats-an-llm.mp4',
+        ROOT/'lessons/whats-an-llm.md',
+        *sorted((ROOT/'course-assets/whats-an-llm').glob('*.jpg'))]}
     inverse = {f:i for i,f in enumerate(FRAMES)}
     boundaries = sorted({inverse[b] for b in previous['boundaries'] if b in inverse}
                         | {4992,6451,4271,4340,5000,5031,5055,5067})

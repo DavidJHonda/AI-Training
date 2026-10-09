@@ -26,7 +26,7 @@ SOURCE = ROOT / "Prompts/context-window-4.mp4"
 VISUAL_DONOR = ROOT / "Prompts/context-window-3.mp4"
 DEST = ROOT / "Prompts/context-window-v2.mp4"
 AUDIT = ROOT / "video-audit/context-window-repair-2026-09-16-v2"
-ASSETS = ROOT / "course-assets/context-window"
+ASSETS = ROOT / "course-assets/context-matters"
 
 # Silence-to-silence removals from the roll-4 audio timeline. These remove only
 # the three owner-identified repetitions.

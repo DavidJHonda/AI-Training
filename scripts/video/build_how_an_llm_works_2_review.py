@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""How an LLM Works from roll 2 under EDIT-SPEC.md (2026-09-13). Review only.
+"""What’s an LLM? from roll 2 under EDIT-SPEC.md (2026-09-13). Review only.
 
 v5 (2026-09-16, board refresh): the v4 assembly with the current course-assets boards, which carry the site URL at the bottom (same
 dimensions as the boards v4 used, so every card rect and ring onset is unchanged), and the canonical close. No audio change. Framing
@@ -40,7 +40,7 @@ B = {k: asset_path('lessons', f'how-an-llm-works-{k}.jpg') for k in ('1-llm', '2
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--prepare-only', action='store_true'); args = ap.parse_args()
-    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/how-an-llm-works/how-an-llm-works.mp4', SRC1, *B.values()])
+    b = Build(ROOT, SRC, OUT, DEST, protected=[ROOT / 'course-assets/whats-an-llm/whats-an-llm.mp4', SRC1, *B.values()])
     b.tall_margin = False   # board swap on the shipped v4: keep v4's edge-to-edge framing of the two tall boards
     b.load_audio([(6.32, 6.87), (13.26, 13.69), (17.82, 18.22), (27.65, 28.09), (36.07, 36.65), (52.66, 53.02), (61.19, 61.50), (65.39, 65.67), (76.36, 76.73), (84.33, 84.93),
                   (90.68, 91.03), (97.14, 97.66), (105.52, 105.91), (110.81, 111.17), (118.98, 119.28), (128.84, 129.41), (140.86, 141.55), (149.65, 150.27), (161.19, 161.78),

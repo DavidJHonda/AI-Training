@@ -1,6 +1,6 @@
 # Edit spec: scope and production standards
 
-Updated 2026-09-29. [README](README.md) is the shared workflow and shipping
+Updated 2026-10-08. [README](README.md) is the shared workflow and shipping
 checklist; [Narration Review](NARRATION-REVIEW.md) owns teaching verdicts;
 [Technical Recipes](TECHNICAL-RECIPES.md) holds implementation details.
 This file owns build scope and board/audio treatment.
@@ -356,6 +356,12 @@ photographs (the career boards, the study boards) are page assets and are not
 affected by this rule.
 
 ## 8d. Custom supporting illustrations (owner rule 2026-09-29)
+
+The repeatable audit, illustration, timed-state, and contextual-review process is
+the **[Learning Illustration Pass](LEARNING-ILLUSTRATION-PASS.md)**. Its playbook
+consolidates the established workflow and approved visual references (2026-10-08).
+Use those references before creating new scenes to preserve the treatment the
+owner has approved. This section continues to govern the underlying style rules.
 
 When Notebook graphics are weak, repetitive, misleading, or missing, propose a
 purpose-built illustration that supports the specific narrated idea. First apply

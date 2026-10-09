@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the narration-donor repair of How an LLM Works.
+"""Build the narration-donor repair of What’s an LLM?.
 
 Narration comes continuously from Prompts/llm-short-2.mp4 (00:00-03:25).  The
 portrait Notebook picture is never used.  Current course boards carry the lesson;
@@ -22,7 +22,7 @@ DONOR = ROOT / "Prompts/llm-short-2.mp4"
 VISUAL = ROOT / "Prompts/how-an-llm-works-reroll-2.mp4"
 OUT = ROOT / "video-audit/how-an-llm-works-repair-2026-09-16-v9"
 DEST = ROOT / "Prompts/how-an-llm-works-v9.mp4"
-ASSETS = ROOT / "course-assets/how-an-llm-works"
+ASSETS = ROOT / "course-assets/whats-an-llm"
 
 B = {
     "llm": ASSETS / "how-an-llm-works-llm.jpg",
@@ -72,7 +72,7 @@ def main():
         DONOR,
         OUT,
         DEST,
-        protected=[VISUAL, ROOT / "lessons/how-an-llm-works.md", *B.values()],
+        protected=[VISUAL, ROOT / "lessons/whats-an-llm.md", *B.values()],
     )
     b.tall_margin = False
     b.load_audio([

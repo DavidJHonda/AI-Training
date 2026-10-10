@@ -332,7 +332,7 @@ def render_cards(title: str, cards: list[Card], takeaway: str | None, out_path: 
     save(canvas, out_path)
 
 
-def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) -> None:
+def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, *, art_is_washed: bool = False) -> None:
     """Render the two context problems as paired experiences, not generic icons."""
     title = "Two Problems Context Must Solve"
     card_top = 127
@@ -360,7 +360,7 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) 
             "art": light_art,
             "rows": (
                 ("SENTENCE 1", "LIGHT = BRIGHTNESS", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
-                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The suitcase is ", "medium", BODY), ("LIGHT", "bold", BLUE), (" enough to carry.", "medium", BODY))),
+                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
             ),
             "question": "Which meaning should AI use?",
         },
@@ -372,8 +372,8 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) 
             "intro": "The same pronoun can point to a different thing in each sentence.",
             "art": pronoun_art,
             "rows": (
-                ("SENTENCE 1", "IT = THE CAT", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("thirsty", "bold", GREEN), (".", "medium", BODY))),
-                ("SENTENCE 2", "IT = THE MILK", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("fresh", "bold", GREEN), (".", "medium", BODY))),
+                ("SENTENCE 1", "IT = THE CAT", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
+                ("SENTENCE 2", "IT = THE MILK", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
             ),
             "question": "What does IT point to?",
         },
@@ -400,7 +400,8 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) 
 
         source = Image.open(card["art"]).convert("RGB")
         source = source.resize((card_w, art_h), Image.Resampling.LANCZOS)
-        source = accent_wash(source, accent)
+        if not art_is_washed:
+            source = accent_wash(source, accent)
         canvas.paste(source, (left, card_top), rounded_mask((card_w, art_h), 14))
         draw = ImageDraw.Draw(canvas)
         draw.rounded_rectangle(
@@ -455,7 +456,7 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path) 
     save(canvas, out_path)
 
 
-def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Path) -> None:
+def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Path, *, art_is_washed: bool = False) -> None:
     """Show the language clues that distinguish the meanings in each example."""
     title = "How the Transformer Resolves Meaning"
     card_top = 127
@@ -482,7 +483,7 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             "art": light_art,
             "rows": (
                 ("SENTENCE 1", "LIGHT = BRIGHTNESS", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
-                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The suitcase is ", "medium", BODY), ("LIGHT", "bold", BLUE), (" enough to carry.", "medium", BODY))),
+                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
             ),
         },
         {
@@ -492,8 +493,8 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             "title": "Pronouns",
             "art": pronoun_art,
             "rows": (
-                ("SENTENCE 1", "IT = THE CAT", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("thirsty", "bold", GREEN), (".", "medium", BODY))),
-                ("SENTENCE 2", "IT = THE MILK", (("The cat drank the milk because ", "medium", BODY), ("IT", "bold", GREEN), (" was ", "medium", BODY), ("fresh", "bold", GREEN), (".", "medium", BODY))),
+                ("SENTENCE 1", "IT = THE CAT", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
+                ("SENTENCE 2", "IT = THE MILK", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
             ),
         },
     )
@@ -518,7 +519,8 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
         shadow = soft_card((card_w, card_h), 14)
         canvas.paste(shadow, (left, card_top), shadow)
         source = Image.open(card["art"]).convert("RGB").resize((card_w, art_h), Image.Resampling.LANCZOS)
-        source = accent_wash(source, accent)
+        if not art_is_washed:
+            source = accent_wash(source, accent)
         canvas.paste(source, (left, card_top), rounded_mask((card_w, art_h), 14))
         draw = ImageDraw.Draw(canvas)
         draw.rounded_rectangle(
@@ -562,15 +564,15 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             explanations = (
                 ((("“Turn on”", "bold", accent), (" tells us LIGHT means", "medium", BODY)),
                  (("brightness.", "medium", BODY),)),
-                ((("“Carry”", "bold", accent), (" tells us LIGHT means", "medium", BODY)),
+                ((("“Empty”", "bold", accent), (" helps us interpret LIGHT as", "medium", BODY)),
                  (("not-heavy.", "medium", BODY),)),
             )
         else:
             explanations = (
-                ((("“Thirsty”", "bold", accent), (" describes the cat, so IT", "medium", BODY)),
-                 (("refers to the cat.", "medium", BODY),)),
-                ((("“Fresh”", "bold", accent), (" describes the milk, so IT", "medium", BODY)),
-                 (("refers to the milk.", "medium", BODY),)),
+                ((("IT", "bold", accent), (" points back to the", "medium", BODY)),
+                 (("thirsty cat.", "bold", accent),)),
+                ((("IT", "bold", accent), (" points back to the", "medium", BODY)),
+                 (("milk", "bold", accent), (" that the cat drank.", "medium", BODY))),
             )
         line_y = y + 20
         for explanation in explanations:
@@ -995,9 +997,10 @@ def render_horse_three_reads(out_path: Path) -> None:
     save(canvas, out_path)
 
 
-def render_layers_resolve_it_flow(out_path: Path) -> None:
+def render_layers_resolve_it_flow(out_path: Path, *, lowercase: bool = False) -> None:
     """Follow IT through five visible layer states using the approved type floor."""
-    title = "How AI Connects ‘IT’ to ‘CAT’"
+    it_label, cat_label = ("it", "cat") if lowercase else ("IT", "CAT")
+    title = f"How AI Connects ‘{it_label}’ to ‘{cat_label}’"
     stage_top = 127
     stage_bottom = 795
     height = stage_bottom + 40
@@ -1012,11 +1015,11 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
             (center_x - 35 * scale, center_y - 24 * scale, center_x + 35 * scale, center_y + 24 * scale),
             radius=round(12 * scale), fill=BLUE,
         )
-        draw.text((center_x, center_y), "IT", font=face("heavy", round(32 * scale)), fill=WHITE, anchor="mm")
+        draw.text((center_x, center_y), it_label, font=face("heavy", round(32 * scale)), fill=WHITE, anchor="mm")
 
     def cat_circle(center_x: float, center_y: float, scale: float = 1) -> None:
         draw.ellipse((center_x - 37 * scale, center_y - 37 * scale, center_x + 37 * scale, center_y + 37 * scale), fill=TEAL)
-        draw.text((center_x, center_y), "CAT", font=face("heavy", round(29 * scale)), fill=WHITE, anchor="mm")
+        draw.text((center_x, center_y), cat_label, font=face("heavy", round(29 * scale)), fill=WHITE, anchor="mm")
 
     def explanation(center_x: float, center_y: float, parts: tuple[str, ...]) -> None:
         font = face("medium", 29)
@@ -1040,15 +1043,15 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
     sentence_font = face("medium", 32)
     sentence_bold = face("heavy", 32)
     spans = (
-        ("“The ", sentence_font, BODY),
+        ("“The tired ", sentence_font, BODY),
         ("CAT", sentence_bold, TEAL),
-        (" sat on the mat during the May rainstorm because ", sentence_font, BODY),
+        (" sat on the mat during the May rainstorm. ", sentence_font, BODY),
         ("IT", sentence_bold, BLUE),
-        (" was ", sentence_font, BODY),
-        ("tired", sentence_font, BODY),
+        (" soon fell asleep", sentence_font, BODY),
         (".”", sentence_font, BODY),
     )
     total_w = sum(70 if text == "IT" else 74 if text == "CAT" else draw.textlength(text, font=font) for text, font, _ in spans)
+    assert total_w <= 1376, f"Sentence exceeds scenario card: {total_w}"
     sx = (WIDTH - total_w) / 2
     for text_value, font, color in spans:
         if text_value == "IT":
@@ -1123,9 +1126,11 @@ def render_layers_resolve_it_flow(out_path: Path) -> None:
     result_center = result_left + card_w // 2
     draw.rounded_rectangle((result_left + 22, 420, result_left + card_w - 22, 484), radius=11, fill=WHITE, outline=mix(PURPLE, 0.20), width=1)
     draw.text((result_center, 452), "[.41, .06, …]", font=face("heavy", 29), fill=INK, anchor="mm")
-    explanation(result_center, 533, ("AI works out",))
-    explanation(result_center, 575, ("that ", "IT", " refers"))
-    explanation(result_center, 617, ("to ", "CAT", "."))
+    explanation(result_center, 533, ("IT", "’s updated"))
+    explanation(result_center, 575, ("numbers carry",))
+    explanation(result_center, 617, ("information about",))
+    explanation(result_center, 659, ("its connection",))
+    explanation(result_center, 701, ("to ", "CAT", "."))
 
     # Directional chevrons echo the reference while leaving every panel readable.
     connector_color = mix(PURPLE, 0.42)
@@ -1510,7 +1515,7 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
 
 
 def render_transformer_reads_whole_message(out_path: Path) -> None:
-    """Show the Transformer's simultaneous view without pre-teaching attention."""
+    """Show the revised example with CAT and the later IT highlighted."""
     title = "How a Transformer Reads a Sentence"
     stage_top = 127
     stage_h = 460
@@ -1537,12 +1542,12 @@ def render_transformer_reads_whole_message(out_path: Path) -> None:
     )
 
     rows = (
-        ("THE", "CAT", "SAT", "ON", "THE", "MAT"),
-        ("DURING", "THE", "MAY", "RAINSTORM"),
-        ("BECAUSE", "IT", "WAS", "TIRED"),
+        ("THE", "TIRED", "CAT", "SAT", "ON", "THE", "MAT"),
+        ("DURING", "THE", "MAY", "RAINSTORM."),
+        ("IT", "SOON", "FELL", "ASLEEP."),
     )
     token_font = face("heavy", 30)
-    emphasized = {"CAT", "IT", "TIRED"}
+    emphasized = {"CAT", "IT"}
     token_h = 78
     row_ys = (250, 352, 454)
     gap = 18
@@ -1561,7 +1566,7 @@ def render_transformer_reads_whole_message(out_path: Path) -> None:
         "TIRED": 150,
     }
     for words, y in zip(rows, row_ys):
-        widths = [max(min_widths[word], round(draw.textlength(word, font=token_font)) + 46) for word in words]
+        widths = [max(min_widths.get(word, 118), round(draw.textlength(word, font=token_font)) + 46) for word in words]
         total = sum(widths) + gap * (len(words) - 1)
         x = (WIDTH - total) // 2
         for word, token_w in zip(words, widths):
@@ -1581,7 +1586,7 @@ def render_transformer_reads_whole_message(out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="All words are present from the start.",
+        text="IT can draw on CAT, even across several words.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)

@@ -33,7 +33,7 @@ Production-only timing: the narrator asks each comparison question and gives its
 | Distance | “Neither Mystery Drink had an exact match…” | Keep the completed drink map available for the short recap. | Transition to a supporting drawing for the thousands-of-dimensions explanation rather than a long unrelated hold. |
 | Learned values | “Its embeddings have thousands of dimensions, with values learned during training.” | Supporting drawing of many dimensions. | No invented fixed dimension count or extra numerical example. |
 | Meaning callback | “After the layers update a token’s vector…” | Supporting drawing connects a changed row of numbers to a changed position. | Avoid literal 3D coordinates or claims that meaning is a nearest-word lookup. |
-| Sentence | “The CAT sat on the mat…” | Introduce the complete sentence with CAT and IT distinguishable. | Use the lesson’s wording, including “May rainstorm.” |
+| Sentence | “The tired CAT sat on the mat…” | Introduce the complete sentence with CAT and IT distinguishable. | Use “The tired CAT sat on the mat during the May rainstorm. IT soon fell asleep.” to match Transformer and Layers. |
 | Context illustration | “Here’s how context changes IT’s position.” | Show `vector-space-meaning-map.jpg` complete. | Keep both IT positions visible together. This is a static explanatory illustration. |
 | Context start | “IT’s starting position…” | Highlight [.12, −.34, …] at the starting marker. | Full context remains visible. |
 | Context update | “The layers update the numbers.” | Guide attention along the purple path. | The intermediate dots do not specify an exact number of model layers. |

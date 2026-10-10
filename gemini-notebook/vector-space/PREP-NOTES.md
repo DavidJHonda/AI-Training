@@ -1,5 +1,26 @@
 # Vector Space video preparation
 
+## Context revision — October 10, 2026
+
+The page and narration source now return explicitly to the example from Layers:
+“The tired CAT sat on the mat during the May rainstorm. IT soon fell asleep.”
+The layers update IT’s numbers to carry information about its connection to CAT;
+changing the numbers changes its position in vector space. No directional-context
+explanation was added.
+
+The existing context board remains correct and unchanged: it contains neither the
+old sentence nor the later-clue claim. City and drink examples, numerical values,
+map reveals, and the 2048 activity are unchanged. The unused context-demo text was
+also corrected; the static illustration remains the active lesson display.
+
+The prompt, storyboard, and nine-file upload bundle are updated. The installed
+`course-assets/vector-space/vector-space.mp4` is unchanged and still needs revised
+cat-example narration. This is local preparation, not a Video Tracker update.
+`VALIDATION.json` and the October 6 production notes below are historical records;
+their source hashes and next-roll filenames do not describe this revision.
+
+## Historical preparation — October 6, 2026
+
 Updated October 6, 2026 after reviewing raw versions 4, 5, and 6. This revision prepares the next roll; it does not generate narration, render a video, or publish anything. The installed video and all existing rolls are preserved.
 
 ## Teaching progression

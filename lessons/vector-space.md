@@ -144,11 +144,11 @@ Its position in vector space helps represent its meaning.
 
 ## When the Numbers Change
 
-In AI, the layers change the numbers to reflect a word’s meaning in a specific sentence. Let’s see how this works in vector space.
+In Layers, we followed IT’s changing numbers. Let’s see what those changes look like in vector space.
 
-“The CAT sat on the mat during the May rainstorm because IT was tired.”
+“The tired CAT sat on the mat during the May rainstorm. IT soon fell asleep.”
 
-On its own, IT could refer to many things. As the layers process this sentence, they update IT’s numbers to carry information connecting it to CAT. Changing those numbers also changes its position in vector space.
+On its own, IT could refer to many things. The layers update IT’s numbers to carry information about its connection to CAT. Changing those numbers also changes its position in vector space.
 
 ### Board 7: How Context Changes IT’s Position
 

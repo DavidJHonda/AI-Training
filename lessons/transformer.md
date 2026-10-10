@@ -20,15 +20,15 @@ Problem 1 is different meanings. The same word can mean something different in e
 
 Sentence 1: “Please turn on the LIGHT.” Here, LIGHT means brightness.
 
-Sentence 2: “The suitcase is LIGHT enough to carry.” Here, LIGHT means not heavy.
+Sentence 2: “The empty suitcase felt LIGHT.” Here, LIGHT means not heavy.
 
 The problem: which meaning should AI use?
 
 Problem 2 is pronouns. The same pronoun can point to a different thing in each sentence.
 
-Sentence 1: “The cat drank the milk because IT was thirsty.” Here, IT refers to the cat.
+Sentence 1: “The cat was thirsty, so IT drank the milk.” Here, IT refers to the cat.
 
-Sentence 2: “The cat drank the milk because IT was fresh.” Here, IT refers to the milk.
+Sentence 2: “The milk was fresh, so the cat drank IT.” Here, IT refers to the milk.
 
 The problem: what does IT point to?
 
@@ -48,7 +48,7 @@ Our human brains see the right meaning instantly from the surrounding words. For
 
 This is how earlier AI read text.
 
-The sentence is “The cat sat on the mat during the May rainstorm because it was tired.”
+The sentence is “The tired cat sat on the mat during the May rainstorm. IT soon fell asleep.”
 
 The diagram follows the sentence from left to right, one word at a time, with an arrow from each word to the next.
 
@@ -60,7 +60,7 @@ Earlier AI often struggled to keep that connection, especially in longer passage
 
 In 2017, eight researchers at Google published a paper called Attention Is All You Need. It introduced the Transformer, a widely used architecture for large language models, and the “T” in ChatGPT.
 
-The Transformer reads your whole message at once.
+The Transformer can process the tokens in your message in parallel.
 
 In our example, IT can draw on information from the earlier word CAT, even with several words in between.
 
@@ -74,13 +74,13 @@ In our example, IT can draw on information from the earlier word CAT, even with 
 
 This is how a Transformer reads a sentence.
 
-The complete message arrives together. The same sentence, “The cat sat on the mat during the May rainstorm because it was tired,” is laid out with every word visible at the same time. CAT, IT, and TIRED are highlighted.
+The complete message arrives together. The same sentence, “The tired cat sat on the mat during the May rainstorm. IT soon fell asleep,” is laid out with every word visible at the same time. CAT and IT are highlighted.
 
-All words are present from the start.
+IT can draw on CAT, even across several words.
 
 ## Only the start
 
-Reading your whole message at once is only the start. AI needs to figure out which words matter and use that information to update the numbers. In our example, IT needs information from CAT to help represent what it refers to in this sentence. Attention and transformation work together to make that happen.
+There’s more to reading than taking in the words. AI needs to figure out which words matter and use that information to update the numbers. In our example, IT needs information from CAT to help represent what it refers to in this sentence. Attention and transformation work together to make that happen.
 
 ### Board 4: How Context Changes the Numbers
 
@@ -118,19 +118,19 @@ Now let’s return to our two examples.
 
 This is how the Transformer resolves meaning.
 
-Problem 1, different meanings. Which words provide the clues? In “Please turn on the LIGHT,” the words “turn on” tell us LIGHT means brightness. In “The suitcase is LIGHT enough to carry,” the word “carry” tells us LIGHT means not heavy.
+Problem 1, different meanings. Which words provide the clues? In “Please turn on the LIGHT,” the words “turn on” tell us LIGHT means brightness. In “The empty suitcase felt LIGHT,” the word “empty” helps us interpret LIGHT as not heavy.
 
-Problem 2, pronouns. Which words provide the clues? In “The cat drank the milk because IT was thirsty,” the word “thirsty” describes the cat, so IT refers to the cat. In “The cat drank the milk because IT was fresh,” the word “fresh” describes the milk, so IT refers to the milk.
+Problem 2, pronouns. Which words provide the clues? In “The cat was thirsty, so IT drank the milk,” IT points back to the thirsty cat. In “The milk was fresh, so the cat drank IT,” IT points back to the milk that the cat drank.
 
 Attention and transformation help AI work out which meaning fits.
 
 ## Sarcasm and idioms
 
-Attention and transformation also help AI interpret sarcasm, idioms, and even an “it” that points to nothing at all, as in “it was a cold day.”
+Attention and transformation also help AI interpret sarcasm and idioms.
 
 ## One catch: word order
 
-Reading everything at once creates a problem that reading in order never had. Consider a simple sentence: “Dog bites man.” Same three tokens. Same starting embeddings. But the order carries the meaning.
+The words alone aren’t enough. Their order matters too. Consider a simple sentence: “Dog bites man.” Same three tokens. Same starting embeddings. But the order carries the meaning.
 
 ### Board 6: How a Transformer Keeps Words in Order
 

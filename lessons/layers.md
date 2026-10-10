@@ -54,7 +54,7 @@ Attention and transformation update the numbers at each layer.
 
 ## Following One Word Through the Layers
 
-Now follow one word, ‘it,’ as its numbers change from layer to layer.
+Let’s return to our cat example. Follow IT as its numbers change from layer to layer.
 
 ### Board 3: How AI Connects ‘it’ to ‘cat’
 
@@ -66,7 +66,7 @@ Now follow one word, ‘it,’ as its numbers change from layer to layer.
 
 This is how AI connects ‘it’ to ‘cat.’
 
-The sentence is “The cat sat on the mat during the May rainstorm because it was tired.”
+The sentence is “The tired cat sat on the mat during the May rainstorm. IT soon fell asleep.”
 
 Start: ‘it’ could refer to different things. The starting numbers don’t tell us which one. Two of its starting numbers are .12 and −.34.
 
@@ -78,7 +78,7 @@ Repeat: the row continues through more layers. Each layer builds on the previous
 
 Result: the two numbers finish at .41 and .06.
 
-AI works out that ‘it’ refers to ‘cat.’
+IT’s updated numbers carry information about its connection to CAT.
 
 ## How Many Layers Are There?
 

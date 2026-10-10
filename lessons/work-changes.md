@@ -123,3 +123,17 @@ You already know what you must do. Learn. And learn more. And you’re in the be
 AI is changing the work you’ll do.
 
 Now it’s on you to LEARN.
+
+## Lab: Turn Reviews into Recommendations
+
+Use the [100 course reviews](../packets/course-reviews.txt) to investigate the complaints, check AI’s claims against the original reviews, look for rare issues, and choose a recommendation before AI prepares the presentation.
+
+### Record Your Decision
+
+After choosing your recommendation, write these yourself, in your own words. One sentence each is enough. Point to the reviews you checked and explain your choice.
+
+- I checked ___ against review(s) ___.
+- I changed or rejected ___ because ___.
+- I chose ___ because ___.
+
+Your notes save in this browser. Copy them into your presentation if you want to keep or share them.

@@ -1106,6 +1106,10 @@
     .course-toolkit-actions{grid-column:2;flex-direction:row;align-items:center;flex-wrap:wrap;gap:6px 16px}
     .course-toolkit-title h3{font-size:17px}
   }
+  @media (max-width: 600px) {
+    .final-question-options { margin-left: 0 !important; }
+    .final-question-options [role="radio"] { align-items: flex-start !important; line-height: 1.45; }
+  }
 </style>
 <link rel="stylesheet" href="entry-flow.css?v=20261007sample2">
 <script defer src="start-course.js?v=20261008continue1"></script>
@@ -3555,14 +3559,13 @@ function lessonSlug(id) {
 // Every item is answerable from a claim the course makes today, and its
 // lessonId routes the review screen back to the lesson that taught it.
 // ---------------------------------------------------------------------------
-// The Final's 25 questions, in the order they appear: ten true/false written
-// against real misconceptions, then fifteen multiple choice on the fundamentals.
-// The last six are the six questions from the first page of the course. Fixed
-// order on purpose: this is a teaching pass, not a randomized exam.
+// The Final's 25 questions mix fundamentals with practical judgment.
+// The opening ramp combines true/false with short situations. Fixed order
+// on purpose: this is a teaching pass, not a randomized exam.
 const FINAL_BANK = [
-  // --- True or false (1-10) ---
+  // --- Opening ramp (1-10) ---
   {
-    id: "fx01", section: "Understand AI", lessonId: "aihistory",
+    id: "fx01", section: "Start Smarter", lessonId: "aihistory",
     q: "AI answers your question by looking it up in a giant database of facts.",
     options: ["True", "False"],
     correct: 1,
@@ -3576,14 +3579,18 @@ const FINAL_BANK = [
     explain: "AI can explain, joke, and carry on a conversation. Sounding like a person doesn’t prove it understands the way you do."
   },
   {
-    id: "fx03", section: "Avoid Traps", lessonId: "hallucination",
-    q: "When AI makes something up, it means something inside it broke.",
-    options: ["True", "False"],
+    id: "fx03", section: "Avoid Traps", lessonId: "documenttrap",
+    q: "You upload a club handbook. AI quotes a rule saying guests cannot attend, but you’re planning an open house. What should you do next, and why?",
+    options: [
+      "Use the quoted rule, because a quotation shows the answer covers the handbook.",
+      "Find the open-house section and check the rule and exceptions, because AI may have missed a relevant passage.",
+      "Ask the same broad question again, because a matching answer would confirm the rule."
+    ],
     correct: 1,
-    explain: "A hallucination is the normal machinery doing its normal job: predicting likely words. Likely isn’t always true, so the same process that writes great answers sometimes writes confident nonsense."
+    explain: "An accurate quotation can still leave out an exception. Name the relevant section, ask for the rule and exceptions, and compare the quoted text with the original. If needed, paste the passage into the chat yourself."
   },
   {
-    id: "fx04", section: "Work With AI", lessonId: "integrity",
+    id: "fx04", section: "Build Your Skills", lessonId: "integrity",
     q: "Before uploading a photo of your homework, check for private information elsewhere in the picture.",
     options: ["True", "False"],
     correct: 0,
@@ -3604,11 +3611,15 @@ const FINAL_BANK = [
     explain: "The model uses information that reaches its context window. Uploads and connected tools can provide information, but starting a chat does not give it access to everything."
   },
   {
-    id: "fx07", section: "Work With AI", lessonId: "prompting",
-    q: "Sharing details that matter to your goal usually helps AI give a more useful answer.",
-    options: ["True", "False"],
-    correct: 0,
-    explain: "Tell AI what you’re trying to do and what it needs to know. Relevant details help. Extra information that has nothing to do with the job doesn’t."
+    id: "fx07", section: "Avoid Traps", lessonId: "supporttrap",
+    q: "You’ve rehearsed asking your coach for help with a team conflict in several AI chats. You know what you want to say, but nothing on the team has changed. What’s the best next move, and why?",
+    options: [
+      "Keep rehearsing until the wording feels perfect, because a difficult conversation should have no uncertainty.",
+      "Keep talking only to AI, because feeling understood means the conflict is being resolved.",
+      "Talk to your coach using what you prepared, because resolving the conflict needs someone who can act outside the chat."
+    ],
+    correct: 2,
+    explain: "AI can help you organize your thoughts and rehearse. Once you’re ready, preparation needs to lead to the real conversation. Supportive words alone cannot change what is happening on your team."
   },
   {
     id: "fx08", section: "Work With AI", lessonId: "evaluating",
@@ -3618,7 +3629,7 @@ const FINAL_BANK = [
     explain: "Confidence is a writing style, not a truth signal. The model sounds equally sure when it’s right and when it’s hallucinating."
   },
   {
-    id: "fx09", section: "Work With AI", lessonId: "agents",
+    id: "fx09", section: "Embrace the Future", lessonId: "agents",
     q: "An AI agent has finished your team’s highlight reel. You should review it before it posts under your name.",
     options: ["True", "False"],
     correct: 0,
@@ -3699,15 +3710,15 @@ const FINAL_BANK = [
     explain: "The model reflects its training data, and whoever shows up most in that data shows up most in the answer. That sameness is the tell."
   },
   {
-    id: "fx17", section: "Work With AI", lessonId: "evaluating",
-    q: "AI hands you a surprising “fact” for a school paper. Best move?",
+    id: "fx17", section: "Avoid Traps", lessonId: "faketrap",
+    q: "A friend forwards a convincing clip saying tomorrow’s concert has moved to a new venue. What should you do before sharing it, and why?",
     options: [
-      "Use it. AI is usually right",
-      "Check it against a real source before it goes in",
-      "Ask the same AI if it’s sure"
+      "Check the original announcement, its date, and confirmation through a known venue contact, because appearance and reposts do not verify the claim.",
+      "Run the clip through an AI detector and share it if it passes, because the detector can settle whether it is authentic.",
+      "Compare several accounts sharing the clip, because enough matching reposts count as independent confirmation."
     ],
-    correct: 1,
-    explain: "Surprising claims get verified against a source you trust before they go in your work. Asking the same model to check itself isn’t verification."
+    correct: 0,
+    explain: "Check source, context, and corroboration. Use contact details you already trust, not a number supplied by the clip. Reposts can all trace to the same unverified claim, and a detector is only a clue. Without confirmation, the claim stays unverified; that does not prove it is fake."
   },
   {
     id: "fx18", section: "Understand AI", lessonId: "training",
@@ -3721,38 +3732,38 @@ const FINAL_BANK = [
     explain: "Training doesn’t store the text. It tunes billions of numbers until the patterns of the text are baked in."
   },
   {
-    id: "fx19", section: "Build Your Skills", lessonId: "integrity",
-    q: "AI drafts your essay. Who’s responsible for what gets turned in?",
+    id: "fx19", section: "Build Your Skills", lessonId: "wherestheline",
+    q: "A school’s AI tool assigns tutoring places quickly, but a trial shows it often rejects students with irregular schedules. What should the school do next, and why?",
     options: [
-      "The AI company",
-      "You",
-      "Nobody. Drafts don’t count"
+      "Launch with a warning that AI can make mistakes, because disclosure gives students enough protection.",
+      "Fix the exclusions, explain decisions, allow appeals, and monitor whether to change or stop it, because students need protection as well as speed.",
+      "Launch if most placements are correct, because overall accuracy is enough to judge whether the system is fair."
     ],
     correct: 1,
-    explain: "The name on the work makes the call and owns the result. That doesn’t change when the draft comes from AI."
+    explain: "Responsible deployment considers everyone affected, including people an efficient system leaves out. Explain how decisions work, test protections, give students a way to challenge mistakes, and change or stop the system if harm continues. A warning or a good overall score is not enough."
   },
-  // --- The six questions from the first page of the course (20-25) ---
+  // --- Skills and synthesis (20-25) ---
   {
-    id: "fx20", section: "Start Smarter", lessonId: "aihistory",
-    q: "Why does AI write its answer one word at a time, like a person would?",
+    id: "fx20", section: "Build Your Skills", lessonId: "creativethinking",
+    q: "AI suggests five polished fundraisers, but every idea assumes students must sell something. Your classmates are tired of selling. What’s the best next move, and why?",
     options: [
-      "It predicts one likely next word, adds it, and runs the loop again",
-      "Showing it all at once would use too much memory",
-      "It copies sentences from its database in order"
+      "Ask for a cheaper version of each sale, because reducing the cost may make classmates more willing to participate.",
+      "Ask AI to rank the five ideas by expected income, because the highest projected total should decide which fundraiser to run.",
+      "Ask what a fundraiser without selling could look like, generate options, then judge them, because changing an assumption can reveal a better direction."
+    ],
+    correct: 2,
+    explain: "Polished versions of the same idea can keep you stuck. Ask “what if?” to change the assumption, generate alternatives before judging them, then choose what fits your classmates and the goal."
+  },
+  {
+    id: "fx21", section: "Build Your Skills", lessonId: "becurious",
+    q: "A new AI tool promises better presentations than your usual app. You already have a finished presentation you know well. How should you decide whether to switch, and why?",
+    options: [
+      "Try it on that familiar presentation and compare quality, time, effort, and reliability, because a real comparison shows whether it helps your work.",
+      "Compare the tool’s demo slides with your finished slides, because their visual polish shows which app will improve your work.",
+      "Stay with your usual app without trying it, because learning one app deeply means avoiding new tools."
     ],
     correct: 0,
-    explain: "The loop from the course: predict a likely next word, add it on, run the whole thing again. That’s the machine you watched all course."
-  },
-  {
-    id: "fx21", section: "Start Smarter", lessonId: "llms",
-    q: "How can one app seem to know something about almost everything?",
-    options: [
-      "A team of experts wrote answers on every topic",
-      "Its training text covered nearly every subject humans write about",
-      "It quietly asks other AIs"
-    ],
-    correct: 1,
-    explain: "The training text covered nearly every topic humans write about, so the patterns cover nearly everything. No experts, no lookup table."
+    explain: "Start with a real need and test on work you understand, using material you’re allowed to share. Compare the results and the effort needed to get them. Adopt the new approach when it helps; keep the old one when it does not. Newer alone is not better."
   },
   {
     id: "fx22", section: "Avoid Traps", lessonId: "hallucination",
@@ -3766,15 +3777,15 @@ const FINAL_BANK = [
     explain: "The warning is honest engineering: the model predicts likely words, and likely isn’t the same as true. Double-checking is your half of the deal."
   },
   {
-    id: "fx23", section: "Work With AI", lessonId: "questionsvaluable",
-    q: "Which skills keep you ahead of the tool instead of behind it?",
+    id: "fx23", section: "Build Your Skills", lessonId: "peopleskills",
+    q: "Your group likes an AI-assisted event plan. After someone dismisses his concern, a teammate stops contributing. What should you do next, and why?",
     options: [
-      "Typing faster and knowing the newest apps",
-      "Asking good questions and judging the answers",
-      "Memorizing what AI gets wrong"
+      "Give him a smaller task, because being quiet shows he would rather work alone.",
+      "Ask what’s behind his hesitation and listen before deciding, because he deserves to be heard and may see something the group missed.",
+      "Have AI explain the plan’s strengths to him, because a polished explanation should resolve the disagreement."
     ],
     correct: 1,
-    explain: "Answers got cheap. The valuable skills are deciding what to ask and judging what comes back. That’s the whole course in one line."
+    explain: "Notice changes in behavior without assuming you know what they mean. Invite the concern, ask a genuine follow-up, and consider the idea on its merits. Listening does not require agreeing; it gives the person a fair hearing and the group a better basis for its decision."
   },
   {
     id: "fx24", section: "Understand AI", lessonId: "aiismath",
@@ -3788,19 +3799,19 @@ const FINAL_BANK = [
     explain: "Several next words are usually plausible, and the model picks among them. Same start, different path. You watched it happen in the story lab."
   },
   {
-    id: "fx25", section: "Understand AI", lessonId: "layers",
-    q: "Why can’t even AI’s builders explain how it got a specific answer?",
+    id: "fx25", section: "Embrace the Future", lessonId: "bigdownside",
+    q: "Why can researchers inspect parts of an AI model but still not fully explain every answer?",
     options: [
       "They’re keeping it a trade secret",
       "The answer comes from billions of learned numbers, not readable rules",
       "They could, but it would take a few days"
     ],
     correct: 1,
-    explain: "The answer emerges from billions of learned numbers interacting. There’s no line of code to point to, even for its builders."
+    explain: "An answer emerges from billions of learned numerical patterns interacting. Researchers can inspect parts of that process, but those patterns are not readable rules that fully explain every answer. That is why models are often called black boxes."
   }
 ];
-// Fixed order by design: the ramp (true/false, then multiple choice, then the
-// six first-page questions) is part of the teaching, so nothing shuffles.
+// Fixed order by design: the opening ramp leads into fundamentals and
+// practical judgment, so nothing shuffles.
 function drawFinalQuestions(bank) {
   return (bank || []).slice();
 }
@@ -12959,7 +12970,7 @@ function TheFinalQuiz(props) {
               E("div", { id: "final-question-label-" + q.id, style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, q.q)),
             // True/false rows lay their two options side by side, matching the
             // horizontal radios of the standard TRY IT Q&A.
-            E("div", { role: "radiogroup", "aria-labelledby": "final-question-label-" + q.id, style: q.options.length === 2
+            E("div", { className: "final-question-options", role: "radiogroup", "aria-labelledby": "final-question-label-" + q.id, style: q.options.length === 2
               ? { display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 28, marginLeft: 46, marginTop: 14 }
               : { display: "flex", flexDirection: "column", gap: 8, marginLeft: 46, marginTop: 14 } },
               q.options.map(function(opt, oi) {
@@ -13702,7 +13713,7 @@ function WhatYouLearnedSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "whatyoulearned" }),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "So here’s the last move: twenty-five questions on the fundamentals, no clock, and every answer explained when you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. And keep an eye out for the finish: the six questions from the first page of this course are waiting at the end."),
+      "So here’s the last move: twenty-five questions, no clock, and every answer explained when you’re done. Some questions check how AI works. Others ask what you’d do with it. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. There’s no penalty for trying again."),
     /*#__PURE__*/React.createElement(CertificateTeaser, null),
     /*#__PURE__*/React.createElement(TheFinalQuiz, { onNavigate: props.onNavigate }),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -14351,6 +14362,12 @@ function WorkChangesSection(props) {
   // shared by every 2-star review (lost progress, no accounts), and a buried
   // Dallas Stars gag that only the rare-complaints question uncovers.
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-workchanges-steps", {});
+  const [decisionRecord, setDecisionRecord] = useLocalStorage("llm-lab-workchanges-decision-v1", {});
+  var decisionFields = [
+    { key: "checked", label: "What I checked", placeholder: "I checked ___ against review(s) ___." },
+    { key: "changed", label: "What I changed or rejected", placeholder: "I changed or rejected ___ because ___." },
+    { key: "chose", label: "Why I chose this recommendation", placeholder: "I chose ___ because ___." }
+  ];
   const REVIEW_LAB_STEPS = [
     { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading the other 95 before doing any actual thinking. That was the old job.") },
     { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
@@ -14359,7 +14376,25 @@ function WorkChangesSection(props) {
     { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
     { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews and see whether they share the same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
     { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
-    { title: "Prep the presentation", body: "Time to make the call. Have ChatGPT pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." }
+    { title: "Prep the presentation", body: "Time to make the call. Have ChatGPT pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." },
+    { title: "Record your decision", body: E("span", { style: { display: "block" } },
+      "Write these yourself, in your own words. One sentence each is enough. Point to the reviews you checked and explain your choice.",
+      decisionFields.map(function(field) {
+        var id = "workchanges-decision-" + field.key;
+        return E("span", { key: field.key, style: { display: "block", marginTop: 14 } },
+          E("label", { htmlFor: id, style: { display: "block", color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, field.label),
+          E("textarea", {
+            id: id, rows: 3, maxLength: 1500, placeholder: field.placeholder,
+            "aria-describedby": "workchanges-decision-note",
+            value: decisionRecord[field.key] || "",
+            onChange: function(event) {
+              var value = event.target.value;
+              setDecisionRecord(function(prev) { return Object.assign({}, prev, { [field.key]: value }); });
+            },
+            style: { display: "block", boxSizing: "border-box", width: "100%", resize: "vertical", padding: "10px 12px", border: "1.5px solid var(--rule)", borderRadius: 9, background: "var(--bg)", color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.5, outlineColor: "var(--labAccent)" }
+          }));
+      }),
+      E("span", { id: "workchanges-decision-note", style: { display: "block", marginTop: 10, fontSize: 14, color: "var(--inkMuted)" } }, "Your notes save in this browser. Copy them into your presentation if you want to keep or share them.")) }
   ];
   var labCheckedCount = Object.keys(labChecked).filter(function(k) { return labChecked[k]; }).length;
 

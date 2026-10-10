@@ -221,6 +221,8 @@ let resultLinks = ui.render().filter(n => n.type === 'button' && String(n.props[
 assert.equal(resultLinks.length, 25);
 resultLinks[0].props.onClick();
 assert.equal(ui.navigatedTo(), 'aihistory');
+resultLinks[24].props.onClick();
+assert.equal(ui.navigatedTo(), 'bigdownside', 'Black-box remediation opens Big Downside');
 
 // Returning to the Final in the same tab restores the submitted result review.
 ui = finalClient(uiStorage);

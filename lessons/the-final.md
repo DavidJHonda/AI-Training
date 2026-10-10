@@ -2,9 +2,7 @@
 
 # The Final
 
-Draft Lesson. Still working on it.
-
-So here’s the last move: twenty-five questions on the fundamentals, no clock, and every answer explained when you’re done. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. And keep an eye out for the finish: the six questions from the first page of this course are waiting at the end.
+So here’s the last move: twenty-five questions, no clock, and every answer explained when you’re done. Some questions check how AI works. Others ask what you’d do with it. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. There’s no penalty for trying again.
 
 ## Certificate of Completion
 

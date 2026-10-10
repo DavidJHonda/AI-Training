@@ -216,6 +216,16 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/whats-missing/whats-missing.html"
   },
   {
+    "id": "unexpected",
+    "lesson": "unexpected",
+    "lessonTitle": "Unexpected Results",
+    "section": "Embrace the Future",
+    "title": "What Happened Next?",
+    "type": "Activity",
+    "note": "Guess together, then reveal eight unexpected outcomes in a leader-led group discussion.",
+    "href": "group-exercises/unexpected-results/what-happened-next.html"
+  },
+  {
     "id": "wherestheline",
     "lesson": "wherestheline",
     "lessonTitle": "Where’s the Line?",

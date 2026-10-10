@@ -1,0 +1,1 @@
+Superseded: user rejected the illustrated/comic style during rendering. The render completed, but this version is not the current review candidate. Photographic replacement is v11. Retained for traceability only.

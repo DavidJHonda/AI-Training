@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eef4eb">
+  <title>What Happened Next? · Be Smarter Than the Tool</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    :root {
+      --bg: #f6f5fb; --card: #fff; --ink: #0e0a1f; --inkSoft: #3a3550;
+      --primaryDeep: #4c2dff; --rule: #e7e3f2;
+      --tryBand: #eef4eb; --tryAccent: #2f7d4f; --tryRule: rgba(63, 107, 63, .18);
+      --shadowSoft: 0 4px 12px rgba(14, 10, 31, .05);
+      --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+    button, a { font: inherit; }
+    button { min-height: 46px; padding: 12px 22px; border: 0; border-radius: 10px; font-weight: 800; cursor: pointer; }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--primaryDeep); outline-offset: 4px; }
+    button:disabled { opacity: .4; cursor: default; }
+    .primary { background: var(--ink); color: var(--card); }
+    .secondary { background: var(--card); color: var(--inkSoft); box-shadow: var(--shadowSoft); }
+    .shell { max-width: 1380px; margin: auto; padding: clamp(16px, 3vw, 40px); }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 24px; }
+    .eyebrow { margin: 0 0 8px; color: var(--tryAccent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 4vw, 56px); line-height: 1.1; }
+    h2 { margin: 0 0 22px; font-size: clamp(27px, 3vw, 40px); line-height: 1.25; }
+    p { color: var(--inkSoft); font-size: clamp(19px, 1.85vw, 26px); line-height: 1.6; }
+    .card { background: var(--tryBand); border-radius: 20px; padding: clamp(18px, 3vw, 36px); }
+    .inner { padding: clamp(22px, 3vw, 40px); background: var(--card); border-radius: 14px; box-shadow: var(--shadowSoft); }
+    .round-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 22px; }
+    .round-top p { margin: 0; font-size: 15px; }
+    #progress { font-weight: 800; color: var(--tryAccent); }
+    #setup-copy p, #reveal-copy p { margin: 0 0 18px; }
+    #setup-copy p:last-child, #reveal-copy p:last-child { margin-bottom: 0; }
+    #question { margin: 24px 0 0; padding-top: 22px; border-top: 1px solid var(--tryRule); color: var(--ink); font-size: clamp(23px, 2.4vw, 32px); font-weight: 700; }
+    #kind { display: inline-block; margin: 0 0 15px; padding: 5px 10px; background: var(--tryBand); color: var(--tryAccent); border-radius: 6px; font-size: 14px; font-weight: 700; }
+    #result-title { color: var(--tryAccent); }
+    #reveal-panel { margin-top: 24px; }
+    #reveal-content.is-concealed { visibility: hidden; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .actions .primary { margin-left: auto; }
+    .sources { margin-top: 25px; border-top: 1px solid var(--rule); padding-top: 15px; color: var(--inkSoft); }
+    .sources summary { cursor: pointer; font-size: 15px; font-weight: 700; padding: 5px 0; }
+    .sources p, .sources a { font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+    .sources a { color: var(--primaryDeep); }
+    #finish-view p { max-width: 65ch; }
+    #finish-view .question { color: var(--ink); font-weight: 700; }
+    .hint { font-size: 15px; margin: 18px 0 0; }
+    @media (max-width: 600px) {
+      header { align-items: flex-start; flex-wrap: wrap; }
+      #fullscreen { padding: 10px 14px; font-size: 13px; }
+      .actions button { flex: 1 1 auto; }
+      .actions .primary { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><p class="eyebrow">Unexpected Results · Group Activity</p><h1>What Happened Next?</h1></div>
+      <button class="secondary" id="fullscreen" type="button">Enter Full Screen</button>
+    </header>
+    <section class="card" id="round-view" aria-labelledby="story-title">
+      <div class="round-top"><p id="progress"></p><p>Read the setup. Hear a few guesses. Reveal the result.</p></div>
+      <div class="inner">
+        <p id="kind" hidden>Thought experiment</p>
+        <h2 id="story-title" tabindex="-1"></h2>
+        <div id="setup-panel">
+          <div id="setup-copy"></div>
+          <p id="question"></p>
+        </div>
+      </div>
+      <section class="inner" id="reveal-panel" aria-label="Story reveal">
+        <div id="reveal-content" class="is-concealed" aria-hidden="true" inert>
+          <h2 id="result-title" tabindex="-1"></h2>
+          <div id="reveal-copy"></div>
+          <details class="sources" id="sources">
+            <summary>Source and story notes</summary>
+            <p id="source-note"></p>
+            <a id="source-link" target="_blank" rel="noopener noreferrer"></a>
+          </details>
+        </div>
+      </section>
+      <div class="actions">
+        <button class="primary" id="reveal" type="button">Reveal</button>
+        <button class="primary" id="next" type="button" hidden>Next Story</button>
+      </div>
+      <p class="hint">Discuss as one group. There are no teams, timers, or scores.</p>
+    </section>
+    <section class="card" id="finish-view" aria-labelledby="finish-title" hidden>
+      <div class="inner">
+        <p class="eyebrow">Bring it back to AI</p>
+        <h2 id="finish-title" tabindex="-1">The result was not always the plan.</h2>
+        <p class="question">Which result surprised you most? What does that suggest about our ability to predict how people will use AI?</p>
+        <p>Some surprises create opportunities. Others reveal a problem with the plan. Pay attention to what actually happens, and be willing to adjust.</p>
+        <div class="actions">
+          <button class="secondary" id="last-story" type="button">Back to Last Story</button>
+          <button class="primary" id="restart" type="button">Start Again</button>
+        </div>
+        <p class="hint">Close this tab to return to the course.</p>
+      </div>
+    </section>
+    <noscript><p>Please enable JavaScript to run this activity.</p></noscript>
+  </main>
+  <script>
+    (function () {
+      "use strict";
+      var stories = [
+        {
+          title: "The Late-Pickup Fine",
+          setup: ["A daycare has a recurring problem: some parents arrive after closing time, leaving teachers waiting with their children. To discourage late pickups, the daycare introduces a small fine. Now arriving late will cost money, so parents have an extra reason to arrive on time."],
+          question: "What happens to the number of late pickups?",
+          result: "Late pickups increase.",
+          reveal: ["One explanation offered by the researchers is that the fine changes how parents interpret the situation. Being late may now feel like paying for extra time rather than imposing on a teacher.", "There is another surprise: when the fine is removed, late pickups remain elevated during the remaining weeks of the study. The policy changes behavior, but in the opposite direction from the intended goal."],
+          source: "https://s3.amazonaws.com/fieldexperiments-papers2/papers/00258.pdf",
+          sourceLabel: "A Fine Is a Price, Gneezy and Rustichini (2000)",
+          note: "The study followed ten daycare centers in Haifa, Israel, and introduced fines in six. This result does not mean that every fine increases the behavior it is meant to discourage."
+        },
+        {
+          title: "The Glue That Wouldn’t Hold Tightly",
+          setup: ["A scientist at 3M is researching new adhesives. The company wants stronger, tougher glues that hold things firmly together. Instead, he develops an adhesive that sticks lightly and peels away easily. It remains sticky enough to use again, but it does a poor job of permanently bonding two surfaces. For years, he struggles to find a useful application."],
+          question: "What could this seemingly disappointing glue become?",
+          result: "Post-it Notes.",
+          reveal: ["Another 3M scientist sings in a church choir and keeps losing the paper bookmarks in his hymnal. He needs something that will stay in place without damaging the pages. The unusual adhesive offers a solution.", "As the scientists develop the idea, they begin using the sticky pieces of paper to leave messages for colleagues. The result is Post-it Notes. The property that made the glue unsuitable for one job makes it useful for another."],
+          source: "https://www.post-it.com/3M/en_US/post-it/contact-us/about-us/",
+          sourceLabel: "3M: History of Post-it Notes",
+          note: "Spencer Silver developed the adhesive. Art Fry recognized its usefulness for removable bookmarks. Developing a successful product took further work and testing."
+        },
+        {
+          title: "The Cleaning Robot’s Infinite Loop", hypothetical: true,
+          setup: ["Imagine an AI-controlled robot learning to clean a room. Its designers give it one reward point every time it picks up a piece of trash and puts it in the bin. They expect that rewarding each successful pickup will encourage the robot to leave the room spotless.", "The robot can move objects, including the bin, and nothing in the scoring system subtracts points for creating a mess."],
+          question: "What unexpected strategy could earn it lots of points?",
+          result: "Make a mess. Clean it up. Repeat.",
+          reveal: ["It could empty the bin onto the floor, pick everything up again, and repeat. Every cleanup earns more points, even though the room keeps becoming messy.", "The designers want a clean room, but their scoring system rewards the number of pickups. Those are different goals. This imagined example illustrates reward hacking: finding a way to earn rewards without achieving the intended result."],
+          source: "https://arxiv.org/pdf/1606.06565",
+          sourceLabel: "Research background: Concrete Problems in AI Safety (2016)",
+          note: "This bin-emptying scenario is a thought experiment, not a verified incident. The linked paper uses a fictional cleaning robot to illustrate related risks; it does not document this exact event."
+        },
+        {
+          title: "The Video Dating Site",
+          setup: ["Three developers build a website around a dating idea: people will upload videos introducing themselves to potential partners. The early slogan is “Tune In, Hook Up.” But the dating concept doesn’t attract the participation they need, and the founders quickly reconsider it. They already have a way for people to upload and share videos."],
+          question: "What could happen if they drop the dating requirement?",
+          result: "YouTube.",
+          reveal: ["The site opens up to videos about anything. It becomes YouTube. The dating concept is short-lived: co-founder Steve Chen later recalled that it lasted about a week and that the team was already working on a different direction when it launched.", "What endures is the broader ability to share video, rather than the particular purpose the founders first chose."],
+          source: "https://archive.computerhistory.org/resources/access/text/2019/11/102781305-05-01-acc.pdf",
+          sourceLabel: "Computer History Museum: Steve Chen oral history, part 2 (2019)",
+          note: "Chen discusses the brief dating-site launch on page 26. “Tune In, Hook Up” was an early slogan, not the name of a separate company."
+        },
+        {
+          title: "The Melting Chocolate Bar",
+          setup: ["Engineer Percy Spencer is working with equipment used in radar. While near an operating device called a magnetron, he notices that the chocolate bar in his pocket has melted. Something about the equipment appears to be heating the food. Instead of dismissing the melted snack as an inconvenience, he investigates."],
+          question: "What invention might grow out of that observation?",
+          result: "The microwave oven.",
+          reveal: ["Spencer experiments with using microwave energy to heat food. He directs the energy into a metal enclosure and develops a device for cooking. His work leads to the microwave oven.", "Equipment associated with radar helps produce an entirely different application in the kitchen. The unexpected observation matters because someone follows it with experiments."],
+          source: "https://blogs.loc.gov/inside_adams/2021/01/microwaves/",
+          sourceLabel: "Library of Congress: Ride the (electromagnetic) Wave with Percy Spencer!",
+          note: "The Library of Congress recounts the melted-candy story and Spencer’s subsequent experiments. The oven required development beyond the initial observation."
+        },
+        {
+          title: "The Fossil Bounty",
+          setup: ["A researcher in Java is trying to recover fragments of an ancient human skull. He asks local collectors to help and offers a payment for each additional piece they find. More fragments could help him reconstruct the skull, so paying by the piece seems like a practical way to encourage careful searching."],
+          question: "What unintended behavior might that payment system encourage?",
+          result: "More pieces, less intact evidence.",
+          reveal: ["According to researcher G. H. R. von Koenigswald’s later account, collectors begin breaking larger fragments into smaller pieces to collect more payments.", "The reward increases the number of pieces while damaging the evidence he wants to preserve. Paying for more fragments creates an incentive to manufacture fragments."],
+          source: "https://aboutbone.com/be-careful-what-you-ask-for-paleontology-style/",
+          sourceLabel: "Account quoting Meeting Prehistoric Man (1956), pages 95–97",
+          note: "This is von Koenigswald’s retrospective skull-fragment account, quoted by a later article. It concerns an ancient human skull, not dinosaur bones."
+        },
+        {
+          title: "The Wallpaper Cleaner",
+          setup: ["A company makes a soft, dough-like material that removes soot from wallpaper. It serves a useful purpose when coal heating leaves walls dirty. But cleaner heating systems and easier-to-clean wallpaper reduce demand. The company needs another use for a product whose original market is disappearing."],
+          question: "Who else might want a soft material that can be squeezed, rolled, and shaped?",
+          result: "Children. It becomes Play-Doh.",
+          reveal: ["A nursery-school teacher recognizes its potential for children’s art activities. The material is adapted and marketed as Play-Doh.", "Something designed to clean walls becomes something children use to create. Its texture and flexibility turn out to be valuable to an audience far removed from its original customers."],
+          source: "https://www.smithsonianmag.com/innovation/accidental-invention-play-doh-180973527/",
+          sourceLabel: "Smithsonian: The Accidental Invention of Play-Doh",
+          note: "Teacher Kay Zufall helped recognize the material’s potential as a toy. The company adapted the product for its new use."
+        },
+        {
+          title: "The Cluttered Check-In App",
+          setup: ["Two developers work on an app called Burbn. It lets people check in at locations, make plans, and post pictures. The app does several things, but that makes its purpose harder to explain. As the founders use it and watch others, they notice that one part keeps drawing their attention: the photos."],
+          question: "What might happen if they build the app around that one feature?",
+          result: "Instagram.",
+          reveal: ["They refocus the product on sharing photos, developing Instagram. Rather than continuing to expand the original collection of features, they concentrate on the experience that seems most compelling.", "The direction becomes clearer through using the product and noticing what people value."],
+          source: "https://www.startups.com/founder-interviews/kevin-systrom",
+          sourceLabel: "Kevin Systrom: Billion Dollar Baby interview",
+          note: "Co-founder Kevin Systrom describes Burbn and the shift toward photo sharing."
+        }
+      ];
+      var current = 0, revealed = false;
+      var get = function (id) { return document.getElementById(id); };
+      function paragraphs(id, copy) {
+        var container = get(id);
+        container.replaceChildren();
+        copy.forEach(function (text) {
+          var p = document.createElement("p");
+          p.textContent = text;
+          container.appendChild(p);
+        });
+      }
+      function showRound() {
+        revealed = false;
+        var story = stories[current];
+        get("round-view").hidden = false;
+        get("finish-view").hidden = true;
+        get("progress").textContent = "Story " + (current + 1) + " of " + stories.length;
+        get("story-title").textContent = story.title;
+        get("kind").hidden = !story.hypothetical;
+        paragraphs("setup-copy", story.setup);
+        get("question").textContent = story.question;
+        get("reveal-content").classList.add("is-concealed");
+        get("reveal-content").setAttribute("aria-hidden", "true");
+        get("reveal-content").inert = true;
+        get("result-title").textContent = story.result;
+        paragraphs("reveal-copy", story.reveal);
+        get("source-note").textContent = story.note;
+        get("source-link").href = story.source;
+        get("source-link").textContent = story.sourceLabel + " ↗";
+        get("source-link").setAttribute("aria-label", story.sourceLabel + " (opens in a new tab)");
+        get("sources").open = false;
+        get("reveal").hidden = false;
+        get("next").hidden = true;
+        get("next").textContent = current === stories.length - 1 ? "Discuss Together" : "Next Story";
+        get("story-title").focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+      get("reveal").addEventListener("click", function () {
+        revealed = true;
+        get("reveal-content").classList.remove("is-concealed");
+        get("reveal-content").removeAttribute("aria-hidden");
+        get("reveal-content").inert = false;
+        get("reveal").hidden = true;
+        get("next").hidden = false;
+        get("result-title").focus();
+      });
+      get("next").addEventListener("click", function () {
+        if (!revealed) return;
+        if (current < stories.length - 1) { current++; showRound(); }
+        else {
+          get("round-view").hidden = true;
+          get("finish-view").hidden = false;
+          get("finish-title").focus({ preventScroll: true });
+          window.scrollTo(0, 0);
+        }
+      });
+      get("restart").addEventListener("click", function () { current = 0; showRound(); });
+      get("last-story").addEventListener("click", function () { current = stories.length - 1; showRound(); });
+      var fullButton = get("fullscreen");
+      if (!document.fullscreenEnabled) fullButton.hidden = true;
+      fullButton.addEventListener("click", async function () {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else await document.documentElement.requestFullscreen();
+        } catch (error) { fullButton.textContent = "Full Screen Unavailable"; }
+      });
+      document.addEventListener("fullscreenchange", function () { fullButton.textContent = document.fullscreenElement ? "Exit Full Screen" : "Enter Full Screen"; });
+      showRound();
+    }());
+  </script>
+</body>
+</html>

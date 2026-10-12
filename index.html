@@ -8366,72 +8366,49 @@ function ChoosingModelSection(props) {
 
 function YourChoicesTryIt() {
   var E = React.createElement;
-  var _a = useLocalStorage("llm-try-your-choices-v1", {}), savedAnswers = _a[0], setAnswers = _a[1];
+  var _a = useLocalStorage("llm-try-your-choices-v2", {}), savedAnswers = _a[0], setAnswers = _a[1];
   var answers = savedAnswers && typeof savedAnswers === "object" ? savedAnswers : {};
   var ROUNDS = [
-    { prompt: "Suggest five names for our school podcast.", answer: "Regular Chat",
-      correctFeedback: "You’re asking for a few ideas. Regular chat is a good starting point.",
-      incorrectFeedback: "Start simple. A quick brainstorming task usually doesn’t call for a different model, more thinking, or deeper research." },
-    { prompt: "Turn these meeting notes into a checklist.", answer: "Regular Chat",
-      correctFeedback: "You’ve supplied the information. Organizing it into a checklist is a straightforward task for regular chat.",
-      incorrectFeedback: "AI already has the notes and a clear task. Start with regular chat before reaching for more." },
-    { prompt: "Explain this unfamiliar word in a sentence I’m reading.", answer: "Regular Chat",
-      correctFeedback: "A word and its sentence give AI enough context for a simple explanation. Start with regular chat.",
-      incorrectFeedback: "You’re asking for a simple explanation, not a detailed analysis or a report from several sources. Regular chat is the place to start." },
-    { prompt: "Help our group finish a video by Friday. We have different schedules, and only two people can edit.", answer: "Needs More",
-      correctFeedback: "Different schedules, a deadline, and only two editors give AI several details to work through. More thinking could help.",
-      incorrectFeedback: "This takes more than listing tasks. The plan has to account for who’s available and who can edit. That makes more thinking useful." },
-    { prompt: "Compare two fundraising plans using our budget, available volunteers, and a backup plan for rain.", answer: "Needs More",
-      correctFeedback: "More thinking could help AI weigh the costs, staffing, and weather risks before comparing the plans.",
-      incorrectFeedback: "A quick list of pros and cons could miss how the budget, volunteers, and weather affect each other. Give AI more thinking for those tradeoffs." },
-    { prompt: "I’ve clarified my request, but AI still struggles to connect the costs, pricing, and customer targets in my business plan.", answer: "Needs More",
-      correctFeedback: "You’ve already clarified the task. A more capable model, if one is available, may do a better job connecting the details.",
-      incorrectFeedback: "You’ve tried improving the request, and the answer still falls short. This is a good time to try a more capable model if your app offers one." },
-    { prompt: "Compare three colleges for studying physics, including costs and undergraduate research opportunities.", answer: "Needs More",
-      correctFeedback: "Deeper research could gather information from several college websites and compare the details, with sources you can check.",
-      incorrectFeedback: "A quick overview could miss important differences. Comparing programs, costs, and research opportunities calls for information from several sources." },
-    { prompt: "Find summer programs that match my interests, dates, and budget. Compare the options and show sources.", answer: "Needs More",
-      correctFeedback: "Deeper research could find current program details, check them against your needs, and compare the options with sources.",
-      incorrectFeedback: "A few suggestions aren’t enough here. You need current dates, prices, and program details from different websites. Deeper research fits that task." }
+    { prompt: "Rewrite this two-sentence birthday invitation to make it sound friendlier.", options: ["Everyday model", "More capable model"], answer: "Everyday model",
+      correctFeedback: "A short rewrite is a straightforward task. Start with the everyday model and see whether the result meets your needs.",
+      incorrectFeedback: "A more capable model could do this, but a short rewrite is a good task for the everyday model. Start there and see whether the result meets your needs." },
+    { prompt: "A signup form works for some people but crashes for others. You provide the code from three connected files and the error messages. Ask AI to find the cause and propose a fix.", options: ["Everyday model", "More capable model"], answer: "More capable model",
+      correctFeedback: "A more capable model is a good starting point because this task requires connecting clues across several files and working out why the problem happens only sometimes.",
+      incorrectFeedback: "This task requires connecting clues across several files and working out why the problem happens only sometimes. A more capable model is a better starting point for that work." },
+    { prompt: "Put these five names in alphabetical order: Maya, Carlos, Zoe, Aisha, Ben.", options: ["Standard thinking", "More thinking"], answer: "Standard thinking",
+      correctFeedback: "Sorting five names is a short, routine task. Standard thinking is a good starting point.",
+      incorrectFeedback: "There are only five names and one simple rule to follow. Standard thinking should be enough for this task." },
+    { prompt: "Create a tournament schedule for eight teams using two courts. Each team must play three games, and no team can play in consecutive time slots.", options: ["Standard thinking", "More thinking"], answer: "More thinking",
+      correctFeedback: "More thinking gives AI time to work through the schedule and check that the games, courts, and rest periods fit together.",
+      incorrectFeedback: "The schedule has several rules that affect one another. More thinking can help AI work through them and check that the plan meets each rule." },
+    { prompt: "Explain the difference between a metaphor and a simile, with one example of each.", options: ["Regular chat", "Deeper research"], answer: "Regular chat",
+      correctFeedback: "This asks for a familiar concept and two examples. Regular chat is a good starting point.",
+      incorrectFeedback: "You don’t need an investigation across several sources to get this explanation. Start with regular chat." },
+    { prompt: "Compare five colleges using their current tuition, scholarships, housing costs, and application deadlines. Use information from their official websites and show the sources.", options: ["Regular chat", "Deeper research"], answer: "Deeper research",
+      correctFeedback: "Deeper research can gather current details from several college websites and bring them together in a comparison with sources you can check.",
+      incorrectFeedback: "Regular chat can look things up, but this task calls for gathering and comparing many current details across several websites. Deeper research is a better fit." }
   ];
-  // Shuffle display positions once per visit; answer keys stay tied to the
-  // original round so existing saved progress follows each question.
-  var _o = useState(function() {
-    var order = ROUNDS.map(function(_round, i) { return i; });
-    for (var i = order.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var swap = order[i]; order[i] = order[j]; order[j] = swap;
-    }
-    // Do not recreate the original three-Regular-Chat opening by chance.
-    if (order.slice(0, 3).every(function(id) { return ROUNDS[id].answer === "Regular Chat"; })) {
-      var later = 3 + Math.floor(Math.random() * (order.length - 3));
-      var first = order[0]; order[0] = order[later]; order[later] = first;
-    }
-    return order;
-  }), order = _o[0];
-  var OPTIONS = ["Regular Chat", "Needs More"];
-  var count = ROUNDS.reduce(function(n, _r, i) { return n + (OPTIONS.indexOf(answers[i]) !== -1 ? 1 : 0); }, 0);
+  var count = ROUNDS.reduce(function(n, round, i) { return n + (round.options.indexOf(answers[i]) !== -1 ? 1 : 0); }, 0);
   return E(InteractiveBox, {
     variant: "try",
     surface: "mint",
-    title: "Regular Chat or More Help?",
-    lead: "When would you start with regular chat, and when could more help? You can do this TRY IT right here, whatever options your AI app offers.",
-    instructions: [E("span", null, "Choose the better fit for each situation: ", E("strong", null, "Regular Chat"), " or ", E("strong", null, "Needs More"), "."), "Read the feedback. If you miss one, try the other choice."],
+    title: "What Does This Task Need?",
+    lead: "A short rewrite, a tricky coding problem, and a comparison of colleges ask different things of AI. Knowing what the task needs helps you decide which model to use, how much thinking to allow, or whether deeper research would help. You can practice those decisions here, even if your app doesn’t offer every option.",
+    instructions: ["Read each scenario and choose the better starting point from the two options shown. Each pair of scenarios focuses on one choice: model, thinking, or research.", "Read the feedback to see why that option fits. If you miss one, try the other choice."],
     action: E(ActivityCounter, { count: count, total: ROUNDS.length })
   },
-    E(InnerCard, null, order.map(function(roundId, i) {
-      var round = ROUNDS[roundId];
+    E(InnerCard, null, ROUNDS.map(function(round, roundId) {
       var picked = answers[roundId];
-      var answered = OPTIONS.indexOf(picked) !== -1;
+      var answered = round.options.indexOf(picked) !== -1;
       var correct = answered && picked === round.answer;
       return E("div", { key: roundId, role: "group", "aria-labelledby": "your-choices-situation-" + roundId },
         E(ScenarioRow, {
-          index: i + 1,
+          index: roundId + 1,
           prompt: E("span", { id: "your-choices-situation-" + roundId }, round.prompt),
           answered: answered,
           correct: correct,
           feedback: E("span", { role: "status" }, correct ? round.correctFeedback : round.incorrectFeedback)
-        }, OPTIONS.map(function(option) {
+        }, round.options.map(function(option) {
           return E(FeedbackPill, {
             key: option,
             answered: answered,
@@ -8443,9 +8420,7 @@ function YourChoicesTryIt() {
             onClick: function() { setAnswers(function(previous) { var next = Object.assign({}, previous); next[roundId] = option; return next; }); }
           });
         })));
-    })),
-    count === ROUNDS.length ? E("p", { role: "status", style: { margin: "18px 0 0", fontSize: 16, lineHeight: 1.55, color: "var(--ink)" } },
-      "You’ve explored all eight. Start with regular chat. Use more when the work demands it.") : null);
+    })));
 }
 function CareerExplorationPlanLab() {
   var E = React.createElement;

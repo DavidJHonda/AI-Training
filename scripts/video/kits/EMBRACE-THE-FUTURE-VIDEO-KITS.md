@@ -77,8 +77,13 @@ what the map says.
 
 ### loudest-voices
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `loudest-voices.mp4` is **v7, shipped
-2026-09-24** (David's approval; 3:49, cache key `20260924ship1`, pill 4 min). v7 is roll 1 of the
+**v12 shipped locally 2026-10-22 on David’s approval; queued for batch deployment.**
+Runtime 4:36.733, cache key `20261022v12`, pill 5 min. Two-expert board; Doubter removed;
+earlier board entrance; redundant highest-levels sentence cut; Hinton flash repaired;
+In Your Hands comparison and the current close appended.
+Record: `video-audit/loudest-voices-cut-v12-2026-10-22/SHIP.md`.
+
+**Historical release: v7, shipped 2026-09-24** (David's approval; 3:49, cache key `20260924ship1`, pill 4 min). v7 is roll 1 of the
 rebuilt kit, re-edited to apply David's three notes on v6 (built by
 `scripts/video/build_loudest_voices_v7.py`; roll review in
 `video-audit/loudest-voices-rolls-2026-09-23/REVIEW.md`, build record in its `build-v7/`).
@@ -95,25 +100,28 @@ The earlier v5 (shipped 2026-09-18, a best-of of the old-method rolls) was grade
 - Boards in lesson order (no faces; all upload):
   - `loudest-voices-experts.jpg` — upload
   - `loudest-voices-missed-predictions.jpg` — upload
+  - `course-assets/in-your-hands/in-your-hands-in-or-out.jpg` — upload
   - `loudest-voices-close.jpg` — upload
 
 **Beat spine**
 
 1. Hook over a drawn scene: opinions everywhere; who do you believe? Answer: the people who make AI
    for a living. "Same field. Same evidence. Very different bets."
-2. Even the Experts Don't Know: Amodei the Optimist, Hinton the Worrier, LeCun the Doubter, in board
+2. Even the Experts Don't Know: Amodei the Optimist and Hinton the Worrier, in board
    order; each with his background, then his SAYS and BUT ADMITS quotations read word for word.
 3. The tell (over a drawn scene, board gone): "None of them has a simple, one-sided view." Optimist
-   sees danger / Worrier sees benefits / Doubter acknowledges risks; the people who know AI best still
+   sees danger / Worrier sees benefits; the people who know AI best still
    don't know where it's going. "Where AI will be in ten years is a bet."
 4. This Has Happened Before: Stoll 1995, Ballmer 2007, Metcalfe 1996, Ford 1940, each with person,
    year, prediction, outcome; banner "The future is hard to predict because people change the result."
 5. Why were they wrong: "A technology becomes the future only when people change their habits around
    it. Machines improve fast. Habits change at human speed."
-6. Close on the two lines with nothing after.
+6. In Your Hands: ask what is in your hands and what is not; teach the five paired items,
+   the board takeaway, and where to put your energy.
+7. Close on the two current lines with nothing after.
 
 **Required verbatim lines:** the six in the prompt (the three-beat bets line, the one-sided line, the
-banner, the three habits sentences as one line, and the two closing lines). The six expert quotations
+banner, the three habits sentences as one line, and the two closing lines). The four expert quotations
 are demanded word for word in the beat spine rather than the verbatim list, to keep the list short.
 
 **Banned words:** exponential, neural network, stakeholders, leverage, framework, utilize, narrative,

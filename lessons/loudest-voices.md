@@ -22,13 +22,11 @@ The Optimist is Dario Amodei. He built GPT-2 and GPT-3 at OpenAI, then founded A
 
 The Worrier is Geoffrey Hinton. He won a Nobel Prize for his ideas that AI runs on. At 75, he left his job at Google so he could warn people about AI. He says: “We’re actually making new kinds of beings. They have goals. We give them goals, and from those goals they derive other goals. We don’t necessarily know what other goals they’ll derive.” But he admits: “If we can detect cancer much earlier thanks to AI, fewer people will die from it.”
 
-The Doubter is Yann LeCun. He won the Turing Award for helping invent modern AI. He thinks that everyone is building AI the wrong way. He says: “LLMs basically are a dead end when it comes to superintelligence,” and “LLMs have a more superficial understanding of the world than a house cat.” But he admits: “I do acknowledge risks. AI is not something that just happens. We build it, we have agency in what it becomes. Hence we control the risks.”
-
 ## THE TELL
 
 None of them has a simple, one-sided view.
 
-The Optimist sees danger. The Worrier sees benefits. The Doubter acknowledges risks. That’s the tell: the people who know AI best still don’t know where it’s going.
+The Optimist sees danger. The Worrier sees benefits. That’s the tell: the people who know AI best still don’t know where it’s going.
 
 Where AI will be in ten years is a bet.
 

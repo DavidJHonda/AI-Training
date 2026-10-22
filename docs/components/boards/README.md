@@ -148,7 +148,7 @@ the layout from scratch.
 | `EE-2FB` | Two cards in one row | 744×339 px target; source cover-cropped | 56 / 40 / 29 px; body line 41 px | Left | Derived |
 | `EE-3FB` | Three cards in one row | 485/486×273 px; pinned 16:9 | 56 / 40 / 29 px; body line 41 px | Left | Derived |
 | `EE-4FB` | Two cards by two rows | 744×339 px target; source cover-cropped | 56 / 40 / 29 px; body line 41 px | Left | Derived |
-| `EE-LONG` | Three vertically extended cards in one row | 485/486×273 px; pinned 16:9 | 56 / 40 / 29 px; labels 20 px | Left | Derived |
+| `EE-LONG` | Two or three vertically extended cards in one row | Two: 744×339 px; three: 485/486×273 px | 56 / 40 / 29 px; labels 20 px | Left | Derived |
 | `EE-COMPARE` | Two equal columns with aligned comparison rows; optional shared scenario | Optional paired 744×339 px frames | 56 / 40 / 29 px; labels 20 px | Left | Derived by paired rows |
 | `EE-FLOW` | Three to five ordered steps in one row | Four-step reference: 310×174 px; pinned 16:9 | 56 / 40 / 29 px; body line 41 px | Title left; steps centered | Derived |
 | `EE-CHAT` | Four to six alternating dialogue turns on one shared sheet | No art frame | 56 px title / 29 px dialogue / 19 px labels | Human right; AI left | Derived |
@@ -331,23 +331,22 @@ card copy rather than selected independently.
 
 #### Editorial Explainer: Long Version (`EE-LONG`)
 
-Use when three parallel cards each need substantial context, evidence, quotations,
-or qualifications that cannot remain readable in `EE-3FB`. The canonical reference
+Use when two or three parallel cards each need substantial context, evidence, quotations,
+or qualifications that cannot remain readable in the corresponding full-bleed format. The canonical reference
 board is:
 
 - `course-assets/loudest-voices/loudest-voices-experts.jpg`
 
-The current reference board is 1600×1563 px. Its height is derived from the deepest card,
+The current two-card reference board is 1600×1342 px (revised 2026-10-22). Its height is derived from the deepest card,
 not a fixed long-board canvas. This is a deliberate evidence format, not a way to
 avoid editing ordinary card copy.
 
-- Use exactly three equal-height cards in one row with the same 485, 486, and 485 px
-  widths, 32 px gutters, 14 px radii, 40 px outer margins, and 127 px card top as
-  `EE-3FB`.
+- Use two equal-height cards at 744 px wide, or three at 485, 486, and 485 px.
+  Keep 32 px gutters, 14 px radii, 40 px outer margins, and a 127 px card top.
 - Use the standard 56 px board title, aligned flush with card one. Use a 40 px card
-  title and 29 px / 41 px opening copy. All three peer titles and opening paragraphs
+  title and 29 px / 41 px opening copy. All peer titles and opening paragraphs
   begin on shared baselines.
-- Pin the illustration frames to 16:9 at 485/486×273 px. Apply the same full-bleed
+- Use 744×339 px illustration frames for two cards, or 485/486×273 px for three. Apply the same full-bleed
   crop, 10% accent wash, 22% complete-card outline, and 20% art divider as `EE-3FB`.
 - An optional role, status, or category pill sits below the illustration. Use 20 px
   heavy type in the card accent on a 12% tint of that accent. The pill must describe
@@ -357,7 +356,7 @@ avoid editing ordinary card copy.
   and must fit on one line. Uppercase is allowed for short structural labels such as
   `SAYS` and `BUT ADMITS`.
 - Leave 48 px before every subsection label and 12 px between the label and its
-  copy. Use the same rhythm in all three cards, even when one card contains shorter
+  copy. Use the same rhythm in all cards, even when one card contains shorter
   evidence.
 - Quotes and evidence use the standard 29 px / 41 px body size. Never shrink them.
   A 4 px vertical accent rule at 65% strength and a 20 px text inset may distinguish
@@ -368,7 +367,7 @@ avoid editing ordinary card copy.
   dominant hue. Never assign the colors by column position.
 - Derive one shared card height from the deepest complete card. Preserve at least
   34 px below the deepest passage; never shorten a peer card or leave arbitrary
-  space beneath all three cards.
+  space beneath all cards.
 - Do not add horizontal separators between the internal sections. The labels,
   spacing, and restrained quote rules provide the hierarchy.
 - A takeaway banner is normally unnecessary because the format already carries a

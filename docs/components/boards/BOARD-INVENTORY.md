@@ -75,7 +75,7 @@ a decision map, not an instruction to rebuild every asset.
 | Lesson | Primary treatment | Status | Direction |
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve creed and section map. |
-| Loudest Voices | Editorial Explainer: Long Version | Keep | Preserve “Even the Experts Don’t Know” as the `EE-LONG` reference: three evidence-rich cards with full-size quotations and explicit qualifications. |
+| Loudest Voices | Editorial Explainer: Long Version | Keep | Preserve “Even the Experts Don’t Know” as the `EE-LONG` reference: two evidence-rich cards with full-size quotations and explicit qualifications. |
 | Pace of Change | Editorial Explainer | Keep | Use the three new boards as current family exemplars; retain the three-years page comparison. |
 | Big Downside | Editorial Explainer | Adopted | Three-idea revision: three-card full-bleed guardrail layers, retained jailbreak and voice-clone illustrations, simplified cyberattack case, and standard two-line close. Renderers: `render_big_downside_guardrails.py`, `render_big_downside_goal.py`, and `generate-closing-boards.cjs --lesson bigdownside`. Historical timeline and Policy Puppetry removed from the page and upload set. |
 | Big Upside | Editorial timeline and examples | Keep | Preserve the timeline, discovery, and practical-help separation. |

@@ -1,6 +1,6 @@
 ## BUILD YOUR SKILLS
 
-# Know the App
+# When You Need More
 
 Taking a picture on your phone is easy. Open the camera app, point, and tap. For most pictures, that’s all you need.
 
@@ -19,7 +19,6 @@ When you use an AI app like ChatGPT, Gemini, or Claude, an LLM powers its answer
 
 When an app lets you choose a “model,” you’re choosing which LLM to use.
 Different models have different capabilities.
-Knowing which model to choose helps you get better answers.
 
 ### Board 1: Which Model?
 
@@ -47,9 +46,6 @@ Try a more capable model when needed.
 Choosing a model changes which LLM you use.
 Thinking changes how much time AI spends working through your task.
 
-Think about it like this. For your first English exam, you have to write an essay about the book you read over the summer. Before you start writing, you decide what you want to say, which examples support your points, and how to organize them.
-
-Thinking mode serves a similar purpose.
 AI isn’t thinking the way you do, but it spends more time working through the task before giving you an answer.
 
 ### Board 2: How Much Thinking?
@@ -76,11 +72,7 @@ Give AI more time when the task needs more working through.
 
 There’s one more option: Research.
 
-You already know when you need to do some research. Stop at In-N-Out for a cheeseburger, and you know enough to place your order.
-
-Buying your first house is different. You’d want to compare prices, learn about the neighborhoods, and check how far each house is from work. It’s a bigger decision, and you need more information before making it.
-
-AI’s research mode helps with that kind of work. It gathers information from different websites and brings it together so you can compare your options.
+AI’s research mode gathers information from different websites and brings it together so you can compare your options.
 
 Regular chat can look things up, too.
 Research is useful when you want a fuller investigation across several sources.

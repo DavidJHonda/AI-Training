@@ -1,6 +1,16 @@
 // Shared directory for the splash page, For Groups, and public group sessions.
 window.COURSE_GROUP_ACTIVITIES = [
   {
+    "id": "llms",
+    "lesson": "llms",
+    "lessonTitle": "What Is AI?",
+    "section": "Start Smarter",
+    "title": "Be the Last Person Standing",
+    "type": "Activity",
+    "note": "Spot the real photograph and see which details help you decide.",
+    "href": "group-exercises/what-is-ai/be-the-last-person-standing.html"
+  },
+  {
     "id": "whydeeper",
     "lesson": "whydeeper",
     "lessonTitle": "Why Learn AI?",
@@ -32,16 +42,6 @@ window.COURSE_GROUP_ACTIVITIES = [
     ]
   },
   {
-    "id": "llms",
-    "lesson": "llms",
-    "lessonTitle": "What Is AI?",
-    "section": "Start Smarter",
-    "title": "Be the Last Person Standing",
-    "type": "Activity",
-    "note": "Spot the real photograph and see which details help you decide.",
-    "href": "group-exercises/what-is-ai/be-the-last-person-standing.html"
-  },
-  {
     "id": "aihistory",
     "lesson": "aihistory",
     "lessonTitle": "What’s an LLM?",
@@ -62,21 +62,11 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/does-ai-think/spot-whats-wrong.html"
   },
   {
-    "id": "control",
-    "lesson": "control",
-    "lessonTitle": "In Your Hands",
-    "section": "Start Smarter",
-    "title": "Prompetition",
-    "type": "Activity",
-    "note": "Use words to recreate a target picture with AI, then compare your results.",
-    "href": "group-exercises/in-your-hands/prompetition.html"
-  },
-  {
     "id": "whybother",
     "lesson": "whybother",
-    "lessonTitle": "Beyond the New Average",
+    "lessonTitle": "Does School Matter?",
     "section": "Start Smarter",
-    "title": "Beyond the New Average",
+    "title": "Does School Matter?",
     "type": "Discussion",
     "note": "Discuss how your knowledge and skills change what you can do with AI.",
     "href": "group-exercises/group-session.html?id=whybother",

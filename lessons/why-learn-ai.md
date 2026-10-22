@@ -16,37 +16,7 @@ AI is the press in this comparison. Learning to use it is today’s version of l
 
 Run it, or someone else will.
 
-## AI IS EVERYWHERE
-
-AI isn’t something you go visit. It’s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in a few years.
-
-Most of what it does today, it will do better tomorrow.
-
-### Board 2: Where AI Already Lives
-
-**Image file:** `why-learn-ai-everyday.jpg`
-
-![Where AI Already Lives](why-learn-ai-everyday.jpg)
-
-**Teaching content:**
-
-Here’s where AI already lives: five places you use.
-
-AI recommends things by predicting what you might like next. You’ve seen it in Spotify, Netflix, and TikTok.
-
-Navigation predicts traffic and arrival time. You’ve seen it in Google Maps and Waze.
-
-Face recognition checks whether a face matches you. You’ve seen it in phone unlock and photo tagging.
-
-Voice assistants turn your speech into words. You’ve seen it in Siri, Alexa, and Hey Google.
-
-Chatbots carry on a conversation with you. You’ve seen it in ChatGPT, Claude, and Gemini.
-
-AI was already part of your day before chatbots arrived.
-
 ## YOU CAN START NOW
-
-You already use AI. Now you can learn to use it deliberately.
 
 Here’s the great news: you don’t have to wait until college or your first job to get good at this.
 
@@ -68,7 +38,7 @@ It shortened the distance between wanting to do the work and actually doing it.
 
 AI gives you a similar chance to start making things while you build your skills.
 
-### Board 3: Why You’ll Thrive in the AI Future
+### Board 2: Why You’ll Thrive in the AI Future
 
 **Image file:** `why-learn-ai-thrive.jpg`
 

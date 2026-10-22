@@ -1,6 +1,6 @@
 ## START SMARTER
 
-# Beyond the New Average
+# Does School Matter?
 
 A lot of people your age are quietly asking the same thing. If AI can answer anything, do you even need school anymore? Why sit through years of classes when the tool spits out the answer in seconds?
 
@@ -28,23 +28,19 @@ Your secret sauce is the knowledge and skills you build. And where do you build 
 
 School is where you get to build what you bring to the work. Learn how things work. Practice writing, solving problems, making things, and working with people. Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That’s what it means to Be Smarter Than the Tool.
 
-### Board 2: What to Start Building Today
+### Board 2: What School Helps You Build
 
-**Image file:** `beyond-the-new-average-future.jpg`
+**Image file:** `what-school-helps-you-build.jpg`
 
-![What to Start Building Today](beyond-the-new-average-future.jpg)
+![What School Helps You Build](what-school-helps-you-build.jpg)
 
 **Teaching content:**
 
-Deep subject knowledge: go deep in a subject you care about. Become someone people turn to for your knowledge.
+Knowledge: go deep in a subject you care about. Become someone people turn to for your knowledge.
 
-Strong skills: practice writing, building, analyzing, and solving problems. Get good at turning what you know into work you’re proud of.
+Skills: practice writing, building, analyzing, and solving problems. Learn to listen, communicate, and work with people.
 
-AI fluency: know how to work with AI, challenge it, and use it to go beyond the average.
-
-People skills: listen, communicate, earn trust, and help a team turn ideas into action.
-
-School helps you build what takes you beyond the new average.
+School is where you get to build what you bring to the work.
 
 ### Close
 
@@ -56,4 +52,4 @@ School helps you build what takes you beyond the new average.
 
 The opportunity to learn is already in front of you.
 
-Use it to build the knowledge and skills that take you beyond the new average.
+Choose something you want to get better at. Start there.

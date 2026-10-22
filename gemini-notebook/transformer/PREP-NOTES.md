@@ -45,3 +45,47 @@ change to the user-maintained Video Tracker.
   the repeated referent, image loading, and no horizontal overflow or JavaScript errors.
 - Print route uses the revised boards and prose.
 - JavaScript syntax, `git diff --check`, and upload-bundle consistency passed.
+
+## Video update preparation — 2026-10-22
+
+The installed video remains Transformer v13 (3:54.867). Before the new uploads, available Transformer
+recordings were v11–v13, all predating these revised examples. The requested update
+will preserve useful existing narration and use whole passages from new recordings
+as donors, following Layers and Vector Space.
+
+The complete current lesson and all seven boards were rechecked. The prompt is now
+448 words and explicitly includes TIRED in the sequential word walk. The registry
+notes are current, and the eight-file upload bundle passes the sync check.
+
+Fresh narration is needed for the opening examples, the sequential walk, the
+parallel-processing/earlier-CAT explanation, and the return to the examples.
+Four board replacements and a correction to the brain illustration’s paper text
+are also planned. See `video-audit/transformer-context-review-2026-10-22/REVIEW.md`
+for the exact existing passages, source identities, retained teaching, visual plan,
+and review limitations. No new video has been built or installed.
+
+### New recordings received and reviewed — 2026-10-22
+
+David uploaded `Prompts/transformer-1.mp4`, `transformer-2.mp4`, and
+`transformer-3.mp4`. All three were freshly transcribed in full and compared.
+The proposed update uses four complete passages from roll 2 with v13 as the base,
+plus the four current boards and corrected brain-paper text. Runtime is projected
+at 3:58.767 with no added pauses. Four contextual audio previews and the combined
+narration/board plan are in the linked review directory. Transcription and waveform
+checks do not establish voice continuity; listening review remains pending.
+No additional recordings are requested. No candidate has been built or installed.
+
+### Approved build completed — 2026-10-22
+
+Following David’s “Build it please,” candidate `Prompts/transformer-v14.mp4`
+implements the four approved roll-2 passages, current boards, and tracked paper
+correction. Runtime is 3:58.767. Review and verification records are in
+`video-audit/transformer-build-v14-2026-10-22/`. The installed v13 remains unchanged.
+Perceptual listening/continuous playback review and shipping approval are pending.
+
+### Local release — 2026-10-22
+
+Transformer v15 incorporates the requested final highlight adjustments and is now
+installed and committed locally as `394b9167`. Audio and runtime are
+unchanged from v14. Public deployment is queued for a separate batch request.
+Release evidence: `video-audit/transformer-build-v15-2026-10-22/shipping.json`.

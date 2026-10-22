@@ -24,7 +24,7 @@ a decision map, not an instruction to rebuild every asset.
 | What’s an LLM? | Worked-example utility | Normalize | Keep the LLM definition, familiar patterns, and next-word loop; detailed training, odds, and learn-once boards retired 2026-10-08. |
 | Does AI Think? | Editorial Explainer: Side-by-Side Comparison (`EE-COMPARE`) plus Chinese Room teaching illustration | Keep | Green/purple illustrated comparison with five aligned labeled rows; shared scenario omitted. |
 | In Your Hands | Friendly Schematic | Keep | Preserve the noise-versus-leverage metaphor and action board. |
-| Does School Matter? | Friendly Schematic | Keep | Preserve the question, AI answer, judgment flow. |
+| Does School Matter? | Editorial Explainer: Two-Card Full-Bleed (`EE-2FB`) plus question/answer board | Adopted | “What School Helps You Build” uses Knowledge and Skills cards, original full artwork panels, and measured standard typography and spacing. Rebuild with `scripts/video/render_school_build_board.cjs`. Preserve the question, AI answer, judgment flow. |
 | Learn with AI | Editorial comparison | Keep | The source-grounded versus general tutor decision is already clear. |
 
 ## Work With AI

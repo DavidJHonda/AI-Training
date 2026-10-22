@@ -26,7 +26,6 @@ const ASSETS = {
   llms: "course-assets/what-is-ai/what-is-ai-close.jpg",
   aihistory: "course-assets/whats-an-llm/whats-an-llm-close.jpg",
   doesaithink: "course-assets/does-ai-think/does-ai-think-close.jpg",
-  control: "course-assets/in-your-hands/in-your-hands-close.jpg",
   whybother: "course-assets/beyond-the-new-average/beyond-the-new-average-close.jpg",
   studying: "course-assets/learn-with-ai/learn-with-ai-close.jpg",
   openerworkwith: "course-assets/work-with-ai-opener/work-with-ai-opener-close.jpg",

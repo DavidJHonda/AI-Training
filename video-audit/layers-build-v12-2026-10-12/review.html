@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Layers · version 12</title>
+<style>body{font:17px system-ui,sans-serif;background:#f6f4fc;color:#18152e;padding:30px;margin:0}main{max-width:1100px;margin:auto}p{line-height:1.6}video{width:100%;background:#171425;border-radius:12px}button{font:inherit;background:#4f2fc4;color:white;border:0;border-radius:8px;padding:11px 16px;cursor:pointer;margin:8px 8px 8px 0}button:hover{background:#362084}button:disabled{opacity:.5;cursor:wait}.note{color:#625c70;font-size:14px}a{color:#4f2fc4}</style>
+<main><h1>Layers · version 12</h1>
+<p>Updated to match the lesson: the revised CAT/IT sentence, current lesson board, corrected supporting illustration, and new conclusion from recording 6. Runtime: <strong>3:26.10</strong>.</p>
+<video id="video" controls preload="auto" poster="encoded/03382.jpg"></video>
+<p id="status" class="note">Loading video for smooth seeking…</p>
+<div><button data-time="106">Review revised example</button><button data-time="149">Review conclusion</button><button data-time="0">Play from start</button></div>
+<p>“The tired cat sat on the mat during the May rainstorm. It soon fell asleep.”</p>
+<p>“Its updated numbers carry information about its connection to cat.”</p>
+<p class="note">Review candidate. Automated wording, timing, and visual checks are documented in the <a href="REVIEW.md">build review</a>. Voice continuity at the two narration joins still needs listening review.</p>
+</main><script>
+const video=document.getElementById('video');
+const buttons=[...document.querySelectorAll('button')];
+buttons.forEach(button=>{button.disabled=true;button.addEventListener('click',()=>{video.currentTime=Number(button.dataset.time);video.play().catch(error=>{if(error.name!=='AbortError')document.getElementById('status').textContent='Use the video play control to start playback.';});});});
+// The existing local preview server does not support byte-range requests.
+// Loading a local Blob gives the native player a complete seekable resource.
+fetch('../../Prompts/layers-v12.mp4').then(response=>{if(!response.ok)throw Error(response.status);return response.blob();}).then(blob=>{
+ video.src=URL.createObjectURL(blob);video.load();
+ video.addEventListener('loadedmetadata',()=>{buttons.forEach(button=>button.disabled=false);document.getElementById('status').textContent='Ready to review.';},{once:true});
+}).catch(()=>{document.getElementById('status').textContent='Video could not load. Refresh this local review page to retry.';});
+</script></html>

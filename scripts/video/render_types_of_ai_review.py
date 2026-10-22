@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the Two Ways You Already Use AI Editorial Explainer board."""
+"""Render the Two Types of AI Editorial Explainer board."""
 
 from __future__ import annotations
 
@@ -167,7 +167,7 @@ def draw_card(
 def render() -> None:
     image = Image.new("RGB", (WIDTH, HEIGHT), FRAME)
     draw = ImageDraw.Draw(image)
-    draw_board_title(draw, "Two Ways You Already Use AI")
+    draw_board_title(draw, "Two Types of AI")
 
     asset_dir = ROOT / "scripts/video/assets/start-smarter/types-of-ai"
     draw_card(
@@ -190,7 +190,7 @@ def render() -> None:
         title="Generative AI",
         sections=(
             ("THE JOB", "Make something that didn’t exist."),
-            ("HOW IT WORKS", "Use learned patterns to create a new output from your prompt (the question or instructions you give it)."),
+            ("HOW IT WORKS", "Creates something new from your prompt (the question or instructions you give it)."),
             ("EVERYDAY EXAMPLES", "An email, essay, image, website, song, or video."),
         ),
     )

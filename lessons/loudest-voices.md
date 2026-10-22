@@ -62,6 +62,26 @@ Because the future is hard to predict.
 
 A technology becomes the future only when people change their habits around it. Machines improve fast. Habits change at human speed.
 
+## IN YOUR HANDS
+
+So here’s the question worth asking: what’s in your hands, and what isn’t?
+
+### Board 3: What’s in Your Hands?
+
+**Image file:** `in-your-hands-in-or-out.jpg`
+
+![What’s in Your Hands?](in-your-hands-in-or-out.jpg)
+
+**Teaching content:**
+
+Out of your hands: how AI changes future jobs, how quickly AI changes, how much work AI can produce, how other people use AI, and what the next headline predicts.
+
+In your hands: build real depth in something you care about, stay curious and keep what works, practice coming up with your own ideas, choose how you use AI and how you work with other people, and make something real with AI instead of waiting to see what happens.
+
+You don’t control every outcome. Your choices still matter.
+
+Keep informed about the left column. Put most of your energy into the right.
+
 ### Close
 
 **Image file:** `loudest-voices-close.jpg`
@@ -70,6 +90,6 @@ A technology becomes the future only when people change their habits around it. 
 
 ## Closing Message
 
-Where AI will be in ten years is a bet.
+You can’t control where AI goes next.
 
-Which voice you listen to is your call.
+You can build the skill and judgment to decide what you do next.

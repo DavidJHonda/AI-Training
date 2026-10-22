@@ -60,7 +60,7 @@ Three. How Words Become Numbers: how text becomes tokens, and tokens get numbers
 
 Four. How Meaning Takes Shape: how words affect one another, changing their numbers and the relationships those numbers represent.
 
-Five. How AI Builds an Answer: how AI builds an answer, why answers vary, and how much math it takes.
+Five. How AI Builds an Answer: how AI builds an answer and why answers vary.
 
 Each piece builds on the one before it.
 

@@ -48,24 +48,6 @@ Three workstations, labeled ChatGPT, Claude, and Gemini. Pick one and learn it d
 
 A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right.
 
-## A real-world example
-
-Several AI apps helped bring this course to life. Sometimes different apps handled different jobs. Sometimes they helped with the same job. Here are a few examples.
-
-### Board 3: How We Used the Big Three
-
-**Image file:** `your-home-base-how-we-used.jpg`
-
-![How We Used the Big Three](your-home-base-how-we-used.jpg)
-
-**Teaching content:**
-
-ChatGPT, ideas and improvements: brainstorming TRY ITs and LABs, and reviewing lessons; writing code and helping edit videos.
-
-Claude, building and design: writing code with Claude Code; styling pages with Claude Design.
-
-Gemini, information and videos: finding current information with Gemini; creating lesson videos with Gemini Notebook.
-
 ### Close
 
 **Image file:** `your-home-base-close.jpg`

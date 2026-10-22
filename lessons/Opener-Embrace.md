@@ -26,7 +26,7 @@ Who’s right? Nobody knows.
 
 You now know how to use AI, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to Be Smarter Than the Tool. Done.
 
-Now comes the question almost everyone is arguing about: where does all this land? You’ve heard the voices already. You probably know an AI Optimist who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know an AI Worrier who’s sure it will hurt society. And maybe a Doubter who rolls their eyes at both.
+Now comes the question almost everyone is arguing about: where does all this land? You’ve heard the voices already. You probably know an AI Optimist who thinks AI is amazing, fantastic, and every other superlative they can think of. And you know an AI Worrier who’s sure it will hurt society.
 
 Here’s the honest part: nobody knows.
 

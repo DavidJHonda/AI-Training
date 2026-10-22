@@ -16,7 +16,12 @@ All paths below are repository-relative. Prep files live under `gemini-notebook/
 
 ### opener-embrace
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe.** Live `embrace-the-future-opener.mp4` is **v5**,
+**v6 shipped locally 2026-10-22 on David’s approval; queued for batch deployment.**
+Runtime 3:17.3, cache key `20261022v6`. Removes the Doubter and the three-types lead-in;
+the canonical voices board replaces the three-person illustration. Written lesson and prep agree.
+Record: `video-audit/remove-doubter-2026-10-22/EMBRACE-SHIP.md`.
+
+**Previous release: v5.** Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; v5 was
 shipped 2026-09-24 on David's approval (cache key 20260924ship1, pill 3 min, 3:25.6): roll 4, the first
 roll on this kit, which met all eleven verbatim lines and says "worrier". Two narration cuts ("Look at
 this board..." and "To understand this debate, look at this vintage map."), no grafts; four photograph
@@ -53,8 +58,7 @@ are the donors for v5's drawings.
    Nobody knows."
 2. Board gone: you already know how to use AI and understand the engine underneath; the goal is Be
    Smarter Than the Tool; done.
-3. The three people by their labels: the AI Optimist, the AI Worrier, the Doubter who rolls their eyes
-   at both. "Here's the honest part: nobody knows." / "Not them, not us, not the people building AI."
+3. The two perspectives by their labels: the AI Optimist and the AI Worrier. "Here's the honest part: nobody knows." / "Not them, not us, not the people building AI."
 4. Drawn scene: the mapmakers who filled unknown waters with sea monsters and serpents.
 5. The map illustration, three lines only: the ocean comparison, what the Worriers fill the unknown
    with, what the Optimists see in the same unknown.

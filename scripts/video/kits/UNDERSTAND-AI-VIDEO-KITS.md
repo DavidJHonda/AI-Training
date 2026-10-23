@@ -12,7 +12,7 @@ and the boards-and-visuals rules; boards with faces upload as text-only faceless
 in `gemini-notebook/<slug>/assets/` that the canonical board replaces in the edit. All ten lessons are registered
 in `gemini-notebook/upload-sets.json` and staged in `gemini-notebook/<slug>/` by the sync.
 
-Course order: Opener → Training → AI is Math → Tokens → Embeddings → Transformer → Layers →
+Course order: Opener → Training → Probability & Prediction → Tokens → Embeddings → Transformer → Layers →
 Vector Space → How AI Answers → The Next Token.
 
 Every lesson in this section has a live video shipped 2026-09-16 to 2026-09-18 under the
@@ -159,7 +159,7 @@ The loop’s repeat step remains “Then repeat. The loop runs again on the next
 
 Training-only sync and `--check` passed. All eight staged uploads and the prompt match their sources; the seven JPGs decode; the six teaching boards follow page order. The prompt is 451 words. All nine required passages occur once as stand-alone source paragraphs and match the page’s wording; all page prose is preserved. The published video’s hash is unchanged. Targeted `git diff --check` passed. No generation, upload to Notebook, publication or tracker update was performed.
 
-## AI is Math
+## Probability & Prediction
 
 Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `ai-is-math.mp4` shipped 2026-09-16 under the old method (visual-only retrofit of v3); reroll pending David's approval of the beat spine below.
 

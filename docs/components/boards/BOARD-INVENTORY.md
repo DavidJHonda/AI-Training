@@ -38,7 +38,7 @@ a decision map, not an instruction to rebuild every asset.
 | Questions Matter | Editorial Explainer | Keep | Preserve the answer timeline and value-shift comparison. |
 | Prompting Matters | Worked-example utility | Normalize | Keep the text-rich bad/better examples; normalize shell only when revised. |
 | Context Matters | Friendly Schematic plus comparison | Keep | Preserve the visual boundary idea and the source-availability board. |
-| Evaluation Matters | Editorial Explainer sequence | Keep | Use as a process-family exemplar. |
+| Evaluation Matters | Editorial Explainer: Flow (`EE-FLOW`), Two-Card Full-Bleed (`EE-2FB`), Three-Card Full-Bleed (`EE-3FB`) | Simplified | Illustrated overview; purple quick-review flow with step-1 title marker; Take a Closer Look EE-3FB with step-2 circle and separate white task-and-stakes cards plus connecting sentence, headings matching the cards; separate closer-look board retired from page. Exact checking copy, no banner or corner maps. Make Your Move is teal EE-3FB with illustrations and a step-3 marker, without a banner. Renderers: `scripts/video/render_evaluation_flow.py`, `scripts/video/render_evaluation_quick_review_flow.py`, `scripts/video/render_evaluation_cards.cjs`. |
 | Critical Thinking | Friendly Schematic plus worked example | Normalize | Preserve the equation and reaction sequence; align only shared shell details. |
 
 ## Understand AI
@@ -47,7 +47,7 @@ a decision map, not an instruction to rebuild every asset.
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve the standardized four-row section map. |
 | Training | Editorial process plus worked example | Normalize | Keep the training loop and stage sequence; remove people only where an asset must enter prep. |
-| AI Is Math | Worked-example utility | Keep | Do not convert the probability sequence into decorative illustration cards. |
+| Probability & Prediction | Worked-example utility | Keep | Do not convert the probability sequence into decorative illustration cards. |
 | Tokens | Worked example plus Friendly Schematic | Keep | Preserve exact token evidence and the cat comparison as separate jobs. |
 | Embeddings | Data utility | Keep | Tables and sliders are the explanation; retain the dense-board treatment. |
 | Transformer | Technical utility | Normalize | Preserve the matched sentence boards and align shell details when touched. |
@@ -78,7 +78,7 @@ a decision map, not an instruction to rebuild every asset.
 | Loudest Voices | Editorial Explainer: Long Version | Keep | Preserve “Even the Experts Don’t Know” as the `EE-LONG` reference: two evidence-rich cards with full-size quotations and explicit qualifications. |
 | Pace of Change | Editorial Explainer | Keep | Use the three new boards as current family exemplars; retain the three-years page comparison. |
 | Big Downside | Editorial Explainer | Adopted | Three-idea revision: three-card full-bleed guardrail layers, retained jailbreak and voice-clone illustrations, simplified cyberattack case, and standard two-line close. Renderers: `render_big_downside_guardrails.py`, `render_big_downside_goal.py`, and `generate-closing-boards.cjs --lesson bigdownside`. Historical timeline and Policy Puppetry removed from the page and upload set. |
-| Big Upside | Editorial timeline and examples | Keep | Preserve the timeline, discovery, and practical-help separation. |
+| Big Upside | Editorial timeline and Three-Card Full-Bleed (`EE-3FB`) | Simplified | Preserve AlphaFold and the Hassabis timeline. Finding Cancer, Reading Aloud, and Flood Warnings share one Helping People Live Better board. Renderer: `scripts/video/render_big_upside_examples.py`. |
 | Rise of Agents | Editorial Explainer: Flow | Keep | Preserve Goal, Plan, Act, Check and the return loop. This is the `EE-FLOW` reference. |
 | Work Changes | Editorial comparison | Keep | Preserve Automate versus Augment and the outcomes board. |
 | Data Centers | Editorial Explainer | Keep | Preserve the four-part footprint board and its qualification in lesson prose. |

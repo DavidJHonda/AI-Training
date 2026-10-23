@@ -25,7 +25,7 @@ for row in m['assets']:
     if row.get('consolidated_from') and row['consolidated_from'] != row['new'] and (root / row['consolidated_from']).exists():
         errors.append('Consolidated duplicate was recreated: ' + row['consolidated_from'])
     # A board split from an approved board keeps its source in use.
-    if row.get('variant') != 'split-from-approved-board' and (root / row['old']).exists():
+    if row.get('old') and row.get('variant') != 'split-from-approved-board' and (root / row['old']).exists():
         errors.append('Old asset still present: ' + row['old'])
 for row in m.get('generated_assets', []):
     p = root / row['new']
@@ -39,7 +39,7 @@ for row in m.get('video_assets', []):
         errors.append('Missing finished video: ' + row['new'])
     elif '--migration-hashes' in sys.argv and hashlib.sha256(p.read_bytes()).hexdigest() != row['sha256']:
         errors.append('Changed finished video bytes: ' + row['new'])
-    if (root / row['old']).exists():
+    if row.get('old') and (root / row['old']).exists():
         errors.append('Old video path was recreated: ' + row['old'])
 for row in m.get('retired_assets', []):
     if (root / row['new']).exists():

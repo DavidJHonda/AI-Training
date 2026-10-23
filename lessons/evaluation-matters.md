@@ -18,31 +18,25 @@ When you evaluate an answer, ask two questions: **Is it right?** **Is it good en
 
 Here is how to evaluate an AI answer.
 
-Start with Quick Pass. Read. Understand. Validate.
+Do a Quick Review. Read. Understand. Validate.
 
-Then reach the diamond: do you need to dig deeper?
+Take a Closer Look. If needed, dig deeper. Choose the checks that fit.
 
-If yes, follow the arrow to Dig Deeper. Choose the checks that fit. Then go to Your Move.
+Make Your Move. Decide what to do with the answer.
 
-If no, follow the top arrow straight to Your Move.
-
-At Your Move, choose Use It, Fix It, or Walk Away.
-
-If you choose Fix It, follow the return arrow to Quick Pass. Check the fix before you use the revised answer.
-
-## Start With Quick Pass
+## Start Here
 
 Start with these three steps before you use an AI answer.
 
-### Board 2: Quick Pass
+### Board 2: Do a Quick Review
 
 **Image file:** `evaluation-matters-quick-pass.jpg`
 
-![Quick Pass](evaluation-matters-quick-pass.jpg)
+![Do a Quick Review](evaluation-matters-quick-pass.jpg)
 
 **Teaching content:**
 
-Start with the Quick Pass.
+Do a Quick Review.
 
 Read.
 
@@ -56,91 +50,61 @@ Validate.
 
 Compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?
 
-Before you use it: read, understand, validate.
+## Sometimes You Dig Deeper
 
-## Then Decide
+A quick review is often enough.
 
-Some answers need a closer look. These three questions help you decide.
+When more is riding on the answer, or you’re not sure it’s right, take a closer look.
 
-### Board 3: Dig Deeper?
-
-**Image file:** `evaluation-matters-decide.jpg`
-
-![Dig Deeper?](evaluation-matters-decide.jpg)
-
-**Teaching content:**
-
-Next, decide: do you need to dig deeper?
-
-Can you judge it?
-
-Compare the answer with what you know. If you don’t know enough to judge it, keep checking.
-
-What kind of task is it?
-
-A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task.
-
-How much is riding on it?
-
-A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?
-
-Give the answer the attention it deserves.
-
-## When It’s Time to Dig Deeper
-
-When an answer needs a closer look, choose the checks that fit the task.
-
-### Board 4: Dig Deeper
+### Board 3: Take a Closer Look
 
 **Image file:** `evaluation-matters-dig.jpg`
 
-![Dig Deeper](evaluation-matters-dig.jpg)
+![Take a Closer Look](evaluation-matters-dig.jpg)
 
 **Teaching content:**
 
-When needed, dig deeper.
+Does it need a closer look?
+
+What kind of task.
+
+A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task.
+
+How much is riding on it.
+
+A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?
+
+The more that depends on the answer, the more carefully you should check it.
+
+Ways to Take a Closer Look.
 
 Check the sources.
 
-Ask for sources, then open them. Does each source support the claim? Is it reliable?
+Ask for sources, then open them. Does each source support the claim? Is it reliable? For current information, ask AI to search the web.
 
 Challenge the answer.
 
-Ask, “What’s the strongest argument against this?” Look for weaknesses you hadn’t considered.
-
-Ask what’s missing.
-
-Ask, “What important information did you leave out?” Decide whether it changes your view of the answer.
-
-Search the live web.
-
-Ask AI to search the web for current information. Open the sources and check what they say.
+Ask, “What’s the strongest argument against this?” or “What important information did you leave out?” Decide whether it changes your view of the answer.
 
 Check it yourself.
 
 Find another way to check the answer. Recalculate the numbers, test the code, or ask someone who knows the subject.
 
-Use AI to help you check.
-
-You decide whether the answer holds up.
-
-## Your Move
+## Decide What’s Next
 
 Now decide what to do with the answer.
 
-### Board 5: Your Move
+### Board 4: Make Your Move
 
 **Image file:** `evaluation-matters-move.jpg`
 
-![Your Move](evaluation-matters-move.jpg)
+![Make Your Move](evaluation-matters-move.jpg)
 
 **Teaching content:**
 
-Then make your move.
-
 Use it.
 
-The answer is right and good enough for what you need. Put it to work.
+The answer is right and good enough for what you need.
 
 Fix it.
 
@@ -152,9 +116,7 @@ Walk away.
 
 If AI isn’t helping you get there, try another approach or ask someone who knows the subject.
 
-The tool answers. You evaluate.
-
-### Board 6: Close
+### Board 5: Close
 
 **Image file:** `evaluation-matters-close.jpg`
 
@@ -164,4 +126,4 @@ The tool answers. You evaluate.
 
 The tool answers. You evaluate.
 
-Read. Understand. Validate.
+Review the answer. Take a closer look when needed. Decide what to do next.

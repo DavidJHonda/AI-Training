@@ -1,6 +1,6 @@
 ## UNDERSTAND AI
 
-# AI is Math
+# Probability & Prediction
 
 What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used? Math.
 

@@ -2,12 +2,13 @@
 
 Updated 2026-09-24. These notes are production references, not video narration or student-facing text.
 
-## Current boards
+## Current board
 
-- `course-assets/big-upside/big-upside-scientific-discovery.jpg`: Helping People Stay Healthy. Finding Cancer, Urgent Scans, New Antibiotics.
-- `course-assets/big-upside/big-upside-practical-help.jpg`: Helping People in Everyday Life. Reading Aloud, Flood Warnings, Targeted Spraying.
+Updated 2026-10-23: `course-assets/big-upside/big-upside-examples.jpg` combines Finding Cancer, Reading Aloud, and Flood Warnings under Helping People Live Better. AlphaFold and the Hassabis timeline remain unchanged.
 
-Both use the existing three-card Editorial Explainer renderer with unchanged title, card-heading, and body font sizes. Canonical filenames are retained. Four existing illustration panels were reused; two new panels were generated with the built-in image tool and composed into the final boards. The renderer can recover all six panels from those canonical JPGs, so no separate source-art copies are needed in the course assets.
+Rebuild with `.video-venv/bin/python scripts/video/render_big_upside_examples.py`. It uses the canonical EE-3FB renderer and preserves the selected illustration panels from the two former boards. Those original files remain source artwork and historical video dependencies; neither is in the current page or upload bundle. Doctors' review and care decisions remain explicit. Flood wording is unchanged and does not promise guaranteed warnings.
+
+The existing video still includes six examples and has not been edited as part of this page/board consolidation.
 
 ## Supporting sources
 

@@ -292,6 +292,8 @@ jailbreak is performed.
 
 ### big-upside
 
+**Current lesson and preparation updated 2026-10-23:** Keep AlphaFold and the Hassabis story. One Helping People Live Better board now covers Finding Cancer, Reading Aloud, and Flood Warnings. The existing video still teaches six examples; a video edit remains separate. Earlier build records below describe historical versions.
+
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; lesson rewritten 2026-09-24.** Live `big-upside.mp4` is v5 (below).
 
 **Rolls 1-2 and the live file evaluated 2026-09-24** in
@@ -331,10 +333,10 @@ Life (reading aloud, flood warnings, targeted spraying). Repeated prose beneath
 them stays removed. New art replaces the materials and weather illustrations. Card wording was shortened with David’s approval; the antibiotic finding remains explicitly a lab result, and the spraying example now states the environmental benefit upfront. Existing rolls and v3 predate these changes; no video was edited.
 
 - Markdown: `lessons/big-upside.md`
-- Prompt: `gemini-notebook/big-upside/PROMPT.txt` (495 words)
+- Prompt: `gemini-notebook/big-upside/PROMPT.txt`
 - Upload registry: `gemini-notebook/upload-sets.json`; synced bundle: `gemini-notebook/big-upside/`
 - Upload boards, in order: `big-upside-protein.jpg`, `big-upside-hassabis-timeline.jpg`,
-  `big-upside-scientific-discovery.jpg`, `big-upside-practical-help.jpg`, `big-upside-close.jpg`.
+  `big-upside-examples.jpg`, `big-upside-close.jpg`.
   All are canonical JPGs in `course-assets/big-upside/`; no face variants or post-only boards.
 
 **Beat spine**
@@ -345,8 +347,8 @@ them stays removed. New art replaces the materials and weather illustrations. Ca
 3. Who helped make that happen? Demis, chess and games, studying the brain, DeepMind,
    AlphaFold, free release, Nobel recognition. Tell the story without a roll call of dates.
 4. Reach: three million users, over 190 countries, shared 2024 Nobel Prize and quotation.
-5. Patterns used for health and daily life; six examples with problem, AI contribution,
-   benefit, and both banners. Doctors retain medical decisions; antibiotics remain lab research.
+5. Three examples on one board: Finding Cancer, Reading Aloud, and Flood Warnings.
+   Explain each benefit briefly and speak the takeaway once. Doctors retain medical decisions.
 6. Answer what good AI does for society, then turn Demis's story toward students using
    their strengths to help people.
 7. Two closing lines, with nothing after them.

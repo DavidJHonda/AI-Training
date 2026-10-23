@@ -56,45 +56,23 @@ When he won it, Hassabis said: “I’ve dedicated my career to advancing AI bec
 
 ## More of the Big Upside
 
-AI finds patterns in everything from medical scans to farm fields. People are using that ability to solve problems that affect our health and daily lives.
+AI finds patterns in everything from medical scans to river levels. People are using that ability to solve problems that affect our health and daily lives.
 
 AI is already accelerating work that protects and improves lives.
 
-### Board 3: Helping People Stay Healthy
+### Board 3: Helping People Live Better
 
-**Image file:** `big-upside-scientific-discovery.jpg`
+**Image file:** `big-upside-examples.jpg`
 
-![Helping People Stay Healthy](big-upside-scientific-discovery.jpg)
-
-**Teaching content:**
-
-Helping People Stay Healthy.
-
-Finding Cancer. Doctors examine breast scans for signs of cancer.
-
-In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it.
-
-Urgent Scans. A brain bleed needs urgent attention.
-
-AI can flag a scan that shows a possible bleed so doctors can review it sooner.
-
-The doctor evaluates the scan and decides what care is needed.
-
-New Antibiotics. Some bacteria resist many existing antibiotics.
-
-Researchers used AI to identify abaucin, which killed a type of drug-resistant bacteria in lab tests.
-
-AI helps doctors find problems and researchers find possibilities.
-
-### Board 4: Helping People in Everyday Life
-
-**Image file:** `big-upside-practical-help.jpg`
-
-![Helping People in Everyday Life](big-upside-practical-help.jpg)
+![Helping People Live Better](big-upside-examples.jpg)
 
 **Teaching content:**
 
-Helping People in Everyday Life.
+Helping People Live Better.
+
+Finding Cancer. In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it.
+
+Doctors review the breast scans and decide what care is needed.
 
 Reading Aloud. A menu or food label presents a challenge for blind people.
 
@@ -103,10 +81,6 @@ AI tools on a phone can read the text aloud and describe photos, helping with ev
 Flood Warnings. Flood warnings give people time to prepare and move to safety.
 
 AI helps provide free warnings days ahead, including places without equipment that measures river levels.
-
-Targeted Spraying. Farmers need to control weeds while limiting chemicals that can harm the environment.
-
-AI-guided equipment uses cameras to tell weeds from crops and sprays where weeds are found.
 
 The upside is already reaching people.
 

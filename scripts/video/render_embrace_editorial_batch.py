@@ -406,7 +406,7 @@ def draw_takeaway(image: Image.Image, top: int, text: str) -> int:
     )
 
 
-def render_card_board(board: CardBoard) -> Image.Image:
+def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] | None = None) -> Image.Image:
     if board.key == "rise-agents-rogue":
         from render_rise_of_agents_rogue import render
         return render()
@@ -480,7 +480,11 @@ def render_card_board(board: CardBoard) -> Image.Image:
     if board.title:
         draw_board_title(draw, board.title)
 
-    if board.art_files:
+    if preserved_panels is not None:
+        if len(preserved_panels) != count:
+            raise ValueError(f"{board.key}: assign one preserved panel to every card")
+        panels = preserved_panels
+    elif board.art_files:
         if len(board.art_files) != count:
             raise ValueError(f"{board.key}: assign one art file to every card")
         panels = [Image.open(ROOT / path).convert("RGB") for path in board.art_files]
@@ -495,7 +499,7 @@ def render_card_board(board: CardBoard) -> Image.Image:
                 panels.append(current.crop((x, y, x + width, y + art_height)).convert("RGB"))
     else:
         panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
-    preserved_art = not board.art_files and not (ROOT / board.art_sheet).exists()
+    preserved_art = preserved_panels is not None or (not board.art_files and not (ROOT / board.art_sheet).exists())
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
         row = 0 if count < 4 else index // 2
         x = card_xs[index]

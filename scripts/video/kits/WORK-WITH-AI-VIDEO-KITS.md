@@ -17,7 +17,7 @@ Rebuilt 2026-09-14 under the speak-the-answers method (see `scripts/video/README
 | Questions Matter | `lessons/questions-matter.md` | **retired; fresh prep required** | questions-matter-2-value-lives, questions-matter-3-four-qualities, questions-matter-4-close | questions-matter-1-answers-faster | materials ready, roll pending |
 | Prompting Matters | `lessons/prompting-matters.md` | **retired; fresh prep required** | art-of-prompting-1-good-question, art-of-prompting-2-four-moves, art-of-prompting-3-close | none | materials ready, roll pending |
 | Context Matters | `lessons/context-matters.md` | `gemini-notebook/context-matters/PROMPT.txt` | context-window-same-question-faceless and context-window-five-sources-faceless (gemini-notebook/context-matters/assets/), context-window-head-start, context-window-outside-the-window, context-window-close | context-window-same-question, context-window-five-sources (canonical boards replace the faceless variants in post) | **v4 SHIPPED 2026-09-21** (cache key 20260921ship6, pill 4 min): roll 2 of 2026-09-21 as the whole narration, plus roll 1's why-beat and the live v3's Saved Memory word, both grafted; the Same Question board leaves at 0:57 and the live v3's own footage carries the stretch after it; canonical Boards 1-4, the five-sources board as an illustration walk, Head Start and Outside the Window dense with section rings and zoom-and-pan; standard close. Review: video-audit/context-window-reroll-2026-09-21/ |
-| Evaluate The Results | `lessons/evaluation-matters.md` | `gemini-notebook/evaluation-matters/PROMPT.txt` | overview flowchart, four stage boards, close | none | Full reroll prepared 2026-09-27: explicit Yes/No paths and Fix It loop required. Upload from `gemini-notebook/evaluation-matters/upload/`; existing video unchanged. |
+| Evaluation Matters | `lessons/evaluation-matters.md` | `gemini-notebook/evaluation-matters/PROMPT.txt` | current Markdown plus five canonical boards | none | Complete reroll ready 2026-10-23. Current live video remains an editing donor. See `gemini-notebook/evaluation-matters/PREP-NOTES.md` and `DONOR.json`; these supersede historical instructions below. |
 | Critical Thinking | `lessons/critical-thinking.md` | **retired; fresh prep required** | critical-thinking-1-equation, critical-thinking-3-five-habits, critical-thinking-4-close | critical-thinking-2-two-reactions | materials ready, roll pending |
 
 Notes:
@@ -48,3 +48,67 @@ Review the returned narration first: each arrow and both routes must be spoken, 
 ## Where AI Works Best board revision 2026-10-23
 
 Page, lesson Markdown, and Notebook prep now use two EE-2FB boards in place of the four standalone strength boards. Each strength retains the approved explanation and two original examples. Opening comparison, vast-exposure explanation, close, and activities stay in place. Renderer: `scripts/video/render_where_ai_works_best_boards.cjs`; copy/art: `scripts/video/assets/where-ai-works-best-simplified/`. Approved v11 is installed locally (2:53.8), pending batch deployment. It uses the two boards without zoom or pan, highlighting each full card, description, then the whole Examples section. Two examples per strength; repeated explanations and spoken strength banners removed. Earlier September prep instructions above are historical.
+
+## Evaluation Matters simplification — October 23, 2026
+
+Current source supersedes the September reroll instructions above. Overview unchanged; Quick Pass retains all three explanations but drops its repeated banner. Dig Deeper? remains a two-card board (task and stakes), preceded by the knowledge-gap transition. Dig Deeper combines five checks into three. Your Move is short lesson text; its board is no longer displayed or uploaded. The close and TRY IT scenarios remain; TRY IT instructions match the revised criteria. Five supplied boards including close. Existing video is unchanged and awaits alignment.
+
+### Three-step overview follow-up — October 23, 2026
+
+The overview now reads Do a Quick Review → Does It Need a Closer Look? → Make Your Move. The middle cue says “If needed, dig deeper. Choose the checks that fit.” The diamond, Yes/No branches, outcome buttons and return loop are removed. Mini maps on the stage boards and lesson headings use the same labels; deciding and deeper checking share the middle step. Checking the revised answer remains in Make Your Move prose. Current prep supersedes all earlier flowchart narration requirements. Video remains unchanged.
+
+### Illustrated EE-FLOW overview — October 23, 2026
+
+How to Evaluate an AI Answer now uses Check the Claim’s shared white stage, three 16:9 illustrations, numbered markers and neutral arrows. Middle overview label: “Take a Closer Look?”; full question remains in lesson headings and small stage maps. No loop or outcome buttons. Renderer: `scripts/video/render_evaluation_flow.py`; generated panel sources and prompts: `scripts/video/assets/evaluation-flow/`. Existing video remains unchanged.
+
+### Closer-look explanations restored — October 23, 2026
+
+The two decision cards retain their original explanations and examples: factual answer / draft / plan, and movie / scholarship / injury. Can You Judge It? remains removed; the knowledge-gap transition stays above the board. The three-step illustrated overview and other boards are unchanged.
+
+### Purple quick-review flow — October 23, 2026
+
+Do a Quick Review now uses EE-FLOW: Read → Understand → Validate, with the exact existing body copy. Purple illustrations, markers and headings match the overview’s first step. No corner mini map. Renderer: `scripts/video/render_evaluation_quick_review_flow.py`; assets and prompts: `scripts/video/assets/evaluation-quick-review/`. Video remains unchanged.
+
+### Blue decision and deeper-check cards — October 23, 2026
+
+Does It Need a Closer Look? now uses EE-2FB; Dig Deeper uses EE-3FB. Both use blue illustrations and headings matching the overview middle step. Exact approved explanations and banners remain. Neither has a corner flowchart, numbering, or arrows. Renderer: `scripts/video/render_evaluation_cards.cjs`; source copy, artwork, and built-in imagegen prompts: `scripts/video/assets/evaluation-blue-cards/`. This supersedes the mini-map instructions above. Existing video remains unchanged and needs new board framing when updated.
+
+### Decision guidance integrated into Dig Deeper — October 23, 2026
+
+Overview middle heading is Take a Closer Look (no question mark). The page kickers are Start Here and Sometimes You Dig Deeper. Do a Quick Review has a purple circle 1 next to its title, using the overview marker style. Dig Deeper now starts with an assignment-style white panel and blue left rule: What Kind of Task / How Much Is Riding on It, with the full original explanations. The separate closer-look board is removed from the lesson and prep uploads, retained on disk. Four boards remain including close. Video is unchanged.
+
+### Numbered stage boards and Make Your Move restored — October 23, 2026
+
+Dig Deeper is now titled Take a Closer Look, with a blue step-2 circle matching the quick-review step-1 marker. The two task-and-stakes headings now match the lower cards at 40 px bold. Make Your Move is restored as three text cards (Use It, Fix It, Walk Away) using current lesson wording, a teal step-3 title marker, and the original takeaway. No old mini flowchart. Five boards including close are displayed and prepared. Renderer: `scripts/video/render_evaluation_cards.cjs`. Existing video remains unchanged.
+
+### Teal full-bleed Make Your Move — October 23, 2026
+
+Make Your Move now uses EE-3FB: three 16:9 teal illustrations above Use It, Fix It, and Walk Away. The board keeps its existing text, step-3 marker and takeaway. Teal #0e8f86 matches the overview. Built-in imagegen art and prompts: `scripts/video/assets/evaluation-move/`; canonical renderer: `scripts/video/render_evaluation_cards.cjs`. The video is unchanged.
+
+### Stage banners removed — October 23, 2026
+
+Take a Closer Look and Make Your Move no longer have takeaway banners. Card text, illustrations and numbered title markers are preserved. The Closing Message still reads “The tool answers. You evaluate. Read. Understand. Validate.” The transition from the decision introduction to checking methods is under discussion, with no new transition added yet.
+
+### In-board checking transition — October 23, 2026
+
+Take a Closer Look now bridges the task-and-stakes panel and the three illustrated cards with a small blue heading, WAYS TO TAKE A CLOSER LOOK, and “Choose the checks that fit the task.” Plain text and spacing, no extra box. Both stage banners remain removed.
+
+### Closer-look section headings enlarged — October 23, 2026
+
+DOES IT NEED A CLOSER LOOK? and WAYS TO TAKE A CLOSER LOOK now use 40 px bold blue type matching the card titles. The supporting sentence “Choose the checks that fit the task.” is removed from the board. The overview and introductory lesson prose remain unchanged.
+
+### Evaluation closing covers the full process — October 23, 2026
+
+Main message remains “The tool answers. You evaluate.” Subtext is now “Review the answer. Take a closer look when needed. Decide what to do next.” Page, closing image, Markdown and Notebook prep agree. The existing video narration is unchanged and needs the updated close in the next rebuild.
+
+### Split decision cards and connecting sentence — October 23, 2026
+
+Take a Closer Look now presents task and stakes in two separate white cards. Between these cards and WAYS TO TAKE A CLOSER LOOK, the approved connecting line reads “The more that depends on the answer, the more carefully you should check it.” Thin rules flank the line. The existing frame, blue coloring, numbered title, illustrations and full-bleed checking cards remain. No banner. Video remains unchanged.
+
+### Closer-look heading hierarchy — October 23, 2026
+
+DOES IT NEED A CLOSER LOOK? and WAYS TO TAKE A CLOSER LOOK now use 28 px / 36 px blue type. Card titles remain 40 px. Copy and other layout treatments are unchanged.
+
+### Complete Evaluation Matters reroll prepared — October 23, 2026
+
+Current authority: `gemini-notebook/evaluation-matters/PREP-NOTES.md`, the 476-word `PROMPT.txt`, and the six generated uploads. Full narration is requested; the live 4:15.37 video is retained as an editing donor only. `DONOR.json` pins its path and hash. Fresh overview, transitions, consolidated checks and full-process close take priority; compatible old passages can repair the reroll after listening and timing verification. Current board labels, 28 px section headings, 12 px label gaps, separate decision cards, connecting sentence, and banner-free blue/teal boards are all in the upload assets. No generation, build, or shipment has occurred.

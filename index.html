@@ -1417,7 +1417,7 @@ const CLOSE_BOARDS = {
   questionsvaluable: { pill: "Answers got cheap. Questions didn’t.", sticky: "Frame the problem. Ask the next better question." },
   prompting: { pill: "A prompt is a briefing, not magic words.", sticky: "The more the result matters, the more you bring." },
   prompt: { pill: "With the right context, AI gives better answers.", sticky: "Control the context, control the quality." },
-  evaluating: { pill: "The tool answers. You evaluate.", sticky: "Read. Understand. Validate." },
+  evaluating: { pill: "The tool answers. You evaluate.", sticky: "Review the answer. Take a closer look when needed. Decide what to do next." },
   critical: { pill: "AI amplifies whatever you bring to it.", sticky: "Good thinking in, sharper output." },
   openerfoundations: { pill: "The machine won’t feel like magic anymore.", sticky: "Take it a piece at a time." },
   training: { pill: "AI learns from examples and feedback.", sticky: "Guess. Check. Adjust. Repeat." },
@@ -1477,7 +1477,7 @@ const CLOSE_BOARD_ASSETS = {
   questionsvaluable: { src: "course-assets/questions-matter/questions-matter-close.jpg", cssWidth: 521, width: 1566, height: 600 },
   prompting: { src: "course-assets/prompting-matters/prompting-matters-close.jpg", cssWidth: 539, width: 1620, height: 597 },
   prompt: { src: "course-assets/context-matters/context-matters-close.jpg", cssWidth: 616, width: 1848, height: 597 },
-  evaluating: { src: "course-assets/evaluation-matters/evaluation-matters-close.jpg", cssWidth: 449, width: 1350, height: 597 },
+  evaluating: { src: "course-assets/evaluation-matters/evaluation-matters-close.jpg?v=20261023fullprocess1", cssWidth: 657, width: 1971, height: 597 },
   critical: { src: "course-assets/critical-thinking/critical-thinking-close.jpg", cssWidth: 501, width: 1506, height: 600 },
   openerfoundations: { src: "course-assets/understand-ai-opener/understand-ai-opener-close.jpg", cssWidth: 581, width: 1746, height: 600 },
   training: { src: "course-assets/training/training-close.jpg", cssWidth: 529, width: 1590, height: 597 },
@@ -3472,7 +3472,7 @@ const SECTION_META = {
   openerfoundations: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   aihistory: { kicker: "ONE WORD AT A TIME", label: "What’s an LLM?", icon: "🤖" },
   llms: { kicker: "THE AI LANDSCAPE", label: "What Is AI?", icon: "🧬" },
-  aiismath: { kicker: "THE FOUNDATION", label: "AI is Math", icon: "\uD83C\uDFB2" },
+  aiismath: { kicker: "THE FOUNDATION", label: "Probability & Prediction", icon: "\uD83C\uDFB2" },
   aivscode: { kicker: "TWO WAYS TO BUILD SOFTWARE", label: "AI is Different", icon: "\u26A1" },
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
@@ -6184,7 +6184,7 @@ function TrainingSection(props) {
     closeBoard("training"),
     React.createElement(TrainingKitchenHelper, null),
     React.createElement(LessonRule, null),
-    React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: AI is Math" }));
+    React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aiismath"), label: "Next: Probability & Prediction" }));
 }
 const COLORS = ["var(--primary)", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#06b6d4", "#e11d48", "#84cc16", "#a855f7", "#22d3ee", "#fb923c"];
 
@@ -9447,7 +9447,7 @@ function DigDeeperTryIt(props) {
     lead: "AI gave you an answer. Does it need a closer look?",
     instructions: [
       "Read what you asked and AI’s answer.",
-      "Consider the three questions: Can you judge it? What kind of task is it? How much is riding on it?",
+      "If you don’t know enough to judge the answer, keep checking. Consider the task and how much is riding on it.",
       React.createElement("span", null, "Choose ", React.createElement("strong", null, "Good to go"), " or ", React.createElement("strong", null, "Dig deeper"), ".")
     ]
   },
@@ -9482,19 +9482,16 @@ function EvaluatingSection(props) {
     { title: "Validate", body: "Compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?" }
   ];
   var DIG_DECISION = [
-    { title: "Can You Judge It?", body: "Compare the answer with what you know. If you don’t know enough to judge it, keep checking." },
-    { title: "What Kind of Task Is It?", body: "A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task." },
-    { title: "How Much Is Riding on It?", body: "A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?" }
+    { title: "What Kind of Task", body: "A factual answer needs accurate information. A draft needs clear writing. A plan needs to work. Check what matters for the task." },
+    { title: "How Much Is Riding on It", body: "A movie pick is low stakes. A scholarship application or advice about an injury deserves more care. What happens if the answer is wrong?" }
   ];
   var DIG_TACTICS = [
-    { title: "Check the Sources", body: "Ask for sources, then open them. Does each source support the claim? Is it reliable?" },
-    { title: "Challenge the Answer", body: "Ask, “What’s the strongest argument against this?” Look for weaknesses you hadn’t considered." },
-    { title: "Ask What’s Missing", body: "Ask, “What important information did you leave out?” Decide whether it changes your view of the answer." },
-    { title: "Search the Live Web", body: "Ask AI to search the web for current information. Open the sources and check what they say." },
+    { title: "Check the Sources", body: "Ask for sources, then open them. Does each source support the claim? Is it reliable? For current information, ask AI to search the web." },
+    { title: "Challenge the Answer", body: "Ask, “What’s the strongest argument against this?” or “What important information did you leave out?” Decide whether it changes your view of the answer." },
     { title: "Check It Yourself", body: "Find another way to check the answer. Recalculate the numbers, test the code, or ask someone who knows the subject." }
   ];
   var NEXT_MOVES = [
-    { icon: "✅", title: "Use It", desc: "The answer is right and good enough for what you need. Put it to work." },
+    { icon: "✅", title: "Use It", desc: "The answer is right and good enough for what you need." },
     { icon: "🔧", title: "Fix It", desc: "Tell AI what needs to change, or change it yourself. Then check the revised answer before you use it." },
     { icon: "✕", title: "Walk Away", desc: "If AI isn’t helping you get there, try another approach or ask someone who knows the subject." }
   ];
@@ -9515,7 +9512,7 @@ function EvaluatingSection(props) {
       },
         E("h3", null, title),
         E(ordered ? "ol" : "ul", null, listItems),
-        E("p", null, takeaway)));
+        takeaway ? E("p", null, takeaway) : null));
   };
   return E("div", null,
     E(LessonHeader, { sectionId: "evaluating" }),
@@ -9531,26 +9528,22 @@ function EvaluatingSection(props) {
       " ",
       E("strong", null, "Is it good enough for what I need?")),
     E("img", {
-      src: "course-assets/evaluation-matters/evaluation-matters-process.jpg?v=20260927process5",
-      alt: "How to Evaluate an AI Answer. Start with Quick Pass: Read. Understand. Validate. Decide: dig deeper? If yes, go to Dig Deeper: choose the checks that fit, then Your Move; if no, go straight to Your Move. Choose Use It, Fix It, or Walk Away. Fix It returns to Quick Pass: check the fix.",
+      src: "course-assets/evaluation-matters/evaluation-matters-process.jpg?v=20261023flow2",
+      alt: "How to Evaluate an AI Answer. Do a Quick Review: Read. Understand. Validate. Take a Closer Look. If needed, dig deeper. Choose the checks that fit. Make Your Move: Decide what to do with the answer.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
-    E(SectionKicker, null, "Start With Quick Pass"),
+    E(SectionKicker, null, "Start Here"),
     E(BodyP, null,
       "Start with these three steps before you use an AI answer."),
-    processBoard("course-assets/evaluation-matters/evaluation-matters-quick-pass.jpg?v=20260927process3", "Quick Pass", QUICK_PASS, "Before you use it: read, understand, validate.", true, 20),
-    E(SectionKicker, null, "Then Decide"),
+    processBoard("course-assets/evaluation-matters/evaluation-matters-quick-pass.jpg?v=20261023purpleflow3", "Do a Quick Review", QUICK_PASS, null, true, 20),
+    E(SectionKicker, null, "Sometimes You Dig Deeper"),
     E(BodyP, null,
-      "Some answers need a closer look. These three questions help you decide."),
-    processBoard("course-assets/evaluation-matters/evaluation-matters-decide.jpg?v=20260927process3", "Dig Deeper?", DIG_DECISION, "Give the answer the attention it deserves.", true, 32),
-    E(SectionKicker, null, "When It’s Time to Dig Deeper"),
-    E(BodyP, null,
-      "When an answer needs a closer look, choose the checks that fit the task."),
-    processBoard("course-assets/evaluation-matters/evaluation-matters-dig.jpg?v=20260927process3", "Dig Deeper", DIG_TACTICS, "Use AI to help you check. You decide whether the answer holds up.", false, 20),
-    E(SectionKicker, null, "Your Move"),
+      "A quick review is often enough. When more is riding on the answer, or you’re not sure it’s right, take a closer look."),
+    processBoard("course-assets/evaluation-matters/evaluation-matters-dig.jpg?v=20261023labelgap12", "Take a Closer Look. Does It Need a Closer Look?", DIG_DECISION.concat([{ title: "The more that depends on the answer, the more carefully you should check it.", body: "" }, { title: "Ways to Take a Closer Look", body: "" }], DIG_TACTICS), null, false, 20),
+    E(SectionKicker, null, "Decide What’s Next"),
     E(BodyP, null,
       "Now decide what to do with the answer."),
-    processBoard("course-assets/evaluation-matters/evaluation-matters-move.jpg?v=20260927process3", "Your Move", NEXT_MOVES, "The tool answers. You evaluate.", false, 20),
+    processBoard("course-assets/evaluation-matters/evaluation-matters-move.jpg?v=20261023nobanner1", "Make Your Move", NEXT_MOVES, null, false, 20),
     closeBoard("evaluating"),
     E(DigDeeperTryIt, null),
     E(LessonRule, null),
@@ -13323,12 +13316,9 @@ function BigUpsideSection(props) {
   ];
   var vaultCheckedCount = Object.keys(vaultChecked).filter(function(k) { return vaultChecked[k]; }).length;
   var MORE = [
-    { icon: "🩺", title: "Finding Cancer", desc: "Doctors examine breast scans for signs of cancer. In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it." },
-    { icon: "🧠", title: "Urgent Scans", desc: "A brain bleed needs urgent attention. AI can flag a scan that shows a possible bleed so doctors can review it sooner. The doctor evaluates the scan and decides what care is needed." },
-    { icon: "💊", title: "New Antibiotics", desc: "Some bacteria resist many existing antibiotics. Researchers used AI to identify abaucin, which killed a type of drug-resistant bacteria in lab tests." },
-    { icon: "👁️", title: "Reading Aloud", desc: "A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks." },
-    { icon: "🌊", title: "Flood Warnings", desc: "Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels." },
-    { icon: "🌱", title: "Targeted Spraying", desc: "Farmers need to control weeds while limiting chemicals that can harm the environment. AI-guided equipment uses cameras to tell weeds from crops and sprays where weeds are found." }
+    { title: "Finding Cancer", desc: "In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it. Doctors review the breast scans and decide what care is needed." },
+    { title: "Reading Aloud", desc: "A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks." },
+    { title: "Flood Warnings", desc: "Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels." }
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigupside" }),
@@ -13367,16 +13357,11 @@ function BigUpsideSection(props) {
     }),
     E(SectionKicker, null, "More of the big upside"),
     E(BodyP, null,
-      "AI finds patterns in everything from medical scans to farm fields. People are using that ability to solve problems that affect our health and daily lives. AI is already accelerating work that protects and improves lives."),
+      "AI finds patterns in everything from medical scans to river levels. People are using that ability to solve problems that affect our health and daily lives. AI is already accelerating work that protects and improves lives."),
     E("img", {
-      src: "course-assets/big-upside/big-upside-scientific-discovery.jpg?v=20260924examples3",
-      alt: "Helping People Stay Healthy. Finding Cancer: Doctors examine breast scans for signs of cancer. In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it. Urgent Scans: A brain bleed needs urgent attention. AI can flag a scan that shows a possible bleed so doctors can review it sooner. The doctor evaluates the scan and decides what care is needed. New Antibiotics: Some bacteria resist many existing antibiotics. Researchers used AI to identify abaucin, which killed a type of drug-resistant bacteria in lab tests.",
+      src: "course-assets/big-upside/big-upside-examples.jpg?v=20261023three1",
+      alt: "Helping People Live Better. Finding Cancer: In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it. Doctors review the breast scans and decide what care is needed. Reading Aloud: A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks. Flood Warnings: Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels. The upside is already reaching people.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    E("img", {
-      src: "course-assets/big-upside/big-upside-practical-help.jpg?v=20260924examples3",
-      alt: "Helping People in Everyday Life. Reading Aloud: A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks. Flood Warnings: Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels. Targeted Spraying: Farmers need to control weeds while limiting chemicals that can harm the environment. AI-guided equipment uses cameras to tell weeds from crops and sprays where weeds are found.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "24px auto 24px", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "More of the big upside"),

@@ -3,13 +3,16 @@
 
 try:
     from .course_credit import save_course_image
+    from .course_asset_paths import asset_path
 except ImportError:
     from course_credit import save_course_image
+    from course_asset_paths import asset_path
 
 
 from pathlib import Path
+import argparse
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 try:
     from .editorial_takeaway import (
@@ -18,7 +21,7 @@ try:
         TAKEAWAY_TEXT_SIZE,
         draw_takeaway_band,
     )
-    from .editorial_typography import draw_board_title, face as editorial_face
+    from .editorial_typography import draw_board_title, draw_inner_title, face as editorial_face
 except ImportError:
     from editorial_takeaway import (
         TAKEAWAY_BOTTOM_PADDING,
@@ -26,11 +29,10 @@ except ImportError:
         TAKEAWAY_TEXT_SIZE,
         draw_takeaway_band,
     )
-    from editorial_typography import draw_board_title, face as editorial_face
+    from editorial_typography import draw_board_title, draw_inner_title, face as editorial_face
 
 
 ROOT = Path(__file__).resolve().parents[2]
-FONT_ROOT = Path("/Users/davidobrien/Library/Fonts")
 W, H = 1600, 900
 
 LAVENDER = "#eeeaff"
@@ -50,13 +52,7 @@ GREEN_PALE = "#effaf5"
 
 
 def font(weight, size):
-    names = {
-        "heavy": "AvenirNextforINTUIT-Heavy.otf",
-        "bold": "AvenirNextforINTUIT-Bold.otf",
-        "demi": "AvenirNextforINTUIT-Demi.otf",
-        "medium": "AvenirNextforINTUIT-Medium.otf",
-    }
-    return ImageFont.truetype(str(FONT_ROOT / names[weight]), size)
+    return editorial_face("bold" if weight == "demi" else weight, size)
 
 
 def rounded(draw, box, radius, fill, outline=None, width=1):
@@ -65,6 +61,12 @@ def rounded(draw, box, radius, fill, outline=None, width=1):
 
 def centered(draw, xy, text, face, fill=NAVY):
     draw.text(xy, text, font=face, fill=fill, anchor="mm")
+
+
+def centered_inner_title(draw, xy, text, fill):
+    bounds = draw.textbbox((0, 0), text, font=editorial_face("bold", 40))
+    top = xy[1] - (bounds[1] + bounds[3]) / 2
+    draw_inner_title(draw, (xy[0], top), text, fill=fill, anchor="ma")
 
 
 def wrapped_lines(draw, text, face, max_width):
@@ -82,16 +84,16 @@ def wrapped_lines(draw, text, face, max_width):
     return lines
 
 
-def centered_block(draw, box, text, face, fill=BODY, gap=8):
+def centered_block(draw, box, text, face, fill=BODY, line_step=41):
     x0, y0, x1, y1 = box
     lines = wrapped_lines(draw, text, face, x1 - x0)
     bbox = draw.textbbox((0, 0), "Ag", font=face)
     line_height = bbox[3] - bbox[1]
-    total = len(lines) * line_height + max(0, len(lines) - 1) * gap
-    y = y0 + (y1 - y0 - total) / 2
+    total = line_height + max(0, len(lines) - 1) * line_step
+    y = y0 + (y1 - y0 - total) / 2 - bbox[1]
     for line in lines:
         draw.text(((x0 + x1) / 2, y), line, font=face, fill=fill, anchor="ma")
-        y += line_height + gap
+        y += line_step
 
 
 def frame(title, takeaway=None, dense=False):
@@ -120,16 +122,10 @@ def frame(title, takeaway=None, dense=False):
 
 
 def save(image, stem):
-    outputs = [
-        f"course-assets/critical-thinking/{stem}.jpg",
-        f"board-review-first-four/current-selected/work-with-ai/{stem}.jpg",
-        f"board-review-first-four/alternatives/work-with-ai/{stem}-alternative.jpg",
-    ]
-    for relative in outputs:
-        output = ROOT / relative
-        output.parent.mkdir(parents=True, exist_ok=True)
-        save_course_image(image, output, quality=95, subsampling=0)
-        print(f"Built {output}")
+    output = asset_path("lessons", f"{stem}.jpg")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    save_course_image(image, output, quality=95, subsampling=0, optimize=True)
+    print(f"Built {output}")
 
 
 def render_course_equation():
@@ -164,7 +160,7 @@ def render_course_equation():
     draw.line((800, 534, 785, 518), fill=NAVY, width=5)
     draw.line((800, 534, 815, 518), fill=NAVY, width=5)
     rounded(draw, (90, 562, 1510, 674), 16, NAVY)
-    centered(draw, (800, 618), "Better Questions + Better Decisions", font("bold", 36), WHITE)
+    centered_inner_title(draw, (800, 618), "Better Questions + Better Decisions", WHITE)
 
     draw_takeaway_band(
         image,
@@ -180,9 +176,9 @@ def render_course_equation():
 
 def definition_card(draw, box, title, text, fill=PALE, outline=RULE, title_fill=CARD_TITLE):
     rounded(draw, box, 16, fill, outline, 2)
-    centered(draw, ((box[0] + box[2]) / 2, box[1] + 48), title, font("bold", 32), title_fill)
+    centered_inner_title(draw, ((box[0] + box[2]) / 2, box[1] + 48), title, title_fill)
     draw.line((box[0] + 40, box[1] + 88, box[2] - 40, box[1] + 88), fill=outline, width=2)
-    centered_block(draw, (box[0] + 38, box[1] + 108, box[2] - 38, box[3] - 28), text, font("medium", 28))
+    centered_block(draw, (box[0] + 38, box[1] + 108, box[2] - 38, box[3] - 28), text, font("medium", 29))
 
 
 
@@ -211,7 +207,7 @@ def render_five_habits():
     draw = ImageDraw.Draw(image)
     draw_board_title(draw, "Five Habits of Critical Thinking")
     title_face = editorial_face("bold", 30)
-    body_face = editorial_face("medium", 24)
+    body_face = editorial_face("medium", 29)
 
     for index, (center_x, accent, (title, body)) in enumerate(zip(centers, accents, items), 1):
         rounded(draw, (center_x - 145, 140, center_x + 145, 622), 16, WHITE)
@@ -228,7 +224,7 @@ def render_five_habits():
         body_y = 374
         for line in body_lines:
             draw.text((center_x, body_y), line, font=body_face, fill=BODY, anchor="ma")
-            body_y += 34
+            body_y += 41
 
     draw_takeaway_band(
         image,
@@ -242,8 +238,13 @@ def render_five_habits():
 
 
 def main():
-    render_course_equation()
-    render_five_habits()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--board", choices=("equation", "habits", "all"), default="all")
+    args = parser.parse_args()
+    if args.board in ("equation", "all"):
+        render_course_equation()
+    if args.board in ("habits", "all"):
+        render_five_habits()
 
 
 if __name__ == "__main__":

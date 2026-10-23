@@ -10,21 +10,20 @@ except ImportError:
 from pathlib import Path
 import argparse
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 from editorial_takeaway import TAKEAWAY_TEXT_SIZE, draw_takeaway_band
-from editorial_typography import draw_board_title, face
+from editorial_typography import draw_board_title, draw_inner_title, face
 
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "course-assets/does-ai-think/does-ai-think-side-by-side.jpg"
 UPLOAD_OUT = REPO / "gemini-notebook/does-ai-think/assets/does-ai-think-side-by-side-faceless.jpg"
 ASSET_DIR = REPO / "scripts" / "video" / "assets" / "does-ai-think-unified"
-LEFT_ASSET = ASSET_DIR / "when-you-think.jpg"
-RIGHT_ASSET = ASSET_DIR / "what-ai-does.jpg"
-FONT_DIR = Path("/Users/davidobrien/Library/Fonts")
+LEFT_ASSET = ASSET_DIR / "when-you-think.png"
+RIGHT_ASSET = ASSET_DIR / "what-ai-does.png"
 
-W, H = 1600, 1556
+W, H = 1600, 1311
 NAVY = "#08072b"
 INK = "#3a3550"
 MUTED = "#6f6a82"
@@ -37,15 +36,8 @@ GREEN = "#087c49"
 RULE = "#ded9e8"
 
 
-def font(name, size):
-    return ImageFont.truetype(str(FONT_DIR / name), size)
-
-
-HEAVY_56 = font("AvenirNextforINTUIT-Heavy.otf", 56)
-HEAVY_38 = font("AvenirNextforINTUIT-Heavy.otf", 38)
-DEMI_29 = font("AvenirNextforINTUIT-Demi.otf", 29)
-MEDIUM_29 = font("AvenirNextforINTUIT-Medium.otf", 29)
-DEMI_32 = font("AvenirNextforINTUIT-Demi.otf", 32)
+LABEL_FONT = face("bold", 29)
+BODY_FONT = face("medium", 29)
 
 
 def centered(draw, xy, text, face, fill=NAVY):
@@ -73,12 +65,11 @@ def wrap(draw, text, face, width):
     return lines
 
 
-def draw_wrapped(draw, xy, text, face, width, fill=INK, gap=5):
+def draw_wrapped(draw, xy, text, face, width, fill=INK):
     x, y = xy
-    line_height = draw.textbbox((0, 0), "Ag", font=face)[3]
     for line in wrap(draw, text, face, width):
         draw.text((x, y), line, font=face, fill=fill)
-        y += line_height + gap
+        y += 41
 
 
 def draw_labeled_paragraph(draw, xy, label, text, width):
@@ -86,8 +77,8 @@ def draw_labeled_paragraph(draw, xy, label, text, width):
     x0, y = xy
     x = x0
     line_step = 41
-    pieces = [(f"{label}.", DEMI_29, NAVY)] + [
-        (word, MEDIUM_29, INK) for word in text.split()
+    pieces = [(f"{label}.", LABEL_FONT, NAVY)] + [
+        (word, BODY_FONT, INK) for word in text.split()
     ]
     for index, (piece, face, fill) in enumerate(pieces):
         rendered = piece if index == 0 else f" {piece}"
@@ -122,8 +113,8 @@ def preserve_source_scenes():
         return
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     source = Image.open(OUT).convert("RGB")
-    save_course_image(source.crop((40, 127, 784, 544)), LEFT_ASSET, quality=96, subsampling=0)
-    save_course_image(source.crop((816, 127, 1560, 544)), RIGHT_ASSET, quality=96, subsampling=0)
+    source.crop((40, 127, 800, 552)).save(LEFT_ASSET)
+    source.crop((800, 127, 1560, 552)).save(RIGHT_ASSET)
 
 
 def main():
@@ -134,11 +125,12 @@ def main():
     if not args.upload_variant:
         preserve_source_scenes()
 
-    image = Image.new("RGB", (W, H), LAVENDER)
+    scene_offset = 425 if args.upload_variant else 0
+    image = Image.new("RGB", (W, H - scene_offset), LAVENDER)
     draw = ImageDraw.Draw(image)
     draw_board_title(draw, "When You Think. What AI Does.")
 
-    card = (40, 127, 1560, 1392)
+    card = (40, 127, 1560, 1147 - scene_offset)
     draw.rounded_rectangle(card, radius=16, fill=WHITE)
 
     if not args.upload_variant:
@@ -151,32 +143,31 @@ def main():
         mask_draw.rounded_rectangle((0, 0, 1520, image_h + 24), radius=16, fill=255)
         image.paste(joined, (40, 127), mask)
 
-    heading_y = 584
-    draw.text((74, heading_y), "When You Think", font=HEAVY_38, fill=GREEN)
-    draw.text((834, heading_y), "What AI Does", font=HEAVY_38, fill=PURPLE)
-    draw.line((74, 640, 766, 640), fill=GREEN, width=3)
-    draw.line((834, 640, 1526, 640), fill=PURPLE, width=3)
+    heading_y = 584 - scene_offset
+    draw_inner_title(draw, (74, heading_y), "When You Think", fill=GREEN)
+    draw_inner_title(draw, (834, heading_y), "What AI Does", fill=PURPLE)
+    draw.line((74, 640 - scene_offset, 766, 640 - scene_offset), fill=GREEN, width=3)
+    draw.line((834, 640 - scene_offset, 1526, 640 - scene_offset), fill=PURPLE, width=3)
 
     rows = [
-        ("Meaning", "You connect words to what they mean in your life.", "AI uses learned patterns and what you tell it."),
-        ("Experience", "You draw on things you have lived through.", "AI works with patterns learned from text, images, audio, and other data."),
+        ("Experience and meaning", "You draw on things you have lived through. You connect words to what they mean in your life.", "AI uses learned patterns and what you tell it."),
         ("Word choice", "You choose words to express what you want to say.", "AI predicts the next word, then repeats."),
-        ("Beauty", "You have a personal response to art or music.", "AI can describe beauty using learned patterns."),
         ("Uncertainty", "You can notice when you are unsure.", "AI can sound certain even when it is wrong."),
     ]
 
-    row_top = 660
-    row_h = 143
-    for index, (label, left, right) in enumerate(rows):
-        y = row_top + index * row_h
+    row_top = 660 - scene_offset
+    row_heights = (184, 143, 143)
+    y = row_top
+    for index, ((label, left, right), row_h) in enumerate(zip(rows, row_heights)):
         draw_labeled_paragraph(draw, (74, y + 27), label, left, 660)
-        draw_wrapped(draw, (834, y + 27), right, MEDIUM_29, 660)
+        draw_wrapped(draw, (834, y + 27), right, BODY_FONT, 660)
         if index < len(rows) - 1:
             draw.line((74, y + row_h - 1, 1526, y + row_h - 1), fill=RULE, width=2)
+        y += row_h
 
     draw_takeaway_band(
         image,
-        top=1430,
+        top=1185 - scene_offset,
         left=40,
         right=1560,
         text="Similar-looking answers can come from very different processes.",

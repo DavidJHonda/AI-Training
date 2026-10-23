@@ -583,69 +583,63 @@ and the nuclear-project examples stay removed; no Hit Send board is used.
 
 ### unexpected-results
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe. v2 SHIPPED 2026-09-24** (David: "Ship it"): roll 2 base, roll 1's
-"The new space quickly fills back up with new drivers." in place of roll 2's "incentive" sentence, and the old live
-video's Text Messaging and GPS explanations under the board (David: they felt much stronger), after roll 2's own GPS
-sentence. Build `scripts/video/build_unexpected_results_v2.py`; records `video-audit/unexpected-results-review-2026-09-24/`
-(both rolls and the old live video), `-v1-2026-09-24/`, `-v2-2026-09-24/`. The v1/v2 builds read donor drawings and
-audio from the pre-ship live file; restore it from the parent of the ship commit before rebuilding.
-Page question: the live SMS/GPS explanations (why each turned out better than planned) are not on the page yet.
+**Reroll preparation revised 2026-10-23.** David likes the opening rat section but requested a
+fresh roll because narration mis-speaks weaken the video. Prepare a complete fresh narration,
+retaining the rat story's sequence, detail and dry humor. The main teaching is unexpected results:
+Hanoi's plan produced more rats; texting and cane toads are two further unexpected results.
+The new bridge makes that connection explicit. Do not turn the lesson into a general discussion
+of rewards or imply every example works through the rat story's mechanism.
 
-- Markdown: `lessons/unexpected-results.md` (rewritten 2026-09-23: the board's four cards are written
-  out as sentences; the tailless-rat question is answered in the next sentence rather than left for the
-  viewer; "A dead rat pays once. A live rat pays forever." and the moral split onto their own lines)
-- Prompt: `gemini-notebook/unexpected-results/PROMPT.txt` (497 words, four blocks)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/unexpected-results/` (synced 2026-09-24)
-- Canonical folder: `course-assets/unexpected-results/`
-- Boards in lesson order (no faces; all upload):
-  - `unexpected-results-plans.jpg` — upload
-  - `unexpected-results-close.jpg` — upload
+**Progression:** confident predictions can miss outcomes → Hanoi's vivid example → two further
+unexpected outcomes, one beneficial and one harmful → AI uncertainty and curiosity.
 
-**Page gap, David's call 2026-09-23:** the induced-demand explanation is IN the narration. The
-Markdown now carries it as prose after the board, under `## WHY MORE LANES CAN MEAN MORE TRAFFIC`:
-an easier road attracts more driving, some of the new space fills back up, that alone does not explain
-the whole Houston number, and it is why "just add lanes" does not always end congestion. The lesson
-page does not say this yet, so this is the one place in the section where the Markdown runs ahead of
-`index.html`. Add it to the Wider Highways beat on the page when the section next gets an editorial
-pass, or the video will teach something a reader cannot find.
+- Markdown: `lessons/unexpected-results.md`; the explicit bridge restates the current page's
+  teaching for narration. The live page and finished video are unchanged by this preparation pass.
+- Prompt: `gemini-notebook/unexpected-results/PROMPT.txt`, four blocks, under 500 words.
+- Registry: `gemini-notebook/upload-sets.json`.
+- Uploads: the Markdown, `unexpected-results-plans.jpg`, and `unexpected-results-close.jpg`.
+  Both boards are canonical files under `course-assets/unexpected-results/`. Neither needs a
+  face-free variant. Do not upload an old video, review notes, or this kit.
+- Save the fresh raw roll as `Prompts/unexpected-results-reroll.mp4`, or the next unused suffix.
+- Texting fact check: `docs/unexpected-results-sms-sources-2026-10-23.md`.
 
 **Beat spine**
 
-1. Hook: Worriers and Optimists, and results nobody predicted. "The best way to see it is a true story
-   about rats."
-2. Hanoi, 1902: too many rats in the new sewers, pay for a tail, tails by the thousands, then tailless
-   rats — answered immediately: rats live a full rat life without tails and keep breeding, so hunters
-   clipped and released. "A dead rat pays once. A live rat pays forever."
-3. Rat farms, and the ending: a mountain of tails, more rats than at the start.
-4. The moral: the payment system worked exactly as designed, "But the real goal was fewer rats, and the
-   program encouraged people to keep rats alive."
-5. Four plans, two better and two worse: Text Messaging, GPS, Cane Toads, Wider Highways, each with its
-   full result including $2.8 billion, the Katy Freeway, 2014 and 51% longer.
-6. The general road pattern (board gone): an easier road attracts more driving, some of the new space
-   fills back up; that alone does not explain the Houston number; it is why adding lanes does not
-   always end congestion. General only, never offered as proof of the Houston figure.
-7. Point it at AI: both sides are predicting, every prediction smart and informed, and the most
-   important thing AI does may be something nobody has thought of yet.
-8. "That's not a reason to fear the future. It's the reason to walk into it curious, with your eyes
-   open." Then the three things you need to do.
-9. Close on the two lines with nothing after.
+1. Brief AI opinions hook, then the true story about rats.
+2. Hanoi, 1902: sewers, tail payments, thousands of tails, then tailless rats.
+3. Explain survival and breeding, clipping and release, the pays-once joke, rat farms, and more rats.
+4. The system paid for tails but the goal was fewer rats. State the unexpected result explicitly.
+5. Introduce two MORE unexpected results. Texting became more popular than its creators expected,
+   with young people helping make it an everyday habit. Cane toads failed to solve the pest problem,
+   harmed native animals and spread. Speak these explanations; the board cannot substitute for them.
+6. Apply the pattern to AI: its most important effects may be unanticipated, good or bad.
+7. Stay curious, recognize uncertainty, watch what people actually do, build durable skills.
+8. End on the exact two closing lines, with nothing afterward.
 
-**Required verbatim lines:** the six in the prompt (the rats hook, the pays-once line, the moral, the
-curious line, and the two closing lines). The board title was dropped from the list to make room for the
-road-pattern beat; it is still spoken from the board.
+**Narration checks:** all seven required lines must be standalone in the Markdown and spoken at
+their teaching beats. In particular, keep the rat outcome and the bridge to two more examples.
+Pronounce Worriers as people who worry, not warriors; SMS as letters; 1902 as nineteen oh two.
+These are generation guardrails, not a claim that the owner's unspecified mis-speaks have all been
+identified. Review the fresh audio for complete words, sentence endings, pronunciation and cadence.
+Preserve the pays-once line as dry humor, not a literal biological claim of endless life.
 
-**Banned words:** leverage, framework, utilize, incentive, perverse, unintended consequences, induced
-demand; no screen/board-position references; never say which AI camp is right; no prediction about what
-AI will do; no example beyond the Markdown; the Rat Quiz is not narrated.
+**Visual plan for generation:** preserve the narrative job of the rat scenes (sewer problem,
+payments, tailless rats, breeding, rat farms, failed outcome). Show the current two-example board
+with its teaching, unmarked and uncropped; drawn scenes elsewhere. Both closing lines remain.
+No GPS, highways, traffic explanation, or additional case studies. Exact camera/highlight timing
+will follow the fresh roll; do not bind it to the old edit's timestamps.
+
+**Previous files retained:** installed v3 is still the four-example video. The 2:48
+`Prompts/unexpected-results-v4.mp4` remains an unshipped review candidate, superseded as the next
+production path by this reroll request. Its technical/visual review remains in
+`video-audit/unexpected-results-two-examples-v4-2026-10-23/REVIEW.md`; it is not evidence of a fresh
+roll's narration quality. No new generation, local shipping, commit or publication is claimed.
 
 ## Changed teaching and scene directions
 
 **Superseded 2026-09-23.** All nine lessons now have rebuilt kit entries above, on the 2026-09-20
 recipe, and each one's teaching requirements and guardrails live in its own Markdown, prompt and beat
-spine. The 2026-09-18 bullets that used to sit here are history, not instructions. The page
-questions they raised are recorded in their own entries: the Pace of Change release sentence, and the
-Wider Highways induced-demand explanation, which David directed into the narration on 2026-09-23 and
-which the page still needs.
+spine. The 2026-09-18 bullets that used to sit here are history, not instructions. The former Wider Highways page question was resolved by removing that example on 2026-10-23.
 
 ## Prep versus current page
 

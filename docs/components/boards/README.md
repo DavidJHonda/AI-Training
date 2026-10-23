@@ -208,7 +208,7 @@ The approved Does AI Think implementation is
 `course-assets/does-ai-think/does-ai-think-side-by-side.jpg`. It uses the unified-card
 variant established by `course-assets/in-your-hands/in-your-hands-in-or-out.jpg`: the
 two full-bleed images touch, both columns share one white content card, and the
-five category labels appear as bold inline lead-ins on the left side of the
+three category labels appear as bold inline lead-ins on the left side of the
 aligned comparison rows. Use this variant
 when direct scanning across the two sides matters more than treating each side
 as a separate experience. The earlier generated
@@ -241,7 +241,7 @@ Author at 1600 px wide; derive height from the content:
   response or description follows the heading in normal body type.
 - For multiple comparison points, use matching labels on both sides: 20 px heavy
   accent-colored type. Short uppercase labels are appropriate. For Does AI Think,
-  use MEANING, EXPERIENCE, WORD CHOICE, BEAUTY, and UNCERTAINTY.
+  use EXPERIENCE AND MEANING, WORD CHOICE, and UNCERTAINTY.
 - Use 29 px / 41 px dark body text (`#3a3550`) and 34 px horizontal text padding.
   Leave 12 px between each label and its paragraph. Keep 32 px below card headings
   before the first label. Preserve at least 34 px below the final paragraph.

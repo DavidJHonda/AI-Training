@@ -1,10 +1,10 @@
 # Big Upside v8: three-example lesson
 
-Status: review candidate only. Not installed, committed, or published. User authorized updating the video to match the revised lesson. Full listening and continuous audiovisual playback remain unperformed; this is not a shipping certification. Video Tracker was not accessed or changed.
+Status: shipped locally; queued for batch deployment. Owner approved v8 and explicitly requested “Ship Big Upside v8 locally.” The previously disclosed lack of agent direct listening and continuous audiovisual playback remains documented; no new listening certification is claimed. Video Tracker was not accessed or changed.
 
 Candidate: `Prompts/big-upside-v8.mp4`, 3:19.567 (5,987 frames at 30 fps, 1280×720). Reduced from 4:17.300 by 57.733 seconds.
 
-Source: stable `Prompts/big-upside-v7.mp4`, byte-identical to the installed video. Original raw rolls are unavailable. The first 3,049 video frames (through 1:41.633) are packet- and pixel-identical. The remaining picture is encoded once from that source plus the current board and retained illustration. The source narration is trimmed and encoded once; no generated speech, speed changes, gain changes, or added pauses.
+Source: stable `Prompts/big-upside-v7.mp4`, byte-identical to the installed video before this release. Original raw rolls are unavailable. The first 3,049 video frames (through 1:41.633) are packet- and pixel-identical. The remaining picture is encoded once from that source plus the current board and retained illustration. The source narration is trimmed and encoded once; no generated speech, speed changes, gain changes, or added pauses.
 
 ## Authorized content edit
 
@@ -59,3 +59,9 @@ QA: `.video-venv/bin/python scripts/video/qa_big_upside_v8.py`.
 Fresh ASR: `.video-venv/bin/python scripts/video/transcribe_selected_videos.py Prompts/big-upside-v8.mp4 --output-dir video-audit/big-upside-three-examples-v8-2026-10-23/transcripts`.
 
 Source/output spans, hashes, geometry, and visual runs: `edit-manifest.json`. Mechanical checks: `qa.json`. Candidate transcript: `transcripts/big-upside-v8.txt`.
+
+## Local release
+
+Installed the approved v8 at `course-assets/big-upside/big-upside.mp4`. Updated its cache key to `20261023v8` and displayed duration to `3 min`. Commit `d493e4f90b18c300f6ae78cc6c146cbc53e1a81f` contains only the MP4 and that one `index.html` entry. Installed and committed video hashes match the approved candidate. No push or deployment was performed.
+
+Post-commit cleanup removed the two untracked regenerable WAV files, including the listening reel. Candidate, raw source, audit records, transcripts, and encoded previews remain.

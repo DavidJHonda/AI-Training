@@ -7,6 +7,10 @@ const ROOT = path.resolve(__dirname, "../..");
 const OUT = path.join(ROOT, "course-assets/wheres-the-line");
 fs.mkdirSync(OUT, { recursive: true });
 
+// Embed the variable font: file:// URLs cannot load from page.setContent's
+// about:blank origin and silently fall back to Arial.
+const FONT_FACE = `@font-face{font-family:Jakarta;src:url(data:font/ttf;base64,${fs.readFileSync(path.join(ROOT, "scripts/video/assets/fonts/PlusJakartaSans-wght.ttf")).toString("base64")}) format('truetype');font-weight:100 900;font-style:normal;font-display:block}`;
+
 const boards = [
   {
     file: "wheres-the-line-two-uses.jpg", format: "EE-2FB", title: "How DraftKings Uses AI",
@@ -65,7 +69,7 @@ function editorialHtml(board) {
   const artData = fs.readFileSync(path.join(ROOT, board.artSheet)).toString("base64");
   const credit = process.env.SKIP_COURSE_CREDIT === "1" ? "" : "besmarterthanthetool.com";
   return `<!doctype html><html><head><meta charset="utf-8"><style>
-  @font-face{font-family:Jakarta;src:url(file://${ROOT}/scripts/video/assets/fonts/PlusJakartaSans-wght.ttf)}
+  ${FONT_FACE}
   *{box-sizing:border-box}html,body{margin:0;background:white}body{font-family:Jakarta,Arial,sans-serif;color:#0e0a1f}
   .board{width:1600px;background:#eae7fd;border-radius:22px;padding:40px 40px 10px;overflow:hidden}
   h1{font-size:56px;line-height:1.08;letter-spacing:-.03em;margin:0 0 26.52px;font-weight:700}
@@ -90,7 +94,7 @@ function fourCardFullBleedHtml(board) {
   const artData = fs.readFileSync(path.join(ROOT, board.artSheet)).toString("base64");
   const credit = process.env.SKIP_COURSE_CREDIT === "1" ? "" : "besmarterthanthetool.com";
   return `<!doctype html><html><head><meta charset="utf-8"><style>
-  @font-face{font-family:Jakarta;src:url(file://${ROOT}/scripts/video/assets/fonts/PlusJakartaSans-wght.ttf)}
+  ${FONT_FACE}
   *{box-sizing:border-box}html,body{margin:0;background:white}body{font-family:Jakarta,Arial,sans-serif;color:#0e0a1f}
   .board{width:1600px;background:#eae7fd;border-radius:22px;padding:40px 40px 10px;overflow:hidden}
   h1{font-size:56px;line-height:1.08;letter-spacing:-.03em;margin:0 0 26.52px;font-weight:700}
@@ -112,7 +116,7 @@ function html(board) {
   if (board.format === "EE-4FB") return fourCardFullBleedHtml(board);
   const cards = board.cards.map((c, i) => `<div class="card c${i}"><div class="label">${c[0]}</div><div class="copy">${c[1]}</div></div>`).join("");
   return `<!doctype html><html><head><meta charset="utf-8"><style>
-  @font-face{font-family:Jakarta;src:url(file://${ROOT}/scripts/video/assets/fonts/PlusJakartaSans-wght.ttf)}
+  ${FONT_FACE}
   *{box-sizing:border-box}html,body{margin:0;background:white}body{font-family:Jakarta,Arial,sans-serif}
   .board{width:1600px;background:#eae7fd;border-radius:26px;padding:40px 40px 34px;color:#0e0a1f;position:relative;overflow:hidden}
   h1{font-size:56px;line-height:1.08;letter-spacing:-2.2px;margin:0 0 30px;font-weight:800}
@@ -140,7 +144,14 @@ function html(board) {
     for (const board of selected) {
       const page = await browser.newPage({viewport:{width:1600,height:1400},deviceScaleFactor:1});
       await page.setContent(html(board), {waitUntil:"load"});
-      await page.evaluate(()=>document.fonts.ready);
+      await page.evaluate(async () => {
+        await Promise.all([document.fonts.load('500 29px Jakarta'), document.fonts.load('700 40px Jakarta')]);
+        await document.fonts.ready;
+        const faces = Array.from(document.fonts).filter(face => face.family === 'Jakarta');
+        if (!faces.length || faces.some(face => face.status !== 'loaded')) {
+          throw new Error('Plus Jakarta Sans failed to load; refusing to export fallback typography.');
+        }
+      });
       await page.locator(".board").screenshot({path:path.join(OUT,board.file),type:"jpeg",quality:96});
       await page.close();
       console.log(board.file);

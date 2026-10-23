@@ -16,7 +16,7 @@ from editorial_takeaway import draw_takeaway_band
 
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H = 1600, 910
+W, H = 1600, 950
 
 LAVENDER = "#eae7fd"
 WHITE = "#ffffff"
@@ -72,7 +72,7 @@ def render() -> None:
 
     draw_board_title(draw, "Same Probabilities, Different Choices")
 
-    stage = (40, 118, 1560, 742)
+    stage = (40, 118, 1560, 782)
     draw.rounded_rectangle(stage, radius=22, fill=WHITE)
 
     # The sentence being completed keeps the probability example anchored to the lesson.
@@ -144,7 +144,7 @@ def render() -> None:
         draw.text((1038, y0 + 23), name, font=font(29, "Bold"), fill=INK, anchor="lm")
 
     note = "Spot was picked only once, even with the highest probability. Another five picks could turn out differently."
-    note_font = font(24, "Medium")
+    note_font = font(29, "Medium")
     words = note.split()
     lines = []
     line = ""
@@ -157,12 +157,12 @@ def render() -> None:
             line = trial
     lines.append(line)
     for j, line in enumerate(lines):
-        draw.text((956, 641 + j * 28), line, font=note_font, fill=BODY, anchor="lt")
-    assert 641 + len(lines) * 28 <= 732, lines
+        draw.text((956, 641 + j * 41), line, font=note_font, fill=BODY, anchor="lt")
+    assert 641 + len(lines) * 41 <= stage[3] - 10, lines
 
     # Standard takeaway band.
     draw_takeaway_band(
-        image, top=782, left=40, right=1560,
+        image, top=822, left=40, right=1560,
         text="The best chance is not a guarantee.", font=face("medium", 32),
     )
 

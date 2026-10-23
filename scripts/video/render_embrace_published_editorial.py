@@ -13,6 +13,7 @@ import shutil
 from pathlib import Path
 
 from render_embrace_editorial_batch import render_card_board
+from render_unexpected_results_board import main as render_unexpected_results
 from render_embrace_editorial_review import (
     CARD_BOARDS,
     render_chatbot_agent_long,
@@ -37,17 +38,14 @@ def save_pair(image, page_name: str, prep_name: str) -> None:
 
 
 def main() -> None:
-    missed_predictions, four_famous_plans = CARD_BOARDS
+    missed_predictions = CARD_BOARDS[0]
     save_pair(
         render_card_board(missed_predictions),
         "course-assets/loudest-voices/loudest-voices-missed-predictions.jpg",
         "course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
     )
-    save_pair(
-        render_card_board(four_famous_plans),
-        "course-assets/unexpected-results/unexpected-results-plans.jpg",
-        "course-assets/unexpected-results/unexpected-results-plans.jpg",
-    )
+    # The two-example board has its own current renderer (2026-10-23).
+    render_unexpected_results()
     save_pair(
         render_jailbreak_feature(),
         "course-assets/big-downside/big-downside-jailbreak.jpg",

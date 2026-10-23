@@ -48,17 +48,11 @@ A fluent answer alone doesn’t tell you whether it understands.
 
 **Teaching content:**
 
-Let’s compare when you think with what AI does, in five ways.
+Let’s compare when you think with what AI does, in three ways.
 
-Meaning. You connect words to what they mean in your life. AI uses learned patterns and what you tell it.
-
-Experience. You draw on things you have lived through.
-
-AI works with patterns learned from text, images, audio, and other data.
+Experience and meaning. You draw on things you have lived through. You connect words to what they mean in your life. AI uses learned patterns and what you tell it.
 
 Word choice. You choose words to express what you want to say. AI predicts the next word, then repeats.
-
-Beauty. You have a personal response to art or music. AI can describe beauty using learned patterns.
 
 Uncertainty. You can notice when you are unsure. AI can sound certain even when it is wrong.
 

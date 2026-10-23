@@ -26,7 +26,9 @@ But the real goal was fewer rats, and the program encouraged people to keep rats
 
 ## Unexpected Results
 
-Once you see that shape, you find it everywhere. Four famous plans, and where each one actually landed. Two turned out better than anyone predicted, two turned out worse.
+Hanoi’s plan was fewer rats. The unexpected result was more rats.
+
+Here are two more unexpected results: one welcome surprise and one costly mistake.
 
 ### Board 1: The Biggest Results Were Never the Plan
 
@@ -38,23 +40,9 @@ Once you see that shape, you find it everywhere. Four famous plans, and where ea
 
 The biggest results were never the plan.
 
-Here are four.
-
-Text messaging. SMS was designed as a short service for mobile networks. Today, it is the technology behind traditional text messages.
-
-GPS. Built by the U.S. military to guide ships, aircraft, and weapons. Today, it powers everyday location tools, including Google Maps.
+Text messaging. SMS was built to send short messages over mobile networks. Its creators did not expect it to take off the way it did. Young people helped turn texting into an everyday way to stay in touch.
 
 Cane toads. Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.
-
-Wider highways. To ease congestion, Texas spent $2.8 billion widening Houston’s Katy Freeway. By 2014, one rush-hour trip took 51% longer than it had three years earlier.
-
-## Why More Lanes Can Mean More Traffic
-
-There’s a general pattern behind that last one. Make a road easier to drive, and more people drive it. Trips that weren’t worth making before start getting made, and some of the new space fills back up.
-
-That doesn’t explain the whole Houston number by itself. Plenty else changed in those three years.
-
-But it’s why “just add lanes” doesn’t always end congestion.
 
 ## The One Sure Thing
 

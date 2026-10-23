@@ -64,11 +64,11 @@ OpenAI began rolling the update back three days after it launched and publicly d
 
 AI companies now test for sycophancy and use training and system instructions to reduce it. The problem has improved, but it has not disappeared. How you ask still matters.
 
-### Board 4: Five Ways to Fight the Flattery Trap
+### Board 4: Three Ways to Fight the Flattery Trap
 
 **Image file:** `flattery-trap-five-moves.jpg`
 
-![Five Ways to Fight the Flattery Trap](flattery-trap-five-moves.jpg)
+![Three Ways to Fight the Flattery Trap](flattery-trap-five-moves.jpg)
 
 **Teaching content:**
 
@@ -106,29 +106,7 @@ Provide your essay and the rubric. The rubric gives AI the criteria. Asking it t
 
 The response is still something to check against your work and rubric, not an official grade or a guarantee of accuracy.
 
-#### 4. Argue the Other Side
-
-Weak prompt: “Don’t you agree?”
-
-That question invites agreement with the position you have just shared.
-
-Better prompt: “Give me the three strongest counterarguments and explain why someone might hold them.”
-
-Share the position you want examined. Now you are asking AI to look beyond your framing and explain objections a reasonable person might raise. You can use those objections to strengthen, qualify, or reconsider your position.
-
-There is one important limit: if AI fails to produce a strong counterargument, that does not prove your position is correct. It may simply have struggled with the task. You still judge the arguments.
-
-#### 5. Set a Standing Instruction
-
-Weak instruction: “Be honest with me.”
-
-That sounds useful, but it does not say what useful feedback should look like.
-
-Better instruction: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”
-
-This tells AI what to do: lead with the problems, support its feedback with evidence, and challenge mistakes.
-
-The first four moves can be used in an individual conversation. In apps that support saved instructions, you can save this direction to guide future responses instead of typing it every time. Follow the app's rules for where those instructions apply. This is guidance, not a permanent fix or a guarantee that AI will be honest, accurate, or follow every instruction.
+**Tip: Save a standing instruction.** If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”
 
 **Takeaway:** Ask AI to improve the work, not approve of you.
 

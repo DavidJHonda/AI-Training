@@ -219,8 +219,8 @@ def main() -> None:
     )
     standard_banner(
         "flattery-trap/flattery-trap-five-moves.jpg",
-        (1600, 1318),
-        1190,
+        (1600, 1101),
+        973,
         "Ask AI to improve the work, not approve of you.",
     )
     standard_banner(

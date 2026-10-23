@@ -443,7 +443,7 @@ def render_sycophancy_example() -> Image.Image:
     return image
 
 
-def render_five_moves() -> Image.Image:
+def render_three_moves() -> Image.Image:
     """Render a prompt-rewrite teaching table inside the Editorial Shell."""
     rows = (
         ("01", "Ask, Don’t Tell", "“I think this plan is good. Thoughts?”",
@@ -452,11 +452,10 @@ def render_five_moves() -> Image.Image:
          "“What’s weak, what’s missing, and what would someone who disagrees say?”"),
         ("03", "Use a Rubric", "“Grade my essay.”",
          "“Grade it against this rubric, quote the evidence, and show how to move up one level.”"),
-        ("04", "Argue the Other Side", "“Don’t you agree?”",
-         "“Give me the three strongest counterarguments and explain why someone might hold them.”"),
     )
     standing = (
-        "“Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”"
+        "If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, "
+        "point to specific evidence, and tell me when I’m wrong.”"
     )
 
     content_top = 127
@@ -486,19 +485,17 @@ def render_five_moves() -> Image.Image:
                             better_top, better_height, row_bottom))
         row_top = row_bottom
 
-    standing_top = row_top
-    standing_lines = wrap(measure, standing, better_font, content_right - prompt_left - 48)
-    standing_box_top = standing_top + 26
-    standing_box_height = 26 + len(standing_lines) * 41
-    standing_bottom = standing_box_top + standing_box_height + 26
-    content_bottom = standing_bottom + 16
+    tip_top = row_top + 26
+    standing_lines = wrap(measure, standing, weak_font, content_right - content_left)
+    tip_body_top = tip_top + 38
+    content_bottom = tip_body_top + len(standing_lines) * 41 + 32
     footer_top = content_bottom + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + 40
 
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Five Ways to Fight the Flattery Trap")
+    draw_board_title(draw, "Three Ways to Fight the Flattery Trap")
     draw.rounded_rectangle((40, content_top, 1560, content_bottom), radius=18, fill=WHITE)
 
     weak_color = BODY
@@ -521,15 +518,8 @@ def render_five_moves() -> Image.Image:
         multiline(draw, (prompt_left + 24, better_top + 15), better_lines, better_font, INK, 41)
         draw.line((content_left, row_bottom, content_right, row_bottom), fill=row_rule, width=1)
 
-    draw.text((title_left, standing_box_top + 8), "05", font=number_font, fill=number_color)
-    multiline(draw, (title_left, standing_box_top + 43),
-              wrap(measure, "Set a Standing Instruction", title_font, 315), title_font, INK, 37)
-    draw.text((label_left, standing_box_top + 17), "ALWAYS", font=header_font, fill=TEAL)
-    draw.rounded_rectangle((prompt_left, standing_box_top, content_right,
-                            standing_box_top + standing_box_height),
-                           radius=14, fill=better_fill, outline=better_rule, width=1)
-    multiline(draw, (prompt_left + 24, standing_box_top + 15), standing_lines,
-              better_font, INK, 41)
+    draw.text((content_left, tip_top), "TIP: SAVE A STANDING INSTRUCTION", font=header_font, fill=TEAL)
+    multiline(draw, (content_left, tip_body_top), standing_lines, weak_font, BODY, 41)
 
     draw_takeaway_band(image, top=footer_top, left=40, right=1560,
                        text="Ask AI to improve the work, not approve of you.",
@@ -749,7 +739,7 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
         Pair("course-assets/flattery-trap/flattery-trap-sycophancy.jpg", "course-assets/flattery-trap/avoid-traps-16-sycophancy.jpg"),
     )
     save_pair(
-        render_five_moves(),
+        render_three_moves(),
         Pair("course-assets/flattery-trap/flattery-trap-five-moves.jpg", "course-assets/flattery-trap/avoid-traps-16a-five-moves.jpg"),
     )
 

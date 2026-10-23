@@ -292,6 +292,8 @@ jailbreak is performed.
 
 ### big-upside
 
+**v8 review candidate built 2026-10-23:** `Prompts/big-upside-v8.mp4`, 3:19.567, removes three extra applications and uses the single Helping People Live Better board. AlphaFold, Hassabis, and the closing are retained; the doctor’s judgment sentence now follows Finding Cancer. Review: `video-audit/big-upside-three-examples-v8-2026-10-23/REVIEW.md`. Visual/mechanical checks completed; audio joins still need listening. Not installed or published.
+
 **Current lesson and preparation updated 2026-10-23:** Keep AlphaFold and the Hassabis story. One Helping People Live Better board now covers Finding Cancer, Reading Aloud, and Flood Warnings. The existing video still teaches six examples; a video edit remains separate. Earlier build records below describe historical versions.
 
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; lesson rewritten 2026-09-24.** Live `big-upside.mp4` is v5 (below).

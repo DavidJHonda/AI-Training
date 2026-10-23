@@ -8,7 +8,7 @@ Updated 2026-10-23: `course-assets/big-upside/big-upside-examples.jpg` combines 
 
 Rebuild with `.video-venv/bin/python scripts/video/render_big_upside_examples.py`. It uses the canonical EE-3FB renderer and preserves the selected illustration panels from the two former boards. Those original files remain source artwork and historical video dependencies; neither is in the current page or upload bundle. Doctors' review and care decisions remain explicit. Flood wording is unchanged and does not promise guaranteed warnings.
 
-The existing video still includes six examples and has not been edited as part of this page/board consolidation.
+The installed video still includes six examples. Review candidate `Prompts/big-upside-v8.mp4` (2026-10-23, 3:19.567) matches the consolidated board. It is not installed; audio joins still need listening. See `video-audit/big-upside-three-examples-v8-2026-10-23/REVIEW.md`.
 
 ## Supporting sources
 

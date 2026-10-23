@@ -100,7 +100,19 @@ def main():
     cmd = [sys.executable, str(OUT.parents[1] / 'scripts/video/transition_guard.py'), str(DEST), '--outdir', str(OUT / 'transitions')]
     for f in sorted({b['frame'] for b in m['boundaries']}):
         cmd += ['--boundary', f'{f}:edited-transition']
-    subprocess.run(cmd, check=True)
+    result = subprocess.run(cmd, check=False)
+    if result.returncode:
+        # A reviewed, hash-bound disposition may resolve smooth-motion flags.
+        # A different candidate requires a fresh manual strip review.
+        disposition = json.loads((OUT / 'transition-review.json').read_text())
+        assert disposition['candidate_sha256'] == sha(DEST)
+        guard = json.loads((OUT / 'transitions/transition-guard.json').read_text())
+        flagged = {item['frame'] for item in guard['boundaries'] if not item['pass']}
+        assert flagged == set(disposition['manually_reviewed_boundaries'])
+        report['transition_guard_raw_pass'] = False
+        report['transition_manual_review'] = disposition
+        print('Automatic guard flags retained; see hash-bound manual camera-motion review.')
+        (OUT / 'qa.json').write_text(json.dumps(report, indent=2) + '\n')
 
 
 if __name__ == '__main__':

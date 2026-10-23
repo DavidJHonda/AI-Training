@@ -24,79 +24,59 @@ That gap taught us something. AI could test whether a button worked or a page lo
 
 Here are four strengths you can put to work. AI is strongest when the job has one of four shapes.
 
-### Board 2: Reshape Your Material
+### Board 2: Where AI Works Best — 1 of 2
 
-**Image file:** `where-ai-works-best-reshape.jpg`
+**Image file:** `where-ai-works-best-strengths-1.jpg`
 
-![Reshape Your Material](where-ai-works-best-reshape.jpg)
-
-**Teaching content:**
-
-The first strength is Reshape Your Material.
-
-Why it fits AI: AI has learned patterns for putting the same ideas into different forms.
-
-What it does: give AI something you already have and ask for it in a different form. Turn messy notes into a table, a long explanation into plain language, or a paragraph into bullet points. The goal is to keep your meaning while changing how you present it.
-
-Examples: organize notes into a study guide. Turn a voice memo into a to-do list. Translate a message into another language. Rewrite technical instructions in plain language.
-
-Your material. A more useful form.
-
-### Board 3: Explore Possibilities
-
-**Image file:** `where-ai-works-best-explore.jpg`
-
-![Explore Possibilities](where-ai-works-best-explore.jpg)
+![Where AI Works Best — 1 of 2](where-ai-works-best-strengths-1.jpg)
 
 **Teaching content:**
 
-The second strength is Explore Possibilities.
+**Reshape Your Material**
 
-Why it fits AI: AI has learned patterns from many different ideas and examples. It can combine them in new ways to give you more possibilities.
+Give AI something you already have and ask for it in a different form. The goal is to keep your meaning while changing how you present it.
 
-What it does: when you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you. You decide which ideas are worth taking further.
+Examples:
 
-Examples: brainstorm angles for an essay. Suggest names for a club. Try different openings for a story. Come up with ideas for a fundraiser.
+- Organize notes into a study guide.
+- Turn a voice memo into a to-do list.
 
-More possibilities. You choose the direction.
+**Explore Possibilities**
 
-### Board 4: Find What Matters
+When you’re stuck or want more choices, ask AI for possibilities. You can explore different approaches, react to its suggestions, and ask for more of what interests you.
 
-**Image file:** `where-ai-works-best-find.jpg`
+Examples:
 
-![Find What Matters](where-ai-works-best-find.jpg)
+- Brainstorm angles for an essay.
+- Come up with ideas for a fundraiser.
 
-**Teaching content:**
+Your material. More possibilities. You choose the direction.
 
-The third strength is Find What Matters.
+### Board 3: Where AI Works Best — 2 of 2
 
-Why it fits AI: AI can work through large amounts of text and use learned patterns to connect related ideas and find details that match your question.
+**Image file:** `where-ai-works-best-strengths-2.jpg`
 
-What it does: give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.
-
-Examples: pull the main ideas from a textbook chapter. Find what a scholarship application requires. Compare what two articles say about a topic. Summarize your school’s student handbook.
-
-A lot to read. A clearer place to focus.
-
-### Board 5: Work Through Problems
-
-**Image file:** `where-ai-works-best-problems.jpg`
-
-![Work Through Problems](where-ai-works-best-problems.jpg)
+![Where AI Works Best — 2 of 2](where-ai-works-best-strengths-2.jpg)
 
 **Teaching content:**
 
-The fourth strength is Work Through Problems.
+**Find What Matters**
 
-Why it fits AI:
+Give AI a long document, a chapter, or several articles and tell it what you need to know. It can summarize the main ideas or find the specific details you need, so you know where to focus.
 
-During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions.
+Examples:
 
-It learned patterns it can apply to new problems.
+- Find what a scholarship application requires.
+- Compare what two articles say about a topic.
 
-What it does: tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.
+**Work Through Problems**
 
-Examples: plan a weekend trip within your budget. Work out why your code isn’t working. Compare colleges based on what matters to you. Figure out why your science experiment gave unexpected results.
+Tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next.
+
+Examples:
+
+- Figure out why your science experiment gave unexpected results.
+- Plan a weekend trip within your budget.
 
 Work through the pieces. Make your own call.
 
@@ -110,7 +90,7 @@ But it doesn’t guarantee the answer is right or that it fits what you need.
 
 That’s where your knowledge and judgment matter.
 
-### Board 6: Close
+### Board 4: Close
 
 **Image file:** `where-ai-works-best-close.jpg`
 

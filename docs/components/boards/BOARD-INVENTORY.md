@@ -33,7 +33,7 @@ a decision map, not an instruction to rebuild every asset.
 |---|---|---:|---|
 | Opener | Opener utility | Keep | Preserve creed and section-map standards. |
 | AI Is Different | Editorial Explainer: Two-Card Full-Bleed (`EE-2FB`) plus password-rule board | Adopted | Cooking comparison uses two 744×339 illustrations, 56/40/29 px type, and equal text areas. Rebuild with `scripts/video/render_ai_is_different_cooking.cjs`. The closing message precedes the messy-notes LAB, followed by the Group Exercise. |
-| Where AI Works Best | Editorial Explainer sequence | Keep | The four-board family is a strong example of one framework spread across readable frames. |
+| Where AI Works Best | Editorial Explainer: Two-Card Full-Bleed (`EE-2FB`) plus course-building comparison | Adopted | Four strengths across two boards, each with the approved short explanation and two examples. New purpose-built wide art; measured 56/40/29 px typography. Rebuild with `scripts/video/render_where_ai_works_best_boards.cjs`. |
 | Which App? | Comparison utility | Keep | Keep the visual; maintain a content watchlist as products change. |
 | Questions Matter | Editorial Explainer | Keep | Preserve the answer timeline and value-shift comparison. |
 | Prompting Matters | Worked-example utility | Normalize | Keep the text-rich bad/better examples; normalize shell only when revised. |

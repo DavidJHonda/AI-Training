@@ -155,9 +155,7 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 - Upload checklist: **retired; fresh prep required**
 - Canonical folder: `course-assets/make-your-move/`
 - Boards in lesson order:
-  - `make-your-move-doctors-teachers-lawyers.jpg` — post-production only; reserve narration
-  - `make-your-move-electricians-designers-entrepreneurs.jpg` — post-production only; reserve narration
-  - `make-your-move-skills.jpg` — upload
+  - `make-your-move-careers.jpg` — post-production only; reserve narration (retained people illustrations)
   - `make-your-move-actions.jpg` — upload
   - `make-your-move-close.jpg` — upload
 
@@ -170,7 +168,7 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 - People Skills: reroll from the 2026-09-26 Maya scene rewrite. Teach the scene, its outcome, all four general practices and the Maya application question, the People Skills Matter More capstone, and both closing lines. The previous narration no longer covers the current page.
 - Creative Thinking: the advantage is what a student brings when polished answers are widely available; do not claim that everyone using the same AI gets similar answers. Keep the definition, Jobs example, four professions, four habits, and closing lines.
 - Curious & Flexible: distinguish curiosity from flexibility, teach all four habits and four actions, and preserve “Newer is not automatically better.” No new teaching rewrite is needed.
-- Make Your Move: keep the six career comparisons, four skills, and four actions. Reserve TWO separate continuous spans for omitted boards: doctors/teachers/lawyers and electricians/designers/entrepreneurs. Use a clear transition between spans so each canonical JPG can be inserted in its proper place. Preserve “AI may help” rather than turning examples into certain career forecasts.
+- Make Your Move (updated 2026-10-23): keep only teacher, electrician, and graphic designer, in that order, on one career board. Reserve one continuous span for that board. Replace the full four-skills recap with the current short prose bridge, then teach all four actions. Preserve “You do not need to choose your entire future today” and “AI may help.” The page leads directly from the actions into the Make One Move lab, with the close after the lab; keep the interactive lab outside narration. V12 (3:01) is approved and installed locally at `course-assets/make-your-move/make-your-move.mp4`, with the actions board shown during its introduction. Queued for batch deployment. See `video-audit/make-your-move-actions-intro-v12-2026-10-23/REVIEW.md`. Fresh generation prep remains required if rerolling.
 
 ## Prep versus lesson page
 

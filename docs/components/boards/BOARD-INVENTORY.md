@@ -99,7 +99,7 @@ define ordinary board chrome before the section stabilizes.
 | Creative Thinking | Friendly Schematic candidate | Defer | Likely Friendly Schematic after lesson structure settles. |
 | Skills That Matter | Mixed explainer candidates | Defer | Classify individual teaching beats later rather than assigning one style to the whole lesson. |
 | Be Curious | Page components | Defer | Keep responsive unless a recurring framework emerges. |
-| Make Your Move | Three-Card and Four-Card Full-Bleed | Adopted | Two three-card career boards plus the approved skills and action boards; keep the interactive lab bespoke. |
+| Make Your Move | Three-Card and Four-Card Full-Bleed | Adopted | One three-card career board (teacher, electrician, graphic designer), followed by a short prose bridge and the approved four-action board. The full skills recap is removed; the bespoke Make One Move lab follows the actions, before the close. Renderer: `scripts/video/render_make_your_move_careers_review.py`. |
 
 ## Finish Smarter
 

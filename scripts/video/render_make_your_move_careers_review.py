@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Render the two published Editorial career boards for Make Your Move."""
+"""Render the current three-career board for Make Your Move.
+
+October 23, 2026: supersedes the two six-career boards on the lesson page.
+Reuses the approved September illustrations from the retained older boards;
+all typography and layout are rendered anew with the course board system.
+"""
 
 from __future__ import annotations
 
@@ -9,15 +14,8 @@ except ImportError:
     from course_credit import save_course_image
 
 
-try:
-    from .course_asset_paths import asset_path, asset_dir
-except ImportError:
-    from course_asset_paths import asset_path, asset_dir
-
-
 from dataclasses import dataclass
 from pathlib import Path
-import shutil
 
 from PIL import Image, ImageDraw
 
@@ -34,11 +32,8 @@ from render_embrace_editorial_batch import (
     CARD_BORDER_OPACITY,
     CARD_RADIUS,
     FRAME,
-    INK,
     PURPLE,
-    TEAL,
     WHITE,
-    accent_wash,
     cover,
     draw_shadow,
     face,
@@ -50,8 +45,7 @@ from render_embrace_editorial_batch import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-REVIEW = ROOT / "board-review-make-your-move"
-ASSETS = REVIEW / "assets"
+ASSETS = ROOT / "course-assets/make-your-move"
 
 
 @dataclass(frozen=True)
@@ -60,66 +54,36 @@ class Career:
     ai: str
     people: str
     asset: str
+    crop: tuple[int, int, int, int]
     accent: str
 
 
-BOARDS = (
-    (
-        "How AI Might Change Careers (1 of 2)",
-        "careers-1.jpg",
-        (
-            Career(
-                "Doctor",
-                "Review records, summarize research, and help identify patterns.",
-                "Examine the patient, weigh context and uncertainty, explain choices, and take responsibility for care.",
-                "doctor.png",
-                PURPLE,
-            ),
-            Career(
-                "Teacher",
-                "Draft lessons, create practice activities, and help review student work.",
-                "Know the student, build motivation, adapt in the moment, and create a classroom community.",
-                "teacher.png",
-                BLUE,
-            ),
-            Career(
-                "Lawyer",
-                "Search cases, summarize documents, and help produce early drafts.",
-                "Advise the client, build the strategy, persuade others, and take professional responsibility.",
-                "lawyer.png",
-                TEAL,
-            ),
-        ),
+CAREERS = (
+    Career(
+        "Teacher",
+        "Draft lessons, create practice activities, and help review student work.",
+        "Know the student, build motivation, adapt in the moment, and create a classroom community.",
+        "make-your-move-doctors-teachers-lawyers.jpg",
+        (559, 128, 1041, 400),
+        BLUE,
     ),
-    (
-        "How AI Might Change Careers (2 of 2)",
-        "careers-2.jpg",
-        (
-            Career(
-                "Electrician",
-                "Read manuals, suggest possible causes, and help plan the work.",
-                "Work safely in the real world, diagnose what is actually happening, and adapt on site.",
-                "electrician.png",
-                PURPLE,
-            ),
-            Career(
-                "Graphic Designer",
-                "Generate drafts, variations, and possible directions quickly.",
-                "Choose the purpose, understand the audience, apply taste, and direct the final result.",
-                "graphic-designer.png",
-                BLUE,
-            ),
-            Career(
-                "Entrepreneur",
-                "Research markets, draft plans, compare options, and help organize the work.",
-                "Choose the problem, take the risk, win customers, lead people, and own the decisions.",
-                "entrepreneur.png",
-                TEAL,
-            ),
-        ),
+    Career(
+        "Electrician",
+        "Read manuals, suggest possible causes, and help plan the work.",
+        "Work safely in the real world, diagnose what is actually happening, and adapt on site.",
+        "make-your-move-electricians-designers-entrepreneurs.jpg",
+        (41, 128, 524, 400),
+        PURPLE,
+    ),
+    Career(
+        "Graphic Designer",
+        "Generate drafts, variations, and possible directions quickly.",
+        "Choose the purpose, understand the audience, apply taste, and direct the final result.",
+        "make-your-move-electricians-designers-entrepreneurs.jpg",
+        (559, 128, 1042, 400),
+        BLUE,
     ),
 )
-
 
 def render(title: str, careers: tuple[Career, ...]) -> Image.Image:
     width = 1600
@@ -176,8 +140,8 @@ def render(title: str, careers: tuple[Career, ...]) -> Image.Image:
             outline=mix_with_white(accent, CARD_BORDER_OPACITY),
             width=1,
         )
-        source = Image.open(ASSETS / career.asset).convert("RGB")
-        art = accent_wash(cover(source, (card_width, art_height)), accent)
+        source = Image.open(ASSETS / career.asset).convert("RGB").crop(career.crop)
+        art = cover(source, (card_width, art_height))
         image.paste(art, (x, cards_top), top_round_mask((card_width, art_height), CARD_RADIUS))
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle(
@@ -204,25 +168,18 @@ def render(title: str, careers: tuple[Career, ...]) -> Image.Image:
         text_y += 28 + 12
         multiline(draw, (text_x, text_y), people_lines, body_font, BODY, body_line)
 
+    ImageDraw.Draw(image).text(
+        (width - 40, height - 10), "besmarterthanthetool.com",
+        font=face("medium", 20), fill="#625c7a", anchor="rd",
+    )
     return image
 
 
 def main() -> None:
-    REVIEW.mkdir(parents=True, exist_ok=True)
-    published = (
-        (ROOT / "course-assets/make-your-move/make-your-move-doctors-teachers-lawyers.jpg", asset_path('lessons', 'make-your-move-1-careers-a.jpg')),
-        (ROOT / "course-assets/make-your-move/make-your-move-electricians-designers-entrepreneurs.jpg", asset_path('lessons', 'make-your-move-1-careers-b.jpg')),
-    )
-    for (title, filename, careers), (page_path, prep_path) in zip(BOARDS, published):
-        image = render(title, careers)
-        path = REVIEW / filename
-        page_path.parent.mkdir(parents=True, exist_ok=True)
-        prep_path.parent.mkdir(parents=True, exist_ok=True)
-        save_course_image(image, page_path, quality=95, subsampling=0, optimize=True)
-        shutil.copyfile(page_path, prep_path)
-        shutil.copyfile(page_path, path)
-        print(f"wrote {page_path.relative_to(ROOT)} ({image.width}x{image.height})")
-        print(f"copied byte-identically to {prep_path.relative_to(ROOT)} and {path.relative_to(ROOT)}")
+    image = render("How AI Might Change Careers", CAREERS)
+    path = ASSETS / "make-your-move-careers.jpg"
+    save_course_image(image, path, quality=95, subsampling=0, optimize=True)
+    print(f"wrote {path.relative_to(ROOT)} ({image.width}x{image.height})")
 
 
 if __name__ == "__main__":

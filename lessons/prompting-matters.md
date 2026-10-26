@@ -8,23 +8,7 @@ A person meets your question halfway. Your teacher already knows what class you�
 
 So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer.
 
-## Start With a Good Question
-
-You learned the four qualities of a good question. Nothing about AI changes them. Every strong prompt starts life as a good question.
-
-### Board 1: Four Qualities of a Good Question
-
-**Image file:** `prompting-matters-good-question.jpg`
-
-![Four Qualities of a Good Question](prompting-matters-good-question.jpg)
-
-**Teaching content:**
-
-Open-Minded: you haven’t picked the answer in advance. Specific: it gives enough detail to get an answer that fits. On Target: it asks about the right thing. Open-Ended: it leaves room for an answer you didn’t expect.
-
-A good question is the foundation. Prompting adds the instructions.
-
-## Then Add Four Moves
+## Four Moves for Better Prompts
 
 Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here’s the secret: you don’t need one. You’re not training to be a prompt engineer. You’re learning to **Be Smarter Than the Tool**.
 

@@ -2,6 +2,8 @@
 
 # The Next Token
 
+You’ve learned that changing your prompt or the information in the context window can change AI’s answer. But even when that information stays the same, AI can produce different answers. The reason starts with how it chooses the next token.
+
 AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next.
 
 But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: **sampling** and **temperature**.

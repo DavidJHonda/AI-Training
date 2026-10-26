@@ -97,7 +97,7 @@ more conversational rhythm. They are approachable without becoming childish.
 
 ### Strong current examples
 
-- Mind Trap: “Why AI feels like somebody”
+- Trust Trap: “Why AI feels like somebody”
 - Support Trap: real value versus the missing person
 - Does AI Think?: symbols in, rule match, likely reply out
 - Does School Matter?: question, AI answer, judgment

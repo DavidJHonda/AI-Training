@@ -36,9 +36,7 @@ That doesn’t mean it thinks like your friend, or that all 10 ideas will be goo
 
 ## AI IS EVERYWHERE
 
-AI isn’t something you go visit. It’s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in a few years.
-
-Most of what it does today, it will do better tomorrow.
+AI was already part of your day before you started chatting with it.
 
 ### Board 2: Where AI Already Lives
 
@@ -61,10 +59,6 @@ Voice assistants turn your speech into words. You’ve seen it in Siri, Alexa, a
 Chatbots carry on a conversation with you. You’ve seen it in ChatGPT, Claude, and Gemini.
 
 AI was already part of your day before chatbots arrived.
-
-## TYPES OF AI
-
-Different AI systems do different jobs. Let’s look at two types you already use.
 
 ### Board 3: Two Types of AI
 

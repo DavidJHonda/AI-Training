@@ -64,7 +64,7 @@ a decision map, not an instruction to rebuild every asset.
 | Hallucination | Editorial Explainer | Keep | The mechanism and four-type boards are strong classification examples. |
 | Training Bias | Friendly Schematic plus Editorial Explainer | Keep | Preserve the visual mechanisms and three corrective questions. |
 | Document Trap | Editorial process | Keep | Use as a compact process-board exemplar. |
-| Mind Trap | Friendly Schematic | Keep | Use “Why AI feels like somebody” as the clearest family exemplar. |
+| Trust Trap | Friendly Schematic | Keep | Use “Why AI feels like somebody” as the clearest family exemplar. |
 | Flattery Trap | Friendly process schematic | Keep | Preserve the praise loop and text-led strategies. |
 | Engagement Trap | Story and interface utility | Keep | The two chat endings are concrete evidence, not a template candidate. |
 | Support Trap | Friendly Schematic | Keep | Preserve the restrained real-value-versus-missing-person distinction. |

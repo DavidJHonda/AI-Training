@@ -632,7 +632,7 @@ Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The int
 
 ### Prepared sources
 
-- Prompt: `gemini-notebook/the-next-token/PROMPT.txt` (442 words).
+- Prompt: `gemini-notebook/the-next-token/PROMPT.txt`.
 - Narration source: `lessons/the-next-token.md`.
 - Ready-to-upload folder: `gemini-notebook/the-next-token/upload/` (one Markdown and three JPGs).
 - Uploads in teaching order: `course-assets/the-next-token/the-next-token-draws.jpg`, `gemini-notebook/the-next-token/assets/the-next-token-temperature.jpg`, and `course-assets/the-next-token/the-next-token-close.jpg`.
@@ -644,7 +644,7 @@ Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The int
 
 AI builds an answer one token at a time; the dog-name example shows different selections from unchanged odds, then how temperature changes those odds while learned weights stay the same.
 
-1. Open directly with the two current introductory paragraphs: token-by-token building and probabilities, followed by sampling and temperature. Use answer-building visuals. No title card, three-question preview, or promise of a calculation section.
+1. Open with the introduction connecting prompt and context changes to different answers even when that information stays the same. Follow with token-by-token building and probabilities, then sampling and temperature. Use answer-building visuals. No title card, three-question preview, or promise of a calculation section.
 2. Establish the dog prompt and the open token in “You could name him.” Spot leads at 22%. Preserve “about 22 times out of 100 tries, on average, if the odds stay the same,” followed by “That’s called sampling.”
 3. **Same Probabilities, Different Choices:** keep the odds unchanged for five separate picks at the same open token: Max, Spot, Buddy, Rex, Max. This is one possible set, not five names in one answer. Spot appears once; another set could differ. The highest probability does not guarantee selection.
 4. Leave the board for the two connected ideas: giving other likely tokens a chance adds variety, and one changed token can change what follows. Preserve “can make answers repetitive,” rather than the old categorical wording.
@@ -655,7 +655,7 @@ AI builds an answer one token at a time; the dog-name example shows different se
 
 ### Required verbatim audio and narration review
 
-The prompt requires eight passages: both opening paragraphs, the qualified 22%-over-100 explanation, “That’s called sampling,” temperature already set behind the scenes, the distinction between probability changes and learning, and both closing lines. Each is a standalone paragraph in the narration source. Formatting emphasis is not spoken.
+The prompt requires nine passages: the prompt-and-context introduction, both existing opening paragraphs, the qualified 22%-over-100 explanation, “That’s called sampling,” temperature already set behind the scenes, the distinction between probability changes and learning, and both closing lines. Each is a standalone paragraph in the narration source. Formatting emphasis is not spoken.
 
 David approved avoiding a recital of every table cell on 2026-09-28. Preserve that choice: both uploaded teaching graphics retain the full numbers, while the narration explains their relationships and the key Spot comparisons. Numerical coverage does not require reading all cells. The source Markdown removes webpage-only instructions and labels, and keeps variety/branching prose outside Board 1 so it can receive its own visuals.
 

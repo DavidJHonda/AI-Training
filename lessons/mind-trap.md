@@ -1,6 +1,6 @@
 ## AVOID TRAPS
 
-# Mind Trap
+# Trust Trap
 
 Some AI traps aren’t about whether the answer is correct. They’re about how the answer feels, and what that feeling makes you trust.
 
@@ -30,7 +30,7 @@ You: “Should I choose Michigan or Indiana?”
 
 **Scene (your own drawing, no board):**
 
-The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. **Mind Trap is giving a human-sounding answer the trust you would give someone who knows you.**
+The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. **Trust Trap is giving a human-sounding answer the trust you would give someone who knows you.**
 
 ## The ELIZA Effect
 

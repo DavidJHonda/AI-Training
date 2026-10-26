@@ -3489,7 +3489,7 @@ const SECTION_META = {
   aitips: { kicker: "START WHERE YOU ARE", label: "Next Level Moves", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
-  mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Mind Trap", icon: "\uD83E\uDEE5" },
+  mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Trust Trap", icon: "\uD83E\uDEE5" },
   flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
   engagementtrap: { kicker: "KNOW WHEN TO QUIT", label: "Engagement Trap", icon: "\uD83D\uDD01" },
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
@@ -4220,22 +4220,19 @@ function SetUpChatGPTLab(props) {
   var _c = useLocalStorage("llm-lab-setup-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
     { title: "Open ChatGPT", body: E(React.Fragment, null,
-      "A computer gives you the best experience for this course. Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), ". On a phone, you can use that website in your browser or the official ChatGPT app. You do not need a paid plan.",
-      E("span", { style: { display: "block", marginTop: 10 } }, "Already have a ChatGPT account? Sign in to your own account and skip the account-creation and verification steps.")) },
+      "Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), ". A computer is best, but you can also use your phone’s browser or the official ChatGPT app.") },
     { title: "Get permission if you are under 18", body: "ChatGPT is for people ages 13 and older. If you are under 18, OpenAI requires permission from a parent or legal guardian." },
     { title: "Create your free account", body: E(React.Fragment, null,
-      "Select “Sign up for free,” then use an email address or one of the available sign-in options.",
+      "Select “Sign up for free” and choose a sign-in option.",
       E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "Enter your real age."),
-      E("span", { style: { display: "block", marginTop: 6 } }, "Eligible users under 18 are automatically placed into the ChatGPT for Teens experience. It is not a separate account you need to choose.")) },
-    { title: "Enter the verification code", body: "If OpenAI emails you a verification code, open that message, copy the code, and enter it in ChatGPT. If your sign-in method verifies you another way and no code appears, continue to the next step." },
+      E("span", { style: { display: "block", marginTop: 6 } }, "Eligible users under 18 automatically receive the ChatGPT for Teens experience; you don’t need to select it.")) },
+    { title: "Verify your account", body: "If OpenAI emails you a verification code, enter it in ChatGPT. Otherwise, continue." },
     { title: "Protect your privacy", body: E(React.Fragment, null,
-      "Do not add sensitive details to your account or chats.",
-      E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "Do not enter your home address, phone number, passwords, student ID, exact school schedule, medical information, or anything you would not want shared."),
+      "Don’t share your home address, phone number, passwords, student ID, exact school schedule, medical information, or anything you wouldn’t want shared.",
       E("span", { style: { display: "block", marginTop: 6 } }, "A first name or nickname is enough.")) },
     { title: "Know the free-version limits", body: E(React.Fragment, null,
-      "The free version of ChatGPT has usage limits. Some models and tools may become temporarily unavailable before others.",
-      E("span", { style: { display: "block", marginTop: 6 } }, "If ChatGPT says you have reached a usage limit, do not worry. Your work is still saved. If it shows a reset time, return then and finish the activity."),
-      E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "You do not need to upgrade to a paid version to finish the course.")) },
+      "If you reach a usage limit, return later to finish. Follow the reset time if one appears.",
+      E("strong", { style: { display: "block", marginTop: 6, color: "var(--ink)" } }, "You don’t need a paid plan to finish this course.")) },
     { title: "Create your own superhero scene", body: "Start a new chat and send:", prompt: "Write a short, funny scene about two superhero teammates who disagree about how to save their city. One takes everything very seriously. The other has a ridiculous superpower that proves useful. Keep it under 200 words." },
     { title: "End with a laugh", body: "Read the scene, then send:", prompt: "Keep the same characters, but give it a funnier ending." }
   ];
@@ -4245,7 +4242,7 @@ function SetUpChatGPTLab(props) {
     surface: "teal",
     title: "Set Up ChatGPT and Try It",
     hint: "Click the box after you finish each step.",
-    lead: "You know what AI is now. Set up the free version of ChatGPT, the main hands-on tool in this course. A computer is best, but you can begin on a phone. If you are under 18, get permission from a parent or legal guardian before creating the account.",
+    lead: "Set up ChatGPT, then use it to create and revise a superhero scene. Already have an account? Sign in and skip steps 3 and 4.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -4269,16 +4266,12 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, /*#__PURE__*/React.createElement("strong", null, "AI is software built to do things that used to take a human brain."), " Understand a question. Summarize information. Translate a conversation. Suggest ideas for a history project."),
     /*#__PURE__*/React.createElement(BodyP, null, "That doesn’t mean it thinks like your friend, or that all 10 ideas will be good. But you now have a tool that can help with tasks that once needed a person."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "AI IS EVERYWHERE"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "AI isn’t something you go visit. It’s already in the apps on your phone, the search results you read, and the tools your first job will hand you on day one. It feels like AI went from sci-fi to normal in a few years. ",
-      /*#__PURE__*/React.createElement("strong", null, "Most of what it does today, it will do better tomorrow.")),
+    /*#__PURE__*/React.createElement(BodyP, null, "AI was already part of your day before you started chatting with it."),
     /*#__PURE__*/React.createElement("img", {
       src: "course-assets/why-learn-ai/why-learn-ai-everyday.jpg?v=20260914attribution3",
       alt: "Where AI Already Lives. Recommendations predict what you might like next in Spotify, Netflix, and TikTok. Navigation predicts traffic and arrival time in Google Maps and Waze. Face recognition checks whether a face matches you in phone unlock and photo tagging. Voice assistants turn speech into words in Siri, Alexa, and Hey Google. Chatbots carry on a conversation in ChatGPT, Claude, and Gemini. AI was already part of your day before chatbots arrived. Board credit: besmarterthanthetool.com.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "TYPES OF AI"),
-    /*#__PURE__*/React.createElement(BodyP, null, "Different AI systems do different jobs. Let’s look at two types you already use."),
     /*#__PURE__*/React.createElement("img", {
       src: "course-assets/what-is-ai/what-is-ai-types.jpg?v=20261022types2",
       alt: "Two Types of AI. Recommendation AI chooses from what already exists by ranking available options and selecting the likely best match. Generative AI creates something new from your prompt (the question or instructions you give it). Everyday examples appear for both. The takeaway says: AI can recommend. AI can create. This course focuses on generative AI.",
@@ -4659,11 +4652,9 @@ function WelcomeSection(props) {
       "."),
     E(SectionKicker, null, "BUILT FOR YOU"),
     E(BodyP, null,
-      "We’re high school students, too. We built this course because AI is in every headline, and it’s going to be part of our future. We’d rather understand it now than scramble to catch up later."),
-    E(BodyP, null,
-      "We went looking for something that answered our questions. When we couldn’t find what we wanted, we built our own."),
+      "We’re high school students, too. AI is going to be part of our future, and we’d rather understand it now than scramble to catch up later. We couldn’t find a course that answered our questions, so we built our own."),
     E("img", {
-      src: "course-assets/welcome/welcome-building-the-course.jpg?v=20260925workspace1",
+      src: "course-assets/welcome/welcome-building-the-course.jpg?v=20261026currentcourse1",
       alt: "A sunlit kitchen-table workspace with the AI course on a monitor, a laptop, and notebooks outlining lesson ideas",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
@@ -4673,8 +4664,6 @@ function WelcomeSection(props) {
       alt: "What You’ll Need. A Computer Is Best. You’ll work hands-on with AI throughout this course. A laptop or desktop will give you the best experience. ChatGPT for Teens. The free version is enough. If you’re under 18, get permission from a parent or legal guardian before signing up. A Google Account. You’ll use it to create a Gemini Notebook. Access through a school account may depend on your school’s settings. Using Another AI App? This course was designed for ChatGPT. Other AI apps will work for many activities, but their screens and features will differ. Some LABs require the tool named in their instructions.",
       style: { display: "block", width: "100%", maxWidth: 902, height: "auto", margin: "0 auto 28px", borderRadius: 12, boxShadow: "var(--shadowElevated)" }
     }),
-    E(BodyP, null,
-      "That’s what you’ll need. Now, here’s what you can expect in each lesson."),
     E("img", {
       src: "course-assets/welcome/welcome-how-the-course-works.jpg?v=20261006simplified1",
       alt: "How the Course Works. Watch or Read: Watch the video at the top of each lesson, or read the lesson. Your choice. Do the Activity: Finish the activity at the end of each lesson. Mark It Complete: At the bottom of the lesson, select the Mark as complete button. At the Top: The progress bar counts completed lessons. Continue returns you to the first lesson you haven’t completed. Use the navigation bar to revisit lessons. Completed lessons show a checkmark.",
@@ -4685,8 +4674,6 @@ function WelcomeSection(props) {
         "This course works for classes, clubs, and other groups, too. Look for optional ",
         E("strong", null, "Group Exercises"),
         " at the end of lessons, with discussion questions or activities to do together.")),
-    E(BodyP, null,
-      "You’ll start by learning to work with AI, then explore how it works, where it can trip you up, and what you can do with it."),
     E("img", {
       src: "course-assets/welcome/welcome-where-this-course-takes-you.jpg?v=20260915titlebanner1",
       alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Embrace the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
@@ -7492,6 +7479,7 @@ function TemperatureDemo() {
 
 function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
+  /*#__PURE__*/React.createElement(BodyP, null, "You’ve learned that changing your prompt or the information in the context window can change AI’s answer. But even when that information stays the same, AI can produce different answers. The reason starts with how it chooses the next token."),
   /*#__PURE__*/React.createElement(BodyP, null, "AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next."),
   /*#__PURE__*/React.createElement(BodyP, null, "But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: ", React.createElement("strong", null, "sampling"), " and ", React.createElement("strong", null, "temperature"), "."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Sampling"),
@@ -7748,7 +7736,7 @@ function DocumentChatSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
-      label: "Next: Mind Trap"
+      label: "Next: Trust Trap"
     })
   );
 }
@@ -10379,7 +10367,7 @@ function MindTrapSection(props) {
       /*#__PURE__*/React.createElement("p", null, "It sees what you typed, matches common patterns, and does not share the outcome.")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. ",
-      /*#__PURE__*/React.createElement("strong", null, "Mind Trap is giving a human-sounding answer the trust you would give someone who knows you.")),
+      /*#__PURE__*/React.createElement("strong", null, "Trust Trap is giving a human-sounding answer the trust you would give someone who knows you.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "The ELIZA Effect"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "In the 1960s, some people began treating a simple chatbot called ELIZA as if it understood them. But ELIZA mostly matched patterns and turned their words back into questions. That response became known as the ELIZA effect."),

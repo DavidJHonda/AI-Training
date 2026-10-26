@@ -4,47 +4,19 @@
 
 Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked.
 
-Some familiar job titles may still be around: entrepreneur, teacher, lawyer, or designer. But what those jobs look like is already changing, including what people do each day.
+Familiar job titles will still be around, like entrepreneur, teacher, and lawyer. But what those jobs look like is already changing, including what people do each day.
 
-## You Already Know the Pieces
-
-To understand this, let’s review two concepts you already learned.
-
-First: AI is best at specific things, and that’s where you’ll use it in your job.
-
-### Board 1: Four AI Strengths at Work
-
-**Image file:** `work-changes-four-shapes-of-ai-work.jpg`
-
-![Four AI Strengths at Work](work-changes-four-shapes-of-ai-work.jpg)
-
-**Teaching content:**
-
-Four AI strengths at work.
-
-Reshape your material. Turn existing material into a more useful form.
-
-Explore possibilities. Generate options and explore different directions.
-
-Find what matters. Pull key ideas and relevant details from long documents.
-
-Work through problems. Break down a problem, compare approaches, and plan next steps.
-
-## What Sets You Apart
-
-Second: the importance of learning. If everyone gets similar answers from AI, what sets you apart?
-
-It’s what you already know.
+You already know AI is best at specific things, and that’s where you’ll use it in your job. What sets you apart? It’s what you already know. Now put those ideas together on your first assignment at work.
 
 ## Your First Assignment
 
-Here’s the same job before AI and with AI. AI can give you more time for the interesting stuff.
+Here are the steps in your first assignment. AI can give you more time for the interesting stuff.
 
-### Board 2: Your First Assignment
+### Board 1: Your First Assignment
 
-**Image file:** `work-changes-assignment-faceless.jpg`
+**Image file:** `../course-assets/work-changes/work-changes-assignment-short.jpg`
 
-![Your First Assignment](work-changes-assignment-faceless.jpg)
+![Your First Assignment](../course-assets/work-changes/work-changes-assignment-short.jpg)
 
 **Teaching content:**
 
@@ -52,21 +24,21 @@ Your first assignment.
 
 Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”
 
-The old job, before AI. The week disappears into the first pass. Friday arrives before the real thinking begins. You do the first pass: read and organize 500 reviews, find the recurring themes, build the spreadsheet, create a first analysis, and draft the presentation deck. Then you investigate why, recommend the fix, and present the findings. The result: the boss adds a page of comments, and you spend the next week reanalyzing.
+**Before AI, you did all of this yourself.**
 
-The new job, with AI. AI completes the first pass in minutes. Your week can begin with the real questions. AI does the first pass: read and organize 500 reviews, find the recurring themes, build the spreadsheet, create a first analysis, and draft the presentation deck. You start here: improve AI’s work, investigate why, recommend the fix, and present the findings. The result: the boss loves it. The week you spent on the real questions pays off.
+**Stage 1: Detail Work.** AI organizes and summarizes the information. Read and organize 500 reviews, find the recurring themes, build the spreadsheet, and draft an initial summary.
+
+**Stage 2: Analysis & Recommendation.** You check the work and decide what to do. Check and improve AI’s work, investigate why the problems are happening, compare possible fixes, recommend the fix and present the findings.
 
 ## Do You See the Point?
 
-The busy work was AI’s strengths in action: compressing 500 reviews, transforming them into a spreadsheet and a deck. And improving AI’s work along the way? That took what you already know.
-
-AI doesn’t just help you work faster. It can help you focus on what’s really important.
+With AI’s help, your week begins with the analysis and recommendation. That means less time in spreadsheets and more time thinking. Checking and improving AI’s work takes what you already know.
 
 ## The Concepts
 
-There are two terms you’ll hear that describe how AI is changing the nature of work.
+You just saw two ways to use AI at work: automate and augment.
 
-### Board 3: Two Ways AI Changes the Work
+### Board 2: Two Ways AI Changes the Work
 
 **Image file:** `work-changes-automation-and-augmentation.jpg`
 
@@ -78,35 +50,9 @@ Two ways AI changes the work.
 
 Automate. AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary.
 
-Augment. AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation.
+Augment. AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation.
 
 The work still has your name on it. You own the outcome.
-
-## You Own the Outcome
-
-Whatever career you choose, AI will do some tasks for you and help you do others.
-
-But here’s the important point: the work still has your name on it. You own the outcome.
-
-## How Work Is Changing
-
-Put automation and augmentation together, and three changes show up across almost every career.
-
-### Board 4: How Work Is Changing
-
-**Image file:** `work-changes-productivity-and-possibilities.jpg`
-
-![How Work Is Changing](work-changes-productivity-and-possibilities.jpg)
-
-**Teaching content:**
-
-How Work Is Changing.
-
-More Kinds of Work. With AI’s help, you can take on tasks outside your specialty, such as design, marketing, or customer support. You can handle more of a project yourself.
-
-More Productive. AI helps you complete tasks faster, so you’ll accomplish more in the same amount of time.
-
-More Meaningful. When AI handles routine tasks, you have more time to solve problems, develop ideas, and make decisions that need your knowledge and judgment.
 
 ## The Part That Matters
 

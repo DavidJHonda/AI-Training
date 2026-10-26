@@ -21,11 +21,11 @@ SPECS = {
             ('Listen to Understand', 'Do not plan your reply while the other person is talking. Ask one genuine follow-up question before offering your opinion.'),
             ('Notice What Isn’t Being Said', 'Pay attention to tone, hesitation, enthusiasm, and changes in behavior. If you’re unsure what a change means, ask.'),
             ('Show People They Matter', 'Remember what they tell you, give specific appreciation, and give people credit when an idea is theirs.'),
-            ('Challenge Ideas, Not People', 'Address difficult things directly and calmly. Challenge the idea or behavior without attacking the person.'),
+            ('Challenge Ideas, Not People', 'Address difficult things directly and calmly. Explain the concern and suggest a way forward: “This example doesn’t match the instructions. Could we try another?”'),
         ),
     },
     'matter-more': {
-        'title': 'People Skills Matter More',
+        'title': 'People Skills Will Matter More',
         'source': 'matter-more.png',
         'size': (1854, 848),
         'crops': [(48,148,608,464), (647,148,1208,464), (1248,148,1808,464)],

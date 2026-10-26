@@ -125,7 +125,8 @@ def main():
     if not args.upload_variant:
         preserve_source_scenes()
 
-    scene_offset = 425 if args.upload_variant else 0
+    # Upload stand-ins preserve canonical dimensions and text positions.
+    scene_offset = 0
     image = Image.new("RGB", (W, H - scene_offset), LAVENDER)
     draw = ImageDraw.Draw(image)
     draw_board_title(draw, "When You Think. What AI Does.")

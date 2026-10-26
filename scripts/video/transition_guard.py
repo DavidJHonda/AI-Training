@@ -162,7 +162,7 @@ def main() -> None:
     reports = []
     overall_pass = True
     for boundary in boundaries:
-        start = boundary.frame - args.handle
+        start = max(0, boundary.frame - args.handle)
         end = boundary.frame + args.handle
         spike_frames = {
             frame

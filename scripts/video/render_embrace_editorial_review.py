@@ -488,14 +488,14 @@ def render_chatbot_agent_long() -> Image.Image:
 
 
 def render_first_assignment_long() -> Image.Image:
-    """Render the customer-review assignment with the original Nate-and-Luke scene."""
+    """Render the two project stages, preserving the published photo panels."""
 
     width = 1600
     card_width = 744
     card_gap = 32
     card_lefts = (40, 40 + card_width + card_gap)
     scenario_top = 112
-    scenario_height = 183
+    scenario_height = 270
     cards_top = scenario_top + scenario_height + 32
     art_height = round(card_width * 9 / 16)
     scenario_label_font = face("heavy", 20)
@@ -519,38 +519,34 @@ def render_first_assignment_long() -> Image.Image:
         "Read and organize 500 reviews",
         "Find the recurring themes",
         "Build the spreadsheet",
-        "Create a first analysis",
-        "Draft the presentation deck",
+        "Draft an initial summary",
     )
     cards = (
         {
             "accent": PURPLE,
-            "pill": "THE OLD JOB",
-            "title": "Before AI",
-            "intro": "The week disappears into the first pass. Friday arrives before the real thinking begins.",
+            "pill": "STAGE 1",
+            "title": "Detail Work",
+            "intro": "AI organizes and summarizes the information.",
             "sections": (
-                ("YOU DO THE FIRST PASS", first_pass),
-                ("THEN YOU", ("Investigate why", "Recommend the fix", "Present the findings")),
-                ("THE RESULT", ("The boss adds a page of comments, and you spend the next week reanalyzing.",)),
+                ("", first_pass),
             ),
         },
         {
             "accent": AMBER,
-            "pill": "THE NEW JOB",
-            "title": "With AI",
-            "intro": "AI completes the first pass in minutes. Your week can begin with the real questions.",
+            "pill": "STAGE 2",
+            "title": "Analysis & Recommendation",
+            "intro": "You check the work and decide what to do.",
             "sections": (
-                ("AI DOES THE FIRST PASS", first_pass),
-                ("YOU START HERE", ("Improve AI’s work", "Investigate why", "Recommend the fix", "Present the findings")),
-                ("THE RESULT", ("The boss loves it. The week you spent on the real questions pays off.",)),
+                ("", ("Check and improve AI’s work", "Investigate why the problems are happening", "Compare possible fixes", "Recommend the fix and present the findings")),
             ),
         },
     )
 
     wrapped_intros = [wrap(measure, card["intro"], intro_font, text_width) for card in cards]
     wrapped_sections = []
-    peer_lines = [0, 0, 0]
+    peer_lines = [0] * max(len(card["sections"]) for card in cards)
     for card in cards:
+        assert tracked_width(measure, card["title"], card_title_font, INNER_TITLE_TRACKING) <= text_width
         card_sections = []
         for section_index, (label, items) in enumerate(card["sections"]):
             assert measure.textlength(label, font=section_font) <= text_width
@@ -563,8 +559,8 @@ def render_first_assignment_long() -> Image.Image:
     intro_lines = max(len(lines) for lines in wrapped_intros)
     text_height = 32 + 30 + 10 + 48 + 18 + intro_lines * 41 + 42
     for index, line_count in enumerate(peer_lines):
-        text_height += 28 + 12 + line_count * 41
-        if index < 2:
+        text_height += line_count * 41
+        if index < len(peer_lines) - 1:
             text_height += 42
     text_height += 34
     card_height = art_height + text_height
@@ -587,15 +583,15 @@ def render_first_assignment_long() -> Image.Image:
     )
     draw.text((72, scenario_top + 22), "THE ASSIGNMENT", font=scenario_label_font, fill=PURPLE)
     multiline(draw, (72, scenario_top + 58), scenario_lines, scenario_font, BODY, 45)
+    draw.text(
+        (72, scenario_top + 58 + (len(scenario_lines) + 1) * 45),
+        "Before AI, you did all of this yourself.", font=face("bold", 32), fill=INK,
+    )
 
-    source = Image.open(ROOT / "course-assets/work-changes/work-changes.jpg").convert("RGB")
-    source_width, source_height = source.size
-    half_width = source_width // 2
-    crop_height = round(half_width * 9 / 16)
-    crop_top = min(150, source_height - crop_height)
+    source = Image.open(ROOT / "scripts/video/assets/work-changes-assignment/source-board.jpg").convert("RGB")
     panels = (
-        source.crop((0, crop_top, half_width, crop_top + crop_height)),
-        source.crop((half_width, crop_top, source_width, crop_top + crop_height)),
+        source.crop((31, 246, 587, 562)),
+        source.crop((614, 246, 1170, 562)),
     )
 
     for card, panel, intro_lines_block, section_blocks, left in zip(
@@ -611,7 +607,7 @@ def render_first_assignment_long() -> Image.Image:
             outline=mix_with_white(accent, CARD_BORDER_OPACITY),
             width=1,
         )
-        art = accent_wash(panel.resize((card_width, art_height), Image.Resampling.LANCZOS), accent)
+        art = panel.resize((card_width, art_height), Image.Resampling.LANCZOS)
         image.paste(art, (left, cards_top), top_round_mask((card_width, art_height), CARD_RADIUS))
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle(
@@ -639,8 +635,6 @@ def render_first_assignment_long() -> Image.Image:
         text_y += intro_lines * 41 + 42
 
         for section_index, ((label, _), item_blocks) in enumerate(zip(card["sections"], section_blocks)):
-            draw.text((text_x, text_y), label, font=section_font, fill=accent)
-            text_y += 28 + 12
             item_y = text_y
             for block in item_blocks:
                 dot_y = item_y + 15
@@ -648,9 +642,18 @@ def render_first_assignment_long() -> Image.Image:
                 multiline(draw, (text_x + 30, item_y), block, body_font, BODY, 41)
                 item_y += len(block) * 41
             text_y += peer_lines[section_index] * 41
-            if section_index < 2:
+            if section_index < len(peer_lines) - 1:
                 text_y += 42
 
+    # A connector makes the panels read as stages in one project.
+    arrow_y = cards_top + art_height + 92
+    draw = ImageDraw.Draw(image)
+    draw.line((788, arrow_y, 810, arrow_y), fill=INK, width=4)
+    draw.line((802, arrow_y - 8, 810, arrow_y, 802, arrow_y + 8), fill=INK, width=4)
+    ImageDraw.Draw(image).text(
+        (width - 40, height - 10), "besmarterthanthetool.com",
+        font=face("medium", 20), fill="#625c7a", anchor="rd",
+    )
     return image
 
 

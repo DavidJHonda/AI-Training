@@ -63,8 +63,8 @@ def main() -> None:
     )
     save_pair(
         render_first_assignment_long(),
-        "course-assets/work-changes/work-changes-assignment.jpg",
-        "course-assets/work-changes/work-changes-assignment.jpg",
+        "course-assets/work-changes/work-changes-assignment-short.jpg",
+        "course-assets/work-changes/work-changes-assignment-short.jpg",
     )
 
 

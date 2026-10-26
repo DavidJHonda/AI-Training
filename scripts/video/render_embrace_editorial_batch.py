@@ -229,7 +229,7 @@ CARD_BOARDS = (
         title="Two Ways AI Changes the Work",
         cards=(
             Card("Automate", "AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary."),
-            Card("Augment", "AI helps a person do more. You explored more explanations, compared more options, and improved the recommendation."),
+            Card("Augment", "AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/work-automate-augment/art-sheet.png",
         page_output="course-assets/work-changes/work-changes-automation-and-augmentation.jpg",

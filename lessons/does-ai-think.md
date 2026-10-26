@@ -54,7 +54,11 @@ Experience and meaning. You draw on things you have lived through. You connect w
 
 Word choice. You choose words to express what you want to say. AI predicts the next word, then repeats.
 
-Uncertainty. You can notice when you are unsure. AI can sound certain even when it is wrong.
+Uncertainty.
+
+You can notice when you are unsure.
+
+AI can sound certain even when it is wrong.
 
 Similar-looking answers can come from very different processes.
 

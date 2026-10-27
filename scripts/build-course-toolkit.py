@@ -18,27 +18,24 @@ from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
 INK='#0e0a1f'; BODY='#3a3550'
 GUIDES=[
- dict(slug='evaluation-matters', file='evaluation-matters-guide',id='evaluating', title='Evaluation Matters', desc='A practical checklist for deciding whether an AI answer is ready to use.', subtitle='Is it right? Is it good enough for what I need?', takeaway='The tool answers. You evaluate.', vertical_expansion=20, body_size=11, body_leading=15.5,
- # Lesson flowchart, cropped to the diagram inside the board's white card.
- figure=dict(path='course-assets/evaluation-matters/evaluation-matters-process.jpg',crop=(72,202,1530,678),width=470), sections=[
- ('01  The quick pass', '<b>Read:</b> Review the whole answer before using it.<br/><b>Understand:</b> Ask for a simpler explanation of anything unclear.<br/><b>Validate:</b> Compare it with what you know and what you asked for. What is wrong, missing, or not useful?'),
- ('02  Do you need to dig deeper?', '<b>Can you judge it?</b> If you lack the knowledge, keep checking.<br/><b>What kind of task is it?</b> Check the facts, writing, or plan against what the task needs.<br/><b>How much is riding on it?</b> Give high-stakes answers more care.'),
- ('03  Dig deeper', '<b>Open the sources.</b> Check reliability and whether they support the claims.<br/><b>Challenge it.</b> Ask for the strongest argument against the answer.<br/><b>Look for gaps.</b> Ask what important information is missing.<br/><b>Check what is current.</b> Ask AI to search the web, then open its sources.<br/><b>Check independently.</b> Recalculate, test, or ask someone who knows.'),
- ('04  Make your move', '<b>Use it</b> if it is right and good enough. <b>Fix it</b> and check again if it falls short. <b>Walk away</b> and try another approach if AI is not helping.')]),
+ dict(slug='evaluation-matters', file='evaluation-matters-guide',id='evaluating', title='Evaluation Matters', desc='A practical checklist for deciding whether an AI answer is ready to use.', subtitle='Is it right? Is it good enough for what I need?', takeaway='The tool answers. You evaluate.', vertical_expansion=20, body_size=11.5, body_leading=16.5, sections=[
+ ('01  Do a quick review', '<b>Read.</b> Read the answer before you use it. If you pass it along, you are responsible for what it says.<br/><b>Understand.</b> You cannot judge an answer you do not understand. Ask for a simpler explanation of anything unclear.<br/><b>Validate.</b> Compare the answer with what you know and what you asked for. Is anything wrong, missing, or not useful?'),
+ ('02  Take a closer look', 'A quick review is often enough. When more is riding on the answer, or you are not sure it is right, take a closer look.<br/><br/><b>What kind of task?</b> A factual answer needs accurate information. A draft needs clear writing. A plan needs to work.<br/><b>How much is riding on it?</b> What happens if the answer is wrong? The more that depends on it, the more carefully you should check it.<br/><br/><b>Check the sources.</b> Ask for sources, then open them. Are they reliable, and do they support the claims? For current information, ask AI to search the web.<br/><b>Challenge the answer.</b> Ask for the strongest argument against it or what important information was left out. Decide whether that changes your view.<br/><b>Check it yourself.</b> Recalculate the numbers, test the code, or ask someone who knows the subject.'),
+ ('03  Make your move', '<b>Use it.</b> The answer is right and good enough for what you need.<br/><b>Fix it.</b> Tell AI what needs to change, or change it yourself. Check the revised answer before using it.<br/><b>Walk away.</b> If AI is not helping, try another approach or ask someone who knows the subject.')]),
  dict(slug='where-ai-works-best',file='where-ai-works-best-guide',body_size=12,body_leading=18,id='whatitdoesbest',standalone_sections=['Keep your judgment in the process'],title='Where AI Works Best',desc='Four useful kinds of work, with examples to help you get started.',subtitle='Match the job to one of these four strengths.',takeaway='AI gives you a starting point. You make the call.',sections=[
  ('01  Reshape your material','Give AI something you already have and ask for it in a different form. Keep the meaning while changing the presentation.<br/><b>Try:</b> Turn notes into a table, a voice memo into a to-do list, or technical instructions into plain language.'),
  ('02  Explore possibilities','Ask for options when you are stuck or want more choices. React to the ideas and ask for more of what interests you.<br/><b>Try:</b> Brainstorm essay angles, club names, story openings, or fundraiser ideas.'),
  ('03  Find what matters','Give AI a document or several sources and say what you need to know. Use the result to decide where to focus.<br/><b>Try:</b> Find scholarship requirements, summarize a chapter, or compare two articles.'),
  ('04  Work through problems','Describe your goal, what you know, and what is getting in the way. Ask AI to break the problem into steps or compare approaches.<br/><b>Try:</b> Plan a trip within a budget, troubleshoot code, or investigate an unexpected experiment result.'),
  ('Keep your judgment in the process','Check that rewrites preserve your meaning, summaries match the sources, and proposed ideas or solutions fit your situation. A fluent result is not a guarantee.')]),
- dict(slug='prompting-matters',file='prompting-matters-guide',body_size=11,body_leading=16,id='prompting',vertical_expansion=20,standalone_sections=['A reusable outline','Put it together'],title='Prompting Matters',desc='Four prompting moves, a worked example, and an outline you can reuse.',subtitle='Start with a good question. Then give AI what it needs.',takeaway='A prompt is a briefing, not magic words.',sections=[
- ('01  Start with a good question','Be <b>open-minded:</b> don’t pick the answer in advance. Be <b>specific:</b> give enough detail to get an answer that fits. Stay <b>on target:</b> ask about the problem you actually need to solve. Be <b>open-ended:</b> invite an explanation and leave room for an unexpected answer.'),
- ('02  Share your situation','Explain what you are working on, who it is for, and why it matters.'),
- ('03  Give it the material','Include the draft, notes, assignment, rubric, or source you want it to use. Share only what the task needs.'),
- ('04  Describe the answer you want','Specify the format, length, tone, and limits. Give an example when it would help.'),
- ('05  One job at a time','Break big work into steps. Say where AI should stop so you can review before moving on.'),
+ dict(slug='prompting-matters',file='prompting-matters-guide',body_size=11,body_leading=15,step_gap=19,id='prompting',vertical_expansion=20,standalone_sections=['Start with a good question','A reusable outline','Put it together'],title='Prompting Matters',desc='Four prompting moves, a worked example, and an outline you can reuse.',subtitle='Start with a good question. Then give AI what it needs.',takeaway='A prompt is a briefing, not magic words.',sections=[
+ ('Start with a good question','Use what you learned in Questions Matter. Then give AI the information and instructions it needs with these four moves.'),
+ ('01  Share your situation','Tell AI who you are, who the work is for, what you are working on, and why. Do not make it guess.'),
+ ('02  Give it the material','Include the actual draft, notes, assignment, rubric, numbers, or source you want it to use. Share only what the task needs.'),
+ ('03  Describe the answer you want','Specify the format, length, tone, and what to skip. Give an example when it would help.'),
+ ('04  One job at a time','Break big work into steps. Ask for the next step and say where AI should stop. Review each part before moving on.'),
  ('A reusable outline','I am working on <b>[task]</b> for <b>[audience or purpose]</b>.<br/>Use <b>[material]</b>. Help me <b>[specific next step]</b>.<br/>Give me <b>[format]</b>, with <b>[limits]</b>.<br/>Stop after <b>[step]</b> so I can review.'),
- ('Put it together','“I’m preparing a history presentation for my class. Here are my notes and the rubric. Suggest three possible main arguments in a short list. Use only these notes. Wait for me to choose before making an outline.”<br/><br/>Use the moves that fit the task. A simple question may need very little setup.')]),
+ ('Put it together','“I’m preparing a history presentation for my class. Here are my notes and the rubric. Suggest three possible main arguments in a short list. Use only these notes. Wait for me to choose before making an outline.”<br/><br/>A quick factual question: just ask. Real work: share your situation, material, and desired answer. A big project: work one job at a time.')]),
  dict(slug='critical-thinking',file='critical-thinking-five-habits-guide',body_size=12,body_leading=18.5,id='critical',standalone_sections=['Use these beyond AI'],title='Five Habits of Critical Thinking',desc='Five questions to use with AI, news, schoolwork, and everyday claims.',subtitle='Pause, examine the claim, and make your own decision.',takeaway='Good thinking in, sharper output.',sections=[
  ('01  Is it actually right?','What evidence supports the claim? Does that evidence support the conclusion?'),
  ('02  Do I know enough to judge?','Recognize where your knowledge ends. Find out what you need to understand before deciding.'),
@@ -46,13 +43,14 @@ GUIDES=[
  ('04  Why am I convinced?','Is it the evidence, the confident wording, or what you want to believe?'),
  ('05  What’s my call?','Decide what to believe or do. You can change your mind when you learn more.'),
  ('Use these beyond AI','These questions work on anything you read or hear. AI can help you look for weaknesses in an argument, but you still judge whether its answer holds up.')]),
- dict(slug='honesty-and-privacy',file='honesty-and-privacy-sharing-guide',body_size=12,body_leading=18.5,id='integrity',title='Share Only What AI Needs',desc='A quick privacy check before sending a prompt, screenshot, or file.',subtitle='Give useful context without sharing unnecessary personal details.',takeaway='You meant to share the task. Check everything you send.',sections=[
+ dict(slug='honesty-and-privacy',file='honesty-and-privacy-sharing-guide',body_size=11.5,body_leading=16.5,vertical_expansion=20,step_gap=19,id='integrity',title='Share Only What AI Needs',desc='What to share, what to keep out, and what to do if you already shared it.',subtitle='Give useful context without sharing unnecessary personal details.',takeaway='You meant to share the task. Check everything you send.',sections=[
  ('Usually fine','Interests, goals, preferences, and broad details about the situation. Include what helps AI understand the job.'),
  ('Only when needed','Health, medication, family situations, grades, income, expenses, or debt. Keep details general whenever possible and include only what the task needs.'),
  ('Keep out','Passwords, security codes, account numbers, identification numbers, home addresses, and other people’s private information.'),
- ('Before attaching a file or image','Check the whole item, including names, background details, notifications, and unrelated pages. Crop or remove information the task does not need, then check the edited copy. You can type the relevant information instead.'),
- ('A quick example','For help with a homework problem, send the problem itself. Remove the student name, school details, and anything private elsewhere in the photo.'),
- ('Ask before sending','What does AI actually need to help with this task? Can I remove a detail or describe it more generally and still get useful help?')]),
+ ('Before attaching a file or image','Check the whole item, including names, background details, notifications, and unrelated pages. Crop or remove what the task does not need, then check the edited copy. For homework help, share the problem without student names, school details, or private information elsewhere in the photo. You can type the relevant information instead.'),
+ ('Ask before sending','What does AI actually need for this task? Can I remove a detail or describe it more generally and still get useful help?'),
+ ('Why this matters','An AI chat is a record sent to an outside system. It may stay in your account, be read by people at the AI company, be handed over if the law requires it, or be seen by someone who gets into your device or account.'),
+ ('If you already shared it','Delete the chat from your history. This removes it from the app’s visible history, but a copy may remain in the AI company’s systems for a period of time. Each app has its own deletion policy.<br/><br/><b>Shared a password or security code?</b> Deleting the chat is not enough. Change any passwords or security codes you shared.')]),
  dict(slug='honesty-and-privacy',file='honesty-and-privacy-school-guide',body_size=12,body_leading=18.5,id='integrity',title='Using AI in School',desc='Check the rules, understand your work, and explain how AI helped.',subtitle='Own what you submit and be clear about how it was made.',takeaway='If your name is on the work, you own how it was made.',sections=[
  ('01  Start with the assignment rules','AI help may be allowed in one class and prohibited in another. Check the policy and ask your teacher when it is unclear. Disclose AI use as required.'),
  ('02  Use AI to support learning','When permitted, use it to practice, ask for explanations, get feedback, or improve work you understand and created. Do not submit AI-generated work as your own or use AI when the assignment prohibits it.'),
@@ -78,8 +76,8 @@ def editorial(c,g):
  body_width=right-body_x
  standalone=[heading in g.get('standalone_sections',[]) for heading,_ in g['sections']]
  section_widths=[width if separate else body_width for separate in standalone]
- # Fixed spacing shared by all guides. Body typography remains as previously approved.
- label_gap=4;step_gap=24;example_gap=5;coda_before=20;coda_after=16
+ # Shared spacing defaults; denser guides can adjust the gap between sections.
+ label_gap=4;step_gap=g.get('step_gap',24);example_gap=5;coda_before=20;coda_after=16
  style=ParagraphStyle('editorial-body',fontName='Guide',fontSize=g['body_size'],leading=g['body_leading'],textColor=HexColor(BODY))
  example_style=ParagraphStyle('editorial-example',parent=style,fontSize=10.5,textColor=HexColor('#5c5680'))
  y=616+expansion
@@ -92,7 +90,7 @@ def editorial(c,g):
   section_x=left if separate else body_x
   if i:
    y-=coda_before if separate else step_gap
-  if separate:
+  if separate and i:
    c.setStrokeColor(HexColor('#dcd5f5'));c.setLineWidth(.5);c.line(left,y,right,y)
    y-=coda_after
   if '  ' in heading:

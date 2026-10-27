@@ -1,13 +1,9 @@
-// Merge PDFs using the macOS built-in PDFKit — zero dependencies.
-// Usage: osascript -l JavaScript scripts/join-pdfs.js out.pdf in1.pdf in2.pdf ...
-ObjC.import("Quartz");
-function run(argv) {
-  var out = $.PDFDocument.alloc.init;
-  for (var i = 1; i < argv.length; i++) {
-    var doc = $.PDFDocument.alloc.initWithURL($.NSURL.fileURLWithPath(argv[i]));
-    if (doc.isNil()) throw new Error("Could not read " + argv[i]);
-    for (var p = 0; p < doc.pageCount; p++) out.insertPageAtIndex(doc.pageAtIndex(p), out.pageCount);
-  }
-  if (!out.writeToFile(argv[0])) throw new Error("Could not write " + argv[0]);
-  return out.pageCount + " pages";
-}
+// Preserve Chrome's embedded fonts and searchable text. PDFKit converted body
+// text to outlines during merging, leaving only headings extractable.
+// Usage: node scripts/join-pdfs.js [--min-text-chars N] out.pdf in1.pdf ...
+const { execFileSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const localPython = path.join(__dirname, "../.video-venv/bin/python3");
+const python = process.env.PDF_PYTHON || (fs.existsSync(localPython) ? localPython : "python3");
+execFileSync(python, [path.join(__dirname, "join-pdfs.py"), ...process.argv.slice(2)], { stdio: "inherit" });

@@ -52,6 +52,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   for (const lid of ids) {
     await send("Page.navigate", { url: BASE + "?print=lesson:" + lid }); await sleep(2200);
     await send("Emulation.setEmulatedMedia", { media: "print" });
+    await send("Runtime.evaluate", { expression: "document.fonts.ready", awaitPromise: true });
     // Override the global @page { margin: 1.6cm } so the page is pure content height
     // (otherwise the CSS margin shrinks the printable area and content spills to p2).
     await ev("(function(){var s=document.createElement('style');s.textContent='@page{margin:0}';document.head.appendChild(s);})()");
@@ -73,7 +74,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     console.log("  " + fname + ".pdf  (" + H + "px tall)");
   }
   if (process.env.PACKET) {
-    const pages = execFileSync("osascript", ["-l", "JavaScript", "scripts/join-pdfs.js", process.env.PACKET, ...made], { encoding: "utf8" }).trim();
+    const pages = execFileSync(process.execPath, ["scripts/join-pdfs.js", "--min-text-chars", "200", process.env.PACKET, ...made], { encoding: "utf8" }).trim();
     console.log("Merged into " + process.env.PACKET + " (" + pages + ")");
   }
   ws.close();

@@ -5,7 +5,7 @@ Status: **REVIEW CANDIDATE — not shipped.** Live file unchanged.
 - Candidate: `Prompts/hallucination-v3.mp4`, 3:53.93, 7018 frames at 30 fps (same as live).
 - SHA-256: see `edit-manifest.json` → `render_sha256`.
 - Base: the shipped file (`course-assets/hallucination/hallucination.mp4`, sha `0198c0dc…`: the 2026-09-06 reroll build plus the 2026-09-08 illustration sync), taken as the picture source because the raw roll (`Prompts/hallucination-reroll.mp4`) no longer exists. Same shape as the other 2026-09-18 retrofits.
-- Build: `.video-venv/bin/python scripts/video/build_hallucination_v3_retrofit.py`. It reuses the shipped scripts' own leg makers and renderers (`build_your_choices_reroll_review.make_leg` with the shipped cut/pause mapping, `build_work_changes_hybrid.render_leg`, `build_avoid_illustration_sync.render_leg` for the photo board, the shipped close mover), pointed at the current course assets.
+- Build: `.video-venv/bin/python scripts/video/build_hallucination_v3_retrofit.py`. It reuses the shipped scripts' own leg makers and renderers (`build_when_you_need_more_reroll_review.make_leg` with the shipped cut/pause mapping, `build_work_changes_hybrid.render_leg`, `build_avoid_illustration_sync.render_leg` for the photo board, the shipped close mover), pointed at the current course assets.
 - Audio: the shipped AAC stream copied (`-c:a copy`). Verified byte-identical (stream sha `b99f2ed4…` on both files). Nothing to audition.
 
 ## What changed

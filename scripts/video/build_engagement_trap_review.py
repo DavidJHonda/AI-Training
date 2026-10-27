@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path('/Users/davidobrien/Developer/AI-Training')
 sys.path.insert(0,str(ROOT/'scripts/video'))
 import cv2
-import build_your_choices_reroll_review as common
+import build_when_you_need_more_reroll_review as common
 from build_work_changes_hybrid import render_leg
 from build_flattery_trap_review import render_illustration
 SOURCE=ROOT/'Prompts/engagement-trap.mp4'

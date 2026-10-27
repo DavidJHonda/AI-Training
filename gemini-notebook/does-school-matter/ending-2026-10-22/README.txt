@@ -4,7 +4,7 @@ Prepared 2026-10-22 on the owner's approval. This is an alternate short-ending k
 UPLOAD
 Upload only the two files in this kit's upload/ folder:
   does-school-matter-ending.md
-  beyond-the-new-average-close.jpg
+  does-school-matter-close.jpg
 
 Paste PROMPT.txt into the video customization field. Do not upload the prompt, README, manifest, full lesson, or old board. Select only these two sources for this generation.
 

@@ -4,7 +4,7 @@ import json, subprocess, sys, tempfile
 from build_work_changes_hybrid import render_leg, crop_frame, smoothstep
 from pathlib import Path
 import cv2
-import build_your_choices_reroll_review as common
+import build_when_you_need_more_reroll_review as common
 
 ROOT = Path('/Users/davidobrien/Developer/AI-Training')
 SOURCE = ROOT/'Prompts/flattery-trap.mp4'

@@ -603,7 +603,7 @@ def render_hallucination_convergence(art_sheet: str, supporting_art_sheet: str) 
     return image
 
 
-def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
+def render_trust_trap_boards(art: dict[str, str] | None = None) -> None:
     """Render only the two Mind Trap boards and their lesson copies."""
     art = art or build_art_sheets()
 
@@ -628,7 +628,7 @@ def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         render_card_board(eliza),
-        Pair("course-assets/mind-trap/mind-trap-eliza-effect-v2.jpg", "course-assets/mind-trap/avoid-traps-13-eliza.jpg"),
+        Pair("course-assets/trust-trap/trust-trap-eliza-effect-v2.jpg", "course-assets/trust-trap/avoid-traps-13-eliza.jpg"),
     )
 
     comparison = render_comparison(
@@ -663,7 +663,7 @@ def render_mind_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         comparison,
-        Pair("course-assets/mind-trap/mind-trap-comparison-v2.jpg", "course-assets/mind-trap/avoid-traps-12-mind-comparison.jpg"),
+        Pair("course-assets/trust-trap/trust-trap-comparison-v2.jpg", "course-assets/trust-trap/avoid-traps-12-mind-comparison.jpg"),
     )
 
 
@@ -793,7 +793,7 @@ def render_support_trap_boards(art: dict[str, str] | None = None) -> None:
 def main() -> None:
     art = build_art_sheets()
 
-    render_mind_trap_boards(art)
+    render_trust_trap_boards(art)
     render_flattery_trap_boards(art)
     render_engagement_trap_boards()
 

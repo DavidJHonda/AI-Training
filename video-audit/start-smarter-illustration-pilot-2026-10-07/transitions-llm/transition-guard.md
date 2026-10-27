@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `Prompts/how-an-llm-works-v17.mp4`
+- Video: `Prompts/whats-an-llm-v17.mp4`
 - Decoded frames: 8775
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

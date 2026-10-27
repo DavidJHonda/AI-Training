@@ -75,7 +75,7 @@ def main():
     args = parser.parse_args()
 
     live = ROOT / "course-assets/your-home-base/your-home-base.mp4"
-    lesson = ROOT / "lessons/which-app.md"
+    lesson = ROOT / "lessons/your-home-base.md"
     build = Build(
         ROOT,
         SRC,

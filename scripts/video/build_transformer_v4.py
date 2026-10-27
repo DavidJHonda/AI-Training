@@ -3,7 +3,7 @@
 from pathlib import Path
 import argparse,json,wave,subprocess,hashlib
 import numpy as np,cv2,imageio_ffmpeg
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/transformer-full-2026-09-10/v4';DEST=ROOT/'Prompts/transformer-v4.mp4';ASSETS=ROOT/'video-audit/transformer-repair-2026-09-10'
 FPS=30;SR=48000;W=1280;H=720;BG=(251,245,246)
 def fr(t):return round(t*30)

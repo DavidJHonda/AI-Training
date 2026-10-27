@@ -357,5 +357,5 @@ panel-pointing left in.
   "An attacker needs only one opening", matching the board art and the Markdown.
 - `Prompts/upload-sets.json`: `save_as` -> `Prompts/big-downside-3.mp4`, notes updated.
 - `sync_gemini_notebook.py --lesson big-downside` re-run; `--check` clean for this
-  lesson (one-more-thing is stale from other work and was left alone).
+  lesson (the-next-token is stale from other work and was left alone).
 - Not committed. Rolls 1 and 2 retained as donors.

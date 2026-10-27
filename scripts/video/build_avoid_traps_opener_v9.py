@@ -17,7 +17,7 @@ cv2.setNumThreads(2)
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'course-assets/avoid-traps-opener/avoid-traps-opener.mp4'
 MAP = SRC.parent / 'avoid-traps-opener-section-map.jpg'
-OUT = ROOT / 'video-audit/avoid-traps-opener-build-2026-09-29-v9'
+OUT = ROOT / 'video-audit/avoid-traps-build-your-skills-opener-2026-09-29-v9'
 DEST = ROOT / 'Prompts/avoid-traps-opener-v9.mp4'
 EXPECTED = '00b231583030d5f83dcd730907ac2d2e148febb26acc0f46fbe5a2fcbb7ca239'
 FPS, N = 30, 6458

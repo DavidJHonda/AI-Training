@@ -129,7 +129,7 @@ At 3:05.66–3:11.64:
 
 If rewriting the fresh-chat paragraph, proposed wording that keeps it consistent with the earlier memory lesson:
 
-> When you’re starting a different task, start a fresh chat. That leaves the old conversation behind. Your saved preferences and memory may still be available. A fresh chat does not increase the model’s context-window limit.
+> When you’re starting a different task, start a fresh chat. That leaves the old conversation behind. Your saved preferences and memory may still be available. A fresh chat does not increase the model’s context-matters limit.
 
 This last paragraph is a proposed clarification, not a verbatim passage from the current page. Align page and upload Markdown if adopted. Do not replace the existing good car-example grafts solely for voice uniformity.
 

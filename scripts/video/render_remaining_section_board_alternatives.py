@@ -294,10 +294,10 @@ def render_transcript_memory():
         {"eyebrow": "YOU", "title": "Carry the conversation", "body": "The earlier questions and answers stay in your memory. You bring that history to the next turn.", "footer": "MEMORY CONTINUES", "accent": TEAL, "fill": SOFT_GREEN},
         {"eyebrow": "AI", "title": "Re-read the transcript", "body": "Before every new word, the system sends the available chat back through the model. Nothing is remembered between runs.", "footer": "CONTEXT IS REBUILT", "accent": PURPLE},
     )
-    save(image, "understand-ai", "one-more-thing-transcript-memory-alternative.jpg")
+    save(image, "understand-ai", "the-next-token-transcript-memory-alternative.jpg")
 
 
-def render_mind_trap():
+def render_trust_trap():
     image, draw = board_frame(
         "Human advice has something AI does not",
         "Human-sounding is not a mind.",
@@ -306,7 +306,7 @@ def render_mind_trap():
         {"eyebrow": "A PERSON WHO KNOWS YOU", "title": "Your mom", "body": "She knows your history, notices what you leave out, and has to live with what happens next.", "footer": "CONTEXT + STAKE", "accent": TEAL, "fill": SOFT_GREEN},
         {"eyebrow": "A SYSTEM THAT SOUNDS HUMAN", "title": "AI", "body": "It matches patterns from pages and the current chat. It has no life with you and no stake in the choice.", "footer": "PATTERNS + FLUENCY", "accent": PURPLE},
     )
-    save(image, "avoid-traps", "mind-trap-human-stake-alternative.jpg")
+    save(image, "avoid-traps", "trust-trap-human-stake-alternative.jpg")
 
 
 def render_flattery():
@@ -595,7 +595,7 @@ def main():
     render_transformer()
     render_inference_path()
     render_transcript_memory()
-    render_mind_trap()
+    render_trust_trap()
     render_flattery()
     render_engagement()
     render_support()
@@ -613,10 +613,10 @@ def main():
         "tokens-tokenization-alternative.jpg",
         "transformer-context-problems-alternative.jpg",
         "how-ai-answers-inference-path-alternative.jpg",
-        "one-more-thing-transcript-memory-alternative.jpg",
+        "the-next-token-transcript-memory-alternative.jpg",
     ], "remaining-alternatives-contact-sheet.jpg")
     make_contact_sheet("avoid-traps", [
-        "mind-trap-human-stake-alternative.jpg",
+        "trust-trap-human-stake-alternative.jpg",
         "flattery-trap-praise-loop-alternative.jpg",
         "engagement-trap-decision-point-alternative.jpg",
         "support-trap-real-vs-missing-alternative.jpg",

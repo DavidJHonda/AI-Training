@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """WORD EXCISION — remove a stray spoken word from the AUDIO only; video stream
-copied untouched (shipped: how-an-llm-works seam word "first", 163.50-164.02).
+copied untouched (shipped: whats-an-llm seam word "first", 163.50-164.02).
 
 CAVEAT: the audio track gets shorter by (end - start), so everything AFTER the
 cut plays that much earlier relative to the video. Only invisible when the

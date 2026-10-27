@@ -17,7 +17,7 @@ def main():
  assert not DEST.exists(),'Do not overwrite reviewed candidates'
  assert sha(SOURCE)==EXPECTED
  OUT.mkdir(exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
- protected={str(p):sha(p) for p in [ROOT/'index.html',ROOT/'lessons/which-app.md',ROOT/'course-assets/your-home-base/your-home-base.mp4',*sorted((ROOT/'course-assets/your-home-base').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [ROOT/'index.html',ROOT/'lessons/your-home-base.md',ROOT/'course-assets/your-home-base/your-home-base.mp4',*sorted((ROOT/'course-assets/your-home-base').glob('*.jpg'))]}
  a=pcm(SOURCE);parts=[a[x*1600:z*1600].copy() for x,z in KEEP]
  parts[0][-240:]*=np.linspace(1,0,240);parts[1][:240]*=np.linspace(0,1,240)
  edited=np.concatenate(parts);writewav(OUT/'edited.wav',edited*32768)

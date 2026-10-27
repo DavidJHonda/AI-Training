@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import build_work_changes_hybrid as v
-import build_your_choices_reroll_review as common
+import build_when_you_need_more_reroll_review as common
 
 ROOT=Path(__file__).resolve().parents[2]
 AUDIT=ROOT/'video-audit/flattery-five-moves-hybrid-v3-2026-09-07'

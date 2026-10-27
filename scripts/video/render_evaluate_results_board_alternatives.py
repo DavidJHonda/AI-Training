@@ -273,7 +273,7 @@ def render_dig():
     ]
     for box, item in zip(boxes, cards):
         compact_card(draw, box, *item)
-    path = OUT / "evaluate-the-results-3-dig-alternative.jpg"
+    path = OUT / "evaluation-matters-3-dig-alternative.jpg"
     image.save(path, quality=94, subsampling=0)
     return path
 
@@ -286,7 +286,7 @@ def preview(paths):
         x = 40 + (i % 2) * 740
         y = 40 + (i // 2) * 445
         sheet.paste(im, (x, y))
-    output = OUT / "evaluate-the-results-process-preview.jpg"
+    output = OUT / "evaluation-matters-process-preview.jpg"
     sheet.save(output, quality=94, subsampling=0)
     return output
 
@@ -309,10 +309,10 @@ def main():
         ("__x", "Walk away", "The tool is wrong for the job or the stakes are too high. Do it yourself or take it to a person who knows.", ORANGE, "walk", False),
     ]
     paths = [
-        render_three("Run the quick pass", 1, quick, "Read it. Understand it. Validate what you can.", "evaluate-the-results-1-quick-pass-alternative.jpg"),
-        render_three("Decide whether to dig", 2, decide, "Unknown facts or real stakes mean keep going.", "evaluate-the-results-2-decide-alternative.jpg"),
+        render_three("Run the quick pass", 1, quick, "Read it. Understand it. Validate what you can.", "evaluation-matters-1-quick-pass-alternative.jpg"),
+        render_three("Decide whether to dig", 2, decide, "Unknown facts or real stakes mean keep going.", "evaluation-matters-2-decide-alternative.jpg"),
         render_dig(),
-        render_three("Make your move", 4, move, "Use it, fix it, or choose a better path.", "evaluate-the-results-4-move-alternative.jpg"),
+        render_three("Make your move", 4, move, "Use it, fix it, or choose a better path.", "evaluation-matters-4-move-alternative.jpg"),
     ]
     paths.append(preview(paths))
     for path in paths:

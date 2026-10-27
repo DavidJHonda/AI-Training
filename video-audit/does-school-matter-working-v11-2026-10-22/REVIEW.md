@@ -10,7 +10,7 @@ It intentionally ends after “helping a team turn ideas into action.” The new
 
 ## Sources and exact edit
 
-Stable source: `Prompts/beyond-the-new-average-v10.mp4`, SHA-256 `646b062e8b2f59d62a241e47f606c6765f1f71a698cc49d6e205b129e93d41a9`. This is the same file as the installed video at review time. The pristine raw generation is unavailable, so this is one additional encode from the finished v10.
+Stable source: `Prompts/does-school-matter-v10.mp4`, SHA-256 `646b062e8b2f59d62a241e47f606c6765f1f71a698cc49d6e205b129e93d41a9`. This is the same file as the installed video at review time. The pristine raw generation is unavailable, so this is one additional encode from the finished v10.
 
 The manifest records source, asset and protected-file hashes, candidate hash, geometry, boundaries, and scope. All frame ranges below are half-open at 30 fps.
 

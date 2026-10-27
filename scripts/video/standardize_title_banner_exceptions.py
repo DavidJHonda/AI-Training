@@ -182,7 +182,7 @@ def transformer() -> None:
 
 def main() -> None:
     standard_title_and_banner(
-        "art-of-prompting/art-of-prompting-four-moves.jpg",
+        "prompting-matters/prompting-matters-four-moves.jpg",
         (1600, 1474),
         "Four Moves for Better Prompts",
         0,
@@ -190,7 +190,7 @@ def main() -> None:
         title_only=True,
     )
     standard_title_and_banner(
-        "art-of-prompting/art-of-prompting-four-moves-continued.jpg",
+        "prompting-matters/prompting-matters-four-moves-continued.jpg",
         (1600, 1591),
         "Four Moves for Better Prompts, Continued",
         0,

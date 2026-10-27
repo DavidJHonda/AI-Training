@@ -4,7 +4,7 @@
 // compact element. Some lesson boards are full-bleed page blocks (a peach Illustration
 // band, a lavender ShowcaseBox), and the white card doesn't just look different — it
 // DROPS the band and the eyebrow, so the video gets a board the reader never sees.
-// That is what was wrong with opener-work-1-refrain (2026-07-28): a white card where
+// That is what was wrong with work-with-ai-opener-1-refrain (2026-07-28): a white card where
 // the page shows a peach Illustration titled "WHAT MAKES AI USE GOOD?".
 //
 // This composes the element straight onto the page background at 1600x900 instead,
@@ -53,7 +53,7 @@ const BOARDS = [
     find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
 
   // AI Is Math boards 1–5 are now deterministic 1600×900 boards built by
-  // render_ai_is_math_board_alternatives.py. Do not recapture their accessible-only
+  // render_probability_and_prediction_board_alternatives.py. Do not recapture their accessible-only
   // HTML fallbacks here or the small legacy layouts will overwrite the canonicals.
 
   // Match the lesson's actual ~900px outer block and walk up from the inner white
@@ -90,24 +90,24 @@ const BOARDS = [
   { section: "tokens", out: "tokens-2-tokenization.jpg", width: 640, wrapUp: 1,
     find: ["no AI involved", "the space before a word"] },
 
-  // evaluate-the-results: same problem, but the lesson block is too tall for one
+  // evaluation-matters: same problem, but the lesson block is too tall for one
   // frame, so it splits the way the lesson reads. Steps 1-3 are the seconds-long
   // tier; step 4 is the decision gate; step 5 already exists as 2-dig.
-  { section: "evaluating", out: "evaluate-the-results-1-steps.jpg", width: 1180, vw: 1280,
+  { section: "evaluating", out: "evaluation-matters-1-steps.jpg", width: 1180, vw: 1280,
     keep: [0, 4],
     find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
-  { section: "evaluating", out: "evaluate-the-results-decide.jpg", width: 1180, vw: 1280,
+  { section: "evaluating", out: "evaluation-matters-decide.jpg", width: 1180, vw: 1280,
     keep: [4, 5],
     find: ["How you evaluate the results", "This might sound obvious", "Leave the chat."] },
 
   // The five trap lessons share one two-column comparison block, and its grid is
   // repeat(auto-fit, minmax(min(100%, 340px), 1fr)) in all five — so it needs roughly
   // 700px of inner width to stay two columns, and silently stacks below that. Cut
-  // through a narrow slot, mind-trap / engagement-trap / flattery-trap collapsed to
+  // through a narrow slot, trust-trap / engagement-trap / flattery-trap collapsed to
   // one column AND then got scaled down to fit 900px tall, which is why their type
   // was so much smaller than support-trap's and fake-trap's. The wide stage keeps the
   // two columns the lesson actually shows. Never cut one of these narrow.
-  { section: "mindtrap", out: "mind-trap-1-answers.jpg", width: 1180, vw: 1280, card: true,
+  { section: "mindtrap", out: "trust-trap-1-answers.jpg", width: 1180, vw: 1280, card: true,
     find: ["Should I go to the University of Michigan or Indiana University?", "Your Mom", "Searched eighteen years of knowing you"] },
   { section: "engagementtrap", out: "engagement-trap-1-choice.jpg", width: 1180, vw: 1280, card: true,
     find: ["How tall is Mount Everest?", "You end the conversation", "The Engagement Trap"] },

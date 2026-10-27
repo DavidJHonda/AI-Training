@@ -30,7 +30,7 @@ import imageio_ffmpeg
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import build_your_choices_reroll_review as common  # noqa: E402
+import build_when_you_need_more_reroll_review as common  # noqa: E402
 import build_avoid_illustration_sync as sync  # noqa: E402
 from build_work_changes_hybrid import render_leg  # noqa: E402
 from gemini_mark import clean_frame, glyph_mask  # noqa: E402

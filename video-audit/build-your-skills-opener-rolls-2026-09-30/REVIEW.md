@@ -2,7 +2,7 @@
 
 **Recommendation: keep the current course video for now. None of these three new versions meets the current narration requirements, and combining them cannot supply all the missing lines.** Version 2 is the strongest new source for teaching coverage, version 3 offers the fullest bike example, and version 1 has useful explanatory diagrams. Those strengths do not make a complete replacement.
 
-This review covers `Prompts/opener-build-1.mp4`, `opener-build-2.mp4`, and `opener-build-3.mp4`, uploaded September 30. They are distinct from the older `build-your-skills-opener-1.mp4` and `-2.mp4`. Full hashes, durations, and video properties are in `sources.json`. All are 1280 × 720 at 30 fps.
+This review covers `Prompts/build-your-skills-opener-1-legacy-1.mp4`, `build-your-skills-opener-2-legacy-1.mp4`, and `build-your-skills-opener-3.mp4`, uploaded September 30. They are distinct from the older `build-your-skills-opener-1.mp4` and `-2.mp4`. Full hashes, durations, and video properties are in `sources.json`. All are 1280 × 720 at 30 fps.
 
 | Version | Runtime | Narration verdict | Main finding |
 |---|---|---|---|
@@ -34,7 +34,7 @@ The added explanations do not compensate for the missing honesty point or unreso
 
 ```text
 LESSON: build-your-skills-opener
-CANDIDATE: Prompts/opener-build-1.mp4
+CANDIDATE: Prompts/build-your-skills-opener-1-legacy-1.mp4
 VERDICT: REROLL
 TEACHING POINTS:
   Hook: what makes you valuable? — TAUGHT — 0:10–0:18: what makes you valuable?
@@ -91,7 +91,7 @@ Best overall raw source for meaning, but not a complete or approved base.
 
 ```text
 LESSON: build-your-skills-opener
-CANDIDATE: Prompts/opener-build-2.mp4
+CANDIDATE: Prompts/build-your-skills-opener-2-legacy-1.mp4
 VERDICT: REROLL
 TEACHING POINTS:
   Hook: what makes you valuable? — TAUGHT — 0:00–0:12: what exactly do you bring to the table?
@@ -149,7 +149,7 @@ The shorter runtime does not make it more complete. The bike story is its strong
 
 ```text
 LESSON: build-your-skills-opener
-CANDIDATE: Prompts/opener-build-3.mp4
+CANDIDATE: Prompts/build-your-skills-opener-3.mp4
 VERDICT: REROLL
 TEACHING POINTS:
   Hook: what makes you valuable? — TAUGHT — 0:00–0:11: What exactly makes you valuable?

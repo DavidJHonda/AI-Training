@@ -17,7 +17,23 @@ def _manifest():
 
 @lru_cache(maxsize=1)
 def _paths():
-    return {row['old']: row['new'] for row in _manifest()['assets']}
+    paths = {row['old']: row['new'] for row in _manifest()['assets']}
+    # Older generators use original board descriptions with the current lesson
+    # prefix. Resolve those names to the same approved board as the old alias.
+    for old, new in list(paths.items()):
+        if old is None:
+            continue
+        p = Path(old)
+        paths.setdefault(str(p.parent / canonical_name(p.name)), new)
+    return paths
+
+def canonical_name(filename):
+    """Apply a lesson retitle while preserving the asset's descriptive suffix."""
+    aliases = _manifest().get('slug_aliases', {})
+    for old in sorted(aliases, key=len, reverse=True):
+        if filename == old or filename.startswith(old + '-') or filename.startswith(old + '.'):
+            return aliases[old] + filename[len(old):]
+    return filename
 
 @lru_cache(maxsize=1)
 def _canonical_paths():
@@ -51,7 +67,7 @@ def asset_path(origin, filename):
                       if stem == p or stem.startswith(p + '-')), None)
         if group is None:
             raise ValueError('Add a lesson prefix to course-assets/manifest.json before generating ' + key)
-        relative = 'course-assets/' + group + '/' + filename
+        relative = 'course-assets/' + group + '/' + canonical_name(filename)
     return ROOT / relative
 
 class AssetDirectory:

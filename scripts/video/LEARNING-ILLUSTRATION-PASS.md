@@ -89,7 +89,7 @@ the versioned review records preserve the treatment approved at the time.
 | Work With AI | Visible prompting, file-context, and source-checking actions; clear screen state changes | [Production review](../../video-audit/work-with-ai-illustration-pilot-2026-10-08/REVIEW.md) |
 | Understand AI: Embeddings | Each spoken dimension highlights and reveals its score; previous values stay visible | [Production review](../../video-audit/understand-ai-illustration-updates-2026-10-08/REVIEW.md) |
 | Avoid Traps | Original-source checking, preparation versus action, and calling a saved contact; matched photographic states | [Production review](../../video-audit/avoid-traps-illustration-updates-2026-10-08/REVIEW.md), [prompts](../../video-audit/avoid-traps-illustration-updates-2026-10-08/assets/prompts.json) |
-| Know the App | Takeaway-banner timing and subject-specific college comparison; approved drawn treatment for this insert | [v3 review](../../video-audit/know-the-app-build-2026-10-08-v3/REVIEW.md) |
+| Know the App | Takeaway-banner timing and subject-specific college comparison; approved drawn treatment for this insert | [v3 review](../../video-audit/when-you-need-more-build-2026-10-08-v3/REVIEW.md) |
 
 Before delivering a new pass, compare it with the selected references for
 realism, maturity, clarity of action, scene continuity, readable overlays, pacing,

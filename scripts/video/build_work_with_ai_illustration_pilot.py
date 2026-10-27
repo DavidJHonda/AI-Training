@@ -12,9 +12,9 @@ FF=imageio_ffmpeg.get_ffmpeg_exe()
 FONT=ROOT/'scripts/video/assets/fonts/PlusJakartaSans-wght.ttf'
 INK='#203335';MUTED='#526568';TEAL='#137d77';BG='#f5f8f6'
 SOURCES={
-'art-of-prompting':dict(sha='01be5736ad8b3eba49c5e0156b048934e42abe6ecc7f920ac0f3aef55027fa58',frames=6936,version=10,spans=[('P1',3447,3730)],change=3552),
-'context-window':dict(sha='b141d3265b3dddc44ef1ca0f2cb3383e53b86e22ca6020ae59ea61a8d80d346a',frames=7461,version=7,spans=[('P2',5844,5980)],change=5904),
-'evaluate-the-results':dict(sha='edfe1b8ec78b3582f10bb3a74e7336842d0aa40b781e97ed727890c0450aa002',frames=7661,version=9,spans=[('P3',5106,5277)],change=5167)}
+'prompting-matters':dict(sha='01be5736ad8b3eba49c5e0156b048934e42abe6ecc7f920ac0f3aef55027fa58',frames=6936,version=10,spans=[('P1',3447,3730)],change=3552),
+'context-matters':dict(sha='b141d3265b3dddc44ef1ca0f2cb3383e53b86e22ca6020ae59ea61a8d80d346a',frames=7461,version=7,spans=[('P2',5844,5980)],change=5904),
+'evaluation-matters':dict(sha='edfe1b8ec78b3582f10bb3a74e7336842d0aa40b781e97ed727890c0450aa002',frames=7661,version=9,spans=[('P3',5106,5277)],change=5167)}
 def sha(path):
  h=hashlib.sha256()
  with open(path,'rb') as f:

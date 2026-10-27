@@ -82,7 +82,7 @@ If it isn’t in the context window, the model can’t see it.
 
 ## The Forgetting Problem
 
-Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat so the new task begins with a clean context. A fresh chat does not increase or reset the model’s context-window limit.
+Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat so the new task begins with a clean context. A fresh chat does not increase or reset the model’s context-matters limit.
 
 ## Closing Message
 

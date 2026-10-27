@@ -2,7 +2,7 @@
 
 # Support Trap
 
-AI can sound patient, caring, and understanding. Sometimes its words can even help. But what happens when kind words are not enough? Here’s an everyday example from a high school student:
+AI can sound patient, caring, and understanding. Sometimes its words can even help. But what happens when kind words are not enough?
 
 ### Board 1: Supportive Words versus Support
 
@@ -22,7 +22,7 @@ Supportive language is not the same as support.
 
 ## What Happened Next
 
-Notice: the AI’s words might even be the kinder ones. The difference is what happened next. One reply changed tomorrow’s lunch. The other could not change anything outside the chat.
+Notice: the AI’s words might even be the kinder ones. The difference is what happened next.
 
 Support Trap is mistaking supportive words for support.
 
@@ -91,12 +91,6 @@ Tell anyway. Tell a trusted adult even if someone told you not to or made you pr
 Safety outranks secrecy.
 
 In danger, the next move must reach a person who can act.
-
-## Know When to Leave the Chat
-
-Most of this course is about using AI well. Here, using it well means knowing when to leave the chat.
-
-If someone may be unsafe, bring in someone who can help.
 
 ## Closing Message
 

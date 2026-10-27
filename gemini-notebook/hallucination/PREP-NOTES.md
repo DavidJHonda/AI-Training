@@ -1,3 +1,11 @@
+# Current source update — 2026-10-27
+
+The pizza story and illustration have moved to Does AI Think?. Hallucination retains the brief misreading-a-real-source qualification, the Stanford example, checking method, close, and Dino Game. Its narration source retains the Stanford checking application and removes the pizza application. The bundle now contains one Markdown and four boards. The installed video still includes the pizza story and needs revision.
+
+The current Markdown, prompt, and upload registry supersede the sequence and file counts in the historical preparation record below. No video has been generated or installed for this move.
+
+---
+
 # Hallucination full-video reroll — September 30, 2026
 
 David chose a fresh roll after reviewing the v15 repair. Prepare the complete lesson, with the checking sequence carried naturally by the new narration. v15 and earlier candidates remain available; no further splice or production build is part of this preparation request.

@@ -912,10 +912,10 @@ def render_mind():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/avoid-traps/mind-trap-eliza-effect-alternative.jpg",
-        "board-review-first-four/current-selected/avoid-traps/mind-trap-1-eliza-effect.jpg",
-        "course-assets/mind-trap/mind-trap-eliza-effect.jpg",
-        "course-assets/mind-trap/mind-trap-1-eliza-effect.jpg",
+        "board-review-first-four/alternatives/avoid-traps/trust-trap-eliza-effect-alternative.jpg",
+        "board-review-first-four/current-selected/avoid-traps/trust-trap-1-eliza-effect.jpg",
+        "course-assets/trust-trap/trust-trap-eliza-effect.jpg",
+        "course-assets/trust-trap/trust-trap-1-eliza-effect.jpg",
     ])
 
 

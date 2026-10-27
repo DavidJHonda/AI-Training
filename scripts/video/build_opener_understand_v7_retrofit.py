@@ -17,7 +17,7 @@ import argparse, subprocess, sys, hashlib, json
 import numpy as np, cv2, imageio_ffmpeg
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from editspec_build import Build, Reader, CLOSE_PREHOLD, CLOSE_PUSH, W, H
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 
 ROOT = Path(__file__).resolve().parents[2]
 LIVE = ROOT / 'course-assets/understand-ai-opener/understand-ai-opener.mp4'   # the shipped v4, sha256 e657b34b984d7ceb…

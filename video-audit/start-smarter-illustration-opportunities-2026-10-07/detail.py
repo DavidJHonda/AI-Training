@@ -1,7 +1,7 @@
 from pathlib import Path
 import cv2,concurrent.futures
 ROOT=Path.cwd();OUT=ROOT/'video-audit/start-smarter-illustration-opportunities-2026-10-07'
-jobs={'how-an-llm-works':[(220,237)],'beyond-the-new-average':[(60,79)],'learn-with-ai':[(27,42),(177,192)],'does-ai-think':[(161,174)],'what-is-ai':[(73,88)],'in-your-hands':[(143,150)],'why-learn-ai':[(168,174)]}
+jobs={'whats-an-llm':[(220,237)],'does-school-matter':[(60,79)],'learn-with-ai':[(27,42),(177,192)],'does-ai-think':[(161,174)],'what-is-ai':[(73,88)],'in-your-hands':[(143,150)],'why-learn-ai':[(168,174)]}
 def run(item):
  slug,spans=item;cap=cv2.VideoCapture(str(ROOT/'course-assets'/slug/(slug+'.mp4')));fps=cap.get(cv2.CAP_PROP_FPS);targets={round(t*fps):t for a,b in spans for t in range(a,b)};dest=OUT/slug/'detail';dest.mkdir(exist_ok=True);i=0;cells={a:[] for a,b in spans}
  while i<=max(targets):

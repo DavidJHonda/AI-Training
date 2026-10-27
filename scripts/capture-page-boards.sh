@@ -3,7 +3,7 @@
 # the page background so they keep the band and eyebrow the reader sees. The generic
 # capture-board.sh wraps its target in a white card, which silently drops both.
 #
-# Covers: welcome (quote card, five-step path, what-you'll-need) and opener-work
+# Covers: welcome (quote card, five-step path, what-you'll-need) and work-with-ai-opener
 # (the refrain). Run after ANY edit to one of those blocks, so the boards the video
 # engine gets still match the page. Add new ones to BOARDS in the .js.
 #

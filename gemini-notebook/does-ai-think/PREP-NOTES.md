@@ -1,3 +1,11 @@
+# Current source update — 2026-10-27
+
+The pizza story, Real Text. Wrong Meaning illustration, and source-interpretation landing now belong to Does AI Think?, between the Chinese Room and the three paired comparisons. Their existing wording is retained. The retired fluent-answer sentence is removed; the opening, comparison, close, and activities remain. The bundle now contains one Markdown and four boards. The installed video still follows the previous sequence and needs revision.
+
+The current Markdown, prompt, and upload registry supersede the sequence and file counts in the historical preparation record below. No video has been generated or installed for this move.
+
+---
+
 # Does AI Think? — reroll preparation, 2026-10-23
 
 Prepared from the current lesson in `index.html`, its two teaching boards, and its closing board under `scripts/video/PREPARATION.md`. This refresh follows the current-video evaluation and the v11 repair candidate. David requested a fresh reroll; these are preparation materials, not a generated or installed video.

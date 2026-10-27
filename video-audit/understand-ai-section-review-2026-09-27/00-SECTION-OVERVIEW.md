@@ -33,14 +33,14 @@ Preserve documented owner exceptions and cuts. Canonical boards containing reali
 
 1. [Opener](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/01-understand-ai-opener-REVIEW.md)
 2. [Training](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/02-training-REVIEW.md)
-3. [AI is Math](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/03-ai-is-math-REVIEW.md)
+3. [AI is Math](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/03-probability-and-prediction-REVIEW.md)
 4. [Tokens](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/04-tokens-REVIEW.md)
 5. [Embeddings](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/05-embeddings-REVIEW.md)
 6. [Transformer](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/06-transformer-REVIEW.md)
 7. [Layers](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/07-layers-REVIEW.md)
 8. [Vector Space](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/08-vector-space-REVIEW.md)
 9. [How AI Answers](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/09-how-ai-answers-REVIEW.md)
-10. [One More Thing](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/10-one-more-thing-REVIEW.md)
+10. [One More Thing](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/10-the-next-token-REVIEW.md)
 
 Supplement to Layers: [AI Brain Break](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/11-ai-brain-break-REVIEW.md).
 

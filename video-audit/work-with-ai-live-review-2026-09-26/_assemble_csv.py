@@ -1,6 +1,6 @@
 import csv, os, sys
 OUT="video-audit/work-with-ai-live-review-2026-09-26"
-order=["work-with-ai-opener","ai-is-different","where-ai-works-best","your-home-base","questions-matter","art-of-prompting","context-window","evaluate-the-results","critical-thinking"]
+order=["work-with-ai-opener","ai-is-different","where-ai-works-best","your-home-base","questions-matter","prompting-matters","context-matters","evaluation-matters","critical-thinking"]
 SUM="lesson,video,candidate,duration,verdict,why,points_total,rich,taught,thin,missing,wrong,hard_met,hard_total,hard_missed,errors,source_qa,additions,repair_feasible,reroll_needs,listening_limits".split(",")
 PTS="lesson,video,kind,n,point,rating,timestamp,spoken_or_note".split(",")
 summ=[]; pts=[]; problems=[]

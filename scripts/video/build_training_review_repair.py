@@ -21,7 +21,7 @@ import imageio_ffmpeg
 import numpy as np
 from PIL import Image, ImageDraw
 from editorial_typography import draw_board_title, face
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 from make_close_board import close_board_copy
 
 ROOT = Path(__file__).resolve().parents[2]

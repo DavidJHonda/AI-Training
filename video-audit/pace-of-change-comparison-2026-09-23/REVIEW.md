@@ -97,7 +97,7 @@ HARD REQUIREMENTS:
   "AI keeps getting faster and more powerful." / "Nobody is sure where it stops." — MISSED — 4:32 "AI keeps getting faster and more powerful, and as it continues to accelerate, nobody is sure exactly where it stops." then 4:42 "Thank you." — the two lines are merged, expanded, and followed by a sign-off.
 ERRORS: as above; banned words used: theoretical (three times), ultimate, landscape, deployed.
 SOURCE_QA: PASS
-ADDITIONS: the context-window definition at 0:52 is a fair teaching add but not needed.
+ADDITIONS: the context-matters definition at 0:52 is a fair teaching add but not needed.
 REPAIR PLAN: none as a candidate (5 of 6 hard requirements missed, one WRONG banner, sign-off after the close).
 EDITING NOTES — as a donor:
   Usable drawings: 1:44–1:48 data-center aisle (under More Compute in roll 1, 2:48–2:58); 1:56–2:00 phone "System Error" turning to a check, and 2:00–2:04 the check/X torn paper (under the race beat). 1:36–1:44 (confused man at a computer, flight booking) has a drawn person; 1:48–1:56 "CONTINUOUS OBSOLESCENCE · ~60-DAY CADENCE" with invented scores; 2:52 "FOUR CORE AI TRAJECTORIES" (restatement); 2:56 "Theoretical Frameworks" collage — none ship.

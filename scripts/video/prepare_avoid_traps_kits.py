@@ -60,9 +60,9 @@ KITS = [
         ("3-moves", "document-trap-moves-v3.jpg", True),
         ("4-close", "close", True),
     ]),
-    ("mind-trap", "mindtrap", "mind-trap", [
-        ("1-comparison", "mind-trap-comparison-v3.jpg", False),
-        ("2-eliza", "mind-trap-eliza-effect-v4.jpg", True),
+    ("trust-trap", "mindtrap", "trust-trap", [
+        ("1-comparison", "trust-trap-comparison-v3.jpg", False),
+        ("2-eliza", "trust-trap-eliza-effect-v4.jpg", True),
         ("3-close", "close", True),
     ]),
     ("flattery-trap", "flattery", "flattery-trap", [

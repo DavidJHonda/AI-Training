@@ -5,7 +5,7 @@ live's own. No new pauses, no other cuts. Review only: the live video, lessons/,
 unchanged (hashed as protected files by the build).
 
 **Candidate:** `Prompts/build-your-skills-opener-v3.mp4` (4463 frames, 2:28.77, sha256 9ad9b412a7a20c4e…), built by
-`scripts/video/build_opener_build_v3.py`, working folder `build-v3/` here.
+`scripts/video/build_build_your_skills_opener_v3.py`, working folder `build-v3/` here.
 
 ## Source identities
 

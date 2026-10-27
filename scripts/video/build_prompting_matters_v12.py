@@ -7,8 +7,8 @@ import subprocess
 import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'Prompts/art-of-prompting-recap-source-20261026.mp4'
-DEST = ROOT / 'Prompts/art-of-prompting-v12.mp4'
+SOURCE = ROOT / 'Prompts/prompting-matters-recap-source-20261026.mp4'
+DEST = ROOT / 'Prompts/prompting-matters-v12.mp4'
 OUT = ROOT / 'video-audit/prompting-matters-recap-cut-2026-10-26'
 SOURCE_SHA = '0c3e63b271877b449c6aca57bea490a9ddbf5c6bf7c76e5236ab33cdc2986d1f'
 FPS, FRAMES, CUT_START, CUT_END = 30, 6936, 797, 1480

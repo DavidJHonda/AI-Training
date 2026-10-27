@@ -1,5 +1,7 @@
 # Start Smarter Video Kits
 
+**2026-10-27 pizza-story move:** Current lesson sources and upload bundles now place Real Text. Wrong Meaning after the Chinese Room in Does AI Think?. Hallucination retains the Stanford example and brief real-source qualification. Both bundles contain five files. The two lesson-owned PREP-NOTES.md files and upload registry supersede the older sequences and counts below. Existing videos await revision.
+
 Prep status is controlled by `gemini-notebook/upload-sets.json`. Any lesson listed in
 `needs_preparation` requires a fresh kit; older “materials ready” or upload directions
 below describe historical work and do not authorize reuse.
@@ -21,7 +23,7 @@ Notes:
 - What’s an LLM?: “Same Word. Different Odds.” and “One Word at a Time” now have canonical page-board JPGs. Historical note: the odds board was deleted on 2026-10-08 after the introductory rewrite; only One Word at a Time remains in the current kit.
 - Does School Matter had no close board copy; one was rendered from the page's CLOSE_BOARDS entry (`make_close_board.py --lesson whybother`).
 - Does School Matter materials refreshed 2026-09-14 after a lesson edit: the "Here’s the catch" paragraph now precedes the Same Tool board on the page, so the Markdown and the prompt’s narration order follow it; boards and close copy unchanged (verified byte-identical / re-rendered). Rolls go to `Prompts/does-school-matter-reroll.mp4`.
-- Stale September captures (why-learn-ai quote card, what-is-ai movie task, how-an-llm-works map/training/patterns/odds/myths, does-ai-think rulebook/compare, what-you-can-control moves, does-school-matter two-skills, learn-with-ai feed-in/habits) were deleted; the page assets in `illustrations/` and `lessons/` are the originals.
+- Stale September captures (why-learn-ai quote card, what-is-ai movie task, whats-an-llm map/training/patterns/odds/myths, does-ai-think rulebook/compare, what-you-can-control moves, does-school-matter two-skills, learn-with-ai feed-in/habits) were deleted; the page assets in `illustrations/` and `lessons/` are the originals.
 
 ### why-learn-ai (2026-09-28, current recipe and lesson-arc pass)
 

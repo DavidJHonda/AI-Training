@@ -251,10 +251,10 @@ render_school_board() {
   rm -f "$temp_png"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-1-two-skills-alternative.jpg"
   cp "$output" "$repo_root/board-review-first-four/alternatives/start-smarter/does-school-matter-two-skills.jpg"
-  cp "$output" "$repo_root/course-assets/beyond-the-average/does-school-matter-two-skills.jpg"
-  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/beyond-the-average/does-school-matter-two-skills.jpg"
-  cp "$output" "$repo_root/course-assets/beyond-the-average/does-school-matter-1-two-skills.jpg"
-  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/beyond-the-average/does-school-matter-1-two-skills.jpg"
+  cp "$output" "$repo_root/course-assets/does-school-matter/does-school-matter-two-skills.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/does-school-matter/does-school-matter-two-skills.jpg"
+  cp "$output" "$repo_root/course-assets/does-school-matter/does-school-matter-1-two-skills.jpg"
+  bash "$repo_root/scripts/finalize-course-asset.sh" "$repo_root/course-assets/does-school-matter/does-school-matter-1-two-skills.jpg"
   echo "Built $output"
 }
 

@@ -11,7 +11,7 @@ import argparse,json,hashlib,subprocess,wave
 import cv2,numpy as np,imageio_ffmpeg
 from PIL import Image,ImageDraw
 from editorial_typography import face,draw_board_title
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 from make_close_board import close_board_copy
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/embeddings-repair-2026-09-10'

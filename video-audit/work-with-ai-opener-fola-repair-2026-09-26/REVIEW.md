@@ -56,6 +56,6 @@ This is ready for David’s review, not declared ready to publish. The inherited
 
 ## Reproduction and evidence
 
-Build command: `.video-venv/bin/python scripts/video/build_opener_work_fola_review.py`. The script rejects an existing candidate, checks source hashes and records the timeline. Version a subsequent revision instead of overwriting a file David may have open.
+Build command: `.video-venv/bin/python scripts/video/build_work_with_ai_opener_fola_review.py`. The script rejects an existing candidate, checks source hashes and records the timeline. Version a subsequent revision instead of overwriting a file David may have open.
 
 [Edit manifest](/Users/davidobrien/Developer/AI-Training/video-audit/work-with-ai-opener-fola-repair-2026-09-26/edit-manifest.json) · [QA results](/Users/davidobrien/Developer/AI-Training/video-audit/work-with-ai-opener-fola-repair-2026-09-26/qa.json) · [Candidate transcript](/Users/davidobrien/Developer/AI-Training/video-audit/work-with-ai-opener-fola-repair-2026-09-26/candidate-transcript.txt) · [Visual check sheet](/Users/davidobrien/Developer/AI-Training/video-audit/work-with-ai-opener-fola-repair-2026-09-26/qa-overview.jpg) · [Transition results](/Users/davidobrien/Developer/AI-Training/video-audit/work-with-ai-opener-fola-repair-2026-09-26/transitions/transition-guard.json)

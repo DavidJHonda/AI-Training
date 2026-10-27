@@ -1,7 +1,7 @@
 # Build Your Skills opener v4: section-map walk (2026-09-26)
 
 **Candidate:** `Prompts/build-your-skills-opener-v4.mp4` (4928 frames, 2:44.27 at 30 fps, 1280x720, sha256 e1eeb5cb701601a1…). Not shipped; live v3 unchanged.
-**Build:** `.video-venv/bin/python scripts/video/build_opener_build_v4.py` → `build-v4/` (edit-manifest.json, leg-map.json, states-map.jpg).
+**Build:** `.video-venv/bin/python scripts/video/build_build_your_skills_opener_v4.py` → `build-v4/` (edit-manifest.json, leg-map.json, states-map.jpg).
 **Scope:** full map-walk rebuild on the live, plan approved by David 2026-09-26 ("Yes. All your suggestions. Build it please.").
 
 ## Sources
@@ -44,7 +44,7 @@ Board on screen 1:13.00-2:17.23 (64.2 s, longest unbroken board run). Held unbro
 ## v5 (2026-09-26): full-row rings only — current candidate
 David on v4: "For the highlights, just highlight the full row as it's spoken. That's what we do on the other Openers."
 `Prompts/build-your-skills-opener-v5.mp4` (4928 frames, 2:44.27, sha256 bc3f3ff0b1f8b197…), built by
-`scripts/video/build_opener_build_v5.py` (the v4 script, renamed; its phrase targets removed) into `build-v5/`.
+`scripts/video/build_build_your_skills_opener_v5.py` (the v4 script, renamed; its phrase targets removed) into `build-v5/`.
 Row rings at 1:17.36 (row 1), 1:32.82 (row 2), 1:52.48 (row 3); banner at 2:09.94 to the cut. Audio, timeline,
 and close identical to v4. transition_guard 5/5 pass (`transitions-v5/`); states-map.jpg inspected.
 The v4 section above is superseded for the rings only; everything else in it still applies, including the listening list.

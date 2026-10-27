@@ -10,7 +10,7 @@ from editspec_build import Reader,readwav,writewav
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/data-centers-lesson-update-2026-10-09/build-v7'
 BASE=ROOT/'Prompts/data-centers-v6.mp4'
-DONOR=ROOT/'Prompts/one-more-thing-v14.mp4'
+DONOR=ROOT/'Prompts/the-next-token-v14.mp4'
 DEST=ROOT/'Prompts/data-centers-v7.mp4'
 BOARD=ROOT/'course-assets/data-centers/data-centers-math.jpg'
 EXPECTED={str(BASE):'2b728ffd3fc3d5f61dfa1e6d44d7398fb82c0bac28269b50b3b8cae593eda89c',str(DONOR):'321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca'}

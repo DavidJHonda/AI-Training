@@ -8,7 +8,7 @@ from build_embeddings_v7 import Renderer
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/what-is-ai-build-v14-2026-10-22'
 DEST=ROOT/'Prompts/what-is-ai-v14.mp4'
-SOURCES={'base':ROOT/'Prompts/what-is-ai-v11.mp4','everyday':ROOT/'Prompts/why-learn-ai-v10.mp4','six':ROOT/'Prompts/What-is-ai-6.mp4','seven':ROOT/'Prompts/what-is-ai-7.mp4'}
+SOURCES={'base':ROOT/'Prompts/what-is-ai-v11.mp4','everyday':ROOT/'Prompts/why-learn-ai-v10.mp4','six':ROOT/'Prompts/what-is-ai-6.mp4','seven':ROOT/'Prompts/what-is-ai-7.mp4'}
 HASHES={'base':'e7713536d479f329277efacfd6d052efcdb66852c50eca83b26b6e5e44905785','everyday':'f7cab5a37d9c1f8ae141f1f2bcfadb441dd4341dedad782eb1684b63e9c6bd79','six':'0ea948aee5ccae77726d64f8ce665cb3b4955292c196c94428e7acef70b00166','seven':'f8b2a0606fb2ff52b9fe02ea9119573f2c24e74ebbbfe398d1e36c40448595c3'}
 PLAN=[('base',0,1284,0),('everyday',1197,3048,0),('pause',0,30,0),('base',1284,2196,0),('six',921,1182,1.7),('base',2427,2838,0),('seven',4716,4773,-1.3),('seven',5433,5502,3.9),('tail',0,120,0)]
 TOTAL=4995;GEN=3936;SUMMARY=4581;CLOSE=4749

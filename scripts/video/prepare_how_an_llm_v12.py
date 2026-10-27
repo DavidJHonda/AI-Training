@@ -4,11 +4,11 @@ import cv2
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'video-audit/how-an-llm-works-repair-2026-09-17-v12/source-checks'
+OUT=ROOT/'video-audit/whats-an-llm-repair-2026-09-17-v12/source-checks'
 
 def main():
     for name,times in [
-        ('how-an-llm-works-reroll-2',[94.4,94.5,94.6,94.7,94.8,95,95.5,96,96.1,96.2,96.3,96.4,96.5,96.6,96.7]),
+        ('whats-an-llm-reroll-2',[94.4,94.5,94.6,94.7,94.8,95,95.5,96,96.1,96.2,96.3,96.4,96.5,96.6,96.7]),
         ('how-the-model-learns-2',[164.6,164.8,165,165.2,166,167,168,169,169.2,169.4,169.6])]:
         dest=OUT/name;dest.mkdir(parents=True,exist_ok=True)
         want={round(t*30) for t in times}; c=cv2.VideoCapture(str(ROOT/'Prompts'/f'{name}.mp4')); cells=[]

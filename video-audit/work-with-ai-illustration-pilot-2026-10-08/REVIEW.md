@@ -27,4 +27,4 @@ Encoded screen states and all nine transition strips were inspected before deliv
 
 Photographs were generated with the built-in image_gen tool. Original scene and targeted draft-paper correction prompts are in assets/generation-record.json. Final selected photographs are assets/draft.png, assets/file.png, and assets/source.png. The script renders exact instructional screen text separately and composites it into the display quadrilaterals.
 
-Build: scripts/video/build_work_with_ai_illustration_pilot.py. Verification and review assembly scripts live beside this record. The three lesson manifests record source identities and output hashes. Full candidates are in Prompts/art-of-prompting-v10.mp4, Prompts/context-window-v7.mp4, and Prompts/evaluate-the-results-v9.mp4.
+Build: scripts/video/build_work_with_ai_illustration_pilot.py. Verification and review assembly scripts live beside this record. The three lesson manifests record source identities and output hashes. Full candidates are in Prompts/prompting-matters-v10.mp4, Prompts/context-matters-v7.mp4, and Prompts/evaluation-matters-v9.mp4.

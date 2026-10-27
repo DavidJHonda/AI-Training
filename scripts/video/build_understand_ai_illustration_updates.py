@@ -14,7 +14,7 @@ INK='#203335';MUTED='#526568';TEAL='#137d77';BG='#f5f8f6'
 SOURCES={
  'training':dict(sha='640748dfa2ef1de643f05c88395ed7e27af1986c095c0e94a3158e55af94e20d',frames=7382,version=10,spans=[('P1',5222,5429)],change=5334),
  'embeddings':dict(sha='38261989bb40f5c34010a782ff4c789ea16bd230f6812fa294b644d52fe98a55',frames=7997,version=12,source_version=10,spans=[('P2',1475,1930)],change=1703,changes=[1703,1715,1743,1761,1779,1807]),
- 'ai-is-math':dict(sha='8bcdd5073d722f7ec692a223b8c525ff3703c5b41fe1ed74eb8051957192551b',frames=6184,version=9,spans=[('P3',3099,3296)],change=3216)}
+ 'probability-and-prediction':dict(sha='8bcdd5073d722f7ec692a223b8c525ff3703c5b41fe1ed74eb8051957192551b',frames=6184,version=9,spans=[('P3',3099,3296)],change=3216)}
 def sha(path):
  h=hashlib.sha256()
  with open(path,'rb') as f:

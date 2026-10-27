@@ -8,7 +8,7 @@ const deps = process.env.CODEX_NODE_MODULES || '/Users/davidobrien/.cache/codex-
 const { chromium } = require(path.join(deps, 'playwright'));
 const sharp = require(path.join(deps, 'sharp'));
 const root = path.resolve(__dirname, '../..');
-const out = path.join(root, 'course-assets/beyond-the-new-average');
+const out = path.join(root, 'course-assets/does-school-matter');
 const reportDir = path.join(root, 'tmp/school-build-spec');
 const boards = [{id:'what-school-helps-you-build',title:'What School Helps You Build',cards:[
  ['Knowledge','Go deep in a subject you care about. Become someone people turn to for your knowledge.','#4f2fc4','79,47,196'],
@@ -50,7 +50,7 @@ function html(board) {
   fs.mkdirSync(artDir,{recursive:true});
   for (const [i,left] of [40,816].entries()) {
     const artFile=path.join(artDir,`${i}.png`);
-    if(!fs.existsSync(artFile)) await sharp(path.join(out,'beyond-the-new-average-future.jpg')).extract({left,top:128,width:744,height:339}).png().toFile(artFile);
+    if(!fs.existsSync(artFile)) await sharp(path.join(out,'does-school-matter-future.jpg')).extract({left,top:128,width:744,height:339}).png().toFile(artFile);
   }
   const browser = await chromium.launch({executablePath:process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
   const reports = [];
@@ -100,7 +100,7 @@ function html(board) {
       const metadata = await sharp(file).metadata();
       const manifestPath=path.join(root,'course-assets/manifest.json');
       const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
-      const entry=manifest.generated_assets.find(a=>a.new==='course-assets/beyond-the-new-average/what-school-helps-you-build.jpg');
+      const entry=manifest.generated_assets.find(a=>a.new==='course-assets/does-school-matter/what-school-helps-you-build.jpg');
       Object.assign(entry,{sha256:require('node:crypto').createHash('sha256').update(fs.readFileSync(file)).digest('hex'),bytes:fs.statSync(file).size,width:metadata.width,height:metadata.height,generator:'scripts/video/render_school_build_board.cjs',purpose:'Canonical Editorial Explainer: Two-Card Full-Bleed (EE-2FB), Knowledge and Skills.'});
       entry.reference_files=['index.html','lessons/does-school-matter.md','scripts/video/render_school_build_board.cjs'];
       fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');

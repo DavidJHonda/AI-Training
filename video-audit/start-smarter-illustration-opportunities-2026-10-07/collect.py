@@ -1,7 +1,7 @@
 from pathlib import Path
 import re,json,hashlib,cv2,concurrent.futures
 ROOT=Path.cwd(); OUT=ROOT/'video-audit/start-smarter-illustration-opportunities-2026-10-07'
-slugs=['why-learn-ai','what-is-ai','how-an-llm-works','does-ai-think','in-your-hands','beyond-the-new-average','learn-with-ai']
+slugs=['why-learn-ai','what-is-ai','whats-an-llm','does-ai-think','in-your-hands','does-school-matter','learn-with-ai']
 def collect(slug):
  p=ROOT/'course-assets'/slug/(slug+'.mp4'); dest=OUT/slug;dest.mkdir(exist_ok=True)
  cap=cv2.VideoCapture(str(p));fps=cap.get(cv2.CAP_PROP_FPS);n=int(cap.get(cv2.CAP_PROP_FRAME_COUNT));cells=[];sheet=0;i=0;target=0

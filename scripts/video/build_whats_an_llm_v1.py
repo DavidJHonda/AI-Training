@@ -4,7 +4,7 @@ from pathlib import Path
 import hashlib,json,subprocess,wave
 import cv2,numpy as np,imageio_ffmpeg
 ROOT=Path(__file__).resolve().parents[2]
-SOURCE=ROOT/'Prompts/how-an-llm-works-v17.mp4'
+SOURCE=ROOT/'Prompts/whats-an-llm-v17.mp4'
 EXPECTED='4b19151bdce37d85c012d176dbde24f6ec60f75a806d9fc2a6cdc2e06aa7aea2'
 OUT=ROOT/'video-audit/whats-an-llm-build-2026-10-08'
 DEST=ROOT/'Prompts/whats-an-llm-v1.mp4'

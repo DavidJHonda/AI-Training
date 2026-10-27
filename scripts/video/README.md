@@ -113,6 +113,10 @@ Individual video shipping stops at a local Git commit:
    canonical `course-assets/<lesson>/<lesson>.mp4` path.
 2. Update that video's `LESSON_VIDEOS` reference, cache key, and displayed runtime
    in `index.html` as needed. Verify the installed file and local lesson reference.
+   Update the installed video's SHA-256 and byte size in `course-assets/manifest.json`.
+   For any approved image replacements, update every `assets` or `generated_assets`
+   row that maps to the changed file. Preserve original `migration_sha256` values
+   and run `python3 scripts/verify-course-assets.py --migration-hashes`.
 3. Commit only the approved release changes locally. Preserve unrelated working
    changes; do not stage an entire shared file when only one entry belongs to the
    release. Keep audit/build records locally without automatically adding them to

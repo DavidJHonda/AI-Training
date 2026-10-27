@@ -21,15 +21,15 @@ what made the inversion overcorrect into a dark ghost.
 FOUR METHODS WERE TRIED AND REJECTED. Do not retry them:
   * ffmpeg `delogo` -- interpolates inward from the box border, discarding
     everything inside. Invisible on featureless paper (it shipped on transformer)
-    but it striped ai-is-math's chalkboard and context-window's dot grid.
+    but it striped probability-and-prediction's chalkboard and context-matters's dot grid.
   * background-roughness triage to decide where delogo is safe -- it rated
-    context-window flat and delogo promptly striped it. Roughness does not
+    context-matters flat and delogo promptly striped it. Roughness does not
     predict the artefact; a regular pattern crossing the box does.
   * fixed-offset clone patch -- drags real content in; the donor region carries
     chalk lines.
   * wide-mask inpaint (58% of the box) -- clears the mark but destroys whatever
     crosses the box; it smeared a card boundary and two vertical rules in
-    evaluate-the-results.
+    evaluation-matters.
 
 KNOWN LIMIT: on frames that are BOTH very light AND carry the mark strongly, a
 faint ghost survives -- 0.35% of frames in learn-with-ai, 0.25% in

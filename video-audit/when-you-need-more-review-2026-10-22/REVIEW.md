@@ -6,9 +6,9 @@
 
 No reroll or new narration is needed for the approved lesson changes. Three removals retain the essential teaching and the unchanged closing. Estimated resulting runtime is 3:48.000, down from 4:23.633.
 
-Installed source: `course-assets/your-choices/your-choices.mp4`. Stable, byte-identical candidate: `Prompts/know-the-app-v3.mp4`. SHA-256: `42612126a609f966c3581726c76d65b615f93e135beee722183a57e487ec7f5b`. 7,909 frames at 30 fps, 1280 × 720.
+Installed source: `course-assets/when-you-need-more/when-you-need-more.mp4`. Stable, byte-identical candidate: `Prompts/when-you-need-more-v3.mp4`. SHA-256: `42612126a609f966c3581726c76d65b615f93e135beee722183a57e487ec7f5b`. 7,909 frames at 30 fps, 1280 × 720.
 
-The installed compressed audio stream was freshly compared with `Prompts/know-the-app-6.mp4`; both hashes are `83b2ea2a3724ecbb2fde7d28b80c77c7c72ef98ff9f24f4722a7f36e3304e342`. Read both complete existing roll-6 transcripts, including `video-audit/know-the-app-2026-10-01/transcripts-medium/know-the-app-6.txt`. Current grounding: `ChoosingModelSection` in index.html and lessons/your-choices.md. The prior shipped v3 review and build timeline establish the retained visual treatment.
+The installed compressed audio stream was freshly compared with `Prompts/when-you-need-more-6.mp4`; both hashes are `83b2ea2a3724ecbb2fde7d28b80c77c7c72ef98ff9f24f4722a7f36e3304e342`. Read both complete existing roll-6 transcripts, including `video-audit/when-you-need-more-2026-10-01/transcripts-medium/when-you-need-more-6.txt`. Current grounding: `ChoosingModelSection` in index.html and lessons/when-you-need-more.md. The prior shipped v3 review and build timeline establish the retained visual treatment.
 
 ## Proposed cuts
 

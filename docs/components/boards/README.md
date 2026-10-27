@@ -161,8 +161,8 @@ arbitrary canvas height to make the copy fit.
 Use for a direct comparison or for two related choices that deserve equal visual
 weight. The approved reference boards are:
 
-- `course-assets/your-choices/your-choices-choose-tool.jpg`
-- `course-assets/your-choices/your-choices-choose-how-v8.png`
+- `course-assets/when-you-need-more/when-you-need-more-choose-tool.jpg`
+- `course-assets/when-you-need-more/when-you-need-more-choose-how-v8.png`
 
 At the current copy length, the reference canvas is 1600×880. Canvas height remains
 derived from the longest card copy rather than selected independently.

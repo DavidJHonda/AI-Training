@@ -4,8 +4,6 @@
 
 The Engagement Trap does not feel like something going wrong. It feels like a helpful conversation that keeps going.
 
-You ask AI a quick question. You get a clear answer. Then, casually attached at the end: “Want me to expand on this? Should I add examples? Want me to format it as a study guide?” You weren’t going to ask any of that. You were done. The reply doesn’t seem to be.
-
 The extra help may be useful. That is what makes it easy to accept. The trap is not continuing. It is continuing without deciding.
 
 ### Board 1: One Answer. Two Endings.
@@ -52,15 +50,7 @@ Raskin later regretted what the design became. By his estimate, infinite scroll 
 
 Once you see it, you see it everywhere: autoplay counting down to the next episode, streaks that punish a day off, games built for one more round.
 
-### Board 3: AI Won’t Quit for You
-
-**Course image (post-production only; not a Notebook upload):** `engagement-trap-stopping-point.jpg`
-
-**Teaching content:**
-
 AI chat has its own version of the missing page break. The answer ends, but the conversation does not. A helpful follow-up puts the next task in front of you before you stop to decide whether you wanted one.
-
-**Takeaway:** The skill is knowing when you already have what you came for.
 
 ## Why Tech Companies Want Engagement
 
@@ -68,7 +58,7 @@ Engagement is not an accident. Tech companies track how often people return, how
 
 The stakes can be much higher than losing track of time. In August 2026, Meta, the company behind Facebook and Instagram, agreed to a settlement of up to $17.1 billion over claims that addictive features harmed children and teens. Meta denied wrongdoing. The agreement also requires changes to U.S. teen accounts.
 
-### Board 4: Putting the Stopping Points Back
+### Board 3: Putting the Stopping Points Back
 
 **Image file:** `engagement-trap-stopping-points.jpg`
 

@@ -10,11 +10,11 @@ This is a review only. No candidate was rendered and no installed course files w
 
 ## Evidence and limits
 
-- Installed source: `course-assets/beyond-the-new-average/beyond-the-new-average.mp4`, identical to `Prompts/beyond-the-new-average-v10.mp4`.
+- Installed source: `course-assets/does-school-matter/does-school-matter.mp4`, identical to `Prompts/does-school-matter-v10.mp4`.
 - SHA-256: `646b062e8b2f59d62a241e47f606c6765f1f71a698cc49d6e205b129e93d41a9`.
 - Duration: 166.133 seconds; 4,984 frames at 30 fps; 1280 × 720.
 - Compared the current `WhyBotherSection`, closing-message entry in `index.html`, and `lessons/does-school-matter.md` with the full exact-source transcript, current board/closing assets, and sampled video frames.
-- Fresh ASR is saved in `transcripts/beyond-the-new-average.txt` and `.json`. Contact sheets are saved alongside this review.
+- Fresh ASR is saved in `transcripts/does-school-matter.txt` and `.json`. Contact sheets are saved alongside this review.
 - This assessment uses transcript and frame inspection, not an independent listening pass. Proposed cuts need precise word-boundary checks and owner playback before shipping.
 
 ## Proposed treatment
@@ -33,7 +33,7 @@ Times below refer to the installed source and are approximate editorial ranges, 
 | 2:27.4–2:32.8 | Replace the four-pillars recap with the new board takeaway. |
 | 2:33.8–end | Use the current closing graphic and updated closing narration. Existing first sentence is reusable; the second sentence has changed. |
 
-Replace the obsolete four-card board with `what-school-helps-you-build.jpg`. Its Knowledge and Skills cards can follow the retained narration, with the Skills emphasis continuing through the people-skills passage. Preserve useful existing cutaways where they fit the shortened timing. Replace the old closing graphic with the current `beyond-the-new-average-close.jpg`.
+Replace the obsolete four-card board with `what-school-helps-you-build.jpg`. Its Knowledge and Skills cards can follow the retained narration, with the Skills emphasis continuing through the people-skills passage. Preserve useful existing cutaways where they fit the shortened timing. Replace the old closing graphic with the current `does-school-matter-close.jpg`.
 
 ## Small amount of new narration needed
 

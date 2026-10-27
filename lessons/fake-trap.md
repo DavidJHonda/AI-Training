@@ -4,7 +4,7 @@
 
 Here’s the strange thing about this trap: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. So why do smart people still get fooled?
 
-Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed. AI has changed the playing field. See this play out:
+Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed.
 
 ### Board 1: The Same Clip. Two Eras.
 
@@ -54,25 +54,13 @@ Harmful fakes are made to get something back.
 
 If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it.
 
-Don’t let a detector make the decision for you. It looks for patterns that may suggest AI was involved, but different tools can produce different answers. Treat its verdict as a clue, never a ruling. Then check the source, context, and corroboration.
+Don’t let a detector make the decision for you. It looks for patterns that may suggest AI was involved, but different tools can produce different answers. Treat its verdict as a clue, never a ruling.
 
 ## So what do you do?
 
-The test moves off the image and onto the source, no matter how the fake was made.
-
-### Board 3: Check the Source, Not the Pixels
-
-**Image file:** `fake-trap-follow-the-source-faceless.jpg`
-
-![Check the Source, Not the Pixels](fake-trap-follow-the-source-faceless.jpg)
-
-**Teaching content:**
-
-Check the source, not the pixels. Move the test away from appearance and toward independent evidence.
-
 Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe.
 
-### Board 4: Move the Test Off the Image
+### Board 3: Move the Test Off the Image
 
 **Image file:** `fake-trap-checks.jpg`
 

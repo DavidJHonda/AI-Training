@@ -439,7 +439,7 @@ def render_all() -> None:
 
     generated = Path("/Users/davidobrien/.codex/generated_images/01a0529a-8fe2-71a2-a0f6-65d4b988ce53")
     opener = generated_asset(generated / "exec-e8943659-334c-4b98-b84e-72d3d853aa8b.png", "opener-same-tool-titleless.png")
-    which_app = generated_asset(generated / "exec-93a9ae25-30a4-48c8-b4f7-c647d8d8469d.png", "which-app-titleless.png")
+    your_home_base = generated_asset(generated / "exec-93a9ae25-30a4-48c8-b4f7-c647d8d8469d.png", "your-home-base-titleless.png")
     context_close = generated_asset(generated / "exec-1decf9f6-18dc-4750-ae21-2673aedbaf8e.png", "context-choice-titleless.png")
     evaluate = generated_asset(generated / "exec-f4e796ef-7c20-41e7-85ea-4bdfc79c2c5e.png", "evaluate-titleless.png")
     # Approved current Nate-and-Luke identities live in a project-owned source,
@@ -486,17 +486,17 @@ def render_all() -> None:
     render_strength(4, "Work Through Problems", "Tell AI what you’re trying to accomplish, what you know, and what’s getting in the way. It can help break the problem into steps, compare possible approaches, and suggest what to try next. You decide what makes sense.", ["Plan a weekend trip within your budget", "Work out why your code isn’t working", "Compare colleges based on what matters to you", "Figure out why your science experiment gave unexpected results"], TEAL, "reasoning", "During training, AI saw many examples of how people connected ideas, worked through problems, and found solutions. It learned patterns it can apply to new problems.", "Work through the pieces. Make your own call.", board_path("where-ai-works-best", "05-reasoning-synthesis.jpg"))
 
     # Which App?
-    render_teaching_board("Pick a Home Base. Learn It Deeply.", which_app, board_path("which-app", "01-pick-a-home-base.jpg"), "The skills transfer. The app is where you practice them.")
+    render_teaching_board("Pick a Home Base. Learn It Deeply.", your_home_base, board_path("your-home-base", "01-pick-a-home-base.jpg"), "The skills transfer. The app is where you practice them.")
     base.render_cards("The Big Three, Side by Side", [
         base.Card("ChatGPT", "The Anything Box. OpenAI asks: How do we put capable AI in everyone’s hands?", GREEN, "general"),
         base.Card("Claude", "The Thinking Partner. Anthropic asks: How do we build powerful AI we can actually trust?", PURPLE, "thinking"),
         base.Card("Gemini", "Built Into Google. Google asks: How do we put AI inside the tools people already use?", BLUE, "apps"),
-    ], "Choose a home base. Learn the tool deeply.", board_path("which-app", "02-big-three-side-by-side.jpg"))
+    ], "Choose a home base. Learn the tool deeply.", board_path("your-home-base", "02-big-three-side-by-side.jpg"))
     base.render_cards("How We Used the Big Three", [
         base.Card("ChatGPT", "Brainstormed content and TRY ITs, then created course illustrations.", GREEN, "brainstorm"),
         base.Card("Claude", "Claude Code wrote the course code from plain English; Claude Design helped style it.", PURPLE, "code"),
         base.Card("Gemini", "Pulled in current information and helped fact-check what made the lessons.", BLUE, "search"),
-    ], "Different strengths. One coordinated workflow.", board_path("which-app", "03-how-we-used-three.jpg"))
+    ], "Different strengths. One coordinated workflow.", board_path("your-home-base", "03-how-we-used-three.jpg"))
 
     # Questions Matter
     base.render_flow("How Answers Got Easier and Faster", [
@@ -518,14 +518,14 @@ def render_all() -> None:
     base.render_cards("Four Qualities of a Good Question, Continued", qualities[2:], "A good question leaves room for a useful answer.", board_path("questions-matter", "03b-on-target-and-open-ended.jpg"))
 
     # Prompting Matters
-    prompting_review_a = board_path("art-of-prompting", "01a-four-qualities-review.jpg")
-    prompting_review_b = board_path("art-of-prompting", "01b-four-qualities-review-continued.jpg")
+    prompting_review_a = board_path("prompting-matters", "01a-four-qualities-review.jpg")
+    prompting_review_b = board_path("prompting-matters", "01b-four-qualities-review-continued.jpg")
     prompting_review_a.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(board_path("questions-matter", "03a-open-minded-and-specific.jpg"), prompting_review_a)
     shutil.copy2(board_path("questions-matter", "03b-on-target-and-open-ended.jpg"), prompting_review_b)
-    render_prompt_move("Move 1: Share Your Situation", "A person already knows the background. AI only has what you hand over.", ["Who you are and who the work is for", "What you’re working on and why", "The material itself: your draft, assignment, or numbers"], "Is my intro good?", "I’m writing my Common App essay about how fixing cars with my dad taught me patience. Here’s my opening paragraph: [paragraph]. Does the hook grab attention?", board_path("art-of-prompting", "02-share-situation.jpg"))
-    render_prompt_move("Move 2: Describe the Answer You Want", "The model fills in every blank you leave, so describe the target.", ["The shape: a table, list, or steps", "The limits: length, tone, and what to skip", "An example to match or a role to take"], "Write a caption for our lacrosse championship photo.", "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags or emojis. Sound like a senior wrote it.", board_path("art-of-prompting", "03-describe-answer.jpg"))
-    render_prompt_move("Move 3: One Job at a Time", "Big work goes in steps. One prompt, one job, so you can check each part before building on it.", [], "Write a five-page Cold War paper with an outline, thesis, research, MLA citations, and a conclusion.", "Step 1: Help me shape a strong thesis for a five-page paper on how the space race reflected Cold War tensions.", board_path("art-of-prompting", "04-one-job.jpg"))
+    render_prompt_move("Move 1: Share Your Situation", "A person already knows the background. AI only has what you hand over.", ["Who you are and who the work is for", "What you’re working on and why", "The material itself: your draft, assignment, or numbers"], "Is my intro good?", "I’m writing my Common App essay about how fixing cars with my dad taught me patience. Here’s my opening paragraph: [paragraph]. Does the hook grab attention?", board_path("prompting-matters", "02-share-situation.jpg"))
+    render_prompt_move("Move 2: Describe the Answer You Want", "The model fills in every blank you leave, so describe the target.", ["The shape: a table, list, or steps", "The limits: length, tone, and what to skip", "An example to match or a role to take"], "Write a caption for our lacrosse championship photo.", "Write a caption for our team’s photo after the lacrosse state championship. One sentence. No hashtags or emojis. Sound like a senior wrote it.", board_path("prompting-matters", "03-describe-answer.jpg"))
+    render_prompt_move("Move 3: One Job at a Time", "Big work goes in steps. One prompt, one job, so you can check each part before building on it.", [], "Write a five-page Cold War paper with an outline, thesis, research, MLA citations, and a conclusion.", "Step 1: Help me shape a strong thesis for a five-page paper on how the space race reflected Cold War tensions.", board_path("prompting-matters", "04-one-job.jpg"))
 
     # Context Matters
     render_comparison(
@@ -537,17 +537,17 @@ def render_all() -> None:
         "Nate’s AI",
         "ChatGPT Answers",
         "I’m happy you asked, Nate. At this point in your life, I recommend the Ford Raptor.",
-        board_path("context-window", "01-same-question-different-answers.jpg"),
+        board_path("context-matters", "01-same-question-different-answers.jpg"),
         "Same prompt. Different context. Different suggestion.",
     )
-    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-matters/context-matters-five-sources.jpg", board_path("context-window", "02-context-window.jpg"), "The context window is everything the model can see right now.")
+    render_teaching_board("What the Model Can See", ROOT / "course-assets/context-matters/context-matters-five-sources.jpg", board_path("context-matters", "02-context-matters.jpg"), "The context window is everything the model can see right now.")
     render_four_cards("Outside the Window", [
         base.Card("Older Chats", "A new conversation starts cold unless the app saved a note about it.", PURPLE, "transcript"),
         base.Card("Unsent Web Pages", "Search works only when the app fetches a page and puts its text into the window.", BLUE, "search"),
         base.Card("Files on Your Computer", "Nothing on your device is visible until you upload it into the chat.", TEAL, "file"),
         base.Card("Other Apps and Tabs", "Whatever is open next door stays invisible. Different app, different window.", AMBER, "apps"),
-    ], "If it isn’t in the window, the model can’t see it.", board_path("context-window", "03-outside-window.jpg"))
-    render_teaching_board("Same Prompt. Different Context. Different Suggestion.", context_close, board_path("context-window", "04-context-changes-answer.jpg"), "AI predicts. You choose.")
+    ], "If it isn’t in the window, the model can’t see it.", board_path("context-matters", "03-outside-window.jpg"))
+    render_teaching_board("Same Prompt. Different Context. Different Suggestion.", context_close, board_path("context-matters", "04-context-changes-answer.jpg"), "AI predicts. You choose.")
 
     # Evaluation Matters
     base.render_flow("Run the Quick Pass", [

@@ -3,7 +3,7 @@
 from pathlib import Path
 import json,hashlib,wave,subprocess,argparse
 import cv2,numpy as np,imageio_ffmpeg
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'video-audit/tokens-repair-2026-09-10'
 SOURCE=ROOT/'Prompts/tokens-4.mp4';DEST=ROOT/'Prompts/tokens-v7.mp4'
 FPS,SR,W,H=30,48000,1280,720

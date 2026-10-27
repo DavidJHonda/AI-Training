@@ -4,11 +4,11 @@ import cv2
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'video-audit/how-an-llm-works-repair-2026-09-17-v11/source-checks'
+OUT=ROOT/'video-audit/whats-an-llm-repair-2026-09-17-v11/source-checks'
 
 def main():
     for name,seconds in [('how-the-model-learns-2',range(150,171)),
-                         ('how-an-llm-works-reroll-2',range(93,103))]:
+                         ('whats-an-llm-reroll-2',range(93,103))]:
         path=ROOT/'Prompts'/f'{name}.mp4'
         if not path.exists():
             print('Missing:',path,flush=True);continue

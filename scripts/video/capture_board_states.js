@@ -26,7 +26,7 @@
 // innermost text match to the outermost ancestor with the SAME textContent —
 // the bullet-row case where a CSS-dot span carries no text, so the row div and
 // its text span match identically and innermost-wins rings the text alone,
-// leaving the dot outside the boundary (owner-rejected, evaluate-the-results
+// leaving the dot outside the boundary (owner-rejected, evaluation-matters
 // 2026-08-03; flagged as "needs the capture script" in README).
 // An element entry may add {"mark": true}: the target is a SENTENCE (or any
 // substring) inside a paragraph, not a DOM element. At compose time the text
@@ -34,7 +34,7 @@
 // (no style — zero visual change, zero layout shift); the active state draws
 // an outline only. It never shades the text or its background.
 // A panel entry may likewise be {"label": "...", "ring": "#color"} — owner rule
-// 2026-08-03 (which-app): a card with its own accent color gets its accent as
+// 2026-08-03 (your-home-base): a card with its own accent color gets its accent as
 // the ring, not the primary purple; bare-string panels keep the default.
 //
 // Item detection: for each label, the innermost element with that exact text is
@@ -81,7 +81,7 @@ const COMPOSE = `(function(){
   // 56px padding + 1px border => 1080 - 64 - 112 - 2 = 902. If the shell's
   // widths change in index.html, update APP_COLUMN here. Overriding to any
   // other width re-wraps the text and ships a board that differs from the
-  // lesson's (owner-flagged, evaluate-the-results 2026-08-04).
+  // lesson's (owner-flagged, evaluation-matters 2026-08-04).
   var APP_COLUMN = 902;
   var bw = ${Number(BANDW)} > 0 ? ${Number(BANDW)} : Math.min(band.getBoundingClientRect().width, APP_COLUMN);
   band.style.width = bw + "px";

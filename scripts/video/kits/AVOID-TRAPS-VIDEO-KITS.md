@@ -59,6 +59,8 @@ Historical production evidence remains in `video-audit/hallucination-comparison-
 
 ## Training Bias
 
+**2026-10-27 lesson cuts:** The current source removes the early two-topics announcement and the RAG section/board. The stale-data note retains only the limitation and current-source instruction. The lab has four steps, preserving both broadening prompts. The three bias teaching boards and close remain. The retired source list below is historical; use `lessons/training-bias.md` for the next preparation. The installed video still needs revision.
+
 **v6 SHIPPED 2026-09-21** (cache key 20260921ship3, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no grafts, no cuts; post-only Wrong Pattern board as an illustration walk; canonical Boards 2-5 with card-hugging rings (separate-card rule) and bubble rings; standard close. Review: `video-audit/training-bias-comparison-2026-09-21/`.
 
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; Scene markers so the prose runs leave the boards).
@@ -77,6 +79,8 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Document Trap
 
+**2026-10-27 lesson cuts:** The separate Retrieval heading, repeated rulebook-retrieval sentence, and repeated benefit/warning paragraph are removed. Both closing context paragraphs remain unchanged. TRY IT retains the lease, handbook, and scholarship scenarios; the scholarship feedback now includes the quotation-checking guidance. Current Markdown and prompt match the shortened page. The installed video still needs revision.
+
 Rebuilt 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template) after the 9/18 and 9/20 rolls did not carry the lesson: the prompt has the VOICE block, ten required-verbatim lines (both quotes from the story, the definition, both banners, the tournament-section question, the quotation line, the close), and a beat spine under 500 words; the Markdown is Board / Image file / Teaching content only with no Scene or Takeaway labels; Board 1 uploads as a faceless variant (title and banner, photo removed) that the canonical board replaces in post. Staged in `gemini-notebook/document-trap/`.
 
 Revised again 2026-09-21 after rolls 7 and 8: both spoke seven of the ten required lines and missed the same three — the two definition sentences and Board 1's banner — and so did all six earlier rolls, so there was nothing to repair from. Those three were the only required lines buried mid-paragraph; every line that lands is either quoted dialogue or alone on its own line. The Markdown now gives all eleven that shape (the six-foul result is the eleventh, added because it has never landed in eight rolls), the two "may" sentences are split out so the conditional wording is not buried, and the prompt names the layout and the hardenings to avoid. Review: `video-audit/document-trap-reroll-2026-09-21/`.
@@ -94,20 +98,22 @@ Revised again 2026-09-21 after rolls 7 and 8: both spoke seven of the ten requir
 
 ## Mind Trap
 
-**v3 SHIPPED 2026-09-21** (cache key 20260921ship4, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no cuts, plus one graft from roll 5 (the shared-text-versus-shared-experience sentence, which roll 6 never speaks); post-only comparison board walked with section rings and returned to unmarked under the definition, which also removes the roll's chapter card; canonical Why AI Feels Like Somebody with card-hugging rings and a banner ring; the roll's 23.5 s archival mainframe photograph replaced by the previous live video's own ELIZA teletype drawing; standard close. Review: `video-audit/mind-trap-comparison-2026-09-21/`.
+**v3 SHIPPED 2026-09-21** (cache key 20260921ship4, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no cuts, plus one graft from roll 5 (the shared-text-versus-shared-experience sentence, which roll 6 never speaks); post-only comparison board walked with section rings and returned to unmarked under the definition, which also removes the roll's chapter card; canonical Why AI Feels Like Somebody with card-hugging rings and a banner ring; the roll's 23.5 s archival mainframe photograph replaced by the previous live video's own ELIZA teletype drawing; standard close. Review: `video-audit/trust-trap-comparison-2026-09-21/`.
 
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the comparison board's narration reserved for post-production).
 
 - Prompt: **retired; fresh prep required**
-- Markdown: `lessons/mind-trap.md`
+- Markdown: `lessons/trust-trap.md`
 - Upload checklist: **retired; fresh prep required**
 - Notebook sources:
-  1. `course-assets/mind-trap/mind-trap-eliza.jpg`
-  2. `course-assets/mind-trap/mind-trap-close.jpg`
+  1. `course-assets/trust-trap/trust-trap-eliza.jpg`
+  2. `course-assets/trust-trap/trust-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/mind-trap/mind-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
+  - `course-assets/trust-trap/trust-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
 
 ## Flattery Trap
+
+Lesson shortened 2026-10-27: keep only the first RLHF introductory sentence; retain only the first paragraph of ChatGPT’s gag-product response in the source and canonical board. Preserve the full mitigation paragraph. The lab now has five steps, combining its first three without removing instructions or prompts. The installed video still needs revision to match these cuts. Board renderer: `render_sycophancy_example()` in `scripts/video/render_avoid_traps_editorial.py`; regenerate only this board for this change.
 
 **v6 SHIPPED 2026-09-21** (cache key 20260921ship5, pill 5 min): roll 4 of 2026-09-21 as the whole narration, no cuts, plus one audio-only graft from roll 2 ("But while the problem has improved, it has not disappeared.", the clause every other roll drops; roll 2's own picture there is an invented agreement-rate chart and never enters the build). Roll 4 is the only roll that keeps the RLHF qualification and speaks the standing instruction word for word. Post-only Flattery vs. Useful Feedback with response-quote and section rings; canonical How the Praise Got Baked In with full-box-height column rings; canonical Sycophancy with its first paragraph ringed; canonical Five Ways in five legs, dense, diving to the active row and panning between rows, broken up by three roll-3 drawings matched to the beats they cover; standard close. First build under the artwork-scaled ring rule (Edit Spec section 5). Review: `video-audit/flattery-trap-comparison-2026-09-21/`.
 
@@ -126,7 +132,9 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Engagement Trap
 
-Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the native-rendered stopping-points board. The illustrated AI stopping-point board remains reserved for post-production.
+Lesson shortened 2026-10-27: remove the second opening paragraph and the AI Won’t Quit for You illustration/takeaway. Preserve the full AI missing-page-break paragraph, all other lesson wording, and the entire TRY IT. The installed video still needs revision to match these cuts.
+
+Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the native-rendered stopping-points board.
 
 - Prompt: **retired; fresh prep required**
 - Markdown: `lessons/engagement-trap.md`
@@ -136,10 +144,10 @@ Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the na
   2. `course-assets/engagement-trap/engagement-trap-scroll.jpg`
   3. `course-assets/engagement-trap/engagement-trap-stopping-points.jpg`
   4. `course-assets/engagement-trap/engagement-trap-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/engagement-trap/engagement-trap-stopping-point.jpg` (faces; Board 3 narration reserved in the Markdown)
 
 ## Support Trap
+
+Approved cuts, 2026-10-27: omit the last sentence of the opening paragraph, the two repeated lunch-outcome sentences after the comparison, and the Know When to Leave the Chat heading and its two paragraphs. Preserve all remaining wording, all three boards, the full attributed story and content note, and all five exercises. The installed video still needs revision to match these cuts.
 
 **Full-video reroll prep rebuilt 2026-09-29.** David requested a complete new generation, then selection of its narration for the edit. The current v4 remains live (`20260921ship28`, 4:23.667). This is a current-method kit, not the retired 2026-09-18 setup. See `gemini-notebook/support-trap/PREP-NOTES.md` for the lesson arc, protected lines, source provenance, and editing handoff.
 
@@ -158,6 +166,8 @@ Both role-board sentences are now required verbatim: all three benefits includin
 
 ## Fake Trap
 
+Approved cuts, 2026-10-27: remove the final two sentences of the second opening paragraph, the final sentence of the detector explanation, and the extra Check the Source, Not the Pixels illustration with its introductory sentence and takeaway. Keep the So what do you do? heading and emotions paragraph leading directly to the three-check board. Preserve all remaining wording and all three photo exercises. The installed video still needs revision to match these cuts.
+
 Materials test, 2026-09-20 (owner request after the narration-source review): the kit is rebuilt on the 2026-09-11 Build Your Skills recipe that produced the shipped run. The Markdown is a clean lesson (Board / Image file / Teaching content only; no Scene, Takeaway, or post-production labels; banner lines carried as plain sentences). The prompt carries the VOICE block, a required-verbatim list, and a beat spine. Both face boards are uploaded as text-only variants (photo panels removed) so their teaching sits on a picture instead of an invented scene; the canonical boards replace them in post. Baseline for the comparison: `Prompts/fake-trap-v3.mp4`, reviewed in `video-audit/fake-trap-materials-test-2026-09-20/REVIEW.md`. RESULT: the recipe won (roll 2 base, one roll-1 graft); **v5 SHIPPED 2026-09-20** (cache key 20260920ship2, pill 5 min). Use this kit as the template for the remaining Avoid Traps lessons.
 
 - Prompt: `gemini-notebook/fake-trap/PROMPT.txt`
@@ -166,12 +176,10 @@ Materials test, 2026-09-20 (owner request after the narration-source review): th
 - Notebook sources:
   1. `gemini-notebook/fake-trap/assets/fake-trap-comparison-faceless.jpg` (upload variant of the Board 1 comparison board, photos removed)
   2. `course-assets/fake-trap/fake-trap-reasons.jpg`
-  3. `gemini-notebook/fake-trap/assets/fake-trap-follow-the-source-faceless.jpg` (upload variant of the Board 3 board, photo removed)
-  4. `course-assets/fake-trap/fake-trap-checks.jpg`
-  5. `course-assets/fake-trap/fake-trap-close.jpg`
+  3. `course-assets/fake-trap/fake-trap-checks.jpg`
+  4. `course-assets/fake-trap/fake-trap-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
   - `course-assets/fake-trap/fake-trap-comparison.jpg` (faces; replaces the faceless variant in the edit)
-  - `course-assets/fake-trap/fake-trap-follow-the-source.jpg` (faces; replaces the faceless variant in the edit)
 
 ## Provenance, cleanup, and post-production
 

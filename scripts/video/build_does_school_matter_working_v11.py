@@ -9,9 +9,9 @@ from ken_burns_path import ring_px
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'video-audit/does-school-matter-working-v11-2026-10-22'
-SOURCE = ROOT / 'Prompts/beyond-the-new-average-v10.mp4'
+SOURCE = ROOT / 'Prompts/does-school-matter-v10.mp4'
 DEST = ROOT / 'Prompts/does-school-matter-v11.mp4'
-ASSET = ROOT / 'course-assets/beyond-the-new-average/what-school-helps-you-build.jpg'
+ASSET = ROOT / 'course-assets/does-school-matter/what-school-helps-you-build.jpg'
 EXPECTED = '646b062e8b2f59d62a241e47f606c6765f1f71a698cc49d6e205b129e93d41a9'
 KEEP = [(0, 3028), (3230, 3820), (4202, 4418)]
 CUTAWAYS = [(3360, 3483, 'subject-microscope'), (3718, 3798, 'skills-model'), (4260, 4389, 'people-meeting')]
@@ -45,7 +45,7 @@ def main():
     assert sha(SOURCE) == EXPECTED
     assert not DEST.exists(), 'Use a new candidate version.'
     OUT.mkdir(parents=True, exist_ok=True); (OUT/'preview').mkdir(exist_ok=True)
-    protected = {str(p): sha(p) for p in [SOURCE, ASSET, ROOT/'index.html', ROOT/'lessons/does-school-matter.md', ROOT/'course-assets/beyond-the-new-average/beyond-the-new-average.mp4', ROOT/'course-assets/beyond-the-new-average/beyond-the-new-average-close.jpg']}
+    protected = {str(p): sha(p) for p in [SOURCE, ASSET, ROOT/'index.html', ROOT/'lessons/does-school-matter.md', ROOT/'course-assets/does-school-matter/does-school-matter.mp4', ROOT/'course-assets/does-school-matter/does-school-matter-close.jpg']}
     frames = mapping(); artwork = states()
     for k, im in artwork.items(): cv2.imwrite(str(OUT/'preview'/f'board-{k}.png'), im)
     audio = pcm(SOURCE); parts = [audio[a*1600:z*1600].copy() for a, z in KEEP]

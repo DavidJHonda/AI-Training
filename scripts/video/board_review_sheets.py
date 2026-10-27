@@ -12,23 +12,23 @@ import numpy as np
 
 SECTION_PREFIXES = {
     "start-smarter": (
-        "welcome-", "why-learn-ai-", "what-is-ai-", "how-an-llm-works-",
+        "welcome-", "why-learn-ai-", "what-is-ai-", "whats-an-llm-",
         "does-ai-think-", "what-you-can-control-", "does-school-matter-",
         "learn-with-ai-",
     ),
     "work-with-ai": (
-        "opener-work-", "ai-is-different-", "where-ai-works-best-", "which-app-",
-        "questions-matter-", "art-of-prompting-", "context-window-",
-        "evaluate-the-results-", "critical-thinking-",
+        "work-with-ai-opener-", "ai-is-different-", "where-ai-works-best-", "your-home-base-",
+        "questions-matter-", "prompting-matters-", "context-matters-",
+        "evaluation-matters-", "critical-thinking-",
     ),
     "understand-ai": (
-        "opener-understand-", "training-", "ai-is-math-", "tokens-", "embeddings-",
+        "opener-understand-", "training-", "probability-and-prediction-", "tokens-", "embeddings-",
         "transformer-", "layers-", "vector-space-", "how-ai-answers-",
-        "one-more-thing-",
+        "the-next-token-",
     ),
     "avoid-traps": (
         "opener-avoid-", "hallucination-", "training-bias-", "document-trap-",
-        "mind-trap-", "flattery-trap-", "engagement-trap-", "support-trap-",
+        "trust-trap-", "flattery-trap-", "engagement-trap-", "support-trap-",
         "fake-trap-",
     ),
 }

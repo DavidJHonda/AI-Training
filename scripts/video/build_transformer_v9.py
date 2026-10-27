@@ -90,7 +90,7 @@ def speech_rms(wav, spans):
 
 def ramp_graft_edges(b, lead_s, tail_s):
     """Blend the just-added audio-only graft's own lead-in and tail silence from/into roll 2's matched room tone over their whole
-    length instead of graft()'s 5 ms butt (as build_ai_is_math_v6). Speech samples are untouched."""
+    length instead of graft()'s 5 ms butt (as build_probability_and_prediction_v6). Speech samples are untouched."""
     data = b.parts[-1]; bed = b.tone(len(data))
     n0 = round(lead_s * SR); r0 = np.linspace(0, 1, n0); data[:n0] = bed[:n0] * (1 - r0) + data[:n0] * r0
     n1 = round(tail_s * SR); r1 = np.linspace(1, 0, n1); data[-n1:] = bed[-n1:] * (1 - r1) + data[-n1:] * r1

@@ -16,7 +16,7 @@ import subprocess
 import tempfile
 import sys
 import cv2
-import build_your_choices_reroll_review as common
+import build_when_you_need_more_reroll_review as common
 from build_work_changes_hybrid import render_leg
 
 ROOT=Path(__file__).resolve().parents[2]

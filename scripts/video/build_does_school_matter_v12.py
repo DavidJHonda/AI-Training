@@ -36,7 +36,7 @@ def main():
     assert not DEST.exists(),'Use a new candidate version.'
     OUT.mkdir(parents=True,exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
     close_asset=close_board_asset('whybother')
-    protected={str(p):sha(p) for p in [base.SOURCE,DONOR,base.ASSET,close_asset,ROOT/'index.html',ROOT/'lessons/does-school-matter.md',ROOT/'course-assets/beyond-the-new-average/beyond-the-new-average.mp4',base.DEST]}
+    protected={str(p):sha(p) for p in [base.SOURCE,DONOR,base.ASSET,close_asset,ROOT/'index.html',ROOT/'lessons/does-school-matter.md',ROOT/'course-assets/does-school-matter/does-school-matter.mp4',base.DEST]}
     compose_canonical_for_video(close_asset,OUT/'close.png','#ffffff')
     source=pcm(base.SOURCE);parts=[source[a*1600:z*1600].copy() for a,z in base.KEEP]
     for i,part in enumerate(parts):

@@ -54,9 +54,7 @@ Search decides which parts reach the answer.
 
 This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out.
 
-There’s a name for what happened: Retrieval-Augmented Generation, or RAG. Here, AI searched your basketball rulebook and added the selected passages to its context window. The same process can pull information from the web or a database.
-
-When retrieval finds the right passages, AI can answer a specific question in seconds. When retrieval misses something important, AI may miss it too.
+There’s a name for what happened: Retrieval-Augmented Generation, or RAG. The same process can pull information from the web or a database.
 
 ### Board 3: Four Moves for Better Retrieval
 

@@ -1,5 +1,7 @@
 # Support Trap full-video reroll — September 29, 2026
 
+Approved cuts, 2026-10-27: omit the last sentence of the opening paragraph, the two repeated lunch-outcome sentences after the comparison, and the Know When to Leave the Chat heading and its two paragraphs. Preserve all remaining wording, all three boards, the full attributed story and content note, and all five exercises. The installed video still needs revision to match these cuts.
+
 David requested a **full-video generation**, then selection of its narration for the edit. This replaces the earlier suggestion to generate an isolated role passage. Generate the entire lesson, not a patch or summary. The current published v4 remains the baseline and possible donor; neither its audio nor its useful visuals should be discarded automatically.
 
 ## Teaching progression

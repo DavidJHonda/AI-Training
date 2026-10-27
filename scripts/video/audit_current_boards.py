@@ -44,12 +44,12 @@ VIDEO_RE = re.compile(
 )
 
 # Pure scene art with a numeric suffix is not a teaching board. Descriptive
-# numeric suffixes (for example, ai-is-math-1-formula) remain board candidates.
+# numeric suffixes (for example, probability-and-prediction-1-formula) remain board candidates.
 SCENE_ONLY_STEMS = {
-    "ai-is-math-1",
-    "ai-is-math-2",
-    "context-window-1",
-    "context-window-2",
+    "probability-and-prediction-1",
+    "probability-and-prediction-2",
+    "context-matters-1",
+    "context-matters-2",
     "embeddings-2",
 }
 

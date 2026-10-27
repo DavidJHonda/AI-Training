@@ -84,8 +84,8 @@ BOARDS = (
             Row("Think Before You Trust", "What to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use."),
         ),
         page_output="course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg",
-        prep_output="course-assets/work-with-ai-opener/opener-work-2-section.jpg",
-        review_output="board-review-first-four/current-selected/work-with-ai/opener-work-2-section.jpg",
+        prep_output="course-assets/work-with-ai-opener/work-with-ai-opener-2-section.jpg",
+        review_output="board-review-first-four/current-selected/work-with-ai/work-with-ai-opener-2-section.jpg",
     ),
     MapBoard(
         key="understand-ai",

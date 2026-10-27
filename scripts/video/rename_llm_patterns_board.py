@@ -9,7 +9,7 @@ from course_credit import save_course_image
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSET = ROOT / 'course-assets/whats-an-llm/whats-an-llm-patterns.jpg'
-OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-29-v16'
+OUT = ROOT / 'video-audit/whats-an-llm-repair-2026-09-29-v16'
 ORIGINAL = OUT / 'patterns-original.jpg'
 EXPECTED = '83cc11b5f6d8fbda6ef8a59a1e836a043e13e1bdc8dee348d66f881ad07f34e4'
 
@@ -26,13 +26,13 @@ def main():
     draw.rectangle((24, 24, 900, 111), fill=im.getpixel((1000, 40)))
     draw_board_title(draw, 'Patterns AI Learns')
     save_course_image(im, ASSET, quality=95, subsampling=0, optimize=True)
-    for relative in ['lessons/whats-an-llm.md', 'lessons/how-an-llm-works-part-1.md', 'index.html']:
+    for relative in ['lessons/whats-an-llm.md', 'lessons/whats-an-llm-part-1.md', 'index.html']:
         p = ROOT / relative
         text = p.read_text()
         updated = text.replace('How AI Learns Patterns', 'Patterns AI Learns')
         if relative == 'index.html':
-            updated = updated.replace('how-an-llm-works-patterns.jpg?v=20260914attribution1',
-                                      'how-an-llm-works-patterns.jpg?v=20260929title1')
+            updated = updated.replace('whats-an-llm-patterns.jpg?v=20260914attribution1',
+                                      'whats-an-llm-patterns.jpg?v=20260929title1')
         if updated != text:
             p.write_text(updated)
     print(ASSET)

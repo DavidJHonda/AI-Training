@@ -85,14 +85,14 @@ audio changes. A typical video encode is
   pts-delta histogram must be a single value; 33000/34000 mixtures are the bug.
 - **`tpad` may be silently broken** in the wheel build (env.sh reports). Worse:
   the env.sh self-test can PASS while `tpad=stop_mode=clone` inside a concat
-  graph still pads ZERO frames with no error (hit 2026-07-12 on the which-app
+  graph still pads ZERO frames with no error (hit 2026-07-12 on the your-home-base
   burger patch — container duration looked right because audio carried it, but
   the video stream ran 4s short and desynced everything downstream; caught by
   counting decoded frames). Never trust tpad in a graph you haven't
   frame-counted. Working freeze substitute — loop the exact frame:
   `trim=start_frame=F:end_frame=F+1,setpts=PTS-STARTPTS,loop=loop=N-1:size=1:start=0,setpts=N/(30*TB)`
   then concat. The same trick replaces `tpad=start_mode=clone`.
-- **Never `-c copy` concat FFV1 legs from different builders** (evaluate-the-results
+- **Never `-c copy` concat FFV1 legs from different builders** (evaluation-matters
   v6, 2026-08-04): ken_burns_path legs are bgr0, a zoompan-built leg is yuv420p —
   the concat DEMUXER joins them without error, then every frame after the junction
   decodes against the wrong stream parameters (full-frame macroblock garbage,
@@ -106,7 +106,7 @@ audio changes. A typical video encode is
   as broken tpad: container duration right, video stream short; hit 2026-07-24
   on the support-trap-v2 build, 322 frames gone, caught by frame count).
   Re-stamp with `settb=1/30,setpts=N/(30*TB)` directly after loop instead.
-- **`-video_track_timescale` can silently eat the LAST frame** (ai-is-math v6,
+- **`-video_track_timescale` can silently eat the LAST frame** (probability-and-prediction v6,
   2026-08-08). A concat graph that measured 7,381 frames through `-f null -`
   muxed to 7,380 in the mp4 — every seam landed on its expected frame, so the
   loss was the tail, not a segment. Reproduced at timescale 15360, 30000 and
@@ -117,7 +117,7 @@ audio changes. A typical video encode is
   stop auditing the filter and start removing output flags.
   You do not need the flag: without it these builds inherit a 1/1000000
   timebase whose `pts_time` deltas alternate 0.033333/0.033334, and **so do the
-  source files** (ai-is-math-v3: 5140/2568; the shipped ai-is-math.mp4 is worse,
+  source files** (probability-and-prediction-v3: 5140/2568; the shipped probability-and-prediction.mp4 is worse,
   with 166 frames at 0.033000). That microsecond alternation is NOT the
   flattery-trap bug — that one was millisecond rounding at 30.004 fps, a 1000×
   larger error. Compare the output's `pts_time` histogram against its own source
@@ -185,7 +185,7 @@ ffmpeg -y -t 223.76 -i course-assets/why-learn-ai/why-learn-ai.mp4 -i Prompts/wh
 If audio needs extending, use matched room tone rather than digital-zero padding.
 
 **ILLUSTRATION INSERT (historical recipe for non-board stills; course boards
-follow Edit Spec; owner call 2026-07-18, first shipped: ai-is-math Pascal & Fermat).** Drop
+follow Edit Spec; owner call 2026-07-18, first shipped: probability-and-prediction Pascal & Fermat).** Drop
 a lesson illustration over a span between two original scene cuts, audio
 untouched, with a slow push-in so the still reads as a scene, not a freeze:
 
@@ -199,7 +199,7 @@ untouched, with a slow push-in so the still reads as a scene, not a freeze:
    composite 3× (lanczos) BEFORE zoompan or integer rounding makes it jitter.
 4. Feed the jpg as a bare single-frame input and let zoompan mint the frames
    (`d=N:fps=30`) — a `-loop 1` image input runs at the demuxer's 25fps default
-   and comes out short (bit us on the first ai-is-math build: 41 frames gone).
+   and comes out short (bit us on the first probability-and-prediction build: 41 frames gone).
 
 ```
 ffmpeg -y -i base.mp4 -i illo.jpg -filter_complex "
@@ -220,7 +220,7 @@ motion; a 0.0 means the zoom didn't take, a spike means jitter), and eyeball
 the LAST span frame for text still fully in frame at max zoom.
 
 **SETTLE variant — run the zoom BACKWARDS on edge-to-edge dense illustrations**
-(`z='1.06-0.06*on/(N-1)'`; first shipped: how-an-llm-works 2026-07-27). Fitting
+(`z='1.06-0.06*on/(N-1)'`; first shipped: whats-an-llm 2026-07-27). Fitting
 full-height leaves side bars, so a push-in never clips left/right — the crop
 always lands on the TOP and BOTTOM. On a dense infographic that means the title
 and the bottom panel, and no y-anchor saves both at once. Settling out instead
@@ -304,8 +304,8 @@ $PY scripts/video/watermark_remove.py in.mp4 out.mp4 --auto
 
 **Use the stroke mask, not `delogo`.** delogo interpolates inward from the box
 border and discards everything inside. That is invisible on featureless paper
-and wrong everywhere else — it smeared ai-is-math's chalkboard into vertical
-bands and turned context-window's dot grid into stripes. `watermark_remove.py`
+and wrong everywhere else — it smeared probability-and-prediction's chalkboard into vertical
+bands and turned context-matters's dot grid into stripes. `watermark_remove.py`
 masks the logo's glyph pixels and inpaints only those, so background between and
 around the glyphs survives.
 
@@ -314,14 +314,14 @@ in — the donor region carries chalk lines), and full alpha-inversion (the mark
 IS alpha-blended, ~0.76 over a ~132 grey, but inversion leaves a readable ghost
 because compression already destroyed the precision it needs). Also rejected: a
 background-roughness triage meant to sort videos into delogo-safe and not. It
-rated context-window flat, and delogo promptly striped it. **Roughness does not
+rated context-matters flat, and delogo promptly striped it. **Roughness does not
 predict the artefact; a regular pattern crossing the box does.**
 
 ### Three traps this pass fell into
 
 - **Never derive the detector's reference from a file the pipeline edits.**
   watermark_scan.py originally extracted its template live from
-  `course-assets/ai-is-math/ai-is-math.mp4` frame 900. Repairing that video blanked the template,
+  `course-assets/probability-and-prediction/probability-and-prediction.mp4` frame 900. Repairing that video blanked the template,
   every video then scored 0 hits, `--auto` patched 0 frames, and the batch
   runner read "0 before -> 0 after" as a pass and installed re-encoded originals
   over good repairs. The template is now a committed `.npy`.

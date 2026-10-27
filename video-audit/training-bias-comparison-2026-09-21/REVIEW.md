@@ -90,11 +90,11 @@ LISTENING: transcript read in full; audio not auditioned; the word "RAG" at 3:29
   Life 2:38.5–3:02.3 (bubble rings at 2:39.8, 2:45.9, 2:54.3, 2:57.4; the first ring pops 1.4 s
   after the board arrives because the narrator introduces the board and names the first turn at
   once); How RAG Works 3:21.3–3:59.3 (card rings at 3:30.6, 3:37.0, 3:44.9; banner spoken after the
-  board's render ends, under Notebook's context-window drawing, unringed); standard close from
+  board's render ends, under Notebook's context-matters drawing, unringed); standard close from
   4:11.7 as the literal final frame. Longest board run 38 s.
 - Notebook spans kept: the monitor and cow drawings, the two-traps and donut diagrams, the
   facial-analysis and fact-card diagrams, the latent-space and knowledge-horizon diagrams, the
-  self-explanation and Verify Dates drawings, the context-window diagram under the RAG caveat. No
+  self-explanation and Verify Dates drawings, the context-matters diagram under the RAG caveat. No
   photographs, no invented statistics, no web addresses. Drawn faces in the facial-recognition
   diagram (1:36) are Notebook drawings.
 - Corner mark cleaned on every kept frame: 2,802 cloned, 489 inpainted, 0 declined.

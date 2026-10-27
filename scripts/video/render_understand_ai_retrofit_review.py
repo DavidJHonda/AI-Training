@@ -3113,11 +3113,11 @@ def render_all() -> None:
 
     render_training_boards()
     # AI Is Math
-    render_math_formula(board_path("ai-is-math", "01-the-math.jpg"))
-    render_one_coin(board_path("ai-is-math", "02-one-coin.jpg"))
-    render_two_coins(board_path("ai-is-math", "03-two-coins.jpg"))
-    render_conditional_probability(board_path("ai-is-math", "04-conditional-probability.jpg"))
-    render_dog_prediction_preview(board_path("ai-is-math", "05-what-comes-next.jpg"))
+    render_math_formula(board_path("probability-and-prediction", "01-the-math.jpg"))
+    render_one_coin(board_path("probability-and-prediction", "02-one-coin.jpg"))
+    render_two_coins(board_path("probability-and-prediction", "03-two-coins.jpg"))
+    render_conditional_probability(board_path("probability-and-prediction", "04-conditional-probability.jpg"))
+    render_dog_prediction_preview(board_path("probability-and-prediction", "05-what-comes-next.jpg"))
 
     # Tokens
     render_chat_shell(board_path("tokens", "01-what-using-ai-feels-like.jpg"))
@@ -3206,19 +3206,19 @@ def render_all() -> None:
     )
 
     # One More Thing
-    five_draws_path = board_path("one-more-thing", "01-five-draws.jpg")
+    five_draws_path = board_path("the-next-token", "01-five-draws.jpg")
     five_draws_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(ROOT / "course-assets/the-next-token/the-next-token-draws.jpg", five_draws_path)
-    memory_path = board_path("one-more-thing", "02-two-sides-chat.jpg")
+    memory_path = board_path("the-next-token", "02-two-sides-chat.jpg")
     memory_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(asset_path('lessons', 'one-more-thing-2-two-sides.jpg'), memory_path)
-    math_path = board_path("one-more-thing", "03-the-math.jpg")
+    shutil.copy2(asset_path('lessons', 'the-next-token-2-two-sides.jpg'), memory_path)
+    math_path = board_path("the-next-token", "03-the-math.jpg")
     math_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(ROOT / "course-assets/the-next-token/the-next-token-bill.jpg", math_path)
     render_teaching(
         "Every Time You Hit Send",
         teaching / "every-time-you-hit-send.png",
-        board_path("one-more-thing", "04-every-time-send.jpg"),
+        board_path("the-next-token", "04-every-time-send.jpg"),
         (("RANDOMNESS", .18, .16), ("NO MEMORY", .50, .25), ("MATH AT SCALE", .82, .16)),
     )
 

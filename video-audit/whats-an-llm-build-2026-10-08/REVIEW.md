@@ -15,7 +15,7 @@ The owner approved the shorter introductory lesson after checking both later cov
 
 Candidate: `Prompts/whats-an-llm-v1.mp4`, **2:25.267**, 4,358 frames at 30 fps.
 
-Source: approved finished `Prompts/how-an-llm-works-v17.mp4`, SHA-256 `4b19151bdce37d85c012d176dbde24f6ec60f75a806d9fc2a6cdc2e06aa7aea2`. Existing finished assembly reencoded once; no new voice or added pauses.
+Source: approved finished `Prompts/whats-an-llm-v17.mp4`, SHA-256 `4b19151bdce37d85c012d176dbde24f6ec60f75a806d9fc2a6cdc2e06aa7aea2`. Existing finished assembly reencoded once; no new voice or added pauses.
 
 | Source span | Treatment |
 | --- | --- |

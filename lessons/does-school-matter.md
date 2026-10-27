@@ -12,9 +12,9 @@ Here’s the catch: ask AI similar questions, and you often get similar answers.
 
 ### Board 1: Same Tool. Different Advantage.
 
-**Image file:** `beyond-the-new-average-same-tool.jpg`
+**Image file:** `does-school-matter-same-tool.jpg`
 
-![Same Tool. Different Advantage.](beyond-the-new-average-same-tool.jpg)
+![Same Tool. Different Advantage.](does-school-matter-same-tool.jpg)
 
 **Teaching content:**
 
@@ -44,9 +44,9 @@ School is where you get to build what you bring to the work.
 
 ### Close
 
-**Image file:** `beyond-the-new-average-close.jpg`
+**Image file:** `does-school-matter-close.jpg`
 
-![Close board](beyond-the-new-average-close.jpg)
+![Close board](does-school-matter-close.jpg)
 
 ## Closing Message
 

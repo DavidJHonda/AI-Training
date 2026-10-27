@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/art-of-prompting-v12.mp4`
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/prompting-matters-v12.mp4`
 - Decoded frames: 6253
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

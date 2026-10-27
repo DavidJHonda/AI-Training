@@ -9,7 +9,7 @@ Evaluation only. No video, course asset, lesson, prompt, tracker, or release ref
 - Current local course reference: `index.html:1113`, lesson ID `modelselection`, `course-assets/your-home-base/your-home-base.mp4?v=20260926ship7`, displayed runtime 4 min.
 - Actual file: **3:53.200**, **6,996 decoded frames**, **1280×720**, **30 fps**.
 - SHA-256: `5e73454b5b7f468be774a46e25cf6377ed0fad030dc45a28d964f9825b1de018`. Exact match to the shipped v6 manifest.
-- Content authority: `ModelSelectionSection` in `index.html` (beginning near line 7806), current board JPGs, and `CLOSE_BOARDS.modelselection` at line 1188. Upload source: `lessons/which-app.md`.
+- Content authority: `ModelSelectionSection` in `index.html` (beginning near line 7806), current board JPGs, and `CLOSE_BOARDS.modelselection` at line 1188. Upload source: `lessons/your-home-base.md`.
 - Complete transcript: `../your-home-base-pacing-2026-09-26/transcript-v5.txt`. The v6 build changes only the Big Three camera treatment from v5; its audio/timeline is unchanged. This transcript was inherited, not freshly generated or verified by ear.
 - Prior treatment and source lineage: September 16 v3, September 21 illustration sync, September 26 v5/v6 manifests and reviews. The original raw rolls are no longer available under `Prompts/`; a future repair must disclose use of the hash-pinned finished video and its extra visual encode generation.
 - Public deployment and Video Tracker status were not checked. This review establishes the local file and local page reference only.

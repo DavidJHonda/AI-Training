@@ -49,7 +49,7 @@ chk "page-bg used as outer band" 0 \
 # 6 = 3 validate() JS comments (not copy) + 2 LESSON_VIDEOS pill titles (attention,
 # layers; owner-accepted tracker copy) + 1 CLOSE_BOARDS sticky ("The Transformer — the
 # T in ChatGPT."), kept verbatim so the native close board matches its video's final
-# frame. The "words — analogy" context-window-size line left with the
+# frame. The "words — analogy" context-matters-size line left with the
 # CONTEXT_WINDOW_FACTS cut (parked for Inference, 2026-07-02).
 # (The 3 "not magic / not a person / not a truth machine" myth em-dashes were
 #  converted to colons 2026-06-19; InferenceJourneyDiagram was rewritten em-dash-free

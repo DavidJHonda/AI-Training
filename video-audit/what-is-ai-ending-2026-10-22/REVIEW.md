@@ -6,7 +6,7 @@ Reviewed 2026-10-22 against the approved partial-reroll source, its required nar
 
 ## Sources and method
 
-- `Prompts/What-is-ai-6.mp4`: 2,806 frames, 30 fps, 1:33.533. SHA-256 `0ea948aee5ccae77726d64f8ce665cb3b4955292c196c94428e7acef70b00166`.
+- `Prompts/what-is-ai-6.mp4`: 2,806 frames, 30 fps, 1:33.533. SHA-256 `0ea948aee5ccae77726d64f8ce665cb3b4955292c196c94428e7acef70b00166`.
 - `Prompts/what-is-ai-7.mp4`: 6,031 frames, 30 fps, 3:21.033. SHA-256 `f8b2a0606fb2ff52b9fe02ea9119573f2c24e74ebbbfe398d1e36c40448595c3`.
 - Complete fresh `small.en` transcripts and word timestamps are saved in `transcripts/`. Both complete transcripts were read. Sampled source frames were inspected for roll 7; no end-to-end motion or direct listening review was performed. The content verdict is transcript-based. Exact splice feasibility and voice continuity have not been auditioned.
 

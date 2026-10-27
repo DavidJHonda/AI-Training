@@ -163,17 +163,17 @@ Training-only sync and `--check` passed. All eight staged uploads and the prompt
 
 ## Probability & Prediction
 
-Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `ai-is-math.mp4` shipped 2026-09-16 under the old method (visual-only retrofit of v3); reroll pending David's approval of the beat spine below.
+Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `probability-and-prediction.mp4` shipped 2026-09-16 under the old method (visual-only retrofit of v3); reroll pending David's approval of the beat spine below.
 
 **Notebook sources**
 
-1. `lessons/ai-is-math.md`
-2. `course-assets/ai-is-math/ai-is-math-the-math.jpg` (Board 1, Standard Probability)
-3. `course-assets/ai-is-math/ai-is-math-two-coins.jpg` (Board 2, Counting the Possibilities)
-4. `course-assets/ai-is-math/ai-is-math-conditional-probability.jpg` (Board 3, A Clue Changes the Odds)
-5. `course-assets/ai-is-math/ai-is-math-what-comes-next.jpg` (Board 4, What Comes Next?)
-6. `course-assets/ai-is-math/ai-is-math-close.jpg`
-7. `gemini-notebook/ai-is-math/PROMPT.txt` (496 words)
+1. `lessons/probability-and-prediction.md`
+2. `course-assets/probability-and-prediction/probability-and-prediction-the-math.jpg` (Board 1, Standard Probability)
+3. `course-assets/probability-and-prediction/probability-and-prediction-two-coins.jpg` (Board 2, Counting the Possibilities)
+4. `course-assets/probability-and-prediction/probability-and-prediction-conditional-probability.jpg` (Board 3, A Clue Changes the Odds)
+5. `course-assets/probability-and-prediction/probability-and-prediction-what-comes-next.jpg` (Board 4, What Comes Next?)
+6. `course-assets/probability-and-prediction/probability-and-prediction-close.jpg`
+7. `gemini-notebook/probability-and-prediction/PROMPT.txt` (496 words)
 
 **Post-production boards**
 
@@ -680,7 +680,7 @@ Capture the scene without the Guided Demonstration shell, instructions, buttons,
 
 ### Existing-video reference and reusable visuals
 
-The installed v14 file is `course-assets/the-next-token/the-next-token.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/one-more-thing.txt`; its source record matches that hash. Shipping receipt: `video-audit/one-more-thing-repair-2026-09-29-v14/shipping-receipt.json`.
+The installed v14 file is `course-assets/the-next-token/the-next-token.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/the-next-token.txt`; its source record matches that hash. Shipping receipt: `video-audit/the-next-token-repair-2026-09-29-v14/shipping-receipt.json`.
 
 Approximate source ranges from the transcript and sequential sampled frames, for later evaluation rather than cut instructions:
 

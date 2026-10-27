@@ -6,7 +6,7 @@ import cv2, numpy as np, imageio_ffmpeg
 from editspec_build import Reader, sha, writewav
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/when-you-need-more-build-v4-2026-10-22'
-SOURCE=ROOT/'Prompts/know-the-app-v3.mp4'
+SOURCE=ROOT/'Prompts/when-you-need-more-v3.mp4'
 DEST=ROOT/'Prompts/when-you-need-more-v4.mp4'
 EXPECTED='42612126a609f966c3581726c76d65b615f93e135beee722183a57e487ec7f5b'
 KEEP=[(0,1574),(1666,2999),(3438,5285),(5823,7909)]
@@ -21,7 +21,7 @@ def main():
  assert not DEST.exists(),'Do not overwrite review candidates'
  assert sha(SOURCE)==EXPECTED
  OUT.mkdir(exist_ok=True);(OUT/'preview').mkdir(exist_ok=True)
- protected={str(p):sha(p) for p in [SOURCE,ROOT/'index.html',ROOT/'lessons/your-choices.md',ROOT/'course-assets/your-choices/your-choices.mp4',*sorted((ROOT/'course-assets/your-choices').glob('*.jpg'))]}
+ protected={str(p):sha(p) for p in [SOURCE,ROOT/'index.html',ROOT/'lessons/when-you-need-more.md',ROOT/'course-assets/when-you-need-more/when-you-need-more.mp4',*sorted((ROOT/'course-assets/when-you-need-more').glob('*.jpg'))]}
  a=pcm(SOURCE);parts=[a[x*1600:z*1600].copy() for x,z in KEEP]
  for i,part in enumerate(parts):
   if i:part[:240]*=np.linspace(0,1,240)

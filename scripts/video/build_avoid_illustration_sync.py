@@ -41,7 +41,7 @@ def specs():
             if slug=='hallucination':states+=[state(3847,'full-takeaway',gold_bounds(asset))]
             if slug=='training-bias':states+=[state(711,'full-takeaway',gold_bounds(asset))]
             if slug=='document-trap':states+=[state(1806,'full-takeaway',gold_bounds(asset))]
-            if slug=='mind-trap':
+            if slug=='trust-trap':
                 left=(33,225,652,1150);right=(677,225,1296,1150)
                 if a==739:states+=[state(810,'chatbot-answer',right,A,right,24)]
                 else:states+=[state(1263,'mom-answer',left,B,left,24),state(1388,'mom-notices',(33,943,652,1036),B,left),state(1568,'mom-shares-stake',(33,1043,652,1137),B,left),state(1686,'compare-both',None,H,None,24)]

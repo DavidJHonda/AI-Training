@@ -20,8 +20,8 @@ from gemini_mark import clean_frame, glyph_mask
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'video-audit/unexpected-results-combined-v5-2026-10-23'
 DEST = ROOT / 'Prompts/unexpected-results-v5.mp4'
-SOURCES = {'1': ROOT/'Prompts/unexpect-results-1.mp4',
-           '3': ROOT/'Prompts/unexpect-results-3.mp4',
+SOURCES = {'1': ROOT/'Prompts/unexpected-results-1.mp4',
+           '3': ROOT/'Prompts/unexpected-results-3.mp4',
            'v4': ROOT/'Prompts/unexpected-results-v4.mp4'}
 HASHES = {'1': 'e4a8c71745591423a1c7431fd2a3cf9eba41c89d20fe0c7dcbcbd03b938fc8fe',
           '3': 'c5a31827b8704a4e3f0f60ae5952b0bce2249bb8d77ffc8efd0ac56f9593d6d7',

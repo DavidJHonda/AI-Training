@@ -18,7 +18,7 @@ import argparse, subprocess, sys, hashlib, json
 import numpy as np, cv2, imageio_ffmpeg
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from editspec_build import Reader, CLOSE_PREHOLD, CLOSE_PUSH, W, H, FPS
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 from make_close_board import close_board_copy
 
 ROOT = Path(__file__).resolve().parents[2]

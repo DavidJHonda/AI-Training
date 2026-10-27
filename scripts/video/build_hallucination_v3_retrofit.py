@@ -17,7 +17,7 @@ from pathlib import Path
 import argparse, json, hashlib, subprocess, sys
 import cv2
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import build_your_choices_reroll_review as common
+import build_when_you_need_more_reroll_review as common
 import build_avoid_illustration_sync as sync
 from build_work_changes_hybrid import render_leg
 from make_close_board import close_board_copy

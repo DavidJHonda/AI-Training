@@ -3,7 +3,7 @@
 Owner authorized shipping on 2026-10-22: “Ship Does School Matter?”
 
 - Local commit: `649b216146b5b84cf2f66dc3254543590a53b400`.
-- Installed: `course-assets/beyond-the-new-average/beyond-the-new-average.mp4`.
+- Installed: `course-assets/does-school-matter/does-school-matter.mp4`.
 - SHA-256: `4bad47278f8bdcd1e01b6dff6dfd6eb2a085b0493e10d8dec2a34a3170d5ade1`.
 - Runtime: 2:21.700, 4,251 frames at 30 fps, 1280 × 720.
 - Cache key: `20261022v12`; display runtime updated to 2 min.

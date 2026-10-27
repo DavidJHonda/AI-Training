@@ -2,7 +2,7 @@
 
 October 26, 2026. Narrow edit authorized by David: “Now, let's edit the video to match the lesson,” following approval to remove the recap and keep the weak/better examples unchanged.
 
-Candidate: `Prompts/art-of-prompting-v12.mp4`. Build: `.video-venv/bin/python scripts/video/build_prompting_matters_v12.py`. Verification: `.video-venv/bin/python scripts/video/qa_prompting_matters_v12.py`.
+Candidate: `Prompts/prompting-matters-v12.mp4`. Build: `.video-venv/bin/python scripts/video/build_prompting_matters_v12.py`. Verification: `.video-venv/bin/python scripts/video/qa_prompting_matters_v12.py`.
 
 ## Source and edit
 
@@ -38,4 +38,4 @@ Review candidate only. The installed canonical video, page video reference, Git 
 
 David approved the delivered candidate: “Looks good. Ship it locally.” Installed v12 byte-identically and committed only the video, its manifest entry, its page reference, and the approved lesson recap removal. Local commit `d9dcb3fafa9ff905904ffb1c5a1ae72251feefab`. Installed SHA-256 `22f72b3820d15c29f2b2c64fa626ae9d06fa14fffe2079aef633e6cfc2fb0b77`. Cache key `20261026ship12`; rounded runtime label “3 min.” Existing design flags (2 raw fonts and 9 em-dashes) are unchanged from HEAD; JavaScript syntax and staged whitespace checks passed. The owner reviewed the candidate; no additional agent listening is claimed.
 
-The previous canonical source is retained at `Prompts/art-of-prompting-recap-source-20261026.mp4`; the builder now points to this hash-pinned source for reproducibility. Scoped cleanup removed three regenerable WAV files; review media and evidence remain. No push or deployment. **Shipped locally; queued for batch deployment.**
+The previous canonical source is retained at `Prompts/prompting-matters-recap-source-20261026.mp4`; the builder now points to this hash-pinned source for reproducibility. Scoped cleanup removed three regenerable WAV files; review media and evidence remain. No push or deployment. **Shipped locally; queued for batch deployment.**

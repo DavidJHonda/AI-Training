@@ -48,33 +48,11 @@ Probable does not equal true.
 
 An answer can sound exactly right even when the facts are wrong. The patterns AI learns shape what comes next, but a likely next token does not establish that a claim is true.
 
-## Not Every AI Error Is a Hallucination
-
 Hallucination is the term people often use whenever AI gets something wrong. But AI can also get something wrong by misreading a real source.
-
-This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce.
-
-That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant.
-
-### Board 3: Real Text. Wrong Meaning.
-
-**Image file:** `hallucination-glue-on-pizza-faceless.jpg`
-
-![Real Text. Wrong Meaning.](../gemini-notebook/hallucination/assets/hallucination-glue-on-pizza-faceless.jpg)
-
-**Teaching content:**
-
-This is real text given the wrong meaning. A real joke goes into the pattern machine, and what looks like cooking advice comes out. The arrow connects the joke AI found to the mistaken advice it produced.
-
-The Reddit comment was real. The cooking advice was not.
-
-## What to notice
-
-This was not the same kind of error as the fake Stanford study. The source was real, but AI interpreted it incorrectly.
 
 Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up.
 
-### Board 4: Check the Claim
+### Board 3: Check the Claim
 
 **Image file:** `hallucination-check-claim.jpg`
 
@@ -96,7 +74,7 @@ Third, check the match.
 
 Does the source exist, and does it actually support what AI said? To pass this check, the source must be real and support the claim.
 
-The steps lead from a specific claim, to its original source, to checking what that source supports. Use all three checks on the two answers.
+The steps lead from a specific claim, to its original source, to checking what that source supports. Use all three checks on the Stanford answer.
 
 ## Checking the Stanford claim
 
@@ -115,24 +93,6 @@ Third, check the match.
 There is no original study supporting those numbers, so do not repeat them as established facts.
 
 In a real search, failing to find a source does not by itself prove a claim false; it means you have not verified it.
-
-## Checking the pizza answer
-
-Now apply the same steps to the pizza answer.
-
-First, notice the claim.
-
-The claim is that glue belongs in pizza sauce.
-
-Second, find the source.
-
-The answer traces back to a real Reddit comment.
-
-Third, check the match.
-
-The comment was a joke, not evidence that glue is a suitable ingredient.
-
-Finding real text is not enough; it must support the claim being made.
 
 ## Closing Message
 

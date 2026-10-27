@@ -24,8 +24,8 @@ JOBS = (
         "rects": ((40, 127, 1520, 1013, "rounded"),),
     },
     {
-        "target": ROOT / "course-assets/mind-trap/mind-trap-comparison.jpg",
-        "preview": PREVIEWS / "mind-trap-comparison-preview.png",
+        "target": ROOT / "course-assets/trust-trap/trust-trap-comparison.jpg",
+        "preview": PREVIEWS / "trust-trap-comparison-preview.png",
         "rects": (
             (40, 271, 744, 418, "top-rounded"),
             (816, 271, 744, 418, "top-rounded"),

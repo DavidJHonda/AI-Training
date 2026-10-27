@@ -6,7 +6,7 @@ School is where you get to build what you bring to the work.
 
 ## Closing Message
 
-![Closing message](beyond-the-new-average-close.jpg)
+![Closing message](does-school-matter-close.jpg)
 
 The opportunity to learn is already in front of you.
 

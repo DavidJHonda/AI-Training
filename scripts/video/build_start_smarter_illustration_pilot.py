@@ -15,7 +15,7 @@ FONT=ROOT/'scripts/video/assets/fonts/PlusJakartaSans-wght.ttf'
 INK='#203335'; MUTED='#526568'; TEAL='#137d77'; BG='#f5f8f6'
 SOURCES={
  'learn-with-ai':dict(sha='a5932a6cb83f4154432c9cbd82eab6b480a13b08b47cd3b192c59e75b2facce0',frames=6583,version=13,spans=[('P1',811,1196),('P3',6090,6295)]),
- 'how-an-llm-works':dict(sha='6aa5cf2b83a8f4aefe156faaf73f378d7ae65fcd40413c887363cc5ed77c0e2b',frames=8775,version=17,spans=[('P2',6673,6930)])}
+ 'whats-an-llm':dict(sha='6aa5cf2b83a8f4aefe156faaf73f378d7ae65fcd40413c887363cc5ed77c0e2b',frames=8775,version=17,spans=[('P2',6673,6930)])}
 def sha(path):
  h=hashlib.sha256()
  with open(path,'rb') as f:

@@ -38,9 +38,29 @@ The Chinese Room illustrates a distinction: producing an answer and understandin
 
 An LLM doesn’t follow a literal rulebook. It uses patterns learned during training to predict its response.
 
-A fluent answer alone doesn’t tell you whether it understands.
+## Real Text. Wrong Meaning.
 
-### Board 2: When You Think. What AI Does.
+This actually happened. When searchers asked Google “how do I keep cheese from sliding off my pizza,” the AI suggested mixing about one-eighth of a cup of non-toxic glue into the sauce.
+
+That bizarre answer did not come from nowhere. It traced back to an old joke on Reddit that was written like sincere advice. Google’s AI found real text, but it missed what the text meant.
+
+### Board 2: Real Text. Wrong Meaning.
+
+**Image file:** `hallucination-glue-on-pizza-faceless.jpg`
+
+![Real Text. Wrong Meaning.](../gemini-notebook/hallucination/assets/hallucination-glue-on-pizza-faceless.jpg)
+
+**Teaching content:**
+
+This is real text given the wrong meaning. A real joke goes into the pattern machine, and what looks like cooking advice comes out. The arrow connects the joke AI found to the mistaken advice it produced.
+
+The Reddit comment was real. The cooking advice was not.
+
+## What to notice
+
+The source was real, but AI interpreted it incorrectly.
+
+### Board 3: When You Think. What AI Does.
 
 **Image file:** `does-ai-think-side-by-side-faceless.jpg`
 

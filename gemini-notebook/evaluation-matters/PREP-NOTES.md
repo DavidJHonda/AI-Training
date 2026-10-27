@@ -32,7 +32,7 @@ Five canonical board images are supplied; all are suitable for upload without fa
 
 `course-assets/evaluation-matters/evaluation-matters.mp4` is 4:15.37, 1280×720, 30 fps. Its identity is recorded in `DONOR.json`; verify the hash before using it. Preserve it before any future shipping operation replaces the canonical path.
 
-The historical v8 transcript at `video-audit/evaluate-the-results-v8-2026-09-27/verify/evaluate-the-results-v8/transcript.txt` identifies candidate material. It is not a fresh transcript of the current donor; its timestamps and automated text are not approved cut points. It even contains an apparent post-roll transcription artifact. Listen to the actual current file and use word-boundary timing before cutting.
+The historical v8 transcript at `video-audit/evaluation-matters-v8-2026-09-27/verify/evaluation-matters-v8/transcript.txt` identifies candidate material. It is not a fresh transcript of the current donor; its timestamps and automated text are not approved cut points. It even contains an apparent post-roll transcription artifact. Listen to the actual current file and use word-boundary timing before cutting.
 
 | Candidate donor material | Editing decision |
 | --- | --- |

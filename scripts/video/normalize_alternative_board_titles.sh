@@ -186,17 +186,17 @@ render_four_shapes_board() {
   echo "Built $output"
 }
 
-render_context_window_board() {
+render_context_matters_board() {
   "$repo_root/.video-venv/bin/python" \
-    "$repo_root/scripts/video/render_context_window_outside_board.py"
+    "$repo_root/scripts/video/render_context_matters_outside_board.py"
 }
 
 if [[ "${1:-all}" == "questions" ]]; then
   render_questions_board
   exit 0
 fi
-if [[ "${1:-all}" == "context-window" ]]; then
-  render_context_window_board
+if [[ "${1:-all}" == "context-matters" ]]; then
+  render_context_matters_board
   exit 0
 fi
 
@@ -206,7 +206,7 @@ if [[ "${1:-all}" == "questions-matter" ]]; then
 fi
 
 # Work With AI
-render_context_window_board
+render_context_matters_board
 render_questions_board
 render_four_shapes_board
 

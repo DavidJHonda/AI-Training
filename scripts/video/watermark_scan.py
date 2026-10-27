@@ -2,11 +2,11 @@
 
 v1 matched a high-passed ROI with TM_CCOEFF_NORMED against a template taken from
 a dark scene. The mark is light-on-dark there and dark-on-light elsewhere, so the
-high-pass signal flips sign and correlation collapsed: it scored art-of-prompting
+high-pass signal flips sign and correlation collapsed: it scored prompting-matters
 0.019 while the mark is plainly visible at full res. Matching on GRADIENT
 MAGNITUDE removes the sign, so the same template works on either background.
 
-Validated on: ai-is-math (dark bg, positive), art-of-prompting (pale bg, positive),
+Validated on: probability-and-prediction (dark bg, positive), prompting-matters (pale bg, positive),
 layers f900 (negative).
 """
 import glob, os, sys
@@ -55,7 +55,7 @@ TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 def build():
     """Load the template from a COMMITTED asset.
 
-    It used to be extracted live from course-assets/ai-is-math/ai-is-math.mp4 frame 900. That was a
+    It used to be extracted live from course-assets/probability-and-prediction/probability-and-prediction.mp4 frame 900. That was a
     landmine: the moment that video's watermark was removed, the template became
     blank, the detector matched nothing, and every video scored 0 hits. The batch
     runner then "verified" 0-hits-before -> 0-hits-after as a pass and installed
@@ -82,8 +82,8 @@ def scan(path, tpl):
 if __name__ == "__main__":
     tpl = build()
     if sys.argv[1:2] == ["--validate"]:
-        for label, slug, fr in [("POS dark  ai-is-math incumbent", "../Prompts/donors/2026-07-27/ai-is-math-incumbent-watermarked", 1200),
-                                ("POS pale  art-of-prompting f1220", "art-of-prompting", 1220),
+        for label, slug, fr in [("POS dark  probability-and-prediction incumbent", "../Prompts/donors/2026-07-27/probability-and-prediction-incumbent-watermarked", 1200),
+                                ("POS pale  prompting-matters f1220", "prompting-matters", 1220),
                                 ("NEG       layers f900", "layers", 900),
                                 ("NEG       welcome f600", "welcome", 600)]:
             path = os.path.join(REPO, slug.removeprefix("../") + ".mp4") if slug.startswith("../Prompts/") else str(current_video_path(slug))

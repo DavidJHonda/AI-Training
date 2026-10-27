@@ -10,7 +10,7 @@ The live page’s older “Once you see that shape…” bridge and the prep’s
 
 ## Per-roll verdicts
 
-### Roll 1 — `Prompts/unexpect-results-1.mp4` — 4:36
+### Roll 1 — `Prompts/unexpected-results-1.mp4` — 4:36
 
 **VERDICT: REPAIR, provisional pending listening.**
 
@@ -30,7 +30,7 @@ EDITING NOTES: canonical board/close replacement, Notebook-mark cleanup, and sel
 
 LISTENING: none by ear. Full base.en transcript; targeted small.en checks for “scurrying,” “worriers,” and roll 3’s texting donor. Those checks are ASR, not listening.
 
-### Roll 2 — `Prompts/unexpect-results-2.mp4` — 4:33
+### Roll 2 — `Prompts/unexpected-results-2.mp4` — 4:33
 
 **VERDICT: REPAIR, provisional; do not use as base.** A reconstruction from identified roll 1/3/v4 beats is possible, but entails substantially replacing this roll.
 
@@ -50,7 +50,7 @@ EDITING NOTES: photo of Hanoi around 0:50; illustrations of supposedly tailless 
 
 LISTENING: full transcript only; no direct listening or motion playback.
 
-### Roll 3 — `Prompts/unexpect-results-3.mp4` — 4:17
+### Roll 3 — `Prompts/unexpected-results-3.mp4` — 4:17
 
 **VERDICT: REPAIR, provisional; useful SMS donor.**
 
@@ -196,7 +196,7 @@ Quotes below are full ASR segments within the stated windows. Spellings such as 
 
 ## Best-of plan
 
-**BASE: `Prompts/unexpect-results-1.mp4`.** It carries the central Hanoi story, complete cause and effect, the explicit unexpected-result line, the exact two-example bridge, and the correct close. Do not rebuild around roll 2 merely because its ending advice is good.
+**BASE: `Prompts/unexpected-results-1.mp4`.** It carries the central Hanoi story, complete cause and effect, the explicit unexpected-result line, the exact two-example bridge, and the correct close. Do not rebuild around roll 2 merely because its ending advice is good.
 
 **Four proposed donor passages:** roll 3’s SMS explanation and expert/forecast acknowledgment; existing v4’s exact cane-toad passage and qualified AI takeaway. The first two sit under the examples board/supporting scenes; the latter two use coherent AI illustrations. Existing video audio is reused only where its actual words are suitable. None of these joins has been auditioned, so this is a concrete proposal, not verified repair audio.
 

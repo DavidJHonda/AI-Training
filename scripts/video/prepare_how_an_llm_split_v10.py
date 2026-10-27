@@ -7,7 +7,7 @@ import cv2
 import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'video-audit/how-an-llm-works-repair-2026-09-17-v10'
+OUT = ROOT / 'video-audit/whats-an-llm-repair-2026-09-17-v10'
 
 def main():
     p = argparse.ArgumentParser()

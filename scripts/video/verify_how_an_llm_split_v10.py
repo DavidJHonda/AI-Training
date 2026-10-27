@@ -6,7 +6,7 @@ import re
 import subprocess
 import cv2
 import numpy as np
-from build_how_an_llm_works_v10_review import OUT,DEST,ROOT,TOTAL,SPF,SR
+from build_whats_an_llm_v10_review import OUT,DEST,ROOT,TOTAL,SPF,SR
 from editspec_build import readwav,sha
 import imageio_ffmpeg
 

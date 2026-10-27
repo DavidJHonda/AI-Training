@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_embeddings_v5_retrofit as v5
 from build_embeddings_v5_retrofit import (ROOT, LIVE, D, ASSETS, BG, TIMELINE, EVENTS, CLOSE, TOTAL, fr, sha, source_at, student_frame, render_state)
 from editspec_build import Reader, CLOSE_PREHOLD, CLOSE_PUSH, W, H, FPS
-from build_one_more_thing_review_repair import ring
+from build_the_next_token_review_repair import ring
 from make_close_board import close_board_copy
 
 OUT = ROOT / 'video-audit/embeddings-repair-2026-09-17-v6'

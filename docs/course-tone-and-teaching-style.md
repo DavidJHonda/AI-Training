@@ -299,7 +299,7 @@ Representative source lessons:
 | `lessons/welcome.md`, `lessons/why-learn-ai.md`, `lessons/what-is-ai.md` | Author identity, accessible openings, concrete humor, learner agency |
 | `lessons/does-school-matter.md`, `lessons/learn-with-ai.md` | Respect for students' real questions and the value of learning |
 | `lessons/questions-matter.md`, `lessons/prompting-matters.md`, `lessons/evaluation-matters.md`, `lessons/critical-thinking.md` | Worked comparisons, practical questions, proportional checking |
-| `lessons/ai-is-math.md`, `lessons/tokens.md`, `lessons/embeddings.md` | Building from examples to terminology and showing intermediate reasoning |
+| `lessons/probability-and-prediction.md`, `lessons/tokens.md`, `lessons/embeddings.md` | Building from examples to terminology and showing intermediate reasoning |
 | `lessons/does-ai-think.md`, `lessons/transformer.md`, `lessons/layers.md` | Analogy limits, consistent examples, technical scaffolding |
 | `lessons/how-ai-answers.md`, `lessons/the-next-token.md` | Following one example through a process and labeling simplifications |
 | `lessons/hallucination.md`, `lessons/document-trap.md`, `lessons/training-bias.md`, `lessons/flattery-trap.md` | Reveals, mechanisms, precise distinctions, actions tied to the failure |

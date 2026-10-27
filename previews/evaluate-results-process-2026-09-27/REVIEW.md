@@ -4,7 +4,7 @@ Added the opening “How to Evaluate an AI Answer” flowchart and rebuilt all f
 
 - Renderer: `scripts/video/render_evaluate_results_process.py`
 - Page: `index.html`, lesson `evaluating`
-- Source: `lessons/evaluate-the-results.md`
+- Source: `lessons/evaluation-matters.md`
 - Browser review: overview and all four stage boards inspected at 880 px display width; no clipping or overlap.
 - Notebook preparation: synced and byte-equality check passed.
 - `git diff --check`: passed.

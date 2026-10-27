@@ -6,7 +6,7 @@ Candidate: `Prompts/when-you-need-more-v4.mp4`, 3:48.000, 6,840 frames at 30 fps
 
 ## Source and scope
 
-Stable source: `Prompts/know-the-app-v3.mp4`, identical to the installed video at review time. SHA-256: `42612126a609f966c3581726c76d65b615f93e135beee722183a57e487ec7f5b`. One additional encode from the finished v3 preserves its approved visual production. Candidate and protected-file hashes are in edit-manifest.json.
+Stable source: `Prompts/when-you-need-more-v3.mp4`, identical to the installed video at review time. SHA-256: `42612126a609f966c3581726c76d65b615f93e135beee722183a57e487ec7f5b`. One additional encode from the finished v3 preserves its approved visual production. Candidate and protected-file hashes are in edit-manifest.json.
 
 All three boards, their illustrations, examples, card and banner highlights, supporting cutaways, and the complete canonical closing retain their original internal timing and pictures. Existing explanatory additions outside the three approved cuts remain. The lesson, TRY IT, installed video and canonical JPGs are unchanged by this build.
 

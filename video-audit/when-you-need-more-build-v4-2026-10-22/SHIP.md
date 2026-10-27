@@ -3,7 +3,7 @@
 Owner authorized shipping on 2026-10-22: “Ship When You Need More.”
 
 - Local commit: `256093f3e407bae92c86fbdd277529e698c872a3`.
-- Installed: `course-assets/your-choices/your-choices.mp4`.
+- Installed: `course-assets/when-you-need-more/when-you-need-more.mp4`.
 - SHA-256: `5e578c7097143da4d694d91c82c634410bfdc95dfac62983396e33984e0c20c7`.
 - Runtime: 3:48.000, 6,840 frames, 30 fps, 1280 × 720.
 - Cache key: `20261022v4`; display runtime remains 4 min.

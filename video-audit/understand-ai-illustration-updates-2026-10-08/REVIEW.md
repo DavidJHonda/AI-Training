@@ -8,7 +8,7 @@ User approved the three proposed inserts: “I like the ideas. Let's build them.
 |---|---|---|---|---|
 | Training | Prompts/training-v9.mp4, identical to pre-update course asset | Prompts/training-v10.mp4 | 5222–5429 (174.067–180.967 s) | f5334 / 177.8 s: choose actionable answer |
 | Embeddings | Prompts/embeddings-v10.mp4, identical to pre-update course asset | Prompts/embeddings-v12.mp4 | 1475–1930 (49.167–64.333 s) | f1703, 1715, 1743, 1761, 1779, 1807: six dimensions reveal in order |
-| AI Is Math | Prompts/ai-is-math-v8.mp4, identical to pre-update course asset | Prompts/ai-is-math-v9.mp4 | 3099–3296 (103.3–109.867 s) | f3216 / 107.2 s: reveal first coin |
+| AI Is Math | Prompts/probability-and-prediction-v8.mp4, identical to pre-update course asset | Prompts/probability-and-prediction-v9.mp4 | 3099–3296 (103.3–109.867 s) | f3216 / 107.2 s: reveal first coin |
 
 Exact sequentially measured source cuts refine the provisional windows in the approved opportunity report. All changes remain within the approved supporting shots. Approximately 28.63 seconds are replaced across the three videos. Full hashes, encoding, and source identities are in the per-lesson manifests. Finished approved files are the available assembly sources; this is one additional high-quality video encode, with original AAC audio copied unchanged.
 

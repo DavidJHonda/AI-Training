@@ -107,7 +107,7 @@ Applied on David's instruction:
 
 - `lessons/document-trap.md` — the three failing lines now stand alone on their own lines, the
   definition is back in bold, and Board 1's banner is its own line again. The six-foul result gets its
-  own line too. The context-window paragraph is split so "A short file may fit there in full." and
+  own line too. The context-matters paragraph is split so "A short file may fit there in full." and
   "With a long file, the system may search…" each sit alone, rather than being the second and third
   sentences of a paragraph. Verified: all eleven required lines are now either quoted dialogue or alone
   on their own line — the two shapes every line that lands already had.

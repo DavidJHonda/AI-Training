@@ -2397,7 +2397,7 @@ function NextLessonGate(props) {
   var ctx = useContext(LessonContext) || {};
   var activeSection = ctx.activeSection;
   var onNavigate = ctx.onNavigate;
-  var isNav = !!props.nav;
+  var isNav = !!props.nav || isOptionalLesson(activeSection) || activeSection === "whatyoulearned";
 
   var prevId = activeSection ? getPreviousSectionId(activeSection) : null;
   var prevMeta = prevId && typeof SECTION_META !== "undefined" ? SECTION_META[prevId] : null;
@@ -3419,14 +3419,14 @@ const SECTION_META = {
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
   openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
-  resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA" },
+  resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA", optional: true },
   forgroups: { kicker: "LEARN TOGETHER", label: "For Groups", icon: "👥", optional: true },
-  reviews: { kicker: "TELL US WHAT YOU THINK", label: "What Do You Think?", icon: "\u2B50" },
+  reviews: { kicker: "TELL US WHAT YOU THINK", label: "What Do You Think?", icon: "\u2B50", optional: true },
 };
 const SECTIONS = SECTION_GROUPS
   .flatMap(function(group) { return group.sections; })
   .map(function(id) { return Object.assign({ id: id }, SECTION_META[id]); });
-// Optional group activities stay navigable without changing individual completion.
+// Optional feedback, references, and group activities do not affect completion.
 function isOptionalLesson(id) { return !!(SECTION_META[id] && SECTION_META[id].optional); }
 const REQUIRED_SECTIONS = SECTIONS.filter(function(section) { return !section.optional; });
 // Opener sections all share the label "Opener", so their title slugs would collide.
@@ -11451,6 +11451,21 @@ function SyntheticMediaSection(props) {
 // is stored separately from completed scores and certificate details so students
 // can leave and resume without affecting anything already earned.
 const FINAL_PASS_PCT = 80;
+function loadFinalPassed() {
+  try {
+    var record = JSON.parse(localStorage.getItem("final-exam"));
+    return !!(record && typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT);
+  } catch (e) { return false; }
+}
+function reconcileCourseProgress(progress, finalPassed) {
+  var saved = progress.completed || [];
+  var completed = saved.filter(function(id) {
+    return !isOptionalLesson(id) && (id !== "whatyoulearned" || finalPassed);
+  });
+  if (finalPassed && !completed.includes("whatyoulearned")) completed.push("whatyoulearned");
+  if (completed.length === saved.length && completed.every(function(id, i) { return id === saved[i]; })) return progress;
+  return Object.assign({}, progress, { completed: completed });
+}
 const FINAL_BADGES = ["A", "B", "C", "D"];
 // Prefill for the name on the certificate. The welcome gate asks only for a first
 // name, and the student can expand or edit it before anything is printed.
@@ -11867,6 +11882,12 @@ function TheFinalQuiz(props) {
   var _confirmIncomplete = useState(false), confirmIncomplete = _confirmIncomplete[0], setConfirmIncomplete = _confirmIncomplete[1];
   var _rec = useLocalStorage("final-exam", { bestScore: null, attempts: 0, certName: null, certFirstName: null, certLastName: null, completionDate: null });
   var record = _rec[0] || {}, setRecord = _rec[1];
+
+  // A passing score completes the lesson immediately, without a certificate name
+  // or an extra navigation click. A later failed retry preserves the best score.
+  useEffect(function() {
+    if (typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT && props.onPass) props.onPass();
+  }, [record.bestScore, props.onPass]);
 
   // Migrate an older passed browser record once. This cannot reconstruct the
   // historical day of the pass, but it prevents the displayed date from changing again.
@@ -12844,7 +12865,7 @@ function WhatYouLearnedSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "So here’s the last move: twenty-five questions, no clock, and every answer explained when you’re done. Some questions check how AI works. Others ask what you’d do with it. Clear 80 percent and the certificate is yours. Fall short and you’ll see exactly which lesson to go back to, then you take it again. There’s no penalty for trying again."),
     /*#__PURE__*/React.createElement(CertificateTeaser, null),
-    /*#__PURE__*/React.createElement(TheFinalQuiz, { onNavigate: props.onNavigate }),
+    /*#__PURE__*/React.createElement(TheFinalQuiz, { onNavigate: props.onNavigate, onPass: props.onFinalPass }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("reviews"); }, label: "Next: What Do You Think?" }));
 }
@@ -14478,8 +14499,15 @@ function LLMExplorer() {
     completed: [],
     testYourselfQuiz: null
   });
+  const [finalPassed, setFinalPassed] = useState(loadFinalPassed);
+  // Repair older navigation-only Final completions and credit existing passes.
+  const reconciledProgress = reconcileCourseProgress(storedProgress, finalPassed);
+  useEffect(function() {
+    if (!sampleMode && reconciledProgress !== storedProgress) setProgress(reconciledProgress);
+  }, [storedProgress, finalPassed, sampleMode]);
   // Preview the real course shell without displaying or changing saved progress.
-  const progress = sampleMode ? { activeSection: "whydeeper", visited: [], completed: [], testYourselfQuiz: null } : storedProgress;
+  const progress = sampleMode ? { activeSection: "whydeeper", visited: [], completed: [], testYourselfQuiz: null } : reconciledProgress;
+  const onFinalPass = function() { if (!sampleMode) setFinalPassed(true); };
   const samplePromptRef = useRef(null);
   const samplePromptTriggerRef = useRef(null);
   const showSamplePrompt = function() {
@@ -14587,7 +14615,7 @@ function LLMExplorer() {
         ...prev,
         activeSection: id,
         visited: visited.includes(id) ? visited : [...visited, id],
-        completed: isOptionalLesson(currentId) || completed.includes(currentId) ? completed : [...completed, currentId]
+        completed: currentId === "whatyoulearned" || isOptionalLesson(currentId) || completed.includes(currentId) ? completed : [...completed, currentId]
       };
     });
   };
@@ -14595,7 +14623,7 @@ function LLMExplorer() {
     if (sampleMode) return showSamplePrompt();
     setProgress(prev => {
       const completed = prev.completed || [];
-      return isOptionalLesson(id) || completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
+      return id === "whatyoulearned" || isOptionalLesson(id) || completed.includes(id) ? prev : { ...prev, completed: [...completed, id] };
     });
   };
   const setTestYourselfQuiz = (quiz) => {
@@ -15004,7 +15032,7 @@ function LLMExplorer() {
     }
   }, /*#__PURE__*/React.createElement(LessonContext.Provider, { value: { activeSection: activeSection, onNavigate: setActiveSection, sample: sampleMode } },
     /*#__PURE__*/React.createElement(LessonErrorBoundary, { key: activeSection, onHome: function() { setActiveSection("welcome"); } },
-      /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
+      /*#__PURE__*/React.createElement(Component, { onNavigate: setActiveSection, onFinalPass: onFinalPass, completeAndNavigate: completeAndNavigate, markComplete: markComplete, testYourselfQuiz: progress.testYourselfQuiz, setTestYourselfQuiz: setTestYourselfQuiz, resetTestYourselfQuiz: resetTestYourselfQuiz })
     )
   )),/*#__PURE__*/React.createElement("footer", {
     onClickCapture: sampleMode ? function(event) {

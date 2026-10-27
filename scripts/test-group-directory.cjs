@@ -28,6 +28,6 @@ console.log('PASS: shared directory covers '+activities.length+' activities/disc
 const navigation = html.slice(html.indexOf('const SECTION_GROUPS ='), html.indexOf('// Opener sections all share'));
 const nav = vm.runInNewContext(navigation + '\n({groups: SECTION_GROUPS, required: REQUIRED_SECTIONS, optional: isOptionalLesson("forgroups")})');
 assert(nav.optional);
-assert.equal(nav.required.length,57);
+assert.equal(nav.required.length,55);
 assert(nav.groups.find(g=>g.label==='Finish Smarter').sections.includes('forgroups'));
-console.log('PASS: For Groups is navigable under Finish Smarter and does not change the 57 required lessons.');
+console.log('PASS: For Groups is navigable under Finish Smarter and does not change the 55 required lessons.');

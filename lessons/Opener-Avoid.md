@@ -2,25 +2,13 @@
 
 # Opener
 
-## THE TRAPS AHEAD
-
-The false fact sounds sure.
-
-The flattery feels good.
-
-The fake looks real.
-
-every trap looks fine from the inside.
-
-The same machinery that makes AI powerful also fails in specific, predictable ways. And here's the catch. When it fails, nothing looks broken. A made-up fact reads exactly like a real one.
+The same machinery that makes AI powerful also fails in specific, predictable ways. And here's the catch. When it fails, nothing looks broken. A made-up fact sounds sure, flattery feels good, and a fake looks real.
 
 Think about a rip current in the ocean. It doesn't look dangerous. It looks like the best spot on the beach: a calm, flat channel between the breaking waves.
 
 Swim into that calm, and you'll be pulled far from shore. The skill isn't out-swimming a rip current. It's recognizing one before you're in it. Lifeguards spot them all day, not because they're strong swimmers, but because they know the shape a rip current makes in the water.
 
 AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.
-
-And you have a head start most people never get. A rip current isn't the ocean malfunctioning. It's just waves doing what waves do. Every AI trap ahead works the same way.
 
 ### Avoid Traps
 

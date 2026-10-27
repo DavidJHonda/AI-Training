@@ -1,5 +1,9 @@
 # Embrace the Future Video Kits
 
+> Further shortening approved 2026-10-27: Remove the Magellan detour and repeated commentary about filling blank spaces with hopes/fears and preparing for uncertain trajectories. Retain what sailors unexpectedly found, both views, the permanence qualification, section map, and close. Current lesson and prompt supersede historical instructions below.
+
+> Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
+
 Prep status is controlled by `gemini-notebook/upload-sets.json`. Any lesson listed in
 `needs_preparation` requires a fresh kit; older “materials ready” or upload directions
 below describe historical work and do not authorize reuse.

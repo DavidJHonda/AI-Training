@@ -2,31 +2,15 @@
 
 # Opener
 
-### Board 1: What Makes AI Use Good?
-
-**Image file:** `work-with-ai-opener-refrain.jpg`
-
-![What Makes AI Use Good?](work-with-ai-opener-refrain.jpg)
-
-**Teaching content:**
-
-Don’t just ask. Aim.
-
-Don’t just copy. Check.
-
-Don’t just use AI. Work with it.
-
-It doesn’t replace your thinking. It multiplies it.
-
 ## From Knowing to Doing
 
 You’ve met the tool and seen what it can do.
 
 Now it gets practical: how do you actually work with it?
 
-Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Knowing how to work with it helps you get more out of it.
+Here’s what most people miss: two people can use the same AI and get very different results. Think of a camera. The same phone that takes one person’s blurry lunch photo takes a photographer’s cover shot, and the tool never changed. The same idea applies to AI. Give it a clear goal, then check the answer before you use it.
 
-### Board 2: Same Tool. Different Results.
+### Board 1: Same Tool. Different Results.
 
 **Image file:** `work-with-ai-opener-same-tool-faceless.jpg`
 
@@ -42,7 +26,7 @@ AI does not replace your thinking. It multiplies it.
 
 Two people, two identical phones, one sandwich. One rushed, blurry picture. One carefully framed, crisp shot. The phone never changed.
 
-### Board 3: Work With AI, the Section Map
+### Board 2: Work With AI, the Section Map
 
 **Image file:** `work-with-ai-opener-section-map.jpg`
 
@@ -68,7 +52,7 @@ Question it, verify it, and decide whether it’s good enough to use.
 
 The result depends on how you use the tool.
 
-### Board 4: Close
+### Board 3: Close
 
 **Image file:** `work-with-ai-opener-close.jpg`
 

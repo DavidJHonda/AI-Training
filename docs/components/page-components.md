@@ -208,8 +208,8 @@ video edit, but their chrome should not become a general static-board template.
 - `LessonHeader` identifies the lesson and section.
 - `SectionKicker` marks a genuine topic turn.
 - `WatchOverview` is the lesson video control.
-- `OpenerCreed` is the navy-and-gold declaration used by Welcome and section
-  openers.
+- The five middle-section openers begin with narration, followed by their analogies
+  and section maps. Their opening navy declaration boards are retired.
 - `NextLessonGate` handles lesson navigation.
 
 ## Relationship to boards

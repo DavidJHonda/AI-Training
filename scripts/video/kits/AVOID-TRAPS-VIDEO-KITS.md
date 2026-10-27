@@ -1,5 +1,11 @@
 # Avoid Traps Video Kits
 
+**2026-10-27 pizza-story move:** Current lesson sources and upload bundles now place Real Text. Wrong Meaning after the Chinese Room in Does AI Think?. Hallucination retains the Stanford example and brief real-source qualification. Both bundles contain five files. The two lesson-owned PREP-NOTES.md files and upload registry supersede the older sequences and counts below. Existing videos await revision.
+
+> Further shortening approved 2026-10-27: Remove the extra post-analogy explanation about rip currents not being a malfunction, plus its repeated train-your-eye conclusion; proceed directly to the section map. Current lesson and prompt supersede historical instructions below.
+
+> Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
+
 Prep status is controlled by `gemini-notebook/upload-sets.json`. Any lesson listed in
 `needs_preparation` requires a fresh kit; older “materials ready” or upload directions
 below describe historical work and do not authorize reuse.

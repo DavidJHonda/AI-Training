@@ -2,26 +2,6 @@
 
 # Build Your Skills — Opener
 
-### Board 1: What Makes You Valuable?
-
-**Image file:** `build-your-skills-opener-creed.jpg`
-
-![What Makes You Valuable?](build-your-skills-opener-creed.jpg)
-
-**Teaching content:**
-
-What makes you valuable?
-
-Your choices.
-
-Your questions.
-
-Your judgment.
-
-Your skills.
-
-And you’ll always be Smarter Than the Tool.
-
 ## The Skills You Keep
 
 This is the last section where you build new skills, and it’s the one you keep.
@@ -36,7 +16,9 @@ This section is about skills like that: the ones you build once and keep forever
 
 Some of them are AI skills. The most important ones aren’t. You’ll build both here.
 
-### Board 2: Build Your Skills
+Your choices, questions, and judgment matter even when everyone has the same tool.
+
+### Board 1: Build Your Skills
 
 **Image file:** `build-your-skills-opener-section-map.jpg`
 

@@ -1,5 +1,7 @@
 # Work With AI opener — preparation, September 29, 2026
 
+> Superseded opening requirements (2026-10-27): remove the refrain board and its opening slogan recital. The current Markdown starts “You’ve met the tool and seen what it can do.” The camera analogy now folds in giving AI a clear goal and checking its answer. Keep the map and closing lines. Current PROMPT.txt and the upload registry govern; the historical nine-line validation and opening repetition below no longer apply. Existing MP4 awaits revision.
+
 Ready for one complete Notebook video generation. This refresh applies the current-spec evaluation in `video-audit/work-with-ai-opener-current-spec-review-2026-09-29/REVIEW.md`. The page and finished video are unchanged.
 
 ## Lesson arc

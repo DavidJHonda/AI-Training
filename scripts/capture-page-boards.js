@@ -29,8 +29,7 @@ const getJSON = (p) => new Promise((res, rej) => {
 // section: the id used by ?print=lesson:<id>, NOT the asset slug.
 // width:   CSS px for the composed block inside the 800x450 canvas.
 const BOARDS = [
-  // Welcome uses the same navy-and-gold creed treatment as the five opener lessons.
-  // Matching the eyebrow and closing keeps the full shared OpenerCreed wrapper.
+  // Welcome retains its own opening board. Preserve its canonical source.
   { section: "welcome", out: "welcome-why-go-deeper.jpg", retainedSource: true, width: 660,
     find: ["WHY GO DEEPER?", "Everyone has AI.", "Be Smarter Than the Tool."] },
   { section: "welcome", out: "welcome-where-this-course-takes-you.jpg", width: 720,
@@ -39,26 +38,17 @@ const BOARDS = [
   // Match the heading plus every card so the capture keeps the complete course setup.
   { section: "welcome", out: "welcome-3-what-youll-need.jpg", width: 1180, vw: 1280,
     find: ["Your course toolkit", "A computer", "ChatGPT for Teens", "Google account"] },
-  // Same Illustration-wrapper trick as welcome-1: lead with the eyebrow or the capture
-  // collapses to the bare serif lines and loses the peach band the reader sees.
+  // The five middle-section opening declaration boards were retired 2026-10-27.
+  // Keep their retainedSource entries to protect historical video assets from
+  // recapture; these boards and their fallback components are no longer on-page.
   { section: "openerworkwith", out: "work-with-ai-opener-refrain.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES AI USE GOOD?", "Don’t just ask.", "It multiplies it."] },
-  // Understand AI displays its retained video JPG with the shared crop-and-extend
-  // treatment. The original HTML remains available as the narrow-screen fallback.
   { section: "openerfoundations", out: "understand-ai-opener-kind.jpg", retainedSource: true, width: 740,
     find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "It’s its own kind of thing."] },
-  // Avoid Traps uses the same shared OpenerCreed component. Its archived August 7
-  // JPEG still has the retired peach/serif treatment, while the live lesson now
-  // renders the navy-and-gold creed. Capture the live component as the video source.
   { section: "openerprotect", out: "avoid-traps-opener-traps.jpg", retainedSource: true, width: 740,
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
-  // Embrace the Future displays its retained video JPG with the shared crop-and-
-  // extend treatment. Keep the canonical source protected from recapture.
   { section: "openerrealworld", out: "embrace-the-future-opener-voices.jpg", retainedSource: true, width: 740,
     find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
-  // Build Your Skills now displays this retained video JPG with the shared crop-and-
-  // extend treatment. Keep the catalogue entry so filtered capture runs explicitly
-  // report that the canonical source is protected instead of silently omitting it.
   { section: "openerskills", out: "build-your-skills-opener-creed.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
 

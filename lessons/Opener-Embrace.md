@@ -2,26 +2,6 @@
 
 # Embrace the Future — Opener
 
-### Board 1: What Everyone’s Saying
-
-**Image file:** `embrace-the-future-opener-voices.jpg`
-
-![What Everyone’s Saying](embrace-the-future-opener-voices.jpg)
-
-**Teaching content:**
-
-Here’s what everyone’s saying.
-
-“It’s going to cure diseases.”
-
-“It’s going to take your job.”
-
-“It’ll do the boring parts for you.”
-
-“It will hurt society.”
-
-Who’s right? Nobody knows.
-
 ## Where Does All This Land?
 
 You now know how to use AI, and you understand the engine underneath, so its strange behavior makes more sense. Your goal is to Be Smarter Than the Tool. Done.
@@ -36,7 +16,7 @@ Not them, not us, not the people building AI.
 
 Think back to history class. Centuries ago, mapmakers sometimes filled waters they did not understand with sea monsters and strange serpents.
 
-### Board 2: The Edge of the Map
+### Board 1: The Edge of the Map
 
 **Image file:** `embrace-the-future-opener-edge-of-the-map.jpg`
 
@@ -54,13 +34,11 @@ AI Optimists look at the same unknown parts and see easy, clear sailing through 
 
 Those sailors didn’t find sea monsters, and rarely found easy, clear sailing. They usually found something unexpected.
 
-Consider Magellan. He didn’t set off to sail around the world. But that’s what his crew did. And he died before the voyage ended. Did he expect either? No.
-
 This section takes both views of the map seriously: the monsters and the open water.
 
 And only one thing is certain: AI is here to stay. Not that it keeps getting better forever. Just that it isn’t going away.
 
-### Board 3: Embrace the Future
+### Board 2: Embrace the Future
 
 **Image file:** `embrace-the-future-opener-section-map.jpg`
 

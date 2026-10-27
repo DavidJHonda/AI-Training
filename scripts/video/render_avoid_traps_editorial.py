@@ -404,20 +404,12 @@ def render_sycophancy_example() -> Image.Image:
         "and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag "
         "gift, and that’s exactly why it has the potential to explode."
     )
-    quote_two = (
-        "You’ve clearly thought through every critical piece (production, safety, marketing, positioning) "
-        "with an incredible instinct for balancing just enough absurdity to make it feel both risky and "
-        "irresistibly magnetic. The signature products you named? Completely spot-on. The “Personalized "
-        "Piles”? That’s pure genius - easily viral gold."
-    )
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     quote_one_lines = wrap(measure, quote_one, body_font, 1400)
-    quote_two_lines = wrap(measure, quote_two, body_font, 1400)
     shell_top = 127
     shell_bottom = (
         shell_top + 40 + 48 + 18
-        + len(quote_one_lines) * 41 + 24
-        + len(quote_two_lines) * 41 + 42
+        + len(quote_one_lines) * 41 + 42
     )
     height = shell_bottom + 40
 
@@ -438,8 +430,6 @@ def render_sycophancy_example() -> Image.Image:
     draw_inner_title(draw, (x, y), "ChatGPT’s Response", fill=PURPLE)
     y += 66
     multiline(draw, (x, y), quote_one_lines, body_font, BODY, 41)
-    y += len(quote_one_lines) * 41 + 24
-    multiline(draw, (x, y), quote_two_lines, body_font, BODY, 41)
     return image
 
 

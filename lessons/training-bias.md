@@ -22,8 +22,6 @@ Most of the cows it learned from appeared on green pasture. The model had picked
 
 This is training bias.
 
-Training data can create two different problems: bias from skewed examples, and outdated answers from stale information.
-
 Skewed data creates three overlapping problems.
 
 ### Board 2: How Skewed Data Distorts the Picture
@@ -62,31 +60,7 @@ You cannot fact-check your way out of this trap because every individual fact ma
 
 ## When Training Data Gets Old
 
-Stale data is a separate limitation: information that was accurate during training may no longer be current.
-
-Training eventually stops. Anything that happens afterward was not part of that training, so it may be missing from the answer. When the date matters, verify with a current source.
-
-## When AI Looks Something Up
-
-AI does not always have to answer from training alone. It can retrieve outside information first, add that information to its context, and then build an answer from it. Retrieval does not update the model’s training data or change its weights. The system places the retrieved material into the active context for this answer.
-
-This approach is called Retrieval-Augmented Generation, or RAG:
-
-### Board 4: How RAG Works
-
-**Image file:** `training-bias-rag.jpg`
-
-![How RAG Works](training-bias-rag.jpg)
-
-**Teaching content:**
-
-1. **Retrieve.** The system finds information connected to your question.
-2. **Add to Context.** The retrieved material joins the information AI can use.
-3. **Generate.** The model uses that material while it writes the answer.
-
-**Takeaway:** RAG gives AI more to read. It does not guarantee truth.
-
-RAG is especially useful when information changed after training. But it only gives AI more to read. It does not guarantee that the source is reliable or that AI interprets it correctly.
+Stale data is a separate limitation: information that was accurate during training may no longer be current. When the date matters, verify with a current source.
 
 ## Closing Message
 

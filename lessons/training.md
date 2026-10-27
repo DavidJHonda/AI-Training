@@ -22,6 +22,8 @@ First, set up the system. Engineers design the model and give its internal numbe
 
 Second, gather the data. Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.
 
+The model’s internal numbers are called **weights**. Training adjusts these numbers to change its future predictions.
+
 ## Three Phases
 
 Training builds different abilities in three main phases. We’ll use the same basketball question to see what each phase adds.
@@ -46,7 +48,7 @@ Phase 3 is Preference Tuning. Improve responses through feedback.
 
 ## A Shared Training Loop
 
-Across all three phases, training follows a basic loop: guess, check, and adjust. What changes is the examples and feedback used to guide those adjustments. Here’s a simple example.
+Training repeatedly predicts, checks, and adjusts. The example below shows how this works when predicting text. Later phases use different examples and feedback.
 
 ### Board 3: The Training Loop
 
@@ -68,7 +70,7 @@ Then repeat. The loop runs again on the next example.
 
 ## From the Loop to Pretraining
 
-Those adjustments change the model’s internal numbers, called weights. Now, let’s look at the first phase of training, called pretraining.
+Pretraining builds a foundation of language and information patterns.
 
 ### Board 4: 1 · Pretraining
 
@@ -92,7 +94,7 @@ What still needs work: the model can produce fluent text, but it doesn’t relia
 
 ## From Patterns to Instructions
 
-Training keeps adjusting the model’s weights. What changes in the next phases is the kind of examples and feedback used to guide those adjustments.
+Next, examples of good responses teach the model to follow requests.
 
 ### Board 5: 2 · Instruction Tuning
 
@@ -114,7 +116,7 @@ What still needs work: the model can follow a request, but its answer may still 
 
 ## From Instructions to Feedback
 
-Following instructions is a start. Next, the model learns from feedback about which answers people find more helpful. That’s preference tuning.
+Then, feedback helps shape which responses the model is more likely to give.
 
 ### Board 6: 3 · Preference Tuning
 
@@ -147,3 +149,9 @@ It can work with new information you give it, but your conversation does not cha
 AI learns from examples and feedback.
 
 Guess. Check. Adjust. Repeat.
+
+## Kitchen Helper
+
+[Interactive activity: Train a Kitchen Helper]
+
+Your choices shaped the helper’s answers to new questions. That’s the idea behind preference tuning: feedback guides future responses.

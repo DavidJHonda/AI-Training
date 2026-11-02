@@ -2,6 +2,12 @@
 
 # AI is Different
 
+Today’s AI behaves differently from traditional software. If you expect it to act like the software you’re used to, its behavior can be confusing.
+
+Two differences help explain why. First, AI learns patterns from examples rather than relying only on rules written by programmers. Second, it can work with “unstructured data,” such as everyday language, images, and audio, with far greater flexibility than traditional software. These differences make AI more capable in many situations, but also less predictable.
+
+## Rules-Based Software
+
 You’re signing into Spotify. You enter the wrong password. Should the app open because you were close? Or because your spelling was creative?
 
 No. You want it to follow a rule: **let me in only if the password matches.**
@@ -20,23 +26,9 @@ Rules look like this. A user enters a password. If the password matches, then th
 
 Written rules return the same result every time.
 
-## When rules aren’t enough
+## Rules vs. Patterns
 
-You and your friends hand-wrote a Spotify playlist for your homecoming dance.
-
-But the handwritten notes are messy. There are crossed-out ideas, arrows pointing to replacement songs, abbreviations, and a few jokes in the margins. Before you can build the playlist, someone has to figure out which songs you actually chose.
-
-Imagine a programmer tried to write a separate instruction for every possible scribble, pointing arrow, and scratch-through. Impossible.
-
-This is where AI’s foundation matters.
-
-An LLM learns patterns during training.
-
-So it doesn’t need pre-written instructions to make sense of your notes. AI can help turn the planning mess into a list you can use.
-
-AI is still software.
-
-People still write the code that trains and runs AI. The difference is that they haven’t written each answer or a separate rule for every request.
+Traditional software follows instructions written by programmers. AI learns patterns from examples during training and uses those patterns to answer you. People still write the code that trains and runs AI, but they don’t write each answer.
 
 ### Board 2: A Cooking Analogy
 
@@ -58,15 +50,31 @@ Learned patterns. Different dishes.
 
 ## Structured vs. Unstructured Data
 
-To calculate your GPA in a spreadsheet, you put grades and credits into the right rows and columns. That’s **structured data**: information organized into consistent fields.
+Traditional software usually needs information entered in a specific structure. Think of a spreadsheet, with rows and columns. That’s **structured data**.
 
-But suppose you took a picture while visiting a college and want to know the names of the dorms. That’s **unstructured data**: the information isn’t arranged into consistent fields. AI can use visible signs and other clues to help identify the buildings.
+AI can work with **unstructured data**. You don’t need to organize it into specific rows and columns. Give it what you have, and it can help make sense of it.
+
+Here’s the same short playlist in both formats. Notice the difference?
+
+### Board 3: Same Playlist. Different Formats.
+
+**Image file:** `ai-is-different-playlist-formats.jpg`
+
+![Same Playlist. Different Formats.](../course-assets/ai-is-different/ai-is-different-playlist-formats.jpg)
+
+**Teaching content:**
+
+Traditional Software: Structured Data. A table has Song, Artist, and Play Order columns: Blinding Lights by The Weeknd is first, Levitating by Dua Lipa is second, and As It Was by Harry Styles is third.
+
+AI: Unstructured Data. Handwritten homecoming notes contain the same songs and artists, with an arrow saying “start here!” beside Blinding Lights, “play this last!” beside As It Was, and Shake It Off crossed out. The information is not arranged into consistent fields.
+
+AI can do this because, during training, it learned patterns in handwriting, language, and visual clues like arrows and crossed-out words. It uses those patterns to help interpret your notes, even when they aren’t neatly organized.
 
 ## The downside
 
 Using learned patterns makes AI flexible, but its response can be harder to predict and inspect than a written rule like the password check.
 
-It might miss a crossed-out song or confidently give you the wrong dorm name.
+It might miss a crossed-out song.
 
 It might look great, but still have mistakes.
 

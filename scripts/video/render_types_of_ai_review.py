@@ -13,7 +13,6 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
 
-from editorial_takeaway import TAKEAWAY_TEXT_SIZE, draw_takeaway_band
 from editorial_typography import draw_board_title, draw_inner_title, face
 
 
@@ -22,7 +21,7 @@ REVIEW_OUTPUT = ROOT / "board-review-what-is-ai/two-types-of-ai.jpg"
 LESSON_OUTPUT = ROOT / "course-assets/what-is-ai/what-is-ai-types.jpg"
 
 WIDTH = 1600
-HEIGHT = 1302
+HEIGHT = 1184
 FRAME = "#eae7fd"
 WHITE = "#ffffff"
 INK = "#0e0a1f"
@@ -195,14 +194,6 @@ def render() -> None:
         ),
     )
 
-    draw_takeaway_band(
-        image,
-        top=1174,
-        left=40,
-        right=1560,
-        text="AI can recommend. AI can create. This course focuses on generative AI.",
-        font=face("medium", TAKEAWAY_TEXT_SIZE),
-    )
     for output in (REVIEW_OUTPUT, LESSON_OUTPUT):
         output.parent.mkdir(parents=True, exist_ok=True)
         save_course_image(image, output, quality=94, subsampling=0)

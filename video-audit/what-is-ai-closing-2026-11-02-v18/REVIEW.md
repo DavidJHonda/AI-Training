@@ -1,0 +1,1 @@
+Superseded by v19 before delivery: automated silence measurement found a 3.363-second pre-close voice gap, versus 1.604 seconds in v17. V19 moves the accepted take 8 excerpt earlier to preserve that existing pace. No installed-video change.

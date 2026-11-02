@@ -18,6 +18,10 @@ Initially prepared against the lesson pages on 2026-09-04; individual kits are u
 
 The source lists and reserved-narration directions below document previous productions. They are not current upload instructions. Preserve useful review and editing history, but do not recreate a legacy prompt from these notes. Current bundles come only from `gemini-notebook/upload-sets.json`.
 
+## Current merged lesson
+
+Flattery & Engagement now shares `lessons/flattery-trap.md` (2026-11-02). Keep its four Flattery boards, the slope comparison and infinite-scroll board, and the new combined close. The old separate videos are hidden from the page pending a matching merged video. The Engagement source and separate pending-kit entry are retired. Historical production notes below are not instructions for this merged lesson.
+
 ## Scene plan for review
 
 | Lesson | Teaching sequence |
@@ -137,7 +141,7 @@ Lesson shortened 2026-10-27: remove the second opening paragraph and the AI Wonâ
 Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the native-rendered stopping-points board.
 
 - Prompt: **retired; fresh prep required**
-- Markdown: `lessons/engagement-trap.md`
+- Historical Markdown: retired; current merged source is `lessons/flattery-trap.md`
 - Upload checklist: **retired; fresh prep required**
 - Notebook sources:
   1. `course-assets/engagement-trap/engagement-trap-comparison.jpg`

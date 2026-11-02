@@ -8,7 +8,7 @@ const {chromium} = require(process.env.PLAYWRIGHT_MODULE || '/Users/davidobrien/
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const nav = vm.runInNewContext(html.slice(html.indexOf('const SECTION_GROUPS ='), html.indexOf('// Opener sections all share')) + '\n({required: REQUIRED_SECTIONS, sections: SECTIONS})');
-assert.equal(nav.required.length, 55);
+assert.equal(nav.required.length, 54);
 const beforeFinal = Array.from(nav.required, s => s.id).filter(id => id !== 'whatyoulearned');
 function attempt(correctCount) {
   let saved;
@@ -53,7 +53,7 @@ const server = http.createServer((req,res) => {
     async function progress(page, count) {
       await page.waitForFunction(count => {
         const bar = document.querySelector('.course-header [role="progressbar"]');
-        return bar?.getAttribute('aria-valuemax') === '55' && bar.getAttribute('aria-valuenow') === String(count);
+        return bar?.getAttribute('aria-valuemax') === '54' && bar.getAttribute('aria-valuenow') === String(count);
       }, count);
       await page.waitForFunction(count => JSON.parse(localStorage.getItem('llm-explorer-progress')).completed.length === count, count);
     }
@@ -61,21 +61,21 @@ const server = http.createServer((req,res) => {
     for (const score of [undefined, 76]) {
       console.log('Checking legacy progress:', score);
       const {page,context} = await student({score, completed:[...beforeFinal,'whatyoulearned','reviews','resources','forgroups']});
-      await progress(page,54);
+      await progress(page,53);
       await page.getByRole('button', {name:/What Do You Think/}).last().click();
-      await progress(page,54);
+      await progress(page,53);
       await page.getByRole('button', {name:/Resources/}).last().click();
-      await progress(page,54);
+      await progress(page,53);
       await page.getByRole('button', {name:/For Groups/}).last().click();
-      await progress(page,54);
+      await progress(page,53);
       await context.close();
     }
     // Existing passes count even when the student opens another lesson first.
     console.log('Checking existing pass');
     const existing = await student({score:80, active:'welcome'});
-    await progress(existing.page,55); await existing.context.close();
+    await progress(existing.page,54); await existing.context.close();
     // Threshold and failed retake; passing needs no certificate name or Next click.
-    for (const [correctCount,priorScore,expected] of [[19,undefined,54],[20,undefined,55],[0,80,55]]) {
+    for (const [correctCount,priorScore,expected] of [[19,undefined,53],[20,undefined,54],[0,80,54]]) {
       console.log('Checking submitted score:', correctCount*4, 'prior:', priorScore);
       const {page,context} = await student({score:priorScore, answers:attempt(correctCount)});
       await page.getByRole('button',{name:'Continue the Final',exact:true}).click();
@@ -87,7 +87,7 @@ const server = http.createServer((req,res) => {
       await context.close();
     }
     assert.deepEqual(errors,[]);
-    console.log('PASS: 55 required items; optional pages and Next do not complete The Final; legacy progress, 76% failure, 80% pass, failed retake, and reload verified.');
+    console.log('PASS: 54 required items; optional pages and Next do not complete The Final; legacy progress, 76% failure, 80% pass, failed retake, and reload verified.');
   } finally {
     if (browser) await browser.close();
     server.closeAllConnections();

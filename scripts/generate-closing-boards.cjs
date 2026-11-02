@@ -53,7 +53,6 @@ const ASSETS = {
   documenttrap: "course-assets/document-trap/document-trap-close.jpg",
   mindtrap: "course-assets/trust-trap/trust-trap-close.jpg",
   flattery: "course-assets/flattery-trap/flattery-trap-close.jpg",
-  engagementtrap: "course-assets/engagement-trap/engagement-trap-close.jpg",
   supporttrap: "course-assets/support-trap/support-trap-close.jpg",
   faketrap: "course-assets/fake-trap/fake-trap-close.jpg",
   openerrealworld: "course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg",

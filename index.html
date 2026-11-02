@@ -350,18 +350,6 @@
   }
   .temp-prob-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
   @media (max-width:700px){ .temp-prob-grid{ grid-template-columns:1fr; } }
-  /* Engagement Trap "what you could have done" rows: a big right-aligned figure
-     beside its label. Needs a media query (the number stacks above the label on
-     narrow, rather than squeezing the label to one word per line), so it lives
-     here rather than as an inline style on the row. */
-  .oay-row{ display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:center; padding:15px 2px; }
-  .oay-row > .oay-figure{ font-family:var(--serif); font-size:30px; line-height:1.05; color:var(--primaryDeep); white-space:nowrap; text-align:right; }
-  .oay-time-fields{ display:flex; gap:12px; }
-  @media (max-width:560px){
-    .oay-row{ grid-template-columns:1fr; gap:2px; }
-    .oay-row > .oay-figure{ text-align:left; font-size:26px; }
-    .oay-time-fields{ flex-direction:column; }
-  }
   /* Be the Transformer TRY IT: every word in the sentence is clickable, and an arc
      is drawn from the marked word to the one it depends on. Hover, wrapping and
      the draw-in stroke all need real CSS, so the sentence lives here rather than
@@ -527,7 +515,6 @@
     .using-course-modal-header{ gap:12px; }
     .using-course-modal h2{ font-size:27px; }
   }
-  .oay-input::placeholder{ color:#aaa6b5; opacity:1; font-weight:500; }
   /* TRY IT directions use numbered circles above the activity content. */
   .activity-instructions--try { list-style: none; margin: 0; padding: 0 4px; color: var(--inkSoft); font-family: var(--sans); font-size: 17px; line-height: 1.5; }
   .activity-instructions--try > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: 12px; }
@@ -1328,8 +1315,6 @@ const LESSON_VIDEOS = {
   trainingbias: { src: "course-assets/training-bias/training-bias.mp4?v=20261027ship11", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
   documenttrap: { src: "course-assets/document-trap/document-trap.mp4?v=20261027ship7", duration: "4 min", title: "Uploaded doesn’t mean read." },
   mindtrap: { src: "course-assets/trust-trap/trust-trap.mp4?v=20261027ship1", duration: "3 min", title: "Why it feels like somebody’s there." },
-  flattery: { src: "course-assets/flattery-trap/flattery-trap.mp4?v=20261027ship13", duration: "4 min", title: "AI gives you praise, even when it shouldn’t.", cta: "Both end at the same LAB." },
-  engagementtrap: { src: "course-assets/engagement-trap/engagement-trap.mp4?v=20261027ship15", duration: "4 min", title: "The quietest trap: knowing when to stop." },
   supporttrap: { src: "course-assets/support-trap/support-trap.mp4?v=20261027ship15", duration: "5 min", title: "Supportive words aren’t support." },
   faketrap: { src: "course-assets/fake-trap/fake-trap.mp4?v=20261027ship12", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." },
   // Build Your Skills lessons are ready to read. Approved videos use `src` below;
@@ -1402,8 +1387,7 @@ const CLOSE_BOARDS = {
   trainingbias: { pill: "AI repeats the shape of its data.", sticky: "Ask what’s missing. Check what’s changed." },
   documenttrap: { pill: "A missing passage can change the answer.", sticky: "Ask for the passage. Then check it." },
   mindtrap: { pill: "For decisions that matter", sticky: "You make the call." },
-  flattery: { pill: "Useful feedback points to the work.", sticky: "Look for specifics, not approval." },
-  engagementtrap: { pill: "Know what you came for.", sticky: "When you have it, choose what happens next." },
+  flattery: { pill: "Look for specifics, not approval.", sticky: "Know what you came for. When you have it, choose what happens next." },
   supporttrap: { pill: "AI can help you get ready for people.", sticky: "In danger, leave the chat and bring in someone who can act." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Embrace the Future
@@ -1461,8 +1445,7 @@ const CLOSE_BOARD_ASSETS = {
   trainingbias: { src: "course-assets/training-bias/training-bias-close.jpg", cssWidth: 448, width: 1344, height: 597 },
   documenttrap: { src: "course-assets/document-trap/document-trap-close.jpg", cssWidth: 566, width: 1698, height: 597 },
   mindtrap: { src: "course-assets/trust-trap/trust-trap-close.jpg", cssWidth: 400, width: 1200, height: 597 },
-  flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg", cssWidth: 495, width: 1488, height: 600 },
-  engagementtrap: { src: "course-assets/engagement-trap/engagement-trap-close.jpg", cssWidth: 428, width: 1284, height: 600 },
+  flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg?v=20261102merged", cssWidth: 618, width: 1854, height: 597 },
   supporttrap: { src: "course-assets/support-trap/support-trap-close.jpg", cssWidth: 530, width: 1590, height: 600 },
   faketrap: { src: "course-assets/fake-trap/fake-trap-close.jpg", cssWidth: 521, width: 1566, height: 597 },
   openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg", cssWidth: 509, width: 1530, height: 597 },
@@ -3352,7 +3335,7 @@ const SECTION_GROUPS = [{
   sections: ["openerfoundations", "training", "tokens", "embeddings", "attention", "layers", "vectorspace", "prediction", "inference"]
 }, {
   label: "Avoid Traps",
-  sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "engagementtrap", "supporttrap", "faketrap"]
+  sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "supporttrap", "faketrap"]
 }, {
   label: "Embrace the Future",
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
@@ -3389,8 +3372,7 @@ const SECTION_META = {
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Trust Trap", icon: "\uD83E\uDEE5" },
-  flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery Trap", icon: "\uD83C\uDFAD" },
-  engagementtrap: { kicker: "KNOW WHEN TO QUIT", label: "Engagement Trap", icon: "\uD83D\uDD01" },
+  flattery: { kicker: "WATCH THE FRIENDLINESS", label: "Flattery & Engagement", icon: "\uD83C\uDFAD" },
   supporttrap: { kicker: "FEELS LIKE SUPPORT", label: "Support Trap", icon: "\uD83E\uDEC2" },
   agents: { kicker: "YOUR NAME ON THE WORK", label: "Rise of Agents", icon: "\uD83E\uDD16" },
   critical: { kicker: "BRING YOUR BRAIN", label: "Critical Thinking", title: "Critical Thinking", icon: "\uD83E\uDDD0" },
@@ -5185,6 +5167,9 @@ function AIvsCodeSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "aivscode" }),
+    E(BodyP, null, "Today’s AI behaves differently from traditional software. If you expect it to act like the software you’re used to, its behavior can be confusing."),
+    E(BodyP, null, "Two differences help explain why. First, AI learns patterns from examples rather than relying only on rules written by programmers. Second, it can work with “unstructured data,” such as everyday language, images, and audio, with far greater flexibility than traditional software. These differences make AI more capable in many situations, but also less predictable."),
+    E(SectionKicker, null, "RULES-BASED SOFTWARE"),
     E(BodyP, null, "You’re signing into Spotify. You enter the wrong password. Should the app open because you were close? Or because your spelling was creative?"),
     E(BodyP, null, "No. You want it to follow a rule: ", E("strong", null, "let me in only if the password matches.")),
     E(BodyP, null, "Non-AI software is based on instructions like this that people wrote. A calculator follows instructions for mathematical operations. A spreadsheet applies formulas to the information you enter."),
@@ -5193,12 +5178,8 @@ function AIvsCodeSection(props) {
       alt: "Rules Look Like This. A user enters a password. If the password matches, the app opens. Otherwise, the app shows Password doesn’t match. Please try again. Written rules return the same result every time.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
-    E(SectionKicker, null, "WHEN RULES AREN’T ENOUGH"),
-    E(BodyP, null, "You and your friends hand-wrote a Spotify playlist for your homecoming dance."),
-    E(BodyP, null, "But the handwritten notes are messy. There are crossed-out ideas, arrows pointing to replacement songs, abbreviations, and a few jokes in the margins. Before you can build the playlist, someone has to figure out which songs you actually chose."),
-    E(BodyP, null, "Imagine a programmer tried to write a separate instruction for every possible scribble, pointing arrow, and scratch-through. Impossible."),
-    E(BodyP, null, "This is where AI’s foundation matters. An LLM learns patterns during training. So it doesn’t need pre-written instructions to make sense of your notes. AI can help turn the planning mess into a list you can use."),
-    E(BodyP, null, "AI is still software. People still write the code that trains and runs AI. The difference is that they haven’t written each answer or a separate rule for every request."),
+    E(SectionKicker, null, "RULES VS. PATTERNS"),
+    E(BodyP, null, "Traditional software follows instructions written by programmers. AI learns patterns from examples during training and uses those patterns to answer you. People still write the code that trains and runs AI, but they don’t write each answer."),
     E("img", {
       src: "course-assets/ai-is-different/ai-is-different-cooking-analogy.jpg?v=20261009cooking3",
       alt: "A Cooking Analogy. Rule-Based Software is like a cooking robot following a recipe: it follows the written steps. Same recipe. Same result every time. AI is like a chef who learned from preparing many dishes: the chef doesn’t need a recipe. Learned patterns. Different dishes.",
@@ -5213,11 +5194,24 @@ function AIvsCodeSection(props) {
       E("p", null, "AI is like a chef who learned from preparing many different dishes. The chef recognizes patterns: which ingredients work together, how cooking methods affect food, and what substitutions might work. The chef doesn’t need a recipe."),
       E("p", null, "Learned patterns. Different dishes.")),
     E(SectionKicker, null, "STRUCTURED VS. UNSTRUCTURED DATA"),
-    E(BodyP, null, "To calculate your GPA in a spreadsheet, you put grades and credits into the right rows and columns. That’s ", E("strong", null, "structured data"), ": information organized into consistent fields."),
-    E(BodyP, null, "But suppose you took a picture while visiting a college and want to know the names of the dorms. That’s ", E("strong", null, "unstructured data"), ": the information isn’t arranged into consistent fields. AI can use visible signs and other clues to help identify the buildings."),
+    E(BodyP, null, "Traditional software usually needs information entered in a specific structure. Think of a spreadsheet, with rows and columns. That’s ", E("strong", null, "structured data"), "."),
+    E(BodyP, null, "AI can work with ", E("strong", null, "unstructured data"), ". You don’t need to organize it into specific rows and columns. Give it what you have, and it can help make sense of it."),
+    E(BodyP, null, "Here’s the same short playlist in both formats. Notice the difference?"),
+    E("img", {
+      src: "course-assets/ai-is-different/ai-is-different-playlist-formats.jpg?v=20261102playlist3",
+      alt: "Same Playlist. Different Formats. Left: Traditional Software, with structured data in Song, Artist, and Play Order fields. Right: AI, with unstructured handwritten notes conveying the same playlist through names, arrows, and a crossed-out choice that AI has to interpret.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source welcome-opening-board-text" },
+      E("h3", null, "Same Playlist. Different Formats."),
+      E("h4", null, "Traditional Software: Structured Data"),
+      E("p", null, "A table has Song, Artist, and Play Order columns: Blinding Lights by The Weeknd is first, Levitating by Dua Lipa is second, and As It Was by Harry Styles is third."),
+      E("h4", null, "AI: Unstructured Data"),
+      E("p", null, "Handwritten homecoming notes contain the same songs and artists, with an arrow saying ‘start here!’ beside Blinding Lights, ‘play this last!’ beside As It Was, and Shake It Off crossed out. The information is not arranged into consistent fields.")),
+    E(BodyP, null, "AI can do this because, during training, it learned patterns in handwriting, language, and visual clues like arrows and crossed-out words. It uses those patterns to help interpret your notes, even when they aren’t neatly organized."),
     E(SectionKicker, null, "THE DOWNSIDE"),
     E(BodyP, null, "Using learned patterns makes AI flexible, but its response can be harder to predict and inspect than a written rule like the password check."),
-    E(BodyP, null, "It might miss a crossed-out song or confidently give you the wrong dorm name. It might look great, but still have mistakes."),
+    E(BodyP, null, "It might miss a crossed-out song. It might look great, but still have mistakes."),
     closeBoard("aivscode"),
     E(MessyNotesLab, null),
     E(GroupExercise, { id: "aivscode-group-exercise", lead: "Rules, patterns, and messy information. Discuss what makes AI different and why that difference matters. Your group leader can choose from these five questions." },
@@ -10211,7 +10205,7 @@ function MindTrapSection(props) {
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery & Engagement" }));
 }
 // Why it happens: the RLHF passage, carded so each row carries its reason.
 function FlatteryWhyBox() {
@@ -10229,6 +10223,14 @@ function FlatteryWhyBox() {
       E("p", null, "Numbers Move. Training pushes the model toward patterns that earned approval.")));
 }
 function FlatteryTrapSection(props) {
+  var STOP_QUESTION = {
+    statement: "How do you know it’s time to stop an AI chat?",
+    options: [
+      { label: "When the AI stops offering follow-ups.", correct: false, headline: "Don’t wait for the app.", hint: "Did the chat stop when the original question was answered?", feedback: "AI may keep offering useful next steps after your question has been answered. Your stopping point should come from your goal, not from whether the app presents another option." },
+      { label: "When you got what you came for.", correct: true, headline: "That’s the whole rule.", feedback: "You came with a question. You have the answer. Everything offered after that is a new choice. Say yes only if you actually want it." },
+      { label: "After 30 minutes, no matter what.", correct: false, headline: "It’s not a timer.", hint: "Sometimes two minutes is right. Sometimes an hour is. What’s the real test?", feedback: "The clock isn’t the test. The answer is. A two-minute chat can run long, and an hour of real learning can be exactly right." }
+    ]
+  };
   const [labChecked, setLabChecked] = useState({});
   const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
   const FLAT_LAB_STEPS = [{
@@ -10328,6 +10330,26 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("p", null, "Better: ", s.good));
         })),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Tip: Save a standing instruction. "), "If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”")),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "When Useful Help Keeps Going"),
+    /*#__PURE__*/React.createElement(BodyP, null, "Even when the help is useful, there’s another question: did you choose to keep going?"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "The extra help may be useful. That is what makes it easy to accept. The trap is not continuing. It is continuing without deciding."),
+    /*#__PURE__*/React.createElement("img", {
+      src: "course-assets/engagement-trap/engagement-trap-comparison.jpg?v=20260914attribution1",
+      alt: "A math question about slope receives one useful AI answer. One student stops and returns to homework. Another accepts the follow-up and is still chatting twenty-five minutes later.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    }),
+    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+      /*#__PURE__*/React.createElement("h3", null, "One Answer. Two Endings."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You:"), " “I’m doing math homework. What does slope mean, and what’s the formula?”"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "AI:"), " “Slope tells you how steep a line is. Find it by dividing how far the line moves up or down by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, draw a graph, or make some practice questions?”"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You stop:"), " “No thanks. That’s all I needed.” One minute later, you are back to the homework. The question was answered."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The trap:"), " “Sure. Walk me through an example.” Twenty-five minutes later, you have examples, graphs, practice problems, and a quiz. All of it was useful. None of it was what you opened the chat to do."),
+      /*#__PURE__*/React.createElement("p", null, "Both chats answered the question. Only one ended there.")),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      /*#__PURE__*/React.createElement("strong", null, "The Engagement Trap is spending time you never decided to spend.")),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "The answer ends, but the conversation does not. A helpful follow-up puts the next task in front of you before you stop to decide whether you wanted one."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Why Tech Companies Want Engagement"),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Engagement is not an accident. Tech companies track how often people return, how long they stay, and what keeps them using a product. More engagement can mean more ads, purchases, or subscriptions. It can also turn occasional use into a habit."),
     closeBoard("flattery"),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
@@ -10353,381 +10375,13 @@ function FlatteryTrapSection(props) {
                   st.suffix) : st.body),
               st.href && st.body ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body) : null,
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
-        }))),
-    /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("engagementtrap"); }, label: "Next: Engagement Trap" }));
-}
-// One app, one year: the Engagement Trap TRY IT. Three beats in a single box.
-// The student's own screen time becomes hours a year and a list of what those
-// hours could have bought (beat 1), then the same arithmetic runs on their AI
-// time (beat 2), then one judgment question closes on the move rather than the
-// damage (beat 3). Unlike AIMultiplierTryIt this is plain
-// React: it is two forms, a list and a number, so it can use QuizBlock and the
-// rest of the house components directly instead of hand-building them.
-//
-// Nothing here is stored or transmitted. Both numbers live in component state,
-// so leaving the lesson clears them.
-var OAY_COMPARISONS = [
-  { hrs: 1, money: true, txt: "dollars earned", note: "at a part-time job paying $15 an hour" },
-  { invest: true, txt: "dollars twenty years later", note: "if you put that same money in an index fund at 7 percent a year and never touched it" },
-  { hrs: 6, txt: "books", note: "at 6 hours a book" },
-  { hrs: 2.5, txt: "Dallas Stars games", note: "start to finish, 2 hours 30 minutes a game. A full regular season is 82." },
-  { hrs: 42, txt: "round trips from Dallas to Los Angeles", note: "21 hours of driving each way" },
-  { hrs: 8, txt: "full nights of sleep", note: "8 hours a night" }
-];
-// Matched against the beat-1 app name so a student who already named an AI app
-// is not asked for it twice. A near miss ("cgpt") falls through to the two-input
-// path, which is the safe default: they still get the turn, just without the nod.
-var OAY_AI_APPS = ["chatgpt", "gpt", "openai", "claude", "anthropic", "gemini", "bard", "copilot", "perplexity", "grok", "metaai", "characterai", "cai", "deepseek", "llama"];
-var OAY_WAGE = 15, OAY_RETURN = 0.07, OAY_YEARS = 20;
-
-function oayCommas(n) {
-  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-function oayIsAIApp(name) {
-  var k = (name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
-  if (!k) return false;
-  return OAY_AI_APPS.indexOf(k) !== -1;
-}
-// Returns null when the entry is not a usable normal day, with the reason as the
-// error string. Hours and minutes arrive as free text so the fields can be
-// inputMode numeric: a real number input draws a spinner over the unit label and
-// changes value on the scroll wheel.
-function oayParseTime(hRaw, mRaw) {
-  var h = parseFloat(String(hRaw).replace(/[^0-9.]/g, "")) || 0;
-  var m = parseFloat(String(mRaw).replace(/[^0-9.]/g, "")) || 0;
-  if (h > 24 || m > 59) return { error: "Try a real number of hours and minutes." };
-  var perDay = h + m / 60;
-  if (perDay <= 0) return { error: "Put in some time. Even ten minutes counts." };
-  if (perDay > 16) return { error: "More than 16 hours a day is not a normal day. Try again." };
-  return { h: h, m: m, perDay: perDay, hoursYear: perDay * 365 };
-}
-function oayTimeLabel(h, m) {
-  var s = (h ? h + " hr " : "") + (m ? m + " min" : "");
-  return s.trim() || "0 min";
-}
-function oayDaysLabel(hoursYear) {
-  var d = hoursYear / 24;
-  return d < 10 ? d.toFixed(1) : oayCommas(d);
-}
-
-function OAYCountUp(props) {
-  var ref = useRef(null);
-  useEffect(function () {
-    var el = ref.current;
-    if (!el) return;
-    var target = props.value;
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { el.textContent = oayCommas(target); return; }
-    var start = null, raf = null, dur = 1100;
-    function step(ts) {
-      if (start === null) start = ts;
-      var p = Math.min(1, (ts - start) / dur);
-      el.textContent = oayCommas(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) raf = requestAnimationFrame(step);
-    }
-    raf = requestAnimationFrame(step);
-    return function () { if (raf) cancelAnimationFrame(raf); };
-  }, [props.value]);
-  return React.createElement("div", {
-    ref: ref,
-    style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: "clamp(58px, 12vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.01em" }
-  }, "0");
-}
-
-// A bordered shell holding a borderless input plus a static unit label, rather
-// than one input with reserved right padding: the padding approach leaves the
-// browser free to draw its spinner on top of the label.
-function OAYTimeField(props) {
-  var E = React.createElement;
-  return E("div", {
-    style: { flex: 1, display: "flex", alignItems: "center", gap: 8, background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 12, padding: "0 16px" }
-  },
-    E("input", {
-      className: "oay-input",
-      type: "text", inputMode: "numeric", maxLength: 2, placeholder: "0",
-      value: props.value,
-      name: props.name,
-      "aria-label": props.label || props.unit,
-      onChange: function (e) { props.onChange(e.target.value); },
-      style: { flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: "var(--ink)", padding: "14px 0", textAlign: "right" }
-    }),
-    E("span", { style: { fontSize: 14, fontWeight: 700, color: "var(--inkMuted)", flexShrink: 0 } }, props.unit));
-}
-
-function OAYFieldLabel(props) {
-  return React.createElement("div", {
-    style: { fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--inkMuted)", marginBottom: 9 }
-  }, props.children);
-}
-
-function OAYBigStat(props) {
-  var E = React.createElement;
-  return E("div", null,
-    props.animate
-      ? E(OAYCountUp, { value: props.hours })
-      : E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: "clamp(58px, 12vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.01em" } }, oayCommas(props.hours)),
-    E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--inkMuted)", marginTop: 6 } }, "hours a year"));
-}
-
-function OneAppOneYearTryIt(props) {
-  var E = React.createElement;
-  var _app = useState(""), appName = _app[0], setAppName = _app[1];
-  var _h = useState(""), hVal = _h[0], setHVal = _h[1];
-  var _m = useState(""), mVal = _m[0], setMVal = _m[1];
-  var _err = useState(""), err = _err[0], setErr = _err[1];
-  var _res = useState(null), res = _res[0], setRes = _res[1];
-  var _ah = useState(""), aiH = _ah[0], setAiH = _ah[1];
-  var _am = useState(""), aiM = _am[0], setAiM = _am[1];
-  var _aerr = useState(""), aiErr = _aerr[0], setAiErr = _aerr[1];
-  var _ares = useState(null), aiRes = _ares[0], setAiRes = _ares[1];
-  var _qd = useState(false), quizDone = _qd[0], setQuizDone = _qd[1];
-
-  var STOP_QUESTION = {
-    statement: "How do you know it’s time to stop an AI chat?",
-    options: [
-      { label: "When the AI stops offering follow-ups.", correct: false, headline: "Don’t wait for the app.", hint: "Did the chat stop when the original question was answered?", feedback: "AI may keep offering useful next steps after your question has been answered. Your stopping point should come from your goal, not from whether the app presents another option." },
-      { label: "When you got what you came for.", correct: true, headline: "That’s the whole rule.", feedback: "You came with a question. You have the answer. Everything offered after that is a new choice. Say yes only if you actually want it." },
-      { label: "After 30 minutes, no matter what.", correct: false, headline: "It’s not a timer.", hint: "Sometimes two minutes is right. Sometimes an hour is. What’s the real test?", feedback: "The clock isn’t the test. The answer is. A two-minute chat can run long, and an hour of real learning can be exactly right." }
-    ]
-  };
-
-  // The PDF export has no way to enter a number, so printing the live form would
-  // put a dead "Do the math" button at the end of the lesson. Print the premise
-  // as prose instead, then hand beat 3 to QuizBlock, which has its own print
-  // branch that lays out every option with its answer and feedback.
-  var isPrintMode = false;
-  try { isPrintMode = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print"); } catch (ex) {}
-  if (isPrintMode) {
-    return E(InteractiveBox, { variant: "try", surface: "mint", title: "Where Does Your Time Go?", instructions: [
-      "Enter the app you use most and its average daily time.",
-      E("span", null, "Select ", E("strong", null, "Do the math"), " to see what that time becomes across one year."),
-      E("span", null, "Enter your average daily AI-chat time and select ", E("strong", null, "Run the same math"), ". Compare the totals."),
-      "Answer the final question about when an AI chat should end."
-    ] },
-      E(InnerCard, { style: { marginBottom: 0 } },
-        E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 22px", maxWidth: "62ch" } },
-          "In the live lesson, you name the app you use most and enter its average daily time. The activity shows what that time looks like across one year, then runs the same calculation for AI chat. The goal is not to judge how you spend every minute. It is to notice how small choices grow when they repeat."),
-        E(QuizBlock, {
-          surface: "mint",
-          statement: STOP_QUESTION.statement,
-          options: STOP_QUESTION.options
-        })));
-  }
-
-  function submitApp(e) {
-    if (e) e.preventDefault();
-    var name = appName.trim();
-    if (!name) { setErr("Name the app first."); return; }
-    var t = oayParseTime(hVal, mVal);
-    if (t.error) { setErr(t.error); return; }
-    setErr("");
-    setRes({ app: name, h: t.h, m: t.m, hoursYear: t.hoursYear, isAI: oayIsAIApp(name) });
-  }
-
-  function submitAI(e) {
-    if (e) e.preventDefault();
-    var t = oayParseTime(aiH, aiM);
-    if (t.error) { setAiErr(t.error); return; }
-    setAiErr("");
-    setAiRes({ h: t.h, m: t.m, hoursYear: t.hoursYear });
-  }
-
-  var divider = { borderTop: "1px solid var(--rule)", marginTop: 30, paddingTop: 26 };
-  var turnKicker = { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", marginBottom: 10 };
-
-  // Beat 1: the form, or the number and the list.
-  var beatOne;
-  if (!res) {
-    beatOne = E("form", { onSubmit: submitApp },
-      E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, color: "var(--ink)", fontSize: 34, lineHeight: 1.06, marginBottom: 12, letterSpacing: "0.005em" } }, "One app, one year"),
-      E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "0 0 20px", maxWidth: "62ch" } },
-        "Pick the app you’re on the most. Not the one you’d like to say. The real one."),
-      E("div", { style: { marginBottom: 20 } },
-        E("label", { htmlFor: "oay-app" }, E(OAYFieldLabel, null, "The app")),
-        E("input", {
-          className: "oay-input",
-          id: "oay-app", type: "text", maxLength: 28,
-          placeholder: "Enter your app here",
-          value: appName,
-          onChange: function (e) { setAppName(e.target.value); },
-          style: { width: "100%", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: "var(--ink)", background: "var(--card)", border: "1.5px solid var(--rule)", borderRadius: 12, padding: "14px 16px", outline: "none" }
         })),
-      E("div", { style: { marginBottom: 20 } },
-        E(OAYFieldLabel, null, "What is your average daily time in this app?"),
-        E("div", { className: "oay-time-fields" },
-          E(OAYTimeField, { value: hVal, unit: "hours", name: "oay-app-hours", label: "Hours a day on this app", onChange: setHVal }),
-          E(OAYTimeField, { value: mVal, unit: "mins", name: "oay-app-mins", label: "Minutes a day on this app", onChange: setMVal })),
-        E("p", { style: { fontSize: 13.5, lineHeight: 1.5, color: "var(--inkMuted)", marginTop: 9 } },
-          "Use your phone’s daily average from the last seven days if you can find it. If not, an honest estimate is fine.")),
-      err ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginBottom: 12 } }, err) : null,
-      E("div", { style: { textAlign: "center", marginTop: 6 } },
-        E(ActivityButton, { size: "large", onClick: submitApp }, "Do the math")));
-  } else {
-    var daysTxt = oayDaysLabel(res.hoursYear);
-    var earned = res.hoursYear * OAY_WAGE;
-    beatOne = E("div", null,
-      E(OAYBigStat, { hours: res.hoursYear, animate: true }),
-      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: "22px 0 0", maxWidth: "60ch" } },
-        "You spend ", E("b", { style: { color: "var(--ink)" } }, oayTimeLabel(res.h, res.m)), " on ", E("b", { style: { color: "var(--ink)" } }, res.app),
-        " each day. Across a year, that becomes ", E("b", { style: { color: "var(--ink)" } }, oayCommas(res.hoursYear) + " hours"), ", or about ", E("b", { style: { color: "var(--ink)" } }, daysTxt + " full days"), ". The time arrives in small pieces, which is why the yearly number can be surprising."),
-      E("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--tryAccent)", margin: "30px 0 4px" } }, "What That Much Time Looks Like"),
-      E("div", { style: { borderTop: "1.5px solid var(--rule)" } },
-        // Rows are resolved before rendering so the last visible one can drop its
-        // bottom rule: the beat-2 divider draws its own, and the two together read
-        // as a stray double line. Small inputs can filter a row out, so "last"
-        // has to mean last visible, not last in OAY_COMPARISONS.
-        OAY_COMPARISONS.map(function (c) {
-          var count = c.money ? earned
-            : c.invest ? earned * Math.pow(1 + OAY_RETURN, OAY_YEARS)
-            : res.hoursYear / c.hrs;
-          return { c: c, count: count, dollars: !!(c.money || c.invest) };
-        }).filter(function (r) { return r.count >= 1; }).map(function (r, i, all) {
-          var c = r.c, count = r.count, dollars = r.dollars;
-          return E("div", {
-            key: i,
-            className: "oay-row",
-            style: { borderBottom: i === all.length - 1 ? "none" : "1px solid var(--rule)" }
-          },
-            E("div", { className: "oay-figure" }, (dollars ? "$" : "") + oayCommas(count)),
-            E("div", { style: { fontSize: 16, lineHeight: 1.45, color: "var(--ink)", fontWeight: 600 } },
-              c.txt,
-              E("span", { style: { display: "block", fontSize: 13.5, fontWeight: 400, color: "var(--inkMuted)", marginTop: 3 } }, c.note)));
-        })),
-      E("p", { style: { fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)", margin: "18px 0 0", maxWidth: "62ch" } },
-        "These are not things you should have done instead. They are different ways to feel the size of the number. Some of that time you would choose again, and that’s fine. The question is how much of it kept going after you got what you came for."));
-  }
-
-  // Beat 2: the turn. A student who already named an AI app is not asked twice.
-  var beatTwo = null;
-  if (res && res.isAI) {
-    beatTwo = E("div", { style: divider },
-      E("div", { style: turnKicker }, "Now Look at AI"),
-      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: 0, maxWidth: "60ch" } },
-        "You picked AI first. That is not automatically bad. A useful tool can still take more time than you realize. The question is whether each conversation is serving the reason you opened it."));
-  } else if (res && !aiRes) {
-    beatTwo = E("div", { style: divider },
-      E("div", { style: turnKicker }, "Now Look at AI"),
-      E("form", { onSubmit: submitAI },
-        E(OAYFieldLabel, null, "What is your average daily time in ChatGPT, Claude, or whichever AI you use?"),
-        E("div", { className: "oay-time-fields", style: { maxWidth: 420 } },
-          E(OAYTimeField, { value: aiH, unit: "hours", name: "oay-ai-hours", label: "Hours a day on AI", onChange: setAiH }),
-          E(OAYTimeField, { value: aiM, unit: "mins", name: "oay-ai-mins", label: "Minutes a day on AI", onChange: setAiM })),
-        aiErr ? E("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--red)", marginTop: 12 } }, aiErr) : null,
-        E("div", { style: { marginTop: 18 } },
-          E(ActivityButton, { onClick: submitAI }, "Run the same math"))));
-  } else if (res && aiRes) {
-    var appDays = oayDaysLabel(res.hoursYear);
-    var aiDays = oayDaysLabel(aiRes.hoursYear);
-    var closeLine = aiRes.hoursYear < res.hoursYear / 4
-      ? "Your AI number is smaller. That makes it easy to ignore. But habits grow one useful conversation at a time. The goal is not to keep the number at zero. It is to make sure the time still belongs to something you chose."
-      : "Those numbers are close. AI is already a major part of your day. That is not automatically bad. The question is whether each conversation is still serving the reason you opened it.";
-    beatTwo = E("div", { style: divider },
-      E("div", { style: turnKicker }, "Now Look at AI"),
-      E("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))", gap: 14, marginBottom: 20 } },
-        [{ label: res.app, hours: res.hoursYear, days: appDays, color: "#f59e0b" },
-         { label: "AI chat", hours: aiRes.hoursYear, days: aiDays, color: "var(--primary)" }].map(function (side, i) {
-          return E("div", { key: i, style: { background: "var(--primaryFaint)", borderRadius: 16, padding: "18px 20px" } },
-            E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: side.color, marginBottom: 8, overflowWrap: "anywhere" } }, side.label),
-            E("div", { style: { fontFamily: "var(--serif)", fontSize: 40, lineHeight: 1, color: "var(--ink)" } }, oayCommas(side.hours)),
-            E("div", { style: { fontSize: 13.5, color: "var(--inkMuted)", marginTop: 6 } }, "hours a year, or " + side.days + " days"));
-        })),
-      E("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--inkSoft)", margin: 0, maxWidth: "60ch" } }, closeLine));
-  }
-
-  // Beat 3: the judgment rep. The felt cost is not a decision, and this is the
-  // one thing the quiz this replaced was actually doing.
-  var beatThree = null;
-  if (res && (res.isAI || aiRes)) {
-    beatThree = E("div", { style: divider },
-      E("div", { style: turnKicker }, "So when do you close it?"),
-      E(QuizBlock, {
-        surface: "mint",
-        optionsIndent: 0,
-        statement: STOP_QUESTION.statement,
-        options: STOP_QUESTION.options,
-        onAnswer: function (idx, correct) { if (correct) setQuizDone(true); }
-      }),
-      quizDone ? E("div", { style: { marginTop: 24, background: "var(--primaryFaint)", borderRadius: 12, padding: "18px 20px", fontSize: 16, lineHeight: 1.6, color: "var(--inkSoft)" } },
-        "Those yearly totals are what small choices become when they repeat. Every follow-up is another chance to choose.") : null);
-  }
-
-  return E(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Where Does Your Time Go?",
-    lead: "Raskin’s estimate is too large to picture. Start with one app and one year: your own.",
-    instructions: [
-      "Name the app you use most and enter its average daily time.",
-      E("span", null, "Select ", E("strong", null, "Do the math"), " to see what that time becomes across one year."),
-      E("span", null, "Enter your average daily AI-chat time and select ", E("strong", null, "Run the same math"), ". This step is skipped if AI was your first app."),
-      "Compare the totals, then answer the final question about when an AI chat should end."
-    ]
-  },
-    E(InnerCard, { style: { display: "flex", flexDirection: "column", marginBottom: 0 } },
-      beatOne, beatTwo, beatThree));
-}
-function EngagementTrapSection(props) {
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "engagementtrap" }),
-    /*#__PURE__*/React.createElement(BodyP, null, "The Engagement Trap does not feel like something going wrong. It feels like a helpful conversation that keeps going."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "The extra help may be useful. That is what makes it easy to accept. The trap is not continuing. It is continuing without deciding."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/engagement-trap/engagement-trap-comparison.jpg?v=20260914attribution1",
-      alt: "A math question about slope receives one useful AI answer. One student stops and returns to homework. Another accepts the follow-up and is still chatting twenty-five minutes later.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "One Answer. Two Endings."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You:"), " “I’m doing math homework. What does slope mean, and what’s the formula?”"),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "AI:"), " “Slope tells you how steep a line is. Find it by dividing how far the line moves up or down by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, draw a graph, or make some practice questions?”"),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You stop:"), " “No thanks. That’s all I needed.” One minute later, you are back to the homework. The question was answered."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The trap:"), " “Sure. Walk me through an example.” Twenty-five minutes later, you have examples, graphs, practice problems, and a quiz. All of it was useful. None of it was what you opened the chat to do."),
-      /*#__PURE__*/React.createElement("p", null, "Both chats answered the question. Only one ended there.")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      /*#__PURE__*/React.createElement("strong", null, "The Engagement Trap is spending time you never decided to spend.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The Missing Decision Point"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "In 2006, designer Aza Raskin built an early version of infinite scroll. He saw the click at the bottom of a page as friction and removed it."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/engagement-trap/engagement-trap-scroll.jpg?v=20260914attribution1",
-      alt: "Before infinite scroll, a page ends at a button that asks the user to choose whether to continue. With infinite scroll, an endless ribbon of content loads automatically without a pause.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "What Infinite Scroll Removed"),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Before Infinite Scroll:"), " The page ends. You choose whether to click Next. That pause gives you a moment to decide: Do I want more?"),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Infinite Scroll:"), " New content loads automatically. The pause disappears, so continuing becomes the default."),
-      /*#__PURE__*/React.createElement("p", null, "The click was friction. It was also a choice.")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Raskin later regretted what the design became. By his estimate, infinite scroll now consumes half a million human lifetimes each month."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "Once you see it, you see it everywhere: autoplay counting down to the next episode, streaks that punish a day off, games built for one more round."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 }, "AI chat has its own version of the missing page break. The answer ends, but the conversation does not. A helpful follow-up puts the next task in front of you before you stop to decide whether you wanted one."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Why Tech Companies Want Engagement"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "Engagement is not an accident. Tech companies track how often people return, how long they stay, and what keeps them using a product. More engagement can mean more ads, purchases, or subscriptions. It can also turn occasional use into a habit."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "The stakes can be much higher than losing track of time. In August 2026, Meta, the company behind Facebook and Instagram, agreed to a settlement of up to $17.1 billion over claims that addictive features harmed children and teens. Meta denied wrongdoing. The agreement also requires changes to U.S. teen accounts."),
-    /*#__PURE__*/React.createElement("img", {
-      src: "course-assets/engagement-trap/engagement-trap-stopping-points.jpg?v=20260919pauses4",
-      alt: "Putting the Stopping Points Back. Daily Limits: a default two-hour daily limit across Facebook and Instagram that only a parent can turn off. Prompts to Pause: prompts appear after every 15 minutes of continuous use and at 60 and 90 minutes of total daily use. Nighttime Blocks: a default block that limits most app use from midnight to 6 a.m. A stopping point gives you a chance to choose.",
-      className: "zoomable-illustration",
-      tabIndex: 0,
-      role: "button",
-      "aria-label": "Enlarge teaching board. Putting the Stopping Points Back.",
-      "aria-haspopup": "dialog",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 12px", borderRadius: 12, cursor: "zoom-in" }
-    }),
-    /*#__PURE__*/React.createElement("p", { style: { maxWidth: 880, margin: "0 auto 22px", fontSize: 14, lineHeight: 1.55, color: "#655f7c" } },
-      /*#__PURE__*/React.createElement("strong", null, "Sources: "),
-      /*#__PURE__*/React.createElement("a", { href: "https://about.fb.com/news/2026/08/agreement-with-state-attorneys-general-supporting-teens/", target: "_blank", rel: "noopener noreferrer" }, "Meta agreement summary"),
-      "; ",
-      /*#__PURE__*/React.createElement("a", { href: "https://oklahoma.gov/oag/news/newsroom/2026/august/drummond-reaches-landmark-settlement-with-meta.html", target: "_blank", rel: "noopener noreferrer" }, "Oklahoma attorney general summary"),
-      "; ",
-      /*#__PURE__*/React.createElement("a", { href: "https://oag.ca.gov/system/files/attachments/press-docs/23-05448-ecf-572-1-exhibit-1-mdl-consent-judgment-final-settlment-agreement-fully-executed.pdf", target: "_blank", rel: "noopener noreferrer" }, "settlement agreement")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 }, "This settlement concerns social media. The question also matters when you use AI: does the next suggestion help you accomplish your goal, or keep you going after you’ve finished?"),
-    closeBoard("engagementtrap"),
-    /*#__PURE__*/React.createElement(OneAppOneYearTryIt, null),
+      /*#__PURE__*/React.createElement("div", { style: { marginTop: 24 } },
+        /*#__PURE__*/React.createElement(SectionKicker, null, "So when do you close it?"),
+        /*#__PURE__*/React.createElement(QuizBlock, { surface: "mint", optionsIndent: 0, statement: STOP_QUESTION.statement, options: STOP_QUESTION.options }))),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
-
 function SupportTrapSection(props) {
   var E = React.createElement;
   const [spotAnswers, setSpotAnswers] = useState({});
@@ -11461,13 +11115,19 @@ function loadFinalPassed() {
   } catch (e) { return false; }
 }
 function reconcileCourseProgress(progress, finalPassed) {
+  // Keep saved navigation and earned credit when the two trap lessons merge.
+  function mergedId(id) { return id === "engagementtrap" ? "flattery" : id; }
+  function migrate(ids) { return Array.from(new Set(ids.map(mergedId))); }
+  function same(a, b) { return a.length === b.length && a.every(function(id, i) { return id === b[i]; }); }
   var saved = progress.completed || [];
-  var completed = saved.filter(function(id) {
+  var completed = migrate(saved).filter(function(id) {
     return !isOptionalLesson(id) && (id !== "whatyoulearned" || finalPassed);
   });
   if (finalPassed && !completed.includes("whatyoulearned")) completed.push("whatyoulearned");
-  if (completed.length === saved.length && completed.every(function(id, i) { return id === saved[i]; })) return progress;
-  return Object.assign({}, progress, { completed: completed });
+  var visited = migrate(progress.visited || []);
+  var activeSection = mergedId(progress.activeSection);
+  if (same(completed, saved) && same(visited, progress.visited || []) && activeSection === progress.activeSection) return progress;
+  return Object.assign({}, progress, { completed: completed, visited: visited, activeSection: activeSection });
 }
 const FINAL_BADGES = ["A", "B", "C", "D"];
 // Prefill for the name on the certificate. The welcome gate asks only for a first
@@ -14185,7 +13845,6 @@ const SECTION_COMPONENTS = {
   critical: CriticalThinkingSection,
   mindtrap: MindTrapSection,
   flattery: FlatteryTrapSection,
-  engagementtrap: EngagementTrapSection,
   supporttrap: SupportTrapSection,
   openerworkwith: OpenerWorkWithSection,
   openerprotect: OpenerProtectSection,
@@ -14666,6 +14325,7 @@ function LLMExplorer() {
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
+  if (printParam === "lesson:engagementtrap") printParam = "lesson:flattery";
   if (printParam === "lesson:control") printParam = "lesson:whatpeoplesay";
   if (printParam === "lesson:groupexercises") printParam = "lesson:forgroups";
   // The certificate rides the same ?print= route as the lesson and packet exports, so

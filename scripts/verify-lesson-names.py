@@ -51,7 +51,8 @@ for lesson_id, row in videos.items():
 
 prep = json.loads((ROOT / 'gemini-notebook/upload-sets.json').read_text())
 for row in prep['lessons'] + prep.get('needs_preparation', []):
-    expected = slug(row['title'])
+    # The merged lesson intentionally retains its existing source/asset slug.
+    expected = {'Flattery & Engagement': 'flattery-trap'}.get(row['title'], slug(row['title']))
     if row['slug'] != expected:
         errors.append(f"Prep title {row['title']!r}: expected slug {expected}, got {row['slug']}")
     markdown = row.get('markdown')

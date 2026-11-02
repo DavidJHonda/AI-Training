@@ -303,7 +303,7 @@ Representative source lessons:
 | `lessons/does-ai-think.md`, `lessons/transformer.md`, `lessons/layers.md` | Analogy limits, consistent examples, technical scaffolding |
 | `lessons/how-ai-answers.md`, `lessons/the-next-token.md` | Following one example through a process and labeling simplifications |
 | `lessons/hallucination.md`, `lessons/document-trap.md`, `lessons/training-bias.md`, `lessons/flattery-trap.md` | Reveals, mechanisms, precise distinctions, actions tied to the failure |
-| `lessons/engagement-trap.md`, `lessons/support-trap.md` | Nuance, emotional calibration, practical consequences |
+| `lessons/flattery-trap.md`, `lessons/support-trap.md` | Nuance, emotional calibration, practical consequences |
 | `lessons/loudest-voices.md`, `lessons/big-downside.md`, `lessons/big-upside.md`, `lessons/work-changes.md` | Uncertainty, competing considerations, connection to the learner's future |
 | `lessons/people-skills.md`, `lessons/creative-thinking.md`, `lessons/curious-and-flexible.md`, `lessons/make-your-move.md` | Observable habits, encouragement through action, transferable skills |
 | Section openers in `lessons/Opener-*.md` | Orientation, recurring themes, concise closing messages |

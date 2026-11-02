@@ -54,7 +54,7 @@ In the 1960s, some people began treating a simple chatbot called ELIZA as if it 
 
 AI can gather facts, lay out options, and challenge your thinking. It can use what you share about yourself. That is different from someone who knows you through shared experience and lives with the outcome. Talk important decisions through with people who know you. Then make the call.
 
-For an important decision, AI can help build a checklist, map the trade-offs, and suggest questions. Then involve someone who can inspect what AI cannot or who knows you and shares the stakes. Use AI to prepare; you and the people involved make the decision.
+For an important decision, AI can help build a checklist, map the trade-offs, and suggest questions.
 
 Letting AI pick a movie is different from letting it choose your college. For a small choice, you may be happy to take its suggestion. For a decision that can change your life, use its help while keeping the decision yours.
 

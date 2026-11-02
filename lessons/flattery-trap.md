@@ -1,6 +1,6 @@
 ## AVOID TRAPS
 
-# Flattery Trap
+# Flattery & Engagement
 
 AI is often encouraging. It can praise your essay, support your idea, and agree with your opinion, even when what you really need is honest criticism.
 
@@ -76,11 +76,11 @@ The aim is not to make AI negative. Give it a clearer job and a standard beyond 
 
 Weak prompt: “I think this plan is good. Thoughts?”
 
-That question gives AI your opinion before it evaluates the plan. It gives the model an opinion to echo instead of a neutral starting point.
+That question gives AI your opinion before it evaluates the plan.
 
 Better prompt: “Evaluate this plan before I tell you what I think.”
 
-Share the plan itself, but hold back your verdict. You are asking for an evaluation of the work, not a reaction to your confidence in it. A neutral question gives AI less of your opinion to echo.
+Share the plan itself, but hold back your verdict. You are asking for an evaluation of the work, not a reaction to your confidence in it.
 
 #### 2. Ask for the Gaps
 
@@ -108,8 +108,60 @@ The response is still something to check against your work and rubric, not an of
 
 **Takeaway:** Ask AI to improve the work, not approve of you.
 
+## When Useful Help Keeps Going
+
+Even when the help is useful, there’s another question: did you choose to keep going?
+
+The extra help may be useful. That is what makes it easy to accept. The trap is not continuing. It is continuing without deciding.
+
+### Board 5: One Answer. Two Endings.
+
+**Image file:** `engagement-trap-comparison.jpg`
+
+![One Answer. Two Endings.](engagement-trap-comparison.jpg)
+
+**Teaching content:**
+
+The same start. You: “I’m doing math homework. What does slope mean, and what’s the formula?”
+
+AI: “Slope tells you how steep a line is. Find it by dividing how far the line moves up or down by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, draw a graph, or make some practice questions?”
+
+You stop: “No thanks. That’s all I needed.” One minute. Back to the homework. The question was answered.
+
+The trap: “Sure. Walk me through an example.” Twenty-five minutes later: examples, graphs, practice problems, a quiz. All of it was useful. None of it was what you opened the chat to do.
+
+**Takeaway:** Both chats answered the question. Only one ended there.
+
+**The Engagement Trap is spending time you never decided to spend.**
+
+## The Missing Decision Point
+
+In 2006, designer Aza Raskin built an early version of infinite scroll. He saw the click at the bottom of a page as friction and removed it.
+
+### Board 6: What Infinite Scroll Removed
+
+**Image file:** `engagement-trap-scroll.jpg`
+
+![What Infinite Scroll Removed](engagement-trap-scroll.jpg)
+
+**Teaching content:**
+
+**Before Infinite Scroll:** The page ends. You choose whether to click Next. That pause gives you a moment to decide: Do I want more?
+
+**Infinite Scroll:** New content loads automatically. The pause disappears, so continuing becomes the default.
+
+**Takeaway:** The click was friction. It was also a choice.
+
+**Scene (your own drawing, no board):**
+
+AI chat has its own version of the missing page break. The answer ends, but the conversation does not. A helpful follow-up puts the next task in front of you before you stop to decide whether you wanted one.
+
+## Why Tech Companies Want Engagement
+
+Engagement is not an accident. Tech companies track how often people return, how long they stay, and what keeps them using a product. More engagement can mean more ads, purchases, or subscriptions. It can also turn occasional use into a habit.
+
 ## Closing Message
 
-Useful feedback points to the work.
-
 Look for specifics, not approval.
+
+Know what you came for. When you have it, choose what happens next.

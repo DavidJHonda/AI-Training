@@ -109,7 +109,7 @@ const BOARDS = [
   // two columns the lesson actually shows. Never cut one of these narrow.
   { section: "mindtrap", out: "trust-trap-1-answers.jpg", width: 1180, vw: 1280, card: true,
     find: ["Should I go to the University of Michigan or Indiana University?", "Your Mom", "Searched eighteen years of knowing you"] },
-  { section: "engagementtrap", out: "engagement-trap-1-choice.jpg", width: 1180, vw: 1280, card: true,
+  { section: "flattery", out: "engagement-trap-1-choice.jpg", width: 1180, vw: 1280, card: true,
     find: ["How tall is Mount Everest?", "You end the conversation", "The Engagement Trap"] },
   { section: "flattery", out: "flattery-trap-1-responses.jpg", width: 1180, vw: 1280, card: true,
     find: ["The American Dream is something that many people have thought about", "The Flattery Trap", "What you needed"] },

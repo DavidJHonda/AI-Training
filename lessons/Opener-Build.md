@@ -28,7 +28,9 @@ Your choices, questions, and judgment matter even when everyone has the same too
 
 This road map shows what we’ll explore in this section. Build Your Skills.
 
-One. Use AI With Skill and Care: choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share.
+One. Use AI With Skill and Care.
+
+Question claims, weigh evidence, choose the help you need, use AI honestly, and protect what you share.
 
 Two. Skills That Grow in Value: people skills help you work with others. Creative thinking helps you find the better angle.
 

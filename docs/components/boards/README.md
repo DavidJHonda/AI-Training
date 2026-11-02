@@ -197,7 +197,7 @@ not three evidence cards. Height does not determine the family.
 Approved layout references, checked against the on-page assets:
 
 - What Is AI?: `course-assets/what-is-ai/what-is-ai-same-goal.jpg`.
-- Flattery Trap: `course-assets/flattery-trap/flattery-trap-comparison-v2.jpg`.
+- Flattery Trap: `course-assets/flattery-engagement/flattery-engagement-feedback-comparison-v2.jpg`.
 - Support Trap: `course-assets/support-trap/support-trap-comparison-v2.jpg`.
 
 These share a scenario, two illustrated white columns, small category pills,

@@ -8,8 +8,10 @@ const deps = process.env.CODEX_NODE_MODULES || '/Users/davidobrien/.cache/codex-
 const { chromium } = require(path.join(deps, 'playwright'));
 const sharp = require(path.join(deps, 'sharp'));
 const root = path.resolve(__dirname, '../..');
-const out = path.join(root, 'course-assets/does-school-matter');
-const reportDir = path.join(root, 'tmp/school-build-spec');
+const uploadVariant = process.argv.includes('--upload-variant');
+const canonicalOut = path.join(root, 'course-assets/does-school-matter');
+const out = uploadVariant ? path.join(root, 'gemini-notebook/does-school-matter/skills-2026-11-02/assets') : canonicalOut;
+const reportDir = path.join(root, 'tmp', uploadVariant ? 'school-build-upload-spec' : 'school-build-spec');
 const boards = [{id:'what-school-helps-you-build',title:'What School Helps You Build',cards:[
  ['Knowledge','Go deep in a subject you care about. Become someone people turn to for your knowledge.','#4f2fc4','79,47,196'],
  ['Skills','Learn to write, build, solve problems, and work with people. And practice thinking critically. Question claims, weigh evidence, and make informed decisions.','#1652f0','22,82,240']
@@ -29,6 +31,7 @@ function html(board) {
     .card:after{content:'';position:absolute;inset:0;border:1px solid var(--border);border-radius:14px;pointer-events:none}
     .art{height:339px;width:744px;position:relative}
     .art img{display:block;width:100%;height:100%;object-fit:cover}
+    ${uploadVariant ? '.art img{visibility:hidden}' : ''}
     .art:after{content:'';position:absolute;left:0;right:0;bottom:0;border-bottom:1px solid var(--divider)}
     .text{padding:32px 34px 34px}
     h2{margin:0 0 14px;color:var(--accent);font-size:40px;font-weight:700;line-height:48px;letter-spacing:-.02em;white-space:nowrap}
@@ -45,12 +48,13 @@ function html(board) {
 }
 
 (async()=>{
+  fs.mkdirSync(out, {recursive:true});
   fs.mkdirSync(reportDir, {recursive:true});
   const artDir=path.join(root,'scripts/video/assets/school-build');
   fs.mkdirSync(artDir,{recursive:true});
   for (const [i,left] of [40,816].entries()) {
     const artFile=path.join(artDir,`${i}.png`);
-    if(!fs.existsSync(artFile)) await sharp(path.join(out,'does-school-matter-future.jpg')).extract({left,top:128,width:744,height:339}).png().toFile(artFile);
+    if(!fs.existsSync(artFile)) await sharp(path.join(canonicalOut,'does-school-matter-future.jpg')).extract({left,top:128,width:744,height:339}).png().toFile(artFile);
   }
   const browser = await chromium.launch({executablePath:process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
   const reports = [];
@@ -95,15 +99,17 @@ function html(board) {
       assert.ok(measures.description.every(p=>p.size==='29px'&&p.line==='41px'));
       assert.deepEqual(measures.bannerType,{size:'32px',weight:'500'});
       const png = await page.locator('.board').screenshot({type:'png'});
-      const file = path.join(out,`${board.id}.jpg`);
+      const file = path.join(out,`${board.id}${uploadVariant ? '-faceless' : ''}.jpg`);
       await sharp(png).jpeg({quality:95,chromaSubsampling:'4:4:4',optimiseCoding:true}).toFile(file);
       const metadata = await sharp(file).metadata();
+      if (!uploadVariant) {
       const manifestPath=path.join(root,'course-assets/manifest.json');
       const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
       const entry=manifest.generated_assets.find(a=>a.new==='course-assets/does-school-matter/what-school-helps-you-build.jpg');
       Object.assign(entry,{sha256:require('node:crypto').createHash('sha256').update(fs.readFileSync(file)).digest('hex'),bytes:fs.statSync(file).size,width:metadata.width,height:metadata.height,generator:'scripts/video/render_school_build_board.cjs',purpose:'Canonical Editorial Explainer: Two-Card Full-Bleed (EE-2FB), Knowledge and Skills.'});
       entry.reference_files=['index.html','lessons/does-school-matter.md','scripts/video/render_school_build_board.cjs'];
       fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+      }
       assert.equal(metadata.chromaSubsampling,'4:4:4');
       reports.push({id:board.id,...measures,export:{width:metadata.width,height:metadata.height,sampling:metadata.chromaSubsampling}});
       console.log(`${board.id}: ${metadata.width}×${metadata.height}; EE-2FB geometry and export checks passed`);

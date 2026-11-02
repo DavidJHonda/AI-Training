@@ -11,11 +11,11 @@ from render_editorial_full_bleed_batch import BLUE, PURPLE, TEAL, Board, render
 
 
 ROOT = Path(__file__).resolve().parents[2]
-ART_PATH = ROOT / "scripts/video/assets/editorial-full-bleed/engagement-trap-stopping-points/art-sheet.png"
-OUTPUT = ROOT / "course-assets/engagement-trap/engagement-trap-stopping-points.jpg"
+ART_PATH = ROOT / "scripts/video/assets/editorial-full-bleed/flattery-engagement-followup-stopping-points/art-sheet.png"
+OUTPUT = ROOT / "course-assets/flattery-engagement/archive/flattery-engagement-followup-stopping-points.jpg"
 
 BOARD = Board(
-    key="engagement-trap-stopping-points",
+    key="flattery-engagement-followup-stopping-points",
     title="Putting the Stopping Points Back",
     cards=(
         ("Daily Limits", "A default two-hour daily limit across Facebook and Instagram. Only a parent can turn it off."),

@@ -9,8 +9,8 @@ OUT=ROOT/'video-audit/flattery-engagement-merge-2026-11-02'
 DEST=ROOT/'Prompts/flattery-engagement-v1.mp4'
 FPS,SR,SPF=30,48000,1600
 SOURCES={
- 'flattery':(ROOT/'Prompts/flattery-trap-v13.mp4','ffec02f6916c47d6226324894af8731a76a1c884cfc9d0922843dbb006bb7031'),
- 'engagement':(ROOT/'Prompts/engagement-trap-v15.mp4','2dc69c8a233762e5b6272111432f362d05450bec0931a7ee69adcca388b90a15')}
+ 'flattery':(ROOT/'Prompts/flattery-engagement/archive/flattery-engagement-feedback-source-v13.mp4','ffec02f6916c47d6226324894af8731a76a1c884cfc9d0922843dbb006bb7031'),
+ 'engagement':(ROOT/'Prompts/flattery-engagement/archive/flattery-engagement-followup-source-v15.mp4','2dc69c8a233762e5b6272111432f362d05450bec0931a7ee69adcca388b90a15')}
 # Half-open source frames, measured against audio RMS and picture cuts.
 RANGES=[('flattery',0,7661,'Flattery teaching through improve the work'),
  ('engagement',0,2900,'Engagement introduction, slope comparison, infinite scroll'),
@@ -31,9 +31,10 @@ def main():
  OUT.mkdir(exist_ok=True)
  for key,(p,h) in SOURCES.items():
   assert sha(p)==h
-  assert sha(ROOT/f'course-assets/{key}-trap/{key}-trap.mp4')==h
- assets=[ROOT/'index.html',ROOT/'lessons/flattery-trap.md',ROOT/'course-assets/manifest.json']
- assets += list((ROOT/'course-assets/flattery-trap').glob('*.jpg'))+list((ROOT/'course-assets/engagement-trap').glob('*.jpg'))
+  part = {'flattery': 'feedback', 'engagement': 'followup'}[key]
+  assert sha(ROOT/f'course-assets/flattery-engagement/archive/flattery-engagement-{part}-installed.mp4')==h
+ assets=[ROOT/'index.html',ROOT/'lessons/flattery-engagement.md',ROOT/'course-assets/manifest.json']
+ assets += list((ROOT/'course-assets/flattery-engagement').glob('*.jpg'))
  protected={str(p):sha(p) for p in assets}
  ff=imageio_ffmpeg.get_ffmpeg_exe(); pcm={}
  for key,(p,h) in SOURCES.items():

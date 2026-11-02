@@ -1,4 +1,4 @@
-## WORK WITH AI
+## BUILD YOUR SKILLS
 
 # Critical Thinking
 

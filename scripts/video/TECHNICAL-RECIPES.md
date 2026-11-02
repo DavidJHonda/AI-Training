@@ -76,7 +76,7 @@ audio changes. A typical video encode is
   Always cut seams with `trim=start_frame=A:end_frame=B` (end exclusive) and verify
   with `scenes.py --seam` — a clean freeze shows diff ≈ 0; any spike is a leak.
 - **MKV legs carry a 1/1000 timebase — normalize BEFORE concat or the mux ships
-  jittery video timestamps** (flattery-trap 2026-08-06: ms-rounded pts on every
+  jittery video timestamps** (flattery-engagement-feedback 2026-08-06: ms-rounded pts on every
   leg frame, audio perfectly uniform → players stalled the NARRATION at a
   different spot each play; frame count and audio MD5 were both clean, so the
   standard battery missed it). In any concat-filter assembly give EVERY input
@@ -119,7 +119,7 @@ audio changes. A typical video encode is
   timebase whose `pts_time` deltas alternate 0.033333/0.033334, and **so do the
   source files** (probability-and-prediction-v3: 5140/2568; the shipped probability-and-prediction.mp4 is worse,
   with 166 frames at 0.033000). That microsecond alternation is NOT the
-  flattery-trap bug — that one was millisecond rounding at 30.004 fps, a 1000×
+  flattery-engagement-feedback bug — that one was millisecond rounding at 30.004 fps, a 1000×
   larger error. Compare the output's `pts_time` histogram against its own source
   before concluding anything about jitter.
 

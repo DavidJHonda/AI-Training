@@ -1,0 +1,165 @@
+## AVOID TRAPS
+
+# Flattery & Engagement
+
+AI is often encouraging. It can praise your essay, support your idea, and agree with your opinion, even when what you really need is honest criticism.
+
+**The Flattery Trap is treating AI’s approval as honest evaluation.**
+
+### Board 1: Flattery vs. Useful Feedback
+
+**Image file:** `flattery-engagement-feedback-comparison-faceless.jpg`
+
+![Flattery vs. Useful Feedback](flattery-engagement-feedback-comparison-faceless.jpg)
+
+**Teaching content:**
+
+Here is flattery versus useful feedback. You ask AI to evaluate this Great Gatsby essay introduction: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”
+
+The trap, Flattery: “Great start! You’ve clearly identified the central theme. This is a strong foundation.” Praised: the work without pointing to evidence. Could fit: almost any Gatsby essay. Result: false praise for a weak essay intro.
+
+What you need, Useful Feedback: “Right topic, but this needs work. The opening is filler, and you still need a thesis.” Praised: the topic and nothing more. Named: the missing thesis. Result: a specific next move.
+
+Good feedback improves the work. Empty praise only improves the feeling.
+
+## What Makes Feedback Useful
+
+Good feedback can still be positive. What matters is whether it points to something real in the work and helps you improve it.
+
+## Why AI Leans Agreeable
+
+Here’s why AI leans agreeable.
+
+One reason is a training process called reinforcement learning from human feedback, or RLHF.
+
+### Board 2: How the Praise Got Baked In
+
+**Image file:** `flattery-engagement-cycle-of-praise-faceless.jpg`
+
+![How the Praise Got Baked In](flattery-engagement-cycle-of-praise-faceless.jpg)
+
+**Teaching content:**
+
+Here’s how the praise got baked in.
+
+First, people rank. Reviewers compare answers and choose the ones they prefer.
+
+That is where agreement can win. Positive, confident, agreeable answers can feel better in the moment.
+
+Then the numbers move. Training pushes the model toward patterns that earned approval.
+
+The praise literally gets baked into the system.
+
+## A Real Sycophancy Failure
+
+The technical name for this behavior is sycophancy: AI agrees with or praises the user instead of giving the more honest answer. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse.
+
+A user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
+
+### Board 3: Sycophancy
+
+**Image file:** `flattery-engagement-sycophancy.jpg`
+
+![Sycophancy](flattery-engagement-sycophancy.jpg)
+
+**Teaching content:**
+
+ChatGPT’s response: “Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode.”
+
+## What Changed
+
+OpenAI began rolling the update back three days after it launched and publicly described the behavior as sycophancy. The problem is not limited to ChatGPT. Researchers have found it across multiple AI assistants.
+
+AI companies now test for sycophancy and use training and system instructions to reduce it. The problem has improved, but it has not disappeared.
+
+How you ask still matters.
+
+### Board 4: Three Ways to Fight the Flattery Trap
+
+**Image file:** `flattery-engagement-three-moves.jpg`
+
+![Three Ways to Fight the Flattery Trap](flattery-engagement-three-moves.jpg)
+
+**Teaching content:**
+
+Here are three ways to fight the Flattery Trap.
+
+The aim is not to make AI negative. Give it a clearer job and a standard beyond agreeing with you.
+
+#### 1. Ask, Don’t Tell
+
+First, ask, don’t tell.
+
+Weak prompt: “I think this plan is good. Thoughts?”
+
+That question gives AI your opinion before it evaluates the plan.
+
+Better prompt: “Evaluate this plan before I tell you what I think.”
+
+Share the plan itself, but hold back your verdict. You are asking for an evaluation of the work, not a reaction to your confidence in it.
+
+#### 2. Ask for the Gaps
+
+Second, ask for the gaps.
+
+Weak prompt: “Is my essay good?”
+
+That is a broad request for approval. A cheerful yes does not tell you what to revise.
+
+Better prompt: “What’s weak, what’s missing, and what would someone who disagrees say?”
+
+Now you have given AI specific things to look for: weaknesses, missing pieces, and objections. Instead of asking whether your essay is good, you are asking how to make it better. You can still keep what works. The point is to find what needs attention.
+
+#### 3. Use a Rubric
+
+Third, use a rubric.
+
+Weak prompt: “Grade my essay.”
+
+Without a supplied standard, AI may use criteria that are different from your teacher’s.
+
+Better prompt: “Grade it against this rubric, quote the evidence, and show how to move up one level.”
+
+Provide your essay and the rubric. The rubric gives AI the criteria. Asking it to quote evidence ties the feedback to something in your actual writing. Asking how to move up one level turns a grade into a next step.
+
+The response is still something to check against your work and rubric, not an official grade or a guarantee of accuracy.
+
+You can also save a standing instruction. If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”
+
+Ask AI to improve the work, not approve of you.
+
+## When Useful Help Keeps Going
+
+Even when the help is useful, there’s another question: did you choose to keep going?
+
+The extra help may be useful. That is what makes it easy to accept. The trap is not continuing. It is continuing without deciding.
+
+### Board 5: One Answer. Two Endings.
+
+**Image file:** `flattery-engagement-slope-comparison.jpg`
+
+![One Answer. Two Endings.](flattery-engagement-slope-comparison.jpg)
+
+**Teaching content:**
+
+One answer can have two endings. Here is the same start. You: “I’m doing math homework. What does slope mean, and what’s the formula?”
+
+AI: “Slope tells you how steep a line is. Find it by dividing how far the line moves up or down by how far it moves from side to side: (y₂-y₁)/(x₂-x₁). Want me to walk through an example, draw a graph, or make some practice questions?”
+
+You stop: “No thanks. That’s all I needed.” One minute. Back to the homework. The question was answered.
+
+The trap: “Sure. Walk me through an example.” Twenty-five minutes later: examples, graphs, practice problems, a quiz. All of it was useful. None of it was what you opened the chat to do.
+
+Both chats answered the question. Only one ended there.
+
+## Choosing What Happens Next
+
+The Engagement Trap is spending time you never decided to spend.
+
+The answer ends, but the conversation does not. A helpful follow-up puts the next task in front of you before you stop to decide whether you wanted one.
+
+## Closing Message
+
+Look for specifics, not approval.
+
+Know what you came for. When you have it, choose what happens next.

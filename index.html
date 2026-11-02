@@ -1069,7 +1069,7 @@
 <script defer src="start-course.js?v=20261008continue1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
-<script src="group-activities-data.js?v=20261022school"></script>
+<script src="group-activities-data.js?v=20261102lessonorder"></script>
 <script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
@@ -1321,7 +1321,7 @@ const LESSON_VIDEOS = {
   // Build Your Skills lessons are ready to read. Approved videos use `src` below;
   // `comingSoon` cards reserve the same position for the remaining productions.
   openerskills: { src: "course-assets/build-your-skills-opener/build-your-skills-opener.mp4?v=20261102ship8", duration: "2 min", title: "The Skills You Keep", cta: "Both walk the same section map." },
-  choosemodel: { src: "course-assets/when-you-need-more/when-you-need-more.mp4?v=20261022v4", duration: "4 min", title: "When You Need More" },
+  choosemodel: { src: "course-assets/when-you-need-more/when-you-need-more.mp4?v=20261022v4", duration: "4 min", title: "When You Need More", cta: "Both end at the same LAB." },
   aitips: { src: "course-assets/next-level-moves/next-level-moves.mp4?v=20261102ship-nextlevel-v5", duration: "4 min", title: "Go Beyond the First Answer", cta: "Both end at the same LAB." },
   integrity: { src: "course-assets/honesty-and-privacy/honesty-and-privacy.mp4?v=20261023ship7", duration: "4 min", title: "Own the Work. Protect the Details." },
   wherestheline: { src: "course-assets/wheres-the-line/wheres-the-line.mp4?v=20261023ship5", duration: "3 min", title: "Deciding What AI Should Do" },
@@ -3118,9 +3118,8 @@ function QuizBlock(props) {
       var accent = vCorrect ? "#1f9d5f" : "#d4334a";
       var eyebrowText = vOpt.eyebrow || (vCorrect ? "Correct" : "Not quite");
       var headlineText = vOpt.headline || (vCorrect ? "Right." : "Not the best fit.");
-      var bodyText = vCorrect
-        ? (vOpt.feedback || "")
-        : (isResolved ? (vOpt.feedback || "") : (vOpt.hint || "Look again at what this option actually does, then try another."));
+      // Explain the selected choice immediately, even before the question is solved.
+      var bodyText = vOpt.feedback || (vCorrect ? "" : (vOpt.hint || "Look again at what this option actually does, then try another."));
       feedbackZone = React.createElement("div", { className: "choicequiz-feedback", style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
         React.createElement("div", { className: "choicequiz-feedback-grid", style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
           React.createElement("div", null,
@@ -3330,7 +3329,7 @@ const SECTION_GROUPS = [{
   sections: ["welcome", "llms", "whydeeper", "aihistory", "aiismath", "doesaithink", "whybother", "studying"]
 }, {
   label: "Work With AI",
-  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "prompt", "evaluating", "critical"]
+  sections: ["openerworkwith", "aivscode", "whatitdoesbest", "modelselection", "questionsvaluable", "prompting", "prompt", "evaluating", "aitips"]
 }, {
   label: "Understand AI",
   sections: ["openerfoundations", "training", "tokens", "embeddings", "attention", "layers", "vectorspace", "prediction", "inference"]
@@ -3342,7 +3341,7 @@ const SECTION_GROUPS = [{
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Build Your Skills",
-  sections: ["openerskills", "aitips", "choosemodel", "integrity", "wherestheline", "peopleskills", "creativethinking", "becurious", "makeyourmove"]
+  sections: ["openerskills", "critical", "choosemodel", "integrity", "wherestheline", "peopleskills", "creativethinking", "becurious", "makeyourmove"]
 }, {
   label: "Finish Smarter",
   sections: ["openerfinish", "whatyoulearned", "reviews", "resources", "forgroups"]
@@ -7731,69 +7730,11 @@ function ChoosingModelSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     closeBoard("choosemodel"),
-    /*#__PURE__*/React.createElement(YourChoicesTryIt, null),
+    /*#__PURE__*/React.createElement(CareerExplorationPlanLab, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("integrity"), label: "Next: Honesty & Privacy" }));
 }
 
-function YourChoicesTryIt() {
-  var E = React.createElement;
-  var _a = useLocalStorage("llm-try-when-you-need-more-v2", {}), savedAnswers = _a[0], setAnswers = _a[1];
-  var answers = savedAnswers && typeof savedAnswers === "object" ? savedAnswers : {};
-  var ROUNDS = [
-    { prompt: "Rewrite this two-sentence birthday invitation to make it sound friendlier.", options: ["Everyday model", "More capable model"], answer: "Everyday model",
-      correctFeedback: "A short rewrite is a straightforward task. Start with the everyday model and see whether the result meets your needs.",
-      incorrectFeedback: "A more capable model could do this, but a short rewrite is a good task for the everyday model. Start there and see whether the result meets your needs." },
-    { prompt: "A signup form works for some people but crashes for others. You provide the code from three connected files and the error messages. Ask AI to find the cause and propose a fix.", options: ["Everyday model", "More capable model"], answer: "More capable model",
-      correctFeedback: "A more capable model is a good starting point because this task requires connecting clues across several files and working out why the problem happens only sometimes.",
-      incorrectFeedback: "This task requires connecting clues across several files and working out why the problem happens only sometimes. A more capable model is a better starting point for that work." },
-    { prompt: "Put these five names in alphabetical order: Maya, Carlos, Zoe, Aisha, Ben.", options: ["Standard thinking", "More thinking"], answer: "Standard thinking",
-      correctFeedback: "Sorting five names is a short, routine task. Standard thinking is a good starting point.",
-      incorrectFeedback: "There are only five names and one simple rule to follow. Standard thinking should be enough for this task." },
-    { prompt: "Create a tournament schedule for eight teams using two courts. Each team must play three games, and no team can play in consecutive time slots.", options: ["Standard thinking", "More thinking"], answer: "More thinking",
-      correctFeedback: "More thinking gives AI time to work through the schedule and check that the games, courts, and rest periods fit together.",
-      incorrectFeedback: "The schedule has several rules that affect one another. More thinking can help AI work through them and check that the plan meets each rule." },
-    { prompt: "Explain the difference between a metaphor and a simile, with one example of each.", options: ["Regular chat", "Deeper research"], answer: "Regular chat",
-      correctFeedback: "This asks for a familiar concept and two examples. Regular chat is a good starting point.",
-      incorrectFeedback: "You don’t need an investigation across several sources to get this explanation. Start with regular chat." },
-    { prompt: "Compare five colleges using their current tuition, scholarships, housing costs, and application deadlines. Use information from their official websites and show the sources.", options: ["Regular chat", "Deeper research"], answer: "Deeper research",
-      correctFeedback: "Deeper research can gather current details from several college websites and bring them together in a comparison with sources you can check.",
-      incorrectFeedback: "Regular chat can look things up, but this task calls for gathering and comparing many current details across several websites. Deeper research is a better fit." }
-  ];
-  var count = ROUNDS.reduce(function(n, round, i) { return n + (round.options.indexOf(answers[i]) !== -1 ? 1 : 0); }, 0);
-  return E(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "What Does This Task Need?",
-    lead: "A short rewrite, a tricky coding problem, and a comparison of colleges ask different things of AI. Knowing what the task needs helps you decide which model to use, how much thinking to allow, or whether deeper research would help. You can practice those decisions here, even if your app doesn’t offer every option.",
-    instructions: ["Read each scenario and choose the better starting point from the two options shown. Each pair of scenarios focuses on one choice: model, thinking, or research.", "Read the feedback to see why that option fits. If you miss one, try the other choice."],
-    action: E(ActivityCounter, { count: count, total: ROUNDS.length })
-  },
-    E(InnerCard, null, ROUNDS.map(function(round, roundId) {
-      var picked = answers[roundId];
-      var answered = round.options.indexOf(picked) !== -1;
-      var correct = answered && picked === round.answer;
-      return E("div", { key: roundId, role: "group", "aria-labelledby": "when-you-need-more-situation-" + roundId },
-        E(ScenarioRow, {
-          index: roundId + 1,
-          prompt: E("span", { id: "when-you-need-more-situation-" + roundId }, round.prompt),
-          answered: answered,
-          correct: correct,
-          feedback: E("span", { role: "status" }, correct ? round.correctFeedback : round.incorrectFeedback)
-        }, round.options.map(function(option) {
-          return E(FeedbackPill, {
-            key: option,
-            answered: answered,
-            isCorrect: option === round.answer,
-            isPicked: picked === option,
-            label: option,
-            ariaLabel: option,
-            ariaPressed: picked === option,
-            onClick: function() { setAnswers(function(previous) { var next = Object.assign({}, previous); next[roundId] = option; return next; }); }
-          });
-        })));
-    })));
-}
 function CareerExplorationPlanLab() {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-career-exploration-plan-steps-v2", {}), checked = _c[0], setChecked = _c[1];
@@ -7807,7 +7748,7 @@ function CareerExplorationPlanLab() {
     },
     {
       title: "Start a new chat",
-      body: "Start a new chat outside any project."
+      body: "Start a new chat outside any project. Use regular chat with the default model for the interview. You can complete this lab without paid features."
     },
     {
       title: "Protect your privacy",
@@ -7826,7 +7767,7 @@ function CareerExplorationPlanLab() {
       title: "Choose one field to explore",
       body: "Pick the field that makes you most curious. You are choosing what to investigate next, not making a permanent career decision. If none of the three fits, explain what missed and ask for three different fields.",
       content: E("label", { htmlFor: "career-field-input", style: { display: "block" } },
-        E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Career field"),
+        E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Enter your career field here"),
         E("input", {
           id: "career-field-input",
           type: "text",
@@ -7863,6 +7804,10 @@ function CareerExplorationPlanLab() {
       prompt: "Review this plan with me. Ask me one question about its weakest section, then revise only that section using my answer.",
       promptDisabled: !chosenField,
       promptDisabledMessage: "Enter your career field in Step 6 to unlock this prompt."
+    },
+    {
+      title: "Decide whether you need more",
+      body: "Look at what you still want to learn. Would regular chat be enough for a follow-up question? Would a more capable model or more thinking help work through a complicated plan? Would deeper research help compare current training programs and costs across sources? Write one sentence in your chat naming your next task, the option you would choose, and why. You do not need to switch settings or use a paid feature. Staying with regular chat can be the right choice."
     }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
@@ -7871,7 +7816,7 @@ function CareerExplorationPlanLab() {
     surface: "teal",
     title: "Build a Career Exploration Plan",
     hint: "Click the box after you finish each step.",
-    lead: "You are not choosing your future today. In about 15 minutes, you will use the four moves from this lesson to identify one career field worth exploring and leave with a clear plan for what to learn next.",
+    lead: "Start your Career Explorer here. In about 15 minutes, you will identify one career field worth exploring, build a plan for what to learn next, and decide whether you need more help from AI. You are not choosing your future today. Keep this conversation for the later labs in Build Your Skills.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -7885,7 +7830,7 @@ function CareerFieldControl(props) {
   var E = React.createElement;
   var value = typeof props.value === "string" ? props.value : "";
   return E("label", { htmlFor: props.id, style: { display: "block" } },
-    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Career field"),
+    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Confirm or change your career field"),
     E("input", {
       id: props.id,
       type: "text",
@@ -7900,7 +7845,7 @@ function CareerFieldControl(props) {
       }
     }),
     E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
-      "This field was saved in the Next Level Moves lab. Change it here if you chose a different one."));
+      "This is the field you saved for Career Explorer. Change it here if you chose a different one."));
 }
 function CareerMoveSelector(props) {
   var E = React.createElement;
@@ -7930,7 +7875,7 @@ function CareerActionControl(props) {
   var E = React.createElement;
   var value = typeof props.value === "string" ? props.value : "";
   return E("label", { htmlFor: props.id, style: { display: "block" } },
-    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Action I chose"),
+    E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Paste the action you chose here"),
     E("textarea", {
       id: props.id,
       value: value,
@@ -7945,6 +7890,74 @@ function CareerActionControl(props) {
     }),
     E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } },
       "This action will fill the Step 4 prompt automatically."));
+}
+function ThoughtPartnerLab() {
+  var E = React.createElement;
+  var _c = useLocalStorage("llm-lab-thought-partner-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _d = useLocalStorage("llm-lab-make-an-idea-better-details-v1", {}), savedDetails = _d[0], setDetails = _d[1];
+  var details = savedDetails && typeof savedDetails === "object" ? savedDetails : {};
+  function answer(key) { return typeof details[key] === "string" ? details[key].trim() : ""; }
+  function entry(key, label, placeholder) {
+    var id = "idea-better-" + key;
+    return E("label", { htmlFor: id, style: { display: "block", marginTop: 12 } },
+      E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, label),
+      E("textarea", {
+        id: id, rows: 2,
+        value: typeof details[key] === "string" ? details[key] : "",
+        onChange: function(event) { var value = event.target.value; setDetails(function(previous) { return Object.assign({}, previous, { [key]: value }); }); },
+        placeholder: placeholder,
+        style: { width: "100%", boxSizing: "border-box", resize: "vertical", border: "1.5px solid var(--rule)", borderRadius: 9, background: "var(--bg)", color: "var(--ink)", padding: "10px 12px", fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.4, outlineColor: "var(--labAccent)" }
+      }));
+  }
+  var STEPS = [
+    {
+      title: "Bring an idea",
+      body: "Choose something you would like to do, then open ChatGPT and start a new conversation.",
+      content: E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
+        E("p", { style: { margin: "0 0 6px" } }, "Try one of these, or use your own idea:"),
+        E("ul", { style: { margin: "0 0 10px", paddingLeft: 22 } },
+          E("li", null, "Organize a study session with a few classmates."),
+          E("li", null, "Plan a low-cost activity for a school club."),
+          E("li", null, "Plan a game night with friends.")),
+        entry("project", "Enter your idea here", "For example: organize a 45-minute study session for three classmates"),
+        E("p", { style: { margin: "6px 0 0", fontSize: 12.5, color: "var(--inkMuted)" } }, "Your idea will fill the Step 2 prompt automatically."))
+    },
+    {
+      title: "Talk it through",
+      body: "Copy this prompt and send it in your new ChatGPT conversation.",
+      prompt: "I’m considering this idea: " + (answer("project") || "your idea") + "\nBe my thought partner. Ask me three questions, one at a time, to understand what I want. After my third answer, wait for my next instruction.",
+      promptDisabled: !answer("project"),
+      promptDisabledLabel: "Enter Idea First",
+      promptDisabledMessage: "Enter your idea in Step 1 to unlock this prompt.",
+      afterPromptContent: E("p", { style: { margin: 0, fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
+        "Answer the questions. Ask your own questions, too.")
+    },
+    {
+      title: "Explore the possibilities",
+      body: "When you are ready to explore options, send this prompt in the same conversation. If a suggestion doesn’t fit, explain why.",
+      prompt: "Based on what we’ve discussed, suggest two ways I could approach my idea. What’s one advantage and one drawback of each?"
+    },
+    {
+      title: "Make your call",
+      body: "Choose an approach and tell AI why it fits you. You can combine its suggestions or propose something different. Ask it to help you identify one useful first step."
+    }
+  ];
+  // Preserve saved progress for Make your call when inserting the options step.
+  var progressKeys = [0, 1, "explore-possibilities", 2];
+  var stepChecks = Object.fromEntries(progressKeys.map(function(key, i) { return [i, !!checked[key]]; }));
+  var count = STEPS.reduce(function(n, _s, i) { return n + (stepChecks[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    title: "Think It Through",
+    hint: "Click the box after you finish each step.",
+    lead: "Have an idea you haven’t figured out yet? Use AI as a thought partner. Let it ask questions, suggest possibilities, and help you decide where to start.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  }, E(LabStepList, {
+    steps: STEPS,
+    checked: stepChecks,
+    onToggle: function(i) { var key = progressKeys[i]; setChecked(function(p) { var n = Object.assign({}, p); n[key] = !p[key]; return n; }); }
+  }));
 }
 function AITipsSection(props) {
   var E = React.createElement;
@@ -8024,9 +8037,9 @@ function AITipsSection(props) {
       E("p", null, E("strong", null, "Later round, AI: "), "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?"),
       E("p", null, E("strong", null, "Takeaway: "), "Better details give AI better material to improve.")),
     closeBoard("aitips"),
-    E(CareerExplorationPlanLab, null),
+    E(ThoughtPartnerLab, null),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("choosemodel"); }, label: "Next: When You Need More" }));
+    E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfoundations"); }, label: "Next: Understand AI" }));
 }
 function PhoneTrayStrip() {
   var E = React.createElement;
@@ -8562,7 +8575,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
   React.createElement(WhatsMissingGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Foundations" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("choosemodel"), label: "Next: When You Need More" }));
 }
 function OpenerWorkWithSection(props) {
   return React.createElement(OpenerSection, {
@@ -9290,7 +9303,7 @@ function EvaluatingSection(props) {
     closeBoard("evaluating"),
     E(DigDeeperTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("critical"), label: "Next: Critical Thinking" }));
+    E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Next Level Moves" }));
 }
 function CreativeThinkingCareerLab() {
   var E = React.createElement;
@@ -9390,7 +9403,7 @@ function PeopleSkillsCareerLab() {
   var STEPS = [
     {
       title: "Return to your career chat",
-      body: "Open the ChatGPT conversation you used in the Next Level Moves lab. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
+      body: "Open your Career Explorer conversation. If you cannot find it, start a new chat. Your saved career field appears below and will be added to the next prompt automatically.",
       content: E(CareerFieldControl, { id: "people-skills-career-field", value: careerField, onChange: setCareerField })
     },
     {
@@ -9420,7 +9433,7 @@ function PeopleSkillsCareerLab() {
     surface: "teal",
     title: "Practice the People Side of Work",
     hint: "Click the box after you finish each step.",
-    lead: "Continue the career exploration you began in the Next Level Moves lab. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
+    lead: "Continue the Career Explorer you began in When You Need More. In about 10 minutes, you will practice a realistic interaction, receive feedback, and try the most difficult moment again.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -10623,8 +10636,8 @@ function OpenerSkillsSection(props) {
       }
     ],
     question: "Everyone will have the same tool. What do I bring that it doesn\u2019t?",
-    nextLessonId: "aitips",
-    nextLessonLabel: "Next: Next Level Moves",
+    nextLessonId: "critical",
+    nextLessonLabel: "Next: Critical Thinking",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -13521,9 +13534,9 @@ function CourseComputeBonus() {
     } },
       E("div", { style: { fontSize: 12, fontWeight: 800, letterSpacing: ".16em", color: "var(--primary)", textTransform: "uppercase", marginBottom: 12 } }, "Bonus Question"),
       E("p", { style: { margin: "0 0 10px", fontSize: BOX_TEXT, lineHeight: 1.65, color: "var(--ink)" } },
-        "This is Nate and Luke. We asked ChatGPT to estimate how many math calculations AI systems performed in data centers while helping us build this course. Nobody can know the exact number, but ChatGPT gave us a wild estimate."),
+        "We asked ChatGPT to estimate how many math calculations AI systems performed in data centers while helping us build this course. Nobody can know the exact number, but ChatGPT gave us a wild estimate."),
       E("p", { style: { margin: "0 0 18px", fontSize: BOX_TEXT, lineHeight: 1.6, color: "var(--inkSoft)" } },
-        "What’s your guess? This one is easy because there is only one choice."),
+        "What’s your guess? There’s only one answer, and you should definitely click it."),
       E("button", {
         type: "button",
         onClick: function() {
@@ -13549,72 +13562,71 @@ function CourseComputeBonus() {
         }
       },
         E("span", { style: { fontSize: 21, fontWeight: 850, color: revealed ? "var(--primaryDeep)" : "var(--ink)" } }, "40 quintillion"),
-        E("span", { style: { fontFamily: "var(--mono)", fontSize: "clamp(12px, 2.3vw, 17px)", fontWeight: 700, color: "var(--inkSoft)", overflowWrap: "anywhere", textAlign: "right" } }, "40,000,000,000,000,000,000")),
+        E("span", { style: { fontFamily: "var(--mono)", fontSize: "clamp(12px, 2.3vw, 17px)", fontWeight: 700, color: "var(--inkSoft)", overflowWrap: "anywhere", textAlign: "right" } }, "40,000,000,000,000,000,000"),
+        E("span", { style: { gridColumn: "1 / -1", fontSize: 15, fontWeight: 700, color: "var(--primaryDeep)" } }, "Click to celebrate →")),
       revealed ? E("div", { role: "status", style: { marginTop: 18, textAlign: "center", animation: reducedMotion ? "none" : "levelReveal 420ms ease-out both" } },
         E("div", { style: { fontSize: 24, fontWeight: 850, color: "var(--primaryDeep)" } }, "Click the button again to see a different celebration!")) : null));
 }
-function EnergyPerspectiveTryIt(props) {
-  // Anchor: ~0.3 Wh per AI chat (Epoch AI 2025; OpenAI's own figure is 0.34 Wh).
-  // Other figures are stable arithmetic: battery capacity, appliance wattage,
-  // water-heating energy, EPA fuel energy. Multiples are rounded for teens.
+function DataCenterTownTryIt(props) {
+  var E = React.createElement;
   var ROWS = [
-    { claim: "Doing the same math on a pocket calculator", correct: "less", fb: {
-      less: "Right, way less. A calculator runs for years on one coin battery. As Where AI Works Best taught you: exact math never needed a data center.",
-      more: "Other way: the calculator wins by a mile. It runs for years on one coin battery. Exact math never needed a data center.",
-      same: "Not close: the calculator uses almost nothing, running for years on one coin battery. Exact math never needed a data center." } },
-    { claim: "Fully charging your phone", correct: "more", fb: {
-      more: "Right. One full charge is about 15 watt-hours, roughly fifty AI chats.",
-      less: "Other way around: a full charge is about 15 watt-hours, roughly fifty AI chats’ worth.",
-      same: "It’s bigger than that: a full charge is about 15 watt-hours, roughly fifty AI chats." } },
-    { claim: "Sending a text message", correct: "less", fb: {
-      less: "Right, way less. A text is a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat.",
-      more: "Other way: a text is a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat.",
-      same: "A text is far smaller: a tiny burst of radio, a few thousandths of a watt-hour. You could text all day for less than one chat." } },
-    { claim: "Making two slices of toast", correct: "more", fb: {
-      more: "Right. A toaster pulls about 40 watt-hours in three minutes. Your breakfast costs over a hundred chats.",
-      less: "The toaster wins easily: about 40 watt-hours in three minutes. Your breakfast costs over a hundred chats.",
-      same: "Not even close to even: the toaster pulls about 40 watt-hours in three minutes, over a hundred chats’ worth." } },
-    { claim: "One Google search", correct: "same", fb: {
-      same: "Right, about the same. Both run on roughly a third of a watt-hour. Early AI models did use far more, and that’s where the “AI burns ten times a search” stat came from.",
-      more: "Close, but they’re about the same: roughly a third of a watt-hour each. Early AI models did use around ten times more than a search. Newer ones got efficient.",
-      less: "Actually about the same, roughly a third of a watt-hour each. A search fires up a data center too, the same kind of building." } },
-    { claim: "Streaming Netflix for one hour", correct: "more", fb: {
-      more: "Right. About 80 watt-hours between your screen and the servers: a couple hundred chats per episode.",
-      less: "Streaming costs more: about 80 watt-hours an hour between your screen and the servers. A couple hundred chats per episode.",
-      same: "An hour of streaming is about 80 watt-hours, a couple hundred chats. Video is heavy. Text is light." } },
-    { claim: "Driving one mile", correct: "more", fb: {
-      more: "Right. A gas car burns about 1,100 watt-hours of fuel energy per mile. One mile equals more than three thousand chats.",
-      less: "A gas car burns about 1,100 watt-hours of fuel energy every mile: more than three thousand chats.",
-      same: "Not remotely: one mile in a gas car burns about 1,100 watt-hours of fuel energy, more than three thousand chats." } },
-    { claim: "Taking a ten-minute hot shower", correct: "more", fb: {
-      more: "Right. Heating that water takes a few thousand watt-hours, close to ten thousand chats. Nobody feels guilty about a shower.",
-      less: "The shower is the biggest energy hog on this list: heating the water takes a few thousand watt-hours, close to ten thousand chats.",
-      same: "Heating water is enormously expensive: a few thousand watt-hours, close to ten thousand chats. The shower is the biggest thing on this list." } }
+    { claim: "“This project will create 1,000 jobs.”", options: [
+      { label: "How many are construction jobs, and how many stay after it opens?", correct: true,
+        headline: "Separate temporary and lasting benefits.",
+        feedback: "Construction jobs and permanent jobs both matter, but they represent different benefits for the town." },
+      { label: "How many people use the company’s AI?", correct: false,
+        feedback: "Customer numbers do not tell you how many local jobs will remain. Ask how many jobs are for construction and how many stay after the facility opens." },
+      { label: "How big will the building be?", correct: false,
+        feedback: "A large building does not necessarily need a large permanent staff. Ask which jobs last beyond construction." }
+    ] },
+    { claim: "“Our new chips use half as much electricity per AI task as our previous chips doing the same task.”", options: [
+      { label: "Does that mean my electricity bill will fall?", correct: false,
+        feedback: "Better chip efficiency alone cannot tell you what happens to household bills. First ask how much electricity the whole facility will need." },
+      { label: "How much electricity will the whole facility need?", correct: true,
+        headline: "Per task is only part of the picture.",
+        feedback: "The comparison is with the company’s previous chips doing the same task. That efficiency improvement helps. But if the facility does more than twice as many tasks, even the chips can use more electricity overall. Cooling and other equipment also use power." },
+      { label: "Does that mean the facility needs no cooling?", correct: false,
+        feedback: "Using less electricity per task does not eliminate heat. Ask about the whole facility’s electricity demand, including cooling." }
+    ] },
+    { claim: "“We’ll pay for the electricity we use.”", options: [
+      { label: "Will local residents get free AI?", correct: false,
+        feedback: "Free AI would not answer who pays for the electrical infrastructure. Ask who covers any new power lines or grid upgrades." },
+      { label: "How quickly can you start construction?", correct: false,
+        feedback: "The construction schedule does not explain who pays for grid upgrades. That is a separate cost from the electricity the company uses." },
+      { label: "Who pays for any new power lines or other grid upgrades?", correct: true,
+        headline: "Ask who pays for the infrastructure.",
+        feedback: "Paying for electricity and paying for the infrastructure needed to deliver it are separate questions. Find out how those costs would be divided between the company and other customers." }
+    ] }
   ];
-  var LABELS = { "more": "More", "less": "Less", "same": "About the same" };
-  var ORDER = ["more", "less", "same"];
   var _a = useState({}), answers = _a[0], setAnswers = _a[1];
-  var answeredCount = Object.keys(answers).length;
-  useEffect(function() { if (answeredCount >= ROWS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
-  return /*#__PURE__*/React.createElement(InteractiveBox, {
-    variant: "try", surface: "mint", title: "Compare the Energy Use",
-    lead: "A typical short question-and-answer with ChatGPT uses around 1/3 of a watt-hour of electricity. Longer answers, harder reasoning, and image or video generation can use more. The real bill comes from running billions of requests a day.",
-    instructions: [
-      "Read the everyday activity.",
-      React.createElement("span", null, "Choose ", React.createElement("strong", null, "More"), ", ", React.createElement("strong", null, "Less"), ", or ", React.createElement("strong", null, "About the same"), " compared with one short AI chat.")
-    ]
-  },
-    /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-      ROWS.map(function(r, i) {
-        var answered = answers[i] !== undefined;
-        var correct = answered && answers[i] === r.correct;
-        return /*#__PURE__*/React.createElement(ScenarioRow, { key: i, index: i + 1, prompt: r.claim, answered: answered, correct: correct, feedback: answered ? r.fb[answers[i]] : null },
-          ORDER.map(function(c) {
-            return /*#__PURE__*/React.createElement(FeedbackPill, { key: c, answered: answered, isCorrect: c === r.correct, isPicked: answers[i] === c, label: LABELS[c],
-              onClick: function() { setAnswers(function(p) { var u = Object.assign({}, p); u[i] = c; return u; }); } });
-          }));
-      })),
-    /*#__PURE__*/React.createElement(CourseComputeBonus, null));
+  var complete = Object.keys(answers).length === ROWS.length;
+  useEffect(function() { if (complete && props.onComplete) props.onComplete(); }, [complete, props.onComplete]);
+  return E(React.Fragment, null,
+    E(InteractiveBox, {
+      variant: "try", surface: "mint", title: "A Data Center in Your Town",
+      lead: "Imagine a company wants to build a data center near your town. At a public meeting, you hear three claims. Before deciding what you think, choose the best follow-up question for each.",
+      instructions: [
+        "Read each claim from the company.",
+        "Choose the best follow-up question, then read the feedback."
+      ]
+    },
+      E(InnerCard, null,
+        ROWS.map(function(row, i) {
+          return E("div", { key: i, style: { paddingTop: i === 0 ? 0 : 24, marginTop: i === 0 ? 0 : 24, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+            E(QuizBlock, {
+              surface: "mint", questionNumber: i + 1, statement: row.claim,
+              totalQuestions: ROWS.length, options: row.options, picked: answers[i],
+              onAnswer: function(choice, correct) {
+                if (correct) setAnswers(function(previous) { var next = Object.assign({}, previous); next[i] = choice; return next; });
+              }
+            }));
+        })),
+      complete ? E("div", { style: { marginTop: 18 } },
+        E(Takeaway, {
+          accent: "var(--tryAccent)", headline: "Know what to ask.",
+          body: "You don’t have to decide whether every data center is good or bad. You need to know what to ask about this one."
+        })) : null),
+    E(CourseComputeBonus, null));
 }
 function TheHiddenCostSection(props) {
   var E = React.createElement;
@@ -13650,7 +13662,7 @@ function TheHiddenCostSection(props) {
     E(BodyP, null,
       "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
     closeBoard("computecost"),
-    E(EnergyPerspectiveTryIt, null),
+    E(DataCenterTownTryIt, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("unexpected"); }, label: "Next: Unexpected Results" }));
 }

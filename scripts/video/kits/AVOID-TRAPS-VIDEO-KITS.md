@@ -18,9 +18,9 @@ Initially prepared against the lesson pages on 2026-09-04; individual kits are u
 
 The source lists and reserved-narration directions below document previous productions. They are not current upload instructions. Preserve useful review and editing history, but do not recreate a legacy prompt from these notes. Current bundles come only from `gemini-notebook/upload-sets.json`.
 
-## Current merged lesson
+## Current Flattery lesson
 
-Flattery & Engagement now shares `lessons/flattery-trap.md` (2026-11-02). Keep its four Flattery boards, the slope comparison and infinite-scroll board, and the new combined close. The old separate videos are hidden from the page pending a matching merged video. The Engagement source and separate pending-kit entry are retired. Historical production notes below are not instructions for this merged lesson.
+Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flattery-trap.md`; active uploads and instructions: `gemini-notebook/flattery-trap/`. Four teaching boards plus the restored two-part Flattery close and narration Markdown make six uploads. Engagement, slope, infinite scroll, and company incentives are removed. Preserve the agreeable/RLHF signpost, rubric qualification, and all Flattery wording. The page retains all five feedback lab steps and a brief closing reminder after the lab. Historical merged videos remain source material; the new Flattery-only candidate awaits review and installation. The registry and lesson-owned PREP-NOTES.md supersede historical production notes below.
 
 ## Scene plan for review
 
@@ -119,20 +119,20 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 Lesson shortened 2026-10-27: keep only the first RLHF introductory sentence; retain only the first paragraph of ChatGPT’s gag-product response in the source and canonical board. Preserve the full mitigation paragraph. The lab now has five steps, combining its first three without removing instructions or prompts. The installed video still needs revision to match these cuts. Board renderer: `render_sycophancy_example()` in `scripts/video/render_avoid_traps_editorial.py`; regenerate only this board for this change.
 
-**v6 SHIPPED 2026-09-21** (cache key 20260921ship5, pill 5 min): roll 4 of 2026-09-21 as the whole narration, no cuts, plus one audio-only graft from roll 2 ("But while the problem has improved, it has not disappeared.", the clause every other roll drops; roll 2's own picture there is an invented agreement-rate chart and never enters the build). Roll 4 is the only roll that keeps the RLHF qualification and speaks the standing instruction word for word. Post-only Flattery vs. Useful Feedback with response-quote and section rings; canonical How the Praise Got Baked In with full-box-height column rings; canonical Sycophancy with its first paragraph ringed; canonical Five Ways in five legs, dense, diving to the active row and panning between rows, broken up by three roll-3 drawings matched to the beats they cover; standard close. First build under the artwork-scaled ring rule (Edit Spec section 5). Review: `video-audit/flattery-trap-comparison-2026-09-21/`.
+**v6 SHIPPED 2026-09-21** (cache key 20260921ship5, pill 5 min): roll 4 of 2026-09-21 as the whole narration, no cuts, plus one audio-only graft from roll 2 ("But while the problem has improved, it has not disappeared.", the clause every other roll drops; roll 2's own picture there is an invented agreement-rate chart and never enters the build). Roll 4 is the only roll that keeps the RLHF qualification and speaks the standing instruction word for word. Post-only Flattery vs. Useful Feedback with response-quote and section rings; canonical How the Praise Got Baked In with full-box-height column rings; canonical Sycophancy with its first paragraph ringed; canonical Five Ways in five legs, dense, diving to the active row and panning between rows, broken up by three roll-3 drawings matched to the beats they cover; standard close. First build under the artwork-scaled ring rule (Edit Spec section 5). Review: `video-audit/flattery-engagement-feedback-comparison-2026-09-21/`.
 
 Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the Gatsby comparison's narration reserved for post-production, a Scene label moves the rollback passage off the sycophancy board).
 
 - Prompt: **retired; fresh prep required**
-- Markdown: `lessons/flattery-trap.md`
+- Markdown: `lessons/flattery-engagement.md`
 - Upload checklist: **retired; fresh prep required**
 - Notebook sources:
-  1. `course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg`
-  2. `course-assets/flattery-trap/flattery-trap-sycophancy.jpg`
-  3. `course-assets/flattery-trap/flattery-trap-five-moves.jpg`
-  4. `course-assets/flattery-trap/flattery-trap-close.jpg`
+  1. `course-assets/flattery-engagement/flattery-engagement-cycle-of-praise.jpg`
+  2. `course-assets/flattery-engagement/flattery-engagement-sycophancy.jpg`
+  3. `course-assets/flattery-engagement/flattery-engagement-three-moves.jpg`
+  4. `course-assets/flattery-engagement/flattery-engagement-close.jpg`
 - Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/flattery-trap/flattery-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
+  - `course-assets/flattery-engagement/flattery-engagement-feedback-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
 
 ## Engagement Trap
 
@@ -141,13 +141,13 @@ Lesson shortened 2026-10-27: remove the second opening paragraph and the AI Won�
 Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the native-rendered stopping-points board.
 
 - Prompt: **retired; fresh prep required**
-- Historical Markdown: retired; current merged source is `lessons/flattery-trap.md`
+- Historical Markdown: retired; current merged source is `lessons/flattery-engagement.md`
 - Upload checklist: **retired; fresh prep required**
 - Notebook sources:
-  1. `course-assets/engagement-trap/engagement-trap-comparison.jpg`
-  2. `course-assets/engagement-trap/engagement-trap-scroll.jpg`
-  3. `course-assets/engagement-trap/engagement-trap-stopping-points.jpg`
-  4. `course-assets/engagement-trap/engagement-trap-close.jpg`
+  1. `course-assets/flattery-engagement/flattery-engagement-slope-comparison.jpg`
+  2. `course-assets/flattery-engagement/archive/flattery-engagement-followup-scroll.jpg`
+  3. `course-assets/flattery-engagement/archive/flattery-engagement-followup-stopping-points.jpg`
+  4. `course-assets/flattery-engagement/archive/flattery-engagement-followup-close.jpg`
 
 ## Support Trap
 

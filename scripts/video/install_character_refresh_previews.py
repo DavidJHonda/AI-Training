@@ -32,8 +32,8 @@ JOBS = (
         ),
     },
     {
-        "target": ROOT / "course-assets/flattery-trap/flattery-trap-comparison.jpg",
-        "preview": PREVIEWS / "flattery-trap-comparison-preview.png",
+        "target": ROOT / "course-assets/flattery-engagement/flattery-engagement-feedback-comparison.jpg",
+        "preview": PREVIEWS / "flattery-engagement-feedback-comparison-preview.png",
         "rects": (
             (40, 383, 744, 418, "top-rounded"),
             (816, 383, 744, 418, "top-rounded"),

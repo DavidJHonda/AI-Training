@@ -45,7 +45,7 @@ def specs():
                 left=(33,225,652,1150);right=(677,225,1296,1150)
                 if a==739:states+=[state(810,'chatbot-answer',right,A,right,24)]
                 else:states+=[state(1263,'mom-answer',left,B,left,24),state(1388,'mom-notices',(33,943,652,1036),B,left),state(1568,'mom-shares-stake',(33,1043,652,1137),B,left),state(1686,'compare-both',None,H,None,24)]
-            if slug=='flattery-trap':
+            if slug=='flattery-engagement-feedback':
                 left=(31,302,618,1115);right=(643,302,1230,1115)
                 scenario=(31,90,1230,276)
                 states+=[state(984,'essay',scenario,P,None,0),state(1275,'flattery-response',(31,678,618,818),A,left,30),state(1431,'praised',(31,826,618,909),A,left),state(1563,'false-praise-result',(31,1012,618,1094),A,left),state(1788,'useful-heading-and-response',(643,678,1230,814),B,right,30),state(1887,'missing-thesis',(643,918,1230,1005),B,right),state(2010,'full-takeaway',gold_bounds(asset),H,None,24)]

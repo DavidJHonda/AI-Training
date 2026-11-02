@@ -218,7 +218,7 @@ def main() -> None:
         "The Reddit comment was real. The cooking advice was not.",
     )
     standard_banner(
-        "flattery-trap/flattery-trap-five-moves.jpg",
+        "flattery-engagement-feedback/flattery-engagement-three-moves.jpg",
         (1600, 1101),
         973,
         "Ask AI to improve the work, not approve of you.",

@@ -667,7 +667,7 @@ def render_trust_trap_boards(art: dict[str, str] | None = None) -> None:
     )
 
 
-def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
+def render_flattery_engagement_feedback_boards(art: dict[str, str] | None = None) -> None:
     """Render only the four Flattery Trap boards and their lesson copies."""
     art = art or build_art_sheets()
 
@@ -686,7 +686,7 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         render_flow_board_with_title_size(praise_flow, 31),
-        Pair("course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg", "course-assets/flattery-trap/avoid-traps-15-praise-loop.jpg"),
+        Pair("course-assets/flattery-engagement/flattery-engagement-cycle-of-praise.jpg", "course-assets/flattery-engagement/avoid-traps-15-praise-loop.jpg"),
     )
 
     comparison = render_comparison(
@@ -721,24 +721,24 @@ def render_flattery_trap_boards(art: dict[str, str] | None = None) -> None:
     )
     save_pair(
         comparison,
-        Pair("course-assets/flattery-trap/flattery-trap-comparison-v2.jpg", "course-assets/flattery-trap/avoid-traps-14-flattery-comparison.jpg"),
+        Pair("course-assets/flattery-engagement/flattery-engagement-feedback-comparison-v2.jpg", "course-assets/flattery-engagement/avoid-traps-14-flattery-comparison.jpg"),
     )
 
     save_pair(
         render_sycophancy_example(),
-        Pair("course-assets/flattery-trap/flattery-trap-sycophancy.jpg", "course-assets/flattery-trap/avoid-traps-16-sycophancy.jpg"),
+        Pair("course-assets/flattery-engagement/flattery-engagement-sycophancy.jpg", "course-assets/flattery-engagement/avoid-traps-16-sycophancy.jpg"),
     )
     save_pair(
         render_three_moves(),
-        Pair("course-assets/flattery-trap/flattery-trap-five-moves.jpg", "course-assets/flattery-trap/avoid-traps-16a-five-moves.jpg"),
+        Pair("course-assets/flattery-engagement/flattery-engagement-three-moves.jpg", "course-assets/flattery-engagement/avoid-traps-16a-five-moves.jpg"),
     )
 
 
-def render_engagement_trap_boards() -> None:
+def render_flattery_engagement_followup_boards() -> None:
     """Render only the three Engagement Trap boards and their lesson copies."""
     save_pair(
         render_engagement_comparison(),
-        Pair("course-assets/engagement-trap/engagement-trap-comparison.jpg", "course-assets/engagement-trap/engagement-trap-comparison.jpg"),
+        Pair("course-assets/flattery-engagement/flattery-engagement-slope-comparison.jpg", "course-assets/flattery-engagement/flattery-engagement-slope-comparison.jpg"),
     )
     scroll_comparison = CardBoard(
         "engagement-scroll",
@@ -761,9 +761,9 @@ def render_engagement_trap_boards() -> None:
     )
     save_pair(
         render_card_board(scroll_comparison),
-        Pair("course-assets/engagement-trap/engagement-trap-scroll.jpg", "course-assets/engagement-trap/avoid-traps-17a-scroll.jpg"),
+        Pair("course-assets/flattery-engagement/archive/flattery-engagement-followup-scroll.jpg", "course-assets/flattery-engagement/avoid-traps-17a-scroll.jpg"),
     )
-    copy_selected_feature("course-assets/engagement-trap/engagement-trap-stopping-point.jpg", "avoid-traps-18-stop.jpg")
+    copy_selected_feature("course-assets/flattery-engagement/archive/flattery-engagement-followup-stopping-point.jpg", "avoid-traps-18-stop.jpg")
 
 
 def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair], ...]:
@@ -794,8 +794,8 @@ def main() -> None:
     art = build_art_sheets()
 
     render_trust_trap_boards(art)
-    render_flattery_trap_boards(art)
-    render_engagement_trap_boards()
+    render_flattery_engagement_feedback_boards(art)
+    render_flattery_engagement_followup_boards()
 
     hallucination_example = ChatBoard(
         "hallucination-example",

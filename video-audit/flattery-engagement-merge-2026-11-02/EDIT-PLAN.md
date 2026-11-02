@@ -1,6 +1,6 @@
 # Flattery & Engagement: existing-video merge
 
-Scope: user-authorized review candidate from the current installed videos. Preserve all retained teaching, approved board treatments and supporting animations. No new generation, lesson change, installation, commit, or publication. Stable `Prompts/flattery-trap-v13.mp4` and `Prompts/engagement-trap-v15.mp4` match the installed files exactly; hashes are in the build manifest. Original raw rolls were unavailable for the shipped source edits.
+Scope: user-authorized review candidate from the current installed videos. Preserve all retained teaching, approved board treatments and supporting animations. No new generation, lesson change, installation, commit, or publication. Stable `Prompts/flattery-engagement/archive/flattery-engagement-feedback-source-v13.mp4` and `Prompts/flattery-engagement/archive/flattery-engagement-followup-source-v15.mp4` match the installed files exactly; hashes are in the build manifest. Original raw rolls were unavailable for the shipped source edits.
 
 ## Narration assembly (source time)
 

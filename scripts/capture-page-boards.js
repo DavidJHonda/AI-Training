@@ -103,14 +103,12 @@ const BOARDS = [
   // The five trap lessons share one two-column comparison block, and its grid is
   // repeat(auto-fit, minmax(min(100%, 340px), 1fr)) in all five — so it needs roughly
   // 700px of inner width to stay two columns, and silently stacks below that. Cut
-  // through a narrow slot, trust-trap / engagement-trap / flattery-trap collapsed to
+  // through a narrow slot, trust-trap / flattery-engagement-followup / flattery-engagement-feedback collapsed to
   // one column AND then got scaled down to fit 900px tall, which is why their type
   // was so much smaller than support-trap's and fake-trap's. The wide stage keeps the
   // two columns the lesson actually shows. Never cut one of these narrow.
   { section: "mindtrap", out: "trust-trap-1-answers.jpg", width: 1180, vw: 1280, card: true,
     find: ["Should I go to the University of Michigan or Indiana University?", "Your Mom", "Searched eighteen years of knowing you"] },
-  { section: "flattery", out: "engagement-trap-1-choice.jpg", width: 1180, vw: 1280, card: true,
-    find: ["How tall is Mount Everest?", "You end the conversation", "The Engagement Trap"] },
   { section: "flattery", out: "flattery-trap-1-responses.jpg", width: 1180, vw: 1280, card: true,
     find: ["The American Dream is something that many people have thought about", "The Flattery Trap", "What you needed"] },
 

@@ -65,17 +65,17 @@ KITS = [
         ("2-eliza", "trust-trap-eliza-effect-v4.jpg", True),
         ("3-close", "close", True),
     ]),
-    ("flattery-trap", "flattery", "flattery-trap", [
-        ("1-comparison", "flattery-trap-comparison-v2.jpg", False),
-        ("2-praise-loop", "flattery-trap-praise-loop-v2.jpg", True),
-        ("3-sycophancy", "flattery-trap-sycophancy-v2.jpg", True),
-        ("4-five-moves", "flattery-trap-five-moves-v2.jpg", True),
+    ("flattery-engagement-feedback", "flattery", "flattery-engagement-feedback", [
+        ("1-comparison", "flattery-engagement-feedback-comparison-v2.jpg", False),
+        ("2-praise-loop", "flattery-engagement-feedback-praise-loop-v2.jpg", True),
+        ("3-sycophancy", "flattery-engagement-sycophancy-v2.jpg", True),
+        ("4-five-moves", "flattery-engagement-three-moves-v2.jpg", True),
         ("5-close", "close", True),
     ]),
-    ("engagement-trap", "engagementtrap", "engagement-trap", [
-        ("1-comparison", "engagement-trap-comparison-v2.jpg", True),
-        ("2-scroll", "engagement-trap-scroll-v2.jpg", True),
-        ("3-stop", "engagement-trap-stopping-point.jpg", False),
+    ("flattery-engagement-followup", "engagementtrap", "flattery-engagement-followup", [
+        ("1-comparison", "flattery-engagement-slope-comparison-v2.jpg", True),
+        ("2-scroll", "flattery-engagement-followup-scroll-v2.jpg", True),
+        ("3-stop", "flattery-engagement-followup-stopping-point.jpg", False),
         ("4-close", "close", True),
     ]),
     ("support-trap", "supporttrap", "support-trap", [

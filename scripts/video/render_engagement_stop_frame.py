@@ -16,7 +16,7 @@ from render_avoid_traps_editorial import render_feature, save_pair, Pair
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / 'scripts/video/assets/editorial-avoid-traps/engagement-approved-stop-art.png'
-APPROVED = ROOT / 'video-audit/engagement-trap-flat-frame-2026-09-07/approved-before-flat-frame.jpg'
+APPROVED = ROOT / 'video-audit/flattery-engagement-followup-flat-frame-2026-09-07/approved-before-flat-frame.jpg'
 
 def main():
     if not ART.exists():
@@ -31,8 +31,8 @@ def main():
     # Check the authored background before JPEG encoding.
     for point in ((20,100),(20,500),(20,1100),(800,20)):
         assert board.getpixel(point) == (234,231,253)
-    save_pair(board, Pair('course-assets/engagement-trap/engagement-trap-stopping-point.jpg',
-                          'course-assets/engagement-trap/engagement-trap-3-stop.jpg'))
+    save_pair(board, Pair('course-assets/flattery-engagement/archive/flattery-engagement-followup-stopping-point.jpg',
+                          'course-assets/flattery-engagement/flattery-engagement-followup-3-stop.jpg'))
 
 if __name__ == '__main__':
     main()

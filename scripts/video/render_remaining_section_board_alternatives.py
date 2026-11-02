@@ -320,7 +320,7 @@ def render_flattery():
         {"title": "The numbers move", "body": "Training pushes the model toward answer patterns that earned approval.", "footer": "LEARNED PRAISE", "accent": TEAL},
     ]
     three_cards(draw, cards)
-    save(image, "avoid-traps", "flattery-trap-praise-loop-alternative.jpg")
+    save(image, "avoid-traps", "flattery-engagement-feedback-praise-loop-alternative.jpg")
 
 
 def render_engagement():
@@ -341,7 +341,7 @@ def render_engagement():
     label_pill(draw, 1158, 478, "ACCEPT THE FOLLOW-UP", RED)
     centered_block(draw, 1158, 526, "New offers create new questions.", font("bold", 30), CARD_TITLE, 420, 4, 2)
     draw.text((1158, 608), "The loop can last for hours", font=font("demi", 26), fill=RED, anchor="mm")
-    save(image, "avoid-traps", "engagement-trap-decision-point-alternative.jpg")
+    save(image, "avoid-traps", "flattery-engagement-followup-decision-point-alternative.jpg")
 
 
 def render_support():
@@ -617,8 +617,8 @@ def main():
     ], "remaining-alternatives-contact-sheet.jpg")
     make_contact_sheet("avoid-traps", [
         "trust-trap-human-stake-alternative.jpg",
-        "flattery-trap-praise-loop-alternative.jpg",
-        "engagement-trap-decision-point-alternative.jpg",
+        "flattery-engagement-feedback-praise-loop-alternative.jpg",
+        "flattery-engagement-followup-decision-point-alternative.jpg",
         "support-trap-real-vs-missing-alternative.jpg",
         "fake-trap-three-checks-alternative.jpg",
     ], "remaining-alternatives-contact-sheet.jpg")

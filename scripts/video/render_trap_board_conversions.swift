@@ -361,8 +361,8 @@ if CommandLine.arguments.contains("--mind-only") {
     try renderMindBoard()
     try renderFakeReasonsBoard()
     try promote(
-        "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
-        to: ["board-review-first-four/current-selected/avoid-traps/flattery-trap-2-praise-loop.jpg", "course-assets/flattery-trap/flattery-trap-praise-loop.jpg", "course-assets/flattery-trap/flattery-trap-2-praise-loop.jpg"]
+        "board-review-first-four/alternatives/avoid-traps/flattery-engagement-feedback-praise-loop-alternative.jpg",
+        to: ["board-review-first-four/current-selected/avoid-traps/flattery-engagement-feedback-2-praise-loop.jpg", "course-assets/flattery-engagement/flattery-engagement-feedback-praise-loop.jpg", "course-assets/flattery-engagement/flattery-engagement-feedback-2-praise-loop.jpg"]
     )
     try promote(
         "board-review-first-four/alternatives/avoid-traps/support-trap-real-vs-missing-alternative.jpg",

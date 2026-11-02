@@ -9,7 +9,6 @@ except ImportError:
     from course_credit import save_course_image
 
 
-import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -81,7 +80,7 @@ BOARDS = (
         rows=(
             Row("Know What It’s For", "Why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well."),
             Row("Use It Well", "The moves that get a better answer, and a look at what the model actually reads when you ask."),
-            Row("Think Before You Trust", "What to do with the answer that comes back. Question it, verify it, and decide whether it’s good enough to use."),
+            Row("Evaluate and Improve", "Check the answer, decide what to use, and keep the conversation going to develop something better."),
         ),
         page_output="course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg",
         prep_output="course-assets/work-with-ai-opener/work-with-ai-opener-2-section.jpg",
@@ -133,7 +132,7 @@ BOARDS = (
         title="Build Your Skills",
         takeaway="Build the skills you keep when the tool changes.",
         rows=(
-            Row("Use AI With Skill and Care", "Choose what changes the answer, improve ideas through conversation, use AI honestly, and protect what you share."),
+            Row("Use AI With Skill and Care", "Question claims, weigh evidence, choose the help you need, use AI honestly, and protect what you share."),
             Row("Skills That Grow in Value", "People skills help you work with others. Creative thinking helps you find the better angle."),
             Row("Stay Flexible. Make Your Move.", "Keep learning as AI changes, then turn your interests into action by building skills and making something real."),
         ),
@@ -227,15 +226,11 @@ def render(board: MapBoard) -> Image.Image:
 
 def save(board: MapBoard, image: Image.Image) -> None:
     page = ROOT / board.page_output
-    prep = ROOT / board.prep_output
-    review = ROOT / board.review_output
-    for path in (page, prep, review):
-        path.parent.mkdir(parents=True, exist_ok=True)
+    page.parent.mkdir(parents=True, exist_ok=True)
     save_course_image(image, page, quality=95, subsampling=0, optimize=True)
-    shutil.copyfile(page, prep)
-    shutil.copyfile(page, review)
+    # The prep synchronizer copies canonical boards into the current upload kit.
+    # Do not recreate retired aliases or overwrite historical review snapshots.
     print(f"wrote {page.relative_to(ROOT)} ({image.width}x{image.height})")
-    print(f"copied byte-identically to {prep.relative_to(ROOT)} and {review.relative_to(ROOT)}")
 
 
 def main() -> None:

@@ -934,10 +934,10 @@ def render_flattery():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/avoid-traps/flattery-trap-praise-loop-alternative.jpg",
-        "board-review-first-four/current-selected/avoid-traps/flattery-trap-cycle-of-praise.jpg",
-        "course-assets/flattery-trap/flattery-trap-praise-loop.jpg",
-        "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg",
+        "board-review-first-four/alternatives/avoid-traps/flattery-engagement-feedback-praise-loop-alternative.jpg",
+        "board-review-first-four/current-selected/avoid-traps/flattery-engagement-cycle-of-praise.jpg",
+        "course-assets/flattery-engagement/flattery-engagement-feedback-praise-loop.jpg",
+        "course-assets/flattery-engagement/flattery-engagement-cycle-of-praise.jpg",
     ])
 
 

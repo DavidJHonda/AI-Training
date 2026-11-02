@@ -196,16 +196,6 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/questions-matter/make-the-question-better.html"
   },
   {
-    "id": "critical",
-    "lesson": "critical",
-    "lessonTitle": "Critical Thinking",
-    "section": "Work With AI",
-    "title": "What’s Missing?",
-    "type": "Activity",
-    "note": "Find the information AI needed before it could give a useful answer.",
-    "href": "group-exercises/whats-missing/whats-missing.html"
-  },
-  {
     "id": "unexpected",
     "lesson": "unexpected",
     "lessonTitle": "Unexpected Results",
@@ -214,6 +204,16 @@ window.COURSE_GROUP_ACTIVITIES = [
     "type": "Activity",
     "note": "Guess together, then reveal eight unexpected outcomes in a leader-led group discussion.",
     "href": "group-exercises/unexpected-results/what-happened-next.html"
+  },
+  {
+    "id": "critical",
+    "lesson": "critical",
+    "lessonTitle": "Critical Thinking",
+    "section": "Build Your Skills",
+    "title": "What’s Missing?",
+    "type": "Activity",
+    "note": "Find the information AI needed before it could give a useful answer.",
+    "href": "group-exercises/whats-missing/whats-missing.html"
   },
   {
     "id": "wherestheline",

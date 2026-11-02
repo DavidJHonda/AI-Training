@@ -16,14 +16,14 @@ import build_when_you_need_more_reroll_review as common
 
 ROOT=Path(__file__).resolve().parents[2]
 AUDIT=ROOT/'video-audit/flattery-five-moves-hybrid-v3-2026-09-07'
-OUT=ROOT/'Prompts/flattery-trap-five-moves-patched-v3.mp4'
-RAW=ROOT/'Prompts/flattery-trap.mp4'
-DONOR=ROOT/'Prompts/flattery-trap-5-moves.mp4'
+OUT=ROOT/'Prompts/flattery-engagement-three-moves-patched-v3.mp4'
+RAW=ROOT/'Prompts/flattery-engagement-feedback.mp4'
+DONOR=ROOT/'Prompts/flattery-engagement-feedback-5-moves.mp4'
 FF=common.FFMPEG
 at=common.at
 P,A,B,T='#4f2fc4','#a9760c','#1652f0','#0e8f86'
 sources=[RAW,DONOR]
-boards={k:asset_path('illustrations', f'flattery-trap-{s}-v2.jpg') for k,s in [('gatsby','comparison'),('loop','praise-loop'),('quote','sycophancy'),('moves','five-moves')]}
+boards={k:asset_path('illustrations', {'comparison':'flattery-engagement-feedback-comparison-v2.jpg','praise-loop':'flattery-engagement-feedback-praise-loop-v2.jpg','sycophancy':'flattery-engagement-sycophancy-v2.jpg','five-moves':'flattery-engagement-three-moves-v2.jpg'}[s]) for k,s in [('gatsby','comparison'),('loop','praise-loop'),('quote','sycophancy'),('moves','five-moves')]}
 states={0:[],1:[]}
 
 def add(src,start,end,board,label,rect=None,color=P,camera=None,move=0):
@@ -74,7 +74,7 @@ def sha(path):
 def main():
     AUDIT.mkdir(parents=True,exist_ok=True)
     (AUDIT/'qa').mkdir(exist_ok=True)
-    protected={str(p):sha(p) for p in [RAW,DONOR,ROOT/'course-assets/flattery-trap/flattery-trap.mp4']}
+    protected={str(p):sha(p) for p in [RAW,DONOR,ROOT/'course-assets/flattery-engagement/archive/flattery-engagement-feedback-installed.mp4']}
     # Atomic shot replacement: inspect source sequentially, no timestamp seeks.
     cap=cv2.VideoCapture(str(RAW)); mirror=None; title=None
     for f in range(at(136.5)+1):
@@ -121,7 +121,7 @@ def main():
             rect=v.project_rect(v.map_rect(s['rect'],ox,oy),cam)
             v.rounded_ring(out,rect,v.hex_bgr(s['color']),radius=18,thickness=5)
         return out
-    close=cv2.imread(str(ROOT/'course-assets/flattery-trap/flattery-trap-close.jpg'))
+    close=cv2.imread(str(ROOT/'course-assets/flattery-engagement/flattery-engagement-close.jpg'))
     close=cv2.resize(close,(1600,900),interpolation=cv2.INTER_AREA)
     def render_close(frame):
         # Same fixed close framing and timing as common.render_close.
@@ -152,7 +152,7 @@ def main():
                 ok,native=cap.read();assert ok;positions[src]+=1
                 active=next((s for s in states[src] if s['start']<=f<s['end']),None)
                 if src==0 and f>=at(275.35):out=render_close(f);label='standard-close'
-                elif src==0 and 598<=f<687:out=title.copy();label='flattery-trap-title'
+                elif src==0 and 598<=f<687:out=title.copy();label='flattery-engagement-feedback-title'
                 elif src==1 and any(at(a)<=f<at(b) for a,b in native_windows):out=native;label='donor-native'
                 elif active:out=render_state(active,f);label=active['board']+'/'+active['label']
                 else:out=native;label=f'native-{src}'

@@ -28,7 +28,11 @@ Written rules return the same result every time.
 
 ## Rules vs. Patterns
 
-Traditional software follows instructions written by programmers. AI learns patterns from examples during training and uses those patterns to answer you. People still write the code that trains and runs AI, but they don’t write each answer.
+Traditional software follows instructions written by programmers.
+
+AI learns patterns from examples during training and uses those patterns to answer you.
+
+People still write the code that trains and runs AI, but they don’t write each answer.
 
 ### Board 2: A Cooking Analogy
 
@@ -50,7 +54,9 @@ Learned patterns. Different dishes.
 
 ## Structured vs. Unstructured Data
 
-Traditional software usually needs information entered in a specific structure. Think of a spreadsheet, with rows and columns. That’s **structured data**.
+Traditional software usually needs information entered in a specific structure.
+
+Think of a spreadsheet, with rows and columns. That’s **structured data**.
 
 AI can work with **unstructured data**. You don’t need to organize it into specific rows and columns. Give it what you have, and it can help make sense of it.
 
@@ -64,11 +70,15 @@ Here’s the same short playlist in both formats. Notice the difference?
 
 **Teaching content:**
 
-Traditional Software: Structured Data. A table has Song, Artist, and Play Order columns: Blinding Lights by The Weeknd is first, Levitating by Dua Lipa is second, and As It Was by Harry Styles is third.
+On the left, traditional software uses structured data. The table has Song, Artist, and Play Order columns: Blinding Lights by The Weeknd is first, Levitating by Dua Lipa is second, and As It Was by Harry Styles is third.
 
-AI: Unstructured Data. Handwritten homecoming notes contain the same songs and artists, with an arrow saying “start here!” beside Blinding Lights, “play this last!” beside As It Was, and Shake It Off crossed out. The information is not arranged into consistent fields.
+On the right, AI works with unstructured data. Handwritten homecoming notes contain the same songs and artists, with an arrow saying “start here!” beside Blinding Lights and “play this last!” beside As It Was. Shake It Off is crossed out and does not appear in the table. The information is not arranged into consistent fields.
 
-AI can do this because, during training, it learned patterns in handwriting, language, and visual clues like arrows and crossed-out words. It uses those patterns to help interpret your notes, even when they aren’t neatly organized.
+## How AI Interprets the Notes
+
+AI can do this because, during training, it learned patterns in handwriting, language, and visual clues like arrows and crossed-out words.
+
+It uses those patterns to help interpret your notes, even when they aren’t neatly organized.
 
 ## The downside
 

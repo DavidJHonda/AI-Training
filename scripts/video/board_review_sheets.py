@@ -28,7 +28,7 @@ SECTION_PREFIXES = {
     ),
     "avoid-traps": (
         "opener-avoid-", "hallucination-", "training-bias-", "document-trap-",
-        "trust-trap-", "flattery-trap-", "engagement-trap-", "support-trap-",
+        "trust-trap-", "flattery-engagement-feedback-", "flattery-engagement-followup-", "support-trap-",
         "fake-trap-",
     ),
 }

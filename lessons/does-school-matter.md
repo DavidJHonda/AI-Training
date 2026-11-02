@@ -38,7 +38,7 @@ School is where you get to build what you bring to the work. Learn how things wo
 
 Knowledge: go deep in a subject you care about. Become someone people turn to for your knowledge.
 
-Skills: practice writing, building, analyzing, and solving problems. Learn to listen, communicate, and work with people.
+Skills: learn to write, build, solve problems, and work with people. And practice thinking critically. Question claims, weigh evidence, and make informed decisions.
 
 School is where you get to build what you bring to the work.
 

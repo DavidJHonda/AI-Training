@@ -12,7 +12,7 @@ const out = path.join(root, 'course-assets/does-school-matter');
 const reportDir = path.join(root, 'tmp/school-build-spec');
 const boards = [{id:'what-school-helps-you-build',title:'What School Helps You Build',cards:[
  ['Knowledge','Go deep in a subject you care about. Become someone people turn to for your knowledge.','#4f2fc4','79,47,196'],
- ['Skills','Practice writing, building, analyzing, and solving problems. Learn to listen, communicate, and work with people.','#1652f0','22,82,240']
+ ['Skills','Learn to write, build, solve problems, and work with people. And practice thinking critically. Question claims, weigh evidence, and make informed decisions.','#1652f0','22,82,240']
 ],banner:'School is where you get to build what you bring to the work.'}];
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 function html(board) {

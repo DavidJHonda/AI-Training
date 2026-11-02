@@ -70,15 +70,11 @@ That’s what gets in. Here’s what doesn’t get in automatically.
 
 **Teaching content:**
 
-Older chats: the model doesn’t see every conversation you’ve had. The app has to bring relevant information into this one.
+Files, Websites, and Other Apps: Having your assignment open on your laptop doesn’t mean AI can use it. Share the relevant material in the chat, or use the app’s tools to make it available.
 
-Web pages: the model needs information from the page, whether you share it or the app retrieves it.
+Earlier Conversations: Don’t assume AI has everything you said in another chat. Memory and projects can bring information forward, but you may still need to supply missing details.
 
-Files on your computer: a file sitting on your computer isn’t enough. Upload it or give the app access.
-
-Other apps and tabs: having something open doesn’t put it in the conversation. You need to share it or connect the app.
-
-If it isn’t in the context window, the model can’t see it.
+Before you ask, check: does AI have the information it needs?
 
 ## The Forgetting Problem
 

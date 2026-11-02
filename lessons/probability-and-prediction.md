@@ -1,4 +1,4 @@
-## UNDERSTAND AI
+## START SMARTER
 
 # Probability & Prediction
 

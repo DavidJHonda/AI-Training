@@ -134,6 +134,10 @@ the Right or Wrong? activity is not narrated.
 
 ### pace-of-change
 
+**2026-11-03 lesson revision:** The current page and upload kit replace the two future-ideas boards with `pace-of-change-three-future-ideas.jpg`, a canonical EE-3FB board for RSI, AGI, and ASI. Rebuild with `.video-venv/bin/python scripts/video/render_pace_future_ideas.py`. No status or takeaway banners. The older boards remain source artwork and historical video dependencies. The revised lesson is now installed locally as v12; the build history below describes earlier versions.
+
+**Local release 2026-11-03:** v12 (3:42.233), cache key `20261103ship12`, pill 4 min. Roll 1 base, two roll 2 narration passages, current canonical boards, and supporting drawings. Approved by the owner after technical verification and disclosure that direct listening/continuous playback remain unperformed. Shipped locally; queued for batch deployment. Review: `video-audit/pace-of-change-build-2026-11-03-v12/REVIEW.md`.
+
 **Local release 2026-09-30:** v10 (4:22.40), cache key `20260930ship10`, pill 4 min.
 Approved source wording correction, three supporting visuals, final-board framing repair, and
 removal of the four-idea preview while preserving the conceptual-map transition. Installed locally;
@@ -155,47 +159,15 @@ History: v2 (shipped 2026-09-18) was graded narration KEEP / pictures REROLL on 
 (`video-audit/pace-of-change-comparison-2026-09-23/REVIEW.md`) gave review builds v4/v5 on roll 1;
 the race-beat reroll (rolls 3 and 4 of 2026-09-24) gave v6 (v5 re-pictured), then v7/v8 on roll 4.
 
-- Markdown: `lessons/pace-of-change.md` (rewritten 2026-09-23: board titles carried as spoken
-  sentences; the race paragraph moved out of Board 1 under `## A RACE TO DOMINATE`; the slow-down beat
-  under `## READ THAT THIRD ONE AGAIN`; the required lines split onto their own lines; Board 4 now
-  carries both tags and the ASI card's "Nobody knows whether it is possible."; the Markdown-only
-  two-groups sentence and the "Now switch…" connective removed, their guardrail now in the prompt).
-  **Approved source correction (2026-09-30):** page and Markdown now say releases can improve
-  capability, speed, or cost. The prompt forbids claiming every release improves every task or
-  immediately replaces the previous model. v10 carries the approved overbroad-narration cut.
-- Prompt: `gemini-notebook/pace-of-change/PROMPT.txt` (493 words, four blocks)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/pace-of-change/` (synced 2026-09-24)
-- Canonical folder: `course-assets/pace-of-change/`
-- Boards in lesson order (no faces; all upload):
-  - `pace-of-change-three-years.jpg` — upload
-  - `pace-of-change-what-speeds-it-up.jpg` — upload
-  - `pace-of-change-could-ai-improve-itself.jpg` — upload
-  - `pace-of-change-how-far-can-ai-go.jpg` — upload
-  - `pace-of-change-close.jpg` — upload
+**Current reroll package, 2026-11-03:** `gemini-notebook/pace-of-change/PREP-NOTES.md` records the current beat spine, generation instructions, and review requirements. Upload the five files in `gemini-notebook/pace-of-change/upload/` and paste the current `PROMPT.txt` into customization. Save as `Prompts/pace-of-change-reroll.mp4` (or the next unused suffix). The three-roll evaluation and v12 build are complete; this package is retained for future regeneration.
 
-**Beat spine**
+Current boards, in order:
+- `pace-of-change-three-years.jpg`
+- `pace-of-change-what-speeds-it-up.jpg`
+- `pace-of-change-three-future-ideas.jpg`
+- `pace-of-change-close.jpg`
 
-1. Hook: the argument is louder because the technology is advancing at blazing speeds.
-2. ChatGPT: 2023 vs. 2026: all four rows, both years each, in order (answering, images, context
-   window, doing).
-3. The race (over a drawn scene, board gone): new models every couple of months, possible improvements
-   in capability, speed, or cost; "A limitation can disappear quickly, so today's 'no' is not necessarily permanent."
-4. Why So Fast?: three concepts by name with their explanations; then "Slow down and read that third
-   one again." and "AI is already helping people build better AI."
-5. Four future ideas (drawn scene): four ideas, one happening in limited form, three not demonstrated;
-   ideas to understand, never steps in order.
-6. Could AI Improve Itself?: automated AI research (limited form) and self-improving AI (not
-   demonstrated); banner "One is human-directed. The other would be a self-reinforcing loop."
-7. How Far Can AI Go?: AGI (no agreed finish line; no accepted definition or test), ASI (hypothetical;
-   nobody knows whether it is possible); banner "Nobody knows whether AI will reach either milestone."
-8. Close on the two lines with nothing after.
-
-**Required verbatim lines:** the six in the prompt (the today's-"no" line, the AI-builds-AI line, the
-two banners, the two closing lines).
-
-**Banned words:** ultimate, trajectory, theoretical, exponential, stakeholders, leverage, framework,
-utilize, paradigm; no screen/tag/board-position references; no product names, release dates, charts or
-timelines beyond the Markdown; no redrawn board diagrams; the lab is not narrated.
+The beat spine is: opening hook; four 2023/2026 comparisons; the AI-company race; Why So Fast?; the AI-builds-AI bridge; RSI, AGI, and ASI as three parallel future ideas; the two closing lines. No Automated AI Research card, old status labels, comparison banners, or deleted speed claim. All boards have no visible faces. The current prompt requires four verbatim lines: today's “no,” AI already helping people build better AI, and the two closing lines. Historical v8/v10 notes above describe superseded versions; v12 follows the current lesson.
 
 ### big-downside
 

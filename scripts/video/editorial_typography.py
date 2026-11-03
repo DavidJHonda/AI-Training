@@ -91,13 +91,14 @@ def draw_inner_title(
     *,
     fill: str,
     anchor: str = "la",
+    size: int = 40,
 ) -> None:
     draw_tracked(
         draw,
         position,
         text,
-        face("bold", 40),
+        face("bold", size),
         fill,
-        INNER_TITLE_TRACKING,
+        INNER_TITLE_TRACKING * size / 40,
         anchor=anchor,
     )

@@ -46,7 +46,7 @@ Better training. AI learns from more and better data. That translates into bette
 
 More compute. AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute.
 
-AI helps build AI. The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people.
+AI helps build AI. The strongest AI models help people write code for the next models.
 
 ## READ THAT THIRD ONE AGAIN
 
@@ -54,41 +54,25 @@ Slow down and read that third one again.
 
 AI is already helping people build better AI.
 
-## 4 FUTURE IDEAS
+## THREE FUTURE IDEAS
 
-What does the future of AI look like? There are four key ideas driving the AI companies forward. One is happening in limited form. The other three describe a proposed process or possible milestones that have not been demonstrated.
+What does the future of AI look like? Here are three ideas the AI companies are working on.
 
-### Board 3: Could AI Improve Itself?
+### Board 3: Three Future Ideas
 
-**Image file:** `pace-of-change-could-ai-improve-itself.jpg`
+**Image file:** `pace-of-change-three-future-ideas.jpg`
 
-![Could AI Improve Itself?](pace-of-change-could-ai-improve-itself.jpg)
-
-**Teaching content:**
-
-Could AI improve itself?
-
-Automated AI research is happening in limited form. AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.
-
-Self-improving AI is not demonstrated. An AI improves its own design. The stronger version then does it again, creating a loop with little or no human direction.
-
-One is human-directed. The other would be a self-reinforcing loop.
-
-### Board 4: How Far Can AI Go?
-
-**Image file:** `pace-of-change-how-far-can-ai-go.jpg`
-
-![How Far Can AI Go?](pace-of-change-how-far-can-ai-go.jpg)
+![Three Future Ideas](pace-of-change-three-future-ideas.jpg)
 
 **Teaching content:**
 
-How far can AI go?
+Three future ideas.
 
-General intelligence, AGI, has no agreed finish line. It usually means human-level ability across many kinds of work, but there is no accepted definition or test.
+Recursive Self-Improvement (RSI). AI builds a better version of itself. That version repeats the process with little or no human direction.
 
-Superintelligence, ASI, is hypothetical. It means AI exceeding the best humans across nearly every cognitive field. Nobody knows whether it is possible.
+Artificial General Intelligence (AGI). AI matches human ability across many kinds of work. There is no agreed definition or test.
 
-Nobody knows whether AI will reach either milestone.
+Artificial Superintelligence (ASI). AI exceeds the best humans across nearly every cognitive field.
 
 ### Close
 

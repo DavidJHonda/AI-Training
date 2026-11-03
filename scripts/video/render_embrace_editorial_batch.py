@@ -96,6 +96,7 @@ class CardBoard:
     accents: tuple[str, ...] = ()
     art_files: tuple[str, ...] = ()
     art_insets: tuple[tuple[int, int, int, int], ...] = ()
+    card_title_size: int = CARD_TITLE_SIZE
 
 
 @dataclass(frozen=True)
@@ -117,7 +118,7 @@ CARD_BOARDS = (
         cards=(
             Card("Better Training", "AI learns from more and better data. That translates into better results."),
             Card("More Compute", "AI requires lots of chips sitting in data centers. AI companies are spending billions to increase their compute."),
-            Card("AI Helps Build AI", "The strongest AI models help people write code for the next models. On well-defined tasks, they can move much faster than people."),
+            Card("AI Helps Build AI", "The strongest AI models help people write code for the next models."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-accelerants/art-sheet.png",
         page_output="course-assets/pace-of-change/pace-of-change-what-speeds-it-up.jpg",
@@ -128,8 +129,8 @@ CARD_BOARDS = (
         key="pace-ai-improvement",
         title="Could AI Improve Itself?",
         cards=(
-            Card("Automated AI Research", "AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results.", "HAPPENING IN LIMITED FORM"),
-            Card("Self-Improving AI", "An AI improves its own design. The stronger version then does it again, creating a loop with little or no human direction.", "NOT DEMONSTRATED"),
+            Card("Automated AI Research", "AI can write code, run experiments, and analyze results. Researchers still set the goals, direct the work, and verify the results."),
+            Card("Recursive Self-Improvement", "AI builds a better version of itself. That version then builds an even better version, repeating the cycle with little or no human direction."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-ai-improvement/art-sheet.png",
         page_output="course-assets/pace-of-change/pace-of-change-could-ai-improve-itself.jpg",
@@ -141,13 +142,12 @@ CARD_BOARDS = (
         key="pace-ai-capability",
         title="How Far Can AI Go?",
         cards=(
-            Card("General Intelligence (AGI)", "Usually means human-level ability across many kinds of work, but there is no accepted definition or test.", "NO AGREED FINISH LINE"),
-            Card("Superintelligence (ASI)", "AI exceeding the best humans across nearly every cognitive field. Nobody knows whether it is possible.", "HYPOTHETICAL"),
+            Card("General Intelligence (AGI)", "Usually means human-level ability across many kinds of work, but there is no accepted definition or test."),
+            Card("Superintelligence (ASI)", "AI exceeding the best humans across nearly every cognitive field. Nobody knows whether it is possible."),
         ),
         art_sheet="scripts/video/assets/editorial-embrace/pace-ai-capability/art-sheet.png",
         page_output="course-assets/pace-of-change/pace-of-change-how-far-can-ai-go.jpg",
         prep_output="course-assets/pace-of-change/pace-of-change-how-far-can-ai-go.jpg",
-        takeaway="Nobody knows whether AI will reach either milestone.",
         accents=(BLUE, RED),
     ),
     CardBoard(
@@ -417,7 +417,9 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
     if len(accents) != count or any(accent not in LOCKED_ACCENTS for accent in accents):
         raise ValueError(f"{board.key}: assign one locked accent to every card")
 
-    card_title_font = face("bold", CARD_TITLE_SIZE)
+    card_title_font = face("bold", board.card_title_size)
+    title_line = round(TITLE_LINE * board.card_title_size / CARD_TITLE_SIZE)
+    title_tracking = INNER_TITLE_TRACKING * board.card_title_size / CARD_TITLE_SIZE
     body_font = face("medium", BODY_SIZE)
     eyebrow_font = face("heavy", EYEBROW_SIZE)
     quote_font = face("heavy", QUOTE_SIZE)
@@ -447,8 +449,8 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
     has_quote = any(card.quote for card in board.cards)
     for index, card in enumerate(board.cards):
         text_width = card_widths[index] - 2 * TEXT_SIDE
-        heading_lines = wrap(measure, card.title, card_title_font, text_width) if board.key == "work-what-changes" else [card.title]
-        assert all(tracked_width(measure, line, card_title_font, INNER_TITLE_TRACKING) <= text_width for line in heading_lines), f"{board.key}: heading exceeds card width"
+        heading_lines = wrap(measure, card.title, card_title_font, text_width) if board.key in ("work-what-changes", "pace-future-ideas") else [card.title]
+        assert all(tracked_width(measure, line, card_title_font, title_tracking) <= text_width for line in heading_lines), f"{board.key}: heading exceeds card width"
         title_rows.append(heading_lines)
         body_lines = wrap(measure, card.body, body_font, text_width)
         quote_lines = wrap(measure, card.quote or "", quote_font, text_width)
@@ -456,7 +458,7 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
         max_body_lines = max(max_body_lines, len(body_lines))
         max_quote_lines = max(max_quote_lines, len(quote_lines))
 
-    title_height = max(map(len, title_rows)) * TITLE_LINE
+    title_height = max(map(len, title_rows)) * title_line
     eyebrow_height = 32 if has_eyebrow else 0
     eyebrow_gap = 10 if has_eyebrow else 0
     quote_gap = 20 if has_quote else 0
@@ -547,7 +549,7 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
                 draw.text((text_x + 14, text_y + 15), label, font=eyebrow_font, fill=accent, anchor="lm")
             text_y += eyebrow_height + eyebrow_gap
         for line_index, line in enumerate(title_rows[index]):
-            draw_inner_title(draw, (text_x, text_y + line_index * TITLE_LINE), line, fill=accent)
+            draw_inner_title(draw, (text_x, text_y + line_index * title_line), line, fill=accent, size=board.card_title_size)
         body_y = text_y + title_height + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
         if has_quote and quote_lines:

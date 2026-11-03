@@ -2,13 +2,19 @@
 
 # Big Upside
 
-We’ve said it many times: AI is a giant calculator running math at a scale nobody can picture. But that calculator can do some amazing things. It helped solve a problem that had challenged scientists for fifty years.
+We’ve said it many times: AI is a giant calculator running math at a scale nobody can picture.
 
-## The Protein Folding Problem
+But that calculator can do some amazing things.
 
-Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs.
+It can help scientists investigate disease, help doctors find cancer, and help someone read a label they couldn’t read before. The big upside isn’t only about what AI might do someday. It’s already happening.
 
-Figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold helped change the scale.
+## 1 · Giving Scientists a Head Start
+
+Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs. A protein’s shape helps determine what it does.
+
+Knowing a protein’s shape can help scientists understand how a disease works and look for new medicines to treat it.
+
+Figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold changed the scale.
 
 ### Board 1: A New Scale for Science
 
@@ -18,87 +24,91 @@ Figuring out their shapes was a slow, difficult job for scientists. Then an AI s
 
 **Teaching content:**
 
-AlphaFold brought a new scale to science.
+A New Scale for Science.
 
-A protein’s shape helps determine what it does.
+Experiments.
+About 200,000 protein structures determined through decades of experiments.
 
-Through decades of experiments, scientists had determined about 200,000 protein structures.
-
-AlphaFold predicted over 200 million protein structures, shared free.
-
-Shared freely to help scientists study disease and develop medicines.
+AlphaFold AI.
+Over 200 million protein structures predicted and shared free.
 
 ## A Starting Point for Research
 
-Those predictions give researchers a starting point for studying diseases and developing medicines.
+A prediction isn’t a finished medicine. Scientists still have to test ideas and do the research.
 
-## From Games to a Nobel Prize
+## 2 · Helping Doctors Find Cancer
 
-Who helped make that happen? Demis Hassabis, the co-founder of DeepMind. His path to a Nobel Prize started with two things that might sound familiar: chess and video games.
+When doctors examine breast scans, they’re looking for signs that can be difficult to spot.
 
-### Board 2: Demis Hassabis: From Chess and Games to the Nobel Prize
+In a Swedish trial involving over 100,000 women, doctors using AI found more cancers than those working without it.
 
-**Image file:** `big-upside-hassabis-timeline.jpg`
+### Board 2: Helping Doctors Find Cancer
 
-![Demis Hassabis: From Chess and Games to the Nobel Prize](big-upside-hassabis-timeline.jpg)
+**Image file:** `big-upside-cancer.jpg`
 
-**Teaching content:**
-
-Hassabis became a chess master at thirteen and helped design the video game Theme Park at seventeen. He went on to study the brain and co-found DeepMind. His team developed AlphaFold and shared its predictions free. That work led to a Nobel Prize in Chemistry.
-
-A kid who loved games helped solve a fifty-year science problem.
-
-## Reaching Researchers Around the World
-
-More than three million people in over 190 countries have used AlphaFold. In 2024, Hassabis shared the Nobel Prize in Chemistry for protein structure prediction.
-
-When he won it, Hassabis said: “I’ve dedicated my career to advancing AI because of its unparalleled potential to improve the lives of billions of people.”
-
-## More of the Big Upside
-
-AI finds patterns in everything from medical scans to river levels. People are using that ability to solve problems that affect our health and daily lives.
-
-AI is already accelerating work that protects and improves lives.
-
-### Board 3: Helping People Live Better
-
-**Image file:** `big-upside-examples.jpg`
-
-![Helping People Live Better](big-upside-examples.jpg)
+![Helping Doctors Find Cancer](big-upside-cancer.jpg)
 
 **Teaching content:**
 
-Helping People Live Better.
+Helping Doctors Find Cancer.
 
-Finding Cancer. In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it.
+AI Flags. AI highlights patterns in a scan that deserve a closer look.
 
-Doctors review the breast scans and decide what care is needed.
+Doctors Review. Doctors examine the scan and decide what care is needed.
 
-Reading Aloud. A menu or food label presents a challenge for blind people.
+## 3 · Making Everyday Tasks Easier
 
-AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks.
+Think about how often you read something without giving it a second thought: a menu, a food label, a sign.
 
-Flood Warnings. Flood warnings give people time to prepare and move to safety.
+For someone who is blind, that information can be difficult to access.
 
-AI helps provide free warnings days ahead, including places without equipment that measures river levels.
+### Board 3: Reading Everyday Information
 
-The upside is already reaching people.
+**Image file:** `big-upside-reading.jpg`
 
-## You Have an Answer Ready
+![Reading Everyday Information](big-upside-reading.jpg)
 
-Every one of those is true.
+**Teaching content:**
 
-So the next time someone asks, “What good does AI do for society?”, you have an answer ready:
+Reading Everyday Information.
 
-“For starters, AI is accelerating work that protects and improves lives.”
+Point the Camera. A phone camera brings a menu or food label into view.
 
-## One More Thing About Demis
+Hear the Words. AI reads the text aloud, making the information easier to access.
 
-His story doesn’t start in a lab. It starts with a kid who loved chess and video games.
+## An Everyday Benefit
 
-The brilliance is rare. But the attitude is a choice that you can make starting today. Whatever you’re good at, point it at something that helps people.
+These tools can also describe photos. Making an everyday task easier is a meaningful benefit.
 
-You might not win the Nobel Prize. But who are we to say you won’t?
+## 4 · Giving People Time to Prepare
+
+For a community in a flood’s path, time matters. AI helps provide free warnings, including in places without equipment that measures river levels.
+
+### Board 4: Earlier Flood Warnings
+
+**Image file:** `big-upside-flood.jpg`
+
+![Earlier Flood Warnings](big-upside-flood.jpg)
+
+**Teaching content:**
+
+Earlier Flood Warnings.
+
+Earlier Warning. AI helps provide flood warnings days ahead.
+
+Time to Act. People can prepare and move to safety before the water arrives.
+
+## What These Examples Have in Common
+
+Scientists get a starting point. Doctors get help finding something important. People get access to information. Communities get time to prepare.
+
+These are making a difference in people's lives.
+
+### Close
+
+**Image file:** `big-upside-close.jpg`
+
+![Closing message](big-upside-close.jpg)
 
 ## Closing Message
 

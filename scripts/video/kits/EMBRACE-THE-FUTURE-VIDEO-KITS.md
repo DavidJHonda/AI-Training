@@ -268,9 +268,21 @@ jailbreak is performed.
 
 ### big-upside
 
+**Final reroll preparation, 2026-11-03:** Use `gemini-notebook/big-upside/PREP-NOTES.md` and `PROMPT.txt`; these supersede earlier generation directions below. Six uploads: current Markdown plus five canonical boards. The 451-word prompt covers the finalized four-example lesson, why protein shapes matter before AlphaFold, the amber cancer board, and the shortened ending. The five-step Find One More Upside lab is page-only. Required narration passages stand alone in the source. Save as `Prompts/big-upside-reroll.mp4` or the next unused reroll name. No new generation or installation has occurred.
+
 **v8 review candidate built 2026-10-23:** `Prompts/big-upside-v8.mp4`, 3:19.567, removes three extra applications and uses the single Helping People Live Better board. AlphaFold, Hassabis, and the closing are retained; the doctor’s judgment sentence now follows Finding Cancer. Review: `video-audit/big-upside-three-examples-v8-2026-10-23/REVIEW.md`. Visual/mechanical checks completed; audio joins still need listening. Not installed or published.
 
-**Current lesson and preparation updated 2026-10-23:** Keep AlphaFold and the Hassabis story. One Helping People Live Better board now covers Finding Cancer, Reading Aloud, and Flood Warnings. The existing video still teaches six examples; a video edit remains separate. Earlier build records below describe historical versions.
+**Current lesson and preparation updated 2026-11-03:** Four benefits, with AlphaFold as the main example. The Demis acknowledgment has been removed. Cancer detection, reading aloud, and flood warnings each have a dedicated section and single-scene editorial board, using the established dimensional object style. The lab is now Find One More Upside: open ChatGPT, start a new chat, enter an interest to personalize the prompt, find a real example, and check its source. V12 now implements this rewrite and is installed locally at cache key `20261103ship12` (3:32.500), commit `50784bfb`, awaiting the authorized batch push. Review and listening limitations: `video-audit/big-upside-build-2026-11-03-v12/REVIEW.md`.
+
+Current upload order: `big-upside-protein.jpg`, `big-upside-cancer.jpg`, `big-upside-reading.jpg`, `big-upside-flood.jpg`, `big-upside-close.jpg`, plus `big-upside.md`. The canonical text, prompt, and registry are the source of truth; the generated bundle is synchronized. Built-in imagegen source art and exact prompts: `output/imagegen/big-upside-four-benefits-2026-11-03/`. Board renderer: `scripts/video/render_big_upside_benefits.py`.
+
+Current beat spine: giant calculator and benefits today; protein shapes and research starting points; AI flags and doctors review; phone reading and everyday access; early flood information and preparation; the four human benefits; the two closing lines. Do not restore the childhood story, quote, timeline, or Nobel encouragement. Distinguish predictions from experimentally established structures, retain human medical decisions, and avoid promising reliable warnings in every case.
+
+**Consistency pass, 2026-11-03:** All four teaching boards now share the same 1600×662 layout: illustration left, two teaching points right. The protein board removes its separate shape panel and gold band; shape explains function in the introductory prose. Cancer art is a neutral abstract scan, without recognizable anatomy. Board titles are A New Scale for Science, Helping Doctors Find Cancer, Reading Everyday Information, and Earlier Flood Warnings. The prose and prompt avoid repeating the board captions. Replacement art and prompts are recorded in `output/imagegen/big-upside-four-benefits-2026-11-03/prompts-v2.json`.
+
+**Copy and color pass, 2026-11-03:** The science board now labels “AlphaFold AI.” The cancer illustration and teaching labels use the course’s amber palette, leaving teal for reading. Flood-warning prose is one paragraph. The summary ends with “These are making a difference in people's lives.” and leads directly to the closing board; the redundant question-and-answer ending is removed. Amber source art and prompt are recorded in `output/imagegen/big-upside-four-benefits-2026-11-03/prompts-v3.json`.
+
+**Historical production records follow.** Their board lists and narration instructions are superseded by the current prompt and registry.
 
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; lesson rewritten 2026-09-24.** Live `big-upside.mp4` is v5 (below).
 

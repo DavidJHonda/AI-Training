@@ -12639,99 +12639,130 @@ function QuestionsValuableSection(props) {
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Prompting Matters" })
   );
 }
+function BigUpsideBenefitsLab() {
+  var E = React.createElement;
+  var _c = useLocalStorage("llm-lab-big-upside-benefits-steps-v1", {}), checked = _c[0], setChecked = _c[1];
+  var _i = useLocalStorage("llm-big-upside-interest", ""), interest = _i[0], setInterest = _i[1];
+  var chosenInterest = typeof interest === "string" ? interest.trim() : "";
+  var STEPS = [
+    {
+      title: "Open ChatGPT",
+      body: ["Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+    },
+    {
+      title: "Start a new chat",
+      body: "Start a new chat outside any project. Use regular chat with the default model."
+    },
+    {
+      title: "Pick something you care about",
+      body: "Choose an interest you would like to explore: sports, animals, education, the environment, or something else.",
+      content: E("label", { htmlFor: "big-upside-interest-input", style: { display: "block" } },
+        E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Enter your interest here"),
+        E("input", {
+          id: "big-upside-interest-input",
+          type: "text",
+          value: typeof interest === "string" ? interest : "",
+          onChange: function(event) { setInterest(event.target.value); },
+          placeholder: "For example: sports, animals, or the environment",
+          autoComplete: "off",
+          style: {
+            width: "100%", boxSizing: "border-box", border: "1.5px solid var(--rule)", borderRadius: 9,
+            background: "var(--bg)", color: "var(--ink)", padding: "10px 12px",
+            fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.4, outlineColor: "var(--labAccent)"
+          }
+        }),
+        E("span", { style: { display: "block", marginTop: 6, color: "var(--inkMuted)", fontSize: 12.5, lineHeight: 1.45 } }, "Your answer will fill the next prompt automatically."))
+    },
+    {
+      title: "Find a real example",
+      body: "Copy this prompt and send it in your new ChatGPT conversation.",
+      prompt: "Find one real example of AI already helping people in " + (chosenInterest || "your chosen interest") + ". Explain what AI does, who benefits, and what people still need to do. Link to a source I can check. Distinguish something already in use from a future possibility.",
+      promptDisabled: !chosenInterest,
+      promptDisabledLabel: "Enter Interest First",
+      promptDisabledMessage: "Enter your interest in Step 3 to unlock this prompt."
+    },
+    {
+      title: "Check the source",
+      body: "Open the source link. Does it support ChatGPT’s explanation? Is the benefit happening now? If the link does not work or the source does not support the claim, ask ChatGPT for a better source or a different example."
+    }
+  ];
+  var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    title: "Find One More Upside",
+    hint: "Click the box after you finish each step.",
+    lead: "Find a real example of AI helping people in an area you care about, then check the source.",
+    action: E(ActivityCounter, { count: count, total: STEPS.length })
+  }, E(LabStepList, {
+    steps: STEPS,
+    checked: checked,
+    onToggle: function(i) { setChecked(function(previous) { var next = Object.assign({}, previous); next[i] = !previous[i]; return next; }); }
+  }));
+}
+
 function BigUpsideSection(props) {
   var E = React.createElement;
-  // LAB: the lesson's thesis made personal. The 200M-shape giveaway is a real,
-  // public website, so the lab is a field trip to it: pull a structure, spin it,
-  // have ChatGPT connect the shape to the job.
-  const [vaultChecked, setVaultChecked] = useState({});
-  const VAULT_LAB_STEPS = [
-    { title: "Open the vault", body: "The 200 million shapes from this lesson live at one address, run by DeepMind and Europe’s bioinformatics institute. Free, because they gave it away. This one goes in your browser, not in ChatGPT. Type it in:", prompt: "alphafold.ebi.ac.uk" },
-    { title: "Search for insulin", body: "Type insulin into the search box and look at the pile: thousands of results, insulin and its relatives from across the animal kingdom. That’s what 200 million shapes feels like through one keyhole." },
-    { title: "Open human insulin", body: "The search shows insulin’s whole extended family, and the famous one isn’t first in line. Skip straight to it: put human insulin’s own address in your browser. Working out one protein structure could take years.", prompt: "alphafold.ebi.ac.uk/entry/P01308" },
-    { title: "Spin it", body: "Drag the 3D shape around. Those ribbons and coils are the fold. That fold helps insulin fit the receptors it needs to activate. Its shape is essential to how it works. If the ribbons raise more questions than answers, ChatGPT is one tab away: ask it why the shape of a protein matters." },
-    { title: "Clock what just happened", body: "You just pulled up a protein structure in ten seconds. No lab, no PhD, no permission. That’s what “they gave the answers away” means: not just to scientists, to you." }
-  ];
-  var vaultCheckedCount = Object.keys(vaultChecked).filter(function(k) { return vaultChecked[k]; }).length;
-  var MORE = [
-    { title: "Finding Cancer", desc: "In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it. Doctors review the breast scans and decide what care is needed." },
-    { title: "Reading Aloud", desc: "A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks." },
-    { title: "Flood Warnings", desc: "Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels." }
-  ];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigupside" }),
-    E(BodyP, null,
-      "We’ve said it many times: AI is a giant calculator running math at a scale nobody can picture. But that calculator can do some amazing things. It helped solve a problem that had challenged scientists for fifty years."),
-    E(SectionKicker, null, "The protein folding problem"),
-    E(BodyP, null,
-      "Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs."),
-    E(BodyP, null,
-      "Figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold helped change the scale."),
+    E(BodyP, null, "We’ve said it many times: AI is a giant calculator running math at a scale nobody can picture."),
+    E(BodyP, null, "But that calculator can do some amazing things."),
+    E(BodyP, null, "It can help scientists investigate disease, help doctors find cancer, and help someone read a label they couldn’t read before. The big upside isn’t only about what AI might do someday. It’s already happening."),
+    E(SectionKicker, null, "1 · Giving Scientists a Head Start"),
+    E(BodyP, null, "Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs. A protein’s shape helps determine what it does."),
+    E(BodyP, null, "Knowing a protein’s shape can help scientists understand how a disease works and look for new medicines to treat it."),
+    E(BodyP, null, "Figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold changed the scale."),
     E("img", {
-      src: "course-assets/big-upside/big-upside-protein.jpg?v=20260924simple1",
-      alt: "A New Scale for Science. A protein’s shape helps determine what it does. About 200,000 protein structures determined through decades of experiments; over 200 million protein structures predicted by AlphaFold and shared free to help scientists study disease and develop medicines.",
+      src: "course-assets/big-upside/big-upside-protein.jpg?v=20261103benefits3",
+      alt: "A New Scale for Science. Experiments. About 200,000 protein structures determined through decades of experiments. AlphaFold AI. Over 200 million protein structures predicted and shared free.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
-    E(BodyP, null,
-      "Those predictions give researchers a starting point for studying diseases and developing medicines."),
-    E(SectionKicker, null, "FROM GAMES TO A NOBEL PRIZE"),
-    E(BodyP, null,
-      "Who helped make that happen? Demis Hassabis, the co-founder of DeepMind. His path to a Nobel Prize started with two things that might sound familiar: chess and video games."),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "A New Scale for Science"),
+      E("p", null, "Experiments. About 200,000 protein structures determined through decades of experiments."),
+      E("p", null, "AlphaFold AI. Over 200 million protein structures predicted and shared free.")),
+    E(BodyP, null, "A prediction isn’t a finished medicine. Scientists still have to test ideas and do the research."),
+    E(SectionKicker, null, "2 · Helping Doctors Find Cancer"),
+    E(BodyP, null, "When doctors examine breast scans, they’re looking for signs that can be difficult to spot."),
+    E(BodyP, null, "In a Swedish trial involving over 100,000 women, doctors using AI found more cancers than those working without it."),
     E("img", {
-      src: "course-assets/big-upside/big-upside-hassabis-timeline.jpg?v=20260829utility1",
-      alt: "Demis Hassabis: from chess master and game designer to studying the brain, co-founding DeepMind, AlphaFold, and the Nobel Prize in Chemistry.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+      src: "course-assets/big-upside/big-upside-cancer.jpg?v=20261103benefits3",
+      alt: "Helping Doctors Find Cancer. AI Flags. AI highlights patterns in a scan that deserve a closer look. Doctors Review. Doctors examine the scan and decide what care is needed.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "Demis Hassabis: from chess and games to the Nobel Prize"),
-      E("p", null, "Hassabis became a chess master at thirteen and helped design the video game Theme Park at seventeen. He went on to study the brain and co-found DeepMind. His team developed AlphaFold and shared its predictions free. That work led to a Nobel Prize in Chemistry."),
-      E("p", null, "A kid who loved games helped solve a fifty-year science problem.")),
-    E(BodyP, null,
-      "More than three million people in over 190 countries have used AlphaFold. In 2024, Hassabis shared the Nobel Prize in Chemistry for protein structure prediction."),
-    E(PullQuote, {
-      quote: "I’ve dedicated my career to advancing AI because of its unparalleled potential to improve the lives of billions of people.",
-      cite: "Demis Hassabis",
-      source: "On winning the 2024 Nobel Prize in Chemistry"
-    }),
-    E(SectionKicker, null, "More of the big upside"),
-    E(BodyP, null,
-      "AI finds patterns in everything from medical scans to river levels. People are using that ability to solve problems that affect our health and daily lives. AI is already accelerating work that protects and improves lives."),
+      E("h3", null, "Helping Doctors Find Cancer"),
+      E("p", null, "AI Flags. AI highlights patterns in a scan that deserve a closer look."),
+      E("p", null, "Doctors Review. Doctors examine the scan and decide what care is needed.")),
+    E(SectionKicker, null, "3 · Making Everyday Tasks Easier"),
+    E(BodyP, null, "Think about how often you read something without giving it a second thought: a menu, a food label, a sign."),
+    E(BodyP, null, "For someone who is blind, that information can be difficult to access."),
     E("img", {
-      src: "course-assets/big-upside/big-upside-examples.jpg?v=20261023three1",
-      alt: "Helping People Live Better. Finding Cancer: In a Swedish trial with over 100,000 women, doctors using AI found more cancers than those without it. Doctors review the breast scans and decide what care is needed. Reading Aloud: A menu or food label presents a challenge for blind people. AI tools on a phone can read the text aloud and describe photos, helping with everyday tasks. Flood Warnings: Flood warnings give people time to prepare and move to safety. AI helps provide free warnings days ahead, including places without equipment that measures river levels. The upside is already reaching people.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+      src: "course-assets/big-upside/big-upside-reading.jpg?v=20261103benefits2",
+      alt: "Reading Everyday Information. Point the Camera. A phone camera brings a menu or food label into view. Hear the Words. AI reads the text aloud, making the information easier to access.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
     }),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "More of the big upside"),
-      MORE.map(function(item, i) {
-        return E("p", { key: i }, E("strong", null, item.title + ": "), item.desc);
-      }),
-      E("p", null, "The upside is already reaching people.")),
-    E(BodyP, null,
-      "Every one of those is true. So the next time someone asks, “What good does AI do for society?”, you have an answer ready: ", E("strong", null, "“For starters, AI is accelerating work that protects and improves lives.”")),
-    E(BodyP, null,
-      "One more thing about Demis. His story doesn’t start in a lab. It starts with a kid who loved chess and video games. The brilliance is rare. But the attitude is a choice that you can make starting today. Whatever you’re good at, point it at something that helps people. You might not win the Nobel Prize. But who are we to say you won’t?"),
+      E("h3", null, "Reading Everyday Information"),
+      E("p", null, "Point the Camera. A phone camera brings a menu or food label into view."),
+      E("p", null, "Hear the Words. AI reads the text aloud, making the information easier to access.")),
+    E(BodyP, null, "These tools can also describe photos. Making an everyday task easier is a meaningful benefit."),
+    E(SectionKicker, null, "4 · Giving People Time to Prepare"),
+    E(BodyP, null, "For a community in a flood’s path, time matters. AI helps provide free warnings, including in places without equipment that measures river levels."),
+    E("img", {
+      src: "course-assets/big-upside/big-upside-flood.jpg?v=20261103benefits2",
+      alt: "Earlier Flood Warnings. Earlier Warning. AI helps provide flood warnings days ahead. Time to Act. People can prepare and move to safety before the water arrives.",
+      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
+    }),
+    E("div", { className: "md-source", style: { display: "none" } },
+      E("h3", null, "Earlier Flood Warnings"),
+      E("p", null, "Earlier Warning. AI helps provide flood warnings days ahead."),
+      E("p", null, "Time to Act. People can prepare and move to safety before the water arrives.")),
+    E(SectionKicker, null, "What These Examples Have in Common"),
+    E(BodyP, null, "Scientists get a starting point. Doctors get help finding something important. People get access to information. Communities get time to prepare."),
+    E(BodyP, null, "These are making a difference in people's lives."),
     closeBoard("bigupside"),
-    E(InteractiveBox, {
-      variant: "lab",
-      surface: "teal",
-      title: "Explore a Protein Shape",
-      hint: "Click the box after you finish each step.",
-      lead: "The 200 million protein shapes aren’t just a story. They’re a website, open right now, and you’re allowed in. Five minutes to hold the Nobel Prize database in your hands.",
-      action: E(ActivityCounter, { count: vaultCheckedCount, total: VAULT_LAB_STEPS.length })},
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        VAULT_LAB_STEPS.map(function(st, i) {
-          var done = !!vaultChecked[i];
-          return E("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setVaultChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("div", { style: { flex: 1, minWidth: 0 } },
-              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
-              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
-        }))),
+    E(BigUpsideBenefitsLab, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: Rise of Agents" }));
 }
@@ -13044,11 +13075,11 @@ function BigDownsideSection(props) {
 ];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
-    E(BodyP, null, "AI is advancing fast. If your iPhone were about to get an amazing new feature, you would probably be excited. So why worry when AI gains new capabilities?"),
+    E(BodyP, null, "AI is advancing fast. If your iPhone was about to get an amazing new feature, you’d be excited. So why worry when AI gains new capabilities?"),
     E(BodyP, null, "Because greater capability can create greater risk. Three ideas help explain why."),
     E(SectionKicker, null, "I · Hard to Understand and Control"),
-    E(BodyP, null, "AI models are often called ", E("strong", null, "black boxes"), ". Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can inspect parts of a model, but they can’t fully explain every answer."),
-    E(BodyP, null, "Why did AI suggest the name Spot for your dog? Its builders cannot point to one place inside and say, “That’s where Spot came from.”"),
+    E(BodyP, null, "AI models are often called ", E("strong", null, "black boxes"), ". Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Engineers can inspect parts of a model, but they can’t fully explain every answer."),
+    E(BodyP, null, "Why did AI suggest the name Spot for your dog? No one can point to one place inside and say, “That’s where Spot came from.”"),
     E(BodyP, null, "Engineers work to keep AI safe through several layers of protection."),
     E("img", {
       src: "course-assets/big-downside/big-downside-safety-guardrails.jpg?v=20261009screen3",
@@ -13064,7 +13095,7 @@ function BigDownsideSection(props) {
     E(BodyP, null, "Here’s the question that concerns many people: as AI becomes more capable, will those protections still work?"),
     E(SectionKicker, null, "II · People Can Misuse AI"),
     E(BodyP, null, "Sometimes the danger comes from the person using the tool."),
-    E(BodyP, null, "Attackers write prompts that try to bypass a model’s guardrails. That is called ", E("strong", null, "jailbreaking"), ". Defenders have to protect many paths. An attacker needs only one opening."),
+    E(BodyP, null, "Attackers write prompts that try to bypass a model’s guardrails. That is called ", E("strong", null, "jailbreaking"), ". Here’s the challenge; defenders must protect many paths, but attackers only need one opening."),
     E("img", {
       src: "course-assets/big-downside/big-downside-jailbreak.jpg?v=20260921cast1",
       alt: "Why Jailbreaks Keep Appearing. Defenders must protect many paths. An attacker needs only one opening. New methods keep surfacing, making this an ongoing game of cat-and-mouse.",

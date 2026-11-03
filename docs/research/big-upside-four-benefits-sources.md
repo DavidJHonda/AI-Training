@@ -1,0 +1,10 @@
+# Big Upside: sources for the four-benefit rewrite
+
+Checked November 3, 2026. This is an editorial source record, not video narration.
+
+- **Protein structures:** [EMBL-EBI's AlphaFold case study](https://www.ebi.ac.uk/about/news/perspectives/alphafold-using-open-data-and-ai-to-discover-the-3d-protein-universe/) supports the historical comparison with about 200,000 experimentally determined structures. [AlphaFold Database](https://www.alphafold.ebi.ac.uk/about) documents over 200 million freely available predictions. The database’s “Why does being able to predict a protein’s 3D structure matter?” and “How can AI and AlphaFold help?” sections also support the explicit link from protein shapes to understanding disease and investigating new medicines. Keep the historical past tense and distinguish predictions from experiments; these are research starting points, not finished medicines.
+- **Breast screening:** [Lund University's January 2026 MASAI results](https://www.lunduniversity.lu.se/article/ai-support-breast-cancer-screening-fewer-missed-cancer-cases) describes the randomized study of roughly 106,000 women and increased cancer detection with AI-supported screening. The lesson keeps its existing broad finding, not a mortality claim or a promise of diagnosis. The new scan illustration is conceptual, not patient evidence.
+- **Reading aloud:** [Microsoft Seeing AI](https://www.seeingai.com/) describes reading, photo descriptions, and product identification for blind and low-vision users. The lesson describes these functions without implying error-free reading.
+- **Flood warnings:** [Google Research's 2024 paper, Global prediction of extreme floods in ungauged watersheds](https://research.google/pubs/ai-increases-global-access-to-reliable-flood-forecasts/) supports warnings days ahead in ungauged areas and an operational free/open forecast system. The lesson does not promise warnings for every flood or location.
+
+The page and narration source follow the user-approved four-example draft. The existing v8 video has not been revised; its update is a separate production task.

@@ -2,7 +2,7 @@
 
 # Big Downside
 
-AI is advancing fast. If your iPhone were about to get an amazing new feature, you would probably be excited. So why worry when AI gains new capabilities?
+AI is advancing fast. If your iPhone was about to get an amazing new feature, you’d be excited. So why worry when AI gains new capabilities?
 
 Because greater capability can create greater risk.
 
@@ -10,9 +10,9 @@ Three ideas help explain why.
 
 ## I · Hard to Understand and Control
 
-AI models are often called **black boxes**. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Researchers can inspect parts of a model, but they can’t fully explain every answer.
+AI models are often called **black boxes**. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Engineers can inspect parts of a model, but they can’t fully explain every answer.
 
-Why did AI suggest the name Spot for your dog? Its builders cannot point to one place inside and say, “That’s where Spot came from.”
+Why did AI suggest the name Spot for your dog? No one can point to one place inside and say, “That’s where Spot came from.”
 
 Engineers work to keep AI safe through several layers of protection.
 
@@ -42,9 +42,7 @@ Here’s the question that concerns many people: as AI becomes more capable, wil
 
 Sometimes the danger comes from the person using the tool.
 
-Attackers write prompts that try to bypass a model’s guardrails. That is called **jailbreaking**. Defenders have to protect many paths.
-
-An attacker needs only one opening.
+Attackers write prompts that try to bypass a model’s guardrails. That is called **jailbreaking**. Here’s the challenge; defenders must protect many paths, but attackers only need one opening.
 
 ### Board 2: Why Jailbreaks Keep Appearing
 

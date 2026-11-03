@@ -46,17 +46,7 @@ This has happened before.
 
 Online shopping. In 1995, astronomer Clifford Stoll said online shopping could not compete with malls. It became part of everyday life.
 
-No chance for the iPhone. In 2007, Microsoft CEO Steve Ballmer said the iPhone had no chance at meaningful market share. It reshaped smartphones.
-
-The internet will collapse. In 1996, Robert Metcalfe, the inventor of Ethernet, predicted a catastrophic collapse. The internet became essential infrastructure.
-
 Flying cars are coming. In 1940, Ford Motor Company founder Henry Ford predicted a flying car was coming. It still has not become ordinary transportation.
-
-The future is hard to predict because people change the result.
-
-## WHY WERE THEY WRONG?
-
-Because the future is hard to predict.
 
 A technology becomes the future only when people change their habits around it. Machines improve fast. Habits change at human speed.
 

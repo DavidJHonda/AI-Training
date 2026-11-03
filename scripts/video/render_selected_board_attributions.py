@@ -118,7 +118,7 @@ BOARDS = {
     "fake-trap-2-reasons": (1329, 1183),
     "fake-trap-4-checks": (1600, 819),
     "loudest-voices-1-experts": (1600, 1563),
-    "loudest-voices-2-missed-predictions": (1600, 1591),
+    "loudest-voices-2-missed-predictions": (1600, 799),
     "pace-of-change-1-three-years": (1600, 979),
     "pace-of-change-2-accelerants": (1600, 773),
     "pace-of-change-3-future-research": (1600, 927),

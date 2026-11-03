@@ -668,16 +668,6 @@ CARD_BOARDS = (
                 "ASTRONOMER",
             ),
             Card(
-                "No Chance for the iPhone",
-                "In 2007, Steve Ballmer said the iPhone had no chance at meaningful market share. It reshaped smartphones.",
-                "MICROSOFT CEO",
-            ),
-            Card(
-                "The Internet Will Collapse",
-                "In 1996, Robert Metcalfe predicted a catastrophic collapse. The internet became essential infrastructure.",
-                "INVENTOR OF ETHERNET",
-            ),
-            Card(
                 "Flying Cars Are Coming",
                 "In 1940, Henry Ford predicted a flying car was coming. It still has not become ordinary transportation.",
                 "FOUNDER OF FORD MOTOR COMPANY",
@@ -686,8 +676,7 @@ CARD_BOARDS = (
         art_sheet="board-review-embrace-editorial/assets/failed-predictions/art-sheet.png",
         page_output="course-assets/loudest-voices/loudest-voices-missed-predictions.jpg",
         prep_output="course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
-        takeaway="The future is hard to predict because people change the result.",
-        accents=(PURPLE, BLUE, TEAL, AMBER),
+        accents=(PURPLE, AMBER),
     ),
     CardBoard(
         key="four-famous-plans",

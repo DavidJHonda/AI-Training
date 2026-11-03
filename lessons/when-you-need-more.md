@@ -2,23 +2,19 @@
 
 # When You Need More
 
-Taking a picture on your phone is easy. Open the camera app, point, and tap. For most pictures, that’s all you need.
+For many tasks, you can open your AI app, ask your question, and keep the conversation going.
 
-But sometimes you need something different. You want a family picture, but it’s dark outside. Better turn on the flash. Or you’re sitting high in the stands at a hockey game and want a picture of your favorite player. Better zoom in.
+But some tasks ask more of AI.
+You might need help working through a complicated plan, weighing several options, or investigating information across different sources.
 
-You don’t change these settings for every picture. But knowing when to use them can help you get the picture you want.
-
-AI works much the same way.
-Depending on the app and your subscription, you may have three other choices: the model, thinking, and research.
-You won’t need to change them every time.
-But knowing what they do helps you get a better answer.
+Depending on the app and your subscription, you may have three other choices: the model, thinking, and research. You won’t need to change them every time. But knowing what they do helps you get a better answer.
 
 ## 1-The Model
 
 When you use an AI app like ChatGPT, Gemini, or Claude, an LLM powers its answers. Think of the LLM as the engine inside the app.
 
 When an app lets you choose a “model,” you’re choosing which LLM to use.
-Different models have different capabilities.
+Different models have different capabilities. Start with the default. Try a more capable model when needed.
 
 ### Board 1: Which Model?
 
@@ -38,15 +34,9 @@ The More Capable Model is for more demanding tasks with details to work through.
 
 For example, ask: “Help me plan a summer business, including costs, pricing, and how many customers I’ll need.”
 
-Start with the default.
-Try a more capable model when needed.
-
 ## 2-Thinking
 
-Choosing a model changes which LLM you use.
-Thinking changes how much time AI spends working through your task.
-
-AI isn’t thinking the way you do, but it spends more time working through the task before giving you an answer.
+Choosing a model changes which LLM you use. Thinking changes how much time AI spends working through your task. AI isn’t thinking the way you do, but it spends more time working through the task before giving you an answer.
 
 ### Board 2: How Much Thinking?
 
@@ -66,13 +56,9 @@ With More Thinking, AI spends more time working through steps, weighing options,
 
 For example, ask: “Help us divide this project among four people. We have one week, different schedules, and only two people know how to edit video.”
 
-Give AI more time when the task needs more working through.
-
 ## 3-Research
 
-There’s one more option: Research.
-
-AI’s research mode gathers information from different websites and brings it together so you can compare your options.
+There’s one more option: Research. This mode gathers information from different websites and brings it together so you can compare your options.
 
 Regular chat can look things up, too.
 Research is useful when you want a fuller investigation across several sources.
@@ -94,8 +80,6 @@ For example, ask: “I live in Dallas. How long would it take me to drive to Tex
 Use Deep Research to get information from many websites, compare what they say, and build a report that shows sources.
 
 For example, ask: “I want to study physics and am considering Texas A&M and UT Austin. Compare their physics programs, undergraduate research opportunities, admissions requirements, and costs. Show your sources.”
-
-Use deeper research when you need to compare information across sources.
 
 ## Closing Message
 

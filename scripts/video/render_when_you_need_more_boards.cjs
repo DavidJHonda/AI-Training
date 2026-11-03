@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Know the App: canonical EE-2FB layout, with the approved example subsection.
+// When You Need More: canonical EE-2FB layout with example subsections.
+// 2026-11-03: owner removed all three takeaway banners; retain 40px footer padding.
 // Run: node scripts/video/render_when_you_need_more_boards.cjs
 const fs = require('node:fs');
 const path = require('node:path');
@@ -17,7 +18,6 @@ const boards = [
       ['Everyday Model', 'Quick questions and simple tasks.', '“Suggest a funny movie to watch tonight.”'],
       ['More Capable Model', 'More demanding tasks with details to work through.', '“Help me plan a summer business, including costs, pricing, and how many customers I’ll need.”']
     ],
-    banner: 'Start with the default. Try a more capable model when needed.'
   },
   {
     id: 'thinking', title: 'How Much Thinking?',
@@ -25,7 +25,6 @@ const boards = [
       ['Less Thinking', 'AI spends less time working through your task. Useful for less complicated and routine work.', '“Turn these notes from our group meeting into a clear checklist.”'],
       ['More Thinking', 'AI spends more time working through steps, weighing options, and checking its answer. Useful for tasks that require analysis like coding, planning, and problems with steps.', '“Help us divide this project among four people. We have one week, different schedules, and only two people know how to edit video.”']
     ],
-    banner: 'Give AI more time when the task needs more working through.'
   },
   {
     id: 'research', title: 'How Much Research?',
@@ -33,7 +32,6 @@ const boards = [
       ['Regular Chat', 'Get an answer to a question.', '“I live in Dallas. How long would it take me to drive to Texas A&M in College Station versus UT Austin?”'],
       ['Deep Research', 'Get information from many websites, compare what they say, and build a report that shows sources.', '“I want to study physics and am considering Texas A&M and UT Austin. Compare their physics programs, undergraduate research opportunities, admissions requirements, and costs. Show your sources.”']
     ],
-    banner: 'Use deeper research when you need to compare information across sources.'
   }
 ];
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -57,15 +55,11 @@ function html(board) {
     p{margin:0;font-size:29px;line-height:41px;font-weight:500;color:#3a3550}
     .example{margin-top:63px;border-top:1px solid var(--divider);padding-top:20px}
     .example-label{font-size:22px;line-height:28px;font-weight:700;color:var(--accent);margin-bottom:12px}
-    .banner{margin-top:40px;height:88px;border-radius:14px;background:#ffe39a;display:flex;align-items:center;justify-content:center}
-    .lockup{display:flex;gap:24px;align-items:center;white-space:nowrap}
-    .check{width:44px;height:44px;flex-shrink:0}
-    .takeaway{font-size:32px;line-height:32px;font-weight:500}
     .credit{position:absolute;right:40px;bottom:8px;font-size:20px;line-height:24px;font-weight:500;color:#615b78}
   </style><div class="board"><h1>${escape(board.title)}</h1><div class="cards">${board.cards.map((c,i)=>{
     const art = fs.readFileSync(path.join(root, `scripts/video/assets/when-you-need-more/${board.id}-${i}.png`)).toString('base64');
     return `<section class="card"><div class="art"><img src="data:image/png;base64,${art}"></div><div class="text"><h2>${escape(c[0])}</h2><p class="description">${escape(c[1])}</p><div class="example"><div class="example-label">EXAMPLE</div><p>${escape(c[2])}</p></div></div></section>`;
-  }).join('')}</div><div class="banner"><div class="lockup"><svg class="check" viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#4f2fc4"/><path d="m12 22 7 7 13-14" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="takeaway">${escape(board.banner)}</span></div></div><div class="credit">besmarterthanthetool.com</div></div>`;
+  }).join('')}</div><div class="credit">besmarterthanthetool.com</div></div>`;
 }
 
 (async()=>{
@@ -94,10 +88,9 @@ function html(board) {
         return {
           board:get('.board'),title:get('h1'),cards:[...document.querySelectorAll('.card')].map(rect),
           art:[...document.querySelectorAll('.art')].map(rect),text:[...document.querySelectorAll('.text')].map(rect),
-          banner:get('.banner'),check:get('.check'),lockup:get('.lockup'),
+          bannerCount:document.querySelectorAll('.banner').length,
           headings:[...document.querySelectorAll('h2')].map(e=>({overflow:e.scrollWidth>e.clientWidth,size:getComputedStyle(e).fontSize})),
-          description:[...document.querySelectorAll('.description')].map(e=>({size:getComputedStyle(e).fontSize,line:getComputedStyle(e).lineHeight})),
-          bannerType:{size:getComputedStyle(document.querySelector('.takeaway')).fontSize,weight:getComputedStyle(document.querySelector('.takeaway')).fontWeight}
+          description:[...document.querySelectorAll('.description')].map(e=>({size:getComputedStyle(e).fontSize,line:getComputedStyle(e).lineHeight}))
         };
       });
       assert.equal(measures.board.width,1600);
@@ -105,14 +98,10 @@ function html(board) {
       for(const a of measures.art){assert.equal(a.width,744);assert.equal(a.height,339);}
       assert.equal(measures.cards[1].x-measures.cards[0].right,32);
       assert.equal(measures.text[0].height,measures.text[1].height);
-      assert.equal(measures.banner.y-measures.cards[0].bottom,40);
-      assert.equal(measures.banner.height,88);
-      assert.equal(measures.board.bottom-measures.banner.bottom,40);
-      assert.equal(measures.check.width,44);assert.equal(measures.check.height,44);
-      assert.ok(measures.lockup.width<=measures.banner.width-68,'Takeaway overflows safe horizontal padding');
+      assert.equal(measures.bannerCount,0);
+      assert.equal(measures.board.bottom-measures.cards[0].bottom,40);
       assert.ok(measures.headings.every(h=>!h.overflow&&h.size==='40px'));
       assert.ok(measures.description.every(p=>p.size==='29px'&&p.line==='41px'));
-      assert.deepEqual(measures.bannerType,{size:'32px',weight:'500'});
       const png = await page.locator('.board').screenshot({type:'png'});
       const file = path.join(out,`when-you-need-more-${board.id}.jpg`);
       await sharp(png).jpeg({quality:95,chromaSubsampling:'4:4:4',optimiseCoding:true}).toFile(file);

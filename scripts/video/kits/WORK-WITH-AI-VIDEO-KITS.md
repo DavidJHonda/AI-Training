@@ -1,6 +1,9 @@
 # Work With AI Video Kits
 
-Current course order (2026-11-02): Opener → AI is Different → Where AI Works Best → Your Home Base → Questions Matter → Prompting Matters → Context Matters → Evaluation Matters → Next Level Moves. Critical Thinking now opens Build Your Skills after its opener. Older production notes below retain their historical grouping.
+**Full opener reroll requested (2026-11-04):** David requested a complete new take to replace the mixed narration after the wording, map, and closing updates. Use the current `gemini-notebook/work-with-ai-opener/PROMPT.txt`, `upload/`, and `PREP-NOTES.md`. One consistent narrator per video. The package is prepared; generation and review are pending. Older pickup and donor instructions below are historical.
+
+
+Current course order (2026-11-04): Opener → Where AI Works Best → Your Home Base → Questions Matter → Prompting Matters → Context Matters → Evaluation Matters → Next Level Moves → When You Need More. AI is Different now precedes What’s an LLM? in Start Smarter. Critical Thinking now opens Build Your Skills after its opener. Older production notes below retain their historical grouping.
 
 > Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
 
@@ -16,7 +19,7 @@ Context Matters page/prep update (2026-11-02): Outside the Window now has two ap
 
 | Lesson | Markdown | Prompt | Notebook sources | Post-production only (faces) | Status |
 |---|---|---|---|---|---|
-| Opener | `lessons/Opener-Work.md` | `gemini-notebook/work-with-ai-opener/PROMPT.txt` | current refrain, same-tool faceless stand-in, section map, close | canonical same-tool board | Rebuilt 2026-09-26 on current recipe; one full Notebook reroll prepared. Upload from `gemini-notebook/work-with-ai-opener/upload/`. Compare narration with original live video before editing. |
+| Opener | `lessons/Opener-Work.md` | `gemini-notebook/work-with-ai-opener/PROMPT.txt` | Same Tool face-free stand-in, revised section map, close | canonical Same Tool board | Complete reroll prepared 2026-11-04, with one narrator. Upload four files from `gemini-notebook/work-with-ai-opener/upload/`; save as `Prompts/work-with-ai-opener-5.mp4`. See `PREP-NOTES.md`. |
 | AI Is Different | `lessons/ai-is-different.md` | `gemini-notebook/ai-is-different/PROMPT.txt` | password rules, cooking analogy (text-only upload variant), Same Playlist. Different Formats., current close | canonical illustrated cooking board | Complete reroll prep validated 2026-11-02. Five upload files: Markdown plus four boards; 448-word prompt with standalone required narration lines. Playlist board owned by `scripts/video/render_ai_is_different_playlist.cjs`, shared unchanged with the page. See `gemini-notebook/ai-is-different/PREP-NOTES.md`. Installed video unchanged. |
 | Where AI Works Best | `lessons/where-ai-works-best.md` | `gemini-notebook/where-ai-works-best/PROMPT.txt` | face-free course-building comparison, two canonical EE-2FB strength boards, close | canonical course-building board | Updated 2026-10-23: approved shorter explanations and two examples per strength. v11 shipped locally, pending batch deployment: 2:53.8 with stationary boards and section highlights. Upload from `gemini-notebook/where-ai-works-best/upload/`. |
 | Your Home Base (retitled from Which App? 2026-09-15; kit files keep the your-home-base slug for now) | `lessons/your-home-base.md` | **retired; fresh prep required** | your-home-base-1-big-three, your-home-base-3-how-we-used, your-home-base-4-close | your-home-base-2-home-base | materials ready, roll pending |

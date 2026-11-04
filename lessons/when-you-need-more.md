@@ -1,4 +1,4 @@
-## BUILD YOUR SKILLS
+## WORK WITH AI
 
 # When You Need More
 

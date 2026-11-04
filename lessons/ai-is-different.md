@@ -1,4 +1,4 @@
-## WORK WITH AI
+## START SMARTER
 
 # AI is Different
 

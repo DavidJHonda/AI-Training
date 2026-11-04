@@ -1,5 +1,8 @@
 # Build Your Skills Video Kits
 
+**Full opener reroll requested (2026-11-04):** David requested a complete new take to replace the mixed narration after the wording, map, and closing updates. Use the current `gemini-notebook/build-your-skills-opener/PROMPT.txt`, `upload/`, and `PREP-NOTES.md`. One consistent narrator per video. The package is prepared; generation and review are pending. Older pickup and donor instructions below are historical.
+
+
 > Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
 
 Prep status is controlled by `gemini-notebook/upload-sets.json`. Any lesson listed in
@@ -8,7 +11,7 @@ below describe historical work and do not authorize reuse.
 
 > **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `scripts/video/PREPARATION.md`, add it to `gemini-notebook/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
 
-Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Current course order, updated 2026-11-04: Opener → Critical Thinking → When You Need More → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curiosity → What’s Next? Next Level Moves now closes Work With AI; its older production notes below are retained as history. Career Explorer starts in the People Skills lab. When You Need More retains its current placement and its original six-scenario TRY IT, “What Does This Task Need?”.
+Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Current course order, updated 2026-11-04: Opener → Critical Thinking → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curiosity → What’s Next? When You Need More now closes Work With AI after Next Level Moves; its older production notes below are retained as history. Career Explorer starts in the People Skills lab. When You Need More retains its original six-scenario TRY IT, “What Does This Task Need?”.
 
 This guide describes source preparation, not current video shipping status. No video was generated, edited, or deployed in this pass. Earlier status labels are not evidence that a finished video matches this source set.
 
@@ -20,24 +23,9 @@ Paths below are repository-relative. Prep files live under `gemini-notebook/`.
 
 ### build-your-skills-opener
 
-**Prep updated 2026-09-30** after `video-audit/build-your-skills-opener-evaluation-2026-09-30/REVIEW.md`. The current local v5 is 2:44.27 (`20260926ship3`); the September 26 repair restored all three map rows, including people skills and creative thinking. Remaining narration issues are required wording, the unspoken map title, and formal expansions. The older missing-row diagnosis no longer applies. This update prepares a new roll; it does not change the course page or video or establish public deployment status.
+**Current preparation (2026-11-04):** tools change, skills can last → bike and balance → skills developed through practice → the revised three-part map → the personal question → “The tools will change.” / “The skills are yours to keep.”
 
-**Lesson arc:** what you bring to the tool → balance survives a change of bike → both AI and human skills can outlast the software → the three-part roadmap shows what students will build → the open question makes that value personal → the skills are yours to keep.
-
-The Markdown preserves the page's bike story and plain wording. Each creed sentence now stands alone. The roadmap introduction ends its sentence before the spoken title, and the exact AI-versus-human-skills bridge is required alongside the creed, map rows, takeaway, question, and close. The prompt treats the map as a concise overview, with each row read once; it rejects formal expansions and camera narration. It also excludes illustration-direction labels and the “HUMAN DURABILITY” card. The reflection question deliberately remains unanswered.
-
-All three canonical boards still upload; none needs a face-free variant. Long map holds are addressed in editing, not by withholding the board or dropping teaching. Preserve full-row highlights in post, as David requested September 26. Keep useful cycling, balance, and skating scenes; remove distracting prop labels through targeted cleanup when feasible. The current video is a potential bike/close donor, subject to audition of any proposed graft. No new pauses or supporting-image generation are prescribed by this prep update.
-
-Registry entry: `build-your-skills-opener`. Upload the four files in `gemini-notebook/build-your-skills-opener/upload/`, paste `PROMPT.txt` into customization, and save as `Prompts/build-your-skills-opener-reroll.mp4` or the next unused numbered name. Review the complete narration before planning an edit.
-
-- Markdown: `lessons/Opener-Build.md`
-- Prompt: `gemini-notebook/build-your-skills-opener/PROMPT.txt`
-- Upload checklist: `gemini-notebook/build-your-skills-opener/README.txt` (generated by the sync; the old `build-your-skills-opener-upload-files.txt` was removed 2026-09-25)
-- Canonical folder: `course-assets/build-your-skills-opener/`
-- Boards in lesson order:
-  - `build-your-skills-opener-creed.jpg` — upload
-  - `build-your-skills-opener-section-map.jpg` — upload
-  - `build-your-skills-opener-close.jpg` — upload
+Upload three files from `gemini-notebook/build-your-skills-opener/upload/`: `Opener-Build.md`, the section map, and the close. No face-free variant is needed. Paste the current `PROMPT.txt`; save as `Prompts/build-your-skills-opener-5.mp4` or the next unused numeric name. The retired creed is excluded. Installed v8 remains unchanged while a complete new narration is generated and reviewed. Full preparation record: `gemini-notebook/build-your-skills-opener/PREP-NOTES.md`.
 
 ### when-you-need-more
 

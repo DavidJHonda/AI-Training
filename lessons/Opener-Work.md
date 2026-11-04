@@ -40,15 +40,15 @@ Work With AI.
 
 This section has three parts.
 
-First, Know What It’s For: why AI works differently from ordinary software, the work it does best, and how to pick your app and learn it well.
+First, Find Where AI Helps: recognize the work AI does best and choose an app that fits your needs.
 
-Second, Use It Well: the moves that get a better answer, and a look at what the model actually reads when you ask.
+Second, Ask Better Questions: ask useful questions, give clear instructions, and understand what information AI has when it answers.
 
 Giving AI the right details helps it give you a better answer.
 
 Third. Evaluate and Improve.
 
-Check the answer, decide what to use, and keep the conversation going to develop something better.
+Check the answer, improve it through conversation, and choose when a different model, more thinking, or research could help.
 
 The result depends on how you use the tool.
 

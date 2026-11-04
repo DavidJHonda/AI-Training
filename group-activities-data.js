@@ -42,6 +42,38 @@ window.COURSE_GROUP_ACTIVITIES = [
     ]
   },
   {
+    "id": "aivscode",
+    "lesson": "aivscode",
+    "lessonTitle": "AI is Different",
+    "section": "Start Smarter",
+    "title": "AI Is Different",
+    "type": "Discussion",
+    "note": "Rules, patterns, and messy information. Discuss what makes AI different and why that difference matters.",
+    "href": "group-exercises/group-session.html?id=aivscode",
+    "questions": [
+      {
+        "title": "When is getting the same result every time exactly what you want?",
+        "followUp": "Think beyond passwords. Where would software that “gets creative” cause problems?"
+      },
+      {
+        "title": "What makes the messy playlist hard to turn into written rules?",
+        "followUp": "Pick an example: a crossed-out song, an arrow, an abbreviation, or a joke. How would a person figure out what it means? What might AI misinterpret?"
+      },
+      {
+        "title": "Your club has sign-ups in a spreadsheet, handwritten notes, and a group chat. What’s different about working with each?",
+        "followUp": "Which information is already organized into consistent fields? What would someone have to interpret before combining it into one list?"
+      },
+      {
+        "title": "You give the cooking robot and the chef the same ingredients twice. Would you expect the same dish both times?",
+        "followUp": "When would you prefer the robot’s consistency? When would you prefer the chef’s flexibility?"
+      },
+      {
+        "title": "A friend says, “AI is more advanced, so every app should use it for everything.” Do you agree?",
+        "followUp": "Choose one app you use. Where might learned patterns help? Where would you keep a written rule?"
+      }
+    ]
+  },
+  {
     "id": "aihistory",
     "lesson": "aihistory",
     "lessonTitle": "What’s an LLM?",
@@ -108,38 +140,6 @@ window.COURSE_GROUP_ACTIVITIES = [
       "Suggest subjects and ridiculous situations. Vote aloud or by a show of hands, then have the leader fill in the winning choices below.",
       "Select Copy Prompt, then Open Study Mode. Sign in if needed and check that Study is selected. Paste the prompt and send it.",
       "Answer ChatGPT’s questions together. Ask for a hint or a different explanation when you get stuck."
-    ]
-  },
-  {
-    "id": "aivscode",
-    "lesson": "aivscode",
-    "lessonTitle": "AI is Different",
-    "section": "Work With AI",
-    "title": "AI Is Different",
-    "type": "Discussion",
-    "note": "Rules, patterns, and messy information. Discuss what makes AI different and why that difference matters.",
-    "href": "group-exercises/group-session.html?id=aivscode",
-    "questions": [
-      {
-        "title": "When is getting the same result every time exactly what you want?",
-        "followUp": "Think beyond passwords. Where would software that “gets creative” cause problems?"
-      },
-      {
-        "title": "What makes the messy playlist hard to turn into written rules?",
-        "followUp": "Pick an example: a crossed-out song, an arrow, an abbreviation, or a joke. How would a person figure out what it means? What might AI misinterpret?"
-      },
-      {
-        "title": "Your club has sign-ups in a spreadsheet, handwritten notes, and a group chat. What’s different about working with each?",
-        "followUp": "Which information is already organized into consistent fields? What would someone have to interpret before combining it into one list?"
-      },
-      {
-        "title": "You give the cooking robot and the chef the same ingredients twice. Would you expect the same dish both times?",
-        "followUp": "When would you prefer the robot’s consistency? When would you prefer the chef’s flexibility?"
-      },
-      {
-        "title": "A friend says, “AI is more advanced, so every app should use it for everything.” Do you agree?",
-        "followUp": "Choose one app you use. Where might learned patterns help? Where would you keep a written rule?"
-      }
     ]
   },
   {

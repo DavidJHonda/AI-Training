@@ -4,7 +4,7 @@
 
 ## The Skills You Keep
 
-This is the last section where you build new skills, and it’s the one you keep.
+AI tools will keep changing. The skills you build can stay with you.
 
 Think about learning to ride a bike. You outgrew it and moved on to another bike. But you had learned a key skill: balance. That skill made you a better cyclist, and it carried over into other physical activities, such as skating or playing basketball. Whether you became a serious cyclist or just rode for fun, the skill stayed with you.
 
@@ -12,9 +12,9 @@ Nobody could give you balance.
 
 You had to build it.
 
-This section is about skills like that: the ones you build once and keep forever.
+This section is about skills you strengthen through practice: thinking carefully, working with others, finding new ideas, and staying curious.
 
-Some of them are AI skills. The most important ones aren’t. You’ll build both here.
+You’ll use AI to practice, but these skills matter at school, at work, and in everyday life.
 
 Your choices, questions, and judgment matter even when everyone has the same tool.
 
@@ -28,13 +28,13 @@ Your choices, questions, and judgment matter even when everyone has the same too
 
 This road map shows what we’ll explore in this section. Build Your Skills.
 
-One. Use AI With Skill and Care.
+One. Judgment and Responsibility.
 
-Question claims, weigh evidence, choose the help you need, use AI honestly, and protect what you share.
+Question claims, weigh evidence, use AI honestly, protect what you share, and consider who your choices affect.
 
-Two. Skills That Grow in Value: people skills help you work with others. Creative thinking helps you find the better angle.
+Two. People Skills and Creative Thinking: listen, communicate, and work with others. Explore different ideas and find a better approach.
 
-Three. Stay Flexible. Make Your Move: keep learning as AI changes, then turn your interests into action by building skills and making something real.
+Three. Curiosity and Your Next Steps: follow questions, explore your interests, and choose a next step you can take.
 
 Build the skills you keep when the tool changes.
 
@@ -48,6 +48,6 @@ This section is how you build your answer.
 
 ## Closing Message
 
-The tool is rented.
+The tools will change.
 
 The skills are yours to keep.

@@ -1,5 +1,7 @@
 # Start Smarter Video Kits
 
+Current course order (2026-11-04): Welcome → What Is AI? → Why Learn AI? → AI is Different → What’s an LLM? → Probability & Prediction → Does AI Think? → Does School Matter? → Learn with AI. AI is Different keeps its existing video and lesson assets.
+
 **2026-10-27 pizza-story move:** Current lesson sources and upload bundles now place Real Text. Wrong Meaning after the Chinese Room in Does AI Think?. Hallucination retains the Stanford example and brief real-source qualification. Both bundles contain five files. The two lesson-owned PREP-NOTES.md files and upload registry supersede the older sequences and counts below. Existing videos await revision.
 
 Prep status is controlled by `gemini-notebook/upload-sets.json`. Any lesson listed in

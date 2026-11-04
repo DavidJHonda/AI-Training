@@ -43,8 +43,8 @@ TARGETS = [
     ("where-ai-works-best", 230, 236, "nonsense-label diagram"),
     ("where-ai-works-best", 242, 248, "word-salad highlighted page"),
     ("context-matters", 90, 116, "flat hold, narration past the visual"),
-    ("training", 209, 224, "REVIEWER RANKINGS static lettering card"),
-    ("training", 60, 66, "coach diagram mis-maps the analogy"),
+    ("how-ai-learns", 209, 224, "REVIEWER RANKINGS static lettering card"),
+    ("how-ai-learns", 60, 66, "coach diagram mis-maps the analogy"),
     ("ai-is-different", 192, 205, "duplicate-layer text collision"),
 ]
 

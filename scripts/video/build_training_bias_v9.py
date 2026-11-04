@@ -14,7 +14,7 @@ import build_training_bias_v8 as base
 
 ROOT = base.ROOT
 OUT = ROOT / 'video-audit/training-bias-cuts-2026-09-30-v9'
-DEST = ROOT / 'Prompts/training-bias-v9.mp4'
+DEST = ROOT / 'Prompts/how-ai-learns-bias-v9.mp4'
 CUTS = [(1365, 1665), (4744, 5751)]
 KEEP = [(0, 1365), (1665, 4744), (5751, 7830)]
 TOTAL = sum(hi - lo for lo, hi in KEEP)
@@ -30,7 +30,7 @@ def main():
     OUT.mkdir(exist_ok=True)
     assert not DEST.exists(), 'Never overwrite a review candidate'
     assert base.sha(base.SOURCE) == base.EXPECTED
-    previous = ROOT / 'Prompts/training-bias-v8.mp4'
+    previous = ROOT / 'Prompts/how-ai-learns-bias-v8.mp4'
     assert base.sha(previous) == '612715b2ae1719028f0cafa9df01d52701205d4c8cc54a29c28c92799cf1ca88'
     protected = [previous, base.LIVE, ROOT / 'index.html', ROOT / 'lessons/training-bias.md',
                  *sorted((ROOT / 'course-assets/training-bias').glob('*.jpg'))]

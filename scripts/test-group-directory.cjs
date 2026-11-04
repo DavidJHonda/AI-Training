@@ -13,7 +13,9 @@ for (const a of activities) {
  assert(['Activity','Discussion'].includes(a.type));
  assert(fs.existsSync(path.join(root,a.href.split('?')[0])),a.href);
  if(a.type==='Discussion') {
-  assert.equal(a.questions.length,5);
+  // Preserve the approved question counts for shorter discussion sets.
+  const approvedCounts = {'aiismath-discussion': 4, 'training-discussion': 3, 'embeddings-discussion': 2, 'attention-discussion': 3, 'prediction-discussion': 2, 'documenttrap-discussion': 3};
+  assert.equal(a.questions.length,approvedCounts[a.id] ?? 5);
   assert(a.questions.every(q=>q.title));
   assert(html.includes('return a.id === "'+a.id+'"; }).questions'));
  }

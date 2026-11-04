@@ -56,8 +56,8 @@ def transcribe(path, model):
 
 # Video slug -> lesson .md, for the few that differ.
 MD_ALIAS = {"opener-avoid": "Opener-Avoid", "work-with-ai-opener": "Opener-Work",
-            "opener-understand": "Opener-Understand", "opener-finish": "Opener-Finish",
-            "opener-embrace": "Opener-Embrace"}
+            "opener-understand": "Opener-Understand", "opener-finish": "five-big-ideas",
+            "opener-navigate": "Opener-Navigate"}
 
 
 def section_table(slug, segs, duration):

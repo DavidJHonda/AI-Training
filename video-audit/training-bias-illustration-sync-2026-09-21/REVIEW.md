@@ -22,7 +22,7 @@ art — both dive windows, drawn on each canvas, frame the same machine and the 
 
 - Asset: `course-assets/training-bias/training-bias-wrong-pattern.jpg` (5d90908c4011…, 1600x1308). Previous: bee2a7956ec3029d…,
   the sha v6 recorded.
-- Candidate: `Prompts/training-bias-v7.mp4` (0423a1b5f343…), shipped to `course-assets/training-bias/training-bias.mp4` and
+- Candidate: `Prompts/how-ai-learns-bias-v7.mp4` (0423a1b5f343…), shipped to `course-assets/training-bias/training-bias.mp4` and
   removed.
 - Cache key `20260921ship3` → `20260921ship22` on the `trainingbias` entry. Pill unchanged and correct (4 min; 4:21.00).
 

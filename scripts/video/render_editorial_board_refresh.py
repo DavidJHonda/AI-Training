@@ -1018,8 +1018,8 @@ def render_guardrails():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-downside-guardrail-challenge-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-downside-1-guardrail-challenge.jpg",
         "course-assets/big-downside/big-downside-guardrails.jpg",
     ])
 
@@ -1040,8 +1040,8 @@ def render_voice_clone():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-downside-voice-clone-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-downside-3-voice-clone.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-downside-voice-clone-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-downside-3-voice-clone.jpg",
         "course-assets/big-downside/big-downside-voice-clone.jpg",
     ])
 
@@ -1072,8 +1072,8 @@ def render_agent_loop():
     rounded(draw, (790, 712, 1162, 758), 23, WHITE)
     draw.text((976, 735), "NOT DONE? GO AGAIN.", font=font("bold", 24), fill=PURPLE, anchor="mm")
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/rise-of-agents-loop-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/rise-of-agents-4-loop.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/rise-of-agents-loop-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/rise-of-agents-4-loop.jpg",
     ])
 
 
@@ -1089,8 +1089,8 @@ def render_work_concepts():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/work-changes-automate-augment-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/work-changes-3-concepts.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/work-changes-automate-augment-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/work-changes-3-concepts.jpg",
         "course-assets/work-changes/work-changes-automate-augment.jpg",
     ])
 
@@ -1109,8 +1109,8 @@ def render_work_outcomes():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/work-changes-what-changes-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/work-changes-productivity-and-possibilities.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/work-changes-what-changes-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/work-changes-productivity-and-possibilities.jpg",
         "course-assets/work-changes/work-changes-what-changes.jpg",
     ])
 
@@ -1128,8 +1128,8 @@ def render_data_center_footprint():
         accents=[PURPLE, BLUE, TEAL, ORANGE],
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/data-centers-footprint-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/data-centers-physical-footprint.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/data-centers-footprint-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/data-centers-physical-footprint.jpg",
         "course-assets/data-centers/data-centers-footprint.jpg",
     ])
 
@@ -1146,8 +1146,8 @@ def render_upside_discovery():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-upside-discovery-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-upside-3-discovery.jpg",
         "course-assets/big-upside/big-upside-discovery.jpg",
     ])
 
@@ -1165,8 +1165,8 @@ def render_upside_help():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-upside-help-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-upside-4-help.jpg",
         "course-assets/big-upside/big-upside-help.jpg",
     ])
 
@@ -1183,8 +1183,8 @@ def render_pace_research():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/pace-of-change-future-research-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/pace-of-change-4-future-research.jpg",
         # The live lesson and video-prep paths use the approved illustration-first
         # board. Do not add them here or this legacy renderer will overwrite it.
     ])
@@ -1202,8 +1202,8 @@ def render_pace_capability():
         show_rule=False,
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/pace-of-change-future-capability-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/pace-of-change-5-future-capability.jpg",
         # The live lesson and video-prep paths use the approved illustration-first
         # board. Do not add them here or this legacy renderer will overwrite it.
     ])

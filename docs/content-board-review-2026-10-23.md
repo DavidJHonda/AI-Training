@@ -133,7 +133,7 @@ Source: [Where AI Works Best](../lessons/where-ai-works-best.md).
 | Support Trap | Keep | Supportive language versus real support, appropriate uses, and urgent help boundaries are distinct. |
 | Fake Trap | Consolidate | Shorten motives and repeated source-checking setup. Keep the concrete scenario, three checks, and help-seeking guidance. |
 
-### Embrace the Future
+### Navigate the Future
 
 | Lesson | Disposition | Editorial judgment |
 | --- | --- | --- |

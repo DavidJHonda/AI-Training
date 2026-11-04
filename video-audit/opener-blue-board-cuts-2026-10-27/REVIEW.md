@@ -11,7 +11,7 @@ Scope authorized by David: remove the five middle-section opening blue boards, r
 | work-with-ai-opener | 136.533s | 117.567s | 18.967s | `/Users/davidobrien/Developer/AI-Training/Prompts/work-with-ai-opener-v12.mp4` |
 | understand-ai-opener | 146.033s | 139.567s | 6.467s | `/Users/davidobrien/Developer/AI-Training/Prompts/understand-ai-opener-v15.mp4` |
 | avoid-traps-opener | 215.267s | 202.300s | 12.967s | `/Users/davidobrien/Developer/AI-Training/Prompts/avoid-traps-opener-v10.mp4` |
-| embrace-the-future-opener | 197.300s | 187.200s | 10.100s | `/Users/davidobrien/Developer/AI-Training/Prompts/embrace-the-future-opener-v7.mp4` |
+| navigate-the-future-opener | 197.300s | 187.200s | 10.100s | `/Users/davidobrien/Developer/AI-Training/Prompts/navigate-the-future-opener-v7.mp4` |
 | build-your-skills-opener | 164.267s | 153.467s | 10.800s | `/Users/davidobrien/Developer/AI-Training/Prompts/build-your-skills-opener-v6.mp4` |
 
 Total saved: 59.300 seconds.
@@ -42,7 +42,7 @@ Confident false facts, human susceptibility to agreeableness, convincing fakes, 
 
 Source/output frame spans, exact source hashes, image hash, and boundaries are in the per-video `edit-manifest.json`.
 
-### embrace-the-future-opener
+### navigate-the-future-opener
 
 Initial four speculative quotes and “Who’s right? Nobody knows.”
 

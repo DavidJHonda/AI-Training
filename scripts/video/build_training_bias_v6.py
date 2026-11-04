@@ -13,16 +13,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from editspec_build import Build, fr, sha, FPS, W, H, PURPLE, BLUE, TEAL, AMBER, NEUTRAL
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / "Prompts/training-bias-6.mp4"
+SRC = ROOT / "Prompts/how-ai-learns-bias-6.mp4"
 OUT = ROOT / "video-audit/training-bias-comparison-2026-09-21/build-v6"
-DEST = ROOT / "Prompts/training-bias-v6.mp4"
+DEST = ROOT / "Prompts/how-ai-learns-bias-v6.mp4"
 # v6 (David, 2026-09-21): v5's card rects were measured against the stage colour and swallowed each card's drop
 # shadow (4-8 px on the sides, 14 px below), so the rings floated outside the cards. These rects come from the
 # illustration's own extent and the white area above the shadow. Everything else is identical to v4/v5.
 A = ROOT / "course-assets/training-bias"
 WRONG, SKEW, QUESTIONS, STALE, RAG, CLOSE = (A / f"training-bias-{n}.jpg" for n in ("wrong-pattern", "how-bias-happens", "questions-to-ask", "stale", "rag", "close"))
 LIVE, LESSON = A / "training-bias.mp4", ROOT / "lessons/training-bias.md"
-OTHER_ROLLS = [ROOT / f"Prompts/training-bias-{i}.mp4" for i in (1, 2, 3, 4, 5)]
+OTHER_ROLLS = [ROOT / f"Prompts/how-ai-learns-bias-{i}.mp4" for i in (1, 2, 3, 4, 5)]
 
 # Roll-6 visual cuts (scenes.txt, frame-checked) and audio boundaries (10 ms RMS scan).
 WRONG_IN, WRONG_OUT = 657, 1012        # 0:21.90 cut to the boxed cow ("Most of the cows" 21.96); 0:33.73 cut to the two-traps diagram

@@ -578,7 +578,9 @@
   .discussion-question-copy { color: var(--inkSoft); font-size: 17px; line-height: 1.5; }
   .discussion-question-copy p { margin: 0; }
   .discussion-question-title { color: var(--ink); font-size: 20px; font-weight: 700; line-height: 1.4; }
-  .discussion-question-title + p { margin-top: 4px; }
+  .discussion-question-copy p + .discussion-question-title { margin-top: 8px; }
+  .discussion-question-copy .discussion-question-follow-up { display: flex; align-items: baseline; gap: 10px; margin-top: 12px; }
+  .discussion-question-follow-up-arrow { flex: 0 0 auto; color: var(--tryAccent); }
   @media (max-width: 520px) {
     .discussion-question { grid-template-columns: 30px minmax(0, 1fr); gap: 14px; padding: 20px 0; }
     .discussion-question-number { font-size: 36px; }
@@ -1069,7 +1071,7 @@
 <script defer src="start-course.js?v=20261008continue1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
-<script src="group-activities-data.js?v=20261104sectionmoves1"></script>
+<script src="group-activities-data.js?v=20261104discussions30"></script>
 <script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
@@ -1301,7 +1303,7 @@ const LESSON_VIDEOS = {
   evaluating: { src: "course-assets/evaluation-matters/evaluation-matters.mp4?v=20261023ship12", duration: "4 min", title: "Evaluation Matters" },
   critical: { src: "course-assets/critical-thinking/critical-thinking.mp4?v=20261023ship16", duration: "3 min", title: "Five questions that keep the thinking yours." },
   openerfoundations: { src: "course-assets/understand-ai-opener/understand-ai-opener.mp4?v=20261027ship15", duration: "2 min", title: "Not magic, not a person, not normal software.", cta: "Both walk the same section map." },
-  training: { src: "course-assets/training/training.mp4?v=20261008ship10", duration: "4 min", title: "Watch the machine get built: one loop, three phases." },
+  training: { src: "course-assets/how-ai-learns/how-ai-learns.mp4?v=20261008ship10", duration: "4 min", title: "Watch the machine get built: one loop, three phases." },
   aiismath: { src: "course-assets/probability-and-prediction/probability-and-prediction.mp4?v=20261008ship9", duration: "4 min", title: "Two ideas from probability, plus the loop that makes language." },
   tokens: { src: "course-assets/tokens/tokens.mp4?v=20261006ship1", duration: "4 min", title: "How your words become chunks the model can work with." },
   embeddings: { src: "course-assets/embeddings/embeddings.mp4?v=20261009ship16", duration: "4 min", title: "How a token's meaning becomes a row of numbers." },
@@ -1309,7 +1311,7 @@ const LESSON_VIDEOS = {
   layers: { src: "course-assets/layers/layers.mp4?v=20261022ship-layers-v12", duration: "3 min", title: "Meaning builds up, layer by layer." },
   vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20261010ship-vector-space-v20", duration: "4 min", title: "Where a token's numbers finally land." },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20261006ship1", duration: "4 min", title: "How the answer builds itself, one token at a time." },
-  inference: { src: "course-assets/the-next-token/the-next-token.mp4?v=20261023ship4", duration: "3 min", title: "How sampling and temperature shape the next token." },
+  inference: { src: "course-assets/why-answers-vary/why-answers-vary.mp4?v=20261023ship4", duration: "3 min", title: "How sampling and temperature shape the next token." },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener.mp4?v=20261027ship11", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
   hallucination: { src: "course-assets/hallucination/hallucination.mp4?v=20261027ship-hallucination-v20", duration: "3 min", title: "Why AI can make up facts that sound true.", cta: "Both end at the same LAB." },
   trainingbias: { src: "course-assets/training-bias/training-bias.mp4?v=20261027ship11", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
@@ -1322,7 +1324,7 @@ const LESSON_VIDEOS = {
   // `comingSoon` cards reserve the same position for the remaining productions.
   openerskills: { src: "course-assets/build-your-skills-opener/build-your-skills-opener.mp4?v=20261104ship10", duration: "2 min", title: "The Skills You Keep", cta: "Both walk the same section map." },
   choosemodel: { src: "course-assets/when-you-need-more/when-you-need-more.mp4?v=20261103ship7", duration: "3 min", title: "When You Need More" },
-  aitips: { src: "course-assets/next-level-moves/next-level-moves.mp4?v=20261102ship-nextlevel-v5", duration: "4 min", title: "Go Beyond the First Answer", cta: "Both end at the same LAB." },
+  aitips: { src: "course-assets/beyond-the-first-answer/beyond-the-first-answer.mp4?v=20261102ship-nextlevel-v5", duration: "4 min", title: "Go Beyond the First Answer", cta: "Both end at the same LAB." },
   integrity: { src: "course-assets/honesty-and-privacy/honesty-and-privacy.mp4?v=20261023ship7", duration: "4 min", title: "Own the Work. Protect the Details." },
   wherestheline: { src: "course-assets/wheres-the-line/wheres-the-line.mp4?v=20261023ship5", duration: "3 min", title: "Deciding What AI Should Do" },
   peopleskills: { src: "course-assets/people-skills/people-skills.mp4?v=20261026ship10", duration: "2 min", title: "The Skills AI Cannot Replace", cta: "Both end at the same LAB." },
@@ -1332,9 +1334,9 @@ const LESSON_VIDEOS = {
   // The Finish Smarter opener's video will be REAL footage of Luke and Nate
   // delivering their letter and the five big ideas, not a generated cut. The
   // card holds the position until it's recorded.
-  // Embrace the Future is final. These cards reserve the completed video position
+  // Navigate the Future is final. These cards reserve the completed video position
   // while the nine final video cuts are produced and approved.
-  openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4?v=20261027ship8", duration: "2 min", title: "Monsters, or open water? Nobody knows what’s coming.", cta: "Both walk the same section map." },
+  openerrealworld: { src: "course-assets/navigate-the-future-opener/navigate-the-future-opener.mp4?v=20261027ship8", duration: "2 min", title: "Monsters, or open water? Nobody knows what’s coming.", cta: "Both walk the same section map." },
   whatpeoplesay: { src: "course-assets/loudest-voices/loudest-voices.mp4?v=20261103ship13", duration: "4 min", title: "Same field. Same evidence. Very different bets." },
   paceofchange: { src: "course-assets/pace-of-change/pace-of-change.mp4?v=20261103ship12", duration: "4 min", title: "Faster every few months, and nobody knows where it stops." },
   bigdownside: { src: "course-assets/big-downside/big-downside.mp4?v=20261010ship11", duration: "4 min", title: "Three ideas behind AI’s biggest risks." },
@@ -1391,7 +1393,7 @@ const CLOSE_BOARDS = {
   flattery: { pill: "Useful feedback points to the work.", sticky: "Look for specifics, not approval." },
   supporttrap: { pill: "AI can help you get ready for people.", sticky: "In danger, leave the chat and bring in someone who can act." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
-  // Embrace the Future
+  // Navigate the Future
   openerrealworld: { pill: "Nobody has a map of what’s coming.", sticky: "You’re ready to sail into the blank space." },
   whatpeoplesay: { pill: "You can’t control where AI goes next.", sticky: "You can build the skill and judgment to decide what you do next." },
   paceofchange: { pill: "AI keeps getting faster and more powerful.", sticky: "Nobody is sure where it stops." },
@@ -1432,7 +1434,7 @@ const CLOSE_BOARD_ASSETS = {
   evaluating: { src: "course-assets/evaluation-matters/evaluation-matters-close.jpg?v=20261023fullprocess1", cssWidth: 657, width: 1971, height: 597 },
   critical: { src: "course-assets/critical-thinking/critical-thinking-close.jpg", cssWidth: 501, width: 1506, height: 600 },
   openerfoundations: { src: "course-assets/understand-ai-opener/understand-ai-opener-close.jpg", cssWidth: 581, width: 1746, height: 600 },
-  training: { src: "course-assets/training/training-close.jpg", cssWidth: 529, width: 1590, height: 597 },
+  training: { src: "course-assets/how-ai-learns/how-ai-learns-close.jpg", cssWidth: 529, width: 1590, height: 597 },
   aiismath: { src: "course-assets/probability-and-prediction/probability-and-prediction-close.jpg", cssWidth: 497, width: 1494, height: 600 },
   tokens: { src: "course-assets/tokens/tokens-close.jpg", cssWidth: 444, width: 1332, height: 597 },
   embeddings: { src: "course-assets/embeddings/embeddings-close.jpg", cssWidth: 542, width: 1626, height: 597 },
@@ -1440,7 +1442,7 @@ const CLOSE_BOARD_ASSETS = {
   layers: { src: "course-assets/layers/layers-close.jpg", cssWidth: 467, width: 1404, height: 600 },
   vectorspace: { src: "course-assets/vector-space/vector-space-close.jpg", cssWidth: 509, width: 1530, height: 597 },
   prediction: { src: "course-assets/how-ai-answers/how-ai-answers-close.jpg", cssWidth: 542, width: 1626, height: 600 },
-  inference: { src: "course-assets/the-next-token/the-next-token-close.jpg?v=20261009nexttoken", cssWidth: 628, width: 1884, height: 597 },
+  inference: { src: "course-assets/why-answers-vary/why-answers-vary-close.jpg?v=20261009nexttoken", cssWidth: 628, width: 1884, height: 597 },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg", cssWidth: 495, width: 1488, height: 597 },
   hallucination: { src: "course-assets/hallucination/hallucination-close.jpg", cssWidth: 619, width: 1860, height: 597 },
   trainingbias: { src: "course-assets/training-bias/training-bias-close.jpg", cssWidth: 448, width: 1344, height: 597 },
@@ -1449,7 +1451,7 @@ const CLOSE_BOARD_ASSETS = {
   flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg?v=20261102restoreclose", cssWidth: 495, width: 1488, height: 600 },
   supporttrap: { src: "course-assets/support-trap/support-trap-close.jpg", cssWidth: 530, width: 1590, height: 600 },
   faketrap: { src: "course-assets/fake-trap/fake-trap-close.jpg", cssWidth: 521, width: 1566, height: 597 },
-  openerrealworld: { src: "course-assets/embrace-the-future-opener/embrace-the-future-opener-close.jpg", cssWidth: 509, width: 1530, height: 597 },
+  openerrealworld: { src: "course-assets/navigate-the-future-opener/navigate-the-future-opener-close.jpg", cssWidth: 509, width: 1530, height: 597 },
   whatpeoplesay: { src: "course-assets/loudest-voices/loudest-voices-close.jpg?v=20261022hands", cssWidth: 562, width: 1686, height: 597 },
   paceofchange: { src: "course-assets/pace-of-change/pace-of-change-close.jpg", cssWidth: 571, width: 1716, height: 597 },
   bigdownside: { src: "course-assets/big-downside/big-downside-close.jpg?v=20261009clean2", cssWidth: 445, width: 1335, height: 597 },
@@ -1459,7 +1461,7 @@ const CLOSE_BOARD_ASSETS = {
   computecost: { src: "course-assets/data-centers/data-centers-close.jpg", cssWidth: 485, width: 1458, height: 597 },
   unexpected: { src: "course-assets/unexpected-results/unexpected-results-close.jpg", cssWidth: 748, width: 2244, height: 597 },
   choosemodel: { src: "course-assets/when-you-need-more/when-you-need-more-close.jpg?v=20261001close1", cssWidth: 707, width: 2124, height: 708 },
-  aitips: { src: "course-assets/next-level-moves/next-level-moves-close.jpg", cssWidth: 557, width: 1674, height: 597 },
+  aitips: { src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-close.jpg", cssWidth: 557, width: 1674, height: 597 },
   creativethinking: { src: "course-assets/creative-thinking/creative-thinking-close.jpg", cssWidth: 400, width: 1200, height: 600 },
   peopleskills: { src: "course-assets/people-skills/people-skills-close.jpg?v=20260926yellow", cssWidth: 628, width: 1884, height: 597 },
   becurious: { src: "course-assets/curiosity/curiosity-close.jpg?v=20261104titles6", cssWidth: 552, width: 1656, height: 597 },
@@ -2226,7 +2228,9 @@ function DiscussionQuestions(props) {
         E("div", { className: "discussion-question-copy" },
           question.context ? E("p", null, question.context) : null,
           E("p", { className: "discussion-question-title" }, question.title),
-          question.followUp ? E("p", null, question.followUp) : null));
+          question.followUp ? E("p", { className: "discussion-question-follow-up" },
+            E("span", { className: "discussion-question-follow-up-arrow", "aria-hidden": true }, "↳"),
+            E("span", null, question.followUp)) : null));
     }));
 }
 function LessonRule() {
@@ -3337,7 +3341,7 @@ const SECTION_GROUPS = [{
   label: "Avoid Traps",
   sections: ["openerprotect", "hallucination", "trainingbias", "documenttrap", "mindtrap", "flattery", "supporttrap", "faketrap"]
 }, {
-  label: "Embrace the Future",
+  label: "Navigate the Future",
   sections: ["openerrealworld", "whatpeoplesay", "paceofchange", "bigdownside", "bigupside", "agents", "workchanges", "computecost", "unexpected"]
 }, {
   label: "Build Your Skills",
@@ -3359,16 +3363,16 @@ const SECTION_META = {
   tokens: { kicker: "TEXT BECOMES NUMBERS", label: "Tokens", icon: "\uD83E\uDDE9" },
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
-  training: { kicker: "HOW IT LEARNS", label: "Training", icon: "\uD83D\uDCDA" },
+  training: { kicker: "HOW IT LEARNS", label: "How AI Learns", icon: "\uD83D\uDCDA" },
   trainingbias: { kicker: "SKEWED AND STALE", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Matters", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
   prediction: { kicker: "FROM MEANING TO WORDS", label: "How AI Answers", icon: "\uD83D\uDCCA" },
-  inference: { kicker: "THE FINE PRINT", label: "The Next Token", title: "The Next Token", icon: "\uD83D\uDD0D" },
+  inference: { kicker: "THE FINE PRINT", label: "Why Answers Vary", title: "Why Answers Vary", icon: "\uD83D\uDD0D" },
   modelselection: { kicker: "THE WRAPPER MATTERS", label: "Your Home Base", icon: "\uD83C\uDF9B\uFE0F" },
   choosemodel: { kicker: "WHAT CAN CHANGE THE ANSWER", label: "When You Need More", icon: "\uD83E\uDE9C" },
-  aitips: { kicker: "START WHERE YOU ARE", label: "Next Level Moves", icon: "\uD83E\uDDF0" },
+  aitips: { kicker: "START WHERE YOU ARE", label: "Beyond the First Answer", icon: "\uD83E\uDDF0" },
   documenttrap: { kicker: "RETRIEVED, NOT READ", label: "Document Trap", icon: "\uD83D\uDCC4" },
   hallucination: { kicker: "PROBABLE \u2260 TRUE", label: "Hallucination", icon: "\uD83E\uDEE7" },
   mindtrap: { kicker: "FEELS LIKE A PERSON, TRUSTED LIKE ONE", label: "Trust Trap", icon: "\uD83E\uDEE5" },
@@ -3399,7 +3403,7 @@ const SECTION_META = {
   whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "Loudest Voices", title: "Loudest Voices", icon: "\uD83D\uDDE3\uFE0F" },
   paceofchange: { kicker: "FASTER EVERY YEAR", label: "Pace of Change", title: "Pace of Change", icon: "\uD83D\uDCC8" },
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
-  openerfinish: { kicker: "OPENER", label: "Opener", icon: "\uD83D\uDDFA\uFE0F" },
+  openerfinish: { kicker: "FIVE BIG IDEAS", label: "Five Big Ideas", icon: "\uD83D\uDDFA\uFE0F" },
   whatyoulearned: { kicker: "PROVE IT", label: "The Final", icon: "\uD83D\uDCDC" },
   resources: { kicker: "KEEP LEARNING", label: "Resources", icon: "\uD83D\uDCDA", optional: true },
   forgroups: { kicker: "LEARN TOGETHER", label: "For Groups", icon: "👥", optional: true },
@@ -3418,9 +3422,8 @@ const OPENER_PDF_NAMES = {
   openerworkwith: "Opener-Work",
   openerfoundations: "Opener-Understand",
   openerprotect: "Opener-Avoid",
-  openerrealworld: "Opener-Embrace",
-  openerskills: "Opener-Build",
-  openerfinish: "Opener-Finish"
+  openerrealworld: "Opener-Navigate",
+  openerskills: "Opener-Build"
 };
 // Filename slug for a lesson's assets (PDF/video/illustration): from the displayed
 // title, lowercase-hyphen, & -> "and", apostrophes dropped. Keep in sync with the
@@ -3474,7 +3477,7 @@ const FINAL_BANK = [
     explain: "You meant to share the homework, but the photo might also include your name, a password, or someone’s private message. Share only what AI needs."
   },
   {
-    id: "fx05", section: "Embrace the Future", lessonId: "whatpeoplesay",
+    id: "fx05", section: "Navigate the Future", lessonId: "whatpeoplesay",
     q: "A confident prediction from an AI expert is still a prediction.",
     options: ["True", "False"],
     correct: 0,
@@ -3506,7 +3509,7 @@ const FINAL_BANK = [
     explain: "Confidence is a writing style, not a truth signal. The model sounds equally sure when it’s right and when it’s hallucinating."
   },
   {
-    id: "fx09", section: "Embrace the Future", lessonId: "agents",
+    id: "fx09", section: "Navigate the Future", lessonId: "agents",
     q: "An AI agent has finished your team’s highlight reel. You should review it before it posts under your name.",
     options: ["True", "False"],
     correct: 0,
@@ -3676,7 +3679,7 @@ const FINAL_BANK = [
     explain: "Several next words are usually plausible, and the model picks among them. Same start, different path. You watched it happen in the story lab."
   },
   {
-    id: "fx25", section: "Embrace the Future", lessonId: "bigdownside",
+    id: "fx25", section: "Navigate the Future", lessonId: "bigdownside",
     q: "Why can researchers inspect parts of an AI model but still not fully explain every answer?",
     options: [
       "They’re keeping it a trade secret",
@@ -3844,7 +3847,7 @@ function OpenerFoundationsSection(props) {
       }
     ],
     nextLessonId: "training",
-    nextLessonLabel: "Next: Training",
+    nextLessonLabel: "Next: How AI Learns",
     completeAndNavigate: props.completeAndNavigate
   });
 }
@@ -3926,6 +3929,8 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Each added word becomes part of what the model uses for its next prediction. More than one word can fit, so the same starting text can lead to different answers."),
     closeBoard("aihistory"),
     /*#__PURE__*/E(ContinueTheStoryLab, null),
+    E(GroupExercise, { id: "aihistory-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aihistory-discussion"; }).questions })),
     E(StandaloneGroupExercise, {
       id: "aihistory-group-exercise",
       title: "One Word at a Time",
@@ -4140,6 +4145,8 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "This course focuses on generative AI."),
     closeBoard("llms"),
     /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
+    React.createElement(GroupExercise, { id: "llms-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "llms-discussion"; }).questions })),
     React.createElement(LastPersonStandingGroupExercise, { disclosure: true }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whydeeper"); }, label: "Next: Why Learn AI?" })
@@ -4462,6 +4469,8 @@ function AIIsMathSection(props) {
     ),
     closeBoard("aiismath"),
     /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, null),
+    React.createElement(GroupExercise, { id: "aiismath-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aiismath-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
@@ -4536,8 +4545,8 @@ function WelcomeSection(props) {
         E("strong", null, "Group Exercises"),
         " at the end of lessons, with discussion questions or activities to do together.")),
     E("img", {
-      src: "course-assets/welcome/welcome-where-this-course-takes-you.jpg?v=20260915titlebanner1",
-      alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Embrace the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
+      src: "course-assets/welcome/welcome-where-this-course-takes-you.jpg?v=20261104navigate",
+      alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Navigate the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     closeBoard("welcome"),
@@ -4904,7 +4913,7 @@ function WhyDeeperSection(props) {
     }),
     closeBoard("whydeeper"),
     /*#__PURE__*/E(AIMultiplierTryIt, null),
-    E(GroupExercise, { id: "whydeeper-group-exercise", lead: "Explore how AI is changing your life today and what it could mean for your future. Five discussion questions give your group a place to start." },
+    E(GroupExercise, { id: "whydeeper-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whydeeper"; }).questions })),
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: AI is Different" }));
@@ -4991,6 +5000,8 @@ function DoesAIThinkSection(props) {
 
 
     E(TwentyQuestionsLab, null),
+    E(GroupExercise, { id: "doesaithink-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "doesaithink-discussion"; }).questions })),
     E(StandaloneGroupExercise, {
       id: "doesaithink-group-exercise", title: "Spot What’s Wrong",
       meta: "12 pictures · One shared classroom screen",
@@ -5122,7 +5133,7 @@ function WhyBotherSection(props) {
             feedback: answered ? s.feedback : null
           }, CATCH_CHOICES.map(function(label, optIdx) { return PillButton(label, optIdx); }));
         }))),
-    E(GroupExercise, { id: "whybother-group-exercise", lead: "What do you bring to the tool? Explore how your knowledge and skills can take you beyond the new average. Your group leader can choose from these five questions and decide how to discuss them." },
+    E(GroupExercise, { id: "whybother-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whybother"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
@@ -5214,7 +5225,7 @@ function AIvsCodeSection(props) {
     E(BodyP, null, "It might miss a crossed-out song. It might look great, but still have mistakes."),
     closeBoard("aivscode"),
     E(MessyNotesLab, null),
-    E(GroupExercise, { id: "aivscode-group-exercise", lead: "Rules, patterns, and messy information. Discuss what makes AI different and why that difference matters. Your group leader can choose from these five questions." },
+    E(GroupExercise, { id: "aivscode-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aivscode"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: What’s an LLM?" })
@@ -5615,6 +5626,8 @@ function HowAIReadsSection(props) {
     }),
     closeBoard("attention"),
     E(BeTheAttentionTryIt, null),
+    E(GroupExercise, { id: "attention-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "attention-discussion"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
@@ -5739,6 +5752,8 @@ function TrainingBiasSection(props) {
                   st.suffix) : st.body),
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
+    React.createElement(GroupExercise, { id: "trainingbias-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "trainingbias-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
   );
@@ -5970,7 +5985,7 @@ function TrainingKitchenHelper(props) {
 function TrainingSection(props) {
   function board(filename, alt) {
     return React.createElement("img", {
-      src: "course-assets/training/" + filename + "?v=20260927lessonflow1",
+      src: "course-assets/how-ai-learns/" + filename + "?v=20260927lessonflow1",
       alt: alt,
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     });
@@ -5979,22 +5994,24 @@ function TrainingSection(props) {
     React.createElement(LessonHeader, { sectionId: "training" }),
     React.createElement(BodyP, null, "AI can explain chemistry, write code, and help you improve an essay. How did it learn to do those things?"),
     React.createElement(BodyP, null, "Think about learning to shoot a basketball. You try, see how you did, and make an adjustment. AI also learns through repeated attempts. Let’s follow the process from preparation to a model that is ready to use."),
-    board("training-before-starts.jpg", "Before Training Starts. Set Up the System: Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns. Gather the Data: Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum."),
+    board("how-ai-learns-before-starts.jpg", "Before Training Starts. Set Up the System: Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns. Gather the Data: Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum."),
     React.createElement(BodyP, null, "The model’s internal numbers are called ", React.createElement("strong", null, "weights"), ". Training adjusts these numbers to change its future predictions."),
     React.createElement(BodyP, null, "Training builds different abilities in three main phases. We’ll use the same basketball question to see what each phase adds."),
-    board("training-three-phases.jpg", "Three Phases of Training. The same question: How do I shoot a basketball? Phase 1, Pretraining: Learn patterns from data. Phase 2, Instruction Tuning: Learn to follow instructions. Phase 3, Preference Tuning: Improve responses through feedback."),
+    board("how-ai-learns-three-phases.jpg", "Three Phases of Training. The same question: How do I shoot a basketball? Phase 1, Pretraining: Learn patterns from data. Phase 2, Instruction Tuning: Learn to follow instructions. Phase 3, Preference Tuning: Improve responses through feedback."),
     React.createElement(BodyP, null, "Training repeatedly predicts, checks, and adjusts. The example below shows how this works when predicting text. Later phases use different examples and feedback."),
-    board("training-guess-check-adjust.jpg", "The Training Loop. Training example: “Peanut butter and jelly.” Guess: Given ‘Peanut butter and ___,’ the model guesses cloud. Check: The example says jelly. Compare the guess with that word. Adjust: Adjust the model’s internal numbers to make jelly more likely in this situation. Repeat with more examples. The patterns build."),
+    board("how-ai-learns-guess-check-adjust.jpg", "The Training Loop. Training example: “Peanut butter and jelly.” Guess: Given ‘Peanut butter and ___,’ the model guesses cloud. Check: The example says jelly. Compare the guess with that word. Adjust: Adjust the model’s internal numbers to make jelly more likely in this situation. Repeat with more examples. The patterns build."),
     React.createElement(BodyP, null, "Pretraining builds a foundation of language and information patterns."),
-    board("training-pretraining.jpg", "1 · Pretraining. What Pretraining Builds. Learning from more text than you could read in 1,000 lifetimes. Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant. What an Answer Might Look Like: “The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...” What Still Needs Work: The model can produce fluent text, but it doesn’t reliably follow your instructions yet."),
+    board("how-ai-learns-pretraining.jpg", "1 · Pretraining. What Pretraining Builds. Learning from more text than you could read in 1,000 lifetimes. Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant. What an Answer Might Look Like: “The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...” What Still Needs Work: The model can produce fluent text, but it doesn’t reliably follow your instructions yet."),
     React.createElement(BodyP, null, "Next, examples of good responses teach the model to follow requests."),
-    board("training-instruction-tuning.jpg", "2 · Instruction Tuning. Learn to Follow Instructions. People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples. What an Answer Might Look Like: “To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.” What Still Needs Work: The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful."),
+    board("how-ai-learns-instruction-tuning.jpg", "2 · Instruction Tuning. Learn to Follow Instructions. People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples. What an Answer Might Look Like: “To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.” What Still Needs Work: The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful."),
     React.createElement(BodyP, null, "Then, feedback helps shape which responses the model is more likely to give."),
-    board("training-preference-tuning.jpg", "3 · Preference Tuning. Learn from Feedback. People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely. What an Answer Might Look Like: “Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.” What Still Needs Work: Feedback helps improve the answers, but AI can still give a wrong answer that sounds right."),
+    board("how-ai-learns-preference-tuning.jpg", "3 · Preference Tuning. Learn from Feedback. People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely. What an Answer Might Look Like: “Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.” What Still Needs Work: Feedback helps improve the answers, but AI can still give a wrong answer that sounds right."),
     React.createElement(BodyP, null, "When training ends, the model is ready to use. During a normal chat, it uses the weights that training produced. It can work with new information you give it, but your conversation does not change those weights."),
     closeBoard("training"),
     React.createElement(TrainingKitchenHelper, null),
     React.createElement(BodyP, null, "Your choices shaped the helper’s answers to new questions. That’s the idea behind preference tuning: feedback guides future responses."),
+    React.createElement(GroupExercise, { id: "training-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "training-discussion"; }).questions })),
     React.createElement(LessonRule, null),
     React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("tokens"), label: "Next: Tokens" }));
 }
@@ -6410,6 +6427,8 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "“Unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each piece gets its own embedding, a row of learned numbers."),
   closeBoard("embeddings"),
   clubTryIt,
+  E(GroupExercise, { id: "embeddings-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+    E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "embeddings-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
@@ -7344,7 +7363,7 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time."),
   /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same. That’s called sampling."),
   /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/the-next-token/the-next-token-draws.jpg?v=20261023body29",
+    src: "course-assets/why-answers-vary/why-answers-vary-draws.jpg?v=20261023body29",
     alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, one possible set is Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently. The best chance is not a guarantee.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
@@ -7449,6 +7468,8 @@ function PromptSection(props) {
         checked: labChecked,
         onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
       })),
+    React.createElement(GroupExercise, { id: "prompt-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prompt-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluation Matters" }));
 }
@@ -7587,6 +7608,8 @@ function DocumentChatSection(props) {
                 E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.prompt))),
             E(QuizBlock, { key: si, surface: "mint", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
+    E(GroupExercise, { id: "documenttrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "documenttrap-discussion"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
@@ -7682,6 +7705,8 @@ function ModelSelectionSection(props) {
             });
           }));
       }))),
+  React.createElement(GroupExercise, { id: "modelselection-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "modelselection-discussion"; }).questions })),
   React.createElement(HomeBaseGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
@@ -7936,7 +7961,7 @@ function AITipsSection(props) {
     E(BodyP, null,
       "Work with AI like it’s a 2-person group project: you and AI. Ask each other questions and bounce ideas off each other. But remember that you make the final decisions."),
     E("img", {
-      src: "course-assets/next-level-moves/next-level-moves-summer-business.jpg?v=20260914attribution1",
+      src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-summer-business.jpg?v=20260914attribution1",
       alt: "Starting a Summer Business. The student asks AI to help find a fitting business. AI first asks about the student’s strengths and nearby problems, then suggests pet care, math tutoring, and a neighborhood errand service.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -7953,7 +7978,7 @@ function AITipsSection(props) {
     E(BodyP, null,
       "Work with AI in the same way. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed."),
     E("img", {
-      src: "course-assets/next-level-moves/next-level-moves-profit.jpg?v=20260914attribution1",
+      src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-profit.jpg?v=20260914attribution1",
       alt: "Understanding Profit. The student asks for a simple lawn-mowing example. AI explains that profit is sales minus every cost and walks through a $300 sales, $150 costs, and $150 profit example.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -7968,7 +7993,7 @@ function AITipsSection(props) {
     E(BodyP, null,
       "Real life isn’t always that clear. What if you face a big decision or issue, and don’t even know where to start? In those moments, AI can help."),
     E("img", {
-      src: "course-assets/next-level-moves/next-level-moves-college.jpg?v=20260914attribution1",
+      src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-college.jpg?v=20260914attribution1",
       alt: "Thinking About College. The student asks AI to ask one question at a time without recommending a school. AI begins by asking whether the student has a field in mind or wants college to help explore possibilities.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -7987,7 +8012,7 @@ function AITipsSection(props) {
     E(BodyP, null,
       "Working with AI follows the same pattern. As you add details, correct weak spots, and improve the draft, AI has better material to question, evaluate, and improve."),
     E("img", {
-      src: "course-assets/next-level-moves/next-level-moves-iteration.jpg?v=20260914attribution1",
+      src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-iteration.jpg?v=20260914attribution1",
       alt: "From Idea to Business Plan. An early, vague request produces a generic list. In a later round, the student adds service area, equipment, schedule, and pricing details, so AI can pressure-test the actual plan.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
@@ -8000,6 +8025,8 @@ function AITipsSection(props) {
       E("p", null, E("strong", null, "Takeaway: "), "Better details give AI better material to improve.")),
     closeBoard("aitips"),
     E(ThoughtPartnerLab, null),
+    E(GroupExercise, { id: "aitips-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aitips-discussion"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("choosemodel"); }, label: "Next: When You Need More" }));
 }
@@ -8165,8 +8192,10 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(AnswerBuildDemo, null),
   closeBoard("prediction"),
   /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
+  React.createElement(GroupExercise, { id: "prediction-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prediction-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),
-  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: The Next Token" }));
+  /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Why Answers Vary" }));
 }
 
 // Playable dino game shown at the top of LAB, so students see the finished
@@ -8379,6 +8408,8 @@ function HallucinationSection(props) {
                   st.suffix) : st.body),
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
+  React.createElement(GroupExercise, { id: "hallucination-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "hallucination-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
@@ -8772,7 +8803,7 @@ function WhatItDoesBestSection(props) {
             });
           }));
         }))),
-    E(GroupExercise, { id: "whatitdoesbest-group-exercise", lead: "Where would it help you? Connect AI’s four strengths to things you do in school and everyday life. Your group leader can choose from these five questions and decide how to discuss them." },
+    E(GroupExercise, { id: "whatitdoesbest-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whatitdoesbest"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
@@ -8937,6 +8968,8 @@ function PromptingSection(props) {
       checked: labChecked,
       onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
     })),
+  React.createElement(GroupExercise, { id: "prompting-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prompting-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Matters" }));
 }
@@ -9109,6 +9142,8 @@ function StudyingWithAISection(props) {
       E("p", null, "Use AI to strengthen the learning, not skip it.")),
     closeBoard("studying"),
     E(CourseNotebookLab, null),
+    E(GroupExercise, { id: "studying-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "studying-discussion"; }).questions })),
     E(RidiculousStudyGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
@@ -9265,7 +9300,7 @@ function EvaluatingSection(props) {
     closeBoard("evaluating"),
     E(DigDeeperTryIt, null),
     E(LessonRule, null),
-    E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Next Level Moves" }));
+    E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Beyond the First Answer" }));
 }
 function CreativeThinkingCareerLab() {
   var E = React.createElement;
@@ -10248,6 +10283,8 @@ function MindTrapSection(props) {
                 /*#__PURE__*/React.createElement(AIBubble, { text: sc.reply, align: "left" }))),
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
+    React.createElement(GroupExercise, { id: "mindtrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "mindtrap-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
@@ -10393,6 +10430,8 @@ function FlatteryTrapSection(props) {
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null, "Know what you came for. When you have it, choose what happens next."),
+    React.createElement(GroupExercise, { id: "flattery-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "flattery-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
@@ -10602,16 +10641,16 @@ function OpenerRealWorldSection(props) {
         /*#__PURE__*/React.createElement("strong", null, "AI is here to stay"),
         ". Not that it keeps getting better forever. Just that it isn\u2019t going away."),
       /*#__PURE__*/React.createElement("img", {
-        src: "course-assets/embrace-the-future-opener/embrace-the-future-opener-edge-of-the-map.jpg",
+        src: "course-assets/navigate-the-future-opener/navigate-the-future-opener-edge-of-the-map.jpg",
         alt: "Two teens stand on an old parchment map at the edge of a glowing digital ocean. On the stormy side, sea monsters coil out of dark water; on the sunlit side, clear open water leads to a green island and a sailing ship on the horizon",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
       })
     ],
     sectionOverview: {
       eyebrow: "In this section",
-      title: "Embrace the Future"
+      title: "Navigate the Future"
     },
-    sectionOverviewBoard: "course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg?v=20260915titlebanner1",
+    sectionOverviewBoard: "course-assets/navigate-the-future-opener/navigate-the-future-opener-section-map.jpg?v=20261104navigate",
     groups: [
       {
         kicker: "The Argument",
@@ -11111,7 +11150,7 @@ function SyntheticMediaSection(props) {
     closeBoard("faketrap"),
     React.createElement(FakeTrapPhotoTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
-    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Embrace the Future" }));
+    /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Navigate the Future" }));
 }
 // ── The Final ───────────────────────────────────────────────────────────────
 // The course's closing check, reframed as reinforcement rather than a test:
@@ -12035,7 +12074,7 @@ function FiveBigIdeasKeepsake() {
   var alt = "Illustrated keepsake poster titled Five Big Ideas to Take With You. Five scenes show a Latina female student and a Black male student watching AI select the next word in a sentence; correcting a polished answer that incorrectly prices a 20%-off $60 hoodie at $52 instead of $48; using a reference book, calculations, and a sketch to improve a solar-model suggestion; choosing one of three project designs; and building and testing the chosen model together. The five ideas are: AI predicts. It doesn’t think. Fluent isn’t the same as true. The more you know, the more it gives. You make the call. The better AI gets, the more you matter. The closing line says: Now you’re smarter than the tool. Board credit: besmarterthanthetool.com.";
   return E("div", { style: { marginBottom: 24 } },
     E("img", {
-      src: "course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.jpg?v=20260921batch7",
+      src: "course-assets/five-big-ideas/five-big-ideas.jpg?v=20260921batch7",
       alt: alt,
       style: {
         display: "block", width: "100%", maxWidth: 760, height: "auto",
@@ -12050,17 +12089,17 @@ function FiveBigIdeasKeepsake() {
     },
       E("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap" } },
         E("a", {
-          href: "course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.jpg?v=20260921batch7",
+          href: "course-assets/five-big-ideas/five-big-ideas.jpg?v=20260921batch7",
           download: "Five Big Ideas to Take With You.jpg",
-          onClick: function(event) { downloadFile(event, "course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.jpg?v=20260921batch7", "Five Big Ideas to Take With You.jpg", "image"); },
+          onClick: function(event) { downloadFile(event, "course-assets/five-big-ideas/five-big-ideas.jpg?v=20260921batch7", "Five Big Ideas to Take With You.jpg", "image"); },
           "aria-busy": downloadState.busy === "image" ? "true" : undefined,
           style: downloadStyle
         }, downloadState.busy === "image" ? "Saving image…" : "Save image"),
         E("span", { "aria-hidden": "true", style: { color: "var(--inkMuted)" } }, "·"),
         E("a", {
-          href: "packets/finish-smarter-opener-five-big-ideas.pdf?v=20260921batch7",
+          href: "packets/five-big-ideas.pdf?v=20260921batch7",
           download: "Five Big Ideas to Take With You.pdf",
-          onClick: function(event) { downloadFile(event, "packets/finish-smarter-opener-five-big-ideas.pdf?v=20260921batch7", "Five Big Ideas to Take With You.pdf", "pdf"); },
+          onClick: function(event) { downloadFile(event, "packets/five-big-ideas.pdf?v=20260921batch7", "Five Big Ideas to Take With You.pdf", "pdf"); },
           "aria-busy": downloadState.busy === "pdf" ? "true" : undefined,
           style: downloadStyle
         }, downloadState.busy === "pdf" ? "Downloading PDF…" : "Download PDF")),
@@ -12135,7 +12174,7 @@ function CourseToolkit(props) {
     "title": "Five Big Ideas to Take With You",
     "description": "The illustrated reminder from Finish Smarter, ready to keep nearby.",
     "lesson": "openerfinish",
-    "base": "packets/finish-smarter-opener-five-big-ideas",
+    "base": "packets/five-big-ideas",
     "format": "Illustrated keepsake"
   }
 ];
@@ -12673,6 +12712,8 @@ function QuestionsValuableSection(props) {
         checked: labChecked,
         onToggle: function(index) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[index] = !prev[index]; return next; }); }
       })),
+    React.createElement(GroupExercise, { id: "questionsvaluable-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "questionsvaluable-discussion"; }).questions })),
     React.createElement(QuestionsMatterGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Prompting Matters" })
@@ -12805,7 +12846,7 @@ function BigUpsideSection(props) {
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: Rise of Agents" }));
 }
-// Embrace the Future lessons.
+// Navigate the Future lessons.
 function WhatPeopleSaySection(props) {
   var E = React.createElement;
   const [betAnswers, setBetAnswers] = useState({});
@@ -14358,6 +14399,7 @@ function LLMExplorer() {
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;
   } catch (ex) {}
+  if (printParam === "embrace-the-future") printParam = "navigate-the-future";
   if (printParam === "lesson:engagementtrap") printParam = "lesson:flattery";
   if (printParam === "lesson:control") printParam = "lesson:whatpeoplesay";
   if (printParam === "lesson:groupexercises") printParam = "lesson:forgroups";

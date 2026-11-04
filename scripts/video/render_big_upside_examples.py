@@ -7,7 +7,7 @@ Run with .video-venv/bin/python scripts/video/render_big_upside_examples.py.
 from PIL import Image, ImageDraw
 
 from editorial_typography import face
-from render_embrace_editorial_batch import (
+from render_navigate_editorial_batch import (
     ROOT, BLUE, TEAL, Card, CardBoard, render_card_board, save_course_image,
 )
 

@@ -7,7 +7,7 @@ the Cooper Flagg/current-source explanation. All five course boards are rebuilt
 from the current JPGs, retained Notebook frames have the Gemini corner mark
 cleaned, and the current standard close replaces the engine close.
 
-Review only: writes Prompts/training-bias-v3.mp4 and a new audit directory.
+Review only: writes Prompts/how-ai-learns-bias-v3.mp4 and a new audit directory.
 It never modifies the live video, either source roll, or lesson materials.
 """
 
@@ -43,8 +43,8 @@ from gemini_mark import clean_frame, glyph_mask  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = ROOT / "course-assets/training-bias/training-bias.mp4"
-DONOR = ROOT / "Prompts/training-bias-2.mp4"
-DEST = ROOT / "Prompts/training-bias-v3.mp4"
+DONOR = ROOT / "Prompts/how-ai-learns-bias-2.mp4"
+DEST = ROOT / "Prompts/how-ai-learns-bias-v3.mp4"
 OUT = ROOT / "video-audit/training-bias-repair-2026-09-18-v3"
 
 ASSETS = ROOT / "course-assets/training-bias"

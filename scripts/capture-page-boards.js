@@ -47,7 +47,7 @@ const BOARDS = [
     find: ["WHAT KIND OF THING IS AI?", "It’s not magic.", "It’s its own kind of thing."] },
   { section: "openerprotect", out: "avoid-traps-opener-traps.jpg", retainedSource: true, width: 740,
     find: ["THE TRAPS AHEAD", "The false fact sounds sure.", "every trap looks fine from the inside."] },
-  { section: "openerrealworld", out: "embrace-the-future-opener-voices.jpg", retainedSource: true, width: 740,
+  { section: "openerrealworld", out: "navigate-the-future-opener-voices.jpg", retainedSource: true, width: 740,
     find: ["WHAT EVERYONE’S SAYING", "It’s going to cure diseases.", "who’s right? nobody knows."] },
   { section: "openerskills", out: "build-your-skills-opener-creed.jpg", retainedSource: true, width: 740,
     find: ["WHAT MAKES YOU VALUABLE?", "Your choices.", "And you’ll always be Smarter Than the Tool."] },
@@ -142,7 +142,7 @@ const BOARDS = [
   { section: "attention", out: "transformer-order.jpg", width: 902, vw: 960,
     find: ["Reading in order", "Reading everything at once", "Reading everything at once destroys the meaning."] },
 
-  // Embrace the Future video-source boards. These are captured from the live page
+  // Navigate the Future video-source boards. These are captured from the live page
   // so late editorial changes (Doubter, Context Window, updated jailbreak copy,
   // and the Unexpected Results heading) cannot drift from the video kit.
   // Loudest Voices board 1 is the approved static Editorial Explainer at

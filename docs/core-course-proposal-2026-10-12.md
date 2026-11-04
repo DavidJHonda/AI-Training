@@ -84,7 +84,7 @@ After the core, offer three coherent extensions:
 | Extension | Content and reason to take it |
 | --- | --- |
 | **Understand AI** | Preserve the technical sequence from Training through The Next Token, with its opener and recurring examples. For students who want to understand how words become answers. |
-| **AI and the Future** | Preserve the Embrace the Future sequence. Include the full Where’s the Line? discussion as an optional companion. For classes exploring benefits, risks, incentives, ethics, and changing work. |
+| **AI and the Future** | Preserve the Navigate the Future sequence. Include the full Where’s the Line? discussion as an optional companion. For classes exploring benefits, risks, incentives, ethics, and changing work. |
 | **Build Your Skills** | Preserve the Career Explorer chain beginning in Next Level Moves and continuing through People Skills, Creative Thinking, Curious & Flexible, and Make Your Move. Add a short entry recap for students arriving directly from the core. |
 
 Use **Go deeper** links for a specific nearby question: Does AI Think?, Training Bias, the full Document Trap, app setup guidance, and fuller trap explanations. These links lead to existing material; they do not create another required checklist.

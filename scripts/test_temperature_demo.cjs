@@ -19,7 +19,7 @@ const base=process.env.BASE_URL || 'http://127.0.0.1:8792';
   await page.evaluate(()=>document.fonts.ready);
   await page.addStyleTag({content:'.sticky-lesson-bar{visibility:hidden!important}'});
   fs.mkdirSync('tmp/temperature-demo',{recursive:true});
-  assert.equal(await page.locator('img[src*="the-next-token-temperature"]').count(),0);
+  assert.equal(await page.locator('img[src*="why-answers-vary-temperature"]').count(),0);
   assert.equal(await page.getByText('Two important points:',{exact:true}).count(),0);
   assert.equal(await page.getByText('How Big Is 2 Quadrillion?',{exact:false}).count(),0,'Scale quiz replaced');
   assert.equal(await page.getByText('Match the Concepts',{exact:false}).count(),1);

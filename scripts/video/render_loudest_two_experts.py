@@ -3,7 +3,7 @@
 import json, hashlib
 from pathlib import Path
 from PIL import Image, ImageDraw
-from render_embrace_editorial_review import (
+from render_navigate_editorial_review import (
     VOICES, face, tracked_width, INNER_TITLE_TRACKING, wrap, WHITE, FRAME,
     draw_board_title, CARDS_TOP, draw_shadow, CARD_RADIUS, mix_with_white,
     CARD_BORDER_OPACITY, accent_wash, cover, top_round_mask, draw_inner_title,

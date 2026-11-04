@@ -11,9 +11,9 @@ David accepted the five earlier blue-board cuts (“The videos are good”), the
 | Video | Previous approved cut | Revised candidate | Additional saving |
 |---|---:|---:|---:|
 | avoid-traps-opener | 202.300s | 178.333s | 23.967s |
-| embrace-the-future-opener | 187.200s | 145.667s | 41.533s |
+| navigate-the-future-opener | 187.200s | 145.667s | 41.533s |
 
-Candidates: `Prompts/avoid-traps-opener-v11.mp4` and `Prompts/embrace-the-future-opener-v8.mp4`.
+Candidates: `Prompts/avoid-traps-opener-v11.mp4` and `Prompts/navigate-the-future-opener-v8.mp4`.
 
 Both are rebuilt from the hash-pinned pre-blue-board source versions (Avoid v9, Embrace v6), with all approved cuts in one encode. This avoids re-encoding the already-rendered v10/v7 intermediates. Full paths and hashes are in `edit-manifest.json`.
 

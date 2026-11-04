@@ -42,7 +42,7 @@ BOARD = section_maps.MapBoard(
             "Learn where AI goes wrong, why it happens, and what to do next.",
         ),
         section_maps.Row(
-            "Embrace the Future",
+            "Navigate the Future",
             "Think clearly about what AI may change without getting lost in hype or fear.",
         ),
         section_maps.Row(

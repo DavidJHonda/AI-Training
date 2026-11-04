@@ -3067,31 +3067,31 @@ def render_training_boards() -> None:
         Card("Guess", "Given ‘Peanut butter and ___,’ the model guesses cloud.", PURPLE, "training-guess", bold_word="cloud"),
         Card("Check", "The example says jelly. Compare the guess with that word.", BLUE, "training-check", bold_word="jelly"),
         Card("Adjust", "Adjust the model’s internal numbers to make jelly more likely in this situation.", TEAL, "training-nudge", bold_word="jelly"),
-    ], "Repeat with more examples. The patterns build.", board_path("training", "01-training-loop.jpg"),
+    ], "Repeat with more examples. The patterns build.", board_path("how-ai-learns", "01-training-loop.jpg"),
         loop_to=0, intro="Training example: “Peanut butter and jelly.”")
     render_cards("Before Training Starts", [
         Card("Set Up the System", "Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.", PURPLE, "training-setup-system"),
         Card("Gather the Data", "Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.", BLUE, "training-gather-data"),
-    ], None, board_path("training", "02-before-training.jpg"))
-    render_pretraining_phase(board_path("training", "03-pretraining.jpg"))
+    ], None, board_path("how-ai-learns", "02-before-training.jpg"))
+    render_pretraining_phase(board_path("how-ai-learns", "03-pretraining.jpg"))
     render_training_phase(
         "2 · Instruction Tuning", BLUE, "Learn to Follow Instructions",
         "People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.",
         "“To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”",
         "The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.",
-        board_path("training", "04-instruction-tuning.jpg"),
+        board_path("how-ai-learns", "04-instruction-tuning.jpg"),
     )
     render_training_phase(
         "3 · Preference Tuning", GREEN, "Learn from Feedback",
         "People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.",
         "“Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”",
         "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.",
-        board_path("training", "05-preference-tuning.jpg"),
+        board_path("how-ai-learns", "05-preference-tuning.jpg"),
     )
     render_teaching(
         "Training Is Finished",
-        OUT / "assets/teaching-illustrations/training-finished.png",
-        board_path("training", "06-training-finished.jpg"),
+        OUT / "assets/teaching-illustrations/how-ai-learns-finished.png",
+        board_path("how-ai-learns", "06-training-finished.jpg"),
         (("PRETRAINING", .17, .79), ("INSTRUCTION", .44, .79), ("PREFERENCE", .66, .79), ("FINISHED MODEL", .88, .79)),
     )
 
@@ -3206,19 +3206,19 @@ def render_all() -> None:
     )
 
     # One More Thing
-    five_draws_path = board_path("the-next-token", "01-five-draws.jpg")
+    five_draws_path = board_path("why-answers-vary", "01-five-draws.jpg")
     five_draws_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "course-assets/the-next-token/the-next-token-draws.jpg", five_draws_path)
-    memory_path = board_path("the-next-token", "02-two-sides-chat.jpg")
+    shutil.copy2(ROOT / "course-assets/why-answers-vary/why-answers-vary-draws.jpg", five_draws_path)
+    memory_path = board_path("why-answers-vary", "02-two-sides-chat.jpg")
     memory_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(asset_path('lessons', 'the-next-token-2-two-sides.jpg'), memory_path)
-    math_path = board_path("the-next-token", "03-the-math.jpg")
+    shutil.copy2(asset_path('lessons', 'why-answers-vary-2-two-sides.jpg'), memory_path)
+    math_path = board_path("why-answers-vary", "03-the-math.jpg")
     math_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "course-assets/the-next-token/the-next-token-bill.jpg", math_path)
+    shutil.copy2(ROOT / "course-assets/why-answers-vary/why-answers-vary-bill.jpg", math_path)
     render_teaching(
         "Every Time You Hit Send",
         teaching / "every-time-you-hit-send.png",
-        board_path("the-next-token", "04-every-time-send.jpg"),
+        board_path("why-answers-vary", "04-every-time-send.jpg"),
         (("RANDOMNESS", .18, .16), ("NO MEMORY", .50, .25), ("MATH AT SCALE", .82, .16)),
     )
 

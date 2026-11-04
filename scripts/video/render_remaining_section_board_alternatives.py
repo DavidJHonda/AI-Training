@@ -294,7 +294,7 @@ def render_transcript_memory():
         {"eyebrow": "YOU", "title": "Carry the conversation", "body": "The earlier questions and answers stay in your memory. You bring that history to the next turn.", "footer": "MEMORY CONTINUES", "accent": TEAL, "fill": SOFT_GREEN},
         {"eyebrow": "AI", "title": "Re-read the transcript", "body": "Before every new word, the system sends the available chat back through the model. Nothing is remembered between runs.", "footer": "CONTEXT IS REBUILT", "accent": PURPLE},
     )
-    save(image, "understand-ai", "the-next-token-transcript-memory-alternative.jpg")
+    save(image, "understand-ai", "why-answers-vary-transcript-memory-alternative.jpg")
 
 
 def render_trust_trap():
@@ -444,7 +444,7 @@ def render_loudest_voices():
         {"eyebrow": "SKEPTIC", "title": "Yann LeCun", "body": "Current LLMs may be a dead end for human-level intelligence. He still takes AI risk and agency seriously.", "footer": "BET: DIFFERENT PATH", "accent": PURPLE},
     ]
     three_cards(draw, cards, numbered=False)
-    save(image, "embrace-the-future", "loudest-voices-three-bets-alternative.jpg")
+    save(image, "navigate-the-future", "loudest-voices-three-bets-alternative.jpg")
 
 
 def render_pace():
@@ -458,7 +458,7 @@ def render_pace():
         {"title": "AI building AI", "body": "Strong models help write and optimize parts of the software for the next model.", "footer": "FASTER ITERATION", "accent": TEAL},
     ]
     three_cards(draw, cards)
-    save(image, "embrace-the-future", "pace-of-change-accelerants-alternative.jpg")
+    save(image, "navigate-the-future", "pace-of-change-accelerants-alternative.jpg")
 
 
 def render_downside():
@@ -483,7 +483,7 @@ def render_downside():
     rounded(draw, (190, 567, 1410, 681), 14, PALE, RULE, 1)
     draw.text((800, 599), "The lag used to be measured in decades.", font=font("heavy", 30), fill=NAVY, anchor="ma")
     draw.text((800, 642), "AI models can change every few months.", font=font("demi", 28), fill=RED, anchor="ma")
-    save(image, "embrace-the-future", "big-downside-safeguard-gap-alternative.jpg")
+    save(image, "navigate-the-future", "big-downside-safeguard-gap-alternative.jpg")
 
 
 def render_upside():
@@ -498,7 +498,7 @@ def render_upside():
     draw.ellipse((765, 462, 835, 532), fill=PURPLE)
     draw.line((783, 497, 817, 497), fill=WHITE, width=6)
     draw.polygon([(821, 497), (809, 487), (809, 507)], fill=WHITE)
-    save(image, "embrace-the-future", "big-upside-protein-folding-alternative.jpg")
+    save(image, "navigate-the-future", "big-upside-protein-folding-alternative.jpg")
 
 
 def render_agents():
@@ -541,7 +541,7 @@ def render_hidden_cost():
     rounded(draw, (402, 561, 1198, 687), 18, NAVY)
     draw.text((800, 600), "≈ 40 TRILLION", font=font("heavy", 42), fill=WHITE, anchor="ma")
     draw.text((800, 650), "calculations for one short reply", font=font("medium", 28), fill="#d8d4ea", anchor="ma")
-    save(image, "embrace-the-future", "hidden-cost-calculations-alternative.jpg")
+    save(image, "navigate-the-future", "hidden-cost-calculations-alternative.jpg")
 
 
 def render_unexpected():
@@ -564,7 +564,7 @@ def render_unexpected():
         draw.text((x + 160, y + 98), plan, font=font("demi", 28), fill=BODY)
         draw.text((x + 42, y + 161), "RESULT", font=font("heavy", 24), fill=MUTED)
         draw.text((x + 160, y + 156), outcome, font=font("demi", 28), fill=BODY)
-    save(image, "embrace-the-future", "unexpected-results-plan-outcome-alternative.jpg")
+    save(image, "navigate-the-future", "unexpected-results-plan-outcome-alternative.jpg")
 
 
 def make_contact_sheet(section, filenames, output_name):
@@ -613,7 +613,7 @@ def main():
         "tokens-tokenization-alternative.jpg",
         "transformer-context-problems-alternative.jpg",
         "how-ai-answers-inference-path-alternative.jpg",
-        "the-next-token-transcript-memory-alternative.jpg",
+        "why-answers-vary-transcript-memory-alternative.jpg",
     ], "remaining-alternatives-contact-sheet.jpg")
     make_contact_sheet("avoid-traps", [
         "trust-trap-human-stake-alternative.jpg",
@@ -622,7 +622,7 @@ def main():
         "support-trap-real-vs-missing-alternative.jpg",
         "fake-trap-three-checks-alternative.jpg",
     ], "remaining-alternatives-contact-sheet.jpg")
-    make_contact_sheet("embrace-the-future", [
+    make_contact_sheet("navigate-the-future", [
         "loudest-voices-three-bets-alternative.jpg",
         "pace-of-change-accelerants-alternative.jpg",
         "big-downside-safeguard-gap-alternative.jpg",

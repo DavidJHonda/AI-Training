@@ -8,7 +8,7 @@ historical video dependencies. Run with:
 from PIL import Image, ImageDraw
 
 from editorial_typography import face
-from render_embrace_editorial_batch import (
+from render_navigate_editorial_batch import (
     ROOT, PURPLE, BLUE, RED, Card, CardBoard, render_card_board, save_course_image,
 )
 

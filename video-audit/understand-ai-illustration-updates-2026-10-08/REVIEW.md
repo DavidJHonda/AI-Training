@@ -6,7 +6,7 @@ User approved the three proposed inserts: “I like the ideas. Let's build them.
 
 | Lesson | Verified source | New candidate | Changed frames (end exclusive) | State change |
 |---|---|---|---|---|
-| Training | Prompts/training-v9.mp4, identical to pre-update course asset | Prompts/training-v10.mp4 | 5222–5429 (174.067–180.967 s) | f5334 / 177.8 s: choose actionable answer |
+| Training | Prompts/how-ai-learns-v9.mp4, identical to pre-update course asset | Prompts/how-ai-learns-v10.mp4 | 5222–5429 (174.067–180.967 s) | f5334 / 177.8 s: choose actionable answer |
 | Embeddings | Prompts/embeddings-v10.mp4, identical to pre-update course asset | Prompts/embeddings-v12.mp4 | 1475–1930 (49.167–64.333 s) | f1703, 1715, 1743, 1761, 1779, 1807: six dimensions reveal in order |
 | AI Is Math | Prompts/probability-and-prediction-v8.mp4, identical to pre-update course asset | Prompts/probability-and-prediction-v9.mp4 | 3099–3296 (103.3–109.867 s) | f3216 / 107.2 s: reveal first coin |
 

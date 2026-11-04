@@ -14,7 +14,7 @@ import build_training_bias_v8 as base
 
 ROOT = base.ROOT
 OUT = ROOT / 'video-audit/training-bias-tighten-2026-09-30-v10'
-DEST = ROOT / 'Prompts/training-bias-v10.mp4'
+DEST = ROOT / 'Prompts/how-ai-learns-bias-v10.mp4'
 CUTS = [(1365, 1665), (4744, 6030), (7170, 7341)]
 KEEP = [(0, 1365), (1665, 4744), (6030, 7170), (7341, 7830)]
 TOTAL = sum(hi - lo for lo, hi in KEEP)
@@ -30,9 +30,9 @@ def main():
     OUT.mkdir(exist_ok=True)
     assert not DEST.exists(), 'Never overwrite a review candidate'
     assert base.sha(base.SOURCE) == base.EXPECTED
-    previous = ROOT / 'Prompts/training-bias-v9.mp4'
+    previous = ROOT / 'Prompts/how-ai-learns-bias-v9.mp4'
     assert base.sha(previous) == 'a4f6a71c0d27b179f402ccc6cb20a99f803d9bf0e095c03f336e6e70a4f8b1db'
-    protected = [previous, ROOT / 'Prompts/training-bias-v8.mp4', base.LIVE, ROOT / 'index.html', ROOT / 'lessons/training-bias.md',
+    protected = [previous, ROOT / 'Prompts/how-ai-learns-bias-v8.mp4', base.LIVE, ROOT / 'index.html', ROOT / 'lessons/training-bias.md',
                  *sorted((ROOT / 'course-assets/training-bias').glob('*.jpg'))]
     protected_hashes = {str(p): base.sha(p) for p in protected}
     boards = {b['key']: base.board_states(b) for b in base.BOARDS}

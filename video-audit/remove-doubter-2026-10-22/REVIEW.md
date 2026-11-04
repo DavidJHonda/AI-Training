@@ -9,7 +9,7 @@ David authorized removing the Doubter from Loudest Voices and the Embrace the Fu
 | Candidate | Runtime | Changes |
 |---|---|---|
 | `Prompts/loudest-voices-v10.mp4` | 4:41.933 (8,458 frames) | Two-expert board, LeCun narration and synthesis line removed, Hinton flash repaired; retains the approved In Your Hands ending. |
-| `Prompts/embrace-the-future-opener-v6.mp4` | 3:17.300 (5,919 frames) | Removes the three-types lead-in and Doubter sentence; replaces the three-person illustration with the canonical opening quotes board. |
+| `Prompts/navigate-the-future-opener-v6.mp4` | 3:17.300 (5,919 frames) | Removes the three-types lead-in and Doubter sentence; replaces the three-person illustration with the canonical opening quotes board. |
 
 The page and Markdown now omit the Doubter. The experts board retains the original Amodei and Hinton quotations, artwork, standard typography and footer credit, in two equal-width cards. Video prep bundles have been synchronized and checked.
 

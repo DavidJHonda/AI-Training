@@ -40,7 +40,7 @@ Preserve documented owner exceptions and cuts. Canonical boards containing reali
 7. [Layers](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/07-layers-REVIEW.md)
 8. [Vector Space](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/08-vector-space-REVIEW.md)
 9. [How AI Answers](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/09-how-ai-answers-REVIEW.md)
-10. [One More Thing](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/10-the-next-token-REVIEW.md)
+10. [One More Thing](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/10-why-answers-vary-REVIEW.md)
 
 Supplement to Layers: [AI Brain Break](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/11-ai-brain-break-REVIEW.md).
 

@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 from ken_burns_path import draw_ring, hex_bgr, ring_px
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/training-bias-build-2026-09-29-v8'
-DEST=ROOT/'Prompts/training-bias-v8.mp4'
+DEST=ROOT/'Prompts/how-ai-learns-bias-v8.mp4'
 LIVE=ROOT/'course-assets/training-bias/training-bias.mp4'
 EXPECTED='0423a1b5f34337d130fbb1ff9392fa45ffab98d09426b47da68c8b99bc9917cd'
 SOURCE=Path('/private/tmp/training-bias-v7-0423a1b5f343.mp4')

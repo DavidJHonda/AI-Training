@@ -86,4 +86,9 @@ for directory, dirs, files in os.walk(ROOT):
 if errors:
     print('\n'.join(errors))
     sys.exit(1)
+# Include ignored donors and review artifacts from the four-lesson migration.
+import subprocess
+subprocess.run([sys.executable, str(ROOT / 'scripts/verify-lesson-title-assets.py')], check=True)
+subprocess.run([sys.executable, str(ROOT / 'scripts/video/rename_future_section.py'), '--check'], check=True)
+
 print(f'PASS: {len(videos)} lesson video paths and {len(prep["lessons"])} active prep kits use current lesson names; no retired filenames, including unused videos.')

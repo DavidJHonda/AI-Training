@@ -1,6 +1,6 @@
 # Build Your Skills Video Kits
 
-**Full opener reroll requested (2026-11-04):** David requested a complete new take to replace the mixed narration after the wording, map, and closing updates. Use the current `gemini-notebook/build-your-skills-opener/PROMPT.txt`, `upload/`, and `PREP-NOTES.md`. One consistent narrator per video. The package is prepared; generation and review are pending. Older pickup and donor instructions below are historical.
+**Stricter opener reroll prepared (2026-11-04):** After reviewing rolls 5–7, David agreed to a prompt containing the complete approved script verbatim. Use the current `gemini-notebook/build-your-skills-opener/PROMPT.txt`, the same three files in `upload/`, and `PREP-NOTES.md`. One narrator; no paraphrasing or added ending. Roll 8 generation and review are pending; roll 6 is the fallback. Older pickup and donor instructions below are historical.
 
 
 > Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
@@ -25,7 +25,7 @@ Paths below are repository-relative. Prep files live under `gemini-notebook/`.
 
 **Current preparation (2026-11-04):** tools change, skills can last → bike and balance → skills developed through practice → the revised three-part map → the personal question → “The tools will change.” / “The skills are yours to keep.”
 
-Upload three files from `gemini-notebook/build-your-skills-opener/upload/`: `Opener-Build.md`, the section map, and the close. No face-free variant is needed. Paste the current `PROMPT.txt`; save as `Prompts/build-your-skills-opener-5.mp4` or the next unused numeric name. The retired creed is excluded. Installed v8 remains unchanged while a complete new narration is generated and reviewed. Full preparation record: `gemini-notebook/build-your-skills-opener/PREP-NOTES.md`.
+Upload three files from `gemini-notebook/build-your-skills-opener/upload/`: `Opener-Build.md`, the section map, and the close. No face-free variant is needed. Paste the current `PROMPT.txt`; save as `Prompts/build-your-skills-opener-8.mp4` or the next unused numeric name. The retired creed is excluded. Installed v8 remains unchanged while a complete new narration is generated and reviewed. Full preparation record: `gemini-notebook/build-your-skills-opener/PREP-NOTES.md`.
 
 ### when-you-need-more
 
@@ -59,20 +59,20 @@ References: `video-audit/when-you-need-more-evaluation-2026-09-30/REVIEW.md` and
   - `when-you-need-more-research.jpg` — upload
   - `when-you-need-more-close.jpg` — upload
 
-### next-level-moves
+### beyond-the-first-answer
 
-**Kit rebuilt 2026-09-25 on the 2026-09-20 recipe** after the live review (`video-audit/next-level-moves-live-review-2026-09-24/REVIEW.md`: REROLL; profit numbers lost, 1 of 12 conversation turns read, Learn method reduced to one clause, Board 4's four questions summarized). Board sections now hold only the printed dialogue and banner, each turn on its own line as quoted dialogue; the 2026-09-11 commentary lines ("Notice what AI did first…", "The difference is the details…") are removed because the banners carry those results. The Learn method's two sentences and the iteration definition stand alone for the verbatim list. Prompt: 9 verbatim lines (four banners, the complete AI profit answer with its numbers, the Learn method, the iteration definition, close) and an explicit count of turns per board. Chat boards have no faces. Registry entry `next-level-moves`; save the roll as `Prompts/next-level-moves-reroll.mp4`. Live (2026-09-11, cache key 20260911ship1, 3:15) stays live until a roll wins.
+**Kit rebuilt 2026-09-25 on the 2026-09-20 recipe** after the live review (`video-audit/beyond-the-first-answer-live-review-2026-09-24/REVIEW.md`: REROLL; profit numbers lost, 1 of 12 conversation turns read, Learn method reduced to one clause, Board 4's four questions summarized). Board sections now hold only the printed dialogue and banner, each turn on its own line as quoted dialogue; the 2026-09-11 commentary lines ("Notice what AI did first…", "The difference is the details…") are removed because the banners carry those results. The Learn method's two sentences and the iteration definition stand alone for the verbatim list. Prompt: 9 verbatim lines (four banners, the complete AI profit answer with its numbers, the Learn method, the iteration definition, close) and an explicit count of turns per board. Chat boards have no faces. Registry entry `beyond-the-first-answer`; save the roll as `Prompts/beyond-the-first-answer-reroll.mp4`. Live (2026-09-11, cache key 20260911ship1, 3:15) stays live until a roll wins.
 
-- Markdown: `lessons/next-level-moves.md`
-- Prompt: `gemini-notebook/next-level-moves/PROMPT.txt`
-- Upload checklist: `gemini-notebook/next-level-moves/README.txt`
-- Canonical folder: `course-assets/next-level-moves/`
+- Markdown: `lessons/beyond-the-first-answer.md`
+- Prompt: `gemini-notebook/beyond-the-first-answer/PROMPT.txt`
+- Upload checklist: `gemini-notebook/beyond-the-first-answer/README.txt`
+- Canonical folder: `course-assets/beyond-the-first-answer/`
 - Boards in lesson order:
-  - `next-level-moves-summer-business.jpg` — upload
-  - `next-level-moves-profit.jpg` — upload
-  - `next-level-moves-college.jpg` — upload
-  - `next-level-moves-iteration.jpg` — upload
-  - `next-level-moves-close.jpg` — upload
+  - `beyond-the-first-answer-summer-business.jpg` — upload
+  - `beyond-the-first-answer-profit.jpg` — upload
+  - `beyond-the-first-answer-college.jpg` — upload
+  - `beyond-the-first-answer-iteration.jpg` — upload
+  - `beyond-the-first-answer-close.jpg` — upload
 
 ### honesty-and-privacy
 

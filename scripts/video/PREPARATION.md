@@ -226,7 +226,7 @@ rolls, active candidates, or source bundles automatically. Do not recreate archi
 
 Opener Markdown filenames are case-sensitive:
 `Opener-Work.md`, `Opener-Understand.md`, `Opener-Avoid.md`,
-`Opener-Embrace.md`, and `Opener-Build.md` in `lessons/`.
+`Opener-Navigate.md`, and `Opener-Build.md` in `lessons/`.
 The Build Your Skills opener prompt is `gemini-notebook/build-your-skills-opener/PROMPT.txt`.
 `Master Prompt.md` is retired; each prompt stands alone.
 

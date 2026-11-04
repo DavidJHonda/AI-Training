@@ -20,8 +20,8 @@ import build_when_you_need_more_reroll_review as common
 from build_work_changes_hybrid import render_leg
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT/'Prompts/training-bias.mp4'
-OUTPUT = ROOT/'Prompts/training-bias-patched.mp4'
+SOURCE = ROOT/'Prompts/how-ai-learns-bias.mp4'
+OUTPUT = ROOT/'Prompts/how-ai-learns-bias-patched.mp4'
 AUDIT = ROOT/'video-audit/avoid-traps-rerolls-2026-09-05/training-bias/patch'
 at = common.at
 CUTS = ((at(151.166667), at(156.433333)),

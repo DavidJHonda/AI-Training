@@ -15,7 +15,7 @@ Unrelated Does AI Think?, Hallucination, and Start Smarter edits were preserved 
 | work-with-ai-opener | v12 | 117.567s | 20261027ship12 | `50ab47c578e27b56a9911db50bf39463e5d818b01711fa1c48bc566a8f5989f7` |
 | understand-ai-opener | v15 | 139.567s | 20261027ship15 | `a00f07b22a8764ba7e4950d7473a25ceb5eb505f165c2da20c4f19cce948ceaa` |
 | avoid-traps-opener | v11 | 178.333s | 20261027ship11 | `0b1467c509908468e6c3e0e951671bb6cc581bf60e9b45cb0ddc83d5146f819b` |
-| embrace-the-future-opener | v8 | 145.667s | 20261027ship8 | `b5e18774098d38492e47bc32d9352e00acaae96dd0636fa82282c982e3ffe867` |
+| navigate-the-future-opener | v8 | 145.667s | 20261027ship8 | `b5e18774098d38492e47bc32d9352e00acaae96dd0636fa82282c982e3ffe867` |
 | build-your-skills-opener | v6 | 153.467s | 20261027ship6 | `745e70df9b84d05e35bf31158f3313155871264739ca5e829c6414e07e8c58e9` |
 
 The standard cleanup dry run found no matching intermediates in these two audit folders. Removed only their untracked, regenerable edited-audio.f32 scratch after committing; candidates, source rolls, manifests, transcripts, and visual evidence remain.

@@ -117,7 +117,7 @@ Its coverage is narrower than the course. Counting questions by the **current se
 | Work With AI | 7 | Strong representation of asking, context, evaluation, and judgment. |
 | Understand AI | 6 | Mechanics are well represented. |
 | Avoid Traps | 4 | Hallucination twice, training bias, and flattery. |
-| Embrace the Future | 2 | Expert predictions and agents. |
+| Navigate the Future | 2 | Expert predictions and agents. |
 | Build Your Skills | 2 | Both link to Honesty & Privacy. |
 | **Total** | **25** | **19 distinct linked lessons.** |
 
@@ -164,7 +164,7 @@ Source: [Transformer](/Users/davidobrien/Developer/AI-Training/index.html:6145),
 
 **Source provenance in the review lab.** The supplied 100-review file is identified as fictional in the [repository’s lab-asset note](/Users/davidobrien/Developer/AI-Training/docs/parking-lot.md:29), but its learner-facing introduction says “real file, real AI” and identifies the product as this course without that qualification. Label the reviews clearly as fictional practice data in the lab and file. Do not let learners confuse them with the actual public review feed. I did not use these rows as evidence of student experience in this evaluation.
 
-Source: [Does AI Think?](/Users/davidobrien/Developer/AI-Training/index.html:5020), [Mind Trap](/Users/davidobrien/Developer/AI-Training/index.html:10862), [keepsake](/Users/davidobrien/Developer/AI-Training/packets/finish-smarter-opener-five-big-ideas.pdf), [Loudest Voices](/Users/davidobrien/Developer/AI-Training/index.html:13901), [energy feedback](/Users/davidobrien/Developer/AI-Training/index.html:14688), [practice reviews](/Users/davidobrien/Developer/AI-Training/packets/course-reviews.txt).
+Source: [Does AI Think?](/Users/davidobrien/Developer/AI-Training/index.html:5020), [Mind Trap](/Users/davidobrien/Developer/AI-Training/index.html:10862), [keepsake](/Users/davidobrien/Developer/AI-Training/packets/five-big-ideas.pdf), [Loudest Voices](/Users/davidobrien/Developer/AI-Training/index.html:13901), [energy feedback](/Users/davidobrien/Developer/AI-Training/index.html:14688), [practice reviews](/Users/davidobrien/Developer/AI-Training/packets/course-reviews.txt).
 
 ### 8. Put existing supports where students need them
 

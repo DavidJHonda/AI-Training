@@ -4,7 +4,7 @@ October 23, 2026. Scope: synchronize the adjusted canonical boards into the two 
 
 | Candidate | Board | Output frames (30 fps; end exclusive) |
 | --- | --- | --- |
-| `Prompts/the-next-token-v4.mp4` | Same Probabilities, Different Choices | 1600–2304 and 2556–2710 |
+| `Prompts/why-answers-vary-v4.mp4` | Same Probabilities, Different Choices | 1600–2304 and 2556–2710 |
 | `Prompts/critical-thinking-v16.mp4` | What You Know. How You Think. | 0–1057 |
 | Same candidate | Five Habits of Critical Thinking | 3468–3768, 3922–4454, 4634–5099 |
 

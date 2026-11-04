@@ -15,7 +15,7 @@ SOURCES={
  'opener':(OUT/'opener-source-v5.mp4','fd185a172e88b4fe4828b0290923eb113d1074368a1e2ed892b7604b9d38f2fd')}
 PLANS={
  'loudest-voices-v10': [('lv',0,2751),('lv',3612,3823),('lv',3884,6488),('hands',1074,3477),('hands',5019,5508)],
- 'embrace-the-future-opener-v6':[('opener',0,1062),('opener',1209,1429),('opener',1531,6168)]}
+ 'navigate-the-future-opener-v6':[('opener',0,1062),('opener',1209,1429),('opener',1531,6168)]}
 # Source-timeline events; the Hinton quotation starts at 2224, eliminating the 10-frame biography flash.
 LV_EVENTS=[712,873,1191,1500,1905,2080,2224,2570,3630,3709,3771,3892,4142]
 OP_EVENTS=[1209,1337,1540]
@@ -35,7 +35,7 @@ class Boards(old.Boards):
   super().__init__()
 class Renderer:
  def __init__(self):
-  self.boards=Boards();self.opener=cv2.resize(cv2.imread(str(ROOT/'course-assets/embrace-the-future-opener/embrace-the-future-opener-voices.jpg')),(1280,720),interpolation=cv2.INTER_LANCZOS4)
+  self.boards=Boards();self.opener=cv2.resize(cv2.imread(str(ROOT/'course-assets/navigate-the-future-opener/navigate-the-future-opener-voices.jpg')),(1280,720),interpolation=cv2.INTER_LANCZOS4)
   self.op_states={}
   for state,rects in [('positive',[(125,322,747,367),(125,470,835,515)]),('negative',[(125,396,733,441),(125,542,564,587)])]:
    im=self.opener.copy()
@@ -55,7 +55,7 @@ class Renderer:
 
 def main():
  OUT.mkdir(exist_ok=True)
- live=ROOT/'course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4'
+ live=ROOT/'course-assets/navigate-the-future-opener/navigate-the-future-opener.mp4'
  if not SOURCES['opener'][0].exists():
   assert sha(live)==SOURCES['opener'][1];shutil.copyfile(live,SOURCES['opener'][0])
  for p,h in SOURCES.values():assert sha(p)==h,(p,'changed')

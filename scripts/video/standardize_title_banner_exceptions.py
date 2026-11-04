@@ -205,7 +205,7 @@ def main() -> None:
         "Similar-looking answers can come from very different processes.",
     )
     standard_title_and_banner(
-        "the-next-token/the-next-token-bill.jpg",
+        "why-answers-vary/why-answers-vary-bill.jpg",
         (1600, 890),
         "The Math Adds Up Fast",
         762,
@@ -236,7 +236,7 @@ def main() -> None:
         ("work-with-ai-opener/work-with-ai-opener-section-map.jpg", (1600, 871), "Work With AI", 743, "The result depends on how you use the tool."),
         ("understand-ai-opener/understand-ai-opener-section-map.jpg", (1600, 1091), "Understand AI", 963, "Each piece builds on the one before it."),
         ("avoid-traps-opener/avoid-traps-opener-section-map.jpg", (1600, 871), "Avoid Traps", 743, "Recognizing the pattern is the real skill."),
-        ("embrace-the-future-opener/embrace-the-future-opener-section-map.jpg", (1600, 789), "Embrace the Future", 661, "Take both views of the map seriously."),
+        ("navigate-the-future-opener/navigate-the-future-opener-section-map.jpg", (1600, 789), "Navigate the Future", 661, "Take both views of the map seriously."),
         ("build-your-skills-opener/build-your-skills-opener-section-map.jpg", (1600, 830), "Build Your Skills", 702, "Build the skills you keep when the tool changes."),
     )
     for relative, size, title, banner_top, takeaway in maps:

@@ -18,7 +18,7 @@ except ImportError:
 import shutil
 from pathlib import Path
 
-from render_embrace_editorial_review import render_extended_voices
+from render_navigate_editorial_review import render_extended_voices
 
 
 ROOT = Path(__file__).resolve().parents[2]

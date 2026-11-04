@@ -48,7 +48,7 @@ if any(p.is_dir() for p in (root / 'course-assets').rglob('source-illustrations'
     errors.append('A source-illustrations folder was recreated')
 s = (root / 'index.html').read_text()
 paths = set(re.findall(r'course-assets/[A-Za-z0-9_./-]+\.(?:jpg|jpeg|png|webp|svg|pdf|mp4)', s))
-paths.update('course-assets/training/' + name for name in re.findall(r'board\("([^"\n]+\.jpg)"', s))
+paths.update('course-assets/how-ai-learns/' + name for name in re.findall(r'board\("([^"\n]+\.jpg)"', s))
 for rel in sorted(paths):
     if not (root / rel).is_file():
         errors.append('Missing website asset: ' + rel)

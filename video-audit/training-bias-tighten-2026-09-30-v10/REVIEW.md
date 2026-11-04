@@ -1,6 +1,6 @@
 # Training Bias v10: tighter RAG transition
 
-Approved narrow edit following the owner's “Build it please.” Candidate: `Prompts/training-bias-v10.mp4`. Runtime: **3:22.433**, exactly **15 seconds shorter than v9**. Prior v9 cuts remain. Subsequently **shipped locally** after the owner's “ship it”; **queued for batch deployment**.
+Approved narrow edit following the owner's “Build it please.” Candidate: `Prompts/how-ai-learns-bias-v10.mp4`. Runtime: **3:22.433**, exactly **15 seconds shorter than v9**. Prior v9 cuts remain. Subsequently **shipped locally** after the owner's “ship it”; **queued for batch deployment**.
 
 ## Local release — 2026-09-30
 

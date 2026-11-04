@@ -78,7 +78,7 @@ These are the proposed general-teaching scenes to update after the pilots establ
 
 ## Special case: Five Big Ideas to Take With You
 
-[finish-smarter-opener-five-big-ideas.jpg](../course-assets/finish-smarter-opener/finish-smarter-opener-five-big-ideas.jpg) is BATCH 7 COMPLETE. The same Latina female student with a loose dark-brown braid replaces the number 96 student, and the same broad-built Black male student with short natural curls and rectangular glasses replaces the number 4 student throughout all five scenes. The prediction display, arithmetic correction, reference work, circled design choice, physical model, wiring, tools, navy keepsake design, and matching PDF are retained.
+[five-big-ideas.jpg](../course-assets/five-big-ideas/five-big-ideas.jpg) is BATCH 7 COMPLETE. The same Latina female student with a loose dark-brown braid replaces the number 96 student, and the same broad-built Black male student with short natural curls and rectangular glasses replaces the number 4 student throughout all five scenes. The prediction display, arithmetic correction, reference work, circled design choice, physical model, wiring, tools, navy keepsake design, and matching PDF are retained.
 
 ## Batch 8 completed comparison boards
 
@@ -95,7 +95,7 @@ These are the proposed general-teaching scenes to update after the pilots establ
 ## No cast change needed for this pass
 
 - [The Chinese Room](../course-assets/does-ai-think/does-ai-think-chinese-room.jpg) — student shown from behind; the teaching action is the focus.
-- [Edge of the Map](../course-assets/embrace-the-future-opener/embrace-the-future-opener-edge-of-the-map.jpg) — back-facing figures; replacing faces would add little.
+- [Edge of the Map](../course-assets/navigate-the-future-opener/navigate-the-future-opener-edge-of-the-map.jpg) — back-facing figures; replacing faces would add little.
 - [A Chatbot Answers. An Agent Acts.](../course-assets/rise-of-agents/rise-of-agents-gps.jpg) — rear/side views with limited facial prominence; lower value than the clear portraits.
 - [Certificate wall](../course-assets/the-final/the-final-certificate-wall.jpg) — tiny background photographs do not dominate the illustration.
 - Text-only boards, abstract illustrations, diagrams, navy boards, and closing messages need no changes for this project.

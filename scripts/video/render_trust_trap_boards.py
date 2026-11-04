@@ -13,7 +13,7 @@ except ImportError:
 from pathlib import Path
 from PIL import Image
 from render_avoid_traps_editorial import CompareSide, Pair, render_comparison, save_pair
-from render_embrace_editorial_batch import AMBER, BLUE, PURPLE, TEAL, Card, CardBoard, render_card_board
+from render_navigate_editorial_batch import AMBER, BLUE, PURPLE, TEAL, Card, CardBoard, render_card_board
 
 
 def main():

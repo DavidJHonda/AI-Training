@@ -1,7 +1,7 @@
 # Transition guard
 
 - Result: PASS
-- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/training-bias-v11.mp4`
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/how-ai-learns-bias-v11.mp4`
 - Decoded frames: 4632
 - Short visual-island limit: 6 frames
 - Manual every-frame strip review: REQUIRED

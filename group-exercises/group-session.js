@@ -26,19 +26,33 @@
     root.append(list);
     return;
   }
-  document.title = activity.title + ' · Group Activities';
-  root.append(back, node('p', activity.type + ' · ' + activity.section, 'eyebrow'), node('h1', activity.title), node('p', 'Related lesson: ' + activity.lessonTitle, 'group-session-meta'), node('p', activity.note));
+  const typeLabel = activity.type === 'Discussion' ? 'Discussion Questions' : activity.type;
+  document.title = activity.title + ' · ' + (activity.type === 'Discussion' ? typeLabel : 'Group Activities');
+  root.append(back, node('p', typeLabel + ' · ' + activity.section, 'eyebrow'), node('h1', activity.title), node('p', 'Related lesson: ' + activity.lessonTitle, 'group-session-meta'), node('p', activity.note));
   if (activity.questions) {
-    root.append(node('p', 'Your group leader can choose which questions to discuss and how to discuss them.'));
-    const list = node('ol', '', 'questions');
-    activity.questions.forEach(q => {
-      const li = node('li');
-      if (q.context) li.append(node('p', q.context));
-      li.append(node('h2', q.title));
-      if (q.followUp) li.append(node('p', q.followUp));
+    root.append(node('p', 'Choose a question to discuss. Use the follow-ups if they help the conversation.'));
+    const panel = node('div', '', 'discussion-panel');
+    const list = node('ol', '', 'questions discussion-questions');
+    list.setAttribute('role', 'list');
+    activity.questions.forEach((q, i) => {
+      const li = node('li', '', 'discussion-question');
+      const number = node('span', String(i + 1), 'discussion-question-number');
+      number.setAttribute('aria-hidden', 'true');
+      const copy = node('div', '', 'discussion-question-copy');
+      if (q.context) copy.append(node('p', q.context));
+      copy.append(node('h2', q.title));
+      if (q.followUp) {
+        const followUp = node('p', '', 'discussion-question-follow-up');
+        const arrow = node('span', '↳', 'discussion-question-follow-up-arrow');
+        arrow.setAttribute('aria-hidden', 'true');
+        followUp.append(arrow, node('span', q.followUp));
+        copy.append(followUp);
+      }
+      li.append(number, copy);
       list.append(li);
     });
-    root.append(list);
+    panel.append(list);
+    root.append(panel);
   } else if (activity.id === 'studying') {
     root.append(node('p', 'Your group leader can use a shared screen or let smaller groups try their own combinations.'));
     const steps = node('ol');

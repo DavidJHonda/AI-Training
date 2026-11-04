@@ -2,9 +2,14 @@
 from pathlib import Path
 import re
 ROOT = Path(__file__).resolve().parents[2]
-ALIASES = {'does-school-matter': 'does-school-matter', 'does-school-matter': 'does-school-matter', 'your-home-base': 'your-home-base', 'work-with-ai-opener': 'work-with-ai-opener', 'opener-understand': 'understand-ai-opener', 'opener-avoid': 'avoid-traps-opener', 'build-your-skills-opener': 'build-your-skills-opener', 'opener-embrace': 'embrace-the-future-opener', 'transformers-quiz': 'ai-brain-break'}
+ALIASES = {'does-school-matter': 'does-school-matter', 'does-school-matter': 'does-school-matter', 'your-home-base': 'your-home-base', 'work-with-ai-opener': 'work-with-ai-opener', 'opener-understand': 'understand-ai-opener', 'opener-avoid': 'avoid-traps-opener', 'build-your-skills-opener': 'build-your-skills-opener', 'opener-navigate': 'navigate-the-future-opener', 'transformers-quiz': 'ai-brain-break'}
 
 ALIASES.update({'whats-an-llm': 'whats-an-llm', 'prompting-matters': 'prompting-matters', 'context-matters': 'context-matters', 'evaluation-matters': 'evaluation-matters'})
+
+# Resolve historical lesson slugs to the current catalogue.
+ALIASES.update({'training': 'how-ai-learns', 'next-level-moves': 'beyond-the-first-answer', 'the-next-token': 'why-answers-vary', 'finish-smarter-opener': 'five-big-ideas'})
+
+ALIASES.update({'embrace-the-future-opener': 'navigate-the-future-opener', 'opener-embrace': 'navigate-the-future-opener'})
 
 def current_video_paths():
     text = (ROOT / 'index.html').read_text()

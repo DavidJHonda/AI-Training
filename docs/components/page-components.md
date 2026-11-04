@@ -155,7 +155,11 @@ with copying enabled once both fields contain text, and a link opens ChatGPT Stu
 mode in a new tab. Leaders can demonstrate on a shared screen or use small groups.
 All exercise introductions use this same placement inside the disclosure. Render `DiscussionQuestions` inside the white card: five
 rows with large green serif numbers, mint hairline dividers, bold main questions,
-and separate regular-weight context or follow-up lines. Its `questions` items use
+and separate regular-weight context or follow-up lines. Use Format A, the stepped
+follow-up: one vertical flow, 8px between context and main question, then a 12px
+gap before a smaller follow-up with a green bent arrow and hanging indent. Keep
+the flow stacked on desktop and mobile, without side columns. Decorative arrows
+are hidden from assistive technology. Its `questions` items use
 `title`, optional `context` before the title, and optional `followUp` after it.
 What Is AI? includes **Be the Last Person Standing** below its individual LAB,
 with the existing instructions and a Start Now link that opens the activity in a new tab.

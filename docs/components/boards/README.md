@@ -526,10 +526,10 @@ exchange, a revised prompt, or the point where a human should question, verify, 
 stop. Do not use it merely to make ordinary exposition look like a chat app. The
 approved reference boards are:
 
-- `course-assets/next-level-moves/next-level-moves-summer-business.jpg`
-- `course-assets/next-level-moves/next-level-moves-profit.jpg`
-- `course-assets/next-level-moves/next-level-moves-college.jpg`
-- `course-assets/next-level-moves/next-level-moves-iteration.jpg`
+- `course-assets/beyond-the-first-answer/beyond-the-first-answer-summer-business.jpg`
+- `course-assets/beyond-the-first-answer/beyond-the-first-answer-profit.jpg`
+- `course-assets/beyond-the-first-answer/beyond-the-first-answer-college.jpg`
+- `course-assets/beyond-the-first-answer/beyond-the-first-answer-iteration.jpg`
 
 - Use the standard 1600 px lavender `#eae7fd` frame with 22 px radius and 40 px
   outer padding.

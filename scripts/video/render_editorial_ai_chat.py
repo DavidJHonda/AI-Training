@@ -275,7 +275,7 @@ def render(board: Board) -> Image.Image:
 def main() -> None:
     for index, board in enumerate(BOARDS, start=1):
         image = render(board)
-        page_output = asset_path('illustrations', f"next-level-moves-{board.slug}-v2.jpg")
+        page_output = asset_path('illustrations', f"beyond-the-first-answer-{board.slug}-v2.jpg")
         prep_output = asset_path('lessons', f"ai-tips-{index}-{board.slug}.jpg")
         page_output.parent.mkdir(parents=True, exist_ok=True)
         prep_output.parent.mkdir(parents=True, exist_ok=True)

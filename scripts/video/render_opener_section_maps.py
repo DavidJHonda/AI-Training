@@ -115,17 +115,17 @@ BOARDS = (
         review_output="board-review-first-four/current-selected/avoid-traps/opener-avoid-2-map.jpg",
     ),
     MapBoard(
-        key="embrace-the-future",
-        title="Embrace the Future",
+        key="navigate-the-future",
+        title="Navigate the Future",
         takeaway="Take both views of the map seriously.",
         rows=(
             Row("The Argument", "The loudest voices, why they disagree, and why the speed makes the argument louder."),
             Row("Monsters and Open Water", "The honest case for worry alongside the real-world upside that has already happened."),
             Row("Where It Lands on You", "How AI acts, how work may change, the bill for all that math, and what history teaches about predictions."),
         ),
-        page_output="course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg",
-        prep_output="course-assets/embrace-the-future-opener/embrace-the-future-opener-section-map.jpg",
-        review_output="board-review-first-four/current-selected/embrace-the-future/embrace-the-future-opener-section-map.jpg",
+        page_output="course-assets/navigate-the-future-opener/navigate-the-future-opener-section-map.jpg",
+        prep_output="course-assets/navigate-the-future-opener/navigate-the-future-opener-section-map.jpg",
+        review_output="board-review-first-four/current-selected/navigate-the-future/navigate-the-future-opener-section-map.jpg",
     ),
     MapBoard(
         key="build-your-skills",

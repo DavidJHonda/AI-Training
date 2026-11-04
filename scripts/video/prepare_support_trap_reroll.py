@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image,ImageDraw
 from editorial_typography import face,draw_board_title,draw_inner_title
 from editorial_takeaway import draw_takeaway_band,TAKEAWAY_HEIGHT
-from render_embrace_editorial_batch import wrap,multiline,BLUE,AMBER,FRAME,WHITE,BODY,PURPLE,mix_with_white
+from render_navigate_editorial_batch import wrap,multiline,BLUE,AMBER,FRAME,WHITE,BODY,PURPLE,mix_with_white
 from make_close_board import close_board_copy
 
 ROOT=Path(__file__).resolve().parents[2]

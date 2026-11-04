@@ -4,7 +4,7 @@
 
 **KEEP for final human headphone review.** This review candidate implements the approved live-base repair and is not published. The lesson, live video, donor roll, current board JPGs, `index.html`, and upload Markdown remain byte-for-byte unchanged.
 
-- Candidate: `Prompts/training-bias-v3.mp4`
+- Candidate: `Prompts/how-ai-learns-bias-v3.mp4`
 - Runtime: 4:54.47 (8,834 frames at 30 fps)
 - SHA-256: `7ea2f7c3401558396622b85adeb82160603be8257dbda222ebcd909ecc3159d9`
 - Build script: `scripts/video/build_training_bias_v3_review.py`
@@ -12,7 +12,7 @@
 
 ## Narration repair
 
-The live narration remains the spine. Two complete beats from `Prompts/training-bias-2.mp4` replace weaker live passages:
+The live narration remains the spine. Two complete beats from `Prompts/how-ai-learns-bias-2.mp4` replace weaker live passages:
 
 1. **Exact student prompts**
    - Donor: 2:48.958–3:21.042

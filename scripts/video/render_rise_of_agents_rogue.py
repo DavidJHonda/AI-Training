@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 from editorial_typography import face, draw_board_title
 from editorial_takeaway import draw_takeaway_band, TAKEAWAY_TEXT_SIZE
-from render_embrace_editorial_batch import wrap, multiline, draw_shadow, FRAME, PURPLE, BODY
+from render_navigate_editorial_batch import wrap, multiline, draw_shadow, FRAME, PURPLE, BODY
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT/'scripts/video/assets/rise-of-agents-repair-2026-09-30/pocketos-art.png'

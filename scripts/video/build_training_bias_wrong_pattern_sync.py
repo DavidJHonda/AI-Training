@@ -42,7 +42,7 @@ SHIPPED = ROOT / 'video-audit/training-bias-comparison-2026-09-21/build-v6/edit-
 AUDIT = ROOT / 'video-audit/training-bias-illustration-sync-2026-09-21'
 BASELINE = AUDIT / 'baseline-live-2026-09-21-v6.mp4'
 BASELINE_SHA = '705abdb1ad860ea9b39b8baa52699a34ae7a5003761c184c8dcf73abf1045d70'
-DEST = ROOT / 'Prompts/training-bias-v7.mp4'
+DEST = ROOT / 'Prompts/how-ai-learns-bias-v7.mp4'
 
 
 def sha(path: Path) -> str:

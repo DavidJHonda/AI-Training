@@ -6,7 +6,7 @@ for existing video edit recipes. Use this renderer for current lesson boards.
 """
 
 from render_avoid_traps_editorial import Pair, render_feature, save_pair
-from render_embrace_editorial_batch import (
+from render_navigate_editorial_batch import (
     AMBER, BLUE, PURPLE, TEAL, Card, CardBoard, FlowBoard,
     render_card_board, render_flow_board,
 )

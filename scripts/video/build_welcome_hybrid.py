@@ -79,7 +79,7 @@ def main() -> None:
         path_dir / "state-1-work.png",
         path_dir / "state-2-understand.png",
         path_dir / "state-3-avoid.png",
-        path_dir / "state-4-embrace.png",
+        path_dir / "state-4-navigate.png",
         path_dir / "state-5-build.png",
         path_dir / "state-6-settle.png",
     ]

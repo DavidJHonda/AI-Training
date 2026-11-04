@@ -26,7 +26,7 @@ from editorial_typography import (
     tracked_width,
 )
 
-from render_embrace_editorial_batch import (
+from render_navigate_editorial_batch import (
     BLUE,
     BODY,
     CARD_BORDER_OPACITY,

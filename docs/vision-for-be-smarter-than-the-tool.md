@@ -42,7 +42,7 @@ Its learning journey moves through seven stages:
 2. Work With AI
 3. Understand AI
 4. Avoid Traps
-5. Embrace the Future
+5. Navigate the Future
 6. Build Your Skills
 7. Finish Smarter
 

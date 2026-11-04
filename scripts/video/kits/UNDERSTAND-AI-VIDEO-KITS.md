@@ -95,20 +95,20 @@ Prompt: `gemini-notebook/understand-ai-opener/PROMPT.txt` (490 words).
 
 **Materials updated 2026-09-27 for a fresh roll of the revised lesson.** David selected a reroll after reviewing v8: at 0:18 the repaired video jumps from basketball to setup without the AI connection, while the old connecting line arrives around 1:00. The new source makes that connection immediately and uses the current lesson’s transitions throughout. This is preparation only; no new roll has been generated or published.
 
-The page still references the published v6 (`course-assets/training/training.mp4`, cache key `20260922ship1`, approximately 4:50). `Prompts/training-v7.mp4` and `Prompts/training-v8.mp4` remain review candidates. The v8 review is `video-audit/training-repair-2026-09-27-v8/REVIEW.md`; its provisional repair recommendation is superseded by David’s reroll decision. Workflow status in the Video Tracker was not checked or changed.
+The page still references the published v6 (`course-assets/how-ai-learns/how-ai-learns.mp4`, cache key `20260922ship1`, approximately 4:50). `Prompts/how-ai-learns-v7.mp4` and `Prompts/how-ai-learns-v8.mp4` remain review candidates. The v8 review is `video-audit/how-ai-learns-repair-2026-09-27-v8/REVIEW.md`; its provisional repair recommendation is superseded by David’s reroll decision. Workflow status in the Video Tracker was not checked or changed.
 
 **Notebook sources — current lesson order**
 
-1. `lessons/training.md`
-2. `course-assets/training/training-before-starts.jpg`
-3. `course-assets/training/training-three-phases.jpg`
-4. `course-assets/training/training-guess-check-adjust.jpg`
-5. `course-assets/training/training-pretraining.jpg`
-6. `course-assets/training/training-instruction-tuning.jpg`
-7. `course-assets/training/training-preference-tuning.jpg`
-8. `course-assets/training/training-close.jpg`
+1. `lessons/how-ai-learns.md`
+2. `course-assets/how-ai-learns/how-ai-learns-before-starts.jpg`
+3. `course-assets/how-ai-learns/how-ai-learns-three-phases.jpg`
+4. `course-assets/how-ai-learns/how-ai-learns-guess-check-adjust.jpg`
+5. `course-assets/how-ai-learns/how-ai-learns-pretraining.jpg`
+6. `course-assets/how-ai-learns/how-ai-learns-instruction-tuning.jpg`
+7. `course-assets/how-ai-learns/how-ai-learns-preference-tuning.jpg`
+8. `course-assets/how-ai-learns/how-ai-learns-close.jpg`
 
-Upload all eight files from `gemini-notebook/training/upload/`. Paste `gemini-notebook/training/PROMPT.txt` into the customization field; do not upload it as a source. Save the raw roll as `Prompts/training-reroll.mp4`, or the next unused numbered raw-roll filename. Preserve existing sources and candidates.
+Upload all eight files from `gemini-notebook/how-ai-learns/upload/`. Paste `gemini-notebook/how-ai-learns/PROMPT.txt` into the customization field; do not upload it as a source. Save the raw roll as `Prompts/how-ai-learns-reroll.mp4`, or the next unused numbered raw-roll filename. Preserve existing sources and candidates.
 
 **Post-production boards**
 
@@ -630,17 +630,17 @@ Open questions
 
 ## The Next Token
 
-Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The internal lesson ID remains `inference`; current lesson, asset, and prep paths use `the-next-token`. Directories and current filenames were renamed on 2026-10-09; historical raw rolls, versioned build scripts, and audit records retain their original names. This is preparation only: no new roll, edit, or publication. The installed video remains v14, `the-next-token.mp4?v=20260929ship1`, 3:24.23. Its 2026-09-29 shipping receipt records publication verification; no fresh public verification is claimed here.
+Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The internal lesson ID remains `inference`; current lesson, asset, and prep paths use `why-answers-vary`. Directories and current filenames were renamed on 2026-10-09; historical raw rolls, versioned build scripts, and audit records retain their original names. This is preparation only: no new roll, edit, or publication. The installed video remains v14, `why-answers-vary.mp4?v=20260929ship1`, 3:24.23. Its 2026-09-29 shipping receipt records publication verification; no fresh public verification is claimed here.
 
 ### Prepared sources
 
-- Prompt: `gemini-notebook/the-next-token/PROMPT.txt`.
-- Narration source: `lessons/the-next-token.md`.
-- Ready-to-upload folder: `gemini-notebook/the-next-token/upload/` (one Markdown and three JPGs).
-- Uploads in teaching order: `course-assets/the-next-token/the-next-token-draws.jpg`, `gemini-notebook/the-next-token/assets/the-next-token-temperature.jpg`, and `course-assets/the-next-token/the-next-token-close.jpg`.
+- Prompt: `gemini-notebook/why-answers-vary/PROMPT.txt`.
+- Narration source: `lessons/why-answers-vary.md`.
+- Ready-to-upload folder: `gemini-notebook/why-answers-vary/upload/` (one Markdown and three JPGs).
+- Uploads in teaching order: `course-assets/why-answers-vary/why-answers-vary-draws.jpg`, `gemini-notebook/why-answers-vary/assets/why-answers-vary-temperature.jpg`, and `course-assets/why-answers-vary/why-answers-vary-close.jpg`.
 - The temperature JPG is a complete, unhighlighted capture of the current demonstration. It replaces the former static temperature board in this kit. No face variants or post-only boards.
 - The old calculation board is excluded. Its teaching and the scale activity remain saved in `docs/parking-lot.html` for Data Centers; neither belongs in this narration.
-- Paste the prompt into customization; upload only the four files in `upload/`. Save the raw roll as `Prompts/the-next-token-reroll.mp4`, or the next unused numbered filename. Preserve existing rolls.
+- Paste the prompt into customization; upload only the four files in `upload/`. Save the raw roll as `Prompts/why-answers-vary-reroll.mp4`, or the next unused numbered filename. Preserve existing rolls.
 
 ### Lesson arc and scene directions
 
@@ -680,7 +680,7 @@ Capture the scene without the Guided Demonstration shell, instructions, buttons,
 
 ### Existing-video reference and reusable visuals
 
-The installed v14 file is `course-assets/the-next-token/the-next-token.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/the-next-token.txt`; its source record matches that hash. Shipping receipt: `video-audit/the-next-token-repair-2026-09-29-v14/shipping-receipt.json`.
+The installed v14 file is `course-assets/why-answers-vary/why-answers-vary.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/why-answers-vary.txt`; its source record matches that hash. Shipping receipt: `video-audit/why-answers-vary-repair-2026-09-29-v14/shipping-receipt.json`.
 
 Approximate source ranges from the transcript and sequential sampled frames, for later evaluation rather than cut instructions:
 

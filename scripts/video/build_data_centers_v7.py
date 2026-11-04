@@ -10,7 +10,7 @@ from editspec_build import Reader,readwav,writewav
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/data-centers-lesson-update-2026-10-09/build-v7'
 BASE=ROOT/'Prompts/data-centers-v6.mp4'
-DONOR=ROOT/'Prompts/the-next-token-v14.mp4'
+DONOR=ROOT/'Prompts/why-answers-vary-v14.mp4'
 DEST=ROOT/'Prompts/data-centers-v7.mp4'
 BOARD=ROOT/'course-assets/data-centers/data-centers-math.jpg'
 EXPECTED={str(BASE):'2b728ffd3fc3d5f61dfa1e6d44d7398fb82c0bac28269b50b3b8cae593eda89c',str(DONOR):'321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca'}
@@ -46,7 +46,7 @@ def main():
  assert not DEST.exists(),'Never overwrite a review candidate'
  for p,h in EXPECTED.items():assert sha(p)==h,p
  OUT.mkdir(parents=True,exist_ok=True)
- protected={str(p):sha(p) for p in [BASE,DONOR,BOARD,ROOT/'course-assets/data-centers/data-centers.mp4',ROOT/'course-assets/the-next-token/the-next-token.mp4',ROOT/'lessons/data-centers.md']}
+ protected={str(p):sha(p) for p in [BASE,DONOR,BOARD,ROOT/'course-assets/data-centers/data-centers.mp4',ROOT/'course-assets/why-answers-vary/why-answers-vary.mp4',ROOT/'lessons/data-centers.md']}
  ff=imageio_ffmpeg.get_ffmpeg_exe()
  for key,source in [('base',BASE),('donor',DONOR)]:
   subprocess.run([ff,'-v','error','-i',str(source),'-vn','-ac','1','-ar','48000','-c:a','pcm_s16le','-y',str(OUT/f'{key}.wav')],check=True)

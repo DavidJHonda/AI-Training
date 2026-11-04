@@ -1,12 +1,12 @@
 # Training Bias — seven-way review and v4 build (2026-09-21)
 
-Candidates: `Prompts/training-bias-1.mp4` (6:46) and `-2` (5:50) from 2026-09-18, `-3` (4:32) and
+Candidates: `Prompts/how-ai-learns-bias-1.mp4` (6:46) and `-2` (5:50) from 2026-09-18, `-3` (4:32) and
 `-4` (3:39) from 2026-09-20, `-5` (4:29) and `-6` (4:20) from 2026-09-21, and the live v3
 (`course-assets/training-bias/training-bias.mp4`, 4:06, shipped 2026-09-18 as a best-of over the
 2026-09-08 spine). All six rolls came from the 2026-09-18 kit (no VOICE block). Transcripts and
 sheets in the per-roll folders.
 
-**Verdict: roll 6 is the base, no grafts, no narration cuts. Built as v4, then v5 and v6 (`Prompts/training-bias-v6.mp4`, 4:21) after David's ring notes: the three card boards are separate rounded cards, so each ring hugs its own card. v5 measured the cards against the stage colour and swallowed their drop shadows, so its rings floated 4–14 px outside the cards; v6 measures the cards from the illustration tile and the white area above the shadow. v6 matches v4 outside those three board spans.**
+**Verdict: roll 6 is the base, no grafts, no narration cuts. Built as v4, then v5 and v6 (`Prompts/how-ai-learns-bias-v6.mp4`, 4:21) after David's ring notes: the three card boards are separate rounded cards, so each ring hugs its own card. v5 measured the cards against the stage colour and swallowed their drop shadows, so its rings floated 4–14 px outside the cards; v6 measures the cards from the illustration tile and the white area above the shadow. v6 matches v4 outside those three board spans.**
 
 ## Hard requirements (from the Markdown and the prompt)
 
@@ -53,7 +53,7 @@ the first banner. No beat in roll 4 or 5 is richer than roll 6's, so nothing is 
 
 ```text
 LESSON: training-bias
-CANDIDATE: Prompts/training-bias-6.mp4 (4:20)
+CANDIDATE: Prompts/how-ai-learns-bias-6.mp4 (4:20)
 VERDICT: KEEP
 TEACHING POINTS: all RICH (see the beat table); the "historical conversation" framing the prompt asked for is carried as "this chat interface where a user tested a current fact" (TAUGHT)
 HARD REQUIREMENTS: all MET; three prompts at 2:02.2, 2:08.9, 2:16.1 verbatim; close at 4:11.4 / 4:14.5 / 4:15.8, last word 4:16.8, nothing after
@@ -76,7 +76,7 @@ LISTENING: transcript read in full; audio not auditioned; the word "RAG" at 3:29
 ## v4 build (superseded)
 
 
-- Candidate: `Prompts/training-bias-v4.mp4`; SHA-256 `4bc973790abc8e8a1af99cbbe7ac1a7eaed3b5ed2adb49e8b788fba2182ac209`; 7,830 frames at 30 fps (4:21.00), 1280×720.
+- Candidate: `Prompts/how-ai-learns-bias-v4.mp4`; SHA-256 `4bc973790abc8e8a1af99cbbe7ac1a7eaed3b5ed2adb49e8b788fba2182ac209`; 7,830 frames at 30 fps (4:21.00), 1280×720.
 - Narration: roll 6 start to finish, single voice, no cuts, no grafts. Only the engine outro after
   "changed." (256.82 s) is dropped. No added pauses: natural gaps at the board boundaries run
   0.34–0.80 s. Rendered transcript checked end to end; the closing lines are the last words.

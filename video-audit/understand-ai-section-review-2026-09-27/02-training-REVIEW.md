@@ -2,7 +2,7 @@
 
 **Recommendation: REPAIR — pacing and visual-style pass; KEEP narration.**
 
-Reviewed Sept. 27, 2026. Runtime **4:49.87**. Published version `course-assets/training/training.mp4?v=20260922ship1`.
+Reviewed Sept. 27, 2026. Runtime **4:49.87**. Published version `course-assets/how-ai-learns/how-ai-learns.mp4?v=20260922ship1`.
 
 ## Narration and teaching
 
@@ -56,12 +56,12 @@ All ten lesson videos were sequentially decoded end to end and passed fresh auto
 The 20-second single-board and 60-second chain thresholds are editorial triggers, not reasons to insert filler. A proposed reuse below is not certified until the complete selected span is previewed. Where no relevant compliant drawing is verified, that limitation or a remaining pacing exception is stated rather than hidden. Keep canonical JPGs intact; source-board revisions require a separate approved source change.
 
 
-- [Current video](/Users/davidobrien/Developer/AI-Training/course-assets/training/training.mp4)
-- [Current boards inspected](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/training/current-boards.jpg)
-- [Fresh transcript](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/transcripts/training.txt)
-- [Retained matching manifest](/Users/davidobrien/Developer/AI-Training/video-audit/training-comparison-2026-09-22/build-v6/edit-manifest.json)
-- [Fresh transition report](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/training/guard/transition-guard.md)
-- [Measured ring samples](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/training/ring-stroke.txt)
+- [Current video](/Users/davidobrien/Developer/AI-Training/course-assets/how-ai-learns/how-ai-learns.mp4)
+- [Current boards inspected](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/how-ai-learns/current-boards.jpg)
+- [Fresh transcript](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/transcripts/how-ai-learns.txt)
+- [Retained matching manifest](/Users/davidobrien/Developer/AI-Training/video-audit/how-ai-learns-comparison-2026-09-22/build-v6/edit-manifest.json)
+- [Fresh transition report](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/how-ai-learns/guard/transition-guard.md)
+- [Measured ring samples](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/how-ai-learns/ring-stroke.txt)
 - [Public/local byte verification](/Users/davidobrien/Developer/AI-Training/video-audit/understand-ai-section-review-2026-09-27/published-byte-verification.json)
 
 SHA-256: `01a8b51a707a59d6c29288ee9d86c5500aa5546882dc45c26b307f80d1755ebe`.

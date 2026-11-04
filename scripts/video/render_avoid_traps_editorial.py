@@ -25,11 +25,11 @@ from tempfile import TemporaryDirectory
 
 from PIL import Image, ImageDraw
 
-import render_embrace_editorial_batch as editorial_boards
+import render_navigate_editorial_batch as editorial_boards
 from editorial_takeaway import TAKEAWAY_GAP, TAKEAWAY_HEIGHT, TAKEAWAY_TEXT_SIZE, draw_takeaway_band
 from editorial_typography import draw_board_title, draw_inner_title, face
 from render_editorial_ai_chat import Board as ChatBoard, Turn, render as render_chat
-from render_embrace_editorial_batch import (
+from render_navigate_editorial_batch import (
     AMBER, BLUE, BODY, BODY_LINE, BODY_SIZE, CARD_BORDER_OPACITY, CARD_RADIUS,
     CARD_TITLE_SIZE, CARDS_TOP, FRAME, GREEN, INK, PADDING, PURPLE, RED,
     TEAL, WHITE, Card, CardBoard, FlowBoard, accent_wash, centered_lines, cover,

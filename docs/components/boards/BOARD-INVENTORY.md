@@ -70,7 +70,7 @@ a decision map, not an instruction to rebuild every asset.
 | Support Trap | Friendly Schematic | Keep | Preserve the restrained real-value-versus-missing-person distinction. |
 | Fake Trap | Editorial Explainer | Keep | Preserve the motives and Source, Context, Corroboration boards. |
 
-## Embrace the Future
+## Navigate the Future
 
 | Lesson | Primary treatment | Status | Direction |
 |---|---|---:|---|

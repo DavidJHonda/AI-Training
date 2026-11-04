@@ -45,7 +45,7 @@ def main():
   for b in m['boundaries']:cmd+=['--boundary',str(b['frame'])+':'+b['label']]
   subprocess.run(cmd,check=True)
   for p,h in SOURCES.values():assert sha(p)==h
-  installed={'course-assets/loudest-voices/loudest-voices.mp4':SOURCES['lv'][1],'course-assets/embrace-the-future-opener/embrace-the-future-opener.mp4':SOURCES['opener'][1]}
+  installed={'course-assets/loudest-voices/loudest-voices.mp4':SOURCES['lv'][1],'course-assets/navigate-the-future-opener/navigate-the-future-opener.mp4':SOURCES['opener'][1]}
   for p,h in installed.items():assert sha(ROOT/p)==h
   result={'candidate':m['candidate'],'frames':n,'duration':n/30,'all_frames_compared':n,'board_replacement_frames':replaced,'mean_frame_error':float(np.mean(errs)),'max_frame_error':max(errs),'audio_correlation':corr,'audio_rms_error':float(np.sqrt(np.mean((audio-expected)**2))),'audio_peak_dbfs':float(20*np.log10(np.abs(audio).max())),'seams':seams,'sources_and_installed_videos_unchanged':True,'listening':'Not performed; frame checks, transcription, and PCM analysis do not certify audible cadence.'}
   (OUT/f'{name}-qa.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True)

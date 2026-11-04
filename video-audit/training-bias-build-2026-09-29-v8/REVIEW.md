@@ -6,7 +6,7 @@ Built from the approved September 29 review after David said, “Build it please
 
 Visual-only repair. Narration, existing pauses, total runtime, and the four-turn chat walkthrough are preserved. The final retrieval animation and standard close remain at their existing times.
 
-Candidate: `Prompts/training-bias-v8.mp4` — 4:21.00, 1280×720, 30 fps, 7,830 frames.
+Candidate: `Prompts/how-ai-learns-bias-v8.mp4` — 4:21.00, 1280×720, 30 fps, 7,830 frames.
 
 The original roll no longer exists in `Prompts/`. The base is the verified finished v7, SHA-256 `0423a1b5f34337d130fbb1ff9392fa45ffab98d09426b47da68c8b99bc9917cd`, frozen for this active build at `/private/tmp/training-bias-v7-0423a1b5f343.mp4`. Video receives one new encode; compressed AAC is copied directly. The script asserts the source hash before building. No intermediate compressed candidate is used as a source.
 

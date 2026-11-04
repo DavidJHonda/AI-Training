@@ -1,4 +1,4 @@
-## EMBRACE THE FUTURE
+## NAVIGATE THE FUTURE
 
 # Work Changes
 

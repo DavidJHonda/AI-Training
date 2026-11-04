@@ -93,7 +93,7 @@ def parse_catalog() -> tuple[dict[str, str], set[str]]:
     text = INDEX.read_text(encoding="utf-8")
     videos = {key: src for key, src in VIDEO_RE.findall(text)}
     images = set(IMAGE_RE.findall(text))
-    images.update("course-assets/training/" + name for name in re.findall(r'board\("([^"\n]+\.jpg)"', text))
+    images.update("course-assets/how-ai-learns/" + name for name in re.findall(r'board\("([^"\n]+\.jpg)"', text))
     return videos, images
 
 

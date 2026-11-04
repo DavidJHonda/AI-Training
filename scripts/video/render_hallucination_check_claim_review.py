@@ -4,7 +4,7 @@ import json
 from PIL import Image, ImageDraw
 from editorial_typography import (face, draw_board_title, draw_inner_title,
                                   tracked_width, INNER_TITLE_TRACKING)
-from render_embrace_editorial_batch import (wrap, cover, rounded_mask, accent_wash,
+from render_navigate_editorial_batch import (wrap, cover, rounded_mask, accent_wash,
     mix_with_white, centered_lines, arrow, PURPLE, BLUE, TEAL, BODY, MUTED, WHITE)
 
 ROOT=Path(__file__).resolve().parents[2]

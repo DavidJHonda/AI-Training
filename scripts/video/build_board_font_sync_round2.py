@@ -15,13 +15,13 @@ import ken_burns_path as kb
 ROOT=base.ROOT
 OUT=ROOT/'video-audit/board-font-sync-round2-2026-10-23'
 CONFIG={
-    'the-next-token':dict(version=4,frames=6033,preset='fast',crf=17,
+    'why-answers-vary':dict(version=4,frames=6033,preset='fast',crf=17,
         sha='b68eaf70af2c11a4e8c4d751af283b988e36f90a3231b89a174d44cc6ecddec9',
         encode=[[1600,2304],[2554,2710]],
-        boards=[dict(key='five-picks',start=1600,end=2304,asset='the-next-token-draws.jpg',stroke=4,
-            spec='the-next-token-build-2026-10-09-v3/five-picks-spec.json'),
-            dict(key='spot-once',start=2556,end=2710,asset='the-next-token-draws.jpg',stroke=4,
-            spec='the-next-token-build-2026-10-09-v3/spot-once-spec.json')]),
+        boards=[dict(key='five-picks',start=1600,end=2304,asset='why-answers-vary-draws.jpg',stroke=4,
+            spec='why-answers-vary-build-2026-10-09-v3/five-picks-spec.json'),
+            dict(key='spot-once',start=2556,end=2710,asset='why-answers-vary-draws.jpg',stroke=4,
+            spec='why-answers-vary-build-2026-10-09-v3/spot-once-spec.json')]),
     'critical-thinking':dict(version=16,frames=5593,preset='medium',crf=16,
         sha='10ad9dd4b723533e31269826c2cf6c743134a8b98d43058da359983647636488',
         encode=[[0,1057],[3448,3768],[3922,4454],[4634,5099]],
@@ -45,7 +45,7 @@ def prepare(slug):
     for item in CONFIG[slug]['boards']:
         spec=json.loads((ROOT/'video-audit'/item['spec']).read_text())
         canvas,cw,ch,ox,oy=Build.compose(SimpleNamespace(out=out),ROOT/'course-assets'/slug/item['asset'],item['key'])
-        if slug=='the-next-token':
+        if slug=='why-answers-vary':
             # The revised note added 40 board pixels. Keep the original full-board treatment,
             # translate the targets to the new canvas, and extend only the two note-related rings.
             assert (cw,ch,ox,oy)==(1824,1026,112,38)
@@ -58,7 +58,7 @@ def prepare(slug):
             assert spec['beats'][0]['from']==[cw/2,ch/2,float(cw)]
         spec['image']=str(canvas)
         target=out/f'leg-{item["key"]}.json';target.write_text(json.dumps(spec,indent=2)+'\n')
-        renderer=Renderer(spec) if slug=='the-next-token' else Board(target)
+        renderer=Renderer(spec) if slug=='why-answers-vary' else Board(target)
         boards.append((item,renderer))
     return boards
 
@@ -67,7 +67,7 @@ def render(slug,boards,n):
     for item,board in boards:
         if item['start']<=n<item['end']:
             local=local_frame(item['key'],n)
-            if slug=='the-next-token':return board.at(local)[0]
+            if slug=='why-answers-vary':return board.at(local)[0]
             original=kb.ring_px
             try:
                 kb.ring_px=lambda height:item['stroke']

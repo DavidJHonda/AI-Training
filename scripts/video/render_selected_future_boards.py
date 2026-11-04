@@ -189,8 +189,8 @@ def render_pace_research() -> None:
         },
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-research-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-4-future-research.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/pace-of-change-future-research-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/pace-of-change-4-future-research.jpg",
         # The live lesson and video-prep paths use the approved illustration-first
         # board. Do not add them here or this legacy renderer will overwrite it.
     ])
@@ -219,8 +219,8 @@ def render_pace_capability() -> None:
         },
     )
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/pace-of-change-future-capability-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/pace-of-change-5-future-capability.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/pace-of-change-future-capability-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/pace-of-change-5-future-capability.jpg",
         # The live lesson and video-prep paths use the approved illustration-first
         # board. Do not add them here or this legacy renderer will overwrite it.
     ])
@@ -256,8 +256,8 @@ def render_guardrail_challenge() -> None:
     ]
     three_cards(draw, cards)
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-downside-guardrail-challenge-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-downside-1-guardrail-challenge.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-downside-guardrail-challenge-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-downside-1-guardrail-challenge.jpg",
         "course-assets/big-downside/big-downside-guardrails.jpg",
     ])
 
@@ -308,8 +308,8 @@ def _render_hassabis_timeline_legacy() -> None:
         else:
             draw.line((x, line_y + 25, x, top), fill=accent, width=3)
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-upside-hassabis-timeline-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-2-hassabis-timeline.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-upside-hassabis-timeline-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-upside-2-hassabis-timeline.jpg",
         "course-assets/big-upside/big-upside-hassabis-timeline.jpg",
         "course-assets/big-upside/big-upside-1-hassabis.jpg",
     ])
@@ -317,7 +317,7 @@ def _render_hassabis_timeline_legacy() -> None:
 
 def render_hassabis_timeline() -> None:
     """Delegate to the canonical standard-title, minimum-type renderer."""
-    from render_embrace_utility_boards import (
+    from render_navigate_utility_boards import (
         render_hassabis_timeline as render_utility_hassabis_timeline,
         save_pair,
     )
@@ -359,8 +359,8 @@ def render_upside_discovery() -> None:
     ]
     three_cards(draw, cards)
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-upside-discovery-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-3-discovery.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-upside-discovery-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-upside-3-discovery.jpg",
         "course-assets/big-upside/big-upside-discovery.jpg",
     ])
 
@@ -395,8 +395,8 @@ def render_upside_help() -> None:
     ]
     three_cards(draw, cards)
     save_all(image, [
-        "board-review-first-four/alternatives/embrace-the-future/big-upside-help-alternative.jpg",
-        "board-review-first-four/current-selected/embrace-the-future/big-upside-4-help.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/big-upside-help-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/big-upside-4-help.jpg",
         "course-assets/big-upside/big-upside-help.jpg",
     ])
 

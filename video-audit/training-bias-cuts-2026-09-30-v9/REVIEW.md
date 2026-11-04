@@ -1,6 +1,6 @@
 # Training Bias v9: approved narration cuts
 
-Candidate: `Prompts/training-bias-v9.mp4`. Narrow repair, ready for owner review; not installed, committed, or published. Runtime **217.433 seconds (3:37.43)**, down from 261 seconds. **43.567 seconds removed.**
+Candidate: `Prompts/how-ai-learns-bias-v9.mp4`. Narrow repair, ready for owner review; not installed, committed, or published. Runtime **217.433 seconds (3:37.43)**, down from 261 seconds. **43.567 seconds removed.**
 
 User authorization: “Now, let's make the cuts from the video please.” This follows approval to remove the repeated explanation around :46–:56 and the Cooper Flagg demonstration plus its cause caveat around 2:38–3:12. The written lesson was updated separately before this build.
 

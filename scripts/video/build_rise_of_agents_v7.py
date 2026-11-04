@@ -5,7 +5,7 @@ import cv2, numpy as np
 from PIL import Image, ImageDraw
 import build_rise_of_agents_v6 as base
 from render_rise_of_agents_rogue import QUOTE
-from render_embrace_editorial_batch import FRAME
+from render_navigate_editorial_batch import FRAME
 
 ROOT,SRC,BOARD,FF,FPS,RATE,N,EXPECTED = (getattr(base,k) for k in ('ROOT','SRC','BOARD','FF','FPS','RATE','N','EXPECTED'))
 sha,wav=base.sha,base.wav

@@ -22,9 +22,9 @@ SECTION_PREFIXES = {
         "evaluation-matters-", "critical-thinking-",
     ),
     "understand-ai": (
-        "opener-understand-", "training-", "probability-and-prediction-", "tokens-", "embeddings-",
+        "opener-understand-", "how-ai-learns-", "probability-and-prediction-", "tokens-", "embeddings-",
         "transformer-", "layers-", "vector-space-", "how-ai-answers-",
-        "the-next-token-",
+        "why-answers-vary-",
     ),
     "avoid-traps": (
         "opener-avoid-", "hallucination-", "training-bias-", "document-trap-",

@@ -64,11 +64,11 @@ Where a lesson contributes a brief excerpt to the core and also belongs to an ex
 | Support Trap | Core 11 | Keep the distinction between venting, preparation, and support that requires a person. Select three contrasting cases from Choose the Right Support; preserve calibrated feedback. |
 | Fake Trap | Core 12 | Keep one photo-pair reveal. Make independent verification of a consequential claim the core practice; leave extra guessing rounds optional. |
 
-## Embrace the Future
+## Navigate the Future
 
 | Current page | Proposed destination | Content and practice decision |
 | --- | --- | --- |
-| Embrace the Future Opener | AI and the Future extension | Keep as the entry to the wider social questions. The core does not require a separate survey of future possibilities. |
+| Navigate the Future Opener | AI and the Future extension | Keep as the entry to the wider social questions. The core does not require a separate survey of future possibilities. |
 | Loudest Voices | AI and the Future extension | Keep expert disagreement and prediction uncertainty with the future sequence. Leave its prediction activity out of the core. |
 | Pace of Change | AI and the Future extension | Keep capability change and future concepts here. Also expose Build Your Own 2048 through optional coding practice with its prerequisites stated. |
 | Big Downside | AI and the Future extension | Keep broader system risks and Spot the Downside in the extension. Essential personal safeguards are taught directly in the core; this full risk survey is not a prerequisite. |
@@ -104,7 +104,7 @@ Where a lesson contributes a brief excerpt to the core and also belongs to an ex
 
 ## Coverage and decision notes
 
-This inventory contains 8 Start Smarter pages, 9 Work With AI pages, 10 Understand AI pages, 9 Avoid Traps pages, 9 Embrace the Future pages, 9 Build Your Skills pages, and 5 Finish Smarter pages. The 59 pages include six section openers, Welcome, The Final, and three utilities; they are not 59 teaching lessons of equal length. The live route currently marks For Groups optional. The proposed core also removes reviews and resources from its required progress count.
+This inventory contains 8 Start Smarter pages, 9 Work With AI pages, 10 Understand AI pages, 9 Avoid Traps pages, 9 Navigate the Future pages, 9 Build Your Skills pages, and 5 Finish Smarter pages. The 59 pages include six section openers, Welcome, The Final, and three utilities; they are not 59 teaching lessons of equal length. The live route currently marks For Groups optional. The proposed core also removes reviews and resources from its required progress count.
 
 The core retains concrete responses to invented claims, incomplete documents, misleading agreement, misplaced interpersonal trust, and convincing fakes. Training bias, engagement, ethics, and agent permissions contribute bounded essentials where students need them, with their fuller treatment available afterward. This is a deliberately narrower literacy course; it does not claim the full curriculum’s technical, societal, or career breadth.
 

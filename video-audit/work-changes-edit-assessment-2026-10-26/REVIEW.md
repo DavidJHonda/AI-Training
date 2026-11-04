@@ -20,7 +20,7 @@ detection or this transcript assessment as proof that the joins sound natural.
 - Source: `course-assets/work-changes/work-changes.mp4`, 5:28.267, 30 fps.
 - SHA-256: `520d39b3257347895915694ff1299e63b3e4f288b23ffe10bd01dfd2220aa3ff`.
 - This matches the installed v6 recorded in the October 8 shipping manifest.
-- Full transcript: `video-audit/embrace-the-future-illustration-opportunities-2026-10-08/transcripts/work-changes.txt` and its JSON word stamps.
+- Full transcript: `video-audit/navigate-the-future-illustration-opportunities-2026-10-08/transcripts/work-changes.txt` and its JSON word stamps.
 - October 8 visual repair preserved the audio; its manifest and QA were checked.
 - Available candidates v4, v5 and v6 share the same narration. Original raw rolls
   are absent, so their historical transcripts cannot be treated as available donors.

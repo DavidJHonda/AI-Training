@@ -6,7 +6,7 @@ if not (ROOT/'index.html').exists():ROOT=Path('/Users/davidobrien/Developer/AI-T
 index=(ROOT/'index.html').read_text()
 exts={'.jpg','.jpeg','.png','.webp','.svg','.pdf','.mp4'}
 web=set(re.findall(r'course-assets/[A-Za-z0-9_./-]+\.(?:jpg|jpeg|png|webp|svg|pdf|mp4)',index))
-web.update('course-assets/training/'+s for s in re.findall(r'board\("([^"\n]+\.jpg)"',index))
+web.update('course-assets/how-ai-learns/'+s for s in re.findall(r'board\("([^"\n]+\.jpg)"',index))
 manifest=json.loads((ROOT/'course-assets/manifest.json').read_text())
 aliases=collections.defaultdict(set)
 for r in manifest['assets']:

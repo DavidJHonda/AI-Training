@@ -6,7 +6,7 @@ const path = require('node:path');
 const {execFileSync} = require('node:child_process');
 const {chromium} = require(process.env.PLAYWRIGHT_MODULE || '/Users/davidobrien/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const root = path.resolve(__dirname, '../..');
-const output = path.join(root, 'gemini-notebook/the-next-token/assets/the-next-token-temperature.jpg');
+const output = path.join(root, 'gemini-notebook/why-answers-vary/assets/why-answers-vary-temperature.jpg');
 (async () => {
   execFileSync(process.execPath, [path.join(__dirname, 'preview_temperature.cjs')]);
   const browser = await chromium.launch({channel:'chrome', headless:true});

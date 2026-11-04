@@ -30,7 +30,7 @@ def main():
     m = json.loads((OUT / 'edit-manifest.json').read_text())
     assert b.base.sha(DEST) == m['candidate_sha256']
     cap = b.base.cap(DEST)
-    prior = b.base.cap(b.ROOT / 'Prompts/training-bias-v8.mp4')
+    prior = b.base.cap(b.ROOT / 'Prompts/how-ai-learns-bias-v8.mp4')
     source_map = [f for lo, hi in b.KEEP for f in range(lo, hi)]
     comparisons = []
     selected = {1364, 1365, 1366, 1370, 4443, 4444, 4445, 4457, b.TOTAL-1}

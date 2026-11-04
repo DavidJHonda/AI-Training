@@ -5,11 +5,11 @@ from pathlib import Path
 import cv2,imageio_ffmpeg,numpy as np
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'video-audit/training-bias-shortening-2026-10-27-v11'
-DEST=ROOT/'Prompts/training-bias-v11.mp4'
+DEST=ROOT/'Prompts/how-ai-learns-bias-v11.mp4'
 FPS=30; SR=48000; SPF=1600
 SOURCES={
- 'v10':(ROOT/'Prompts/training-bias-v10.mp4','39673f9949b52e6af19dbba2b36ade96a498075c96c4d3675222f451cc20016d'),
- 'v8':(ROOT/'Prompts/training-bias-v8.mp4','612715b2ae1719028f0cafa9df01d52701205d4c8cc54a29c28c92799cf1ca88')}
+ 'v10':(ROOT/'Prompts/how-ai-learns-bias-v10.mp4','39673f9949b52e6af19dbba2b36ade96a498075c96c4d3675222f451cc20016d'),
+ 'v8':(ROOT/'Prompts/how-ai-learns-bias-v8.mp4','612715b2ae1719028f0cafa9df01d52701205d4c8cc54a29c28c92799cf1ca88')}
 PLAN=[('v10',0,1077,'Cow story and training bias'),
       ('v10',1365,4444,'Three distortions, consequences, questions, and stale-data limitation'),
       ('v8',5847,6030,'Verify dates against a current external source'),

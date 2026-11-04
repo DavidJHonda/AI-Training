@@ -1,6 +1,6 @@
 # Training Bias v11 — shorter lesson video
 
-Built 2026-10-27 after David approved the proposed cuts with “Sounds good. Build it please.” Review candidate: `Prompts/training-bias-v11.mp4`. Duration **2:34.400**, **48.033 seconds shorter** than installed v10. Candidate SHA-256: `d2cf348666962732470205fbfcab21d43027a0cc036744401d59c96ebb9a2bf9`.
+Built 2026-10-27 after David approved the proposed cuts with “Sounds good. Build it please.” Review candidate: `Prompts/how-ai-learns-bias-v11.mp4`. Duration **2:34.400**, **48.033 seconds shorter** than installed v10. Candidate SHA-256: `d2cf348666962732470205fbfcab21d43027a0cc036744401d59c96ebb9a2bf9`.
 
 ## Local release — 2026-10-27
 

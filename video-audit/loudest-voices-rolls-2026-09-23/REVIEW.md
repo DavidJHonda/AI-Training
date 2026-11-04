@@ -38,7 +38,7 @@ worrier fears it.
 
 **Fix for the next roll of any lesson using the pair:** add to the prompt's VOICE block —
 `Say “Worrier” as worry-er, never “warrior.”` I added exactly this to
-`Prompts/opener-embrace-video-prompt.txt` today. I have **not** edited
+`Prompts/opener-navigate-video-prompt.txt` today. I have **not** edited
 `Prompts/loudest-voices-video-prompt.txt`, because it is uncommitted work from the parallel session that
 rebuilt this kit at 17:22 and I did not want to collide with it. Say the word and I'll add the line.
 

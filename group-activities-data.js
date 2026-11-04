@@ -852,6 +852,376 @@ window.COURSE_GROUP_ACTIVITIES = [
     ]
   },
   {
+    "id": "supporttrap-discussion",
+    "lesson": "supporttrap",
+    "lessonTitle": "Support Trap",
+    "section": "Avoid Traps",
+    "title": "Support Trap",
+    "type": "Discussion",
+    "note": "Discuss supportive words, practical help, preparation, and reaching people who can act.",
+    "href": "group-exercises/group-session.html?id=supporttrap-discussion",
+    "questions": [
+      {
+        "context": "A student is overwhelmed by missing assignments. AI responds patiently and helps make a plan. A friend offers to sit with them after school while they start the first assignment.",
+        "title": "What different kinds of help do those responses provide?",
+        "followUp": "What might still be difficult even after the student has a good plan?"
+      },
+      {
+        "context": "You’re angry about something a teammate said. You put your frustration into an AI chat, cool down, and decide not to send the angry message you were drafting.",
+        "title": "When might expressing a frustration be enough, and when would the situation still need attention outside the chat?",
+        "followUp": "What would help you tell the difference?"
+      },
+      {
+        "context": "A student uses AI to rehearse telling a parent about a bad grade. They keep refining what to say, but several days pass without the conversation happening.",
+        "title": "How could they tell whether the preparation was helping or becoming a way to put the conversation off?",
+        "followUp": "What could make it easier to take the next step before the words feel perfect?"
+      },
+      {
+        "context": "A friend says, “Talking to AI is easier. It’s always available, it doesn’t interrupt, and I don’t worry about being judged.”",
+        "title": "What makes that appealing, and what might your friend still need from people?",
+        "followUp": "How could people make it easier for someone to open up to them?"
+      },
+      {
+        "context": "A student is worried that a friend may be unsafe and tells a trusted adult. After getting help involved, the student worries that their friend will feel betrayed because they had asked for secrecy.",
+        "title": "How could the student explain that getting help was an act of care?",
+        "followUp": "What could the adult do to help the student feel supported too?"
+      }
+    ]
+  },
+  {
+    "id": "faketrap-discussion",
+    "lesson": "faketrap",
+    "lessonTitle": "Fake Trap",
+    "section": "Avoid Traps",
+    "title": "Fake Trap",
+    "type": "Discussion",
+    "note": "Discuss reacting to convincing media, sharing responsibly, and checking evidence without rushing to a verdict.",
+    "href": "group-exercises/group-session.html?id=faketrap-discussion",
+    "questions": [
+      {
+        "context": "A clip shows your favorite musician insulting fans. You’re angry and ready to share it, but you don’t know where the clip originally came from.",
+        "title": "What would make you pause before reacting or passing it along?",
+        "followUp": "Would you be equally cautious about a clip that made you happy or confirmed something you already believed?"
+      },
+      {
+        "context": "A friend makes a fake magazine cover featuring you as a famous athlete. You both laugh. Later, someone posts it elsewhere without explaining the joke.",
+        "title": "When does a harmless fake become misleading?",
+        "followUp": "What responsibility does the person sharing it have when the original context disappears?"
+      },
+      {
+        "context": "A video appears to show someone damaging school property. Another student dismisses it immediately: “You can fake anything with AI now.”",
+        "title": "How could you take the video seriously without assuming it proves what happened?",
+        "followUp": "What could help you avoid both believing too quickly and dismissing real evidence too easily?"
+      },
+      {
+        "context": "Someone sends a screenshot that appears to show a classmate saying something cruel. You’re unsure whether it’s real and consider forwarding it with, “Does anyone know if this actually happened?”",
+        "title": "Does asking whether it’s real change the possible harm of sharing it?",
+        "followUp": "How could you check the claim without spreading it to more people?"
+      },
+      {
+        "context": "Two AI detectors disagree about a photo. One labels it real, the other fake. Your friends want you to pick a side.",
+        "title": "How comfortable would you be saying, “I don’t know yet”?",
+        "followUp": "What evidence beyond the detector results would help you reach a conclusion?"
+      }
+    ]
+  },
+  {
+    "id": "whatpeoplesay-discussion",
+    "lesson": "whatpeoplesay",
+    "lessonTitle": "Loudest Voices",
+    "section": "Navigate the Future",
+    "title": "Loudest Voices",
+    "type": "Discussion",
+    "note": "Discuss competing predictions, credibility, uncertainty, and choices within your control.",
+    "href": "group-exercises/group-session.html?id=whatpeoplesay-discussion",
+    "questions": [
+      {
+        "context": "Two experienced AI researchers look at the same developments. One sees enormous opportunity; the other sees serious danger.",
+        "title": "How would you decide what to take from their views when you can’t personally judge all the technical evidence?",
+        "followUp": "What would make either person more credible to you?"
+      },
+      {
+        "context": "An AI company leader predicts that AI will transform everyone’s life. Their company also benefits when people believe that prediction.",
+        "title": "How should someone’s stake in the outcome affect how you judge their argument?",
+        "followUp": "Could they benefit from a prediction and still be right?"
+      },
+      {
+        "context": "One speaker confidently predicts what AI will do in five years. Another describes several possibilities and admits they don’t know which will happen.",
+        "title": "Which would you be more likely to listen to?",
+        "followUp": "When does admitting uncertainty strengthen someone’s argument?"
+      },
+      {
+        "context": "Your feed is full of exciting AI breakthroughs. Your friend’s feed is full of warnings. You both feel well informed.",
+        "title": "How could you work out whether you’re seeing different evidence or different selections of the same story?",
+        "followUp": "What might you learn by looking through each other’s feeds?"
+      },
+      {
+        "context": "A headline predicts that AI will transform the career you’re interested in. It leaves you wondering whether your current plans still make sense.",
+        "title": "What could you do now that would be worthwhile across several possible futures?",
+        "followUp": "What would justify changing your plans rather than simply paying attention?"
+      }
+    ]
+  },
+  {
+    "id": "paceofchange-discussion",
+    "lesson": "paceofchange",
+    "lessonTitle": "Pace of Change",
+    "section": "Navigate the Future",
+    "title": "Pace of Change",
+    "type": "Discussion",
+    "note": "Discuss changing capabilities, choosing what to learn, and making plans amid rapid change.",
+    "href": "group-exercises/group-session.html?id=paceofchange-discussion",
+    "questions": [
+      {
+        "context": "You tried AI for a task last year and it failed badly. A friend says it can now do that task well.",
+        "title": "What would convince you to give it another chance?",
+        "followUp": "How could you test the improvement on something that matters to you?"
+      },
+      {
+        "context": "Every week, someone recommends a new AI app or feature. Trying them all is starting to take more time than doing your actual work.",
+        "title": "How would you decide which changes deserve your attention?",
+        "followUp": "What would make you comfortable ignoring a new release?"
+      },
+      {
+        "context": "Your school creates an AI policy. Before the next semester begins, the tools can do things the policy never considered.",
+        "title": "How should a school make rules for technology that keeps changing?",
+        "followUp": "Which principles could stay useful even when specific features change?"
+      },
+      {
+        "context": "A company announces that its AI has reached “human-level intelligence.” People disagree about what that means.",
+        "title": "What would you want to see it do before that announcement meant much to you?",
+        "followUp": "Would being excellent at some tasks be enough, or would its weaknesses matter just as much?"
+      },
+      {
+        "context": "You’re considering spending months learning a new skill. Someone says, “Why bother? AI might do that soon.”",
+        "title": "How would you decide whether the skill is still worth learning?",
+        "followUp": "What could learning it give you beyond the ability to produce a finished result?"
+      }
+    ]
+  },
+  {
+    "id": "bigdownside-discussion",
+    "lesson": "bigdownside",
+    "lessonTitle": "Big Downside",
+    "section": "Navigate the Future",
+    "title": "Big Downside",
+    "type": "Discussion",
+    "note": "Discuss explanations, misuse, release decisions, uneven risks, and independent testing.",
+    "href": "group-exercises/group-session.html?id=bigdownside-discussion",
+    "questions": [
+      {
+        "context": "A school uses AI to recommend which students should receive a limited number of program places. Its recommendations usually seem reasonable, but it cannot give a clear explanation for one surprising rejection.",
+        "title": "How much explanation should people deserve when AI influences a decision about them?",
+        "followUp": "Would your expectations change for a movie recommendation?"
+      },
+      {
+        "context": "A voice-generation tool could help someone communicate in a voice they choose. The same capability could be used to impersonate someone.",
+        "title": "How would you weigh a tool’s useful possibilities against its potential for misuse?",
+        "followUp": "Who should help decide what restrictions are reasonable?"
+      },
+      {
+        "context": "A company has a powerful new AI tool ready to release. More testing might reveal problems, but delaying also postpones benefits people could use.",
+        "title": "What would you want considered before deciding whether to release it?",
+        "followUp": "How should that decision change when mistakes could be difficult to undo?"
+      },
+      {
+        "context": "An AI scheduling system saves a school hours of work, but repeatedly gives a small group of students schedules that don’t meet their needs.",
+        "title": "How should the school weigh a benefit for many people against a recurring problem for a few?",
+        "followUp": "Who should have a say in deciding whether the system is working well enough?"
+      },
+      {
+        "context": "An AI company says its product passed its own safety tests. An outside group wants to test it too, including situations the company did not choose.",
+        "title": "What would independent testing add to your confidence?",
+        "followUp": "What information would you want made public when a serious problem is found?"
+      }
+    ]
+  },
+  {
+    "id": "bigupside-discussion",
+    "lesson": "bigupside",
+    "lessonTitle": "Big Upside",
+    "section": "Navigate the Future",
+    "title": "Big Upside",
+    "type": "Discussion",
+    "note": "Discuss meaningful benefits, access, research, community needs, and choosing worthwhile projects.",
+    "href": "group-exercises/group-session.html?id=bigupside-discussion",
+    "questions": [
+      {
+        "context": "One AI demonstration creates a spectacular video. Another helps someone independently read an everyday sign they previously needed help with.",
+        "title": "What makes an AI improvement important: how impressive it looks, how many people it reaches, or how much it changes someone’s life?",
+        "followUp": "Which kinds of benefits are easiest to overlook?"
+      },
+      {
+        "context": "Imagine AI gives researchers thousands of promising ideas for a difficult problem. Each idea still needs careful testing.",
+        "title": "Where would the biggest challenge move once generating ideas became easier?",
+        "followUp": "What kinds of human work might become more important?"
+      },
+      {
+        "context": "A useful AI learning tool becomes available, but only students who can afford a subscription can use it.",
+        "title": "What would need to happen for that improvement to become a benefit for the whole school?",
+        "followUp": "Who should take responsibility for making access possible?"
+      },
+      {
+        "context": "Your class can design an AI project to make everyday life easier in your community. You have ideas, but haven’t talked to the people who would use it.",
+        "title": "How would you find out which problem is actually worth solving?",
+        "followUp": "What might people tell you that would change your original idea?"
+      },
+      {
+        "context": "A foundation can support one of two AI projects: a modest improvement likely to help people soon, or an ambitious idea that could help many more people but might fail.",
+        "title": "How would you choose between them?",
+        "followUp": "What would make taking the bigger risk worthwhile?"
+      }
+    ]
+  },
+  {
+    "id": "agents-discussion",
+    "lesson": "agents",
+    "lessonTitle": "Rise of Agents",
+    "section": "Navigate the Future",
+    "title": "Rise of Agents",
+    "type": "Discussion",
+    "note": "Discuss delegating actions, setting goals, reviewing results, and responsibility for an agent’s work.",
+    "href": "group-exercises/group-session.html?id=agents-discussion",
+    "questions": [
+      {
+        "context": "You ask an agent to organize a club fundraiser. It can compare venues, contact businesses, reserve a space, and publish announcements.",
+        "title": "Which steps would you let it take independently, and which would require your approval?",
+        "followUp": "What makes an action important enough to check before it happens?"
+      },
+      {
+        "context": "You tell an agent to find the cheapest travel option. It chooses a trip with an overnight layover that saves only a little money.",
+        "title": "What did “cheapest” leave out about what you actually wanted?",
+        "followUp": "How would you explain the tradeoffs you’re willing to make?"
+      },
+      {
+        "context": "An agent sends a message from your club account with the wrong event date. People make plans based on it.",
+        "title": "What responsibility would you have for a message you didn’t personally write or send?",
+        "followUp": "What would you put in place before letting the agent send another announcement?"
+      },
+      {
+        "context": "An agent builds your club’s website. It works, but you don’t understand how to update it when something changes.",
+        "title": "How much would you want to understand about work you delegate to an agent?",
+        "followUp": "When could handing off the work make you more capable, and when could it leave you dependent?"
+      },
+      {
+        "context": "An agent says, “Done. I handled everything.” You can see the finished result, but not the steps it took.",
+        "title": "What would you want it to report before you considered the job complete?",
+        "followUp": "Would you need the same level of detail for every task?"
+      }
+    ]
+  },
+  {
+    "id": "workchanges-discussion",
+    "lesson": "workchanges",
+    "lessonTitle": "Work Changes",
+    "section": "Navigate the Future",
+    "title": "Work Changes",
+    "type": "Discussion",
+    "note": "Discuss learning a profession, sharing productivity benefits, checking work, and applying judgment.",
+    "href": "group-exercises/group-session.html?id=workchanges-discussion",
+    "questions": [
+      {
+        "context": "At your first job, AI produces a polished report in minutes. Your manager asks you to check it, but you don’t yet know the subject well.",
+        "title": "What would you need before you could confidently take responsibility for that report?",
+        "followUp": "How could your manager help you learn without expecting you to catch mistakes you don’t yet recognize?"
+      },
+      {
+        "context": "AI cuts a task from five hours to one. Your workplace can use the saved time for more assignments, better work, training, or shorter hours.",
+        "title": "How should that saved time be used, and who should decide?",
+        "followUp": "Would your answer differ as an employee, a customer, or the owner?"
+      },
+      {
+        "context": "Experienced employees learned their jobs partly through routine tasks that AI now handles. New employees get fewer chances to practice those basics.",
+        "title": "How could a workplace help beginners build expertise when the traditional practice work disappears?",
+        "followUp": "What would be worth doing yourself at least a few times?"
+      },
+      {
+        "context": "Two people apply for the same job. One knows the subject deeply but has little AI experience. The other uses AI skillfully but knows less about the field.",
+        "title": "What would you want to see each person do before choosing between them?",
+        "followUp": "How might they make a stronger team together?"
+      },
+      {
+        "context": "AI summarizes customer complaints and recommends a popular fix. You notice a less common problem that could matter more, but investigating it would delay the presentation.",
+        "title": "How would you decide whether to challenge the recommendation?",
+        "followUp": "What could you bring to that decision that a summary alone would miss?"
+      }
+    ]
+  },
+  {
+    "id": "computecost-discussion",
+    "lesson": "computecost",
+    "lessonTitle": "Data Centers",
+    "section": "Navigate the Future",
+    "title": "Data Centers",
+    "type": "Discussion",
+    "note": "Discuss community effects, resource use, efficiency, jobs, and who benefits from AI infrastructure.",
+    "href": "group-exercises/group-session.html?id=computecost-discussion",
+    "questions": [
+      {
+        "context": "A company proposes a data center near your town. Supporters point to investment and tax revenue; neighbors ask about electricity, water, and noise.",
+        "title": "What would you want to understand before deciding whether the project would be good for the community?",
+        "followUp": "Whose perspective might be missing from the first public meeting?"
+      },
+      {
+        "context": "People far away use an AI service, while the neighborhood around its data center deals with the local effects.",
+        "title": "What would a fair arrangement between the company and its neighbors look like?",
+        "followUp": "Which responsibilities should belong to the company rather than individual users?"
+      },
+      {
+        "context": "Imagine a new chip cuts the electricity needed for each AI task in half, but the number of tasks triples.",
+        "title": "Would you consider that progress?",
+        "followUp": "How would you weigh efficiency, total resource use, and the value of the additional work?"
+      },
+      {
+        "context": "A proposed data center advertises hundreds of construction jobs. After opening, it would need a much smaller permanent staff.",
+        "title": "How should a town weigh temporary benefits against long-term effects?",
+        "followUp": "What commitments would you want to be specific and measurable?"
+      },
+      {
+        "context": "During a power shortage, a community must consider competing demands, including data centers running many different AI services.",
+        "title": "Should the purpose of the AI work matter when deciding how resources are allocated?",
+        "followUp": "Who should decide which uses are more important?"
+      }
+    ]
+  },
+  {
+    "id": "unexpected-discussion",
+    "lesson": "unexpected",
+    "lessonTitle": "Unexpected Results",
+    "section": "Navigate the Future",
+    "title": "Unexpected Results",
+    "type": "Discussion",
+    "note": "Discuss incentives, collective effects, surprising benefits, experiments, and learning from actual use.",
+    "href": "group-exercises/group-session.html?id=unexpected-discussion",
+    "questions": [
+      {
+        "context": "A school rewards students for completing the most practice questions. Some students start rushing through easy questions instead of working on what they find difficult.",
+        "title": "How did a plan meant to encourage learning end up encouraging something else?",
+        "followUp": "What would you change about how progress is recognized?"
+      },
+      {
+        "context": "Every club uses an AI assistant to choose the best evening for an event. Each assistant recommends the same night, and attendance drops because the events compete.",
+        "title": "How could individually sensible decisions create a bad result when everyone makes them?",
+        "followUp": "Where else might people need to coordinate rather than optimize only for themselves?"
+      },
+      {
+        "context": "A school introduces AI translation to help families read announcements. Students begin using it to exchange stories with relatives who speak another language.",
+        "title": "How should the school respond to a useful outcome it didn’t originally plan for?",
+        "followUp": "Have you found a valuable use for a tool that wasn’t what you first got it for?"
+      },
+      {
+        "context": "Your club wants to try an AI system for assigning volunteer roles. You see possible benefits but aren’t sure how members will react.",
+        "title": "How could you try it in a way that lets you learn and change direction?",
+        "followUp": "What would make you pause or stop the experiment?"
+      },
+      {
+        "context": "A new AI service gets lots of sign-ups, so its creators call it a success. But some people quietly stop using it, and others use it in unexpected ways.",
+        "title": "What would you want to learn before agreeing that it was successful?",
+        "followUp": "How could the creators hear from people who never send feedback?"
+      }
+    ]
+  },
+  {
     "id": "unexpected",
     "lesson": "unexpected",
     "lessonTitle": "Unexpected Results",
@@ -860,6 +1230,43 @@ window.COURSE_GROUP_ACTIVITIES = [
     "type": "Activity",
     "note": "Guess together, then reveal eight unexpected outcomes in a leader-led group discussion.",
     "href": "group-exercises/unexpected-results/what-happened-next.html"
+  },
+  {
+    "id": "critical-discussion",
+    "lesson": "critical",
+    "lessonTitle": "Critical Thinking",
+    "section": "Build Your Skills",
+    "title": "Critical Thinking",
+    "type": "Discussion",
+    "note": "Discuss evidence, limits of expertise, competing explanations, and deciding when to act.",
+    "href": "group-exercises/group-session.html?id=critical-discussion",
+    "questions": [
+      {
+        "context": "A school reports that students who attend its optional study sessions earn higher grades. Someone concludes that attending the sessions causes the improvement.",
+        "title": "What else might explain the difference in grades?",
+        "followUp": "What would you want to know before recommending that every student attend?"
+      },
+      {
+        "context": "AI helps your friend build a website that collects club registrations. It looks polished, and your friend asks whether it’s ready to use. You know little about building websites.",
+        "title": "How would you decide what you can judge yourself and where you need help?",
+        "followUp": "What might a successful demonstration leave you unable to evaluate?"
+      },
+      {
+        "context": "AI compares two laptops and recommends the faster one. You care more about battery life and carrying it around all day.",
+        "title": "Can a recommendation be well supported and still be wrong for your situation?",
+        "followUp": "How would you uncover the priorities behind a recommendation?"
+      },
+      {
+        "context": "You argue strongly for an idea in a group meeting. Later, someone brings evidence that weakens your case.",
+        "title": "What would make it easier or harder to change your position in front of the group?",
+        "followUp": "How could a group make changing your mind feel like good judgment rather than losing?"
+      },
+      {
+        "context": "Your club needs to choose an event location. You have useful information, but there are still unanswered questions and the reservation deadline is approaching.",
+        "title": "How would you decide when you know enough to make the call?",
+        "followUp": "Which uncertainties would you be willing to accept, and which would you need to resolve?"
+      }
+    ]
   },
   {
     "id": "critical",
@@ -872,6 +1279,80 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/whats-missing/whats-missing.html"
   },
   {
+    "id": "integrity-discussion",
+    "lesson": "integrity",
+    "lessonTitle": "Honesty & Privacy",
+    "section": "Build Your Skills",
+    "title": "Honesty & Privacy",
+    "type": "Discussion",
+    "note": "Discuss explaining AI’s role, owning your work, and protecting information about yourself and others.",
+    "href": "group-exercises/group-session.html?id=integrity-discussion",
+    "questions": [
+      {
+        "context": "Your teacher allows AI feedback on essays. You write the draft, ask AI to identify weak spots, and make your own revisions.",
+        "title": "How would you describe AI’s role so someone could understand what you contributed?",
+        "followUp": "What would make a disclosure informative rather than just “I used AI”?"
+      },
+      {
+        "context": "Your group used AI for an allowed part of a project. One member wants to leave that out because they worry the teacher will think the group did less work.",
+        "title": "How would you handle that disagreement?",
+        "followUp": "What could teachers do to make students more comfortable being honest about permitted AI use?"
+      },
+      {
+        "context": "AI rewrites your paragraph so it sounds impressive, but you can’t explain some of its claims. You’re tempted to keep it because it sounds better than your version.",
+        "title": "What would need to change before you felt comfortable putting your name on it?",
+        "followUp": "How would you decide whether the revision was improving your work or replacing your thinking?"
+      },
+      {
+        "context": "You want AI’s help replying to a private message from a friend. Pasting the conversation would provide context, but your friend hasn’t agreed to share it.",
+        "title": "How would you balance getting useful help with respecting your friend’s privacy?",
+        "followUp": "What could you explain about the situation without sharing their exact words or identifying details?"
+      },
+      {
+        "context": "You upload a screenshot to ask about one item on your schedule. It also shows classmates’ names, meeting links, and unrelated notifications.",
+        "title": "How might your judgment change when the information belongs to other people as well as you?",
+        "followUp": "What habit could help you notice the extra information before uploading?"
+      }
+    ]
+  },
+  {
+    "id": "wherestheline-discussion",
+    "lesson": "wherestheline",
+    "lessonTitle": "Where’s the Line?",
+    "section": "Build Your Skills",
+    "title": "Where’s the Line?",
+    "type": "Discussion",
+    "note": "Discuss pressure, fairness, transparency, and responsibility for the effects of AI systems.",
+    "href": "group-exercises/group-session.html?id=wherestheline-discussion",
+    "questions": [
+      {
+        "context": "A study app learns which reminders make students return. It starts sending messages like, “Everyone else is getting ahead while you’re falling behind.”",
+        "title": "Where would you draw the line between motivating students and pressuring them?",
+        "followUp": "Would improved test scores settle that question for you?"
+      },
+      {
+        "context": "Your club uses AI to personalize fundraising messages. It can emphasize different reasons to donate based on what it knows about each person.",
+        "title": "When does making a message relevant become taking advantage of someone?",
+        "followUp": "What would you want recipients to know about how the message was created?"
+      },
+      {
+        "context": "A school proposes an AI system that ranks students for leadership opportunities using grades, attendance, and club participation.",
+        "title": "Who might be overlooked even if the system uses those records accurately?",
+        "followUp": "What opportunity should students have to explain something the records don’t show?"
+      },
+      {
+        "context": "Two students receive different levels of AI assistance because one needs help accessing the assignment. Someone complains that everyone should get exactly the same tools.",
+        "title": "Does treating people fairly always mean giving them identical support?",
+        "followUp": "What should matter when deciding which differences in assistance are reasonable?"
+      },
+      {
+        "context": "You help build an AI tool that makes a school process faster. After launch, several students say it creates problems for them, although most users are satisfied.",
+        "title": "What responsibility would you have after the tool was already working as designed?",
+        "followUp": "What would justify changing or stopping something you were proud of building?"
+      }
+    ]
+  },
+  {
     "id": "wherestheline",
     "lesson": "wherestheline",
     "lessonTitle": "Where’s the Line?",
@@ -880,5 +1361,153 @@ window.COURSE_GROUP_ACTIVITIES = [
     "type": "Activity",
     "note": "Take a position and discuss difficult choices about what AI should do.",
     "href": "group-exercises/where-do-you-stand/where-do-you-stand.html"
+  },
+  {
+    "id": "peopleskills-discussion",
+    "lesson": "peopleskills",
+    "lessonTitle": "People Skills",
+    "section": "Build Your Skills",
+    "title": "People Skills",
+    "type": "Discussion",
+    "note": "Discuss listening, following through, recognizing contributions, and handling difficult conversations.",
+    "href": "group-exercises/group-session.html?id=peopleskills-discussion",
+    "questions": [
+      {
+        "context": "A teammate who usually sends detailed replies starts answering with “fine” and “whatever.” You don’t know whether they’re upset, busy, or simply tired.",
+        "title": "How could you check in without assuming you know what their messages mean?",
+        "followUp": "What kind of question would make it easier for them to answer honestly?"
+      },
+      {
+        "context": "You miss a deadline and use AI to write a polished apology to your group. A teammate replies, “The message sounds nice, but we still had to finish your part.”",
+        "title": "What would make the apology meaningful beyond the wording?",
+        "followUp": "How could you rebuild trust through what happens next?"
+      },
+      {
+        "context": "One group member gives the final presentation. Another quietly organized the work, reminded everyone about deadlines, and helped solve disagreements.",
+        "title": "How should the group recognize contributions that aren’t visible in the finished product?",
+        "followUp": "What kinds of work tend to go unnoticed in groups you’ve been part of?"
+      },
+      {
+        "context": "A reliable teammate says they can’t finish their assignment this week. Another member wants to accuse them of letting everyone down.",
+        "title": "How could you address the unfinished work while still treating the teammate with respect?",
+        "followUp": "What would you need to understand before deciding how to respond?"
+      },
+      {
+        "context": "While someone explains their idea, you think of a better one and start planning your reply. By the time they finish, you realize you missed part of their explanation.",
+        "title": "What would help you listen to understand instead of listening for your turn?",
+        "followUp": "How might one follow-up question change the conversation?"
+      }
+    ]
+  },
+  {
+    "id": "creativethinking-discussion",
+    "lesson": "creativethinking",
+    "lessonTitle": "Creative Thinking",
+    "section": "Build Your Skills",
+    "title": "Creative Thinking",
+    "type": "Discussion",
+    "note": "Discuss everyday creativity, first suggestions, constraints, borrowing ideas, and stepping away.",
+    "href": "group-exercises/group-session.html?id=creativethinking-discussion",
+    "questions": [
+      {
+        "context": "A friend says, “I’m not creative. I can’t draw or write stories.” That same friend regularly finds clever ways to repair things and organize events.",
+        "title": "What kinds of creativity might your friend be overlooking?",
+        "followUp": "When have you solved a problem creatively without thinking of yourself as creative?"
+      },
+      {
+        "context": "You ask AI for ideas before thinking of any yourself. Its first suggestion is decent, and every idea you consider afterward is a variation of it.",
+        "title": "How could that first suggestion help your thinking and also limit it?",
+        "followUp": "When would you want to explore your own ideas before seeing AI’s?"
+      },
+      {
+        "context": "Your club wants an event, but you have no budget and can’t use the usual venue.",
+        "title": "Could those limits lead to a more interesting idea than having plenty of money and space?",
+        "followUp": "What assumption about how the event “has to work” would you question first?"
+      },
+      {
+        "context": "Your group wants to make orientation more welcoming. Someone suggests borrowing ideas from escape rooms, team sports, or cooking together.",
+        "title": "What could an unrelated activity teach you about solving this problem?",
+        "followUp": "What would make a borrowed idea fit your situation rather than feel like a gimmick?"
+      },
+      {
+        "context": "You’ve been stuck on a design for an hour. One teammate wants to keep pushing; another suggests taking a walk and returning later.",
+        "title": "How would you decide whether stepping away would help or simply delay the work?",
+        "followUp": "What have you noticed about when your own ideas tend to arrive?"
+      }
+    ]
+  },
+  {
+    "id": "becurious-discussion",
+    "lesson": "becurious",
+    "lessonTitle": "Curiosity",
+    "section": "Build Your Skills",
+    "title": "Curiosity",
+    "type": "Discussion",
+    "note": "Discuss noticing questions, exploring feedback, learning from others, and following new interests.",
+    "href": "group-exercises/group-session.html?id=becurious-discussion",
+    "questions": [
+      {
+        "context": "You pass the same empty storefront every day and usually ignore it. A friend asks, “Why do businesses keep closing in that spot?”",
+        "title": "How could that one question change what you notice about an ordinary place?",
+        "followUp": "What familiar thing in your daily life might become interesting if you asked a different question about it?"
+      },
+      {
+        "context": "Someone gives you feedback you don’t agree with: “Your presentation was hard to follow.”",
+        "title": "What could you ask to understand their experience before deciding whether to change anything?",
+        "followUp": "How could curiosity help without requiring you to accept every criticism?"
+      },
+      {
+        "context": "A classmate is enthusiastic about a hobby you know nothing about. Your first reaction is that it sounds boring.",
+        "title": "What could you ask to find out what they see in it?",
+        "followUp": "Have another person’s interests ever opened up something unexpected for you?"
+      },
+      {
+        "context": "AI answers your question, but one small detail makes you wonder about something you hadn’t considered.",
+        "title": "How would you decide whether to follow that new question or return to your original task?",
+        "followUp": "When has a side question led you somewhere worthwhile?"
+      },
+      {
+        "context": "You don’t know what career you want, but you’ve noticed that you enjoy explaining things, fixing things, or bringing people together.",
+        "title": "How could you explore one of those interests without committing to an entire career?",
+        "followUp": "What would you hope to learn from the experience, even if you decided it wasn’t for you?"
+      }
+    ]
+  },
+  {
+    "id": "makeyourmove-discussion",
+    "lesson": "makeyourmove",
+    "lessonTitle": "What’s Next?",
+    "section": "Build Your Skills",
+    "title": "What’s Next?",
+    "type": "Discussion",
+    "note": "Discuss starting a real project, learning about careers, building ability, and taking responsibility.",
+    "href": "group-exercises/group-session.html?id=makeyourmove-discussion",
+    "questions": [
+      {
+        "context": "You’ve finished the course and have several things you’d like to try with AI. None has moved beyond an idea yet.",
+        "title": "Which idea would you choose for a first real project, and what would make it small enough to start?",
+        "followUp": "Who could use or respond to what you make?"
+      },
+      {
+        "context": "You get a chance to talk with someone working in a field that interests you. You already know their job title, but little about their actual week.",
+        "title": "What would you ask to understand the work behind the title?",
+        "followUp": "What might you learn that a list of career predictions wouldn’t tell you?"
+      },
+      {
+        "context": "You decide to spend the next month getting better at one subject or skill, with AI helping you practice.",
+        "title": "What would show you that your own ability was improving, rather than just the quality of AI’s output?",
+        "followUp": "What would you want to be able to do or explain without its help?"
+      },
+      {
+        "context": "You build something useful with AI and want to show it to a teacher, employer, or potential teammate.",
+        "title": "What would you show besides the finished result to demonstrate your contribution?",
+        "followUp": "Which decisions, revisions, or problems you solved would be worth explaining?"
+      },
+      {
+        "context": "Someone offers you responsibility for a small event, club task, or volunteer project. You’re interested, but don’t feel completely ready.",
+        "title": "How would you decide whether to step up?",
+        "followUp": "What support would help you take responsibility while continuing to learn?"
+      }
+    ]
   }
 ];

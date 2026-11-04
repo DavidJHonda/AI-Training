@@ -38,6 +38,23 @@ course order can change.
 | Document Trap | `documenttrap` | Three discussion questions | [Discussion](group-session.html?id=documenttrap-discussion); shared questions in `../group-activities-data.js` |
 | Trust Trap | `mindtrap` | Five discussion questions | [Discussion](group-session.html?id=mindtrap-discussion); shared questions in `../group-activities-data.js` |
 | Flattery Trap | `flattery` | Five discussion questions | [Discussion](group-session.html?id=flattery-discussion); shared questions in `../group-activities-data.js` |
+| Support Trap | `supporttrap` | Five discussion questions | [Discussion](group-session.html?id=supporttrap-discussion); shared questions in `../group-activities-data.js` |
+| Fake Trap | `faketrap` | Five discussion questions | [Discussion](group-session.html?id=faketrap-discussion); shared questions in `../group-activities-data.js` |
+| Loudest Voices | `whatpeoplesay` | Five discussion questions | [Discussion](group-session.html?id=whatpeoplesay-discussion); shared questions in `../group-activities-data.js` |
+| Pace of Change | `paceofchange` | Five discussion questions | [Discussion](group-session.html?id=paceofchange-discussion); shared questions in `../group-activities-data.js` |
+| Big Downside | `bigdownside` | Five discussion questions | [Discussion](group-session.html?id=bigdownside-discussion); shared questions in `../group-activities-data.js` |
+| Big Upside | `bigupside` | Five discussion questions | [Discussion](group-session.html?id=bigupside-discussion); shared questions in `../group-activities-data.js` |
+| Rise of Agents | `agents` | Five discussion questions | [Discussion](group-session.html?id=agents-discussion); shared questions in `../group-activities-data.js` |
+| Work Changes | `workchanges` | Five discussion questions | [Discussion](group-session.html?id=workchanges-discussion); shared questions in `../group-activities-data.js` |
+| Data Centers | `computecost` | Five discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
+| Unexpected Results | `unexpected` | Five discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
+| Critical Thinking | `critical` | Five discussion questions | [Discussion](group-session.html?id=critical-discussion); shared questions in `../group-activities-data.js` |
+| Honesty & Privacy | `integrity` | Five discussion questions | [Discussion](group-session.html?id=integrity-discussion); shared questions in `../group-activities-data.js` |
+| Where’s the Line? | `wherestheline` | Five discussion questions | [Discussion](group-session.html?id=wherestheline-discussion); shared questions in `../group-activities-data.js` |
+| People Skills | `peopleskills` | Five discussion questions | [Discussion](group-session.html?id=peopleskills-discussion); shared questions in `../group-activities-data.js` |
+| Creative Thinking | `creativethinking` | Five discussion questions | [Discussion](group-session.html?id=creativethinking-discussion); shared questions in `../group-activities-data.js` |
+| Curiosity | `becurious` | Five discussion questions | [Discussion](group-session.html?id=becurious-discussion); shared questions in `../group-activities-data.js` |
+| What’s Next? | `makeyourmove` | Five discussion questions | [Discussion](group-session.html?id=makeyourmove-discussion); shared questions in `../group-activities-data.js` |
 
 An exercise may support several lessons, but its file has one home. Link to the
 same file from the lesson and the Group Exercises directory page. Update this
@@ -108,11 +125,21 @@ including the revised first question about why AI might invent a study.
 Training Bias is approved and added with the revised essay-grader question #3.
 Document Trap is approved and added with three questions, including the revised
 first scenario about a missing source-list requirement. Trust Trap is approved
-and added. Flattery Trap is approved and added. Support Trap is now under review.
+and added. Flattery Trap, Support Trap, and Fake Trap are approved and added.
+David reviewed and approved all eight Navigate the Future discussion sets
+together. All 40 questions are added to Loudest Voices, Pace of Change, Big
+Downside, Big Upside, Rise of Agents, Work Changes, Data Centers, and Unexpected
+Results. The Opener remains excluded. Each set follows the individual TRY IT
+or LAB; Unexpected Results also places discussion before its Group Exercise.
 Evaluation Matters still awaits review.
+All seven Build Your Skills discussion sets are approved and added, with 35
+questions across Critical Thinking, Honesty & Privacy, Where’s the Line?, People
+Skills, Creative Thinking, Curiosity, and What’s Next?. Each set follows its
+individual activity; Critical Thinking and Where’s the Line? place discussion
+before their existing Group Exercises. The Opener and Finish Smarter remain excluded.
 Keep shared public discussion pages and directory entries.
 
-All twenty-three reviewed sets use the preferred setup, question, and optional follow-up format.
+All forty reviewed sets use the preferred setup, question, and optional follow-up format.
 Apply that format to other lessons as they come up for review.
 
 Research informing the Learn with AI revisions: [Sinha and Kapur (2021)](https://journals.sagepub.com/doi/10.3102/00346543211019105)

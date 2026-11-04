@@ -40,9 +40,9 @@ The goal is to understand how your words become an answer.
 
 This road map shows what we’ll explore in this section, Understand AI: how AI really works.
 
-One. How AI Learned: how training builds the patterns AI uses to answer you.
+One. Why Probability Matters: how the information AI has changes what is likely to come next.
 
-Two. Why Probability Matters: how the information AI has changes what is likely to come next.
+Two. How AI Learned: how training builds the patterns AI uses to answer you.
 
 Three. How Words Become Numbers: how text becomes tokens, and tokens get numbers that represent meaning.
 

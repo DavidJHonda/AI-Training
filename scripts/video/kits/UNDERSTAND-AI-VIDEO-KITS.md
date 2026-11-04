@@ -14,8 +14,8 @@ and the boards-and-visuals rules; boards with faces upload as text-only faceless
 in `gemini-notebook/<slug>/assets/` that the canonical board replaces in the edit. All ten lessons are registered
 in `gemini-notebook/upload-sets.json` and staged in `gemini-notebook/<slug>/` by the sync.
 
-Course order: Opener → Training → Probability & Prediction → Tokens → Embeddings → Transformer → Layers →
-Vector Space → How AI Answers → The Next Token.
+Course order: Opener → Probability & Prediction → How AI Learns → Tokens → Embeddings → Transformer → Layers →
+Vector Space → How AI Answers → Why Answers Vary.
 
 Every lesson in this section has a live video shipped 2026-09-16 to 2026-09-18 under the
 old method (Scene-labelled Markdown, withheld face boards, no verbatim list). David asked on
@@ -53,7 +53,7 @@ Prompt: `gemini-notebook/understand-ai-opener/PROMPT.txt` (490 words).
 2. Over Notebook's drawn scene: a PhD expert at your side one moment, a six-year-old's mistake the next; understanding what happens inside explains why.
 3. The car analogy as the page tells it: good at driving without opening the hood; knowing what is underneath tells you what the car can do and why something might go wrong; the same goes for AI. Banner line: "Knowing how it works helps you Be Smarter Than the Tool." Drawn car with the hood up, no people; the Under the Hood board arrives only for "Time to look under the hood." and its banner line, then leaves.
 4. Over drawn scenes: inside the machine one piece at a time; some of it new; each piece builds on the one before; no need to memorize every term; the goal is to understand how your words become an answer.
-5. The section map, introduced "Here is what you will learn in this section, Understand AI: how AI really works.": all five topics in order, each with its full one-line explanation from the page (How AI Learned; Why Probability Matters; How Words Become Numbers; How Meaning Takes Shape; How AI Builds an Answer). The numbers are the learning order, not five steps AI performs on a message. Banner: "Each piece builds on the one before it."
+5. The section map, introduced "Here is what you will learn in this section, Understand AI: how AI really works.": all five topics in order, each with its full one-line explanation from the page (Why Probability Matters; How AI Learned; How Words Become Numbers; How Meaning Takes Shape; How AI Builds an Answer). The numbers are the learning order, not five steps AI performs on a message. Banner: "Each piece builds on the one before it."
 6. Close on the two lines with nothing after.
 
 **Required verbatim lines**

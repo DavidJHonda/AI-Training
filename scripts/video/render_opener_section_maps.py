@@ -91,8 +91,8 @@ BOARDS = (
         title="Understand AI",
         takeaway="Each piece builds on the one before it.",
         rows=(
-            Row("How AI Learned", "How training builds the patterns AI uses to answer you."),
             Row("Why Probability Matters", "How the information AI has changes what is likely to come next."),
+            Row("How AI Learned", "How training builds the patterns AI uses to answer you."),
             Row("How Words Become Numbers", "How text becomes tokens, and tokens get numbers that represent meaning."),
             Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
             Row("How AI Builds an Answer", "How AI builds an answer and why answers vary."),

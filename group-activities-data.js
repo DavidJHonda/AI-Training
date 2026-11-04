@@ -172,7 +172,7 @@ window.COURSE_GROUP_ACTIVITIES = [
     "id": "aiismath-discussion",
     "lesson": "aiismath",
     "lessonTitle": "Probability & Prediction",
-    "section": "Start Smarter",
+    "section": "Understand AI",
     "title": "Probability & Prediction",
     "type": "Discussion",
     "note": "Discuss wrong answers, new information, and what makes a prediction worth trusting.",

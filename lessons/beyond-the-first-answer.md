@@ -8,15 +8,9 @@ Think back to the best group project you’ve ever done in history class. Your g
 
 There are four moves: think, learn, start, and iterate.
 
-## Thought Partner
+## 1. Thought Partner
 
-The first move is Think. Use AI as a thought partner.
-
-During that history project, your group brainstormed ideas, asked questions, suggested next steps, and helped one another decide what worked. The group acted as your thought partner.
-
-Work with AI like it’s a two-person group project: you and AI. Ask each other questions and bounce ideas off each other.
-
-But remember that you make the final decisions.
+The first move is to work with AI as a thought partner. Consider it a 2-person group project: you and AI. Ask each other questions and bounce ideas off each other. But remember that you make the final decisions.
 
 ### Board 1: Starting a Summer Business
 
@@ -38,15 +32,9 @@ AI answers: “That gives us three realistic directions: pet care, math tutoring
 
 A good conversation asks about you before it answers.
 
-## Learn With AI
+## 2. Learn With AI
 
-The second move is Learn. Use the conversation to understand something new.
-
-During the history group project, some members probably knew more about the subject than others. If a group member didn’t understand a concept, they asked the group.
-
-Work with AI in the same way. When something does not make sense, ask it to explain.
-
-Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
+The second move is to use AI as a learning tool. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
 
 ### Board 2: Understanding Profit
 
@@ -64,13 +52,9 @@ AI answers: “Profit is the money left after you subtract every cost from your 
 
 Ask AI to explain the idea using a situation you know.
 
-## Find a Place to Start
+## 3. Find a Place to Start
 
-The third move is Start. Ask AI to help you find a place to begin.
-
-For the history project, the teacher gave your group a clear topic, such as “What caused the Civil War?” The group knew where to start.
-
-Real life isn’t always that clear. What if you face a big decision or issue, and don’t even know where to start? In those moments, AI can help. Ask it for the first question.
+What if you face a big decision or issue, and don’t even know where to start? In those moments, AI can help. The third move is using AI to find the right starting place.
 
 ### Board 3: Thinking About College
 
@@ -88,17 +72,9 @@ AI answers: “Let’s start with the goal. Do you already have a career or fiel
 
 When you don’t know where to begin, ask AI for the first question.
 
-## Iterate With AI
+## 4. Iterate With AI
 
-The fourth move is Iterate. Improve the work through several rounds.
-
-That history group project lasted four weeks. At the end of week one, your project was only average. Each week the group made it better and better. And, by the time you presented it to the class, it was a masterpiece!
-
-That process is called iteration.
-
-To iterate means to build something in versions, using each version to improve the next.
-
-Working with AI follows the same pattern. As you add details, correct weak spots, and improve the draft, AI has better material to question, evaluate, and improve.
+The fourth move is to work with AI to improve your work over several rounds. That process is called **iteration**. To iterate means to build something in versions, using each version to improve the next.
 
 ### Board 4: From Idea to Business Plan
 

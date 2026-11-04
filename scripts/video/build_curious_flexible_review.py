@@ -29,7 +29,7 @@ from build_work_changes_hybrid import (
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "Prompts/curious-_-flexible.mp4"
-OUTPUT = ROOT / "Prompts/curious-and-flexible-patched.mp4"
+OUTPUT = ROOT / "Prompts/curiosity-patched.mp4"
 TRANSITION_AUDIT = Path("/private/tmp/curious-flexible-transition-audit")
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -57,9 +57,9 @@ TEAL = "#0e8f86"
 AMBER = "#a9760c"
 
 BOARDS = {
-    "curious": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg",
-    "flexible": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg",
-    "close": ROOT / "course-assets/curious-and-flexible/curious-and-flexible-close.jpg",
+    "curious": ROOT / "course-assets/curiosity/curiosity-stay-curious.jpg",
+    "flexible": ROOT / "course-assets/curiosity/curiosity-be-flexible.jpg",
+    "close": ROOT / "course-assets/curiosity/curiosity-close.jpg",
 }
 
 # Canonical outer card geometry, measured from the supplied board renders.

@@ -152,7 +152,7 @@ BOARDS = (
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
-        key="be-curious-four-ways",
+        key="curiosity-four-ways",
         title="Why Be Curious",
         cards=(
             ('It’s Your Armor', 'Influencers, advertisers, and algorithms try to change what you think. Ask: “Who wants me to believe this? What’s the evidence? What’s missing?”'),
@@ -160,14 +160,14 @@ BOARDS = (
             ('It Helps You Grow', 'You’ll receive feedback throughout your life. Be curious when you hear it. What worked? What could improve? Ask for an example, then use what you learn.'),
             ('Learn as You Live', 'It’s okay if you don’t have your life figured out today. Stay curious. Try new things, meet people, and notice what interests you. Let what you discover help you choose your next step.'),
         ),
-        art_sheet="scripts/video/assets/be-curious-2026-11-04/curiosity-stars.png",
-        page_output="course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg",
-        prep_output="course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg",
+        art_sheet="scripts/video/assets/curiosity-2026-11-04/curiosity-stars.png",
+        page_output="course-assets/curiosity/curiosity-stay-curious.jpg",
+        prep_output="course-assets/curiosity/curiosity-stay-curious.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
         preserve_art_colors=True,
     ),
     Board(
-        key="be-curious-ai-habits",
+        key="curiosity-ai-habits",
         title="Be AI Curious",
         cards=(
             ('Use AI Regularly', 'Use it beyond school. Regular use helps you notice when the tool changes or gains new abilities.'),
@@ -175,14 +175,14 @@ BOARDS = (
             ('Follow One Reliable Source', 'Choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough.'),
             ('Compare with Others', 'Ask friends, teachers, or AI club members what they tried recently. Different people notice different things.'),
         ),
-        art_sheet="scripts/video/assets/be-curious-2026-11-04/ai-habits.png",
-        page_output="course-assets/curious-and-flexible/be-curious-ai-habits.jpg",
-        prep_output="course-assets/curious-and-flexible/be-curious-ai-habits.jpg",
+        art_sheet="scripts/video/assets/curiosity-2026-11-04/ai-habits.png",
+        page_output="course-assets/curiosity/curiosity-ai-habits.jpg",
+        prep_output="course-assets/curiosity/curiosity-ai-habits.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
         preserve_art_colors=True,
     ),
     Board(
-        key="make-your-move-skills",
+        key="whats-next-skills",
         title="Four Skills to Build",
         cards=(
             (
@@ -202,13 +202,13 @@ BOARDS = (
                 "Keep learning, explore new tools, test new approaches, and change when something better appears.",
             ),
         ),
-        art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-skills/art-sheet.png",
-        page_output="course-assets/make-your-move/make-your-move-skills.jpg",
-        prep_output="course-assets/make-your-move/make-your-move-2-skills.jpg",
+        art_sheet="scripts/video/assets/editorial-full-bleed/whats-next-skills/art-sheet.png",
+        page_output="course-assets/whats-next/whats-next-skills.jpg",
+        prep_output="course-assets/whats-next/whats-next-2-skills.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
     Board(
-        key="make-your-move-actions",
+        key="whats-next-actions",
         title="Moves to Make",
         cards=(
             (
@@ -228,9 +228,9 @@ BOARDS = (
                 "Join a club, volunteer, organize something, help lead a team, or become responsible for a result that matters to other people.",
             ),
         ),
-        art_sheet="scripts/video/assets/editorial-full-bleed/make-your-move-actions/art-sheet.png",
-        page_output="course-assets/make-your-move/make-your-move-actions.jpg",
-        prep_output="course-assets/make-your-move/make-your-move-3-actions.jpg",
+        art_sheet="scripts/video/assets/editorial-full-bleed/whats-next-actions/art-sheet.png",
+        page_output="course-assets/whats-next/whats-next-actions.jpg",
+        prep_output="course-assets/whats-next/whats-next-3-actions.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
     ),
 )

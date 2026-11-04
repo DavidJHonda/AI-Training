@@ -1,7 +1,7 @@
 from pathlib import Path
 import cv2,json
 ROOT=Path.cwd();OUT=ROOT/'video-audit/build-your-skills-illustration-opportunities-2026-10-08'
-jobs={'people-skills':list(range(0,29,2)),'curious-and-flexible':list(range(0,36,2)),'make-your-move':list(range(270,280))}
+jobs={'people-skills':list(range(0,29,2)),'curiosity':list(range(0,36,2)),'whats-next':list(range(270,280))}
 bounds={}
 for slug,times in jobs.items():
  cap=cv2.VideoCapture(str(ROOT/'course-assets'/slug/(slug+'.mp4')));dest=OUT/slug/'detail';dest.mkdir(exist_ok=True);cells=[];prev=None;cuts=[]

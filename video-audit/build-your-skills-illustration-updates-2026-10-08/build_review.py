@@ -8,8 +8,8 @@ e=html.escape
 rows=[]
 info={
 'people-skills':('People Skills','Four matched states show the group’s satisfaction, Maya’s suggestion, the interruption, and her withdrawal. The two quoted lines appear on their spoken cues.','P1-00419.jpg'),
-'curious-and-flexible':('Curious and Flexible','The same court shows the familiar passing lane, the defender closing it, and the captain switching to an open teammate. The open receiver highlights on “curious”; the changed pass appears on “flexible.”','P2-00719.jpg'),
-'make-your-move':('Make Your Move','A student coordinator checks progress as teammates hand off a box of supplies. A restrained push brings attention to the completed result.','P3-08342.jpg')}
+'curiosity':('Curious and Flexible','The same court shows the familiar passing lane, the defender closing it, and the captain switching to an open teammate. The open receiver highlights on “curious”; the changed pass appears on “flexible.”','P2-00719.jpg'),
+'whats-next':('Make Your Move','A student coordinator checks progress as teammates hand off a box of supplies. A restrained push brings attention to the completed result.','P3-08342.jpg')}
 PRE=OUT/'previews';PRE.mkdir(exist_ok=True)
 for slug,c in SOURCES.items():
  title,summary,poster=info[slug];src,dst=paths(slug,c)

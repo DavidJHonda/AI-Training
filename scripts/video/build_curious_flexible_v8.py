@@ -3,10 +3,10 @@
 import json,subprocess
 import av,cv2
 import build_curious_flexible_v6 as b
-BASE=b.ROOT/'Prompts/curious-and-flexible-v7.mp4'
+BASE=b.ROOT/'Prompts/curiosity-v7.mp4'
 BASE_HASH='19660d45076b5af9f6c7dce3d512ef3e8579781c7f884955569f9398e70084c9'
-b.OUT=b.ROOT/'video-audit/curious-and-flexible-build-2026-09-30-v8'
-b.DEST=b.ROOT/'Prompts/curious-and-flexible-v8.mp4'
+b.OUT=b.ROOT/'video-audit/curiosity-build-2026-09-30-v8'
+b.DEST=b.ROOT/'Prompts/curiosity-v8.mp4'
 A=5569
 
 def main():
@@ -44,7 +44,7 @@ def main():
   ov=output.add_stream_from_template(v);oa=output.add_stream_from_template(a)
   for isvideo,p in packets:p.stream=ov if isvideo else oa;output.mux(p)
  assert b.audio_hash(b.SRC)==b.audio_hash(b.DEST) and b.audio_hash(b.SRC,True)==b.audio_hash(b.DEST,True)
- m=json.loads((b.ROOT/'video-audit/curious-and-flexible-build-2026-09-30-v7/edit-manifest.json').read_text())
+ m=json.loads((b.ROOT/'video-audit/curiosity-build-2026-09-30-v7/edit-manifest.json').read_text())
  m.update(candidate=str(b.DEST),candidate_sha256=b.sha(b.DEST),builder=str(__file__),repair_from_v7='Overlays appear only after source header has revealed. Source animation frames and all earlier v7 packets retained.',packet_base=str(BASE),packet_base_sha256=BASE_HASH,patched_gop_frames=[A,b.N],codec_extradata_identical=True)
  assert all(b.sha(p)==h for p,h in m['protected'].items())
  (b.OUT/'edit-manifest.json').write_text(json.dumps(m,indent=2)+'\n')

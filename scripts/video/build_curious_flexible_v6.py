@@ -7,10 +7,10 @@ import hashlib,json,subprocess,sys,math
 import av,cv2,imageio_ffmpeg,numpy as np
 from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2]
-SRC=ROOT/'course-assets/curious-and-flexible/curious-and-flexible.mp4'
-OUT=ROOT/'video-audit/curious-and-flexible-build-2026-09-30-v6'
+SRC=ROOT/'course-assets/curiosity/curiosity.mp4'
+OUT=ROOT/'video-audit/curiosity-build-2026-09-30-v6'
 ASSETS=ROOT/'scripts/video/assets/curious-flexible-cutaways-2026-09-30'
-DEST=ROOT/'Prompts/curious-and-flexible-v6.mp4'
+DEST=ROOT/'Prompts/curiosity-v6.mp4'
 EXPECTED='3764e14eecdd6efe6a6e1fa94eb1ef860659dab444337590fa9205884cf76126'
 FF=imageio_ffmpeg.get_ffmpeg_exe();N=6376;W,H=1280,720
 CUTS=[(2220,2340,'feature'),(2880,3090,'source'),(4170,4380,'need'),(4620,4770,'familiar'),(5010,5160,'compare'),(3426,3662,'newsletter')]
@@ -207,7 +207,7 @@ def main():
  cv2.setNumThreads(2);preview()
  if '--preview' in sys.argv:return
  assert sha(SRC)==EXPECTED;assert not DEST.exists(),'Never overwrite a review candidate'
- protected={str(p):sha(p) for p in [SRC,*SRC.parent.glob('*.jpg'),ROOT/'lessons/curious-and-flexible.md']}
+ protected={str(p):sha(p) for p in [SRC,*SRC.parent.glob('*.jpg'),ROOT/'lessons/curiosity.md']}
  proc=subprocess.Popen([FF,'-v','error','-f','rawvideo','-pix_fmt','yuv420p','-s','1280x720','-r','30','-i','pipe:0','-i',str(SRC),'-map','0:v:0','-map','1:a:0','-c:v','libx264','-profile:v','high','-level:v','3.1','-crf','16','-preset','fast','-threads','2','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(DEST)],stdin=subprocess.PIPE)
  count=0
  with av.open(str(SRC)) as inp:

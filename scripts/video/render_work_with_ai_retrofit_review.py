@@ -571,7 +571,7 @@ def render_all() -> None:
         base.Card("Use It", "It passed your checks. Read, understood, validated, done.", GREEN, "check"),
         base.Card("Fix It", "Something is off and you can name it. Tell AI exactly what to change.", AMBER, "repair"),
         base.Card("Walk Away", "Wrong tool or stakes too high. Do it yourself or take it to a qualified person.", RED, "door"),
-    ], "Use it, fix it, or choose a better path.", board_path("evaluate-results", "04-make-your-move.jpg"))
+    ], "Use it, fix it, or choose a better path.", board_path("evaluate-results", "04-whats-next.jpg"))
     render_teaching_board("Check Before You Use", evaluate, board_path("evaluate-results", "05-check-before-use.jpg"), "The tool answers. You evaluate.")
 
     # Critical Thinking

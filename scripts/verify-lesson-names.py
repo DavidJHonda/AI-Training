@@ -5,6 +5,7 @@ Run after retitling a lesson, alongside verify-course-assets.py and the video
 prep sync check. Internal lesson IDs remain stable across retitles.
 """
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -61,7 +62,28 @@ for row in prep['lessons'] + prep.get('needs_preparation', []):
         if markdown != f'lessons/{expected}.md':
             errors.append(f'Prep source for {expected}: {markdown}')
 
+# Retitles also cover disabled videos, unused rolls, and ignored build artifacts.
+# The migration ledger preserves the aliases without requiring obsolete files.
+ledger = json.loads((ROOT / 'scripts/video/lesson-filename-migration-2026-11-04.json').read_text())
+for lesson in ledger['lessons']:
+    current_title = field(meta[lesson['id']], 'title') or field(meta[lesson['id']], 'label')
+    if current_title != lesson['title'] or slug(current_title) != lesson['slug']:
+        errors.append(f"Retitled lesson registry is stale: {lesson['id']}")
+    if not (ROOT / 'lessons' / (lesson['slug'] + '.md')).is_file():
+        errors.append(f"Missing lesson source for {current_title}")
+    for row in prep['lessons'] + prep.get('needs_preparation', []):
+        if row['slug'] == lesson['slug'] and row['title'] != current_title:
+            errors.append(f"Prep title differs from the course: {row['title']} / {current_title}")
+
+skip = {'.git', '.video-venv', 'node_modules', '.superpowers', '.claude',
+        '__pycache__', '.codex', '.agents'}
+for directory, dirs, files in os.walk(ROOT):
+    dirs[:] = [name for name in dirs if name not in skip]
+    for name in dirs + files:
+        if any(alias in name for alias in ledger['aliases']):
+            errors.append('Retired asset name recreated: ' + str((Path(directory) / name).relative_to(ROOT)))
+
 if errors:
     print('\n'.join(errors))
     sys.exit(1)
-print(f'PASS: {len(videos)} lesson video paths and {len(prep["lessons"])} active prep kits use current lesson names.')
+print(f'PASS: {len(videos)} lesson video paths and {len(prep["lessons"])} active prep kits use current lesson names; no retired filenames, including unused videos.')

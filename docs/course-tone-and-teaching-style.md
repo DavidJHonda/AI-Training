@@ -305,7 +305,7 @@ Representative source lessons:
 | `lessons/hallucination.md`, `lessons/document-trap.md`, `lessons/training-bias.md`, `lessons/flattery-trap.md` | Reveals, mechanisms, precise distinctions, actions tied to the failure |
 | `lessons/flattery-trap.md`, `lessons/support-trap.md` | Nuance, emotional calibration, practical consequences |
 | `lessons/loudest-voices.md`, `lessons/big-downside.md`, `lessons/big-upside.md`, `lessons/work-changes.md` | Uncertainty, competing considerations, connection to the learner's future |
-| `lessons/people-skills.md`, `lessons/creative-thinking.md`, `lessons/curious-and-flexible.md`, `lessons/make-your-move.md` | Observable habits, encouragement through action, transferable skills |
+| `lessons/people-skills.md`, `lessons/creative-thinking.md`, `lessons/curiosity.md`, `lessons/whats-next.md` | Observable habits, encouragement through action, transferable skills |
 | Section openers in `lessons/Opener-*.md` | Orientation, recurring themes, concise closing messages |
 
 The file is self-contained; the source paths are provenance for someone with the course repository. This is a style synthesis, not an independent factual audit of the course. Verify current product details and other changing claims when writing a new lesson.

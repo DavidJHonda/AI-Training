@@ -28,7 +28,8 @@ set of global production rules.
 
 - `index.html` is the current lesson content authority. `LESSON_VIDEOS` identifies
   the standard videos offered by the course; verify the entry rather than inferring
-  status from filenames. Lesson IDs, source slugs, and asset folder names can differ.
+  status from filenames. Internal lesson IDs remain stable; source slugs and asset
+  folder names follow the current lesson title. See `Prompts/README.md` for retitles.
 - Current boards and illustrations are canonical JPGs in `course-assets/<lesson>/`.
   Use the exact assets referenced by the lesson, preserving dimensions and layout.
 - Current upload text lives in `lessons/`. Editable generation prompts, upload variants,
@@ -204,6 +205,12 @@ After approval and verification, replace the canonical unsuffixed MP4 with the
 approved candidate. Verify that file and the lesson reference before removing the
 superseded candidate. The website must not depend on a review-stage `-vN` path.
 Do not delete raw generations when shipping; they may be needed for a later repair.
+
+Retitling also renames raw generations, unused edits, prep files, scripts, and audit
+folders. Preserve version numbers, dates, original media, and provenance. Record
+old-to-new paths in a dated filename-migration ledger, update production references,
+and redirect old public asset URLs. Run `scripts/verify-lesson-names.py` after a
+retitle; it checks ignored video filenames as well as live paths and prep titles.
 
 ## Asset retention and safe preparation
 

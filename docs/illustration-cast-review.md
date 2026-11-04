@@ -40,7 +40,7 @@ Preserve existing dimensions, composition, teaching text, lavender frame, gold b
 |---|---|---|
 | Welcome: building the course | The creators are introducing their own work. | [welcome-building-the-course.jpg](../course-assets/welcome/welcome-building-the-course.jpg) |
 | Where AI Works Best: AI Helped Us Build This Course | The surrounding lesson explicitly describes the creators’ experience building the course. | [where-ai-works-best-built-this-course.jpg](../course-assets/where-ai-works-best/where-ai-works-best-built-this-course.jpg) |
-| Make Your Move: A Note from Nate and Luke | A signed personal message should continue to show its authors. | [make-your-move-note.jpg](../course-assets/make-your-move/make-your-move-note.jpg) |
+| Make Your Move: A Note from Nate and Luke | A signed personal message should continue to show its authors. | [whats-next-note.jpg](../course-assets/whats-next/whats-next-note.jpg) |
 | Context Window: Same Question. Different Answers. | The board and lesson explicitly use Luke’s AI and Nate’s AI. Keep it as a named example; a cast change would require a coordinated text rewrite. | [context-matters-same-question.jpg](../course-assets/context-matters/context-matters-same-question.jpg) |
 
 ## Recommended replacement candidates (26 boards)
@@ -89,8 +89,8 @@ These are the proposed general-teaching scenes to update after the pilots establ
 
 ## Batch 9 completed career boards
 
-- [How AI Might Change Careers (1 of 2)](../course-assets/make-your-move/make-your-move-doctors-teachers-lawyers.jpg) — BATCH 9 COMPLETE: Black woman and white man doctors, East Asian man and Latina woman teachers, and white woman and South Asian man lawyers replace the recurring student figures. Patient care, individual and classroom teaching, and client-advice gestures remain distinct.
-- [How AI Might Change Careers (2 of 2)](../course-assets/make-your-move/make-your-move-electricians-designers-entrepreneurs.jpg) — BATCH 9 COMPLETE: Latino man and Black woman electricians, Middle Eastern woman and white man graphic designers, and Southeast Asian woman and Black man entrepreneurs replace the recurring student figures. Equipment checking, creative direction, and proposal discussion remain distinct.
+- [How AI Might Change Careers (1 of 2)](../course-assets/whats-next/whats-next-doctors-teachers-lawyers.jpg) — BATCH 9 COMPLETE: Black woman and white man doctors, East Asian man and Latina woman teachers, and white woman and South Asian man lawyers replace the recurring student figures. Patient care, individual and classroom teaching, and client-advice gestures remain distinct.
+- [How AI Might Change Careers (2 of 2)](../course-assets/whats-next/whats-next-electricians-designers-entrepreneurs.jpg) — BATCH 9 COMPLETE: Latino man and Black woman electricians, Middle Eastern woman and white man graphic designers, and Southeast Asian woman and Black man entrepreneurs replace the recurring student figures. Equipment checking, creative direction, and proposal discussion remain distinct.
 
 ## No cast change needed for this pass
 

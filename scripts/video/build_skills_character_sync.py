@@ -16,7 +16,7 @@ def state(frame,label,rect=None,color='#6e51ff',camera=None,move=0):
     d=base.state(frame,label,rect,color,None,move);d['camera']=camera;return d
 def groups():
     result=[]
-    for slug in ['honesty-and-privacy','people-skills','make-your-move']:
+    for slug in ['honesty-and-privacy','people-skills','whats-next']:
         m=json.loads((A/slug/'scan.json').read_text())
         g=dict(slug=slug,baseline=m['video'],baseline_sha=m['live_sha256'],frames=m['frames'],legs=[])
         assets={x['slug']:x for x in m['assets']}
@@ -41,10 +41,10 @@ def groups():
                 states.append(state(f,name,c,color,((c[0]+c[2])/2,(c[1]+c[3])/2,950),24))
             states.append(state(3665,'summary',move=30));leg('people-skills-four-ways',1964,3860,states)
         else:
-            old=json.loads((R/'video-audit/make-your-move-2-review/edit-manifest.json').read_text())
+            old=json.loads((R/'video-audit/whats-next-2-review/edit-manifest.json').read_text())
             cuts=old['source_frame_cuts']
             def mapped(f):return f-sum(max(0,min(f,b)-a) for a,b in cuts)
-            keymap={'note':'make-your-move-note','a':'make-your-move-careers-1','b':'make-your-move-careers-2'}
+            keymap={'note':'whats-next-note','a':'whats-next-careers-1','b':'whats-next-careers-2'}
             cards={'a':[(39,127,524,942),(559,127,1042,942),(1077,127,1562,942)],'b':[(38,127,525,944),(558,127,1044,944),(1077,127,1563,944)]}
             images={k:cv2.imread(assets[keymap[k]]['asset']) for k in ['a','b']}
             # Heading plus complete paragraph with balanced vertical clearance.

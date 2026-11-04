@@ -40,4 +40,4 @@ def scan(slug):
     (d/'scan.json').write_text(json.dumps(result,indent=2)+'\n')
     print(slug,n,fps,[(e['slug'],e['runs']) for e in result['assets']],flush=True)
 cv2.setNumThreads(1)
-with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:list(pool.map(scan,['honesty-and-privacy','people-skills','make-your-move']))
+with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:list(pool.map(scan,['honesty-and-privacy','people-skills','whats-next']))

@@ -269,8 +269,8 @@ reference boards are:
 - `course-assets/honesty-and-privacy/honesty-use-ai-help-follow-rules.png`
 - `course-assets/honesty-and-privacy/honesty-and-privacy-privacy.jpg`
 - `course-assets/people-skills/people-skills-why-people-matter.jpg`
-- `course-assets/make-your-move/make-your-move-doctors-teachers-lawyers.jpg`
-- `course-assets/make-your-move/make-your-move-electricians-designers-entrepreneurs.jpg`
+- `course-assets/whats-next/whats-next-doctors-teachers-lawyers.jpg`
+- `course-assets/whats-next/whats-next-electricians-designers-entrepreneurs.jpg`
 
 Approved three-card examples currently range from 742 to 790 px tall. The height is
 always derived from the longest card copy rather than selected independently.
@@ -299,10 +299,10 @@ visual space than four cards across can provide. The approved reference boards a
 - `course-assets/people-skills/people-skills-four-ways.jpg`
 - `course-assets/creative-thinking/creative-thinking-creative-professions.jpg`
 - `course-assets/creative-thinking/creative-thinking-practice-creativity.jpg`
-- `course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg`
-- `course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg`
-- `course-assets/make-your-move/make-your-move-skills.jpg`
-- `course-assets/make-your-move/make-your-move-actions.jpg`
+- `course-assets/curiosity/curiosity-stay-curious.jpg`
+- `course-assets/curiosity/curiosity-be-flexible.jpg`
+- `course-assets/whats-next/whats-next-skills.jpg`
+- `course-assets/whats-next/whats-next-actions.jpg`
 
 The original People Skills reference canvas is 1600×1379. Current approved examples
 range from 1297 to 1475 px tall because canvas height is derived from the longest

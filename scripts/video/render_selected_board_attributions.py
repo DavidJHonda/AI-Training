@@ -153,12 +153,12 @@ BOARDS = {
     "people-skills-2-four-ways": (1351, 1164),
     "creative-thinking-1-professions": (1600, 1379),
     "creative-thinking-2-practice": (1600, 1379),
-    "curious-and-flexible-1-stay-curious": (1600, 1379),
-    "curious-and-flexible-2-be-flexible": (1600, 1297),
-    "make-your-move-2-careers-a": (1601, 982),
-    "make-your-move-2-careers-b": (1602, 982),
-    "make-your-move-3-skills": (1600, 1379),
-    "make-your-move-4-actions": (1600, 1379),
+    "curiosity-1-stay-curious": (1600, 1379),
+    "curiosity-2-be-flexible": (1600, 1297),
+    "whats-next-2-careers-a": (1601, 982),
+    "whats-next-2-careers-b": (1602, 982),
+    "whats-next-3-skills": (1600, 1379),
+    "whats-next-4-actions": (1600, 1379),
 }
 
 def render(name, expected_size):

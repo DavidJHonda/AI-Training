@@ -12,8 +12,8 @@ ASSETS=OUT/'assets';PREVIEW=OUT/'previews';FF=imageio_ffmpeg.get_ffmpeg_exe()
 FONT=ROOT/'scripts/video/assets/fonts/PlusJakartaSans-wght.ttf'
 SOURCES={
 'people-skills':dict(id='P1',version=7,sha='dc2a346a75558d408d02f0ed2e30979780c6968c59f76bfbe34d5342c57ef18f',frames=3830,start=0,end=798,encode_start=0,encode_end=798,changes=[233,344,387,419,464],crf=18),
-'curious-and-flexible':dict(id='P2',version=11,sha='f34ee905c30cea0e839e9f0bb0ed390575dd2aff4d7801ec619c43906b1fdecf',frames=6376,start=0,end=911,encode_start=0,encode_end=911,changes=[306,593,719],crf=16),
-'make-your-move':dict(id='P3',version=10,sha='b0093c677628a758faf67e5388ffd30f8d95f4e2543ca28a7b572bc20cbd1cfc',frames=8825,start=8167,end=8343,encode_start=8167,encode_end=8343,changes=[],crf=16)}
+'curiosity':dict(id='P2',version=11,sha='f34ee905c30cea0e839e9f0bb0ed390575dd2aff4d7801ec619c43906b1fdecf',frames=6376,start=0,end=911,encode_start=0,encode_end=911,changes=[306,593,719],crf=16),
+'whats-next':dict(id='P3',version=10,sha='b0093c677628a758faf67e5388ffd30f8d95f4e2543ca28a7b572bc20cbd1cfc',frames=8825,start=8167,end=8343,encode_start=8167,encode_end=8343,changes=[],crf=16)}
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def font(n):return ImageFont.truetype(str(FONT),n)
 def text(d,xy,s,n=32,fill='#203335'):d.text(xy,s,font=font(n),fill=fill)

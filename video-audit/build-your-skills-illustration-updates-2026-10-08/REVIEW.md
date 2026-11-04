@@ -7,8 +7,8 @@ Scope: three approved visual-only scene replacements. Owner said “ship them”
 | Lesson | Candidate | Changed frames (half-open, 30 fps) | Treatment |
 |---|---|---|---|
 | People Skills | `Prompts/people-skills-v7.mp4` | [0,798), 0:00–0:26.60 | Same four students through project completion, Maya contributing, interruption and withdrawal. Quotes appear at frames 387 and 419. Returns to the existing Your Next Move board. |
-| Curious and Flexible | `Prompts/curious-and-flexible-v11.mp4` | [0,911), 0:00–0:30.37 | Same players and court; defender closes familiar lane. Open receiver highlights at frame 593; captain changes pass at 719. Curious and Flexible labels appear on matching cues. |
-| Make Your Move | `Prompts/make-your-move-v10.mp4` | [8167,8343), 4:32.23–4:38.10 | Student coordinator checks progress while teammates hand off a box of supplies; restrained push toward the result. |
+| Curious and Flexible | `Prompts/curiosity-v11.mp4` | [0,911), 0:00–0:30.37 | Same players and court; defender closes familiar lane. Open receiver highlights at frame 593; captain changes pass at 719. Curious and Flexible labels appear on matching cues. |
+| Make Your Move | `Prompts/whats-next-v10.mp4` | [8167,8343), 4:32.23–4:38.10 | Student coordinator checks progress while teammates hand off a box of supplies; restrained push toward the result. |
 
 1,885 changed frames, 62.83 seconds total. All other video frames and packets are exact copies. Original AAC packets, timestamps, and decoded PCM are identical. Frame counts and durations remain 3,830 / 127.6667 seconds; 6,376 / 212.5333 seconds; 8,825 / 294.1667 seconds, respectively. Every source is 1280×720 at 30 fps.
 

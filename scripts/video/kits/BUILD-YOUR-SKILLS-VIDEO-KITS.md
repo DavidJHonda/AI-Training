@@ -133,32 +133,32 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
   - `creative-thinking-practice-creativity.jpg` — upload
   - `creative-thinking-close.jpg` — upload
 
-### curious-and-flexible (Be Curious)
+### curiosity (Curiosity)
 
-Fresh reroll prep rebuilt 2026-11-04 from the revised lesson. The old video is disabled on the page and retained on disk. The stable folder name does not describe the current lesson title or scope.
+Curiosity v3 is approved and installed locally, pending batch deployment. Source, asset, roll, candidate, and build-record filenames now use `curiosity`. See `video-audit/curiosity-build-2026-11-04-v3/release.json`. The preparation directions below support future rerolls.
 
-- Markdown: `lessons/curious-and-flexible.md`, narration only
-- Prompt: `gemini-notebook/curious-and-flexible/PROMPT.txt`
-- Prep notes: `gemini-notebook/curious-and-flexible/PREP-NOTES.md`
-- Upload the four files in `gemini-notebook/curious-and-flexible/upload/`; paste the prompt into customization.
-- Registry entry: `curious-and-flexible`
-- Save the next roll as `Prompts/be-curious-reroll.mp4`, or the next unused numbered name.
+- Markdown: `lessons/curiosity.md`, narration only
+- Prompt: `gemini-notebook/curiosity/PROMPT.txt`
+- Prep notes: `gemini-notebook/curiosity/PREP-NOTES.md`
+- Upload the four files in `gemini-notebook/curiosity/upload/`; paste the prompt into customization.
+- Registry entry: `curiosity`
+- Save the next roll as `Prompts/curiosity-reroll.mp4`, or the next unused numbered name.
 - Board order and upload handling:
-  - Why Be Curious: `be-curious-why-faceless.jpg`; replace with canonical `curious-and-flexible-stay-curious.jpg` in editing.
-  - Be AI Curious: `be-curious-ai-faceless.jpg`; replace with canonical `be-curious-ai-habits.jpg` in editing.
-  - Close: upload canonical `curious-and-flexible-close.jpg`.
+  - Why Be Curious: `curiosity-why-faceless.jpg`; replace with canonical `curiosity-stay-curious.jpg` in editing.
+  - Be AI Curious: `curiosity-ai-faceless.jpg`; replace with canonical `curiosity-ai-habits.jpg` in editing.
+  - Close: upload canonical `curiosity-close.jpg`.
 - The two photographic Dallas Stars boards remain canonical. The Be Flexible board and all flexibility teaching are excluded from this reroll. Keep the on-page lab outside narration.
 
-### make-your-move
+### whats-next
 
-- Markdown: `lessons/make-your-move.md`
+- Markdown: `lessons/whats-next.md`
 - Prompt: **retired; fresh prep required**
 - Upload checklist: **retired; fresh prep required**
-- Canonical folder: `course-assets/make-your-move/`
+- Canonical folder: `course-assets/whats-next/`
 - Boards in lesson order:
-  - `make-your-move-careers.jpg` — post-production only; reserve narration (retained people illustrations)
-  - `make-your-move-actions.jpg` — upload
-  - `make-your-move-close.jpg` — upload
+  - `whats-next-careers.jpg` — post-production only; reserve narration (retained people illustrations)
+  - `whats-next-actions.jpg` — upload
+  - `whats-next-close.jpg` — upload
 
 ## Teaching and scene directions
 
@@ -168,8 +168,8 @@ Fresh reroll prep rebuilt 2026-11-04 from the revised lesson. The old video is d
 - Honesty & Privacy: retain all honesty categories, three process steps, sharing tiers, six photo details, and recovery advice. After the photo, explicitly teach cropping/removing identifiers and checking the image before upload, or typing the problem instead. Preserve that a deleted chat may remain in company systems and that exposed credentials must be changed. Board 2 is omitted from upload but taught in a continuous span and inserted in editing.
 - People Skills: reroll from the 2026-10-26 approved lesson revision. The installed v8 already has Maya; new narration is needed for the constructive-challenge explanation/example and current application question. Follow the updated order and complete teaching in the current prep bundle; see the October 26 review.
 - Creative Thinking: the advantage is what a student brings when polished answers are widely available; do not claim that everyone using the same AI gets similar answers. Keep the definition, Jobs example, four professions, four habits, and closing lines.
-- Be Curious (revised 2026-11-04): new narration required; the old video is retained on disk but disabled on the page. Begin with the basketball setup, “Before you find a better play, you need to be curious.”, and then the three curiosity questions. Explain curiosity throughout life, then teach the four benefits on Why Be Curious, the short As AI Changes bridge, and the four habits on Be AI Curious. The flexibility section and board are removed. Close with “Curiosity keeps you growing.” and “Keep asking questions. Keep learning as you live.” Keep the Follow Your Curiosity lab outside narration. Use the current Markdown and canonical boards, with photographic students in Dallas Stars jerseys.
-- Make Your Move (updated 2026-10-23): keep only teacher, electrician, and graphic designer, in that order, on one career board. Reserve one continuous span for that board. Replace the full four-skills recap with the current short prose bridge, then teach all four actions. Preserve “You do not need to choose your entire future today” and “AI may help.” The page leads directly from the actions into the Make One Move lab, with the close after the lab; keep the interactive lab outside narration. V12 (3:01) is approved and installed locally at `course-assets/make-your-move/make-your-move.mp4`, with the actions board shown during its introduction. Queued for batch deployment. See `video-audit/make-your-move-actions-intro-v12-2026-10-23/REVIEW.md`. Fresh generation prep remains required if rerolling.
+- Curiosity (revised 2026-11-04; v3 installed locally): Begin with the basketball setup, “Before you find a better play, you need to be curious.”, and then the three curiosity questions. Explain curiosity throughout life, then teach the four benefits on Why Be Curious, the short As AI Changes bridge, and the four habits on Be AI Curious. The flexibility section and board are removed. Close with “Curiosity keeps you growing.” and “Keep asking questions. Keep learning as you live.” Keep the Follow Your Curiosity lab outside narration. Use the current Markdown and canonical boards, with photographic students in Dallas Stars jerseys.
+- What’s Next? (retitled 2026-11-04; content updated 2026-10-23): keep only teacher, electrician, and graphic designer, in that order, on one career board. Reserve one continuous span for that board. Replace the full four-skills recap with the current short prose bridge, then teach all four actions. Preserve “You do not need to choose your entire future today” and “AI may help.” The page leads directly from the actions into the Make One Move lab, with the close after the lab; keep the interactive lab outside narration. V12 (3:01) is approved and installed locally at `course-assets/whats-next/whats-next.mp4`, with the actions board shown during its introduction. Queued for batch deployment. See `video-audit/whats-next-actions-intro-v12-2026-10-23/REVIEW.md`. Fresh generation prep remains required if rerolling.
 
 ## Prep versus lesson page
 

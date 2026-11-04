@@ -1,6 +1,6 @@
 ## BUILD YOUR SKILLS
 
-# Make Your Move
+# What’s Next?
 
 Imagine you started a basketball team with friends. You learned the fundamentals, practiced regularly, and became better players. Then someone asks, “What’s next? Are we joining a league? Are we actually going to play?”
 
@@ -24,7 +24,7 @@ Electrician. AI may help read manuals, suggest possible causes, and help plan th
 
 Graphic designer. AI may help generate drafts, variations, and possible directions quickly. People still own choosing the purpose, understanding the audience, applying taste, and directing the final result.
 
-You’ve practiced working with people, using judgment, solving problems, and staying flexible. Now choose somewhere to put those skills to work.
+You’ve practiced working with people, using judgment, solving problems, and staying curious. Now choose somewhere to put those skills to work.
 
 ## FOUR MOVES TO MAKE
 

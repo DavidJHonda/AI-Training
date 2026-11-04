@@ -73,6 +73,7 @@ class Board:
     prep_output: str
     accents: tuple[str, ...]
     takeaway: str | None = None
+    preserve_art_colors: bool = False
 
 
 BOARDS = (
@@ -152,55 +153,33 @@ BOARDS = (
     ),
     Board(
         key="be-curious-four-ways",
-        title="Stay Curious",
+        title="Why Be Curious",
         cards=(
-            (
-                "Use AI Regularly",
-                "Use it beyond school. Regular use helps you notice when the tool changes or gains new abilities.",
-            ),
-            (
-                "Check What Changed",
-                "Look for update notices, new buttons, model names, or a What’s New page. Check occasionally, not constantly.",
-            ),
-            (
-                "Follow One Reliable Source",
-                "Choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough.",
-            ),
-            (
-                "Compare with Others",
-                "Ask friends, teachers, or AI club members what they tried recently. Different people notice different things.",
-            ),
+            ('It’s Your Armor', 'Influencers, advertisers, and algorithms try to change what you think. Ask: “Who wants me to believe this? What’s the evidence? What’s missing?”'),
+            ('It Kills Boredom', 'A good question makes ordinary things interesting. How does that work? Why do people do it that way? What could be different?'),
+            ('It Helps You Grow', 'You’ll receive feedback throughout your life. Be curious when you hear it. What worked? What could improve? Ask for an example, then use what you learn.'),
+            ('Learn as You Live', 'It’s okay if you don’t have your life figured out today. Stay curious. Try new things, meet people, and notice what interests you. Let what you discover help you choose your next step.'),
         ),
-        art_sheet="scripts/video/assets/editorial-full-bleed/be-curious-four-ways/art-sheet.png",
+        art_sheet="scripts/video/assets/be-curious-2026-11-04/curiosity-stars.png",
         page_output="course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg",
         prep_output="course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
+        preserve_art_colors=True,
     ),
     Board(
-        key="be-flexible-four-steps",
-        title="Be Flexible",
+        key="be-curious-ai-habits",
+        title="Be AI Curious",
         cards=(
-            (
-                "Start with a Real Need",
-                "Consider whether the new feature could improve something you actually do.",
-            ),
-            (
-                "Test It on Familiar Work",
-                "Use a task you have done before so you can recognize what changed.",
-            ),
-            (
-                "Compare the Results",
-                "Look at quality, time, effort, and reliability. Newer is not automatically better.",
-            ),
-            (
-                "Keep What Works Best",
-                "Adopt the new approach when it helps. Keep the old one when it does not.",
-            ),
+            ('Use AI Regularly', 'Use it beyond school. Regular use helps you notice when the tool changes or gains new abilities.'),
+            ('Check What Changed', 'Look for update notices, new buttons, model names, or a What’s New page. Check occasionally, not constantly.'),
+            ('Follow One Reliable Source', 'Choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough.'),
+            ('Compare with Others', 'Ask friends, teachers, or AI club members what they tried recently. Different people notice different things.'),
         ),
-        art_sheet="scripts/video/assets/editorial-full-bleed/be-flexible-four-steps/art-sheet.png",
-        page_output="course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg",
-        prep_output="course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg",
+        art_sheet="scripts/video/assets/be-curious-2026-11-04/ai-habits.png",
+        page_output="course-assets/curious-and-flexible/be-curious-ai-habits.jpg",
+        prep_output="course-assets/curious-and-flexible/be-curious-ai-habits.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
+        preserve_art_colors=True,
     ),
     Board(
         key="make-your-move-skills",
@@ -328,6 +307,7 @@ def split_art_sheet(sheet: Image.Image, count: int) -> list[Image.Image]:
 
 
 def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_colors=False) -> Image.Image:
+    preserve_art_colors = preserve_art_colors or board.preserve_art_colors
     count = len(board.cards)
     if count not in (3, 4):
         raise ValueError(f"{board.key}: expected 3 or 4 cards")

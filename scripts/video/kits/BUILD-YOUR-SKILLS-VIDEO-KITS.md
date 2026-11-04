@@ -8,7 +8,7 @@ below describe historical work and do not authorize reuse.
 
 > **Method note (2026-09-21):** per-lesson entries below dated before 2026-09-20 describe the previous preparation method (Scene/Takeaway labels, withheld face boards with "reserved" narration, prompts without a verbatim list, beat spine, or VOICE block). Rebuild a lesson's Markdown and prompt to the "Prepare a new lesson" procedure in `scripts/video/PREPARATION.md`, add it to `gemini-notebook/upload-sets.json`, and run the sync before rolling it. Entries that say they are on the 2026-09-20 recipe are current.
 
-Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Current course order, updated 2026-11-02: Opener → Critical Thinking → When You Need More → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curious & Flexible → Make Your Move. Next Level Moves now closes Work With AI; its older production notes below are retained as history. Career Explorer starts in When You Need More.
+Prep updated 2026-09-25 (opener, Your Choices, Next Level Moves, People Skills rebuilt on the 2026-09-20 recipe after the 2026-09-24 live reviews; see `video-audit/build-your-skills-live-reviews-2026-09-24-SUMMARY.md`). Current course order, updated 2026-11-04: Opener → Critical Thinking → When You Need More → Honesty & Privacy → Where’s the Line? → People Skills → Creative Thinking → Curiosity → What’s Next? Next Level Moves now closes Work With AI; its older production notes below are retained as history. Career Explorer starts in the People Skills lab. When You Need More retains its current placement and its original six-scenario TRY IT, “What Does This Task Need?”.
 
 This guide describes source preparation, not current video shipping status. No video was generated, edited, or deployed in this pass. Earlier status labels are not evidence that a finished video matches this source set.
 
@@ -45,7 +45,7 @@ Registry entry: `build-your-skills-opener`. Upload the four files in `gemini-not
 
 **New narration requested, 2026-11-03:** The owner chose a new roll after the current-lesson comparison. The 451-word prompt now requires the revised direct opening and close verbatim and preserves the lesson’s wording elsewhere. All six examples remain; the three banner-free comparison boards and close upload with the Markdown. Roll 7 is prepared; generation awaits browser file-upload access. See `gemini-notebook/when-you-need-more/PREP-NOTES.md`.
 
-**Current page and prep update, 2026-11-03:** When You Need More opens directly without an analogy. The owner approved removing all three gold comparison-board banners. Default-first guidance moves into the model paragraph; the redundant Thinking and Research takeaway lines are removed. Board artwork, examples, type, and card geometry are preserved; each canvas is 128 px shorter. Renderer: `scripts/video/render_when_you_need_more_boards.cjs`; page cache marker `20261103nobanners1`. The Career Explorer lab now has eight steps, creates a named Career Explorer project, and ends with the exploration plan. All four follow-on career labs return to the same conversation inside that project; missing-chat fallbacks are removed. Installed v4 (`20261022v4`, 3:48) still contains the earlier camera opening and banners and awaits a separate video revision. Older production notes below are historical.
+**Current page and prep update, 2026-11-03:** When You Need More opens directly without an analogy. The owner approved removing all three gold comparison-board banners. Default-first guidance moves into the model paragraph; the redundant Thinking and Research takeaway lines are removed. Board artwork, examples, type, and card geometry are preserved; each canvas is 128 px shorter. Renderer: `scripts/video/render_when_you_need_more_boards.cjs`; page cache marker `20261103nobanners1`. The Career Explorer kickoff moved to People Skills on 2026-11-04. The combined nine-step lab creates the project and exploration plan, then practices a work conversation. Creative Thinking, Curiosity, and What’s Next? return to that same conversation. When You Need More’s original six-scenario TRY IT, “What Does This Task Need?”, was restored on 2026-11-04. Installed v4 (`20261022v4`, 3:48) still contains the earlier camera opening and banners and awaits a separate video revision. Older production notes below are historical.
 
 **Current title: Know the App (2026-10-01).** Moved after Next Level Moves, referred to as “Your Moves” in the planning discussion. The opening now uses the approved phone-camera analogy, including the family-photo flash and hockey-player zoom examples. The model section now uses two short paragraphs to explain LLM/model terminology, models’ different capabilities, and how knowing which model to choose helps students get better answers. The board supplies the examples. The former model-discovery lab is replaced by “Does This Need More?”, an eight-situation TRY IT with randomized question order that asks for the better fit: Regular Chat / Needs More and distinct correct/incorrect feedback for each choice, using the same ScenarioRow/FeedbackPill pattern as Your Home Base. It reinforces when more could help without requiring access to paid features, and stays outside the video narration; the first board is now Which Model?, with everyday and more capable cards, descriptions above separately spaced examples, and a default-first takeaway. The Thinking section first distinguishes choosing which LLM to use from changing how much time AI spends on the task, then introduces the approved English-exam analogy with “Think about it like this” and a How Much Thinking? board with Less Thinking and More Thinking cards, the group-project examples, EXAMPLE labels, separators, and a gold takeaway. The old combined reasoning/research board is retained as an unused asset; Research now opens with the approved In-N-Out cheeseburger versus first-house analogy and includes How Much Research?, contrasting Regular Chat and Deep Research with the Dallas driving-time question and Texas A&M/UT Austin physics-program comparison. Before the Research board, the prose clarifies that regular chat can look things up too, while Research supports a fuller investigation across sources. All three teaching boards share the two-card format, EXAMPLE labels, separators, and gold takeaway banner. The closing now reads “Model. Thinking. Research.” / “Use them when the work demands more.” The `when-you-need-more` filenames and `choosemodel` lesson ID remain stable.
 
@@ -145,16 +145,21 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
   - `creative-thinking-practice-creativity.jpg` — upload
   - `creative-thinking-close.jpg` — upload
 
-### curious-and-flexible
+### curious-and-flexible (Be Curious)
 
-- Markdown: `lessons/curious-and-flexible.md`
-- Prompt: **retired; fresh prep required**
-- Upload checklist: **retired; fresh prep required**
-- Canonical folder: `course-assets/curious-and-flexible/`
-- Boards in lesson order:
-  - `curious-and-flexible-stay-curious.jpg` — upload
-  - `curious-and-flexible-be-flexible.jpg` — upload
-  - `curious-and-flexible-close.jpg` — upload
+Fresh reroll prep rebuilt 2026-11-04 from the revised lesson. The old video is disabled on the page and retained on disk. The stable folder name does not describe the current lesson title or scope.
+
+- Markdown: `lessons/curious-and-flexible.md`, narration only
+- Prompt: `gemini-notebook/curious-and-flexible/PROMPT.txt`
+- Prep notes: `gemini-notebook/curious-and-flexible/PREP-NOTES.md`
+- Upload the four files in `gemini-notebook/curious-and-flexible/upload/`; paste the prompt into customization.
+- Registry entry: `curious-and-flexible`
+- Save the next roll as `Prompts/be-curious-reroll.mp4`, or the next unused numbered name.
+- Board order and upload handling:
+  - Why Be Curious: `be-curious-why-faceless.jpg`; replace with canonical `curious-and-flexible-stay-curious.jpg` in editing.
+  - Be AI Curious: `be-curious-ai-faceless.jpg`; replace with canonical `be-curious-ai-habits.jpg` in editing.
+  - Close: upload canonical `curious-and-flexible-close.jpg`.
+- The two photographic Dallas Stars boards remain canonical. The Be Flexible board and all flexibility teaching are excluded from this reroll. Keep the on-page lab outside narration.
 
 ### make-your-move
 
@@ -175,7 +180,7 @@ Kit built 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template): prompt c
 - Honesty & Privacy: retain all honesty categories, three process steps, sharing tiers, six photo details, and recovery advice. After the photo, explicitly teach cropping/removing identifiers and checking the image before upload, or typing the problem instead. Preserve that a deleted chat may remain in company systems and that exposed credentials must be changed. Board 2 is omitted from upload but taught in a continuous span and inserted in editing.
 - People Skills: reroll from the 2026-10-26 approved lesson revision. The installed v8 already has Maya; new narration is needed for the constructive-challenge explanation/example and current application question. Follow the updated order and complete teaching in the current prep bundle; see the October 26 review.
 - Creative Thinking: the advantage is what a student brings when polished answers are widely available; do not claim that everyone using the same AI gets similar answers. Keep the definition, Jobs example, four professions, four habits, and closing lines.
-- Curious & Flexible: distinguish curiosity from flexibility, teach all four habits and four actions, and preserve “Newer is not automatically better.” No new teaching rewrite is needed.
+- Be Curious (revised 2026-11-04): new narration required; the old video is retained on disk but disabled on the page. Begin with the basketball setup, “Before you find a better play, you need to be curious.”, and then the three curiosity questions. Explain curiosity throughout life, then teach the four benefits on Why Be Curious, the short As AI Changes bridge, and the four habits on Be AI Curious. The flexibility section and board are removed. Close with “Curiosity keeps you growing.” and “Keep asking questions. Keep learning as you live.” Keep the Follow Your Curiosity lab outside narration. Use the current Markdown and canonical boards, with photographic students in Dallas Stars jerseys.
 - Make Your Move (updated 2026-10-23): keep only teacher, electrician, and graphic designer, in that order, on one career board. Reserve one continuous span for that board. Replace the full four-skills recap with the current short prose bridge, then teach all four actions. Preserve “You do not need to choose your entire future today” and “AI may help.” The page leads directly from the actions into the Make One Move lab, with the close after the lab; keep the interactive lab outside narration. V12 (3:01) is approved and installed locally at `course-assets/make-your-move/make-your-move.mp4`, with the actions board shown during its introduction. Queued for batch deployment. See `video-audit/make-your-move-actions-intro-v12-2026-10-23/REVIEW.md`. Fresh generation prep remains required if rerolling.
 
 ## Prep versus lesson page

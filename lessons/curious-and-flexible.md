@@ -1,58 +1,72 @@
 ## BUILD YOUR SKILLS
 
-# Curious & Flexible
+# Curiosity
 
 Imagine you are captain of your school’s basketball team. Your team has a play that worked all season. Then another team learns how to stop it.
 
-What’s your next move? You know the answer. Be curious enough to look for a better play. Be flexible enough to stop relying on the old one.
+Before you find a better play, you need to **be curious**.
 
-## WHY IT MATTERS
+What are they doing differently? Where is there an opening? What could you learn by watching the play again?
 
-AI changes quickly. New models, tools, and ways of working keep appearing.
+Curiosity reaches far beyond basketball. Taking an interest, asking questions, and exploring possibilities helps you keep learning throughout your life.
 
-You do not need to chase every new feature. Stay curious enough to explore changes and flexible enough to adjust when something better comes along.
+There is always more to discover.
 
-## BE CURIOUS
+### Board 1: Why Be Curious
 
-Pay attention as AI changes. You do not need to follow every announcement. A few simple habits help you notice changes that actually matter to you.
+**Image file:** `be-curious-why-faceless.jpg`
 
-### Board 1: Stay Curious
-
-**Image file:** `curious-and-flexible-stay-curious.jpg`
-
-![Stay Curious](../course-assets/curious-and-flexible/curious-and-flexible-stay-curious.jpg)
+![Board 1: Why Be Curious](../gemini-notebook/curious-and-flexible/assets/be-curious-why-faceless.jpg)
 
 **Teaching content:**
 
-Use AI regularly: use it beyond school. Regular use helps you notice when the tool changes or gains new abilities.
+Why be curious?
 
-Check what changed: look for update notices, new buttons, model names, or a What’s New page. Check occasionally, not constantly.
+**It’s Your Armor**
 
-Follow one reliable source: choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough.
+Influencers, advertisers, and algorithms try to change what you think. Ask: “Who wants me to believe this? What’s the evidence? What’s missing?”
 
-Compare with others: ask friends, teachers, or AI club members what they tried recently. Different people notice different things.
+**It Kills Boredom**
 
-## BE FLEXIBLE
+A good question makes ordinary things interesting. How does that work? Why do people do it that way? What could be different?
 
-Curiosity helps you discover new AI tools and features. Flexibility is what happens next. When you learn about something new, do not ignore it or immediately change everything.
+**It Helps You Grow**
 
-### Board 2: Be Flexible
+You’ll receive feedback throughout your life. Be curious when you hear it. What worked? What could improve? Ask for an example, then use what you learn.
 
-**Image file:** `curious-and-flexible-be-flexible.jpg`
+**Learn as You Live**
 
-![Be Flexible](../course-assets/curious-and-flexible/curious-and-flexible-be-flexible.jpg)
+It’s okay if you don’t have your life figured out today. Stay curious. Try new things, meet people, and notice what interests you. Let what you discover help you choose your next step.
+
+## AS AI CHANGES
+
+AI changes quickly. New models, tools, and ways of working keep appearing. You do not need to chase every new feature. Stay curious about changes that could matter to you.
+
+### Board 2: Be AI Curious
+
+**Image file:** `be-curious-ai-faceless.jpg`
+
+![Be AI Curious](../gemini-notebook/curious-and-flexible/assets/be-curious-ai-faceless.jpg)
 
 **Teaching content:**
 
-Start with a real need: consider whether the new feature could improve something you actually do.
+Be AI curious.
 
-Test it on familiar work: use a task you have done before so you can recognize what changed.
+**Use AI Regularly**
 
-Compare the results: look at quality, time, effort, and reliability. Newer is not automatically better.
+Use it beyond school. Regular use helps you notice when the tool changes or gains new abilities.
 
-Keep what works best: adopt the new approach when it helps. Keep the old one when it does not.
+**Check What Changed**
 
-Curiosity finds the possibility. Flexibility decides whether it belongs in your work.
+Look for update notices, new buttons, model names, or a What’s New page. Check occasionally, not constantly.
+
+**Follow One Reliable Source**
+
+Choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough.
+
+**Compare with Others**
+
+Ask friends, teachers, or AI club members what they tried recently. Different people notice different things.
 
 ### Board 3: Close
 
@@ -62,6 +76,6 @@ Curiosity finds the possibility. Flexibility decides whether it belongs in your 
 
 ## Closing Message
 
-Be curious. Be flexible.
+Curiosity keeps you growing.
 
-That is how you keep up when the technology keeps changing.
+Keep asking questions. Keep learning as you live.

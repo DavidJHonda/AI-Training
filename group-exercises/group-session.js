@@ -13,17 +13,33 @@
   const back = node('a', 'All group activities', 'back-link');
   back.href = 'group-session.html';
   if (!activity) {
-    root.append(node('h1', 'Group Activities'), node('p', 'Activities and discussions to try with your club or class. No course registration needed.'));
+    root.append(node('h1', 'Group Activities'), node('p', 'Activities and discussions to try with your club, class, or friends. No course registration needed.'));
+    const guidance = node('section', '', 'group-getting-started');
+    const guidanceTitle = node('h2', 'A simple way to begin');
+    guidanceTitle.id = 'group-getting-started-title';
+    guidance.setAttribute('aria-labelledby', guidanceTitle.id);
+    guidance.append(guidanceTitle, node('p', 'Choose a lesson to watch or read together. Then pick a discussion question or group exercise from that lesson. You can use a shared screen or work in smaller groups.'));
+    guidance.append(node('p', 'New to the course? Begin with Start Smarter below. You don’t need to do every activity; choose what fits your group and the time you have.'));
+    root.append(guidance);
     if (id) root.append(node('p', 'That activity wasn’t found. Choose one from the list below.'));
-    const list = node('ol', '', 'questions');
-    activities.forEach(a => {
-      const li = node('li');
-      const link = node('a', a.title);
-      link.href = '../' + a.href;
-      li.append(node('p', a.type + ' · ' + a.section + ' · ' + a.lessonTitle, 'eyebrow'), link, node('p', a.note));
-      list.append(li);
+    const sections = [...new Set(activities.map(a => a.section))];
+    sections.forEach(section => {
+      const group = node('details', '', 'group-section');
+      const summary = node('summary');
+      const matches = activities.filter(a => a.section === section);
+      summary.append(node('span', section), node('span', matches.length + ' options', 'group-section-count'));
+      const list = node('ul', '', 'questions group-options');
+      matches.forEach(a => {
+        const li = node('li');
+        const link = node('a', a.title);
+        link.href = '../' + a.href;
+        const typeLabel = a.type === 'Discussion' ? 'Discussion questions' : 'Group activity';
+        li.append(node('p', typeLabel + ' · ' + a.lessonTitle, 'eyebrow'), link, node('p', a.note));
+        list.append(li);
+      });
+      group.append(summary, list);
+      root.append(group);
     });
-    root.append(list);
     return;
   }
   const typeLabel = activity.type === 'Discussion' ? 'Discussion Questions' : activity.type;

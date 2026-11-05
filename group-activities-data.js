@@ -149,38 +149,6 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/whats-an-llm/one-word-at-a-time.html"
   },
   {
-    "id": "aiismath-discussion",
-    "lesson": "aiismath",
-    "lessonTitle": "Probability & Prediction",
-    "section": "Understand AI",
-    "title": "Probability & Prediction",
-    "type": "Discussion",
-    "note": "Discuss wrong answers, new information, and what makes a prediction worth trusting.",
-    "href": "group-exercises/group-session.html?id=aiismath-discussion",
-    "questions": [
-      {
-        "context": "You ask AI for help with a math problem. It gives you an answer and explains its steps, but the answer is wrong.",
-        "title": "How could AI give you a wrong answer to a math problem?",
-        "followUp": "What had you expected it to do when you asked for help?"
-      },
-      {
-        "context": "Your friend is taking the bus to meet you. They’re late and haven’t replied, so you think they forgot, but then you hear that buses on their route are delayed.",
-        "title": "How much would that news change what you think happened?",
-        "followUp": "What would you still want to know before deciding how to react?"
-      },
-      {
-        "context": "A movie app predicts you’ll love a film because you’ve enjoyed similar ones. A friend who knows you says you’ll find it boring.",
-        "title": "Whose prediction would you put more weight on?",
-        "followUp": "What could either of them tell you that would change your mind?"
-      },
-      {
-        "context": "A coach is choosing the starting lineup for an important game. One player struggled last season but now looks much stronger in practice, with little recent game experience to judge.",
-        "title": "How much weight should the coach give last season’s results compared with what the player is showing now?",
-        "followUp": "What would convince you that the improvement would carry over into a game?"
-      }
-    ]
-  },
-  {
     "id": "doesaithink-discussion",
     "lesson": "doesaithink",
     "lessonTitle": "Does AI Think?",
@@ -542,6 +510,38 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "You’ve worked with AI through several versions of a presentation. Each version changes something, but you’re no longer sure the changes are improvements.",
         "title": "How would you decide when to keep revising and when to stop?",
         "followUp": "Have you ever kept changing something until you liked it less than an earlier version?"
+      }
+    ]
+  },
+  {
+    "id": "aiismath-discussion",
+    "lesson": "aiismath",
+    "lessonTitle": "Probability & Prediction",
+    "section": "Understand AI",
+    "title": "Probability & Prediction",
+    "type": "Discussion",
+    "note": "Discuss wrong answers, new information, and what makes a prediction worth trusting.",
+    "href": "group-exercises/group-session.html?id=aiismath-discussion",
+    "questions": [
+      {
+        "context": "You ask AI for help with a math problem. It gives you an answer and explains its steps, but the answer is wrong.",
+        "title": "How could AI give you a wrong answer to a math problem?",
+        "followUp": "What had you expected it to do when you asked for help?"
+      },
+      {
+        "context": "Your friend is taking the bus to meet you. They’re late and haven’t replied, so you think they forgot, but then you hear that buses on their route are delayed.",
+        "title": "How much would that news change what you think happened?",
+        "followUp": "What would you still want to know before deciding how to react?"
+      },
+      {
+        "context": "A movie app predicts you’ll love a film because you’ve enjoyed similar ones. A friend who knows you says you’ll find it boring.",
+        "title": "Whose prediction would you put more weight on?",
+        "followUp": "What could either of them tell you that would change your mind?"
+      },
+      {
+        "context": "A coach is choosing the starting lineup for an important game. One player struggled last season but now looks much stronger in practice, with little recent game experience to judge.",
+        "title": "How much weight should the coach give last season’s results compared with what the player is showing now?",
+        "followUp": "What would convince you that the improvement would carry over into a game?"
       }
     ]
   },

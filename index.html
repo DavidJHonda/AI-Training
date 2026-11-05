@@ -1080,7 +1080,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   }
 </style>
 <link rel="stylesheet" href="entry-flow.css?v=20261007sample2">
-<script defer src="start-course.js?v=20261008continue1"></script>
+<script defer src="start-course.js?v=20261105samplellm1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
 <script src="group-activities-data.js?v=20261105discussions63"></script>
@@ -1263,8 +1263,17 @@ function getOrCreateReviewId() {
 const BOX_CARD_TITLE = 17;
 const BOX_TEXT = 15;
 const BOX_LABEL = 11;
-function useLocalStorage(key, defaultVal) {
+function getSampleSection(location) {
+  var slug = location.protocol === "file:"
+    ? new URLSearchParams(location.search).get("sample")
+    : (location.pathname.replace(/\/$/, "").match(/^\/course\/([^/]+)$/) || [])[1];
+  if (slug === "whats-an-llm") return "aihistory";
+  if (slug === "why-learn-ai") return "whydeeper";
+  return null;
+}
+function useLocalStorage(key, defaultVal, persist = true) {
   const [val, setVal] = useState(() => {
+    if (!persist) return defaultVal;
     try {
       const stored = localStorage.getItem(key);
       return stored ? JSON.parse(stored) : defaultVal;
@@ -1273,7 +1282,7 @@ function useLocalStorage(key, defaultVal) {
   const set = (v) => {
     const next = typeof v === 'function' ? v(val) : v;
     setVal(next);
-    try { localStorage.setItem(key, JSON.stringify(next)); } catch (e) {}
+    if (persist) { try { localStorage.setItem(key, JSON.stringify(next)); } catch (e) {} }
   };
   return [val, set];
 }
@@ -3427,6 +3436,52 @@ const SECTIONS = SECTION_GROUPS
 // Optional feedback, references, and group activities do not affect completion.
 function isOptionalLesson(id) { return !!(SECTION_META[id] && SECTION_META[id].optional); }
 const REQUIRED_SECTIONS = SECTIONS.filter(function(section) { return !section.optional; });
+// Course paths share the lesson catalog above. Essentials is a selection, not a
+// second copy of lesson content or section groups; order comes from SECTION_GROUPS.
+// Its 24 teaching lessons are bookended by Welcome and Five Big Ideas. The full
+// exam is deliberately excluded until the Essential assessment is defined.
+const ESSENTIAL_SECTION_IDS = [
+  "welcome",
+  // Start Smarter
+  "llms", "aivscode", "aihistory", "doesaithink", "whybother", "studying",
+  // Work With AI
+  "whatitdoesbest", "questionsvaluable", "prompting", "prompt", "evaluating", "aitips",
+  // Understand AI
+  "training",
+  // Avoid Traps
+  "hallucination", "documenttrap", "flattery", "supporttrap", "faketrap",
+  // Navigate the Future
+  "bigdownside", "bigupside", "agents", "workchanges",
+  // Build Your Skills
+  "critical", "integrity",
+  // Finish Smarter
+  "openerfinish"
+];
+function buildCoursePath(id, label, sectionIds) {
+  const included = new Set(sectionIds);
+  const groups = SECTION_GROUPS.map(function(group) {
+    return Object.assign({}, group, {
+      sections: group.sections.filter(function(sectionId) { return included.has(sectionId); })
+    });
+  }).filter(function(group) { return group.sections.length > 0; });
+  const sections = SECTIONS.filter(function(section) { return included.has(section.id); });
+  return {
+    id: id,
+    label: label,
+    groups: groups,
+    sections: sections,
+    requiredSections: sections.filter(function(section) { return !section.optional; })
+  };
+}
+const COURSE_PATHS = {
+  full: buildCoursePath("full", "Full Course", SECTIONS.map(function(section) { return section.id; })),
+  essentials: buildCoursePath("essentials", "Essentials", ESSENTIAL_SECTION_IDS)
+};
+function getCoursePath(id) {
+  return Object.prototype.hasOwnProperty.call(COURSE_PATHS, id) ? COURSE_PATHS[id] : COURSE_PATHS.full;
+}
+// Navigation and saved progress still use the full-course constants above.
+// Path selection and presentation will consume COURSE_PATHS in the next step.
 // Opener sections all share the label "Opener", so their title slugs would collide.
 // Give each a distinct PDF name keyed off its section (used for the file on disk and
 // the Download link). Short form: the section's defining keyword.
@@ -3869,9 +3924,10 @@ function OpenerFoundationsSection(props) {
 // opening line, brand new chat, different story.
 function ContinueTheStoryLab(props) {
   var E = React.createElement;
-  var _c = useLocalStorage("llm-lab-story-steps", {}), checked = _c[0], setChecked = _c[1];
+  var lesson = useContext(LessonContext) || {};
+  var _c = useLocalStorage("llm-lab-story-steps", {}, !lesson.sample), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", "data-sample-allowed": "", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in to a free account, or create one if you don’t have one yet. Start a new chat outside any project."] },
     { title: "Set the rule", body: "Open a new chat and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
     { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let ChatGPT take the next one." },
     { title: "Go five rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
@@ -3887,6 +3943,8 @@ function ContinueTheStoryLab(props) {
     lead: "You just followed the loop: predict a word, add it on, run the whole thing again. Here it is at a size you can actually watch. You and ChatGPT are going to write a story, one sentence each.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
+    lesson.sample ? E("p", { style: { fontSize: 15, lineHeight: 1.6, margin: "0 0 16px" } },
+      "This LAB uses a free ChatGPT account. You can watch or read this sample lesson without one, and come back to the LAB later. Checkmarks in this preview are temporary.") : null,
     E(LabStepList, {
       steps: STEPS,
       checked: checked,
@@ -14223,8 +14281,8 @@ function LLMExplorer() {
   const filePreview = window.location.protocol === "file:";
   const courseUrl = filePreview ? "index.html" : "/course";
   const introductionUrl = filePreview ? "landing.html" : "/landing.html";
-  const sampleMode = window.location.pathname.replace(/\/$/, "") === "/course/why-learn-ai" ||
-    (filePreview && new URLSearchParams(window.location.search).get("sample") === "why-learn-ai");
+  const sampleSection = getSampleSection(window.location);
+  const sampleMode = !!sampleSection;
   const embeddedEntry = new URLSearchParams(window.location.search).get("entry") === "dialog";
   const requireEntry = new URLSearchParams(window.location.search).get("enroll") === "1";
   const [hasName, setHasName] = useState(function() { try { return !requireEntry && !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
@@ -14279,7 +14337,7 @@ function LLMExplorer() {
     if (!sampleMode && reconciledProgress !== storedProgress) setProgress(reconciledProgress);
   }, [storedProgress, finalPassed, sampleMode]);
   // Preview the real course shell without displaying or changing saved progress.
-  const progress = sampleMode ? { activeSection: "whydeeper", visited: [], completed: [], testYourselfQuiz: null } : reconciledProgress;
+  const progress = sampleMode ? { activeSection: sampleSection, visited: [], completed: [], testYourselfQuiz: null } : reconciledProgress;
   const onFinalPass = function() { if (!sampleMode) setFinalPassed(true); };
   const samplePromptRef = useRef(null);
   const samplePromptTriggerRef = useRef(null);
@@ -14305,7 +14363,7 @@ function LLMExplorer() {
     React.createElement("div", { className: "sample-prompt-actions" },
       React.createElement("a", { href: courseUrl + "?enroll=1", className: "sample-start", "data-start-course": "", "data-entry-required": "", onClick: function() { samplePromptRef.current.close(); } }, "Start the Course →"),
       React.createElement("button", { type: "button", onClick: function() { samplePromptRef.current.close(); } }, "Keep trying the lesson"))) : null;
-  const activeSection = sampleMode ? "whydeeper" : progress.activeSection;
+  const activeSection = sampleMode ? sampleSection : progress.activeSection;
   useEffect(function() {
     document.body.classList.toggle("course-entry", !hasName && !sampleMode);
     document.body.classList.toggle("entry-embedded", embeddedEntry);
@@ -14532,7 +14590,8 @@ function LLMExplorer() {
             E("div", { className: "gate-form" },
               E("input", { type: "text", value: signup.firstName, onChange: setField("firstName"), onKeyDown: function(e) { if (e.key === "Enter") submitName(); }, placeholder: "First name or nickname", className: "gate-field gate-span2", "aria-label": "First name or nickname", autoComplete: "given-name" }),
               E(CountrySelect, { value: signup.country, onChange: function(country) { setSignup(function(prev) { return Object.assign({}, prev, { country: country }); }); } })),
-            E("p", { className: "gate-hint" }, "Your first name personalizes the course. Your country helps us understand where students are learning."),
+            E("p", { className: "gate-hint" }, "Your first name personalizes the course. Your country helps us understand where students are learning.",
+              E("br"), E("br"), "Your progress is saved in this browser. Use the same browser and device when you return."),
             E("div", { className: "gate-go" },
               E("button", { type: "button", onClick: submitName, disabled: !signupValid }, "Let’s go", E("span", { "aria-hidden": true }, "→"))))),
         E("footer", { className: "gate-footer no-print" },
@@ -14725,7 +14784,7 @@ function LLMExplorer() {
       /*#__PURE__*/React.createElement("header", { className: "course-header" },
         /*#__PURE__*/React.createElement("div", { className: "course-topbar" },
           /*#__PURE__*/React.createElement("div", { className: "lockup-zone" },
-            /*#__PURE__*/React.createElement("a", { href: introductionUrl, className: "course-home-logo", "aria-label": "Course Home" },
+            /*#__PURE__*/React.createElement("a", { href: introductionUrl, target: "_blank", rel: "noopener", className: "course-home-logo", "aria-label": "Course Home (opens in a new tab)" },
               /*#__PURE__*/React.createElement("img", { className: "course-logo-mark", src: "icons/logo-mark-white-cropped.png", alt: "AI Leadership Society", height: 96 })),
             /*#__PURE__*/React.createElement("div", { className: "course-title-lockup" },
               /*#__PURE__*/React.createElement("h1", { className: "course-title-main" }, "Be Smarter ", /*#__PURE__*/React.createElement("span", { className: "title-em" }, "Than the Tool")),
@@ -14792,6 +14851,7 @@ function LLMExplorer() {
   }(), /*#__PURE__*/React.createElement("main", {
     id: "main-content",
     onClickCapture: sampleMode ? function(event) {
+      if (event.target.closest("a[data-sample-allowed]")) return;
       if (event.target.closest("a[href]")) { event.preventDefault(); event.stopPropagation(); showSamplePrompt(); }
     } : undefined,
     onClick: openIllustrationFromEvent,
@@ -14825,7 +14885,7 @@ function LLMExplorer() {
       flexWrap: "wrap",
       gap: 4
     }
-  }, React.createElement("a", { href: introductionUrl, className: "using-course-link", "data-course-home": "" }, "About the Course"),
+  }, React.createElement("a", { href: introductionUrl, target: "_blank", rel: "noopener", className: "using-course-link", "data-course-home": "", "aria-label": "About the Course (opens in a new tab)" }, "About the Course"),
   React.createElement("span", { "aria-hidden": "true" }, "·"),
   React.createElement(ResetProgressLink),
   /*#__PURE__*/React.createElement("span", { "aria-hidden": "true" }, "·"),

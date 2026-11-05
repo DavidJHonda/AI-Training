@@ -7,28 +7,30 @@ Status: landing page and course entry flow implemented for release. The lesson s
 ## Current implementation
 
 - `/` serves `index.html`, matching Vercel's filesystem precedence. An early visitor check redirects recognized returning learners (a saved `llm-user-name`) to `/course` and new visitors or browsers with unavailable storage to `/landing.html`. It uses history replacement, preserves query strings and fragments, and leaves print/review URLs alone. The local server follows the same entry path.
-- The landing page uses `landing.css` and public reviews from `landing.js`.
+- The landing page uses `landing.css`: a two-column introduction with Luke and Nate, five benefits, a real lesson illustration, group-learning banner, certificate invitation, and eight collapsed FAQs. Reviews are not displayed in the current compact design.
 - `/landing.html` always shows the introduction, including for returning learners. The course logo and “About the Course” footer link use this explicit URL, so learners can revisit it without a redirect loop.
 - `/course` serves the existing course application. Existing storage keys and schemas are unchanged.
-- `/course/why-learn-ai` renders the real Why Learn AI lesson in the full course shell, including the header, section tabs, lesson map, mobile navigation, and footer. Video, image enlargement, and the activity remain usable. Navigation, completion, and footer controls open a Start the Course invitation; they do not switch lessons or submit feedback. Guest visits do not change the learner’s saved course position or completion record.
+- `/course/whats-an-llm` renders the real What’s an LLM? lesson in the full course shell, including the header, section tabs, lesson map, mobile navigation, and footer. Video, image enlargement, and the Build a Story LAB remain usable. Its ChatGPT link opens in a new tab; preview checkmarks are temporary and do not read or change saved LAB progress. The older `/course/why-learn-ai` bookmark still previews Why Learn AI?. Navigation, completion, and footer controls open a Start the Course invitation; they do not switch lessons or submit feedback. Guest visits do not change the learner’s saved course position or completion record.
 - Start buttons on the landing page and sample use `start-course.js` to open an accessible native dialog. It embeds the actual course entry form, so country validation and enrollment delivery remain in one implementation. `entry-flow.css` styles the entry dialog, compact standalone entry, and sample invitation.
 - Recognized learners can go directly into the course from the landing page. Starting from the sample always shows the name-and-country form, prefilling saved details when available. Confirming unchanged details does not send another enrollment. New learners enter Welcome; returning learners keep their saved lesson and progress.
 - `/index.html`, root `?print=` links, and root `?review=closing-boards` links still serve the course. Asset URLs resolve from the site root.
-- The two current sample reviews remain by David’s request. He plans to replace them. Reviews show source submission dates in a scrollable region, with older-page loading when needed.
-- The saved creator illustration is used. The introduction video remains a future addition.
+- The sample link reads “Try a lesson: How AI builds an answer” and opens What’s an LLM?. The shared entry form explains that progress stays in the same browser and device. The group FAQ explains how to begin a session.
+- The saved creator illustration is used without an inactive play button. The introduction video remains a future addition; `intro-video-script.md` contains the recording draft and capture notes.
+- The public group directory includes a short starting guide and expandable course sections. It reads the shared activity catalog in course lesson order, with discussion and activity links kept separate.
 - Existing search-engine noindex settings are preserved.
 
 ## Local evaluation
 
 From the repository root, run `python3 scripts/serve-site.py --port 8878`, then open <http://127.0.0.1:8878/>. This server reads the same exact URL rewrite rules as Vercel. A generic static server does not implement the new URLs.
 
-Opening `landing.html` directly from Finder also loads the styles and images. In file previews, Start opens the course document directly and Try a Lesson uses `index.html?sample=why-learn-ai`; the hosted site and local server retain the dialog and clean URLs.
+Opening `landing.html` directly from Finder also loads the styles and images. In file previews, Start opens the course document directly and Try a Lesson uses `index.html?sample=whats-an-llm`; the hosted site and local server retain the dialog and clean URLs.
 
 The earlier `preview.html`, `sample.html`, and `entry.html` files are design drafts; edit the root-level production files for the current implementation. Localhost browser storage is separate from the public site’s storage.
 
 ## Verification
 
 - New-learner dialog: required fields, valid country selection, and entry into Welcome passed on an isolated local server that intercepted enrollment POSTs.
+- What’s an LLM? sample update: verified the landing link, temporary LAB checkmarks and reload reset, ChatGPT opening separately, and completion invitation in the browser. `node scripts/test-entry-routing.cjs` covers new and legacy routes, local-file links, and saved LAB progress isolation.
 - Returning learner: seeded a saved Tokens lesson with two completed lessons, visited the sample, then entered `/course`; the saved progress record remained byte-for-byte unchanged and no enrollment was sent.
 - Guest sample: renders the full course layout without enrollment, opens the video, and runs the activity selection. Section and lesson navigation, completion, and Reset Progress open the invitation. Its Start link opens the entry form. Tested with seeded returning-learner data: saved progress remained byte-for-byte unchanged and no enrollment was sent.
 - Dialog: mobile layout and Escape from inside the embedded form verified; focus returns to the Start link.

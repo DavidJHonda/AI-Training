@@ -1,8 +1,8 @@
 # Nate and Luke: landing-page introduction
 
-Status: working draft preserved from the discussion. Not a final recording script.
+Status: recording draft aligned with the introduction reviewed in the Google document and landing-page preview. The video has not been recorded.
 
-## Current draft
+## Recording script
 
 **Nate:** It feels like everyone is talking about AI. Some people say it’ll cure cancer. Others say it might end the world.
 
@@ -10,7 +10,7 @@ Status: working draft preserved from the discussion. Not a final recording scrip
 
 **Nate:** I’m Nate.
 
-**Luke:** And I’m Luke. We started an AI club at our high school, and wanted a course that answered our questions about AI.
+**Luke:** And I’m Luke. We started an AI club at our high school. But we had a hard time finding a course that answered the questions that mattered to us.
 
 **Nate:** How does AI work? When can we trust it? What does it mean for school, our future, and the things we want to do?
 
@@ -24,14 +24,6 @@ Status: working draft preserved from the discussion. Not a final recording scrip
 
 **Luke:** Be smarter than the tool.
 
-## Suggested alternative still to confirm
-
-We discussed making the reason for creating the course more explicit, without criticizing other course creators. Possible replacement for Luke's introduction:
-
-> And I’m Luke. We started an AI club at our high school. But we had a hard time finding a course that answered the questions that mattered to us.
-
-Use this only if it accurately reflects Nate and Luke's experience. It has not replaced the draft above.
-
 ## Recording and copy notes
 
 - Each student introduces himself.
@@ -42,3 +34,12 @@ Use this only if it accurately reflects Nate and Luke's experience. It has not r
 - Keep the opening's contrasting claims clearly attributed to what people say.
 - Avoid em dashes in the script.
 - Time a natural read before deciding whether further cuts are needed.
+
+## Capture and handoff
+
+- Record both students together in a horizontal frame, with the camera at eye level and clear, even lighting. Leave a little space around them for the landing-page crop.
+- Prioritize clear voices and a quiet room. Record a short sound check before the full take.
+- Keep their delivery natural. They can pause between lines for editing.
+- Capture a separate real photograph of both students in the same setting for the video poster. The current course-building illustration stays on the page until a real asset is ready.
+- Keep the original recording and photograph at full resolution. Prepare a web video export and captions from the final spoken take, not an assumed word-for-word reading of this draft.
+- When the recording is ready, replace the hero illustration with the poster and working video controls. Keep their names and creator credit visible before playback. Do not autoplay.

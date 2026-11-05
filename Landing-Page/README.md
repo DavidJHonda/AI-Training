@@ -1,12 +1,13 @@
 # Course landing page plan
 
-Last updated: October 7, 2026
+Last updated: November 5, 2026
 
 Status: landing page and course entry flow implemented for release. The lesson source remains in `index.html`; production URLs are served through `vercel.json` rewrites.
 
 ## Current implementation
 
-- `/` serves `landing.html`, styled by `landing.css`, with public reviews from `landing.js`.
+- `/` serves `landing.html`, styled by `landing.css`, with public reviews from `landing.js`. Recognized returning learners (a saved `llm-user-name`) are immediately redirected to `/course` using history replacement; new visitors and browsers with unavailable storage stay on the landing page.
+- `/landing.html` always shows the introduction, including for returning learners. The course logo and “About the Course” footer link use this explicit URL, so learners can revisit it without a redirect loop.
 - `/course` serves the existing course application. Existing storage keys and schemas are unchanged.
 - `/course/why-learn-ai` renders the real Why Learn AI lesson in the full course shell, including the header, section tabs, lesson map, mobile navigation, and footer. Video, image enlargement, and the activity remain usable. Navigation, completion, and footer controls open a Start the Course invitation; they do not switch lessons or submit feedback. Guest visits do not change the learner’s saved course position or completion record.
 - Start buttons on the landing page and sample use `start-course.js` to open an accessible native dialog. It embeds the actual course entry form, so country validation and enrollment delivery remain in one implementation. `entry-flow.css` styles the entry dialog, compact standalone entry, and sample invitation.

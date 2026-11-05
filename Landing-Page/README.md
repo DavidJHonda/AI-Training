@@ -6,7 +6,8 @@ Status: landing page and course entry flow implemented for release. The lesson s
 
 ## Current implementation
 
-- `/` serves `landing.html`, styled by `landing.css`, with public reviews from `landing.js`. Recognized returning learners (a saved `llm-user-name`) are immediately redirected to `/course` using history replacement; new visitors and browsers with unavailable storage stay on the landing page.
+- `/` serves `index.html`, matching Vercel's filesystem precedence. An early visitor check redirects recognized returning learners (a saved `llm-user-name`) to `/course` and new visitors or browsers with unavailable storage to `/landing.html`. It uses history replacement, preserves query strings and fragments, and leaves print/review URLs alone. The local server follows the same entry path.
+- The landing page uses `landing.css` and public reviews from `landing.js`.
 - `/landing.html` always shows the introduction, including for returning learners. The course logo and “About the Course” footer link use this explicit URL, so learners can revisit it without a redirect loop.
 - `/course` serves the existing course application. Existing storage keys and schemas are unchanged.
 - `/course/why-learn-ai` renders the real Why Learn AI lesson in the full course shell, including the header, section tabs, lesson map, mobile navigation, and footer. Video, image enlargement, and the activity remain usable. Navigation, completion, and footer controls open a Start the Course invitation; they do not switch lessons or submit feedback. Guest visits do not change the learner’s saved course position or completion record.

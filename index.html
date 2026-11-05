@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script id="main-entry-route">
+// Vercel serves this existing index file before applying root rewrites.
+// Route the main link here; direct course, introduction, and review links stay explicit.
+if (location.protocol !== 'file:' && location.pathname === '/') {
+  const entryParams = new URLSearchParams(location.search);
+  if (!entryParams.has('print') && !entryParams.has('review')) {
+    let returningLearner = false;
+    try { returningLearner = !!localStorage.getItem('llm-user-name'); } catch (_) {}
+    location.replace((returningLearner ? '/course' : '/landing.html') + location.search + location.hash);
+  }
+}
+</script>
 <base id="course-base" href="./">
 <script>if (location.protocol !== "file:") document.getElementById("course-base").href = "/";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

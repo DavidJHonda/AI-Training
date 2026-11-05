@@ -14,12 +14,15 @@ for (const a of activities) {
  assert(fs.existsSync(path.join(root,a.href.split('?')[0])),a.href);
  if(a.type==='Discussion') {
   // Preserve the approved question counts for shorter discussion sets.
-  const approvedCounts = {'aiismath-discussion': 4, 'training-discussion': 3, 'embeddings-discussion': 2, 'attention-discussion': 3, 'prediction-discussion': 2, 'documenttrap-discussion': 3};
+  const approvedCounts = {'evaluating-discussion': 2, 'whydeeper': 4, 'aivscode': 4, 'aihistory-discussion': 3, 'doesaithink-discussion': 4, 'whybother': 4, 'whatitdoesbest': 4, 'modelselection-discussion': 3, 'prompt-discussion': 4, 'aitips-discussion': 4, 'aiismath-discussion': 4, 'training-discussion': 3, 'embeddings-discussion': 2, 'attention-discussion': 2, 'prediction-discussion': 2, 'documenttrap-discussion': 3, 'trainingbias-discussion': 4, 'mindtrap-discussion': 4, 'flattery-discussion': 4, 'whatpeoplesay-discussion': 4, 'paceofchange-discussion': 4, 'bigdownside-discussion': 4, 'bigupside-discussion': 4, 'workchanges-discussion': 4, 'computecost-discussion': 4, 'unexpected-discussion': 4, 'critical-discussion': 4, 'integrity-discussion': 4, 'wherestheline-discussion': 4, 'peopleskills-discussion': 4};
   assert.equal(a.questions.length,approvedCounts[a.id] ?? 5);
   assert(a.questions.every(q=>q.title));
   assert(html.includes('return a.id === "'+a.id+'"; }).questions'));
  }
 }
+const evaluationLesson = html.slice(html.indexOf('function EvaluatingSection('), html.indexOf('function CreativeThinkingCareerLab('));
+assert(evaluationLesson.indexOf('E(DigDeeperTryIt, null)') < evaluationLesson.indexOf('id: "evaluating-discussion"'));
+assert(evaluationLesson.indexOf('id: "evaluating-discussion"') < evaluationLesson.indexOf('E(NextLessonGate'));
 const inlineLessons = [...html.matchAll(/id: "([a-z]+)-group-exercise"/g)].map(m=>m[1]);
 for(const lesson of inlineLessons) assert(activities.some(a=>a.lesson===lesson),'Missing lesson '+lesson);
 const standaloneFiles = [...html.matchAll(/href: "(group-exercises\/[^"?]+\.html)"/g)].map(m=>m[1]);

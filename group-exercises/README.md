@@ -8,50 +8,51 @@ course order can change.
 
 | Home lesson | App section ID | Exercise | Location |
 | --- | --- | --- | --- |
-| Why Learn AI? | `whydeeper` | Five discussion questions | [Discussion](group-session.html?id=whydeeper); shared questions in `../group-activities-data.js` |
+| Why Learn AI? | `whydeeper` | Four discussion questions | [Discussion](group-session.html?id=whydeeper); shared questions in `../group-activities-data.js` |
 | What Is AI? | `llms` | Be the Last Person Standing | [Activity](what-is-ai/be-the-last-person-standing.html) |
 | What Is AI? | `llms` | Five discussion questions | [Discussion](group-session.html?id=llms-discussion); shared questions in `../group-activities-data.js` |
 | What’s an LLM? | `aihistory` | One Word at a Time | [Activity](whats-an-llm/one-word-at-a-time.html) |
-| What’s an LLM? | `aihistory` | Five discussion questions | [Discussion](group-session.html?id=aihistory-discussion); shared questions in `../group-activities-data.js` |
+| What’s an LLM? | `aihistory` | Three discussion questions | [Discussion](group-session.html?id=aihistory-discussion); shared questions in `../group-activities-data.js` |
 | Probability & Prediction | `aiismath` | Four discussion questions | [Discussion](group-session.html?id=aiismath-discussion); shared questions in `../group-activities-data.js` |
 | Does AI Think? | `doesaithink` | Spot What’s Wrong | [Activity](does-ai-think/spot-whats-wrong.html) |
-| Does AI Think? | `doesaithink` | Five discussion questions | [Discussion](group-session.html?id=doesaithink-discussion); shared questions in `../group-activities-data.js` |
+| Does AI Think? | `doesaithink` | Four discussion questions | [Discussion](group-session.html?id=doesaithink-discussion); shared questions in `../group-activities-data.js` |
 | In Your Hands | `control` | Prompetition | [Activity](in-your-hands/prompetition.html) |
-| Does School Matter? | `whybother` | Five discussion questions | [Discussion](group-session.html?id=whybother); shared questions in `../group-activities-data.js` |
+| Does School Matter? | `whybother` | Four discussion questions | [Discussion](group-session.html?id=whybother); shared questions in `../group-activities-data.js` |
 | Learn with AI | `studying` | Teach Us Something Ridiculous | [Activity](group-session.html?id=studying); also inline in `RidiculousStudyGroupExercise` |
 | Learn with AI | `studying` | Five discussion questions | [Discussion](group-session.html?id=studying-discussion); shared questions in `../group-activities-data.js` |
-| AI Is Different | `aivscode` | Five discussion questions about written rules, learned patterns, consistency, and flexibility | [Discussion](group-session.html?id=aivscode); shared questions in `../group-activities-data.js` |
-| Where AI Works Best | `whatitdoesbest` | Five discussion questions about applying AI’s four strengths | [Discussion](group-session.html?id=whatitdoesbest); shared questions in `../group-activities-data.js` |
+| AI Is Different | `aivscode` | Four discussion questions about written rules, learned patterns, consistency, and flexibility | [Discussion](group-session.html?id=aivscode); shared questions in `../group-activities-data.js` |
+| Where AI Works Best | `whatitdoesbest` | Four discussion questions about applying AI’s four strengths | [Discussion](group-session.html?id=whatitdoesbest); shared questions in `../group-activities-data.js` |
 | Your Home Base | `modelselection` | Find Your Match | [Activity](your-home-base/find-your-match.html); shared `HomeBaseGroupExercise` introduction in the lesson and directory |
-| Your Home Base | `modelselection` | Five discussion questions | [Discussion](group-session.html?id=modelselection-discussion); shared questions in `../group-activities-data.js` |
+| Your Home Base | `modelselection` | Three discussion questions | [Discussion](group-session.html?id=modelselection-discussion); shared questions in `../group-activities-data.js` |
 | Questions Matter | `questionsvaluable` | Make the Question Better | [Activity](questions-matter/make-the-question-better.html); shared `QuestionsMatterGroupExercise` introduction in the lesson and directory |
 | Questions Matter | `questionsvaluable` | Five discussion questions | [Discussion](group-session.html?id=questionsvaluable-discussion); shared questions in `../group-activities-data.js` |
 | Prompting Matters | `prompting` | Five discussion questions | [Discussion](group-session.html?id=prompting-discussion); shared questions in `../group-activities-data.js` |
-| Context Matters | `prompt` | Five discussion questions | [Discussion](group-session.html?id=prompt-discussion); shared questions in `../group-activities-data.js` |
-| Beyond the First Answer | `aitips` | Five discussion questions | [Discussion](group-session.html?id=aitips-discussion); shared questions in `../group-activities-data.js` |
+| Context Matters | `prompt` | Four discussion questions | [Discussion](group-session.html?id=prompt-discussion); shared questions in `../group-activities-data.js` |
+| Evaluation Matters | `evaluating` | Two discussion questions | [Discussion](group-session.html?id=evaluating-discussion); shared questions in `../group-activities-data.js` |
+| Beyond the First Answer | `aitips` | Four discussion questions | [Discussion](group-session.html?id=aitips-discussion); shared questions in `../group-activities-data.js` |
 | How AI Learns | `training` | Three discussion questions | [Discussion](group-session.html?id=training-discussion); shared questions in `../group-activities-data.js` |
 | Embeddings | `embeddings` | Two discussion questions | [Discussion](group-session.html?id=embeddings-discussion); shared questions in `../group-activities-data.js` |
-| Transformer | `attention` | Three discussion questions | [Discussion](group-session.html?id=attention-discussion); shared questions in `../group-activities-data.js` |
+| Transformer | `attention` | Two discussion questions | [Discussion](group-session.html?id=attention-discussion); shared questions in `../group-activities-data.js` |
 | How AI Answers | `prediction` | Two discussion questions | [Discussion](group-session.html?id=prediction-discussion); shared questions in `../group-activities-data.js` |
 | Hallucination | `hallucination` | Five discussion questions | [Discussion](group-session.html?id=hallucination-discussion); shared questions in `../group-activities-data.js` |
-| Training Bias | `trainingbias` | Five discussion questions | [Discussion](group-session.html?id=trainingbias-discussion); shared questions in `../group-activities-data.js` |
+| Training Bias | `trainingbias` | Four discussion questions | [Discussion](group-session.html?id=trainingbias-discussion); shared questions in `../group-activities-data.js` |
 | Document Trap | `documenttrap` | Three discussion questions | [Discussion](group-session.html?id=documenttrap-discussion); shared questions in `../group-activities-data.js` |
-| Trust Trap | `mindtrap` | Five discussion questions | [Discussion](group-session.html?id=mindtrap-discussion); shared questions in `../group-activities-data.js` |
-| Flattery Trap | `flattery` | Five discussion questions | [Discussion](group-session.html?id=flattery-discussion); shared questions in `../group-activities-data.js` |
+| Trust Trap | `mindtrap` | Four discussion questions | [Discussion](group-session.html?id=mindtrap-discussion); shared questions in `../group-activities-data.js` |
+| Flattery Trap | `flattery` | Four discussion questions | [Discussion](group-session.html?id=flattery-discussion); shared questions in `../group-activities-data.js` |
 | Support Trap | `supporttrap` | Five discussion questions | [Discussion](group-session.html?id=supporttrap-discussion); shared questions in `../group-activities-data.js` |
 | Fake Trap | `faketrap` | Five discussion questions | [Discussion](group-session.html?id=faketrap-discussion); shared questions in `../group-activities-data.js` |
-| Loudest Voices | `whatpeoplesay` | Five discussion questions | [Discussion](group-session.html?id=whatpeoplesay-discussion); shared questions in `../group-activities-data.js` |
-| Pace of Change | `paceofchange` | Five discussion questions | [Discussion](group-session.html?id=paceofchange-discussion); shared questions in `../group-activities-data.js` |
-| Big Downside | `bigdownside` | Five discussion questions | [Discussion](group-session.html?id=bigdownside-discussion); shared questions in `../group-activities-data.js` |
-| Big Upside | `bigupside` | Five discussion questions | [Discussion](group-session.html?id=bigupside-discussion); shared questions in `../group-activities-data.js` |
+| Loudest Voices | `whatpeoplesay` | Four discussion questions | [Discussion](group-session.html?id=whatpeoplesay-discussion); shared questions in `../group-activities-data.js` |
+| Pace of Change | `paceofchange` | Four discussion questions | [Discussion](group-session.html?id=paceofchange-discussion); shared questions in `../group-activities-data.js` |
+| Big Downside | `bigdownside` | Four discussion questions | [Discussion](group-session.html?id=bigdownside-discussion); shared questions in `../group-activities-data.js` |
+| Big Upside | `bigupside` | Four discussion questions | [Discussion](group-session.html?id=bigupside-discussion); shared questions in `../group-activities-data.js` |
 | Rise of Agents | `agents` | Five discussion questions | [Discussion](group-session.html?id=agents-discussion); shared questions in `../group-activities-data.js` |
-| Work Changes | `workchanges` | Five discussion questions | [Discussion](group-session.html?id=workchanges-discussion); shared questions in `../group-activities-data.js` |
-| Data Centers | `computecost` | Five discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
-| Unexpected Results | `unexpected` | Five discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
-| Critical Thinking | `critical` | Five discussion questions | [Discussion](group-session.html?id=critical-discussion); shared questions in `../group-activities-data.js` |
-| Honesty & Privacy | `integrity` | Five discussion questions | [Discussion](group-session.html?id=integrity-discussion); shared questions in `../group-activities-data.js` |
-| Where’s the Line? | `wherestheline` | Five discussion questions | [Discussion](group-session.html?id=wherestheline-discussion); shared questions in `../group-activities-data.js` |
-| People Skills | `peopleskills` | Five discussion questions | [Discussion](group-session.html?id=peopleskills-discussion); shared questions in `../group-activities-data.js` |
+| Work Changes | `workchanges` | Four discussion questions | [Discussion](group-session.html?id=workchanges-discussion); shared questions in `../group-activities-data.js` |
+| Data Centers | `computecost` | Four discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
+| Unexpected Results | `unexpected` | Four discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
+| Critical Thinking | `critical` | Four discussion questions | [Discussion](group-session.html?id=critical-discussion); shared questions in `../group-activities-data.js` |
+| Honesty & Privacy | `integrity` | Four discussion questions | [Discussion](group-session.html?id=integrity-discussion); shared questions in `../group-activities-data.js` |
+| Where’s the Line? | `wherestheline` | Four discussion questions | [Discussion](group-session.html?id=wherestheline-discussion); shared questions in `../group-activities-data.js` |
+| People Skills | `peopleskills` | Four discussion questions | [Discussion](group-session.html?id=peopleskills-discussion); shared questions in `../group-activities-data.js` |
 | Creative Thinking | `creativethinking` | Five discussion questions | [Discussion](group-session.html?id=creativethinking-discussion); shared questions in `../group-activities-data.js` |
 | Curiosity | `becurious` | Five discussion questions | [Discussion](group-session.html?id=becurious-discussion); shared questions in `../group-activities-data.js` |
 | What’s Next? | `makeyourmove` | Five discussion questions | [Discussion](group-session.html?id=makeyourmove-discussion); shared questions in `../group-activities-data.js` |
@@ -64,11 +65,18 @@ table when adding an exercise or changing its home lesson.
 
 Include discussion questions only when a lesson invites meaningful discussion.
 Skip sets that mainly test recall or repeat discussions better suited to another
-lesson. Five questions is a useful starting point, but use fewer when only two
-or three are strong. Render approved sets inside `GroupExercise`, labeled
+lesson. Five is an option, not a quota. Keep each question only when it adds a
+distinct, worthwhile conversation; do not replace a removed question just to
+restore the count. Render approved sets inside `GroupExercise`, labeled
 **Discussion Questions**, using `DiscussionQuestions`.
-Probability & Prediction has four questions, How AI Learns, Transformer, and Document Trap have three,
-and Embeddings and How AI Answers have two by David's explicit choice. Do not expand those sets
+Why Learn AI?, AI Is Different, Does AI Think?, Does School Matter?,
+Where AI Works Best, Context Matters, Beyond the First Answer,
+Probability & Prediction, Training Bias, Trust Trap, Flattery Trap, Loudest
+Voices, Pace of Change, Big Downside, Big Upside, Work Changes, Data Centers,
+Unexpected Results, Critical Thinking, Honesty & Privacy, Where’s the Line?,
+and People Skills have four questions. What’s an LLM?, Your Home Base,
+How AI Learns, and Document Trap have three. Embeddings, Transformer, and
+How AI Answers have two by David's explicit choice. Do not expand those sets
 without his approval.
 Prefer a short setup, a main question, and at most one optional follow-up.
 Use the shared `context` field for one or two sentences describing a familiar
@@ -115,31 +123,110 @@ David suggested review questions about tokens and tokenizers, but is considering
 skipping discussion questions there. No Tokens questions have been added.
 Embeddings is approved and added with two numerical-rating analogies. These
 are analogies, not claims that actual AI embedding dimensions have named traits.
-Transformer is approved and added with three scenarios about context and meaning.
+Transformer is approved and added with two scenarios about context and ambiguity.
 Layers and Vector Space were reviewed with a recommendation to skip discussion
 questions; none were added. How AI Answers is approved and added with two
 questions: the assumed detail about the dog and how a story's opening shapes
 what comes next. Why Answers Vary was reviewed with a recommendation to skip
 discussion questions; none were added. Hallucination is approved and added,
-including the revised first question about why AI might invent a study.
+including the revised first question about why AI might invent a quotation.
 Training Bias is approved and added with the revised essay-grader question #3.
 Document Trap is approved and added with three questions, including the revised
 first scenario about a missing source-list requirement. Trust Trap is approved
 and added. Flattery Trap, Support Trap, and Fake Trap are approved and added.
 David reviewed and approved all eight Navigate the Future discussion sets
-together. All 40 questions are added to Loudest Voices, Pace of Change, Big
+together. After the approved removals, 33 questions remain across Loudest Voices, Pace of Change, Big
 Downside, Big Upside, Rise of Agents, Work Changes, Data Centers, and Unexpected
 Results. The Opener remains excluded. Each set follows the individual TRY IT
 or LAB; Unexpected Results also places discussion before its Group Exercise.
-Evaluation Matters still awaits review.
-All seven Build Your Skills discussion sets are approved and added, with 35
-questions across Critical Thinking, Honesty & Privacy, Where’s the Line?, People
+Evaluation Matters is approved and added with two discussion questions after its TRY IT, bringing Work With AI to 27 questions.
+All seven Build Your Skills discussion sets are approved and added, with 31
+questions after the approved removals across Critical Thinking, Honesty & Privacy, Where’s the Line?, People
 Skills, Creative Thinking, Curiosity, and What’s Next?. Each set follows its
 individual activity; Critical Thinking and Where’s the Line? place discussion
 before their existing Group Exercises. The Opener and Finish Smarter remain excluded.
 Keep shared public discussion pages and directory entries.
 
-All forty reviewed sets use the preferred setup, question, and optional follow-up format.
+On November 5, David approved six removals from Start Smarter using the original
+review numbering: Why Learn AI? #3; AI Is Different #1; What’s an LLM? #2 and #4;
+Does AI Think? #5; Does School Matter? #4. Those removals are applied, leaving
+29 questions in Start Smarter. David also approved five removals from
+Work With AI using the original review numbering: Where AI Works Best #3;
+Your Home Base #3 and #4; Context Matters #4; Beyond the First Answer #2.
+Those removals are applied, leaving 25 questions in Work With AI. David also
+approved removing Transformer #3, leaving two questions in that lesson and
+13 across Understand AI. David also approved removing Training Bias #2,
+Trust Trap #1, and Flattery Trap #3, leaving 30 questions in Avoid Traps.
+David also approved seven removals from Navigate the Future: Loudest Voices
+#3; Pace of Change #5; Big Downside #4; Big Upside #4; Work Changes #5; Data
+Centers #4; Unexpected Results #5. Those removals are applied, leaving 33
+questions in Navigate the Future. David also approved removing Critical
+Thinking #3, Honesty & Privacy #5, Where’s the Line? #3, and People Skills #5,
+leaving 31 questions in Build Your Skills. All 26 proposed removals are now
+applied, leaving 161 questions across 40 lesson sets. David then approved
+wording improvements to What Is AI? #1 and #5. Their main questions are
+updated; their scenarios and follow-ups are unchanged. Why Learn AI? #1 also
+has its approved inclusive main question and conditional follow-up. David
+requested moving to Work With AI next; the remaining Start Smarter wording
+proposals were revisited and approved later, as recorded below. Your Home Base #1 now has
+the approved follow-up, “What might make trying another app worthwhile?”
+Its scenario and main question are unchanged. Questions Matter #4 now uses
+the approved scenario about researching how phones affect friendships; its
+main question and follow-up are unchanged. Context Matters #1 and current #4
+(original #5) have their approved main-question revisions; their scenarios
+and follow-ups are unchanged. Probability & Prediction #2 and #4 now use
+the approved revised scenarios, main questions, and follow-ups about the
+delayed bus and the coach’s lineup decision. How AI Learns #1 now uses the
+approved first-job-interview scenario, with its main question and follow-up
+unchanged. Hallucination #1 now uses the approved invented-quotation scenario
+and main question, and #4 has the approved follow-up about how the uncertain
+app could still help. Training Bias current #3 (original #4) now uses the
+approved voice-assistant assignment scenario, fairness question, and typing
+alternative follow-up. Fake Trap #1 now has the approved scenario about
+friends reposting a clip and the main question about waiting before sharing;
+its follow-up is unchanged. Loudest Voices current #3 (original #4) has its
+approved simplified main question about comparing feeds; its redundant
+follow-up is removed. Pace of Change #3 now uses the approved scenario about
+a school’s essay policy and automatic AI rewrites; its main question and
+follow-up are unchanged. Big Downside #3 and current #4 (original #5) now
+use the approved file-organizing tool and conflicting safety-test scenarios,
+with their revised main questions and follow-ups. Big Upside #1 now compares
+a small benefit for many with a major benefit for a few, and current #4
+(original #5) uses the approved translation-versus-voice-project funding
+scenario. Their approved question wording is applied. Data Centers current #4
+(original #5) now uses the approved power-shortage scenario comparing tutoring
+and customer-order services, with its revised main question and unchanged
+follow-up. Unexpected Results #3 now uses the approved family-story translation
+scenario and main question about expanding the tool or prioritizing announcements;
+its follow-up is unchanged. Where’s the Line? current #3 (original #4) now
+has the approved main question about explaining different AI assistance while
+respecting privacy, with its revised follow-up about trust in the rules. Its
+scenario is unchanged. Creative Thinking #3 now uses the approved event-planning
+scenario, main question about accepting or changing limits, and follow-up about
+whether a different event would be worthwhile. AI Is Different current #3
+(original #4) now has the approved main question comparing study plans and
+follow-up about comparing advice in other situations; its scenario is unchanged.
+Does AI Think? #3 now has the approved follow-up asking what each might know
+that the other does not; its scenario and main question are unchanged. Learn
+with AI #2 now has the approved main question about what a tutor should notice;
+its scenario and follow-up are unchanged. Learn with AI #3 now has the approved
+main question about readiness beyond familiarity and the simplified personal
+experience follow-up; its scenario is unchanged. All 28 proposed wording
+improvements and all 26 removals are now applied. Evaluation Matters now has its
+two approved discussion questions, completing the review with 163 questions
+across 41 lesson sets. The review report preserves the
+original question numbers and wording as a pre-edit snapshot.
+
+### Approved Evaluation Matters addition
+
+The former Your Home Base #3 is now approved and added as Evaluation Matters #1.
+Question #2 discusses when an accurate, clear AI draft is good enough to use.
+
+- Scenario: You ask two AI apps for advice about the same project. They recommend different approaches, and both make their ideas sound convincing.
+- Main question: How would you decide which advice, if any, to follow?
+- Optional follow-up: Would getting the same advice from both apps change how much you trusted it?
+
+All forty-one discussion sets use the preferred setup, question, and optional follow-up format.
 Apply that format to other lessons as they come up for review.
 
 Research informing the Learn with AI revisions: [Sinha and Kapur (2021)](https://journals.sagepub.com/doi/10.3102/00346543211019105)

@@ -12,7 +12,7 @@ window.COURSE_GROUP_ACTIVITIES = [
     "questions": [
       {
         "context": "Netflix recommends your next show. Spotify recommends your next song.",
-        "title": "Are these apps helping you discover your interests or shaping them?",
+        "title": "When do recommendations help you discover what you like, and when do they influence what you end up liking?",
         "followUp": "Have you ever felt they kept showing you more of the same?"
       },
       {
@@ -32,7 +32,7 @@ window.COURSE_GROUP_ACTIVITIES = [
       },
       {
         "context": "You need help with a homework problem. Later, you need advice about a disagreement with a friend.",
-        "title": "Where would you welcome AI taking a task off your hands, and where would you prefer a person?",
+        "title": "For each situation, what help would you want from AI, and what would you want from a person?",
         "followUp": "What makes the difference for you?"
       }
     ]
@@ -59,18 +59,13 @@ window.COURSE_GROUP_ACTIVITIES = [
     "questions": [
       {
         "context": "One friend uses AI to study for a test. Another uses it to plan a workout. Someone else hasn’t tried it yet.",
-        "title": "How are you using AI today?",
-        "followUp": "What has surprised you about it?"
+        "title": "Where have you tried AI, or where would you be interested in trying it?",
+        "followUp": "If you’ve tried it, what has surprised you?"
       },
       {
         "context": "You have an idea for a small business, a club event, or a project, but you don’t know how to get it off the ground.",
         "title": "If AI could help you get one of these ideas started, what would you want to try?",
         "followUp": "What has kept you from starting so far?"
-      },
-      {
-        "context": "Imagine planning a trip, researching a school project, or keeping in touch with distant friends without the internet.",
-        "title": "Do you think AI will change your life as much as the internet changed life for earlier generations?",
-        "followUp": "Where do you expect the biggest changes or less change than people predict?"
       },
       {
         "context": "Imagine your first job a few years from now. AI is part of your workday, but you don’t yet know which tasks it will handle.",
@@ -95,11 +90,6 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=aivscode",
     "questions": [
       {
-        "context": "You ask AI to help plan a club event. It suggests a different approach from the one you described.",
-        "title": "Would you rather use an AI that always follows your instructions exactly or one that sometimes suggests a better way?",
-        "followUp": "When would that suggestion be helpful, and when would it be annoying?"
-      },
-      {
         "context": "Your class notes have abbreviations, arrows, crossed-out words, and half-finished sentences.",
         "title": "If AI could make sense of your messy notes, would you change how you take them?",
         "followUp": "Is there anything about organizing your own notes that you would want to keep?"
@@ -111,8 +101,8 @@ window.COURSE_GROUP_ACTIVITIES = [
       },
       {
         "context": "You and a friend ask AI how to prepare for the same test. You get different study plans.",
-        "title": "How would you feel about getting different advice after asking the same question?",
-        "followUp": "Would your reaction change if the advice concerned a birthday gift or a conflict with a friend?"
+        "title": "What would you compare before deciding whether the two plans are equally useful?",
+        "followUp": "Would you make the same comparisons if the advice concerned a birthday gift or a conflict with a friend?"
       },
       {
         "context": "You write, “Great, another homework assignment,” and AI thinks you’re excited.",
@@ -137,19 +127,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Would your answer change if it were a quick reminder versus an apology to a friend?"
       },
       {
-        "context": "You and AI are building a story one sentence at a time. AI adds something you hadn’t planned, and the story starts heading in a different direction.",
-        "title": "Would you follow that new direction or steer the story back toward your original idea?",
-        "followUp": "What would make you decide its suggestion was worth exploring?"
-      },
-      {
         "context": "AI writes a story with a familiar hero, a dangerous mission, and a happy ending. It reads smoothly, but you feel like you’ve heard it before.",
         "title": "What would make the story feel original to you?",
         "followUp": "Can familiar ingredients still make something worth reading?"
-      },
-      {
-        "context": "Two AI apps use the same underlying language model, but they have different screens, tools, and ways to interact.",
-        "title": "What would make you choose one app over the other?",
-        "followUp": "Think about an app you already enjoy using. What makes you keep coming back?"
       },
       {
         "context": "You read a speech that really moves you. Then you learn that an LLM generated it by predicting what came next, one word at a time.",
@@ -184,9 +164,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "What had you expected it to do when you asked for help?"
       },
       {
-        "context": "Your friend is taking the bus to meet you. They’re late, and you’re starting to think they forgot your plans. Then you hear that buses on their route are delayed.",
-        "title": "How would that new information change your reaction?",
-        "followUp": "Can you remember a time when one new detail changed your first impression of a situation?"
+        "context": "Your friend is taking the bus to meet you. They’re late and haven’t replied, so you think they forgot, but then you hear that buses on their route are delayed.",
+        "title": "How much would that news change what you think happened?",
+        "followUp": "What would you still want to know before deciding how to react?"
       },
       {
         "context": "A movie app predicts you’ll love a film because you’ve enjoyed similar ones. A friend who knows you says you’ll find it boring.",
@@ -194,9 +174,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "What could either of them tell you that would change your mind?"
       },
       {
-        "context": "A coach predicts how players will perform this season based on last season’s results. One player has spent the summer practicing and improving.",
-        "title": "How much should someone’s past performance shape what we expect from them next?",
-        "followUp": "What would make you reconsider a prediction based on the past?"
+        "context": "A coach is choosing the starting lineup for an important game. One player struggled last season but now looks much stronger in practice, with little recent game experience to judge.",
+        "title": "How much weight should the coach give last season’s results compared with what the player is showing now?",
+        "followUp": "What would convince you that the improvement would carry over into a game?"
       }
     ]
   },
@@ -223,17 +203,12 @@ window.COURSE_GROUP_ACTIVITIES = [
       {
         "context": "You’re thinking of your favorite food. A close friend guesses it immediately because you always order it. AI gets it right after asking you several yes-or-no questions.",
         "title": "Does getting the same answer mean your friend and AI know the same thing about you?",
-        "followUp": "What does your friend bring to the guess that wasn’t in your answers to AI?"
+        "followUp": "What might each know about you that the other does not?"
       },
       {
         "context": "AI makes a mistake and says, “I’m sorry. I’ll do better next time.” A friend says the same words after letting you down.",
         "title": "Do those two apologies mean the same thing to you?",
         "followUp": "What makes an apology meaningful beyond the words themselves?"
-      },
-      {
-        "context": "You ask a friend a difficult question. They pause and say, “I’m not sure.” AI immediately gives you a confident explanation.",
-        "title": "Which response would make you more willing to trust the answer?",
-        "followUp": "How do you decide whether confidence comes from knowing something or just sounding convincing?"
       }
     ]
   },
@@ -273,11 +248,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Does your answer depend on which skill you’re talking about?"
       },
       {
-        "context": "You’re choosing a partner for a project. One person is great at using AI. Another knows a lot about the subject but rarely uses AI.",
-        "title": "Who would you rather work with?",
-        "followUp": "What kind of project might change your choice?"
-      },
-      {
         "context": "In your group, there may already be someone everyone asks for help with math, fixing a bike, editing a video, or choosing music.",
         "title": "What would you like to become the person people turn to for help with?",
         "followUp": "What could you start practicing now to build that knowledge or skill?"
@@ -301,13 +271,13 @@ window.COURSE_GROUP_ACTIVITIES = [
       },
       {
         "context": "A tutor watches how you approach a problem, asks about your thinking, and adjusts the explanation to where you’re struggling.",
-        "title": "What could that individual attention give you that a whole-class explanation might not?",
+        "title": "What would you want a tutor to notice about how you learn?",
         "followUp": "Which parts of that help would you want from AI, and when would you prefer a person?"
       },
       {
         "context": "You read an AI-generated study guide, and everything looks familiar. Then someone asks you to explain one of the ideas without looking, and you struggle.",
-        "title": "What makes you feel ready for a test?",
-        "followUp": "Have you ever felt prepared and then discovered you weren’t? What gave you that false confidence?"
+        "title": "If the guide feels familiar but you cannot explain it, what would convince you that you are ready for the test?",
+        "followUp": "When have you felt prepared and then discovered you weren’t?"
       },
       {
         "context": "AI explains a math problem differently from your teacher. The answer is the same, but the steps look unfamiliar.",
@@ -357,11 +327,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Have you ever dismissed an unfamiliar idea that turned out to be a good one?"
       },
       {
-        "context": "You find a scholarship that interests you, but the application instructions are several pages long. AI gives you a short checklist of what to submit.",
-        "title": "Would you feel comfortable applying from the checklist, or would you still read the full instructions?",
-        "followUp": "What would make you more or less willing to rely on the summary?"
-      },
-      {
         "context": "People have stopped showing up to your club’s meetings. AI suggests shorter meetings, different activities, and a new meeting time.",
         "title": "How would you decide whether any of those suggestions would solve the problem?",
         "followUp": "What might you learn from talking to the missing members that AI wouldn’t know?"
@@ -386,22 +351,12 @@ window.COURSE_GROUP_ACTIVITIES = [
       {
         "context": "Your friend switches AI apps whenever someone recommends a new one. You’ve been using the same app and discovering features you didn’t know it had.",
         "title": "What could you gain by learning one AI app well instead of constantly switching?",
-        "followUp": "Have you experienced that with a game, an instrument, or another tool?"
+        "followUp": "What might make trying another app worthwhile?"
       },
       {
         "context": "One friend recommends an AI app because its explanations are clear. Another likes an app because it works with tools they already use.",
         "title": "What would matter most to you when choosing your AI home base?",
         "followUp": "What would you try with an app before deciding it was a good fit?"
-      },
-      {
-        "context": "You ask two AI apps for advice about the same project. They recommend different approaches, and both make their ideas sound convincing.",
-        "title": "How would you decide which advice, if any, to follow?",
-        "followUp": "Would getting the same advice from both apps change how much you trusted it?"
-      },
-      {
-        "context": "You share an idea with two AI apps. One enthusiastically helps you develop it. The other asks questions and points out possible problems.",
-        "title": "Which response would you want at that moment?",
-        "followUp": "When might you prefer encouragement, and when might you want someone to challenge your thinking?"
       },
       {
         "context": "You’ve learned one AI app well, but your new school or job uses a different one. The buttons and features look unfamiliar.",
@@ -446,7 +401,7 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "How would their answers change the kind of help you’d offer?"
       },
       {
-        "context": "Everyone in your class has access to AI and can get answers quickly. You’re all researching the same topic, but you can each decide what to investigate.",
+        "context": "Everyone in your class is researching how phones affect friendships. You all have access to AI and can get answers quickly, but each person can decide what to investigate.",
         "title": "How could the questions you choose make your project different from everyone else’s?",
         "followUp": "When answers are easy to get, what makes a question worth pursuing?"
       },
@@ -516,7 +471,7 @@ window.COURSE_GROUP_ACTIVITIES = [
     "questions": [
       {
         "context": "You and a friend ask AI, “What would be a good summer job for me?” It suggests different jobs because you’ve each shared different interests and experiences.",
-        "title": "Would getting different answers make you question the advice, or would you expect it?",
+        "title": "When would advice tailored to your interests help, and when might you want suggestions outside them?",
         "followUp": "When would you want AI to give everyone the same answer?"
       },
       {
@@ -530,14 +485,31 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Have people ever held on to an outdated idea of who you are or what you like?"
       },
       {
-        "context": "You’re applying for several summer jobs. Your resume, job descriptions, and interview notes are scattered across files and chats, and you keep explaining the same things again.",
-        "title": "What would make organizing that material into one AI project worth the effort for you?",
-        "followUp": "What other ongoing task in your life could benefit from having everything in one place?"
+        "context": "Early in a long conversation, you tell AI your event budget is $100. Later, it suggests a plan that costs $300, even though the budget hasn’t changed.",
+        "title": "Would you repair the existing conversation or start again, and what would influence your choice?",
+        "followUp": "What would help you feel confident that the revised plan actually respects your limits?"
+      }
+    ]
+  },
+  {
+    "id": "evaluating-discussion",
+    "lesson": "evaluating",
+    "lessonTitle": "Evaluation Matters",
+    "section": "Work With AI",
+    "title": "Evaluation Matters",
+    "type": "Discussion",
+    "note": "Discuss comparing convincing advice and deciding when an AI result is good enough to use.",
+    "href": "group-exercises/group-session.html?id=evaluating-discussion",
+    "questions": [
+      {
+        "context": "You ask two AI apps for advice about the same project. They recommend different approaches, and both make their ideas sound convincing.",
+        "title": "How would you decide which advice, if any, to follow?",
+        "followUp": "Would getting the same advice from both apps change how much you trusted it?"
       },
       {
-        "context": "Early in a long conversation, you tell AI your event budget is $100. Later, it suggests a plan that costs $300, even though the budget hasn’t changed.",
-        "title": "How would that affect your willingness to keep working with AI on the plan?",
-        "followUp": "What would help you feel confident that the revised plan actually respects your limits?"
+        "context": "AI drafts an announcement for your club. The details are correct and the message is clear. One teammate wants to send it; another keeps requesting rewrites to make it more exciting.",
+        "title": "When is it worth continuing to improve an AI draft, and when is it time to use it?",
+        "followUp": "Who should decide what “good enough” means when several people will use the result?"
       }
     ]
   },
@@ -555,11 +527,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "You want to earn money over the summer. AI could give you a list of business ideas, or talk with you about your skills, interests, and what people nearby need.",
         "title": "When would you want a quick list, and when would a conversation be worth your time?",
         "followUp": "What makes someone useful to bounce ideas off, whether it’s a person or AI?"
-      },
-      {
-        "context": "AI explains a concept, and the explanation seems clear. But when you try to explain it back in your own words, you get stuck.",
-        "title": "What would you want AI to do next to help you understand it?",
-        "followUp": "Think of a time something finally clicked for you. What made the difference?"
       },
       {
         "context": "People keep asking what you’ll do after graduation, but you don’t know where to begin. You ask AI to help you figure it out, one question at a time.",
@@ -589,7 +556,7 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=training-discussion",
     "questions": [
       {
-        "context": "You ask AI how to ride a bicycle. It explains balancing, pedaling, and braking, even though it has never ridden one.",
+        "context": "You ask AI how to prepare for your first job interview. It suggests questions to practice and ways to explain your experience, even though it has never applied for a job.",
         "title": "How could AI give useful advice about something it has never done?",
         "followUp": "When would you want advice from someone with firsthand experience instead?"
       },
@@ -646,11 +613,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "You give AI this sentence: “Alex told Jordan that he made the team.” AI says Alex made the team, but you meant Jordan.",
         "title": "Why might AI choose one interpretation when the sentence could mean either?",
         "followUp": "When would you want AI to make its best guess, and when should it ask you to clarify?"
-      },
-      {
-        "context": "You ask AI to summarize a review that says, “I expected to hate this movie. The trailer looked terrible. But I ended up loving it.” Its summary says the reviewer liked the movie.",
-        "title": "How could AI arrive at that conclusion even though the review includes “hate” and “terrible”?",
-        "followUp": "Have you seen a quote taken out of context that gave a different impression from the full message?"
       }
     ]
   },
@@ -687,8 +649,8 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=hallucination-discussion",
     "questions": [
       {
-        "context": "You ask AI whether listening to music helps you study. It describes a university study with detailed results, but the study doesn’t exist.",
-        "title": "Why might AI invent a study instead of saying it doesn’t know?",
+        "context": "You ask AI for a quotation from a novel to support your presentation. It supplies a convincing line, but you check the book and discover that the quotation was invented.",
+        "title": "Why might AI invent a quotation instead of saying it doesn’t know one?",
         "followUp": "How is that similar to or different from a person making something up when they don’t know the answer?"
       },
       {
@@ -704,7 +666,7 @@ window.COURSE_GROUP_ACTIVITIES = [
       {
         "context": "You ask two AI apps the same question. One gives a confident, detailed answer. The other says, “I’m not sure I have reliable information about that.”",
         "title": "Which response would leave you more satisfied, and which would earn more of your trust?",
-        "followUp": "If you were rating those answers, how would you reward honesty without discouraging useful help?"
+        "followUp": "What could the uncertain app do next that would still help you?"
       },
       {
         "context": "You share an AI-generated explanation in a group chat. Friends start repeating it, and then you discover that one important detail was made up.",
@@ -729,19 +691,14 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Who would you include if you wanted someone to see a broader picture of success?"
       },
       {
-        "context": "You ask AI for ways to spend your summer. It suggests expensive camps, unpaid internships, and traveling abroad. You need to earn money and stay close to home.",
-        "title": "What assumptions might be behind those suggestions?",
-        "followUp": "When have you received advice that seemed meant for someone whose life was very different from yours?"
-      },
-      {
         "context": "Imagine an AI essay grader gives higher scores to writing with long words and complicated sentences, even when a simpler version explains the ideas more clearly.",
         "title": "Why might AI mistake complicated writing for good writing?",
         "followUp": "Have you ever been impressed by how something sounded before noticing that it didn’t say much?"
       },
       {
-        "context": "Imagine a voice assistant understands most students at your school but frequently gets one student’s accent wrong. Everyone else says it works great.",
-        "title": "Whose experience should count when deciding whether the assistant works well?",
-        "followUp": "How might that student’s experience change if the assistant were used for something required at school?"
+        "context": "A voice assistant works well for most students, but it often misunderstands one student’s accent. The school wants everyone to use it for an assignment.",
+        "title": "What would the school need to change before you would consider that a fair requirement?",
+        "followUp": "Would offering a way to type instead solve the problem, or would something still be missing?"
       },
       {
         "context": "Your school wants an AI assistant that can answer questions about student life. It plans to use the school website, which mostly features awards, sports victories, and special events.",
@@ -788,11 +745,6 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=mindtrap-discussion",
     "questions": [
       {
-        "context": "You ask AI whether to take a summer job. It says, “Knowing your interests and goals, I think this would be a great fit for you.” You’ve only told it a few things about yourself.",
-        "title": "What would make that answer feel personal, and how personal is it really?",
-        "followUp": "What would someone need to know about you before you trusted their advice on that job?"
-      },
-      {
         "context": "Two AI answers give the same reasons for choosing an activity. One says, “This option matches the interests you listed.” The other says, “I really feel this is the right choice for you.”",
         "title": "Would those answers feel equally convincing to you?",
         "followUp": "How much should the wording influence your trust when the reasons are identical?"
@@ -833,11 +785,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "You tell AI that phones should be banned in classrooms, and it strongly agrees. Your friend argues the opposite in a separate chat, and AI strongly agrees with them too.",
         "title": "Why might AI support both opinions so enthusiastically?",
         "followUp": "How could you find out whether it has useful reasons or is just following your lead?"
-      },
-      {
-        "context": "AI calls your idea “creative and original.” A classmate says, “I like the idea, but I don’t understand who would use it.”",
-        "title": "Which response would you be more tempted to listen to, and which would help you move forward?",
-        "followUp": "What makes criticism easier for you to hear without immediately defending your idea?"
       },
       {
         "context": "AI says your essay deserves an A. Your teacher’s rubric requires evidence from three sources, but you’ve only used one.",
@@ -899,8 +846,8 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=faketrap-discussion",
     "questions": [
       {
-        "context": "A clip shows your favorite musician insulting fans. You’re angry and ready to share it, but you don’t know where the clip originally came from.",
-        "title": "What would make you pause before reacting or passing it along?",
+        "context": "A clip appears to show your favorite musician insulting fans. Friends are already reposting it, and you’re angry, but nobody has found the original source.",
+        "title": "What makes it hard to wait for more information before reacting or sharing?",
         "followUp": "Would you be equally cautious about a clip that made you happy or confirmed something you already believed?"
       },
       {
@@ -946,14 +893,8 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Could they benefit from a prediction and still be right?"
       },
       {
-        "context": "One speaker confidently predicts what AI will do in five years. Another describes several possibilities and admits they don’t know which will happen.",
-        "title": "Which would you be more likely to listen to?",
-        "followUp": "When does admitting uncertainty strengthen someone’s argument?"
-      },
-      {
         "context": "Your feed is full of exciting AI breakthroughs. Your friend’s feed is full of warnings. You both feel well informed.",
-        "title": "How could you work out whether you’re seeing different evidence or different selections of the same story?",
-        "followUp": "What might you learn by looking through each other’s feeds?"
+        "title": "How could you compare your feeds to find what each of you is missing?"
       },
       {
         "context": "A headline predicts that AI will transform the career you’re interested in. It leaves you wondering whether your current plans still make sense.",
@@ -983,7 +924,7 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "What would make you comfortable ignoring a new release?"
       },
       {
-        "context": "Your school creates an AI policy. Before the next semester begins, the tools can do things the policy never considered.",
+        "context": "Your school allows AI feedback on essays but requires students to do their own writing. An app adds a feature that automatically rewrites paragraphs while explaining its suggestions.",
         "title": "How should a school make rules for technology that keeps changing?",
         "followUp": "Which principles could stay useful even when specific features change?"
       },
@@ -991,11 +932,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "A company announces that its AI has reached “human-level intelligence.” People disagree about what that means.",
         "title": "What would you want to see it do before that announcement meant much to you?",
         "followUp": "Would being excellent at some tasks be enough, or would its weaknesses matter just as much?"
-      },
-      {
-        "context": "You’re considering spending months learning a new skill. Someone says, “Why bother? AI might do that soon.”",
-        "title": "How would you decide whether the skill is still worth learning?",
-        "followUp": "What could learning it give you beyond the ability to produce a finished result?"
       }
     ]
   },
@@ -1020,19 +956,14 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Who should help decide what restrictions are reasonable?"
       },
       {
-        "context": "A company has a powerful new AI tool ready to release. More testing might reveal problems, but delaying also postpones benefits people could use.",
-        "title": "What would you want considered before deciding whether to release it?",
-        "followUp": "How should that decision change when mistakes could be difficult to undo?"
+        "context": "A company has an AI tool that organizes files and removes duplicates, saving users hours of work. In testing, it sometimes deletes a file the user wanted to keep.",
+        "title": "Would you delay the release, allow a limited trial, or release it with restrictions?",
+        "followUp": "What protections would make you more willing to try it?"
       },
       {
-        "context": "An AI scheduling system saves a school hours of work, but repeatedly gives a small group of students schedules that don’t meet their needs.",
-        "title": "How should the school weigh a benefit for many people against a recurring problem for a few?",
-        "followUp": "Who should have a say in deciding whether the system is working well enough?"
-      },
-      {
-        "context": "An AI company says its product passed its own safety tests. An outside group wants to test it too, including situations the company did not choose.",
-        "title": "What would independent testing add to your confidence?",
-        "followUp": "What information would you want made public when a serious problem is found?"
+        "context": "An AI company says its tool passed tests on everyday tasks. Independent testers report serious failures in unusual situations.",
+        "title": "What would you need to know about the tests before deciding whether the tool was safe enough to use?",
+        "followUp": "When would a failure in an unusual situation matter for how you would use the tool?"
       }
     ]
   },
@@ -1047,8 +978,8 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=bigupside-discussion",
     "questions": [
       {
-        "context": "One AI demonstration creates a spectacular video. Another helps someone independently read an everyday sign they previously needed help with.",
-        "title": "What makes an AI improvement important: how impressive it looks, how many people it reaches, or how much it changes someone’s life?",
+        "context": "One AI tool saves thousands of people a few minutes a day sorting email. Another lets a much smaller group independently read signs and menus they previously needed help with.",
+        "title": "How would you compare a small benefit for many people with a major benefit for a few?",
         "followUp": "Which kinds of benefits are easiest to overlook?"
       },
       {
@@ -1062,14 +993,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Who should take responsibility for making access possible?"
       },
       {
-        "context": "Your class can design an AI project to make everyday life easier in your community. You have ideas, but haven’t talked to the people who would use it.",
-        "title": "How would you find out which problem is actually worth solving?",
-        "followUp": "What might people tell you that would change your original idea?"
-      },
-      {
-        "context": "A foundation can support one of two AI projects: a modest improvement likely to help people soon, or an ambitious idea that could help many more people but might fail.",
-        "title": "How would you choose between them?",
-        "followUp": "What would make taking the bigger risk worthwhile?"
+        "context": "A community group can fund one of two AI projects: translating local announcements with a tool that already works, or letting residents who cannot read the website ask for information by voice. The voice prototype still misunderstands many requests.",
+        "title": "How would you choose between a benefit you could deliver soon and a chance to help people the current tools leave out?",
+        "followUp": "What would you want to learn before committing the funding?"
       }
     ]
   },
@@ -1139,11 +1065,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "Two people apply for the same job. One knows the subject deeply but has little AI experience. The other uses AI skillfully but knows less about the field.",
         "title": "What would you want to see each person do before choosing between them?",
         "followUp": "How might they make a stronger team together?"
-      },
-      {
-        "context": "AI summarizes customer complaints and recommends a popular fix. You notice a less common problem that could matter more, but investigating it would delay the presentation.",
-        "title": "How would you decide whether to challenge the recommendation?",
-        "followUp": "What could you bring to that decision that a summary alone would miss?"
       }
     ]
   },
@@ -1173,13 +1094,8 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "How would you weigh efficiency, total resource use, and the value of the additional work?"
       },
       {
-        "context": "A proposed data center advertises hundreds of construction jobs. After opening, it would need a much smaller permanent staff.",
-        "title": "How should a town weigh temporary benefits against long-term effects?",
-        "followUp": "What commitments would you want to be specific and measurable?"
-      },
-      {
-        "context": "During a power shortage, a community must consider competing demands, including data centers running many different AI services.",
-        "title": "Should the purpose of the AI work matter when deciding how resources are allocated?",
+        "context": "Imagine a power shortage forces a data center to reduce service. It runs AI tutoring tools for students and tools that help small businesses manage customer orders.",
+        "title": "Should these services face the same cuts, or should one get priority?",
         "followUp": "Who should decide which uses are more important?"
       }
     ]
@@ -1205,19 +1121,14 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Where else might people need to coordinate rather than optimize only for themselves?"
       },
       {
-        "context": "A school introduces AI translation to help families read announcements. Students begin using it to exchange stories with relatives who speak another language.",
-        "title": "How should the school respond to a useful outcome it didn’t originally plan for?",
+        "context": "A school introduces AI translation to help families read announcements. Students begin using it to exchange stories with relatives who speak another language. Families ask the school to support this use, but staff are still working to make announcements available in every family’s language.",
+        "title": "Should the school expand the tool for sharing family stories, or focus on translating announcements first?",
         "followUp": "Have you found a valuable use for a tool that wasn’t what you first got it for?"
       },
       {
         "context": "Your club wants to try an AI system for assigning volunteer roles. You see possible benefits but aren’t sure how members will react.",
         "title": "How could you try it in a way that lets you learn and change direction?",
         "followUp": "What would make you pause or stop the experiment?"
-      },
-      {
-        "context": "A new AI service gets lots of sign-ups, so its creators call it a success. But some people quietly stop using it, and others use it in unexpected ways.",
-        "title": "What would you want to learn before agreeing that it was successful?",
-        "followUp": "How could the creators hear from people who never send feedback?"
       }
     ]
   },
@@ -1250,11 +1161,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "AI helps your friend build a website that collects club registrations. It looks polished, and your friend asks whether it’s ready to use. You know little about building websites.",
         "title": "How would you decide what you can judge yourself and where you need help?",
         "followUp": "What might a successful demonstration leave you unable to evaluate?"
-      },
-      {
-        "context": "AI compares two laptops and recommends the faster one. You care more about battery life and carrying it around all day.",
-        "title": "Can a recommendation be well supported and still be wrong for your situation?",
-        "followUp": "How would you uncover the priorities behind a recommendation?"
       },
       {
         "context": "You argue strongly for an idea in a group meeting. Later, someone brings evidence that weakens your case.",
@@ -1307,11 +1213,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "You want AI’s help replying to a private message from a friend. Pasting the conversation would provide context, but your friend hasn’t agreed to share it.",
         "title": "How would you balance getting useful help with respecting your friend’s privacy?",
         "followUp": "What could you explain about the situation without sharing their exact words or identifying details?"
-      },
-      {
-        "context": "You upload a screenshot to ask about one item on your schedule. It also shows classmates’ names, meeting links, and unrelated notifications.",
-        "title": "How might your judgment change when the information belongs to other people as well as you?",
-        "followUp": "What habit could help you notice the extra information before uploading?"
       }
     ]
   },
@@ -1336,14 +1237,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "What would you want recipients to know about how the message was created?"
       },
       {
-        "context": "A school proposes an AI system that ranks students for leadership opportunities using grades, attendance, and club participation.",
-        "title": "Who might be overlooked even if the system uses those records accurately?",
-        "followUp": "What opportunity should students have to explain something the records don’t show?"
-      },
-      {
         "context": "Two students receive different levels of AI assistance because one needs help accessing the assignment. Someone complains that everyone should get exactly the same tools.",
-        "title": "Does treating people fairly always mean giving them identical support?",
-        "followUp": "What should matter when deciding which differences in assistance are reasonable?"
+        "title": "How could the teacher explain different rules for AI assistance without asking students to share personal information?",
+        "followUp": "What would you want to understand about the rules to trust that they were fair?"
       },
       {
         "context": "You help build an AI tool that makes a school process faster. After launch, several students say it creates problems for them, although most users are satisfied.",
@@ -1391,11 +1287,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "A reliable teammate says they can’t finish their assignment this week. Another member wants to accuse them of letting everyone down.",
         "title": "How could you address the unfinished work while still treating the teammate with respect?",
         "followUp": "What would you need to understand before deciding how to respond?"
-      },
-      {
-        "context": "While someone explains their idea, you think of a better one and start planning your reply. By the time they finish, you realize you missed part of their explanation.",
-        "title": "What would help you listen to understand instead of listening for your turn?",
-        "followUp": "How might one follow-up question change the conversation?"
       }
     ]
   },
@@ -1420,9 +1311,9 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "When would you want to explore your own ideas before seeing AI’s?"
       },
       {
-        "context": "Your club wants an event, but you have no budget and can’t use the usual venue.",
-        "title": "Could those limits lead to a more interesting idea than having plenty of money and space?",
-        "followUp": "What assumption about how the event “has to work” would you question first?"
+        "context": "Your club wants to hold an event, but you have no budget and can’t use the usual venue. One member suggests designing around those limits; another wants to postpone until you have more options.",
+        "title": "Which limits would you accept as part of the challenge, and which would you try to change?",
+        "followUp": "What would help you decide whether a smaller or different event was still worth doing?"
       },
       {
         "context": "Your group wants to make orientation more welcoming. Someone suggests borrowing ideas from escape rooms, team sports, or cooking together.",

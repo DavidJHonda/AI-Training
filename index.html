@@ -1018,7 +1018,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   /* Separate lesson explanations from hands-on practice without changing activity styling. */
   .activity-divider { border: 0; border-top: 1px solid var(--tryAccent); margin: 40px 0 28px; }
 
-  /* Video-first lesson prototype. Reading remains available in print exports. */
+  /* Video-first lessons. Reading remains available in print exports. */
   .lesson-video-expanded .lesson-video-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;color:var(--ink);font-family:var(--sans)}
   .lesson-video-heading strong{font-size:17px;font-weight:800}
   .lesson-video-heading span{font-size:14px;color:var(--inkMuted)}
@@ -1319,7 +1319,7 @@ function BodyP(props) {
   return React.createElement("p", { style: style }, props.children);
 }
 
-// lessonId -> video overview shown as a compact "Watch" pill in LessonHeader.
+// lessonId -> visible lesson video in LessonHeader, followed by optional reading.
 // Add one entry per teaching lesson as each video is produced. A { comingSoon: true }
 // entry reserves the same header position with a non-playable status card. No entry
 // means no video card. Use { src } for a local mp4 now; later swap to { youtubeId }
@@ -2517,6 +2517,7 @@ function OpenerSection(props) {
   };
   return E("div", null,
     E(LessonHeader, { sectionId: props.sectionId, subtitle: props.bigIdea }),
+    E(LessonReading, { sectionId: props.sectionId },
     renderParas(props.whyThisMatters),
     props.sectionOverviewBoard
       ? renderOverviewBoard(props.sectionOverview)
@@ -2527,7 +2528,7 @@ function OpenerSection(props) {
     props.question ? E(React.Fragment, null,
       E(SectionKicker, null, props.questionLead !== undefined ? props.questionLead : "Keep this question in mind"),
       E(BodyP, null, props.question)) : null,
-    closeBoard(props.sectionId),
+    closeBoard(props.sectionId)),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate(props.nextLessonId); }, label: props.nextLessonLabel })
   );
@@ -2608,24 +2609,12 @@ function StoryPoster(props) {
               E("svg", { width: 34, height: 34, viewBox: "0 0 16 16" },
                 E("path", { d: "M5.2 3.2 L13 8 L5.2 12.8 Z", fill: "#e8c552" }))))))));
 }
-// Full-width video card shown below a lesson title. Completed entries expand the inline
-// WatchPlayer; coming-soon entries preserve the same visual position without acting
-// like a control.
+// Available lesson videos are visible below the title and wait for manual playback.
+// Coming-soon entries retain their informational card; their reading stays expanded.
 function WatchOverview(props) {
   var E = React.createElement;
-  var _o = useState(false), open = _o[0], setOpen = _o[1];
   var rootRef = useRef(null);
   var v = props.video;
-  // When the player opens, glide the card into view so the video is visible. Playback is
-  // manual (native controls): autoplay was removed because the Gemini Notebook MP4s start the
-  // first cold play ~2s in (mid-sentence). Revisit closer to course completion.
-  useEffect(function() {
-    if (!open) return;
-    var el = rootRef.current;
-    if (!el || !el.scrollIntoView) return;
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  }, [open]);
   if (v.comingSoon) {
     return E("div", {
       ref: rootRef,
@@ -2650,34 +2639,12 @@ function WatchOverview(props) {
             E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.title + ". "),
             "A real recording will appear here. Read the letter below for now."))));
   }
-  return E("div", { ref: rootRef, className: "watch-overview no-print", style: { marginBottom: open ? 12 : 28, scrollMarginTop: 80 } },
-    E("button", {
-      className: "watch-overview-trigger",
-      onClick: function() { setOpen(!open); },
-      "aria-expanded": open ? "true" : "false",
-      "aria-label": (open ? "Hide" : "Play") + " the video overview for this lesson",
-      style: { display: "flex", alignItems: "center", gap: 20, width: "100%", textAlign: "left", cursor: "pointer", fontFamily: "var(--sans)", background: "#fcf5d8", border: "1px solid #eddfa8", borderRadius: 20, padding: "15px 22px", boxShadow: "var(--shadowSoft)" }
-    },
-      E("span", { className: "watch-overview-play", style: { flexShrink: 0, width: 64, height: 64, borderRadius: 999, background: "#1b2153", display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 16px rgba(27,33,83,0.30)" } },
-        E("svg", { width: 22, height: 22, viewBox: "0 0 16 16", "aria-hidden": "true" },
-          E("path", { d: "M5.5 3.5 L12.5 8 L5.5 12.5 Z", fill: "#e8c552" }))),
-      E("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" } },
-        E("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 } },
-          E("span", { style: { color: "#a8842c", fontSize: 11 } }, "▸"),
-          E("span", { style: { color: "#a8842c", fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" } }, "Watch"),
-          E("span", { className: "watch-mobile-tag", style: { color: "#6f654e", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" } }, "Phone-friendly"),
-          v.duration ? E("span", { style: { color: "#94896a", fontSize: 13 } }, "· " + v.duration) : null),
-        E("div", { style: { fontSize: 15, color: "#2f3557", lineHeight: 1.5 } },
-          // A `body` on the video entry replaces the standard read-or-watch copy on
-          // both layouts (used by companion videos that aren't the lesson itself).
-          v.body ? E("span", null, v.body) : E(React.Fragment, null,
-            E("span", { className: "watch-copy-desktop" },
-              "Watch the video version or read the lesson below. ",
-              E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, v.cta || WATCH_CTA_DEFAULT)),
-            E("span", { className: "watch-copy-mobile" },
-              E("strong", { style: { color: "#1b2153", fontWeight: 800 } }, "Easiest way to take this lesson on a phone. "),
-              "Watch now, or read the full lesson below."))))),
-    open ? E("div", { style: { marginTop: 12 } }, E(WatchPlayer, { video: v })) : null);
+  return E("div", { className: "lesson-video-expanded no-print" },
+    E("div", { className: "lesson-video-heading" },
+      E("strong", null, "Watch the lesson"),
+      v.duration ? E("span", null, v.duration) : null),
+    v.body ? E(BodyP, null, v.body) : null,
+    E(WatchPlayer, { video: v }));
 }
 function ActivityButton(props) {
   var sizeStyles = props.size === "large"
@@ -3993,13 +3960,14 @@ function ThreeMythsBox() {
     E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
       "Keep those three straight and much of the confusion falls away."));
 }
-// Shared reading disclosure, initially piloted on What’s an LLM?.
+// Shared reading disclosure for all lessons with an opening video.
 // Keep the content mounted so image enlargement and print exports use the same lesson.
 function LessonReading(props) {
   var E = React.createElement;
   var _o = useState(false), open = _o[0], setOpen = _o[1];
   var contentId = props.sectionId + "-reading";
-  if (new URLSearchParams(window.location.search).has("print")) return E(React.Fragment, null, props.children);
+  var video = LESSON_VIDEOS[props.sectionId];
+  if (!video || video.comingSoon || new URLSearchParams(window.location.search).has("print")) return E(React.Fragment, null, props.children);
   return E("div", { className: "lesson-reading" },
     E("button", {
       type: "button", className: "lesson-reading-toggle no-print",
@@ -4014,10 +3982,7 @@ function LessonReading(props) {
 function AIHistorySection(props) {
   var E = React.createElement;
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory", noWatch: true }),
-    E("div", { className: "lesson-video-expanded no-print" },
-      E("div", { className: "lesson-video-heading" }, E("strong", null, "Watch the lesson"), E("span", null, LESSON_VIDEOS.aihistory.duration)),
-      E(WatchPlayer, { video: LESSON_VIDEOS.aihistory })),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
     E(LessonReading, { sectionId: "aihistory" },
     /*#__PURE__*/React.createElement(BodyP, null, "If you’ve used AI, you’ve probably used an app like ChatGPT, Claude, or Gemini. The app is what you use. Under the hood, a ", /*#__PURE__*/React.createElement("strong", null, "Large Language Model"), ", or ", /*#__PURE__*/React.createElement("strong", null, "LLM"), " for short, does the work."),
     /*#__PURE__*/React.createElement("img", {
@@ -4236,6 +4201,7 @@ function SetUpChatGPTLab(props) {
 function LLMsSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "llms" }),
+    React.createElement(LessonReading, { sectionId: "llms" },
     /*#__PURE__*/React.createElement(BodyP, null, "You need to start your next history project, but you haven’t picked a topic."),
     /*#__PURE__*/React.createElement(BodyP, null, "Ask your desk, “Give me 10 ideas for my next history project.”"),
     /*#__PURE__*/React.createElement(BodyP, null, "Nothing. It’s a desk."),
@@ -4260,7 +4226,7 @@ function LLMsSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "This course focuses on generative AI."),
-    closeBoard("llms"),
+    closeBoard("llms")),
     /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
     React.createElement(GroupExercise, { id: "llms-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "llms-discussion"; }).questions })),
@@ -4391,6 +4357,7 @@ function QuestionCard(lead, accent, tail) {
 function AIIsMathSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aiismath" }),
+    React.createElement(LessonReading, { sectionId: "aiismath" },
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 32 },
       "What’s the magic that powers ChatGPT, Claude, and every other AI you’ve used? ",
       /*#__PURE__*/React.createElement("strong", null, "Math"),
@@ -4584,7 +4551,7 @@ function AIIsMathSection(props) {
       /*#__PURE__*/React.createElement("p", null, "Illustrative probabilities. Other possible next words make up the remaining 47%."),
       /*#__PURE__*/React.createElement("p", null, "The question and the words already written shape what is likely to come next.")
     ),
-    closeBoard("aiismath"),
+    closeBoard("aiismath")),
     /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, null),
     React.createElement(GroupExercise, { id: "aiismath-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aiismath-discussion"; }).questions })),
@@ -4695,7 +4662,7 @@ function AIMultiplierTryIt(props) {
     root.__aimBuilt = true;
 
     var CSS =
-      ".aim{font-family:var(--sans);color:var(--inkSoft)}" +
+      ".aim{font-family:var(--sans);color:var(--inkSoft);container-type:inline-size}" +
       ".aim .aim-eyebrow{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tryAccent);margin:0 0 14px}" +
       ".aim .aim-eyebrow::before{content:'';width:24px;height:2px;background:var(--tryAccent);border-radius:2px}" +
       ".aim .aim-lead{font-size:17px;line-height:1.65;color:var(--inkSoft);margin:0 0 24px;max-width:60ch}" +
@@ -4707,7 +4674,7 @@ function AIMultiplierTryIt(props) {
       ".aim .aim-box{background:var(--tryBand);border-radius:16px;padding:22px}" +
       ".aim .aim-card{background:var(--card);border-radius:14px;box-shadow:var(--shadowSoft);padding:30px 32px 34px}" +
       ".aim .aim-h{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:34px;line-height:1.05;margin:0 0 22px;letter-spacing:.005em}" +
-      ".aim .aim-goals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}" +
+      ".aim .aim-goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}" +
       ".aim .aim-goal{background:#fff;border:2px solid var(--inkFaint);border-radius:14px;padding:22px 16px 18px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s,transform .12s;display:flex;flex-direction:column;align-items:center;gap:12px;font-family:var(--sans)}" +
       ".aim .aim-goal:hover{border-color:var(--ink);transform:translateY(-2px)}" +
       ".aim .aim-goal.aim-sel{border-color:var(--primary);background:var(--primaryFaint)}" +
@@ -4754,7 +4721,15 @@ function AIMultiplierTryIt(props) {
       ".aim .aim-fill.aim-ai{background:var(--primary)}" +
       ".aim .aim-verdict{font-family:var(--serif);font-size:34px;line-height:1.08;color:var(--ink);margin:26px 0 12px}" +
       ".aim .aim-rbody{font-size:16px;line-height:1.6;color:var(--inkSoft);margin:0 0 24px;max-width:62ch}" +
-      ".aim .aim-rbody b{color:var(--ink)}";
+      ".aim .aim-rbody b{color:var(--ink)}" +
+      // Use the activity's available width, including when the course is in a narrow pane.
+      "@container (max-width:600px){" +
+        ".aim .aim-card{padding:22px 18px}" +
+        ".aim .aim-goals{grid-template-columns:minmax(0,1fr);gap:10px}" +
+        ".aim .aim-goal{display:grid;grid-template-columns:38px minmax(0,1fr);column-gap:14px;row-gap:8px;padding:16px;text-align:left}" +
+        ".aim .aim-goal .aim-emoji{grid-row:1 / 3;justify-self:center;font-size:30px}" +
+        ".aim .aim-goal .aim-mult{justify-self:start;white-space:normal}" +
+      "}";
 
     var styleEl = document.createElement("style");
     styleEl.textContent = CSS;
@@ -4989,6 +4964,7 @@ function WhyDeeperSection(props) {
   var E = React.createElement;
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "whydeeper" }),
+    React.createElement(LessonReading, { sectionId: "whydeeper" },
     /*#__PURE__*/E(BodyP, null,
       "Pretend you\u2019re a scribe in the 1450s. All day, you hand-copy the king\u2019s proclamations and send them out across the kingdom. Good work. Steady job. Then one morning, you hear that a guy in Mainz built a machine that prints pages a thousand times faster than you can write them. Two choices: pretend it isn\u2019t happening, or learn the new machine well enough to run it."),
     /*#__PURE__*/E("img", {
@@ -5028,7 +5004,7 @@ function WhyDeeperSection(props) {
       cite: "Winning the Race",
       source: "The White House, July 2025"
     }),
-    closeBoard("whydeeper"),
+    closeBoard("whydeeper")),
     /*#__PURE__*/E(AIMultiplierTryIt, null),
     E(GroupExercise, { id: "whydeeper-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whydeeper"; }).questions })),
@@ -5072,6 +5048,7 @@ function DoesAIThinkSection(props) {
 
   return E("div", null,
     E(LessonHeader, { sectionId: "doesaithink" }),
+    React.createElement(LessonReading, { sectionId: "doesaithink" },
     E(BodyP, null,
       "You type a question and AI types back like a person. It explains, it jokes, it says sorry when it slips up. After a while it\u2019s hard not to feel like someone is in there. So here\u2019s the big question: ",
       E("strong", null, "Does AI actually think?"),
@@ -5113,7 +5090,7 @@ function DoesAIThinkSection(props) {
 
     E(BodyP, null,
       "None of this means AI is dumb or useless. It can do impressive work. But an answer that sounds human is not enough to show that it understands the way you do."),
-    closeBoard("doesaithink"),
+    closeBoard("doesaithink")),
 
 
     E(TwentyQuestionsLab, null),
@@ -5171,6 +5148,7 @@ function WhyBotherSection(props) {
 
   return E("div", null,
     E(LessonHeader, { sectionId: "whybother" }),
+    React.createElement(LessonReading, { sectionId: "whybother" },
     E(BodyP, null,
       "A lot of people your age are quietly asking the same thing. If AI can answer anything, do you even need school anymore? Why sit through years of classes when the tool spits out the answer in seconds?"),
     E(BodyP, null,
@@ -5231,7 +5209,7 @@ function WhyBotherSection(props) {
     E(BodyP, null,
       "Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That\u2019s what it means to ",
       E("strong", null, "Be Smarter Than the Tool.")),
-    closeBoard("whybother"),
+    closeBoard("whybother")),
 
     E(InteractiveBox, {
       variant: "try",
@@ -5314,6 +5292,7 @@ function AIvsCodeSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "aivscode" }),
+    React.createElement(LessonReading, { sectionId: "aivscode" },
     E(BodyP, null, "Today’s AI behaves differently from traditional software. If you expect it to act like the software you’re used to, its behavior can be confusing."),
     E(BodyP, null, "Two differences help explain why. First, AI learns patterns from examples rather than relying only on rules written by programmers. Second, it can work with “unstructured data,” such as everyday language, images, and audio, with far greater flexibility than traditional software. These differences make AI more capable in many situations, but also less predictable."),
     E(SectionKicker, null, "RULES-BASED SOFTWARE"),
@@ -5359,7 +5338,7 @@ function AIvsCodeSection(props) {
     E(SectionKicker, null, "THE DOWNSIDE"),
     E(BodyP, null, "Using learned patterns makes AI flexible, but its response can be harder to predict and inspect than a written rule like the password check."),
     E(BodyP, null, "It might miss a crossed-out song. It might look great, but still have mistakes."),
-    closeBoard("aivscode"),
+    closeBoard("aivscode")),
     E(MessyNotesLab, null),
     E(GroupExercise, { id: "aivscode-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aivscode"; }).questions })),
@@ -5664,6 +5643,7 @@ function HowAIReadsSection(props) {
 
   return E("div", null,
     E(LessonHeader, { sectionId: "attention" }),
+    React.createElement(LessonReading, { sectionId: "attention" },
 
     E(BodyP, null,
       "When you type a message to ChatGPT, you use words, and it responds with words. Underneath, AI splits your text into small pieces called ",
@@ -5760,7 +5740,7 @@ function HowAIReadsSection(props) {
       alt: "How a Transformer Keeps Words in Order. The top strip compares Dog bites man with Man bites dog: the same tokens describe different events. Below, Without Position Information shows scattered words; Position Stamps Preserve Order marks Dog as 1, bites as 2, and man as 3. Positional encoding tells the Transformer where every token belongs.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     }),
-    closeBoard("attention"),
+    closeBoard("attention")),
     E(BeTheAttentionTryIt, null),
     E(GroupExercise, { id: "attention-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "attention-discussion"; }).questions })),
@@ -5814,6 +5794,7 @@ function TrainingBiasSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
+    React.createElement(LessonReading, { sectionId: "trainingbias" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "Sometimes AI doesn\u2019t invent anything. Every fact in an answer can be real, but the picture can still be distorted."),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Cows on the beach"),
@@ -5863,7 +5844,7 @@ function TrainingBiasSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "When Training Data Gets Old"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Stale data is a separate limitation: information that was accurate during training may no longer be current. When the date matters, verify with a current source."),
-    closeBoard("trainingbias"),
+    closeBoard("trainingbias")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -6128,6 +6109,7 @@ function TrainingSection(props) {
   }
   return React.createElement("div", null,
     React.createElement(LessonHeader, { sectionId: "training" }),
+    React.createElement(LessonReading, { sectionId: "training" },
     React.createElement(BodyP, null, "AI can explain chemistry, write code, and help you improve an essay. How did it learn to do those things?"),
     React.createElement(BodyP, null, "Think about learning to shoot a basketball. You try, see how you did, and make an adjustment. AI also learns through repeated attempts. Let’s follow the process from preparation to a model that is ready to use."),
     board("how-ai-learns-before-starts.jpg", "Before Training Starts. Set Up the System: Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns. Gather the Data: Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum."),
@@ -6143,7 +6125,7 @@ function TrainingSection(props) {
     React.createElement(BodyP, null, "Then, feedback helps shape which responses the model is more likely to give."),
     board("how-ai-learns-preference-tuning.jpg", "3 · Preference Tuning. Learn from Feedback. People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely. What an Answer Might Look Like: “Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.” What Still Needs Work: Feedback helps improve the answers, but AI can still give a wrong answer that sounds right."),
     React.createElement(BodyP, null, "When training ends, the model is ready to use. During a normal chat, it uses the weights that training produced. It can work with new information you give it, but your conversation does not change those weights."),
-    closeBoard("training"),
+    closeBoard("training")),
     React.createElement(TrainingKitchenHelper, null),
     React.createElement(BodyP, null, "Your choices shaped the helper’s answers to new questions. That’s the idea behind preference tuning: feedback guides future responses."),
     React.createElement(GroupExercise, { id: "training-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
@@ -6293,6 +6275,7 @@ function TokenSection(props) {
   });
   return E("div", null,
     E(LessonHeader, { sectionId: "tokens" }),
+    React.createElement(LessonReading, { sectionId: "tokens" },
     E(BodyP, null,
       E("strong", null, "Computers only process numbers.")),
     E(BodyP, null,
@@ -6331,7 +6314,7 @@ function TokenSection(props) {
     }),
     E(BodyP, null,
       "When AI replies, its answer comes out as token IDs. The tokenizer converts those IDs back into pieces of text and joins them together into the answer you read."),
-    closeBoard("tokens"),
+    closeBoard("tokens")),
     E(TokenTrueFalseTryIt, null),
     E(LessonRule, null),
     navButton);
@@ -6529,6 +6512,7 @@ function EmbeddingsSection(props) {
     }) : null);
   return /*#__PURE__*/E("div", null,
     /*#__PURE__*/E(LessonHeader, { sectionId: "embeddings" }),
+    React.createElement(LessonReading, { sectionId: "embeddings" },
   E(BodyP, null,
     "You\u2019ve learned that text is converted to tokens, and each has a unique identifier called a token ID. But that\u2019s just a number. It doesn\u2019t say anything about what it means."),
   E(BodyP, null,
@@ -6561,7 +6545,7 @@ function EmbeddingsSection(props) {
   }),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Even Pieces of Words Get Embeddings"),
   /*#__PURE__*/React.createElement(BodyP, null, "“Unbelievable” can be split into three tokens: “un”, “belie”, and “vable”. Each piece gets its own embedding, a row of learned numbers."),
-  closeBoard("embeddings"),
+  closeBoard("embeddings")),
   clubTryIt,
   E(GroupExercise, { id: "embeddings-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "embeddings-discussion"; }).questions })),
@@ -7056,6 +7040,7 @@ function VectorSpaceSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "vectorspace" }),
+    React.createElement(LessonReading, { sectionId: "vectorspace" },
     E(BodyP, null,
       "Each token starts with a row of numbers called an ",
       E("strong", null, "embedding"),
@@ -7109,7 +7094,7 @@ function VectorSpaceSection(props) {
       E("strong", null, "vector space"),
       "."),
     E(VectorContextIllustration, null),
-    closeBoard("vectorspace"),
+    closeBoard("vectorspace")),
     E(Game2048TryIt, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
@@ -7407,6 +7392,7 @@ function WhyDozensBox() {
 function LayersSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "layers" }),
+    React.createElement(LessonReading, { sectionId: "layers" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "Have you ever read a passage in English class that only made sense after a few reads? Try the sentence below. You might need to read it more than once before the meaning clicks."),
     /*#__PURE__*/React.createElement(HorseReadsBox, null),
@@ -7437,7 +7423,7 @@ function LayersSection(props) {
       "The horse sentence took a few reads to untangle. Sarcasm, story twists, and complicated reasoning can take even more work. AI’s layers give it more steps to work through those relationships and build meaning."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Why not keep adding layers? More layers require more computing power and time. The extra benefit has to be worth the cost."),
-    closeBoard("layers"),
+    closeBoard("layers")),
     /*#__PURE__*/React.createElement(TransformerClaimsTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("vectorspace"), label: "Next: Vector Space" })
@@ -7492,6 +7478,7 @@ function TemperatureDemo() {
 
 function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
+    React.createElement(LessonReading, { sectionId: "inference" },
   /*#__PURE__*/React.createElement(BodyP, null, "You’ve learned that changing your prompt or the information in the context window can change AI’s answer. But even when that information stays the same, AI can produce different answers. The reason starts with how it chooses the next token."),
   /*#__PURE__*/React.createElement(BodyP, null, "AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next."),
   /*#__PURE__*/React.createElement(BodyP, null, "But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: ", React.createElement("strong", null, "sampling"), " and ", React.createElement("strong", null, "temperature"), "."),
@@ -7514,7 +7501,7 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Watch what different settings do to the dog-name choices."),
   /*#__PURE__*/React.createElement(TemperatureDemo, null),
-  closeBoard("inference"),
+  closeBoard("inference")),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
@@ -7556,6 +7543,7 @@ function PromptSection(props) {
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
+    React.createElement(LessonReading, { sectionId: "prompt" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "When you type 2 + 2 on the calculator on your phone, you always get 4. Same input, same answer, every time. AI doesn’t work that way. Consider the following: identical questions, asked to AI by two different people."),
     /*#__PURE__*/React.createElement("img", {
@@ -7590,7 +7578,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "The Forgetting Problem"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat."),
-    closeBoard("prompt"),
+    closeBoard("prompt")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -7665,6 +7653,7 @@ function DocumentChatSection(props) {
 
   return E("div", null,
     E(LessonHeader, { sectionId: "documenttrap" }),
+    React.createElement(LessonReading, { sectionId: "documenttrap" },
     E(BodyP, null,
       "Your season-end basketball tournament starts next week, so you want to brush up on the rules. You upload your league’s 200-page rulebook and ask: “How many fouls until I’m out of the game?”"),
     E(BodyP, null,
@@ -7723,7 +7712,7 @@ function DocumentChatSection(props) {
       "This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer."),
     E(BodyP, null,
       "Uploading a document and asking AI for help is a good starting point."),
-    closeBoard("documenttrap"),
+    closeBoard("documenttrap")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -7784,6 +7773,7 @@ function ModelSelectionSection(props) {
   ];
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "modelselection" }),
+    React.createElement(LessonReading, { sectionId: "modelselection" },
   /*#__PURE__*/React.createElement(BodyP, null, "When you sit down to use AI, your first decision is which app to use. Three you’ll hear about often are ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three can chat, write, code, and answer questions. So why does it matter which one you pick?"),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Different Philosophies"),
   /*#__PURE__*/React.createElement(BodyP, null, "Think about it like this. In-N-Out and McDonald\u2019s both sell cheeseburgers, built from roughly the same ingredients. They\u2019re still completely different experiences, because each company has a different idea of what a burger place should be. One does a tiny menu with everything made fresh. The other is engineered for speed, scale, and being exactly the same in every city on Earth."),
@@ -7809,7 +7799,7 @@ function ModelSelectionSection(props) {
     "For this course, ChatGPT is your hands-on home base. Learn it well: its settings, its features, its quirks. Knowing one app deeply beats dabbling in all three."),
   /*#__PURE__*/React.createElement(BodyP, null,
     "A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right."),
-  closeBoard("modelselection"),
+  closeBoard("modelselection")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -7850,6 +7840,7 @@ function ModelSelectionSection(props) {
 function ChoosingModelSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "choosemodel" }),
+    React.createElement(LessonReading, { sectionId: "choosemodel" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "For many tasks, you can open your AI app, ask your question, and keep the conversation going."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -7884,7 +7875,7 @@ function ChoosingModelSection(props) {
       alt: "How Much Research? Regular Chat: Get an answer to a question. Example: “I live in Dallas. How long would it take me to drive to Texas A&M in College Station versus UT Austin?” Deep Research: Get information from many websites, compare what they say, and build a report that shows sources. Example: “I want to study physics and am considering Texas A&M and UT Austin. Compare their physics programs, undergraduate research opportunities, admissions requirements, and costs. Show your sources.”",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
-    closeBoard("choosemodel"),
+    closeBoard("choosemodel")),
     /*#__PURE__*/React.createElement(YourChoicesTryIt, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerfoundations"), label: "Next: Understand AI" }));
@@ -8086,6 +8077,7 @@ function AITipsSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "aitips" }),
+    React.createElement(LessonReading, { sectionId: "aitips" },
     E(BodyP, null,
       "Most people think AI works like this: you type the perfect prompt, and AI returns the perfect answer. That’s only the start."),
     E(BodyP, null,
@@ -8148,7 +8140,7 @@ function AITipsSection(props) {
       E("p", null, E("strong", null, "Later round, you: "), "I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it."),
       E("p", null, E("strong", null, "Later round, AI: "), "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?"),
       E("p", null, E("strong", null, "Takeaway: "), "Better details give AI better material to improve.")),
-    closeBoard("aitips"),
+    closeBoard("aitips")),
     E(ThoughtPartnerLab, null),
     E(GroupExercise, { id: "aitips-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aitips-discussion"; }).questions })),
@@ -8308,6 +8300,7 @@ function LastTokenBridgeBoard() {
 function PredictionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
+    React.createElement(LessonReading, { sectionId: "prediction" },
   /*#__PURE__*/React.createElement(BodyP, null, "When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
@@ -8315,7 +8308,7 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "How AI Answers"),
   /*#__PURE__*/React.createElement(BodyP, null, "Follow one possible reply. At each reveal, watch what joins the answer and what becomes possible next."),
   /*#__PURE__*/React.createElement(AnswerBuildDemo, null),
-  closeBoard("prediction"),
+  closeBoard("prediction")),
   /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
   React.createElement(GroupExercise, { id: "prediction-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prediction-discussion"; }).questions })),
@@ -8461,6 +8454,7 @@ function HallucinationSection(props) {
   ];
   var dinoCheckedCount = Object.keys(dinoChecked).filter(function(k) { return dinoChecked[k]; }).length;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
+    React.createElement(LessonReading, { sectionId: "hallucination" },
     /*#__PURE__*/React.createElement("img", {
       src: "course-assets/hallucination/hallucination-example.jpg?v=20260914attribution1",
       alt: "A user asks whether a hype playlist on Spotify will help with chemistry studying. AI cites a detailed Stanford study, recommends a volume limit, and offers to build a study playlist. A gold band reveals that the study does not exist.",
@@ -8506,7 +8500,7 @@ function HallucinationSection(props) {
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Notice the Claim."), " Something doesn’t add up. Identify the fact, number, or study you want to check."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Find the Source."), " Look for the original study, article, or document. A citation alone isn’t proof."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Check the Match."), " Does the source exist, and does it actually support what AI said?"))),
-    closeBoard("hallucination"),
+    closeBoard("hallucination")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -8607,7 +8601,8 @@ function CriticalThinkingSection(props) {
         style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
       }, accessibleContent));
   };
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }), /*#__PURE__*/React.createElement(BodyP, null, "What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }),
+    React.createElement(LessonReading, { sectionId: "critical" }, /*#__PURE__*/React.createElement(BodyP, null, "What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up."),
   criticalBoard("course-assets/critical-thinking/critical-thinking-equation.jpg?v=20261023jakarta",
     /*#__PURE__*/React.createElement("section", null,
       /*#__PURE__*/React.createElement("h3", null, "What You Know. How You Think."),
@@ -8661,7 +8656,7 @@ function CriticalThinkingSection(props) {
           /*#__PURE__*/React.createElement("p", null, "Decide what to believe or do. You can change your mind when you learn more."))),
       /*#__PURE__*/React.createElement("p", null, "Each habit is a question you ask."))),
   /*#__PURE__*/React.createElement(BodyP, null, "The five questions work on anything you read or hear. Use them with AI, too. AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening."),
-  closeBoard("critical"),
+  closeBoard("critical")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
@@ -8851,6 +8846,7 @@ function WhatItDoesBestSection(props) {
   const TF_ORDER = ["fit", "notfit"];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatitdoesbest" }),
+    React.createElement(LessonReading, { sectionId: "whatitdoesbest" },
     E(BodyP, null,
       "AI will take on almost anything you ask: writing, planning, summarizing, coding, drawing, researching, and more. But ",
       E("strong", null, "can try"),
@@ -8894,7 +8890,7 @@ function WhatItDoesBestSection(props) {
       "Training gave AI exposure to more examples than any human could read in a lifetime: code, essays, explanations, emails, arguments, stories, documents, and conversations. That’s why it’s fluent with common formats. It has seen many versions of “this kind of thing” before."),
     E(BodyP, null,
       "Seeing many examples helps AI get started. But it doesn’t guarantee the answer is right or that it fits what you need. That’s where your knowledge and judgment matter."),
-  closeBoard("whatitdoesbest"),
+  closeBoard("whatitdoesbest")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -9038,7 +9034,8 @@ function PromptingSection(props) {
     { title: "Read the evaluation", body: "Look at the scores and the examples AI used to explain them. Which part of the essay lost the most points? Do you agree with AI’s suggestion for improving it?" }
   ];
   var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }), /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. With AI, don’t assume it knows those details or will ask for them."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer."),
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompting" }),
+    React.createElement(LessonReading, { sectionId: "prompting" }, /*#__PURE__*/React.createElement(BodyP, null, "In Questions Matter you learned what makes a question good, and that the skill is older than computers. When Socrates asked his famous questions, he aimed every one of them at a person."), /*#__PURE__*/React.createElement(BodyP, null, "A person meets your question halfway. Your teacher already knows what class you\u2019re in. Your friend knows what happened last weekend. With AI, don’t assume it knows those details or will ask for them."), /*#__PURE__*/React.createElement(BodyP, null, "So asking AI good questions requires another skill: giving it the information and instructions it needs. That’s prompting. A clear prompt helps AI understand the job and give you a better answer."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Four Moves for Better Prompts"),
   /*#__PURE__*/React.createElement(BodyP, null, "Packaging your question for AI comes down to four moves. There are entire classes on writing prompts, and here\u2019s the secret: you don\u2019t need one. You\u2019re not training to be a prompt engineer. You\u2019re learning to ", /*#__PURE__*/React.createElement("strong", null, "Be Smarter Than the Tool"), "."),
   /*#__PURE__*/React.createElement("img", {
@@ -9081,7 +9078,7 @@ function PromptingSection(props) {
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "Help me shape a strong thesis for a 5-page paper on how the space race reflected Cold War tensions. Let’s work on the thesis first."))),
   /*#__PURE__*/React.createElement(SectionKicker, null, "You don't need all of these every time"),
   /*#__PURE__*/React.createElement(BodyP, null, "How much packaging does a prompt need? A quick factual question: none, just ask. Real work, like an essay or a project: share your situation, give AI the material, and describe the answer you want. A big project: work one job at a time. The more the result matters, the more you bring."),
-  closeBoard("prompting"),
+  closeBoard("prompting")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "lab",
     surface: "teal",
@@ -9222,6 +9219,7 @@ function StudyingWithAISection(props) {
 
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "studying" }),
+    React.createElement(LessonReading, { sectionId: "studying" },
     E(BodyP, null,
       "Do you ever feel like there aren\u2019t enough hours in the day? You might have a history quiz tomorrow, an essay due Friday, and what feels like a never-ending stream of algebra homework. Add sports, activities, family, and everything else, and finding enough time to study feels impossible."),
     E(BodyP, null,
@@ -9292,7 +9290,7 @@ function StudyingWithAISection(props) {
       "ChatGPT’s Study mode and Gemini’s Guided Learning can walk you through a topic with questions, hints, and explanations. Tell it what you’re learning and where you’re stuck. Try answering its questions, ask for a hint when you need one, and request a different explanation if you’re still confused."),
     E(BodyP, null,
       "You do the thinking. AI helps you figure out your next step."),
-    closeBoard("studying"),
+    closeBoard("studying")),
     E(FocusedGuidedLearningLab, null),
     E(GroupExercise, { id: "studying-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "studying-discussion"; }).questions })),
@@ -9421,6 +9419,7 @@ function EvaluatingSection(props) {
   };
   return E("div", null,
     E(LessonHeader, { sectionId: "evaluating" }),
+    React.createElement(LessonReading, { sectionId: "evaluating" },
     E(BodyP, null,
       "AI makes mistakes. It uses the same confident voice whether the facts are right or wrong. But even an answer with no factual mistakes can fall short. A joke that isn’t funny. An explanation that leaves you confused. A plan that won’t work."),
     E(BodyP, null,
@@ -9449,7 +9448,7 @@ function EvaluatingSection(props) {
     E(BodyP, null,
       "Now decide what to do with the answer."),
     processBoard("course-assets/evaluation-matters/evaluation-matters-move.jpg?v=20261023nobanner1", "Make Your Move", NEXT_MOVES, null, false, 20),
-    closeBoard("evaluating"),
+    closeBoard("evaluating")),
     E(DigDeeperTryIt, null),
     E(GroupExercise, { id: "evaluating-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "evaluating-discussion"; }).questions })),
@@ -9511,6 +9510,7 @@ function CreativeThinkingCareerLab() {
 function CreativeThinkingSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "creativethinking" }),
+    React.createElement(LessonReading, { sectionId: "creativethinking" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "Think about the last time someone told you, “Good idea!” It feels good to hear those words."),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -9547,7 +9547,7 @@ function CreativeThinkingSection(props) {
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Ask “What if?”: "), "Change one rule or assumption. Ask what would happen if the opposite were true."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Connect unrelated things: "), "Borrow a pattern, feature, or approach from somewhere completely different and apply it to the problem."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Step away, then return: "), "Work on the problem, then take a walk or switch activities. New connections often appear after your attention moves elsewhere.")),
-    closeBoard("creativethinking"),
+    closeBoard("creativethinking")),
     /*#__PURE__*/React.createElement(CreativeThinkingCareerLab, null),
     React.createElement(GroupExercise, { id: "creativethinking-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "creativethinking-discussion"; }).questions })),
@@ -9663,6 +9663,7 @@ function PeopleSkillsSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "peopleskills" }),
+    React.createElement(LessonReading, { sectionId: "peopleskills" },
     E(BodyP, null, "Your group just finished this semester's history project."),
     E(BodyP, null, "But Maya notices a problem and starts suggesting a change. Someone interrupts: “We are done. No more suggestions.” Maya goes quiet, and the group moves on."),
     E(BodyP, null, "You notice that Maya's expression and body language changed. She seems hurt. What would you say or do next?"),
@@ -9702,7 +9703,7 @@ function PeopleSkillsSection(props) {
       E("p", null, E("strong", null, "Show people they matter. "), "Remember what they tell you, give specific appreciation, and give people credit when an idea is theirs."),
       E("p", null, E("strong", null, "Challenge ideas, not people. "), "Address difficult things directly and calmly. Explain the concern and suggest a way forward: “This example doesn’t match the instructions. Could we try another?”")),
     E(BodyP, null, "The group fixes the problem Maya noticed. What could you say to give her credit?"),
-    closeBoard("peopleskills"),
+    closeBoard("peopleskills")),
     E(PeopleSkillsCareerLab, null),
     E(GroupExercise, { id: "peopleskills-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "peopleskills-discussion"; }).questions })),
@@ -9760,6 +9761,7 @@ function BeCuriousSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "becurious" }),
+    React.createElement(LessonReading, { sectionId: "becurious" },
     E(BodyP, null, "Imagine you are captain of your school’s basketball team. Your team has a play that worked all season. Then another team learns how to stop it."),
     E(BodyP, null, "Before you find a better play, you need to ", E("strong", null, "be curious"), "."),
     E(BodyP, null, "What are they doing differently? Where is there an opening? What could you learn by watching the play again?"),
@@ -9788,7 +9790,7 @@ function BeCuriousSection(props) {
       E("p", null, E("strong", null, "Check What Changed. "), "Look for update notices, new buttons, model names, or a What’s New page. Check occasionally, not constantly."),
       E("p", null, E("strong", null, "Follow One Reliable Source. "), "Choose one trustworthy newsletter, video channel, educator, or official product page. One good source is enough."),
       E("p", null, E("strong", null, "Compare with Others. "), "Ask friends, teachers, or AI club members what they tried recently. Different people notice different things.")),
-    closeBoard("becurious"),
+    closeBoard("becurious")),
     E(BeCuriousCareerLab, null),
     E(GroupExercise, { id: "becurious-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "becurious-discussion"; }).questions })),
@@ -10155,6 +10157,7 @@ function MakeYourMoveSection(props) {
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "makeyourmove" }),
+    E(LessonReading, { sectionId: "makeyourmove" },
 
     E(BodyP, null,
       "Imagine you started a basketball team with friends. You learned the fundamentals, practiced regularly, and became better players. Then someone asks, “What’s next? Are we joining a league? Are we actually going to play?”"),
@@ -10193,8 +10196,8 @@ function MakeYourMoveSection(props) {
         return E("p", { key: move.number }, E("strong", null, move.title + ": "), move.body);
       })),
 
+    closeBoard("makeyourmove")),
     E(MakeYourMoveCareerLab, null),
-    closeBoard("makeyourmove"),
     E(GroupExercise, { id: "makeyourmove-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "makeyourmove-discussion"; }).questions })),
     E(LessonRule, null),
@@ -10262,6 +10265,7 @@ function WhenAIActsSection(props) {
   }
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "agents" }),
+    React.createElement(LessonReading, { sectionId: "agents" },
     E(BodyP, null,
       "What’s an ", E("strong", null, "agent"), "? In the spirit of this course, let’s start with an analogy."),
     E("img", {
@@ -10310,7 +10314,7 @@ function WhenAIActsSection(props) {
       E("p", null, "The agent wrote “I violated every principle I was given.”")),
     E(BodyP, null,
       "The rule of thumb with agents: they’re great at automating steps, but they are advanced tools. Start by getting good at ChatGPT. Agents are powerful, and they’ll be there when you’re ready."),
-    closeBoard("agents"),
+    closeBoard("agents")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -10391,6 +10395,7 @@ function MindTrapSection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
+    React.createElement(LessonReading, { sectionId: "mindtrap" },
     /*#__PURE__*/React.createElement(BodyP, null, "Some AI traps aren\u2019t about whether the answer is correct. They\u2019re about how the answer feels, and what that feeling makes you trust."),
     /*#__PURE__*/React.createElement(BodyP, null, "Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:"),
     /*#__PURE__*/React.createElement("img", {
@@ -10424,7 +10429,7 @@ function MindTrapSection(props) {
     /*#__PURE__*/React.createElement(SectionKicker, null, "For Decisions That Matter"),
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI can gather facts, lay out options, and challenge your thinking. It can use what you share about yourself. That is different from someone who knows you through shared experience and lives with the outcome. Talk important decisions through with people who know you. Then make the call."),
-    closeBoard("mindtrap"),
+    closeBoard("mindtrap")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -10516,6 +10521,7 @@ function FlatteryTrapSection(props) {
   }];
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }),
+    React.createElement(LessonReading, { sectionId: "flattery" },
     /*#__PURE__*/React.createElement(BodyP, null, "AI is often encouraging. It can praise your essay, support your idea, and agree with your opinion, even when what you really need is honest criticism."),
     /*#__PURE__*/React.createElement(BodyP, null,
       /*#__PURE__*/React.createElement("strong", null, "The Flattery Trap is treating AI’s approval as honest evaluation.")),
@@ -10567,7 +10573,7 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("p", null, "Better: ", s.good));
         })),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Tip: Save a standing instruction. "), "If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”")),
-    closeBoard("flattery"),
+    closeBoard("flattery")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -10640,6 +10646,7 @@ function SupportTrapSection(props) {
   }];
   return E("div", null,
     E(LessonHeader, { sectionId: "supporttrap" }),
+    React.createElement(LessonReading, { sectionId: "supporttrap" },
     E(BodyP, null, "AI can sound patient, caring, and understanding. Sometimes its words can even help. But what happens when kind words are not enough?"),
     E("img", {
       src: "course-assets/support-trap/support-trap-comparison.jpg?v=20260921batch8",
@@ -10682,7 +10689,7 @@ function SupportTrapSection(props) {
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "If someone may be in immediate danger, leave the chat and get real help."),
       E("p", null, "Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger. Act now, and tell even if someone told you not to or made you promise. Safety outranks secrecy.")),
-    closeBoard("supporttrap"),
+    closeBoard("supporttrap")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -10873,6 +10880,9 @@ function OpenerSkillsSection(props) {
 
 function IntegritySection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "integrity" }),
+  React.createElement(PrivacySection, {
+    embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate,
+    readingIntro: React.createElement(React.Fragment, null,
   /*#__PURE__*/React.createElement(BodyP, null, "You send a friend a draft of your college essay and ask for feedback. Instead, they copy your opening into their own essay and claim they wrote it. Obviously, your friend wasn’t honest. They put their name on work they didn’t create."),
   /*#__PURE__*/React.createElement(BodyP, null, "AI does not change the honesty question. ", /*#__PURE__*/React.createElement("strong", null, "If your name goes on the work, be truthful about what you created, how AI helped, and whether you followed the rules.")),
   /*#__PURE__*/React.createElement(SectionKicker, null, "HONESTY"),
@@ -10900,8 +10910,8 @@ function IntegritySection(props) {
       /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Show Your Process: "), "Keep drafts, sources, and AI conversations."),
       /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Explain AI’s Role: "), "Clearly say what you did and how AI helped.")),
     /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "If your name is on the work, you own how it was made."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "Honesty is about what you claim. Privacy is about what you reveal. Both require you to pause before you submit or send."),
-  /*#__PURE__*/React.createElement(PrivacySection, { embedded: true, completeAndNavigate: props.completeAndNavigate, markComplete: props.markComplete, onNavigate: props.onNavigate }));
+  /*#__PURE__*/React.createElement(BodyP, null, "Honesty is about what you claim. Privacy is about what you reveal. Both require you to pause before you submit or send."))
+  }));
 }
 function PrivacySection(props) {
   const [redacted, setRedacted] = useState({});
@@ -11037,6 +11047,8 @@ function PrivacySection(props) {
   }
 
   return /*#__PURE__*/React.createElement("div", null,
+  React.createElement(LessonReading, { sectionId: "integrity" },
+  props.readingIntro,
   /*#__PURE__*/React.createElement(SectionKicker, { size: "large", style: { marginTop: 48 } }, "PRIVACY"),
   /*#__PURE__*/React.createElement(BodyP, null, "You start a new chat and ask ChatGPT, “Help me improve my percentage.” You probably know that AI can’t help much because you didn’t share enough information. Do you want to improve your free throw percentage, your grade in physics, or what?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Giving AI useful context can improve its answer. But this makes privacy difficult. The rule of thumb: give AI only the information it needs to help."),
@@ -11066,7 +11078,7 @@ function PrivacySection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "IF YOU ALREADY SHARED IT"),
   /*#__PURE__*/React.createElement(BodyP, null, "Delete the chat from your history. That removes it from the app\u2019s visible history, so someone using your device or account can't see it. But a copy may remain in the AI company\u2019s systems for a period of time. Each app has its own policy for deleting chat records."),
   /*#__PURE__*/React.createElement(BodyP, null, "If you shared a password or security code, deleting the chat isn’t enough. Go change any passwords or security codes you shared with AI."),
-  closeBoard("integrity"),
+  closeBoard("integrity")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -11154,6 +11166,7 @@ function WheresTheLineSection(props) {
   }
   return E("div", null,
     E(LessonHeader, { sectionId: "wherestheline" }),
+    React.createElement(LessonReading, { sectionId: "wherestheline" },
     E(BodyP, null, "AI can do remarkable things. But, to borrow a line from a famous document, ", E("strong", null, "we the people"), " are responsible for how we use it."),
     E(BodyP, null, "That responsibility goes beyond writing better prompts and evaluating AI’s answers. It includes deciding what we ask AI to do and considering who could be affected."),
     E(BodyP, null, "There’s a word for this you’ve heard: ", E("strong", null, "ethics."), " It means thinking through what you should do and how your decisions affect other people."),
@@ -11176,7 +11189,7 @@ function WheresTheLineSection(props) {
     board("course-assets/wheres-the-line/wheres-the-line-responsible-choice.jpg?v=20261023jakarta", "Making the Responsible Choice. Consider everyone affected: look beyond the people who benefit and ask who could be harmed, excluded, or pressured. Be clear with people: explain what the system does and how it affects their choices. Build in protection: test for harm, set boundaries, and give people a way to challenge mistakes. Own the outcome: monitor what happens and change or stop the system when the consequences warrant it."),
     E(BodyP, null, "A responsible decision considers the people who live with it."),
 
-    closeBoard("wherestheline"),
+    closeBoard("wherestheline")),
     E(InteractiveBox, { variant: "try", surface: "mint", title: "Does It Cross the Line?", lead: "Where would you draw the line? In these scenarios, you’re the judge. Your choices won’t be marked right or wrong. Instead, you’ll see another angle to consider. Think about who benefits, who could be harmed, and whether that changes your decision.", instructions: ["Read each scenario.", E("span", null, "Choose ", E("strong", null, "Crosses the line"), ", ", E("strong", null, "Doesn’t cross the line"), ", or ", E("strong", null, "It depends"), "."), "Read Something to consider."] },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } }, scenarios.map(function(sc, i) {
         var picked = picks[sc.id] || null;
@@ -11247,6 +11260,7 @@ function FakeTrapPhotoTryIt() {
 function SyntheticMediaSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "faketrap" }),
+    React.createElement(LessonReading, { sectionId: "faketrap" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "Here’s the strange thing about this trap: you already know it. AI can fake a voice, a face, a video, a screenshot, cheaply and convincingly, and it’s only getting better. So why do smart people still get fooled?"),
     /*#__PURE__*/React.createElement(BodyP, null,
@@ -11317,7 +11331,7 @@ function SyntheticMediaSection(props) {
       " and ",
       /*#__PURE__*/React.createElement("a", { href: "https://report.cybertip.org/", target: "_blank", rel: "noopener noreferrer" }, "CyberTipline"),
       " can also help."),
-    closeBoard("faketrap"),
+    closeBoard("faketrap")),
     React.createElement(FakeTrapPhotoTryIt, null),
     React.createElement(GroupExercise, { id: "faketrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "faketrap-discussion"; }).questions })),
@@ -12789,6 +12803,7 @@ function QuestionsValuableSection(props) {
   var questionLabCount = QUESTION_LAB_STEPS.reduce(function(total, _step, index) { return total + (labChecked[index] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "questionsvaluable" }),
+    React.createElement(LessonReading, { sectionId: "questionsvaluable" },
     /*#__PURE__*/React.createElement(BodyP, null,
       "AI can help with all kinds of work. But getting useful help starts with knowing what to ask."
     ),
@@ -12871,7 +12886,7 @@ function QuestionsValuableSection(props) {
         /*#__PURE__*/React.createElement("p", null, "Invite an explanation, not just a yes or no. Leave room for an answer you didn’t expect."),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Weak: "), "Should I join the debate team?"),
         /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Better: "), "What would joining debate add to my week, and what would I have to give up for it?"))),
-    closeBoard("questionsvaluable"),
+    closeBoard("questionsvaluable")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -12957,6 +12972,7 @@ function BigUpsideSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "bigupside" }),
+    React.createElement(LessonReading, { sectionId: "bigupside" },
     E(BodyP, null, "We’ve said it many times: AI is a giant calculator running math at a scale nobody can picture."),
     E(BodyP, null, "But that calculator can do some amazing things."),
     E(BodyP, null, "It can help scientists investigate disease, help doctors find cancer, and help someone read a label they couldn’t read before. The big upside isn’t only about what AI might do someday. It’s already happening."),
@@ -13013,7 +13029,7 @@ function BigUpsideSection(props) {
     E(SectionKicker, null, "What These Examples Have in Common"),
     E(BodyP, null, "Scientists get a starting point. Doctors get help finding something important. People get access to information. Communities get time to prepare."),
     E(BodyP, null, "These are making a difference in people's lives."),
-    closeBoard("bigupside"),
+    closeBoard("bigupside")),
     E(BigUpsideBenefitsLab, null),
     E(GroupExercise, { id: "bigupside-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "bigupside-discussion"; }).questions })),
@@ -13048,6 +13064,7 @@ function WhatPeopleSaySection(props) {
   ];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatpeoplesay" }),
+    React.createElement(LessonReading, { sectionId: "whatpeoplesay" },
     E(BodyP, null, "There are almost as many opinions about AI as calculations in an LLM. OK. Just kidding. There aren’t two quadrillion opinions, although it feels that way. You see them on YouTube, TikTok, the news, your family, and friends. Who do you believe?"),
     E(BodyP, null, "How about this? Let’s ask the people who make AI for a living. Same field. Same evidence. Very different bets."),
     E("img", {
@@ -13082,7 +13099,7 @@ function WhatPeopleSaySection(props) {
     E(BodyP, null,
       "Keep informed about the left column. Put most of your energy into the right."),
 
-    closeBoard("whatpeoplesay"),
+    closeBoard("whatpeoplesay")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -13142,6 +13159,7 @@ function PaceOfChangeSection(props) {
   var buildCheckedCount = Object.keys(buildChecked).filter(function(k) { return buildChecked[k]; }).length;
   return E("div", null,
     E(LessonHeader, { sectionId: "paceofchange" }),
+    React.createElement(LessonReading, { sectionId: "paceofchange" },
     E(BodyP, null,
       "The AI argument is getting louder and louder. Why? Because the technology is advancing at blazing speeds."),
     E("img", {
@@ -13187,7 +13205,7 @@ function PaceOfChangeSection(props) {
       E("p", null, "Recursive Self-Improvement (RSI). AI builds a better version of itself. That version repeats the process with little or no human direction."),
       E("p", null, "Artificial General Intelligence (AGI). AI matches human ability across many kinds of work. There is no agreed definition or test."),
       E("p", null, "Artificial Superintelligence (ASI). AI exceeds the best humans across nearly every cognitive field.")),
-    closeBoard("paceofchange"),
+    closeBoard("paceofchange")),
     E(InteractiveBox, {
       variant: "lab",
       surface: "teal",
@@ -13333,6 +13351,7 @@ function BigDownsideSection(props) {
 ];
   return E("div", null,
     E(LessonHeader, { sectionId: "bigdownside" }),
+    React.createElement(LessonReading, { sectionId: "bigdownside" },
     E(BodyP, null, "AI is advancing fast. If your iPhone was about to get an amazing new feature, you’d be excited. So why worry when AI gains new capabilities?"),
     E(BodyP, null, "Because greater capability can create greater risk. Three ideas help explain why."),
     E(SectionKicker, null, "I · Hard to Understand and Control"),
@@ -13394,7 +13413,7 @@ function BigDownsideSection(props) {
     E(SectionKicker, null, "Safety Runs Behind"),
     E(BodyP, null, "Product protections take time to build and test. Laws take time to write and enforce. After one risk is handled, a new AI capability may create another. This means a new AI capability can reach people before the safeguards and rules are ready for it."),
     E(BodyP, null, "AI companies use ", E("strong", null, "red teams"), " to deliberately test systems for dangerous behavior and weaknesses. But safety is not a job they finish once. As AI becomes more capable, the protections have to keep up."),
-    closeBoard("bigdownside"),
+    closeBoard("bigdownside")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
@@ -13471,6 +13490,7 @@ function WorkChangesSection(props) {
 
   return E("div", null,
     E(LessonHeader, { sectionId: "workchanges" }),
+    React.createElement(LessonReading, { sectionId: "workchanges" },
     E(BodyP, null,
       "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
     E(BodyP, null,
@@ -13511,7 +13531,7 @@ function WorkChangesSection(props) {
       " That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it."),
     E(BodyP, null,
       "You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school."),
-    closeBoard("workchanges"),
+    closeBoard("workchanges")),
 
     E(InteractiveBox, {
       variant: "lab",
@@ -13899,6 +13919,7 @@ function TheHiddenCostSection(props) {
   var E = React.createElement;
   return E("div", null,
     E(LessonHeader, { sectionId: "computecost" }),
+    React.createElement(LessonReading, { sectionId: "computecost" },
     E(BodyP, null, "You type a question, hit send, and an answer starts appearing. Behind that chat, computers in a data center do an enormous amount of math."),
     E(BodyP, null, "Let’s imagine an LLM that uses one trillion weights to generate each new token. At roughly two calculations per weight, the math adds up fast."),
     E("img", { src: "course-assets/data-centers/data-centers-math.jpg", alt: "The Math Adds Up Fast. One token: one trip through our example model’s trillion weights, about 2 trillion calculations. A short answer: about 100 tokens written by AI, about 200 trillion calculations. A longer conversation: about 1,000 tokens written by AI across the conversation, about 2 quadrillion calculations. In this example, even a short answer takes trillions of calculations.", style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 } }),
@@ -13928,7 +13949,7 @@ function TheHiddenCostSection(props) {
     E(BodyP, null, "Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet."),
     E(BodyP, null,
       "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
-    closeBoard("computecost"),
+    closeBoard("computecost")),
     E(DataCenterTownTryIt, null),
     E(GroupExercise, { id: "computecost-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "computecost-discussion"; }).questions })),
@@ -13953,8 +13974,8 @@ function UnexpectedResultsGroupExercise() {
 function UnexpectedResultsSection(props) {
   var E = React.createElement;
   return E("div", null,
-    E(LessonHeader, { sectionId: "unexpected", noWatch: true }),
-    E(WatchOverview, { video: LESSON_VIDEOS.unexpected }),
+    E(LessonHeader, { sectionId: "unexpected" }),
+    React.createElement(LessonReading, { sectionId: "unexpected" },
     E(BodyP, null,
       "Everyone has opinions about AI’s future, whether they’re AI Worriers or AI Optimists. No matter how confident those people are, some of the biggest results are things no one predicted."),
     E(BodyP, null,
@@ -13989,7 +14010,7 @@ function UnexpectedResultsSection(props) {
       "That’s not a reason to fear the future. It’s the reason to walk into it curious, with your eyes open."),
     E(BodyP, null,
       "You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes."),
-    closeBoard("unexpected"),
+    closeBoard("unexpected")),
     E(RatQuizTryIt, null),
     E(GroupExercise, { id: "unexpected-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "unexpected-discussion"; }).questions })),

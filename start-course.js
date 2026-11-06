@@ -19,7 +19,7 @@
   // Use the real course document; avoid an iframe across opaque file origins.
   if (filePreview) {
     document.querySelectorAll('a[href="/course"]').forEach(link => { link.href = 'index.html'; });
-    ['whats-an-llm', 'why-learn-ai'].forEach(slug => {
+    ['whats-an-llm', 'why-learn-ai', 'for-groups'].forEach(slug => {
       document.querySelectorAll('a[href="/course/' + slug + '"]').forEach(link => { link.href = 'index.html?sample=' + slug; });
     });
     return;

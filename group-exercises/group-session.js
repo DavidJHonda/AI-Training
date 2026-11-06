@@ -11,7 +11,7 @@
   };
   root.replaceChildren();
   const back = node('a', 'All group activities', 'back-link');
-  back.href = 'group-session.html';
+  back.href = location.protocol === 'file:' ? '../index.html?sample=for-groups' : '/course/for-groups';
   if (!activity) {
     root.append(node('h1', 'Group Activities'), node('p', 'Activities and discussions to try with your club, class, or friends. No course registration needed.'));
     const guidance = node('section', '', 'group-getting-started');

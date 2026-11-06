@@ -20,6 +20,7 @@ for (const [label, url, name, blocked, expected] of [
   ['legacy course bookmark', 'https://example.com/index.html', 'Alex', false, null],
   ['LLM sample', 'https://example.com/course/whats-an-llm', null, false, null],
   ['guest sample', 'https://example.com/course/why-learn-ai', null, false, null],
+  ['public groups', 'https://example.com/course/for-groups', null, false, null],
   ['print', 'https://example.com/?print=welcome', 'Alex', false, null],
   ['review', 'https://example.com/?review=closing-boards', null, false, null],
   ['file preview', 'file:///index.html', 'Alex', false, null],
@@ -52,6 +53,9 @@ for (const [url, expected] of [
   ['file:///course/index.html?sample=whats-an-llm', 'aihistory'],
   ['https://example.com/course/why-learn-ai', 'whydeeper'],
   ['file:///course/index.html?sample=why-learn-ai', 'whydeeper'],
+  ['https://example.com/course/for-groups', 'forgroups'],
+  ['https://example.com/course/for-groups/?utm_source=test', 'forgroups'],
+  ['file:///course/index.html?sample=for-groups', 'forgroups'],
   ['https://example.com/course?sample=whats-an-llm', null],
   ['https://example.com/whats-an-llm', null],
   ['https://example.com/course/unknown', null],
@@ -116,6 +120,7 @@ const localLinks = new Map([
   ['/course', { href: '/course' }],
   ['/course/whats-an-llm', { href: '/course/whats-an-llm' }],
   ['/course/why-learn-ai', { href: '/course/why-learn-ai' }],
+  ['/course/for-groups', { href: '/course/for-groups' }],
 ]);
 vm.runInNewContext(fs.readFileSync(path.join(root, 'start-course.js'), 'utf8'), {
   location: new URL('file:///course/landing.html'),
@@ -129,4 +134,5 @@ vm.runInNewContext(fs.readFileSync(path.join(root, 'start-course.js'), 'utf8'), 
 assert.equal(localLinks.get('/course').href, 'index.html');
 assert.equal(localLinks.get('/course/whats-an-llm').href, 'index.html?sample=whats-an-llm');
 assert.equal(localLinks.get('/course/why-learn-ai').href, 'index.html?sample=why-learn-ai');
-console.log('PASS: Finder preview rewrites both sample links and course entry correctly');
+assert.equal(localLinks.get('/course/for-groups').href, 'index.html?sample=for-groups');
+console.log('PASS: Finder preview rewrites sample, group directory, and course entry links correctly');

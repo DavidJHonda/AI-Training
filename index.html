@@ -541,6 +541,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .lab-action-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; max-width: 100%; box-sizing: border-box; padding: 10px 20px; border: 1.5px solid var(--labAccent); border-radius: 8px; background: var(--labAccent); color: #fff; font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 1.4; text-align: center; text-decoration: none; cursor: pointer; }
   .lab-action-button--copy { background: #fff; color: var(--labAccent); }
   .lab-action-button--copied { background: var(--labBand); }
+  .dino-game-canvas:focus-visible { outline: 3px solid var(--labAccent); outline-offset: 3px; }
   .lab-action-button:focus-visible { outline: 3px solid var(--labAccent); outline-offset: 3px; }
   .lab-action-button:disabled { border-color: var(--inkFaint); background: var(--bg); color: var(--inkMuted); cursor: not-allowed; }
   .lab-action-icon { width: 16px; height: 16px; flex: 0 0 16px; }
@@ -1112,7 +1113,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   }
 </style>
 <link rel="stylesheet" href="entry-flow.css?v=20261007sample2">
-<script defer src="start-course.js?v=20261105samplellm1"></script>
+<script defer src="start-course.js?v=20261106groups1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
 <script src="group-activities-data.js?v=20261105discussions63"></script>
@@ -1301,6 +1302,7 @@ function getSampleSection(location) {
     : (location.pathname.replace(/\/$/, "").match(/^\/course\/([^/]+)$/) || [])[1];
   if (slug === "whats-an-llm") return "aihistory";
   if (slug === "why-learn-ai") return "whydeeper";
+  if (slug === "for-groups") return "forgroups";
   return null;
 }
 function useLocalStorage(key, defaultVal, persist = true) {
@@ -4684,7 +4686,7 @@ function WelcomeSection(props) {
     }));
 }
 
-// AI Multiplier TRY IT: a self-contained fun-beat game (like Game2048TryIt). The
+// AI Multiplier TRY IT: a self-contained fun-beat game (like Game2048Demo). The
 // student picks a goal, taps a button for 12s "just you", then replays the exact
 // same round with an AI multiplier on. The payoff is the ratio and the line the
 // whole activity exists for: it never tapped the button for you. Built imperatively
@@ -6649,18 +6651,12 @@ function EmbeddingsSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
-// 2048: the Vector Space fun-beat TRY IT. A self-contained sliding-tile puzzle
-// (reach the 2048 tile). React renders ONE empty container; the engine builds and
-// owns 100% of the DOM inside it, so React never reconciles (and never fights) the
-// imperative tile/score mutations. Completion follows the app's standard pattern:
-// the engine flips a React `done` state after a few real moves, and a useEffect
-// fires onComplete the React way.
-function Game2048TryIt(props) {
+// Playable 2048 demo inside the Vector Space LAB. React renders an empty
+// container; the engine owns its tile and score updates. LAB checkmarks are
+// tracked separately by Build2048Lab.
+function Game2048Demo() {
   var E = React.createElement;
   var rootRef = useRef(null);
-  var _done = useState(false), done = _done[0], setDone = _done[1];
-
-  useEffect(function () { if (done && props.onComplete) props.onComplete(); }, [done]);
 
   useEffect(function () {
     var root = rootRef.current;
@@ -6677,14 +6673,14 @@ function Game2048TryIt(props) {
     var CSS =
       ".g2048{font-family:var(--sans)}" +
       ".g2048 .g2048-layout{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}" +
-      ".g2048 .g2048-left{flex:1 1 380px;max-width:480px;min-width:280px}" +
-      ".g2048 .g2048-right{flex:1 1 300px;min-width:260px}" +
+      ".g2048 .g2048-left{flex:1 1 380px;max-width:min(480px,100%);min-width:0}" +
+      ".g2048 .g2048-right{flex:1 1 300px;min-width:0;max-width:100%}" +
       ".g2048 .g2048-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}" +
       ".g2048 .g2048-scores{display:flex;gap:10px}" +
       ".g2048 .g2048-score{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:6px 14px;text-align:center;min-width:70px;position:relative}" +
       ".g2048 .g2048-score .lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--inkMuted);font-weight:700}" +
       ".g2048 .g2048-score .val{font-family:var(--serif);font-size:24px;font-weight:700;line-height:1.15;color:var(--ink)}" +
-      ".g2048 .g2048-gain{position:absolute;left:0;right:0;top:6px;color:var(--tryAccent);font-weight:800;font-size:17px;pointer-events:none;opacity:0}" +
+      ".g2048 .g2048-gain{position:absolute;left:0;right:0;top:6px;color:var(--labAccent);font-weight:800;font-size:17px;pointer-events:none;opacity:0}" +
       "@keyframes g2048FloatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-24px)}}" +
       ".g2048 .g2048-btn{background:var(--primary);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:14px;padding:10px 16px;border-radius:10px;white-space:nowrap}" +
       ".g2048 .g2048-btn:hover{background:var(--primaryDeep,#5a3fe0)}" +
@@ -6713,7 +6709,7 @@ function Game2048TryIt(props) {
       ".g2048 .g2048-howto ul{list-style:none;margin:0;padding:16px 20px 18px}" +
       ".g2048 .g2048-howto li{position:relative;padding-left:22px;margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--inkSoft)}" +
       ".g2048 .g2048-howto li:last-child{margin-bottom:0}" +
-      ".g2048 .g2048-howto li:before{content:'';position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--tryAccent)}" +
+      ".g2048 .g2048-howto li:before{content:'';position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--labAccent)}" +
       ".g2048 .g2048-howto b{color:var(--ink);font-weight:700}" +
       ".g2048 .g2048-key{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 6px;margin:0 2px;vertical-align:-6px;border:1px solid var(--rule);border-radius:7px;background:var(--bg);font-family:var(--sans);font-size:13px;font-weight:700;color:var(--inkSoft)}";
 
@@ -6737,7 +6733,7 @@ function Game2048TryIt(props) {
     top.appendChild(scores); top.appendChild(newBtn); leftCol.appendChild(top);
 
     var boardWrap = el("div", "g2048-board-wrap");
-    var boardEl = el("div", "g2048-board"); boardEl.setAttribute("tabindex", "0");
+    var boardEl = el("div", "g2048-board"); boardEl.setAttribute("tabindex", "0"); boardEl.setAttribute("aria-label", "Playable 2048 game. Use arrow keys or swipe to move the tiles.");
     for (var cc = 0; cc < SIZE * SIZE; cc++) boardEl.appendChild(el("div", "g2048-cell"));
     var tilesEl = el("div", "g2048-tiles"); boardEl.appendChild(tilesEl);
     var overlayEl = el("div", "g2048-overlay");
@@ -6767,7 +6763,7 @@ function Game2048TryIt(props) {
 
     // ---- engine ----
     var grid, disappearing = [], tileEls = {};
-    var score = 0, best = 0, idSeq = 1, moveTally = 0;
+    var score = 0, best = 0, idSeq = 1;
     var won = false, keepGoing = false, over = false, busy = false;
 
     function emptyGrid() { var g = []; for (var r = 0; r < SIZE; r++) { g.push([]); for (var c = 0; c < SIZE; c++) g[r].push(null); } return g; }
@@ -6821,8 +6817,6 @@ function Game2048TryIt(props) {
         disappearing.forEach(function (t) { var e = tileEls[t.id]; if (e) { tilesEl.removeChild(e); delete tileEls[t.id]; } });
         disappearing = []; spawn(); render(); busy = false; checkState();
       }, 120);
-      moveTally++;
-      if (moveTally >= 6) setDone(true);
     }
 
     function movesAvailable() {
@@ -6907,18 +6901,52 @@ function Game2048TryIt(props) {
     return function () { window.removeEventListener("keydown", onKey); };
   }, []);
 
-  return E(React.Fragment, null,
-    E(InteractiveBox, {
-      variant: "try", surface: "mint", title: "Play 2048",
-      lead: "Time to give your brain a rest with a game. You’ll build your own version later in the course.",
-      instructions: [
-        "Use the arrow keys or swipe to slide every tile.",
-        "Join matching tiles to create larger numbers.",
-        "Keep combining tiles and see how high you can score."
-      ]
-    },
-      E(InnerCard, null,
-        E("div", { ref: rootRef }))));
+  return E("div", { style: { marginBottom: 20 } },
+    E("p", { style: { margin: "0 0 16px", fontSize: 16, lineHeight: 1.6 } },
+      "Try the game before you build it. Use the arrow keys, swipe, or select the arrow buttons to slide the tiles. Join matching numbers and see how high you can score."),
+    E("div", { ref: rootRef }));
+}
+function Build2048Lab() {
+  var E = React.createElement;
+  var [projectChecked, setProjectChecked] = useLocalStorage("llm-lab-2048-project-steps-v1", {});
+  var [gameChecked, setGameChecked] = useLocalStorage("llm-lab-2048-build-steps-v1", {});
+  var PROJECT_STEPS = [
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and sign in.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
+    { title: "Create your second coding project", body: "Start a new project. Before creating it, choose Project-only memory to keep this game separate from your Dino game. Name it My Second Coding Project, then select Create project." },
+    { title: "Add the coding instructions", body: "Open the project instructions and paste the beginner-friendly instructions below.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." }
+  ];
+  var GAME_STEPS = [
+    { title: "Build your game", body: "Start a new chat inside the project. Copy and send the prompt below. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
+    { title: "Download and play version one", body: "Download the HTML file and save it as my-2048-game-v1.html. Open it in Chrome, try combining tiles, and choose one thing you’d like to change. If something doesn’t work, tell ChatGPT what happened and ask for a fix." },
+    { title: "Change one thing", body: "Return to the same ChatGPT conversation and ask for one specific change: emoji tiles instead of numbers, a 5-by-5 board, an undo button, or a dark theme. If you reach a tool limit, return after it resets to finish the change." },
+    { title: "Download and test version two", body: "Download the revised HTML file as my-2048-game-v2.html and open that new file in Chrome. Does your change work? Check that tiles still slide and merge and the score updates. Keep both files so you can compare them. If something broke, describe the problem in the same conversation and ask for a fix." }
+  ];
+  var checkedCount = PROJECT_STEPS.reduce(function(n, _step, i) { return n + (projectChecked[i] ? 1 : 0); }, 0)
+    + GAME_STEPS.reduce(function(n, _step, i) { return n + (gameChecked[i] ? 1 : 0); }, 0);
+  var headingStyle = { margin: "0 0 16px", fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, lineHeight: 1.3, color: "var(--labAccent)" };
+  return E(InteractiveBox, {
+    variant: "lab", surface: "teal", title: "Build Your Own 2048",
+    hint: "Click the box after you finish each step.",
+    lead: "Take a game break, then build your own version with AI. Set up a separate coding project, play 2048, and make a version you can download and change.",
+    action: E(ActivityCounter, { count: checkedCount, total: PROJECT_STEPS.length + GAME_STEPS.length })
+  },
+    E("section", { "aria-labelledby": "second-coding-project-instructions" },
+      E("h3", { id: "second-coding-project-instructions", style: headingStyle }, "Your Coding Project"),
+      E(LabStepList, {
+        steps: PROJECT_STEPS, checked: projectChecked,
+        onToggle: function(i) { setProjectChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      })),
+    E("section", { "aria-labelledby": "your-2048-game-instructions", style: { marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--labAccent)" } },
+      E("h3", { id: "your-2048-game-instructions", style: headingStyle }, "Your 2048 Game"),
+      E(Game2048Demo, null),
+      E(LabStepList, {
+        steps: GAME_STEPS, checked: gameChecked,
+        onToggle: function(i) { setGameChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      }),
+      E("p", { style: { margin: "20px 0 0", fontSize: 16, lineHeight: 1.6 } },
+        E("strong", null, "Make it yours (optional): "),
+        "Try more changes, one at a time. Download and test each new version. Keep your favorites so you can play them again."))
+  );
 }
 // Shared lesson/video scenes. Controlled steps let a capture use the exact lesson
 // diagram; the learner wrapper owns pacing, replay, and reduced-motion behavior.
@@ -7192,7 +7220,7 @@ function VectorSpaceSection(props) {
       "."),
     E(VectorContextIllustration, null),
     closeBoard("vectorspace")),
-    E(Game2048TryIt, null),
+    E(Build2048Lab, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prediction"); }, label: "Next: How AI Answers" }));
 }
@@ -7627,17 +7655,51 @@ function OutsideWindowBox() {
       React.createElement("p", null, React.createElement("strong", null, "Earlier Conversations: "), "Don’t assume AI has everything you said in another chat. Memory and projects can bring information forward, but you may still need to supply missing details."),
       React.createElement("p", null, "Before you ask, check: does AI have the information it needs?")));
 }
-function PromptSection(props) {
-  const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps-v2", {});
-  const LAB_STEPS = [
-    { title: "Log in to ChatGPT", body: "Select Open ChatGPT and sign in.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
-    { title: "Start your first project", body: "Find Projects and start a new one. Don\u2019t name or create it yet." },
-    { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations." },
-    { title: "Name and create it", body: "Enter \u201CMy First Coding Project\u201D as the name. Then click Create project." },
-    { title: "Give it the right context", body: "Inside the project, find its instructions and paste the text below. These instructions tell ChatGPT how to help you. You don’t need to share personal details.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." },
-    { title: "See Your Context at Work", body: "Start a new chat inside your project. Ask the question below without repeating that you’re a beginner. Notice how AI explains the answer. Your project instructions are already part of the context.", prompt: "How does code turn into a game I can play?" }
+function CodingProjectGameLab() {
+  var E = React.createElement;
+  var [projectChecked, setProjectChecked] = useLocalStorage("llm-lab-first-game-project-steps-v1", {});
+  var [gameChecked, setGameChecked] = useLocalStorage("llm-lab-first-game-build-steps-v1", {});
+  var PROJECT_STEPS = [
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and sign in.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
+    { title: "Create your coding project", body: "Find Projects and start a new one. Before creating it, choose Project-only memory to keep its context separate from other conversations. Name it My First Coding Project, then select Create project." },
+    { title: "Give it the right context", body: "Open the project instructions and paste the text below. These instructions tell ChatGPT how to help you throughout the project.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." }
   ];
-  var labCheckedCount = LAB_STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
+  var GAME_STEPS = [
+    { title: "Build your game", body: "Start a new chat inside your project. Copy and send the prompt below. Your project instructions are already part of the context, so you don’t need to repeat that you’re a beginner. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score." },
+    { title: "Play your game", body: "Play the game in ChatGPT’s preview window. If you only get an HTML file, download it and open it in Chrome. Try jumping, watch the score, and choose one thing you’d like to change. If something doesn’t work, tell ChatGPT what happened and ask it to fix it." },
+    { title: "Change one thing", body: "Stay in the same conversation and ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. The game and your earlier messages are already in the conversation’s context. If you reach a tool limit, return after it resets to finish the change." },
+    { title: "Play the updated version", body: "Download the revised HTML file and open that new file in Chrome to test your change. Does it work? Check that you can still jump and keep score. If something broke, describe the problem in the same conversation and ask for a fix." }
+  ];
+  var checkedCount = PROJECT_STEPS.reduce(function(n, _step, i) { return n + (projectChecked[i] ? 1 : 0); }, 0)
+    + GAME_STEPS.reduce(function(n, _step, i) { return n + (gameChecked[i] ? 1 : 0); }, 0);
+  var headingStyle = { margin: "0 0 16px", fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, lineHeight: 1.3, color: "var(--labAccent)" };
+  return E(InteractiveBox, {
+    variant: "lab",
+    surface: "teal",
+    title: "Build Your First Game",
+    hint: "Click the box after you finish each step.",
+    lead: "Give AI the context it needs, then put it to work. Set up a coding project with beginner-friendly instructions, build a Dino game, and make it your own without writing the code yourself.",
+    action: E(ActivityCounter, { count: checkedCount, total: PROJECT_STEPS.length + GAME_STEPS.length })
+  },
+    E("section", { "aria-labelledby": "coding-project-instructions" },
+      E("h3", { id: "coding-project-instructions", style: headingStyle }, "Your Coding Project"),
+      E(LabStepList, {
+        steps: PROJECT_STEPS, checked: projectChecked,
+        onToggle: function(i) { setProjectChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      })),
+    E("section", { "aria-labelledby": "first-game-instructions", style: { marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--labAccent)" } },
+      E("h3", { id: "first-game-instructions", style: headingStyle }, "Your First Game"),
+      E(DinoGameDemo, null),
+      E(LabStepList, {
+        steps: GAME_STEPS, checked: gameChecked,
+        onToggle: function(i) { setGameChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      }),
+      E("p", { style: { margin: "20px 0 0", fontSize: 16, lineHeight: 1.6 } },
+        E("strong", null, "Make it yours (optional): "),
+        "Keep experimenting with new characters, obstacles, or sounds. Ask for one change at a time and play each version to see what changed."))
+  );
+}
+function PromptSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prompt" }),
     React.createElement(LessonReading, { sectionId: "prompt" },
@@ -7676,19 +7738,7 @@ function PromptSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Ever been deep in a long chat, and AI seems to forget something you told it earlier? One reason is space. The context window has a limit. As the conversation grows, older parts can be shortened or left out. If an important detail gets lost, remind AI. And when you’re starting a different task, start a fresh chat."),
     closeBoard("prompt")),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "lab",
-      surface: "teal",
-      title: "Set Up Your First Project",
-      hint: "Click the box after you finish each step.",
-      lead: "Time to build a context you control. In a few minutes you’ll create a ChatGPT project, keep it in its own lane, and give it only what it needs. You’ll use this project in the next coding lab.",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: LAB_STEPS.length })
-    },
-      /*#__PURE__*/React.createElement(LabStepList, {
-        steps: LAB_STEPS,
-        checked: labChecked,
-        onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
-      })),
+    React.createElement(CodingProjectGameLab, null),
     React.createElement(GroupExercise, { id: "prompt-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prompt-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
@@ -8425,7 +8475,7 @@ function DinoGameDemo() {
     var ctx = canvas.getContext("2d");
     var H = 180, W = 0, dpr = window.devicePixelRatio || 1;
     function resize() {
-      W = Math.max(280, wrap.clientWidth);
+      W = Math.max(1, wrap.clientWidth);
       canvas.style.width = W + "px";
       canvas.style.height = H + "px";
       canvas.width = Math.round(W * dpr);
@@ -8511,19 +8561,28 @@ function DinoGameDemo() {
       raf = requestAnimationFrame(loop);
     }
     function onKey(e) {
-      if (e.code === "Space" || e.code === "ArrowUp") { e.preventDefault(); jump(); }
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.code !== "Space" && e.code !== "ArrowUp") return;
+      if (document.activeElement !== canvas) {
+        // Leave other controls and offscreen page scrolling alone.
+        if (e.target.closest && e.target.closest("a, button, input, textarea, select, [contenteditable]:not([contenteditable='false']), [role='button'], [role='slider']")) return;
+        var bounds = canvas.getBoundingClientRect();
+        if (bounds.width <= 0 || bounds.height <= 0 || bounds.top < 0 || bounds.bottom > window.innerHeight) return;
+      }
+      e.preventDefault();
+      if (e.repeat) return;
+      canvas.focus({ preventScroll: true });
+      jump();
     }
-    function onPress(e) { e.preventDefault(); canvas.focus(); jump(); }
-    canvas.addEventListener("keydown", onKey);
-    canvas.addEventListener("mousedown", onPress);
-    canvas.addEventListener("touchstart", onPress, { passive: false });
+    function onPress(e) { e.preventDefault(); canvas.focus({ preventScroll: true }); jump(); }
+    window.addEventListener("keydown", onKey);
+    canvas.addEventListener("pointerdown", onPress);
     window.addEventListener("resize", resize);
     raf = requestAnimationFrame(function(t) { last = t; loop(t); });
     return function() {
       cancelAnimationFrame(raf);
-      canvas.removeEventListener("keydown", onKey);
-      canvas.removeEventListener("mousedown", onPress);
-      canvas.removeEventListener("touchstart", onPress);
+      window.removeEventListener("keydown", onKey);
+      canvas.removeEventListener("pointerdown", onPress);
       window.removeEventListener("resize", resize);
     };
   }, []);
@@ -8531,25 +8590,71 @@ function DinoGameDemo() {
     style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px 10px", boxShadow: "var(--shadowSoft)", marginBottom: 14 }
   },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
-      "Here’s the finished product, built from the exact prompt in step 3. ",
-      /*#__PURE__*/React.createElement("strong", null, "Spacebar or tap to jump.")),
+      "Try this example of the game you’re about to build. ",
+      /*#__PURE__*/React.createElement("strong", null, "Press Space or ↑, or click or tap the game, to start and jump.")),
     /*#__PURE__*/React.createElement("div", { ref: wrapRef },
       /*#__PURE__*/React.createElement("canvas", {
-        ref: canvasRef, tabIndex: 0, "aria-label": "Playable dinosaur runner game demo",
-        style: { display: "block", borderRadius: 8, background: "var(--bg)", outline: "none", touchAction: "none", cursor: "pointer" }
+        ref: canvasRef, tabIndex: 0, className: "dino-game-canvas", "aria-label": "Playable dinosaur runner game demo. Press Space or Arrow Up to start and jump.",
+        style: { display: "block", borderRadius: 8, background: "var(--bg)", touchAction: "none", cursor: "pointer" }
+      })));
+}
+function HallucinationQuiz() {
+  var E = React.createElement;
+  var QUESTIONS = [
+    { question: "Which answer contains a hallucination?", options: [
+      { label: "A suggestion you dislike", correct: false, headline: "Disliking it doesn’t make it false.",
+        feedback: "A suggestion can be unhelpful or wrong for you without inventing a fact. Look for a made-up factual claim." },
+      { label: "A study that doesn’t exist", correct: true, headline: "The source was invented.",
+        feedback: "Presenting a nonexistent study as real is a hallucination. Its title, authors, and findings can sound convincing even though the study does not exist." },
+      { label: "An admission of uncertainty", correct: false, headline: "Uncertainty is not an invention.",
+        feedback: "Saying “I don’t know” acknowledges a limit. A hallucination presents made-up information as though it were true." }
+    ] },
+    { question: "Why can a made-up detail sound convincing?", options: [
+      { label: "AI learns how credible answers sound", correct: true, headline: "The pattern can sound right.",
+        feedback: "AI has learned the language of explanations and research findings. It can generate that language without accurately reporting a real fact." },
+      { label: "AI checks every fact first", correct: false, headline: "Fluent wording is not verification.",
+        feedback: "Generating an answer does not mean every detail was checked. A polished response can still contain an invented name, date, or statistic." },
+      { label: "AI intends to deceive you", correct: false, headline: "A hallucination need not be deliberate.",
+        feedback: "AI can generate a false claim while trying to answer. A convincing error does not establish an intention to deceive." }
+    ] },
+    { question: "Can a mostly accurate answer contain a hallucination?", options: [
+      { label: "No, accurate facts validate the whole answer", correct: false, headline: "Correct facts don’t validate nearby claims.",
+        feedback: "Naming a real university does not make a study attributed to it real. Each accurate detail leaves room for another detail to be invented." },
+      { label: "Only if it contradicts itself", correct: false, headline: "An invention can fit the story.",
+        feedback: "An invented quotation or date can fit smoothly into an answer. The response does not have to contradict itself to contain a hallucination." },
+      { label: "Yes, one detail can be invented", correct: true, headline: "One detail is enough.",
+        feedback: "A hallucination can be just one name, date, quotation, or statistic surrounded by accurate information." }
+    ] },
+    { question: "Which is enough to establish that an AI claim is true?", options: [
+      { label: "Precise dates and statistics", correct: false, headline: "Precision is not proof.",
+        feedback: "AI can invent an exact year or percentage as easily as a vague claim. Specific numbers can make an error look more credible." },
+      { label: "Neither of these", correct: true, headline: "Presentation cannot establish truth.",
+        feedback: "Neither precise details nor confident explanations establish that a claim is true. Evidence matters more than how the answer sounds." },
+      { label: "A confident, detailed explanation", correct: false, headline: "Confidence is not accuracy.",
+        feedback: "A clear, detailed explanation can still be built around a false claim. AI’s tone does not tell you whether its facts are right." }
+    ] },
+    { question: "AI misreads a real article. Is every error a hallucination?", options: [
+      { label: "No, AI can also misunderstand", correct: true, headline: "Errors can happen in different ways.",
+        feedback: "This lesson distinguishes inventing a factual claim from misreading real information. Both can produce an incorrect answer." },
+      { label: "Yes, every wrong answer is a hallucination", correct: false, headline: "Not every error invents a fact.",
+        feedback: "People sometimes use hallucination for any AI mistake. Here, the distinction is between making up a fact and misunderstanding an existing source." },
+      { label: "Real sources guarantee accurate summaries", correct: false, headline: "A real source can still be misread.",
+        feedback: "AI can overlook a condition, confuse two findings, or draw an unsupported conclusion from a real article. The source’s existence does not guarantee a correct summary." }
+    ] }
+  ];
+  return E(InteractiveBox, {
+    variant: "try", surface: "mint", title: "Check Your Understanding",
+    lead: "What makes an AI hallucination hard to spot? Put the lesson’s ideas to the test.",
+    instructions: ["Read each question and choose the best answer.", "Read the feedback. If you miss one, try another answer."]
+  },
+    E(InnerCard, null,
+      QUESTIONS.map(function(question, i) {
+        return E("div", { key: i, className: "hallucination-quiz-question", style: { paddingTop: i === 0 ? 0 : 24, marginTop: i === 0 ? 0 : 24, borderTop: i === 0 ? "none" : "1px solid var(--rule)" } },
+          E(QuizBlock, { surface: "mint", questionNumber: i + 1, statement: question.question,
+            totalQuestions: QUESTIONS.length, options: question.options }));
       })));
 }
 function HallucinationSection(props) {
-  const [dinoChecked, setDinoChecked] = useState({});
-  const DINO_STEPS = [
-    { title: "Go to ChatGPT", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and sign in." },
-    { title: "Open your coding project", body: "Open My First Coding Project, the project you created in the Context Matters lab. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
-    { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
-    { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
-    { title: "Change one thing at a time", body: "Ask for one specific change: a new character, a duck move, night mode after 500 points, or sound effects. Specific asks beat \u201cmake it better.\u201d If the free plan says you reached a tool limit, your first game still counts; note the reset time and make the change later." },
-    { title: "Make it yours", body: "Keep going until it feels like your game. If you downloaded the first version, download the revised HTML file and open that new version in Chrome to see the change." }
-  ];
-  var dinoCheckedCount = Object.keys(dinoChecked).filter(function(k) { return dinoChecked[k]; }).length;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
     React.createElement(LessonReading, { sectionId: "hallucination" },
     /*#__PURE__*/React.createElement("img", {
@@ -8598,30 +8703,7 @@ function HallucinationSection(props) {
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Find the Source."), " Look for the original study, article, or document. A citation alone isn’t proof."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Check the Match."), " Does the source exist, and does it actually support what AI said?"))),
     closeBoard("hallucination")),
-    /*#__PURE__*/React.createElement(InteractiveBox, {
-      variant: "lab",
-      surface: "teal",
-      title: "Build the Dino Game",
-      hint: "Click the box after you finish each step.",
-      lead: "You just saw the downside of AI working through patterns. When a fact is missing, AI can fill the space with something that sounds true. Now see the upside. A simple game follows familiar coding patterns, and AI is extremely good at putting those patterns together. You’re going to make your own version of the classic no-wifi dinosaur game without writing a single line of code.",
-      action: /*#__PURE__*/React.createElement(ActivityCounter, { count: dinoCheckedCount, total: DINO_STEPS.length })
-    },
-      /*#__PURE__*/React.createElement(DinoGameDemo, null),
-      /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        DINO_STEPS.map(function(st, i) {
-          var done = !!dinoChecked[i];
-          return /*#__PURE__*/React.createElement("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setDinoChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.body),
-              st.open ? React.createElement(LabOpenAction, st.open) : null,
-              st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
-        }))),
+    React.createElement(HallucinationQuiz, null),
   React.createElement(GroupExercise, { id: "hallucination-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "hallucination-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),
@@ -8937,7 +9019,7 @@ function WhatItDoesBestSection(props) {
       ok: "Tell AI about your business idea, your budget, and the shops you want to help. It can help you work through the pieces and build a plan. That’s Work Through Problems.",
       no: "Tell AI about your business idea, your budget, and the shops you want to help. It can help you work through the pieces and build a plan. That’s Work Through Problems." } }
   ];
-  const TF_LABELS = { "fit": "Fits a strength", "notfit": "Not a fit" };
+  const TF_LABELS = { "fit": "Good fit", "notfit": "Not the best fit" };
   const TF_ORDER = ["fit", "notfit"];
   return E("div", null,
     E(LessonHeader, { sectionId: "whatitdoesbest" }),
@@ -8993,7 +9075,7 @@ function WhatItDoesBestSection(props) {
       lead: "The same AI can be a strong fit for one job and a weak fit for another.",
       instructions: [
         "Read the task.",
-        "Decide whether it matches an AI strength.",
+        "Decide whether AI is a good choice for the task as described.",
         "Choose your answer."
       ]
     },
@@ -9197,9 +9279,10 @@ function FocusedGuidedLearningLab() {
   var [focusedChecked, setFocusedChecked] = useLocalStorage("llm-lab01-steps-v3", {});
   var [guidedChecked, setGuidedChecked] = useLocalStorage("llm-lab-learning-coach-steps-v2", {});
   var FOCUSED_STEPS = [
-    { title: "Open the packet", body: "Select Open Packet to read the Start Smarter packet in a new tab. It contains the seven learning lessons from the first part of the course. Skim it so you know what you’re handing over.", open: { href: "packets/start-smarter.pdf?v=20261106type1", label: "Open Packet" } },
-    { title: "Download the file", body: "In the browser tab that has the packet, click the download button (look near the top corner of the PDF viewer) and save the file where you can find it. Gemini Notebook needs the file itself, not the open tab." },
-    { title: "Go to Gemini Notebook", body: "Select Open Gemini Notebook and sign in with your Google account.", open: { href: "https://notebook.google.com", label: "Open Gemini Notebook" } },
+    { title: "Skim the packet", body: "Select Open Packet to read the Start Smarter packet in a new tab. It contains the seven learning lessons from the first part of the course. Skim it so you know what you’re handing over, then return to this tab.", open: { href: "packets/start-smarter.pdf?v=20261106type1", label: "Open Packet" } },
+    { title: "Download the packet", body: "Select Download Packet to save start-smarter.pdf. You’ll upload this file to Gemini Notebook.",
+      content: E(ActivityButton, { size: "lab", href: "packets/start-smarter.pdf?v=20261106type1", download: "start-smarter.pdf" }, "Download Packet") },
+    { title: "Open Gemini Notebook", body: "Select Open Gemini Notebook and sign in with your Google account.", open: { href: "https://notebook.google.com", label: "Open Gemini Notebook" } },
     { title: "Create the course notebook", body: [
       "Click ",
       E("strong", { key: "cb" }, "+ Create notebook"),
@@ -9218,12 +9301,13 @@ function FocusedGuidedLearningLab() {
     { title: "Copy the question", body: E(React.Fragment, null,
       "Select ", E("strong", null, "Copy Prompt"), " to copy the question below. You’ll paste it into ChatGPT in the next step."),
       prompt: "I’m a high school student. How does an LLM learn patterns during training and use them to answer my questions?" },
-    { title: "Open Study mode and ask", body: E(React.Fragment, null,
+    { title: "Open Study Mode in ChatGPT", body: E(React.Fragment, null,
       "Select ", E("strong", null, "Open Study Mode"), ". Sign in if needed and check that ", E("strong", null, "Study"), " is selected. If it isn’t, type ", E("strong", null, "@study"), " in the message box and select ", E("strong", null, "Study"), " from the suggestions. Then paste the question you copied and send it."),
       content: E(ActivityButton, {
         size: "lab", href: "https://chatgpt.com/studymode", "aria-label": "Open Study Mode (opens in a new tab)"
       }, "Open Study Mode") },
-    { title: "Work through it", body: "Answer ChatGPT’s questions. Ask for a hint or a different explanation when you get stuck. After a few exchanges, look away from the chat and explain in your own words how training helps an LLM answer a question. If you get stuck, return to the chat and work through that part." }
+    { title: "Work through it", body: "Answer ChatGPT’s questions. Ask for a hint or a different explanation when you get stuck. After a few exchanges, look away from the chat and explain in your own words how training helps an LLM answer a question. If you get stuck, return to the chat and work through that part." },
+    { title: "Try something tough from class", body: "Pick something you’re struggling with in one of your classes. Tell Study Mode what you’re learning and where you’re stuck. Work through its questions, then try explaining the idea or solving a similar problem on your own." }
   ];
   var checkedCount = FOCUSED_STEPS.reduce(function(n, _s, i) { return n + (focusedChecked[i] ? 1 : 0); }, 0)
     + GUIDED_STEPS.reduce(function(n, _s, i) { return n + (guidedChecked[i] ? 1 : 0); }, 0);
@@ -12541,7 +12625,7 @@ function GroupActivityDirectory(props) {
             E("div", { className: "group-directory-description" }, E("h4", null, activity.title), E("p", null, activity.note)),
             E("p", { className: "group-directory-related" }, E("span", null, "Related lesson:"),
               E("button", { type: "button", className: "group-directory-lesson-link", onClick: function() { props.onNavigate(activity.lesson); }, "aria-label": "View lesson: " + lesson.label }, lesson.label)),
-            E("a", { href: activity.href, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open " + activity.title + " (opens in a new tab)" }, activity.type === "Discussion" ? "Open discussion ↗" : "Open activity ↗"));
+            E("a", { href: activity.href, target: "_blank", rel: "noopener noreferrer", "data-sample-allowed": "", "aria-label": "Open " + activity.title + " (opens in a new tab)" }, activity.type === "Discussion" ? "Open discussion ↗" : "Open activity ↗"));
         })));
     }));
 }
@@ -12879,9 +12963,7 @@ function QuestionsValuableSection(props) {
     { title: "Open ChatGPT", body: "Select Open ChatGPT and start a new chat outside any project.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Ask the weak question", body: "Send this question and read the answer. It has already chosen a side, so it asks AI for support instead of understanding.", prompt: "Homework doesn’t help students learn. Can you help me prove it?" },
     { title: "Ask a better question", body: "Start another new chat. Send this question and read the answer.", prompt: "For high-school students, what kinds of homework improve learning, what kinds do not, and what evidence explains the difference?" },
-    { title: "Compare the answers", body: "Read both answers. Did AI accept the first question’s claim or push back? What changed when you asked the second question?" },
-    { title: "Find the four qualities", body: "Check the second question against the board: open-minded, specific, on target, and open-ended. Find the words that make each quality visible." },
-    { title: "Rewrite one of your questions", body: "Choose something you genuinely want to understand. Write the first question that comes to mind, then use the four qualities to make it better. Send the better version to ChatGPT." }
+    { title: "Compare the answers", body: "Read both answers. Did AI accept the first question’s claim or push back? What changed when you asked the second question?" }
   ];
   var questionLabCount = QUESTION_LAB_STEPS.reduce(function(total, _step, index) { return total + (labChecked[index] ? 1 : 0); }, 0);
   return /*#__PURE__*/React.createElement("div", null,
@@ -12981,7 +13063,10 @@ function QuestionsValuableSection(props) {
         steps: QUESTION_LAB_STEPS,
         checked: labChecked,
         onToggle: function(index) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[index] = !prev[index]; return next; }); }
-      })),
+      }),
+      React.createElement("p", { style: { margin: "20px 0 0", fontSize: 16, lineHeight: 1.6 } },
+        React.createElement("strong", null, "Try it on your own (optional): "),
+        "Pick something you want to understand. Write your question, improve it using the four qualities, and ask ChatGPT.")),
     React.createElement(QuestionsMatterGroupExercise, null),
     React.createElement(GroupExercise, { id: "questionsvaluable-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "questionsvaluable-discussion"; }).questions })),
@@ -13224,22 +13309,6 @@ function WhatPeopleSaySection(props) {
 }
 function PaceOfChangeSection(props) {
   var E = React.createElement;
-  // LAB: the three-years box's "Doing" row made personal. The student rebuilds
-  // the 2048 fun-beat they played in Vector Space by directing ChatGPT, the same
-  // move they learned in the dino lab, now framed as evidence of the pace. A new
-  // project keeps this game's context separate from the dino game.
-  const [buildChecked, setBuildChecked] = useState({});
-  const BUILD_LAB_STEPS = [
-    { title: "Go to ChatGPT", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and log in." },
-    { title: "Start a new project", body: "Start a new project. Before you name or create it, open the memory menu and choose Project-only memory so this game stays separate from your dino game. Then name it My Second Coding Project and click Create project." },
-    { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." },
-    { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
-    { title: "Save and play version one", body: "Download the HTML file before asking for changes and save it as my-2048-game-v1.html. Open that file in Chrome, chase the 2048 tile for a bit, and note the first thing you would change." },
-    { title: "Change one thing", body: "Return to the same ChatGPT conversation and make one specific ask: emoji tiles instead of numbers, a 5-by-5 board, an undo button, or a dark theme. Specific asks beat “make it better.” If the free plan says you reached a tool limit, version one still counts; note the reset time and return later." },
-    { title: "Save and inspect version two", body: "When ChatGPT finishes the change, download the revised HTML file as my-2048-game-v2.html. Open that new file in Chrome and confirm the change works. Keeping both files makes the before-and-after visible." },
-    { title: "Keep what you built", body: "The game is a real file, not just a chat reply. You can open either version in Chrome anytime, with no ChatGPT account needed. Ten minutes ago this game didn’t exist. Now it’s software you own." }
-  ];
-  var buildCheckedCount = Object.keys(buildChecked).filter(function(k) { return buildChecked[k]; }).length;
   return E("div", null,
     E(LessonHeader, { sectionId: "paceofchange" }),
     React.createElement(LessonReading, { sectionId: "paceofchange" },
@@ -13289,28 +13358,6 @@ function PaceOfChangeSection(props) {
       E("p", null, "Artificial General Intelligence (AGI). AI matches human ability across many kinds of work. There is no agreed definition or test."),
       E("p", null, "Artificial Superintelligence (ASI). AI exceeds the best humans across nearly every cognitive field.")),
     closeBoard("paceofchange")),
-    E(InteractiveBox, {
-      variant: "lab",
-      surface: "teal",
-      title: "Build Your Own 2048",
-      hint: "Click the box after you finish each step.",
-      lead: "Here’s something you couldn’t do three years ago. Remember the sliding-tile game from Vector Space? You’re about to build it, by typing sentences. Ten minutes, no code.",
-      action: E(ActivityCounter, { count: buildCheckedCount, total: BUILD_LAB_STEPS.length })},
-      E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-        BUILD_LAB_STEPS.map(function(st, i) {
-          var done = !!buildChecked[i];
-          return E("div", {
-            key: i,
-            style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
-          },
-            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setBuildChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
-            E("div", { style: { flex: 1, minWidth: 0 } },
-              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
-              E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.body),
-              st.open ? React.createElement(LabOpenAction, st.open) : null,
-              st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
-        }))),
     E(GroupExercise, { id: "paceofchange-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "paceofchange-discussion"; }).questions })),
     E(LessonRule, null),
@@ -14477,6 +14524,7 @@ function LLMExplorer() {
   const introductionUrl = filePreview ? "landing.html" : "/landing.html";
   const sampleSection = getSampleSection(window.location);
   const sampleMode = !!sampleSection;
+  const groupPreview = sampleSection === "forgroups";
   const embeddedEntry = new URLSearchParams(window.location.search).get("entry") === "dialog";
   const requireEntry = new URLSearchParams(window.location.search).get("enroll") === "1";
   const [hasName, setHasName] = useState(function() { try { return !requireEntry && !!localStorage.getItem("llm-user-name"); } catch(e) { return false; } });
@@ -14553,11 +14601,11 @@ function LLMExplorer() {
     }
   },
     React.createElement("h2", { id: "sample-prompt-title" }, "Ready for the rest?"),
-    React.createElement("p", { id: "sample-prompt-description" }, "You’re trying a sample lesson. Start the course to explore every lesson and save your progress."),
+    React.createElement("p", { id: "sample-prompt-description" }, groupPreview ? "You’re exploring group activities. Start the course to explore every lesson and save your progress." : "You’re trying a sample lesson. Start the course to explore every lesson and save your progress."),
     React.createElement("p", { className: "sample-prompt-facts" }, "Free. No account required. Learn at your own pace."),
     React.createElement("div", { className: "sample-prompt-actions" },
       React.createElement("a", { href: courseUrl + "?enroll=1", className: "sample-start", "data-start-course": "", "data-entry-required": "", onClick: function() { samplePromptRef.current.close(); } }, "Start the Course →"),
-      React.createElement("button", { type: "button", onClick: function() { samplePromptRef.current.close(); } }, "Keep trying the lesson"))) : null;
+      React.createElement("button", { type: "button", onClick: function() { samplePromptRef.current.close(); } }, groupPreview ? "Keep browsing activities" : "Keep trying the lesson"))) : null;
   const activeSection = sampleMode ? sampleSection : progress.activeSection;
   useEffect(function() {
     document.body.classList.toggle("course-entry", !hasName && !sampleMode);
@@ -14993,7 +15041,7 @@ function LLMExplorer() {
           ),
           /*#__PURE__*/React.createElement("div", { className: "course-user-progress" },
             /*#__PURE__*/React.createElement("div", { className: "course-progress-block" },
-              /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, sampleMode ? "Sample lesson" : (getName() === "Friend" ? "Student" : getName())),
+              /*#__PURE__*/React.createElement("div", { className: "course-user-name" }, sampleMode ? (groupPreview ? "Group activities" : "Sample lesson") : (getName() === "Friend" ? "Student" : getName())),
               /*#__PURE__*/React.createElement(ProgressBar, { lessonsCompleted: REQUIRED_SECTIONS.filter(function(s) { return (progress.completed || []).includes(s.id); }).length })
             ),
             /*#__PURE__*/React.createElement("button", {

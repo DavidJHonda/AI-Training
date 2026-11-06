@@ -1015,6 +1015,9 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .illustration-lightbox-stage { padding: 8px; }
     .illustration-lightbox-toolbar-label { display: none; }
   }
+  /* Separate lesson explanations from hands-on practice without changing activity styling. */
+  .activity-divider { border: 0; border-top: 1px solid var(--tryAccent); margin: 40px 0 28px; }
+
   /* Video-first lesson prototype. Reading remains available in print exports. */
   .lesson-video-expanded .lesson-video-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;color:var(--ink);font-family:var(--sans)}
   .lesson-video-heading strong{font-size:17px;font-weight:800}
@@ -2114,6 +2117,9 @@ function ActivityInstructions(props) {
   }));
 }
 
+function ActivityDivider() {
+  return React.createElement("hr", { className: "activity-divider no-print", "aria-hidden": true });
+}
 function InteractiveBox(props) {
   var variant = props.variant === "lab" ? "lab" : "try";
   var hasAction = props.action !== undefined && props.action !== null && props.action !== false;
@@ -2187,7 +2193,7 @@ function InteractiveBox(props) {
       style: { marginTop: hasInstructions ? 24 : (hasTextStack || hasAction ? 18 : 0) }
     }, props.children) : null
   );
-  if (!hasLead) return boxEl;
+  if (!hasLead) return React.createElement(React.Fragment, null, React.createElement(ActivityDivider), boxEl);
   // The heading and introduction render BEFORE the box, as siblings. On screen
   // it primes the activity; in the content-only export it removes itself (see ActivityLead),
   // so the hidden box leaves no orphaned "TRY IT" text behind in the PDF.
@@ -2208,6 +2214,7 @@ function ActivityLead(props) {
   var accent = variant === "lab" ? "var(--labAccent)" : "var(--tryAccent)";
   var label = props.label || (variant === "lab" ? "LAB" : "TRY IT");
   return /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(ActivityDivider, null),
     /*#__PURE__*/React.createElement(SectionKicker, {
       as: props.title ? "h3" : "div",
       style: { color: accent, display: "flex", alignItems: "flex-start", gap: 10, textTransform: "none", letterSpacing: "normal", fontSize: props.title ? 22 : 18, lineHeight: 1.3 }
@@ -3998,7 +4005,7 @@ function LessonReading(props) {
       "aria-expanded": open, "aria-controls": contentId,
       onClick: function() { setOpen(!open); }
     },
-      E("span", null, "Read the lesson and view illustrations"),
+      E("span", null, open ? "Collapse the lesson" : "Read the lesson"),
       E("svg", { className: "reading-chevron", width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, "aria-hidden": "true" },
         E("path", { d: "m6 9 6 6 6-6" }))),
     E("div", { id: contentId, className: "lesson-reading-content", hidden: !open }, props.children));

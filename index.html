@@ -40,7 +40,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .lesson-closing-board { margin: var(--blockGap) 0; width: 100%; }
   .lesson-closing-board-view {
     display: block; width: var(--close-board-width);
-    margin: 0 auto; padding: 0; border: 0; background: #fff; cursor: zoom-in;
+    margin: 0 auto; padding: 0; border: 0; background: #fff;
   }
   .lesson-closing-board-view:focus-visible { outline: 3px solid #6c4dff; outline-offset: 4px; }
   .lesson-closing-board-view img { display: block; width: 100%; height: auto; }
@@ -932,7 +932,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .travel-skill-cell:last-child { border-bottom: 0; }
   }
   /* Lesson illustrations are fixed compositions, so their internal labels cannot
-     reflow like the rest of the course. Give each one a full-screen, zoomable view. */
+     reflow like the rest of the course. Phones get a full-screen, zoomable view. */
   .zoomable-illustration {
     cursor: zoom-in;
     transition: box-shadow .16s ease, transform .16s ease;
@@ -1633,6 +1633,7 @@ function CloseBoard(props) {
 }
 function ClosingBoardImage(props) {
   var E = React.createElement;
+  var canZoom = useIllustrationZoom();
   var figureRef = useRef(null);
   var _fits = useState(false), imageFits = _fits[0], setImageFits = _fits[1];
   var cssWidth = props.asset.cssWidth;
@@ -1656,10 +1657,10 @@ function ClosingBoardImage(props) {
     className: "lesson-closing-board" + (imageFits ? "" : " is-html"),
     style: { "--close-board-width": cssWidth + "px" }
   },
-    E("button", {
-      type: "button", className: "lesson-closing-board-view",
-      "data-lightbox-kind": "image", "data-lightbox-src": props.src,
-      "aria-label": "Enlarge the closing message", "aria-haspopup": "dialog"
+    E(canZoom ? "button" : "div", {
+      type: canZoom ? "button" : undefined, className: "lesson-closing-board-view" + (canZoom ? " zoomable-illustration" : ""),
+      "data-lightbox-kind": canZoom ? "image" : undefined, "data-lightbox-src": props.src,
+      "aria-label": canZoom ? "Enlarge the closing message" : undefined, "aria-haspopup": canZoom ? "dialog" : undefined
     }, E("img", {
       src: props.src, width: props.asset.width, height: props.asset.height,
       alt: "", "aria-hidden": true, "data-lightbox-background": true, decoding: "async"
@@ -2299,6 +2300,19 @@ function Takeaway(props) {
     return /*#__PURE__*/React.createElement("div", { style: { borderTop: "1px dashed var(--seeRule)", marginTop: 18, paddingTop: 18 } }, inner);
   }
   return /*#__PURE__*/React.createElement(InnerCard, { style: { padding: "24px 28px" } }, inner);
+}
+// Include phones held sideways without enabling zoom on larger touch tablets.
+var ILLUSTRATION_ZOOM_MEDIA = "(max-width: 760px), (max-height: 500px) and (pointer: coarse)";
+function useIllustrationZoom() {
+  var state = useState(function() { return window.matchMedia(ILLUSTRATION_ZOOM_MEDIA).matches; });
+  useEffect(function() {
+    var media = window.matchMedia(ILLUSTRATION_ZOOM_MEDIA);
+    var update = function() { state[1](media.matches); };
+    media.addEventListener("change", update);
+    update();
+    return function() { media.removeEventListener("change", update); };
+  }, []);
+  return state[0];
 }
 function useReducedMotion() {
   var _rm = useState(function() {
@@ -11162,7 +11176,7 @@ function WheresTheLineSection(props) {
     setPicks(function(prev) { var next = Object.assign({}, prev); next[id] = choice; return next; });
   }
   function board(src, alt) {
-    return E("img", { src: src + "?v=20260920draftkings3", alt: alt, className: "zoomable-illustration", tabIndex: 0, role: "button", "aria-label": "Enlarge teaching board. " + alt, "aria-haspopup": "dialog", style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12, cursor: "zoom-in" } });
+    return E("img", { src: src + "?v=20260920draftkings3", alt: alt, style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 } });
   }
   return E("div", null,
     E(LessonHeader, { sectionId: "wherestheline" }),
@@ -11550,7 +11564,8 @@ function CertificateDoc(props) {
 }
 function CertificateTeaserScene(props) {
   var E = React.createElement;
-  var interactive = props.interactive !== false;
+  var canZoom = useIllustrationZoom();
+  var interactive = props.interactive !== false && canZoom;
   return E("div", {
     className: interactive ? "zoomable-illustration" : undefined,
     "data-lightbox-kind": interactive ? "certificate-teaser" : undefined,
@@ -11568,7 +11583,7 @@ function CertificateTeaserScene(props) {
   },
     E("img", {
       src: "course-assets/the-final/the-final-certificate-wall.jpg",
-      alt: interactive ? "A framed course certificate displayed on a warm study wall beside a Dallas Stars hockey photograph and a family picture." : "",
+      alt: props.interactive !== false ? "A framed course certificate displayed on a warm study wall beside a Dallas Stars hockey photograph and a family picture." : "",
       "data-lightbox-background": "true",
       style: { display: "block", width: "100%", height: "100%", objectFit: "cover" }
     }),
@@ -14407,6 +14422,7 @@ function LLMExplorer() {
     }
     return { firstName: "", country: "" };
   });
+  const illustrationZoomEnabled = useIllustrationZoom();
   const [expandedIllustration, setExpandedIllustration] = useState(null);
   const [usingCourseOpen, setUsingCourseOpen] = useState(false);
   const illustrationTriggerRef = useRef(null);
@@ -14514,6 +14530,7 @@ function LLMExplorer() {
   };
   const usingCourseModal = React.createElement(UsingCourseModal, { open: usingCourseOpen, onClose: closeUsingCourse });
   const illustrationFromEvent = function(event) {
+    if (!illustrationZoomEnabled) return null;
     var composite = event.target && event.target.closest ? event.target.closest("[data-lightbox-kind]") : null;
     if (composite) return composite;
     var node = event.target && event.target.closest ? event.target.closest("img") : null;
@@ -14592,7 +14609,11 @@ function LLMExplorer() {
       if (!main) return;
       Array.prototype.forEach.call(main.querySelectorAll('img[src^="course-assets/"], img[src*="/course-assets/"]'), function(img) {
         if (img.hasAttribute("data-lightbox-background")) return;
-        img.classList.add("zoomable-illustration");
+        img.classList.toggle("zoomable-illustration", illustrationZoomEnabled);
+        if (!illustrationZoomEnabled) {
+          ["tabindex", "role", "aria-haspopup", "aria-label", "title"].forEach(function(attribute) { img.removeAttribute(attribute); });
+          return;
+        }
         img.setAttribute("tabindex", "0");
         img.setAttribute("role", "button");
         img.setAttribute("aria-haspopup", "dialog");
@@ -14601,7 +14622,7 @@ function LLMExplorer() {
       });
     });
     return function() { window.cancelAnimationFrame(frame); };
-  }, [progress.activeSection, hasName]);
+  }, [activeSection, hasName, illustrationZoomEnabled]);
   var printParam = null;
   try {
     printParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("print") : null;

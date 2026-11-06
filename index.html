@@ -1015,6 +1015,23 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .illustration-lightbox-stage { padding: 8px; }
     .illustration-lightbox-toolbar-label { display: none; }
   }
+  /* Video-first lesson prototype. Reading remains available in print exports. */
+  .lesson-video-expanded .lesson-video-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;color:var(--ink);font-family:var(--sans)}
+  .lesson-video-heading strong{font-size:17px;font-weight:800}
+  .lesson-video-heading span{font-size:14px;color:var(--inkMuted)}
+  .lesson-reading{margin:0 0 28px}
+  .lesson-reading-toggle{display:flex;align-items:center;gap:14px;width:100%;padding:17px 20px;border:1px solid var(--rule);border-radius:12px;background:var(--primaryFaint);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.5;text-align:left;cursor:pointer}
+  .lesson-reading-toggle:hover{border-color:var(--primary)}
+  .lesson-reading-toggle:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+  .lesson-reading-toggle .reading-chevron{margin-left:auto;flex-shrink:0;transition:transform .15s}
+  .lesson-reading-toggle[aria-expanded="true"] .reading-chevron{transform:rotate(180deg)}
+  .lesson-reading-content{padding-top:24px}
+  @media print{
+    .lesson-reading-content[hidden]{display:block!important}
+    .lesson-reading-content{padding:0}
+    .lesson-reading{margin:0}
+  }
+
   /* Per-lesson print: hide the app chrome so only the lesson (from its kicker + title
      down) goes to the PDF. Triggered by the "Print This Lesson" button -> window.print(). */
   @media print {
@@ -3968,10 +3985,32 @@ function ThreeMythsBox() {
     E("div", { style: { textAlign: "center", fontSize: BOX_TEXT, fontWeight: 700, color: "var(--ink)" } },
       "Keep those three straight and much of the confusion falls away."));
 }
+// Shared reading disclosure, initially piloted on What’s an LLM?.
+// Keep the content mounted so image enlargement and print exports use the same lesson.
+function LessonReading(props) {
+  var E = React.createElement;
+  var _o = useState(false), open = _o[0], setOpen = _o[1];
+  var contentId = props.sectionId + "-reading";
+  if (new URLSearchParams(window.location.search).has("print")) return E(React.Fragment, null, props.children);
+  return E("div", { className: "lesson-reading" },
+    E("button", {
+      type: "button", className: "lesson-reading-toggle no-print",
+      "aria-expanded": open, "aria-controls": contentId,
+      onClick: function() { setOpen(!open); }
+    },
+      E("span", null, "Read the lesson and view illustrations"),
+      E("svg", { className: "reading-chevron", width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, "aria-hidden": "true" },
+        E("path", { d: "m6 9 6 6 6-6" }))),
+    E("div", { id: contentId, className: "lesson-reading-content", hidden: !open }, props.children));
+}
 function AIHistorySection(props) {
   var E = React.createElement;
   return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory" }),
+    /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "aihistory", noWatch: true }),
+    E("div", { className: "lesson-video-expanded no-print" },
+      E("div", { className: "lesson-video-heading" }, E("strong", null, "Watch the lesson"), E("span", null, LESSON_VIDEOS.aihistory.duration)),
+      E(WatchPlayer, { video: LESSON_VIDEOS.aihistory })),
+    E(LessonReading, { sectionId: "aihistory" },
     /*#__PURE__*/React.createElement(BodyP, null, "If you’ve used AI, you’ve probably used an app like ChatGPT, Claude, or Gemini. The app is what you use. Under the hood, a ", /*#__PURE__*/React.createElement("strong", null, "Large Language Model"), ", or ", /*#__PURE__*/React.createElement("strong", null, "LLM"), " for short, does the work."),
     /*#__PURE__*/React.createElement("img", {
       src: "course-assets/whats-an-llm/whats-an-llm-llm.jpg?v=20260914attribution1",
@@ -3997,7 +4036,7 @@ function AIHistorySection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
     }),
     /*#__PURE__*/React.createElement(BodyP, null, "Each added word becomes part of what the model uses for its next prediction. More than one word can fit, so the same starting text can lead to different answers."),
-    closeBoard("aihistory"),
+    closeBoard("aihistory")),
     /*#__PURE__*/E(ContinueTheStoryLab, null),
     E(GroupExercise, { id: "aihistory-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aihistory-discussion"; }).questions })),

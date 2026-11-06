@@ -8,33 +8,51 @@ Think about it this way.
 
 Fast forward a few years. You’ve landed your dream job, and AI sits right next to you all day, cranking out drafts, code, and plans. Your coworker at the next desk is doing the same. You each have the same job, using the same AI.
 
-Here’s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It’s the new average. What you bring to the work is what takes you further.
+Then your boss gives you an assignment.
 
 ### Board 1: Same Tool. Different Advantage.
 
-**Image file:** `does-school-matter-same-tool.jpg`
+**Image file:** `does-school-matter-product-launch-faceless.jpg`
 
-![Same Tool. Different Advantage.](does-school-matter-same-tool.jpg)
+![Same Tool. Different Advantage.](../gemini-notebook/does-school-matter/assets/does-school-matter-product-launch-faceless.jpg)
 
 **Teaching content:**
 
-Two students start from the same AI answer. What each one brings to it, the knowledge and the practiced skills, is what takes the work further. The tool may be the same. What you bring to it is yours.
+Same tool. Different advantage.
 
-That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?
+The assignment: your boss asks you and a coworker to plan a new product launch. You ask AI similar questions and get similar plans.
 
-## WHAT SETS YOU APART
+Sales projections. Your coworker accepts the sales projections.
 
-Your secret sauce is the knowledge and skills you build. And where do you build them? You know where this is going: school.
+Using the math skills you learned in school, you work through the costs and find a more profitable pricing option.
 
-School is where you get to build what you bring to the work. Learn how things work. Practice writing, solving problems, making things, and working with people. Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That’s what it means to Be Smarter Than the Tool.
+Customer email. Your coworker uses the customer email as written.
+
+Using the writing skills you developed in English class, you make the message clearer and more persuasive.
+
+Market research. Your coworker accepts AI’s research without checking the sources.
+
+Using the research skills you developed in school, you compare sources and identify a more promising group of customers.
+
+The tool may be the same. What you bring to it is yours.
+
+## What You Bring
+
+You started with similar AI answers. You ended with different work.
+
+The difference was the knowledge and skills you brought to the assignment. You knew what to question, what to improve, and what else to investigate.
+
+But those abilities didn’t appear when you got the job. You started building them in school: writing papers taught you to organize ideas and make a convincing point, working through math problems helped you understand how the numbers fit together, and researching subjects taught you to weigh evidence before reaching a conclusion.
 
 ### Board 2: What School Helps You Build
 
-**Image file:** `what-school-helps-you-build.jpg`
+**Image file:** `what-school-helps-you-build-faceless.jpg`
 
-![What School Helps You Build](what-school-helps-you-build.jpg)
+![What School Helps You Build](../gemini-notebook/does-school-matter/assets/what-school-helps-you-build-faceless.jpg)
 
 **Teaching content:**
+
+Here’s what school helps you build.
 
 Knowledge: go deep in a subject you care about. Become someone people turn to for your knowledge.
 
@@ -42,11 +60,15 @@ Skills: learn to write, build, solve problems, and work with people. And practic
 
 School is where you get to build what you bring to the work.
 
+## Be Smarter Than the Tool
+
+Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That’s what it means to Be Smarter Than the Tool.
+
 ### Close
 
 **Image file:** `does-school-matter-close.jpg`
 
-![Close board](does-school-matter-close.jpg)
+![Close board](../course-assets/does-school-matter/does-school-matter-close.jpg)
 
 ## Closing Message
 

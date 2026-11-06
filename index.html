@@ -1405,7 +1405,7 @@ const CLOSE_BOARDS = {
   aihistory: { pill: "Training builds the patterns.", sticky: "The model uses those patterns to build your answer, one word at a time." },
   doesaithink: { pill: "Sounds human. Works differently.", sticky: "A convincing answer doesn’t prove understanding." },
   whybother: { pill: "The opportunity to learn is already in front of you.", sticky: "Choose something you want to get better at. Start there." },
-  studying: { pill: "Use AI to learn, not to skip the learning.", sticky: "Feed it your materials. Trace it back." },
+  studying: { pill: "Use AI to learn, not to skip the learning.", sticky: "Practice. Ask questions. Explain it yourself." },
   openerworkwith: { pill: "Don’t just use AI. Work with it.", sticky: "It doesn’t replace your thinking. It multiplies it." },
   aivscode: { pill: "Different jobs need different tools.", sticky: "Choose the tool that fits the work." },
   whatitdoesbest: { pill: "AI does some things better than others.", sticky: "“Can try” is not “built for.”" },
@@ -1678,6 +1678,7 @@ function closeBoard(sectionId) {
   var asset = CLOSE_BOARD_ASSETS[sectionId];
   if (!asset) return /*#__PURE__*/React.createElement(CloseBoard, copy);
   var src = reviewMode ? "tmp/closing-board-preview/" + asset.src : asset.src;
+  if (!reviewMode && sectionId === "studying") src += "?v=20261106learning3";
   return /*#__PURE__*/React.createElement(ClosingBoardImage, { asset: asset, copy: copy, src: src });
 }
 
@@ -5177,26 +5178,42 @@ function WhyBotherSection(props) {
     E(BodyP, null,
       "Fast forward a few years. You\u2019ve landed your dream job, and AI sits right next to you all day, cranking out drafts, code, and plans. Your coworker at the next desk is doing the same. You each have the same job, using the same AI."),
     E(BodyP, null,
-      "Here\u2019s the catch: ask AI similar questions, and you often get similar answers. They might be good. They might need work. Either way, that starting point is available to everyone. It\u2019s the new average. What you bring to the work is what takes you further."),
+      "Then your boss gives you an assignment."),
     E("img", {
-      src: "course-assets/does-school-matter/does-school-matter-same-tool.jpg?v=20260921batch5",
-      alt: "Same Tool. Different Advantage. A white female student studies historical documents, maps, photographs, and books while an East Asian female student with round glasses examines a wooden bridge model beside engineering drawings and construction materials. The tool may be the same. What you bring to it is yours.",
+      src: "course-assets/does-school-matter/does-school-matter-product-launch.jpg?v=20261106launch3",
+      alt: "Same Tool. Different Advantage. Your coworker accepts the AI plan on a laptop; you work through it with a calculator, reference sheets, and written edits. School-developed math, writing, and research skills improve the pricing, customer email, and target audience. Full comparison follows.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
     E("div", {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       E("h3", null, "Same Tool. Different Advantage."),
-      E("p", null, "Two students use the same AI starting point, then apply different knowledge and practiced skills to take the work further."),
+      E("p", null, "Your boss asks you and a coworker to plan a new product launch. You ask AI similar questions and get similar plans."),
+      E("table", null,
+        E("thead", null, E("tr", null,
+          E("th", { scope: "col" }, "Comparison"),
+          E("th", { scope: "col" }, "Your Coworker"),
+          E("th", { scope: "col" }, "You"))),
+        E("tbody", null,
+          E("tr", null,
+            E("th", { scope: "row" }, "Sales Projections"),
+            E("td", null, "Accepts the sales projections."),
+            E("td", null, "Using the math skills you learned in school, you work through the costs and find a more profitable pricing option.")),
+          E("tr", null,
+            E("th", { scope: "row" }, "Customer Email"),
+            E("td", null, "Uses the customer email as written."),
+            E("td", null, "Using the writing skills you developed in English class, you make the message clearer and more persuasive.")),
+          E("tr", null,
+            E("th", { scope: "row" }, "Market Research"),
+            E("td", null, "Accepts AI\u2019s research without checking the sources."),
+            E("td", null, "Using the research skills you developed in school, you compare sources and identify a more promising group of customers.")))),
       E("p", null, "The tool may be the same. What you bring to it is yours.")),
     E(BodyP, null,
-      "That leads to a question worth considering: In your AI future, what takes you beyond the new average? What makes you more valuable?"),
-    E(SectionKicker, null, "WHAT SETS YOU APART"),
+      "You started with similar AI answers. You ended with different work."),
     E(BodyP, null,
-      "Your secret sauce is the knowledge and skills you build. And where do you build them? You know where this is going: school."),
+      "The difference was the knowledge and skills you brought to the assignment. You knew what to question, what to improve, and what else to investigate."),
     E(BodyP, null,
-      "School is where you get to build what you bring to the work. Learn how things work. Practice writing, solving problems, making things, and working with people. Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That\u2019s what it means to ",
-      E("strong", null, "Be Smarter Than the Tool.")),
+      "But those abilities didn\u2019t appear when you got the job. You started building them in school: writing papers taught you to organize ideas and make a convincing point, working through math problems helped you understand how the numbers fit together, and researching subjects taught you to weigh evidence before reaching a conclusion."),
     E("img", {
       src: "course-assets/does-school-matter/what-school-helps-you-build.jpg?v=20261102criticalthinking2",
       alt: "",
@@ -5211,6 +5228,9 @@ function WhyBotherSection(props) {
       E("h4", null, "Skills"),
       E("p", null, "Learn to write, build, solve problems, and work with people. And practice thinking critically. Question claims, weigh evidence, and make informed decisions."),
       E("p", null, "School is where you get to build what you bring to the work.")),
+    E(BodyP, null,
+      "Find something that interests you and go deep. Whatever tools come next, that knowledge and those skills are yours. That\u2019s what it means to ",
+      E("strong", null, "Be Smarter Than the Tool.")),
     closeBoard("whybother"),
 
     E(InteractiveBox, {
@@ -9080,13 +9100,14 @@ function PromptingSection(props) {
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Matters" }));
 }
-function CourseNotebookLab() {
+function FocusedGuidedLearningLab() {
   var E = React.createElement;
-  var [labChecked, setLabChecked] = useLocalStorage("llm-lab01-steps-v2", {});
-  var STEPS = [
+  var [focusedChecked, setFocusedChecked] = useLocalStorage("llm-lab01-steps-v3", {});
+  var [guidedChecked, setGuidedChecked] = useLocalStorage("llm-lab-learning-coach-steps-v2", {});
+  var FOCUSED_STEPS = [
     { title: "Open the packet", body: [
-      E("a", { key: "pk", href: "packets/start-smarter.pdf?v=20261104sectionmoves1", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the Start Smarter packet in a new tab"),
-      ". It contains the eight learning lessons from the first part of the course. Skim it so you know what you’re handing over."
+      E("a", { key: "pk", href: "packets/start-smarter.pdf?v=20261106type1", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the Start Smarter packet in a new tab"),
+      ". It contains the seven learning lessons from the first part of the course. Skim it so you know what you’re handing over."
     ] },
     { title: "Download the file", body: "In the browser tab that has the packet, click the download button (look near the top corner of the PDF viewer) and save the file where you can find it. Gemini Notebook needs the file itself, not the open tab." },
     { title: "Go to Gemini Notebook", body: [
@@ -9106,25 +9127,45 @@ function CourseNotebookLab() {
       E("strong", { key: "btn" }, "+ Add sources"),
       " and upload the Start Smarter PDF you just downloaded."
     ] },
-    { title: "Generate a quiz to check your knowledge", body: "Use this prompt.", prompt: "Generate a 10-question quiz about the AI concepts taught in these sources. Don’t ask about the course itself, its structure, or its creators. Don’t show the answers yet. Wait for mine, then grade me." },
-    { title: "Take the quiz", body: "Answer all ten, then let it grade you." },
-    { title: "Click one citation", body: "Pick one graded answer and click its numbered citation. It lands on the exact passage of the course that taught it. Make that check a habit." },
-    { title: "Transfer it", body: "This week, make a second notebook for whichever class has your next test, and feed it your real materials: notes, slides, anything your teacher shared. The course showed you the machine; your grades are where it pays." }
+    { title: "Check your knowledge", body: "Paste this prompt into the notebook’s chat and send it. Then answer all ten questions and let it grade you. Click one citation in its feedback to check the explanation against the course materials.", prompt: "Generate a 10-question quiz about the AI concepts taught in these sources. Don’t ask about the course itself, its structure, or its creators. Don’t show the answers yet. Wait for mine, then grade me and cite the sources for your explanations." }
   ];
-  var checkedCount = STEPS.reduce(function(n, _s, i) { return n + (labChecked[i] ? 1 : 0); }, 0);
+  var GUIDED_STEPS = [
+    { title: "Copy the question", body: E(React.Fragment, null,
+      "Select ", E("strong", null, "Copy Prompt"), " to copy the question below. You’ll paste it into ChatGPT in the next step."),
+      prompt: "I’m a high school student. How does an LLM learn patterns during training and use them to answer my questions?" },
+    { title: "Open Study mode and ask", body: E(React.Fragment, null,
+      "Select ", E("strong", null, "Open Study Mode"), ". Sign in if needed and check that ", E("strong", null, "Study"), " is selected. If it isn’t, type ", E("strong", null, "@study"), " in the message box and select ", E("strong", null, "Study"), " from the suggestions. Then paste the question you copied and send it."),
+      content: E("a", {
+        href: "https://chatgpt.com/studymode", target: "_blank", rel: "noopener noreferrer",
+        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 44, padding: "10px 16px", borderRadius: 8, background: "var(--labAccent)", color: "#fff", fontWeight: 700, textDecoration: "none" }
+      }, "Open Study Mode") },
+    { title: "Work through it", body: "Answer ChatGPT’s questions. Ask for a hint or a different explanation when you get stuck. After a few exchanges, look away from the chat and explain in your own words how training helps an LLM answer a question. If you get stuck, return to the chat and work through that part." }
+  ];
+  var checkedCount = FOCUSED_STEPS.reduce(function(n, _s, i) { return n + (focusedChecked[i] ? 1 : 0); }, 0)
+    + GUIDED_STEPS.reduce(function(n, _s, i) { return n + (guidedChecked[i] ? 1 : 0); }, 0);
+  var headingStyle = { margin: "0 0 16px", fontFamily: "var(--sans)", fontSize: 20, fontWeight: 800, lineHeight: 1.3, color: "var(--labAccent)" };
   return E(InteractiveBox, {
     variant: "lab",
     surface: "teal",
-    title: "Build Your Course Notebook",
+    title: "Experience Your Study Tool and Learning Coach",
     hint: "Click the box after you complete each step.",
-    lead: "In about 25 minutes, with a laptop and a free Google account, you’ll turn this course into a Gemini Notebook study notebook and use it to quiz yourself.",
-    action: E(ActivityCounter, { count: checkedCount, total: STEPS.length })
+    lead: "Try two ways to learn with AI. First, turn the course materials into a Gemini Notebook study notebook and use it to check what you know. Then, use ChatGPT’s Study mode to work through how an LLM learns patterns and uses them to answer your questions.",
+    action: E(ActivityCounter, { count: checkedCount, total: FOCUSED_STEPS.length + GUIDED_STEPS.length })
   },
-    E(LabStepList, {
-      steps: STEPS,
-      checked: labChecked,
-      onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
-    })
+    E("section", { "aria-labelledby": "focused-learning-instructions" },
+      E("h3", { id: "focused-learning-instructions", style: headingStyle }, "Your Study Tool"),
+      E(LabStepList, {
+        steps: FOCUSED_STEPS,
+        checked: focusedChecked,
+        onToggle: function(i) { setFocusedChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      })),
+    E("section", { "aria-labelledby": "guided-learning-instructions", style: { marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--labAccent)" } },
+      E("h3", { id: "guided-learning-instructions", style: headingStyle }, "Your Learning Coach"),
+      E(LabStepList, {
+        steps: GUIDED_STEPS,
+        checked: guidedChecked,
+        onToggle: function(i) { setGuidedChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
+      }))
   );
 }
 function RidiculousStudyGroupExercise() {
@@ -9191,11 +9232,11 @@ function StudyingWithAISection(props) {
     E(BodyP, { marginBottom: 14 },
       "Here\u2019s the good news: AI might be the best study tool you\u2019ll ever get your hands on. Used the right way, it helps you finish the work and makes you genuinely sharper at the subject."),
     E(BodyP, { marginBottom: 24 },
-      "Believe it or not, this is one place where a machine has an advantage over a human tutor. AI will quiz you at 1 a.m., never sigh when you ask again, and meet you exactly where you\u2019re stuck."),
+      "Believe it or not, this is one place where a machine has an advantage over a human tutor. AI will quiz you at 1 a.m., never sigh when you ask again, and try another explanation when you\u2019re stuck."),
     E(BodyP, { marginBottom: 16 },
-      "The first move is choosing which kind of AI to aim at the job. There\u2019s a simple question to guide your choice: do you want to learn from materials you already have, or learn something new?"),
+      "You can always chat with Gemini, Claude, or ChatGPT to learn something new. But some AI tools are built specifically to help you study, whether you’re working from class materials or working through something you don’t understand."),
     E("img", {
-      src: "course-assets/learn-with-ai/learn-with-ai-study-toolkit.jpg?v=20260914attribution1",
+      src: "course-assets/learn-with-ai/learn-with-ai-study-toolkit.jpg?v=20261106type1",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
     }),
@@ -9203,16 +9244,14 @@ function StudyingWithAISection(props) {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       E("h3", null, "Which Study Tool for the Job?"),
-      E("h4", null, "Focus: Gemini Notebook"),
+      E("h4", null, "Your Study Tool: Gemini Notebook"),
       E("p", null, "Uses your materials to answer questions and create study tools. That keeps your exam prep focused on what you need to learn."),
       E("p", null, "Best use: You have the materials the test covers, including class notes, screenshots, study guides, a webpage, or a YouTube video."),
-      E("p", null, "The catch: It does not know what you did not give it. If your notes are missing a key concept, it cannot reliably fill the gap."),
-      E("h4", null, "Exploration: ChatGPT, Claude, or Gemini"),
-      E("p", null, "Makes things from scratch. Trained on massive amounts of data, it can explain or quiz you on almost anything."),
-      E("p", null, "Best use: You do not have the materials, or you want a concept explained a new way or extra practice your notes do not cover."),
-      E("p", null, "The catch: It can make things up or explain a concept differently from how your teacher taught it and expects it on the exam."),
-      E("p", null, "Choose the tool that matches how you need to learn.")),
-    E(SectionKicker, null, "WHY GEMINI NOTEBOOK"),
+      E("h4", null, "Your Learning Coach: ChatGPT Study mode or Gemini Guided Learning"),
+      E("p", null, "Guides you through a topic with questions, hints, and explanations. You do the thinking, one step at a time."),
+      E("p", null, "Best use: You want help with a difficult concept, a different explanation, or practice that checks your understanding."),
+      E("p", null, "Check your class materials. Ask your teacher if something doesn’t line up.")),
+    E(SectionKicker, null, "YOUR STUDY TOOL"),
     E(BodyP, null,
       "Use Gemini Notebook as your main study tool when you\u2019re studying from class materials. It keeps your work grounded in the notes, slides, and sources your teacher gave you."),
     E("img", {
@@ -9230,7 +9269,7 @@ function StudyingWithAISection(props) {
       E("p", null, "Quizzes, flashcards, study guides, audio and video overviews, mind maps, and more."),
       E("p", null, "Turn your class materials into the study tools you need.")),
     E("img", {
-      src: "course-assets/learn-with-ai/learn-with-ai-four-moves.jpg?v=20260914attribution1",
+      src: "course-assets/learn-with-ai/learn-with-ai-four-moves.jpg?v=20261106nobanner1",
       alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }),
@@ -9245,10 +9284,16 @@ function StudyingWithAISection(props) {
       E("h4", null, "Quiz Yourself Blind"),
       E("p", null, "Tell Gemini Notebook: “Generate a 10-question quiz from these sources only. Don’t show the answers yet. Wait for mine, then grade me.”"),
       E("h4", null, "Trace It Back"),
-      E("p", null, "If something is unclear, click the citation. It takes you back to the original material."),
-      E("p", null, "Use AI to strengthen the learning, not skip it.")),
+      E("p", null, "If something is unclear, click the citation. It takes you back to the original material.")),
+    E(SectionKicker, null, "YOUR LEARNING COACH"),
+    E(BodyP, null,
+      "Sometimes you don’t need another study guide. You need help understanding something that hasn’t clicked."),
+    E(BodyP, null,
+      "ChatGPT’s Study mode and Gemini’s Guided Learning can walk you through a topic with questions, hints, and explanations. Tell it what you’re learning and where you’re stuck. Try answering its questions, ask for a hint when you need one, and request a different explanation if you’re still confused."),
+    E(BodyP, null,
+      "You do the thinking. AI helps you figure out your next step."),
     closeBoard("studying"),
-    E(CourseNotebookLab, null),
+    E(FocusedGuidedLearningLab, null),
     E(GroupExercise, { id: "studying-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "studying-discussion"; }).questions })),
     E(RidiculousStudyGroupExercise, null),

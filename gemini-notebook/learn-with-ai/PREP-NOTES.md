@@ -1,5 +1,23 @@
 # Learn with AI video preparation
 
+## Latest status — v15 shipped locally November 6
+
+Owner-approved v15 is installed at `course-assets/learn-with-ai/learn-with-ai.mp4` (3:51.60), cache `20261106ship15`, local commit `c9c5be5e`. Installed and committed bytes match the reviewed candidate; asset integrity checks passed. **Queued for batch deployment; no push or deployment performed.** Approval followed disclosure of the unperformed direct-listening/full-speed audiovisual checks; no new listening pass is claimed. See the [shipping record](../../video-audit/learn-with-ai-build-2026-11-06-v15/REVIEW.md).
+
+## Previous build status — v15 pacing revision
+
+Built `Prompts/learn-with-ai-v15.mp4` (3:51.60) after owner review of v14. Removed the redundant 1:46–2:00 comparison and kept the canonical boards over the repeated laptop cutaways at old 2:21 and 2:57. The cut is exactly 14.600 seconds; the two board changes preserve audio. Fresh encoded ASR confirms all six required passages and both overview types. Sequential frame/timing, signal, protected-file and transition checks passed; changed-span frames and boundary strips were inspected. Direct listening/full-speed audiovisual review remains outstanding. Candidate only; not installed, committed or deployed. V14 is preserved. See the [v15 review](../../video-audit/learn-with-ai-build-2026-11-06-v15/REVIEW.md).
+
+## Previous candidate — v14 built November 6
+
+Built `Prompts/learn-with-ai-v14.mp4` (4:06.20) from original roll 3 plus donor 2’s complete output-list sentence. Current canonical boards, complete-card framing, timed outlines, replacement supporting scenes, and the standard close are assembled. Both identified guarantee passages are removed. Fresh encoded ASR confirms all six required passages and the complete output list, including audio and video overviews. Sequential decoding, audio signal checks, and all 23 transition checks passed; encoded frame samples and every-frame boundary strips were inspected. **Direct listening and full-speed audiovisual review remain outstanding.** The file is ready for owner review; it has not been installed, committed, or deployed. See the [build review](../../video-audit/learn-with-ai-build-2026-11-06-v14/REVIEW.md). Earlier preparation and donor-generation directions below are history, not current next actions.
+
+## Historical next action — after rolls 1–3
+
+Generate the focused [study-output donor](study-outputs-donor/README.txt) using its **two-file upload folder** and its own [prompt](study-outputs-donor/PROMPT.txt). Roll 3 is the preferred base; all three rolls omitted audio/video overviews. The [edit handoff](EDIT-HANDOFF.md) records the needed passage, proposed cuts, and acceptance checks. The standard five-file full-lesson kit below remains available, but is not the next requested generation. At that preparation stage, no donor or edited video had been produced.
+
+## Original full-lesson preparation
+
 Prepared November 6, 2026 from the current local lesson in `index.html`, its four canonical boards, and `lessons/learn-with-ai.md`. This is a fresh full-lesson kit under `scripts/video/PREPARATION.md`.
 
 ## Lesson arc

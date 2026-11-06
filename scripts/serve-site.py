@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Serve the static site locally using the same exact rewrites as vercel.json."""
+"""Serve the static site locally using the same exact rewrites and static-path headers as vercel.json."""
 import argparse
 import json
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -7,7 +7,9 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
-REWRITES = json.loads((ROOT / 'vercel.json').read_text())['rewrites']
+CONFIG = json.loads((ROOT / 'vercel.json').read_text())
+REWRITES = CONFIG['rewrites']
+HEADERS = CONFIG.get('headers', [])
 
 
 def rewrite_url(url):
@@ -34,6 +36,10 @@ class Handler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Cache-Control', 'no-store')
+        for rule in HEADERS:
+            if urlsplit(self.path).path == rule['source']:
+                for header in rule['headers']:
+                    self.send_header(header['key'], header['value'])
         super().end_headers()
 
 

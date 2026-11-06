@@ -538,6 +538,18 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .activity-instructions--try { padding: 0; }
     .activity-instructions--try > li { gap: 10px; }
   }
+  .lab-action-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; max-width: 100%; box-sizing: border-box; padding: 10px 20px; border: 1.5px solid var(--labAccent); border-radius: 8px; background: var(--labAccent); color: #fff; font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 1.4; text-align: center; text-decoration: none; cursor: pointer; }
+  .lab-action-button--copy { background: #fff; color: var(--labAccent); }
+  .lab-action-button--copied { background: var(--labBand); }
+  .lab-action-button:focus-visible { outline: 3px solid var(--labAccent); outline-offset: 3px; }
+  .lab-action-button:disabled { border-color: var(--inkFaint); background: var(--bg); color: var(--inkMuted); cursor: not-allowed; }
+  .lab-action-icon { width: 16px; height: 16px; flex: 0 0 16px; }
+  .lab-action-label { display: inline-grid; min-width: 0; }
+  .lab-action-label > span { grid-area: 1 / 1; }
+  .lab-action-label-reserved { visibility: hidden; }
+  .lab-prompt { display: block; margin-top: 10px; background: var(--bg); border-radius: 8px; padding: 14px; color: var(--ink); border-left: 3px solid var(--labAccent); }
+  .lab-prompt-text { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .lab-prompt-action { display: flex; justify-content: flex-start; margin-top: 14px; }
   /* Group exercise headings reveal a mint activity surface below. */
   .group-exercise { margin: 0 0 var(--blockGap); color: var(--inkSoft); font-family: var(--sans); }
   .group-exercise > summary { display: block; min-height: 44px; box-sizing: border-box; padding: 0; border-radius: 4px; cursor: pointer; list-style: none; }
@@ -1727,7 +1739,7 @@ function ResetProgressLink() {
             var keys = [];
             for (var i = 0; i < localStorage.length; i++) { keys.push(localStorage.key(i)); }
             keys.forEach(function(k) {
-              if (k.startsWith("llm-") || k.startsWith("seeit-") || k === "final-exam" || k === FINAL_ATTEMPT_KEY || k === "ai-different-messy-notes-lab-v1" || k === "ai-different-messy-notes-lab-v2") localStorage.removeItem(k);
+              if (k.startsWith("llm-") || k.startsWith("seeit-") || k === "final-exam" || k === FINAL_ATTEMPT_KEY || k === "ai-different-messy-notes-lab-v1" || k === "ai-different-messy-notes-lab-v2" || k === "ai-different-messy-notes-lab-v3" || k === "ai-different-messy-notes-lab-v4" || k === "ai-different-messy-notes-lab-v5" || k === "ai-different-messy-notes-lab-v6" || k === "ai-different-messy-notes-lab-v7") localStorage.removeItem(k);
             });
             window.location.reload();
           }
@@ -2661,6 +2673,32 @@ function WatchOverview(props) {
     E(WatchPlayer, { video: v }));
 }
 function ActivityButton(props) {
+  if (props.size === "lab") {
+    var E = React.createElement;
+    var copy = !props.href && !props.download;
+    var opensTab = props.href && !props.download;
+    var copied = copy && props.status === "copied";
+    var label = props.disabled && props.disabledLabel ? props.disabledLabel
+      : copied ? "Copied" : props.status === "copying" ? "Copying…" : props.status === "error" ? "Try Again" : props.children;
+    var icon = copy ? E("svg", { className: "lab-action-icon", viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.7, "aria-hidden": true, focusable: "false" },
+      copied ? E("path", { d: "M4 10 8 14 16 5", strokeLinecap: "round", strokeLinejoin: "round" }) :
+        E(React.Fragment, null, E("rect", { x: 7, y: 7, width: 10, height: 10, rx: 2 }), E("path", { d: "M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" }))) :
+      E("span", { "aria-hidden": true, className: "lab-action-icon" }, props.download ? "↓" : "↗");
+    return E(props.href ? "a" : "button", {
+      type: props.href ? undefined : "button", href: props.href,
+      target: opensTab ? "_blank" : undefined, rel: opensTab ? "noopener noreferrer" : undefined,
+      download: props.download,
+      className: "lab-action-button" + (copy ? " lab-action-button--copy" : "") + (copied ? " lab-action-button--copied" : ""),
+      "aria-label": props["aria-label"] || (opensTab && typeof props.children === "string" ? props.children + " (opens in a new tab)" : undefined),
+      "aria-live": copy ? "polite" : undefined,
+      "data-sample-allowed": props.sampleAllowed ? "" : undefined,
+      ref: props.buttonRef, onClick: props.onClick, disabled: props.disabled
+    }, copy ? icon : null,
+      E("span", { className: "lab-action-label" },
+        E("span", { className: "lab-action-label-reserved", "aria-hidden": true }, props.children),
+        E("span", null, label)),
+      copy ? null : icon);
+  }
   var sizeStyles = props.size === "large"
     ? { padding: "12px 28px", fontSize: 15 }
     : { padding: "10px 24px", fontSize: 14 };
@@ -3933,7 +3971,7 @@ function ContinueTheStoryLab(props) {
   var lesson = useContext(LessonContext) || {};
   var _c = useLocalStorage("llm-lab-story-steps", {}, !lesson.sample), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", "data-sample-allowed": "", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in to a free account, or create one if you don’t have one yet. Start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and sign in to a free account, or create one if you don’t have one yet. Start a new chat outside any project.", open: { href: "https://chatgpt.com", label: "Open ChatGPT", sampleAllowed: true } },
     { title: "Set the rule", body: "Open a new chat and send it this. The one-sentence limit is the whole point, so hold it to that.", prompt: "We’re going to write a story together, one sentence at a time. I write a sentence, then you write exactly one sentence back. Never more than one. Don’t try to finish the story unless I tell you to." },
     { title: "Write the opening line", body: "Anything at all. “There was a door at the back of the fridge.” Send it and let ChatGPT take the next one." },
     { title: "Go five rounds", body: "Alternate all the way. Don’t steer it, don’t correct it, don’t explain where you want it to go. Just answer whatever it hands you and see where the two of you end up." },
@@ -4025,8 +4063,6 @@ function AIHistorySection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "Each added word becomes part of what the model uses for its next prediction. More than one word can fit, so the same starting text can lead to different answers."),
     closeBoard("aihistory")),
     /*#__PURE__*/E(ContinueTheStoryLab, null),
-    E(GroupExercise, { id: "aihistory-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aihistory-discussion"; }).questions })),
     E(StandaloneGroupExercise, {
       id: "aihistory-group-exercise",
       title: "One Word at a Time",
@@ -4040,6 +4076,8 @@ function AIHistorySection(props) {
       meta: "One shared classroom screen",
       href: "group-exercises/whats-an-llm/one-word-at-a-time.html"
     }),
+    E(GroupExercise, { id: "aihistory-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aihistory-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
@@ -4117,7 +4155,7 @@ function CopyableLabPrompt(props) {
     Promise.resolve(copyAction).then(function() {
       setStatus("copied");
       if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(function() { setStatus("idle"); }, 1800);
+      timerRef.current = setTimeout(function() { setStatus("idle"); }, 2000);
     }).catch(function() {
       setStatus("error");
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4125,29 +4163,19 @@ function CopyableLabPrompt(props) {
     });
   }
 
-  return E("div", {
-    style: { display: "block", marginTop: 10, background: "var(--bg)", borderRadius: 8, padding: "10px 12px 12px 14px", color: "var(--ink)", borderLeft: "3px solid var(--labAccent)" }
-  },
-    E("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 7 } },
-      E("button", {
-        type: "button",
-        onClick: copyPrompt,
-        disabled: disabled,
-        "aria-live": "polite",
-        style: {
-          display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6,
-          minWidth: 102, padding: "6px 10px", borderRadius: 7,
-          border: "1px solid " + (disabled ? "var(--rule)" : "var(--labAccent)"),
-          background: status === "copied" ? "var(--labAccent)" : (disabled ? "var(--bg)" : "#fff"),
-          color: status === "copied" ? "#fff" : (disabled ? "var(--inkMuted)" : "var(--labAccent)"),
-          fontFamily: "var(--sans)", fontSize: 12.5, fontWeight: 800,
-          cursor: disabled ? "not-allowed" : "pointer",
-          opacity: disabled ? 0.75 : 1
-        }
-      }, disabled ? (props.disabledLabel || "Enter Field First") : (status === "copied" ? "✓ Copied" : (status === "error" ? "Try Again" : "Copy Prompt")))),
-    E("div", { style: { fontFamily: "var(--mono)", fontSize: 12.5, lineHeight: 1.6, whiteSpace: "pre-wrap", overflowWrap: "anywhere" } }, props.text),
+  return E("div", { className: "lab-prompt" },
+    E("div", { className: "lab-prompt-text" }, props.text),
+    E("div", { className: "lab-prompt-action" },
+      E(ActivityButton, {
+        size: "lab", onClick: copyPrompt, disabled: disabled,
+        disabledLabel: props.disabledLabel || "Enter Field First", status: status
+      }, "Copy Prompt")),
     disabled && props.disabledMessage ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
     hasPlaceholder && !props.hidePlaceholderHint ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
+}
+function LabOpenAction(props) {
+  return React.createElement("div", { style: { marginTop: 12 } },
+    React.createElement(ActivityButton, { size: "lab", href: props.href, sampleAllowed: props.sampleAllowed }, props.label));
 }
 function LabStepList(props) {
   var E = React.createElement;
@@ -4168,6 +4196,7 @@ function LabStepList(props) {
         E("div", { style: { flex: 1, minWidth: 0 } },
           E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
           E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+          st.open ? E(LabOpenAction, st.open) : null,
           st.content ? E("div", { style: { marginTop: 12 } }, st.content) : null,
           st.prompt ? E(CopyableLabPrompt, { text: st.prompt, disabled: st.promptDisabled, disabledMessage: st.promptDisabledMessage, disabledLabel: st.promptDisabledLabel, hidePlaceholderHint: st.hidePlaceholderHint }) : null,
           st.afterPromptContent ? E("div", { style: { marginTop: 12 } }, st.afterPromptContent) : null));
@@ -4180,8 +4209,7 @@ function SetUpChatGPTLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-setup-steps-v2", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: E(React.Fragment, null,
-      "Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), ". A computer is best, but you can also use your phone’s browser or the official ChatGPT app.") },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT. A computer is best, but you can also use your phone’s browser or the official ChatGPT app.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Get permission if you are under 18", body: "ChatGPT is for people ages 13 and older. If you are under 18, OpenAI requires permission from a parent or legal guardian." },
     { title: "Create your free account", body: E(React.Fragment, null,
       "Select “Sign up for free” and choose a sign-in option.",
@@ -4242,9 +4270,9 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null, "This course focuses on generative AI."),
     closeBoard("llms")),
     /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
+    React.createElement(LastPersonStandingGroupExercise, { disclosure: true }),
     React.createElement(GroupExercise, { id: "llms-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "llms-discussion"; }).questions })),
-    React.createElement(LastPersonStandingGroupExercise, { disclosure: true }),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whydeeper"); }, label: "Next: Why Learn AI?" })
   );
@@ -5033,7 +5061,7 @@ function TwentyQuestionsLab(props) {
   var E = React.createElement;
   var _c = useLocalStorage("llm-lab-twenty-steps", {}), checked = _c[0], setChecked = _c[1];
   var STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Write your word down first", body: "One everyday object. Put it in your notes or on paper before you start. Lock it in, because once the questions get close it is very tempting to drift." },
     { title: "Set up the game", body: "Send this to ChatGPT, then answer only yes or no. No hints, no hedging, no “sort of.”", prompt: "I’m thinking of one everyday object. Ask me yes-or-no questions, one at a time, to work out what it is. You get 20 questions. Don’t guess until you’re fairly confident." },
     { title: "Play the round", body: "Answer each question with yes or no until AI guesses your object or reaches 20 questions. If it guesses wrong, tell it so and keep going until its questions run out." },
@@ -5108,8 +5136,6 @@ function DoesAIThinkSection(props) {
 
 
     E(TwentyQuestionsLab, null),
-    E(GroupExercise, { id: "doesaithink-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "doesaithink-discussion"; }).questions })),
     E(StandaloneGroupExercise, {
       id: "doesaithink-group-exercise", title: "Spot What’s Wrong",
       meta: "12 pictures · One shared classroom screen",
@@ -5122,6 +5148,8 @@ function DoesAIThinkSection(props) {
         "At the end, discuss which detail was hardest to spot and what you had to know to recognize it."
       ]
     }),
+    E(GroupExercise, { id: "doesaithink-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
+      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "doesaithink-discussion"; }).questions })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
@@ -5269,22 +5297,82 @@ function WhyBotherSection(props) {
       label: "Next: Learn with AI"
     }));
 }
+// Local-file previews cannot fetch image bytes. A generated script supplies the
+// same PNG bytes there; hosted pages fetch the PNG normally.
+var messyNotesBlobPromise = null;
+function loadMessyNotesBlob() {
+  if (!messyNotesBlobPromise) {
+    var source = location.protocol === "file:" ? new Promise(function(resolve, reject) {
+      var script = document.createElement("script");
+      script.src = "packets/ai-replaces-school-notes-data.js";
+      script.onload = function() {
+        script.remove();
+        try {
+          var binary = atob(window.MESSY_NOTES_PNG_BASE64);
+          delete window.MESSY_NOTES_PNG_BASE64;
+          var bytes = new Uint8Array(binary.length);
+          for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+          resolve(new Blob([bytes], { type: "image/png" }));
+        } catch (error) { reject(error); }
+      };
+      script.onerror = function() { script.remove(); reject(new Error("Notes unavailable")); };
+      document.head.appendChild(script);
+    }) : fetch("packets/ai-replaces-school-notes.png").then(function(response) {
+      if (!response.ok) throw new Error("Notes unavailable");
+      return response.blob();
+    });
+    messyNotesBlobPromise = source.catch(function(error) {
+      messyNotesBlobPromise = null;
+      throw error;
+    });
+  }
+  return messyNotesBlobPromise;
+}
+function DownloadMessyNotes() {
+  var E = React.createElement;
+  var _s = useState("idle"), status = _s[0], setStatus = _s[1];
+  var busyRef = useRef(false);
+  async function downloadNotes() {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setStatus("preparing");
+    try {
+      var blob = await loadMessyNotesBlob();
+      var url = URL.createObjectURL(blob);
+      var anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "ai-replaces-school-notes.png";
+      anchor.hidden = true;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
+      setStatus("downloaded");
+    } catch (error) {
+      setStatus("error");
+    } finally { busyRef.current = false; }
+  }
+  return E("div", null,
+    E(ActivityButton, { size: "lab", download: "ai-replaces-school-notes.png", onClick: downloadNotes,
+      disabled: status === "preparing", disabledLabel: "Preparing…" }, "Download Notes"),
+    E("div", { role: "status", "aria-live": "polite", style: { marginTop: status === "idle" ? 0 : 10, fontSize: 14, lineHeight: 1.5 } },
+      status === "downloaded" ? E(React.Fragment, null, "Look in your downloads for ", E("strong", null, "ai-replaces-school-notes.png"), ".") :
+      status === "error" ? "The notes couldn’t be downloaded. Select Download Notes to try again." : ""));
+}
 function MessyNotesLab() {
   var E = React.createElement;
-  var _a = useLocalStorage("ai-different-messy-notes-lab-v2", {}), checked = _a[0], setChecked = _a[1];
+  var _a = useLocalStorage("ai-different-messy-notes-lab-v7", {}), checked = _a[0], setChecked = _a[1];
   var STEPS = [
-    { title: "Download the planning notes", body: [
-      E("a", { key: "notes", href: "packets/ai-replaces-school.pdf", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Open the planning notes"),
-      ", download the PDF, and skim it before using AI."
-    ] },
-    { title: "Create a Gemini Notebook", body: [
-      "Go to ",
-      E("a", { key: "nb", href: "https://notebook.google.com", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700 } }, "Gemini Notebook"),
-      ", create a notebook called ", E("strong", { key: "name" }, "AI Replaces School"),
-      ", and upload the PDF as a source."
-    ] },
-    { title: "Send this prompt", body: "Copy and send this prompt in the notebook chat.", prompt: "Turn these messy notes into a clear summary in 200 words or fewer. Include the main argument, two ideas that were crossed out and their replacements, and your favorite joke from the notes. If something is unreadable or unclear, say so instead of filling it in." },
-    { title: "Check the result", body: "Compare the two crossed-out ideas and their replacements with the original notes. Ask for a correction if needed, then check again." }
+    { title: "Skim the notes", body: "Select Open Notes to skim the three-page PDF in another tab. Notice the handwriting, arrows, jokes, and crossed-out ideas. Return to this tab when you’re ready.",
+      content: E(ActivityButton, { size: "lab", href: "packets/ai-replaces-school.pdf", "aria-label": "Open Notes (opens in a new tab)" }, "Open Notes") },
+    { title: "Download the notes", body: "Select Download Notes to save all three pages as one image.",
+      content: E(DownloadMessyNotes) },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT, sign in if needed, and start a new chat.",
+      content: E(ActivityButton, { size: "lab", href: "https://chatgpt.com", "aria-label": "Open ChatGPT (opens in a new tab)" }, "Open ChatGPT") },
+    { title: "Attach the notes", body: E(React.Fragment, null, "Use the attachment button in ChatGPT to select ", E("strong", null, "ai-replaces-school-notes.png"), " from your downloads or wherever you saved it. Wait for the image attachment to appear. Don’t send yet.") },
+    { title: "Send this prompt", body: "After the notes are attached, copy the prompt below. Paste it into the same message and send it with the notes.", prompt: "Turn these messy notes into a clear summary in 200 words or fewer. Include the main argument, two ideas that were crossed out and their replacements, and your favorite joke from the notes. If something is unreadable or unclear, say so instead of filling it in." },
+    { title: "Read the result", body: "Read the summary. Notice how ChatGPT turned handwriting, arrows, crossed-out ideas, and jokes into organized text. You gave it an image of messy notes, not a neatly formatted document." },
+    { title: "Make a funny image", body: "In the same chat, send this follow-up prompt. See how ChatGPT turns the lesson in the notes into an image.", prompt: "Make a funny image of the lesson." }
   ];
   var count = STEPS.reduce(function(n, _s, i) { return n + (checked[i] ? 1 : 0); }, 0);
   return E(InteractiveBox, {
@@ -5292,7 +5380,7 @@ function MessyNotesLab() {
     surface: "teal",
     title: "Make Sense of the Mess",
     hint: "Click the box after you finish each step.",
-    lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes.",
+    lead: "We planned a ridiculous lesson for this course, but it didn’t make the cut. All that remains is our messy planning notes. Give them to ChatGPT and see what it makes of them.",
     action: E(ActivityCounter, { count: count, total: STEPS.length })
   },
     E(LabStepList, {
@@ -5783,10 +5871,7 @@ function TrainingBiasSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BIAS_LAB_STEPS = [{
     title: "Get the default",
-    prefix: "Go to ",
-    href: "https://chatgpt.com",
-    linkLabel: "chatgpt.com",
-    suffix: " and sign in. Start a new chat outside any project. Paste this exactly. Read the list ChatGPT gives you. No judging yet. Just keep it where you can see it.",
+    open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and sign in. Start a new chat outside any project. Paste this exactly. Read the list ChatGPT gives you. No judging yet. Just keep it where you can see it.",
     prompt: "Name ten successful entrepreneurs."
   }, {
     title: "Tally the sameness",
@@ -5877,10 +5962,8 @@ function TrainingBiasSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
-                  st.prefix,
-                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
-                  st.suffix) : st.body),
+                st.body),
+              st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     React.createElement(GroupExercise, { id: "trainingbias-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
@@ -7547,7 +7630,7 @@ function OutsideWindowBox() {
 function PromptSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-contextwindow-steps-v2", {});
   const LAB_STEPS = [
-    { title: "Log in to ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in."] },
+    { title: "Log in to ChatGPT", body: "Select Open ChatGPT and sign in.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Start your first project", body: "Find Projects and start a new one. Don\u2019t name or create it yet." },
     { title: "Keep this project in its own lane", body: "Open the memory menu and choose Project-only memory. This keeps unrelated chats outside your coding project, and keeps this project from following you into other conversations." },
     { title: "Name and create it", body: "Enter \u201CMy First Coding Project\u201D as the name. Then click Create project." },
@@ -7845,9 +7928,9 @@ function ModelSelectionSection(props) {
             });
           }));
       }))),
+  React.createElement(HomeBaseGroupExercise, null),
   React.createElement(GroupExercise, { id: "modelselection-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "modelselection-discussion"; }).questions })),
-  React.createElement(HomeBaseGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
@@ -8459,7 +8542,7 @@ function DinoGameDemo() {
 function HallucinationSection(props) {
   const [dinoChecked, setDinoChecked] = useState({});
   const DINO_STEPS = [
-    { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and sign in." },
+    { title: "Go to ChatGPT", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and sign in." },
     { title: "Open your coding project", body: "Open My First Coding Project, the project you created in the Context Matters lab. Start a new chat inside it so your beginner-friendly coding instructions are already in context." },
     { title: "Paste the starter prompt", body: "Send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the Chrome dinosaur game in a single HTML file. A green character that runs, jumps over green cactus obstacles with the spacebar (or a tap), speeds up over time, and keeps score. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
     { title: "Play your game", body: "If ChatGPT shows an interactive preview, play it there. If it gives you an HTML file instead, download the file and open it in Chrome. Give it a few runs, chase a high score, and note the first thing you would change." },
@@ -8535,10 +8618,8 @@ function HallucinationSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
-                  st.prefix,
-                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
-                  st.suffix) : st.body),
+                st.body),
+              st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
   React.createElement(GroupExercise, { id: "hallucination-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
@@ -8700,9 +8781,9 @@ function CriticalThinkingSection(props) {
       }))),
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
+  React.createElement(WhatsMissingGroupExercise, null),
   React.createElement(GroupExercise, { id: "critical-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "critical-discussion"; }).questions })),
-  React.createElement(WhatsMissingGroupExercise, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("integrity"), label: "Next: Honesty & Privacy" }));
 }
@@ -9043,7 +9124,7 @@ function PromptingSection(props) {
   const LAB_STEPS = [
     { title: "Decide What Matters", body: "Divide 100 points among the four parts below. Give more points to the parts you think matter most in a good essay. Give each part at least one point.", content: rubricInputs },
     { title: "Read the essay", body: "Read the essay below. What does it do well, and what needs work? Make up your own mind before you see AI’s evaluation.", content: essayReadingCard },
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and start a new chat outside any project.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Get AI’s Evaluation", body: "The prompt below includes your point values and the essay. Copy and send it to ChatGPT. It will build the rubric and use it to grade the essay.", prompt: rubricEvaluationPrompt, promptDisabled: !rubricReady, promptDisabledLabel: "Copy Prompt", hidePlaceholderHint: true },
     { title: "Read the evaluation", body: "Look at the scores and the examples AI used to explain them. Which part of the essay lost the most points? Do you agree with AI’s suggestion for improving it?" }
   ];
@@ -9116,16 +9197,9 @@ function FocusedGuidedLearningLab() {
   var [focusedChecked, setFocusedChecked] = useLocalStorage("llm-lab01-steps-v3", {});
   var [guidedChecked, setGuidedChecked] = useLocalStorage("llm-lab-learning-coach-steps-v2", {});
   var FOCUSED_STEPS = [
-    { title: "Open the packet", body: [
-      E("a", { key: "pk", href: "packets/start-smarter.pdf?v=20261106type1", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the Start Smarter packet in a new tab"),
-      ". It contains the seven learning lessons from the first part of the course. Skim it so you know what you’re handing over."
-    ] },
+    { title: "Open the packet", body: "Select Open Packet to read the Start Smarter packet in a new tab. It contains the seven learning lessons from the first part of the course. Skim it so you know what you’re handing over.", open: { href: "packets/start-smarter.pdf?v=20261106type1", label: "Open Packet" } },
     { title: "Download the file", body: "In the browser tab that has the packet, click the download button (look near the top corner of the PDF viewer) and save the file where you can find it. Gemini Notebook needs the file itself, not the open tab." },
-    { title: "Go to Gemini Notebook", body: [
-      "Go to ",
-      E("a", { key: "nb", href: "https://notebook.google.com", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700 } }, "notebook.google.com"),
-      " and sign in with your Google account."
-    ] },
+    { title: "Go to Gemini Notebook", body: "Select Open Gemini Notebook and sign in with your Google account.", open: { href: "https://notebook.google.com", label: "Open Gemini Notebook" } },
     { title: "Create the course notebook", body: [
       "Click ",
       E("strong", { key: "cb" }, "+ Create notebook"),
@@ -9146,9 +9220,8 @@ function FocusedGuidedLearningLab() {
       prompt: "I’m a high school student. How does an LLM learn patterns during training and use them to answer my questions?" },
     { title: "Open Study mode and ask", body: E(React.Fragment, null,
       "Select ", E("strong", null, "Open Study Mode"), ". Sign in if needed and check that ", E("strong", null, "Study"), " is selected. If it isn’t, type ", E("strong", null, "@study"), " in the message box and select ", E("strong", null, "Study"), " from the suggestions. Then paste the question you copied and send it."),
-      content: E("a", {
-        href: "https://chatgpt.com/studymode", target: "_blank", rel: "noopener noreferrer",
-        style: { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 44, padding: "10px 16px", borderRadius: 8, background: "var(--labAccent)", color: "#fff", fontWeight: 700, textDecoration: "none" }
+      content: E(ActivityButton, {
+        size: "lab", href: "https://chatgpt.com/studymode", "aria-label": "Open Study Mode (opens in a new tab)"
       }, "Open Study Mode") },
     { title: "Work through it", body: "Answer ChatGPT’s questions. Ask for a hint or a different explanation when you get stuck. After a few exchanges, look away from the chat and explain in your own words how training helps an LLM answer a question. If you get stuck, return to the chat and work through that part." }
   ];
@@ -9306,9 +9379,9 @@ function StudyingWithAISection(props) {
       "You do the thinking. AI helps you figure out your next step."),
     closeBoard("studying")),
     E(FocusedGuidedLearningLab, null),
+    E(RidiculousStudyGroupExercise, null),
     E(GroupExercise, { id: "studying-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "studying-discussion"; }).questions })),
-    E(RidiculousStudyGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
@@ -9478,7 +9551,7 @@ function CreativeThinkingCareerLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+      body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }
     },
     {
       title: "Open your Career Explorer project",
@@ -9578,7 +9651,7 @@ function PeopleSkillsCareerLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+      body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }
     },
     {
       title: "Create your Career Explorer project",
@@ -9730,7 +9803,7 @@ function BeCuriousCareerLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+      body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }
     },
     {
       title: "Open your Career Explorer",
@@ -10082,7 +10155,7 @@ function MakeYourMoveCareerLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+      body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }
     },
     {
       title: "Review your career exploration",
@@ -10491,11 +10564,8 @@ function FlatteryTrapSection(props) {
   const BAIT_PROMPT = "Is this good? Here’s my essay intro: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”";
   const FLAT_LAB_STEPS = [{
     title: "Bait it",
-    prefix: "Go to ",
-    href: "https://chatgpt.com",
-    linkLabel: "chatgpt.com",
-    suffix: " and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project.",
-    body: "Paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
+    open: { href: "https://chatgpt.com", label: "Open ChatGPT" },
+    body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson. Start a new chat outside any project. Paste this exactly. It’s the weak ask on purpose, using the essay intro from this lesson. Keep the reply where you can see it.",
     prompt: BAIT_PROMPT
   }, {
     title: "Set the standing instruction",
@@ -10606,11 +10676,9 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.href ? /*#__PURE__*/React.createElement(React.Fragment, null,
-                  st.prefix,
-                  /*#__PURE__*/React.createElement("a", { href: st.href, target: "_blank", rel: "noopener noreferrer" }, st.linkLabel),
-                  st.suffix) : st.body),
-              st.href && st.body ? /*#__PURE__*/React.createElement("span", { style: { display: "block", marginTop: 8, fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body) : null,
+                st.body),
+
+              st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     /*#__PURE__*/React.createElement(BodyP, null, "Know what you came for. When you have it, choose what happens next."),
@@ -11216,9 +11284,9 @@ function WheresTheLineSection(props) {
               E("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: "var(--primary)", lineHeight: 1.2 } }, "Something To Consider"),
               E("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, sc.consider))) : null));
       }))),
+  React.createElement(WhereDoYouStandGroupExercise, null),
   React.createElement(GroupExercise, { id: "wherestheline-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "wherestheline-discussion"; }).questions })),
-  React.createElement(WhereDoYouStandGroupExercise, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
 }
@@ -12808,7 +12876,7 @@ function WhereValueLivesBox() {
 function QuestionsValuableSection(props) {
   const [labChecked, setLabChecked] = useLocalStorage("llm-lab-questions-better-question-steps-v1", {});
   const QUESTION_LAB_STEPS = [
-    { title: "Open ChatGPT", body: ["Go to ", React.createElement("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new chat outside any project."] },
+    { title: "Open ChatGPT", body: "Select Open ChatGPT and start a new chat outside any project.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Ask the weak question", body: "Send this question and read the answer. It has already chosen a side, so it asks AI for support instead of understanding.", prompt: "Homework doesn’t help students learn. Can you help me prove it?" },
     { title: "Ask a better question", body: "Start another new chat. Send this question and read the answer.", prompt: "For high-school students, what kinds of homework improve learning, what kinds do not, and what evidence explains the difference?" },
     { title: "Compare the answers", body: "Read both answers. Did AI accept the first question’s claim or push back? What changed when you asked the second question?" },
@@ -12914,9 +12982,9 @@ function QuestionsValuableSection(props) {
         checked: labChecked,
         onToggle: function(index) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[index] = !prev[index]; return next; }); }
       })),
+    React.createElement(QuestionsMatterGroupExercise, null),
     React.createElement(GroupExercise, { id: "questionsvaluable-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "questionsvaluable-discussion"; }).questions })),
-    React.createElement(QuestionsMatterGroupExercise, null),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Prompting Matters" })
   );
@@ -12929,7 +12997,7 @@ function BigUpsideBenefitsLab() {
   var STEPS = [
     {
       title: "Open ChatGPT",
-      body: ["Go to ", E("a", { key: "gpt", href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and sign in with the free account you set up in the What Is AI? lesson."]
+      body: "Select Open ChatGPT and sign in with the free account you set up in the What Is AI? lesson.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }
     },
     {
       title: "Start a new chat",
@@ -13162,7 +13230,7 @@ function PaceOfChangeSection(props) {
   // project keeps this game's context separate from the dino game.
   const [buildChecked, setBuildChecked] = useState({});
   const BUILD_LAB_STEPS = [
-    { title: "Go to ChatGPT", prefix: "Go to ", href: "https://chatgpt.com", linkLabel: "chatgpt.com", suffix: " and log in." },
+    { title: "Go to ChatGPT", open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and log in." },
     { title: "Start a new project", body: "Start a new project. Before you name or create it, open the memory menu and choose Project-only memory so this game stays separate from your dino game. Then name it My Second Coding Project and click Create project." },
     { title: "Add the coding instructions", body: "Inside the project, open its instructions and paste the same beginner-friendly context you used before.", prompt: "I’m learning to code with AI. I’m a total beginner. Explain things in plain language, and explain coding terms when you use them." },
     { title: "Build the game", body: "Start a new chat inside the project and send this word for word or add your own twist. ChatGPT will build the game as one HTML file. The build may take a few minutes.", prompt: "Build me a version of the 2048 sliding-tile puzzle in a single HTML file. A 4-by-4 grid of numbered tiles. Arrow keys or swipes slide every tile; two matching tiles that collide merge into one with double the number; every move adds a new tile; keep score. The game ends when the board is full and no moves are left. Make it work on desktop and phone. Give me the finished game as a downloadable HTML file." },
@@ -13239,10 +13307,8 @@ function PaceOfChangeSection(props) {
             E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
-                st.href ? E(React.Fragment, null,
-                  st.prefix,
-                  E("a", { href: st.href, target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, st.linkLabel),
-                  st.suffix) : st.body),
+                st.body),
+              st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     E(GroupExercise, { id: "paceofchange-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
@@ -13474,9 +13540,9 @@ function WorkChangesSection(props) {
     { key: "chose", label: "Why I chose this recommendation", placeholder: "I chose ___ because ___." }
   ];
   const REVIEW_LAB_STEPS = [
-    { title: "Open the reviews", body: E("span", null, E("a", { href: "packets/course-reviews.txt", target: "_blank", rel: "noopener", style: { color: "var(--labAccent)", fontWeight: 700, textDecoration: "underline" } }, "Click here to open the reviews in a new tab"), ". Read the first 5 reviews. Now imagine reading and organizing the other 95 before you’re ready to make a recommendation.") },
+    { title: "Open the reviews", body: "Select Open Reviews. Read the first 5 reviews. Now imagine reading and organizing the other 95 before you’re ready to make a recommendation.", open: { href: "packets/course-reviews.txt", label: "Open Reviews" } },
     { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
-    { title: "Create a separate project", body: E("span", null, "Go to ", E("a", { href: "https://chatgpt.com", target: "_blank", rel: "noopener noreferrer", style: { color: "var(--labAccent)", fontWeight: 700 } }, "chatgpt.com"), " and start a new project. Before you name or create it, choose Project-only memory. Then name it Course Review Project and click Create project. This assignment has its own source and goal, so it deserves its own context.") },
+    { title: "Create a separate project", body: "Select Open ChatGPT and start a new project. Before you name or create it, choose Project-only memory. Then name it Course Review Project and click Create project. This assignment has its own source and goal, so it deserves its own context.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Hand AI the grind", body: "Start a new chat inside Course Review Project and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). Don’t send yet." },
     { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
     { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews and see whether they share the same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
@@ -13566,6 +13632,7 @@ function WorkChangesSection(props) {
             E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
+              st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
 
@@ -14027,9 +14094,9 @@ function UnexpectedResultsSection(props) {
       "You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes."),
     closeBoard("unexpected")),
     E(RatQuizTryIt, null),
+    E(UnexpectedResultsGroupExercise, null),
     E(GroupExercise, { id: "unexpected-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "unexpected-discussion"; }).questions })),
-    E(UnexpectedResultsGroupExercise, null),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }

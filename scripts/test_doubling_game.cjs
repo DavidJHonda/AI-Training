@@ -1,0 +1,137 @@
+// Browser checks for typed burger predictions, calendar math, and every reveal.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const {spawn} = require('node:child_process');
+const {chromium} = require(process.env.PLAYWRIGHT_MODULE || '/Users/davidobrien/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
+(async () => {
+  const server = process.env.BASE_URL ? null : spawn('python3', ['-m', 'http.server', '8796', '--bind', '127.0.0.1'], {stdio: 'ignore'});
+  let browser;
+  try {
+    browser = await chromium.launch({channel: 'chrome', headless: true});
+    const page = await browser.newPage({viewport: {width: 1280, height: 1100}});
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.route(/script\.google|script\.googleusercontent|\.mp4/, route => route.abort());
+    await page.addInitScript(() => {
+      localStorage.setItem('llm-user-name', 'Preview');
+      localStorage.setItem('llm-explorer-progress', JSON.stringify({activeSection: 'paceofchange', visited: ['paceofchange'], completed: []}));
+    });
+    await page.goto(base + '/index.html');
+    const game = page.locator('.doubling-game');
+    const shell = page.locator('.interactive-box').filter({has: game});
+    const input = year => game.getByRole('textbox', {name: 'End of ' + year});
+    const result = year => game.locator(`[data-year="${year}"] .doubling-answer`);
+    const total = () => game.locator('.doubling-total').innerText();
+    await game.waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    await page.clock.install();
+    await page.addStyleTag({content: '.no-print:has(> .sticky-inner){visibility:hidden!important}'});
+    fs.mkdirSync('tmp/doubling-game', {recursive: true});
+    assert.equal(await game.getByRole('textbox').count(), 3);
+    assert.equal(await game.getByRole('slider').count(), 0);
+    assert.equal(await game.locator('.doubling-burgers').count(), 1);
+    assert.equal(await total(), '1');
+    assert.equal(await page.getByRole('link', {name: 'Read the study', exact: true}).getAttribute('href'), 'https://metr.org/blog/2026-01-29-time-horizon-1-1/');
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-desktop-start.png'});
+    await game.getByRole('button', {name: 'Lock in my guesses'}).click();
+    assert.equal(await game.locator('[aria-invalid="true"]').count(), 3);
+    assert.ok(await input(2027).evaluate(el => el === document.activeElement));
+    for (const invalid of ['-1', '1.5', '1,00', 'abc', ' ', '99999999999999999999']) {
+      await input(2027).fill(invalid);
+      await game.getByRole('button', {name: 'Lock in my guesses'}).click();
+      assert.equal(await input(2027).getAttribute('aria-invalid'), 'true', `Reject ${invalid}`);
+      assert.equal(await game.getAttribute('data-playing'), 'false');
+    }
+    await input(2027).fill('8');
+    await input(2030).fill('1000');
+    await input(2035).fill('200,000,000');
+    await input(2035).press('Enter');
+    assert.equal(await game.getByRole('textbox').count(), 0, 'All guesses lock together');
+    assert.equal(await game.locator('.doubling-answer').count(), 0, 'Answers wait for milestones');
+    await game.getByRole('button', {name: 'Pause', exact: true}).click();
+    await page.clock.runFor(3000);
+    assert.equal(await game.getAttribute('data-step'), '0');
+    assert.equal(await game.locator('.doubling-date').innerText(), 'End of December 2026');
+    const view = game.locator('.doubling-view');
+    for (let step = 1; step <= 3; step++) {
+      await game.getByRole('button', {name: 'Next four months'}).focus();
+      await page.keyboard.press('Enter');
+      assert.equal(Number((await total()).replaceAll(',', '')), 2 ** step);
+      assert.equal(await game.locator('.doubling-date').innerText(), ['End of April 2027', 'End of August 2027', 'End of December 2027'][step - 1]);
+    }
+    assert.equal(await total(), '8');
+    assert.match(await result(2027).innerText(), /Exactly right!/);
+    assert.equal(await result(2030).count(), 0);
+    assert.equal(await game.getAttribute('data-playing'), 'false');
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-desktop-2027.png'});
+    await game.getByRole('button', {name: 'Continue to 2030'}).click();
+    await page.clock.runFor(700 * 9 + 1000);
+    assert.equal(await game.getAttribute('data-step'), '12', 'Autoplay stops for the 2030 comparison');
+    assert.equal(await total(), '4,096');
+    assert.match(await result(2030).innerText(), /3,096 too low/);
+    assert.equal(await result(2035).count(), 0);
+    assert.equal(await view.getAttribute('data-view-span'), '64', 'Camera zooms out to fit all burgers');
+    assert.equal(await view.getAttribute('data-visible'), '4096');
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-desktop-2030.png'});
+    await game.getByRole('button', {name: 'Zoom in', exact: true}).click();
+    assert.equal(await view.getAttribute('data-view-span'), '8');
+    assert.equal(await view.getAttribute('data-visible'), '64');
+    assert.match(await game.locator('.doubling-caption').innerText(), /Each 🍔 is one cheeseburger/);
+    assert.equal(await total(), '4,096', 'Zoom changes the view, not the count');
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-desktop-2030-closeup.png'});
+    await game.getByRole('button', {name: 'Show all', exact: true}).click();
+    assert.equal(await view.getAttribute('data-visible'), '4096');
+    await game.getByRole('button', {name: 'Continue to 2035'}).click();
+    await page.clock.runFor(700);
+    await game.getByRole('button', {name: 'Zoom in', exact: true}).click();
+    const pausedStep = await game.getAttribute('data-step');
+    await page.clock.runFor(3000);
+    assert.equal(await game.getAttribute('data-step'), pausedStep, 'Inspecting pauses the animation');
+    await game.getByRole('button', {name: 'Play', exact: true}).click();
+    await page.clock.runFor(700 * 15 + 1000);
+    assert.equal(await game.getAttribute('data-step'), '27');
+    assert.equal(await total(), '134,217,728');
+    assert.match(await result(2035).innerText(), /65,782,272 too high/);
+    assert.equal(await view.getAttribute('data-visible'), '134217728', 'Changing date restores the full view');
+    assert.match(await game.locator('.doubling-caption').innerText(), /smaller than a pixel/);
+    assert.equal(await game.locator('.doubling-burgers').count(), 1, 'A single canvas handles the complete collection');
+    assert.equal(Number(await view.getAttribute('data-columns')) * Number(await view.getAttribute('data-rows')), 134217728);
+    assert.equal(await game.getAttribute('data-playing'), 'false');
+    assert.match(await game.innerText(), /not forecasts of AI’s capabilities/);
+    for (const width of [1280, 540, 390, 320]) {
+      await page.setViewportSize({width, height: 1100});
+      assert.ok(await shell.evaluate(el => el.scrollWidth <= el.clientWidth && el.getBoundingClientRect().right <= innerWidth), `No overflow at ${width}`);
+      assert.ok(await game.locator('.doubling-total').evaluate(el => el.scrollWidth <= el.clientWidth && el.clientHeight <= parseFloat(getComputedStyle(el).fontSize) * 1.3), `Full total fits on one line at ${width}`);
+      await shell.screenshot({path: `tmp/doubling-game/burgers-${width}-complete.png`});
+    }
+    await game.getByRole('button', {name: 'Zoom in', exact: true}).click();
+    assert.equal(await view.getAttribute('data-visible'), '64');
+    assert.equal(await total(), '134,217,728');
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-mobile-2035-closeup.png'});
+    await game.getByRole('button', {name: 'Play again'}).click();
+    assert.equal(await total(), '1');
+    assert.equal(await game.locator('.doubling-answer').count(), 0);
+    assert.ok(await input(2027).evaluate(el => el === document.activeElement));
+    assert.deepEqual(await game.getByRole('textbox').evaluateAll(nodes => nodes.map(el => el.value)), ['', '', '']);
+    await shell.screenshot({path: 'tmp/doubling-game/burgers-mobile-start.png'});
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    for (const year of [2027, 2030, 2035]) await input(year).fill('0');
+    await input(2035).press('Enter');
+    await page.clock.runFor(5000);
+    assert.equal(await game.getAttribute('data-step'), '0', 'Reduced motion starts paused; zero is a valid guess');
+    await game.getByRole('button', {name: 'Next four months'}).click();
+    assert.equal(await total(), '2');
+    await game.getByRole('button', {name: 'Play', exact: true}).click();
+    await page.goto(base + '/?print=lesson:paceofchange');
+    await page.emulateMedia({media: 'print'});
+    await game.waitFor({state: 'attached'});
+    assert.equal(await game.isVisible(), false);
+    assert.equal(await page.getByRole('link', {name: 'Read the study', exact: true}).count(), 0, 'Research intro is excluded from content-only exports');
+    assert.deepEqual(errors, []);
+    console.log('PASS: three typed guesses, validation, exact year-end totals, staged reveals, pause/resume, automatic zoom, close-up, exact one-burger-per-cell scale, keyboard, replay, reduced motion, mobile, print, and no runtime errors.');
+  } finally {
+    if (browser) await browser.close();
+    if (server) server.kill();
+  }
+})().catch(error => {console.error(error); process.exitCode = 1;});

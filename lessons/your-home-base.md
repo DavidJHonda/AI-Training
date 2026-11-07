@@ -44,7 +44,7 @@ For this course, ChatGPT is your hands-on home base. Learn it well: its settings
 
 **Teaching content:**
 
-Three workstations, labeled ChatGPT, Claude, and Gemini. Pick one and learn it deeply. The skills transfer. The app is where you practice them.
+Three workstations: Claude on the left, ChatGPT in the center beneath the two students, and Gemini on the right. Pick one and learn it deeply. The skills transfer. The app is where you practice them.
 
 A power move for later: ask the same question in a second app. It may catch something the first app missed or suggest a different approach. If they disagree, you have something to investigate. But agreement doesn’t guarantee they’re right.
 

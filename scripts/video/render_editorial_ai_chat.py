@@ -4,18 +4,21 @@
 from __future__ import annotations
 
 try:
-    from .course_credit import save_course_image
+    from .course_credit import POLICY_PATH, policy, save_course_image
 except ImportError:
-    from course_credit import save_course_image
+    from course_credit import POLICY_PATH, policy, save_course_image
 
 
 try:
-    from .course_asset_paths import asset_path, asset_dir
+    from .course_asset_paths import asset_path
 except ImportError:
-    from course_asset_paths import asset_path, asset_dir
+    from course_asset_paths import asset_path
 
 
-import shutil
+import base64
+import hashlib
+import json
+import zlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -34,6 +37,8 @@ from editorial_typography import draw_board_title, face
 ROOT = Path(__file__).resolve().parents[2]
 
 WIDTH = 1600
+BODY_SIZE = 34
+LINE_HEIGHT = 48
 FRAME = "#eae7fd"
 INK = "#0e0a1f"
 BODY = "#3a3550"
@@ -66,8 +71,8 @@ BOARDS = (
         title="Starting a Summer Business",
         turns=(
             Turn("YOU", "I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?"),
-            Turn("AI", "Absolutely. Let’s start with where you are. What are you already good at, and what problems do people around you regularly need help solving?"),
-            Turn("YOU", "I’m good with dogs and teaching younger kids math, I can get around my neighborhood, and I have afternoons free."),
+            Turn("AI", "What are you already good at, and what problems do people around you regularly need help solving?"),
+            Turn("YOU", "I’m good with dogs and teaching younger kids math."),
             Turn("AI", "That gives us three realistic directions: pet care, math tutoring, and a neighborhood errand service. Which sounds most interesting to you, and which would be easiest to start?"),
         ),
         takeaway="A good conversation asks about you before it answers.",
@@ -76,8 +81,8 @@ BOARDS = (
         slug="profit",
         title="Understanding Profit",
         turns=(
-            Turn("YOU", "I might start a business this summer mowing lawns. I have three friends who are available part-time to help me. I know that sales is the money customers pay me. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business."),
-            Turn("AI", "Profit is the money left after you subtract every cost from your sales. Suppose your crew mows 10 lawns at $30 each. Your sales are $300. You pay each of your three friends $40, so labor costs $120. Gas and supplies cost another $30. Your total costs are $150, leaving you with $150 in profit. The formula is: Sales − Costs = Profit."),
+            Turn("YOU", "I might start a business this summer mowing lawns. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business."),
+            Turn("AI", "Profit is the money left after you subtract every cost from your sales. For example, your sales are $300. Your total costs are $150, leaving you with $150 in profit. The formula is: Sales − Costs = Profit."),
         ),
         takeaway="Ask AI to explain the idea using a situation you know.",
     ),
@@ -86,7 +91,7 @@ BOARDS = (
         title="Thinking About College",
         turns=(
             Turn("YOU", "I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet."),
-            Turn("AI", "Let’s start with the goal. Do you already have a career or field in mind, or do you want college to help you explore different possibilities?"),
+            Turn("AI", "Do you already have a career or field in mind, or do you want college to help you explore different possibilities?"),
         ),
         takeaway="When you don’t know where to begin, ask AI for the first question.",
     ),
@@ -97,7 +102,7 @@ BOARDS = (
             Turn("YOU", "Give me ideas for a summer business.", phase="EARLY ROUND"),
             Turn("AI", "Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online."),
             Turn("YOU", "I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it.", phase="LATER ROUND"),
-            Turn("AI", "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains? Will every customer have fuel and a working mower? How will you turn one job into repeat business?"),
+            Turn("AI", "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains?"),
         ),
         takeaway="Better details give AI better material to improve.",
     ),
@@ -177,9 +182,16 @@ def draw_role_label(
 
 
 def render(board: Board) -> Image.Image:
+    # Keep routine rebuilds on the approved illustrated layouts.
+    from render_beyond_illustrated import render as render_illustrated
+    return render_illustrated(board)
+
+
+def render_chat(board: Board) -> Image.Image:
+    """Original chat-only layout, retained as an explicit utility."""
     label_font = face("heavy", 19)
     phase_font = face("heavy", 20)
-    body_font = face("medium", 29)
+    body_font = face("medium", BODY_SIZE)
     takeaway_font = face("medium", TAKEAWAY_TEXT_SIZE)
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
 
@@ -191,7 +203,7 @@ def render(board: Board) -> Image.Image:
         if turn.phase:
             transcript_height += 25 + 26
         bubble_width, lines = bubble_geometry(measure, turn.text, body_font)
-        bubble_height = 52 + len(lines) * 41
+        bubble_height = 52 + len(lines) * LINE_HEIGHT
         transcript_height += 25 + 10 + bubble_height
         prepared.append((turn, bubble_width, lines))
     transcript_height += 40
@@ -241,7 +253,7 @@ def render(board: Board) -> Image.Image:
             font=label_font,
         )
         y += 25 + 10
-        bubble_height = 52 + len(lines) * 41
+        bubble_height = 52 + len(lines) * LINE_HEIGHT
         draw.rounded_rectangle(
             (bubble_left, y, bubble_right, y + bubble_height),
             radius=14,
@@ -252,7 +264,7 @@ def render(board: Board) -> Image.Image:
         text_y = y + 26
         for index, line in enumerate(lines):
             draw.text(
-                (bubble_left + 30, text_y + index * 41),
+                (bubble_left + 30, text_y + index * LINE_HEIGHT),
                 line,
                 font=body_font,
                 fill=BODY,
@@ -273,16 +285,38 @@ def render(board: Board) -> Image.Image:
 
 
 def main() -> None:
-    for index, board in enumerate(BOARDS, start=1):
+    for board in BOARDS:
         image = render(board)
-        page_output = asset_path('illustrations', f"beyond-the-first-answer-{board.slug}-v2.jpg")
-        prep_output = asset_path('lessons', f"ai-tips-{index}-{board.slug}.jpg")
+        page_output = asset_path('illustrations', f"beyond-the-first-answer-{board.slug}.jpg")
         page_output.parent.mkdir(parents=True, exist_ok=True)
-        prep_output.parent.mkdir(parents=True, exist_ok=True)
+        relative = page_output.relative_to(ROOT).as_posix()
+        # Copy and font size determine the canvas height. Preserve the credit
+        # in the reserved bottom margin with a fresh clean background patch.
+        credit_policy = json.loads(POLICY_PATH.read_text())
+        box = (image.width - 400, image.height - 35, image.width - 30, image.height - 4)
+        credit_policy['boards'][relative] = {
+            'size': list(image.size),
+            'clear_box': list(box),
+            'background_rgb_zlib': base64.b64encode(zlib.compress(image.crop(box).tobytes())).decode(),
+            'approved_sha256': '',
+        }
+        POLICY_PATH.write_text(json.dumps(credit_policy, indent=2, ensure_ascii=False) + '\n')
+        policy.cache_clear()
         save_course_image(image, page_output, quality=95, subsampling=0, optimize=True)
-        shutil.copyfile(page_output, prep_output)
+        digest = hashlib.sha256(page_output.read_bytes()).hexdigest()
+        credit_policy['boards'][relative]['approved_sha256'] = digest
+        POLICY_PATH.write_text(json.dumps(credit_policy, indent=2, ensure_ascii=False) + '\n')
+        policy.cache_clear()
+        manifest_path = ROOT / 'course-assets/manifest.json'
+        manifest = json.loads(manifest_path.read_text())
+        for section in ('assets', 'generated_assets'):
+            for entry in manifest.get(section, []):
+                if entry.get('new') == relative:
+                    entry.update(sha256=digest, bytes=page_output.stat().st_size)
+                    if 'width' in entry:
+                        entry.update(width=image.width, height=image.height)
+        manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
         print(f"wrote {page_output.relative_to(ROOT)} ({image.width}x{image.height})")
-        print(f"copied byte-identically to {prep_output.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

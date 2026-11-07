@@ -2474,7 +2474,6 @@ def render_pretraining_phase(out_path: Path) -> None:
         PURPLE,
         "What Pretraining Builds",
         "Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant.",
-        "“The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”",
         "The model can produce fluent text, but it doesn’t reliably follow your instructions yet.",
         out_path,
         subtitle="Learning from more text than you could read in 1,000 lifetimes.",
@@ -2486,26 +2485,21 @@ def render_training_phase(
     accent: str,
     method_title: str,
     method_text: str,
-    answer_text: str,
     missing_text: str,
     out_path: Path,
     *,
     subtitle: str | None = None,
 ) -> None:
-    """Three matching, content-sized panels. No duplicate 'What Happened' block."""
+    """Two content-sized panels: what the phase builds and what needs work."""
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     body_font = face("medium", 29)
     text_width = 1384
     method_lines = wrap(measure, method_text, body_font, text_width)
-    answer_lines = wrap(measure, answer_text, body_font, text_width)
     missing_lines = wrap(measure, missing_text, body_font, text_width)
     method_top = 165
     method_body_y = method_top + 94 + (55 if subtitle else 0)
     method_bottom = method_body_y + len(method_lines) * 41 + 30
-    answer_top = method_bottom + 32
-    answer_body_y = answer_top + 94
-    answer_bottom = answer_body_y + len(answer_lines) * 41 + 30
-    missing_top = answer_bottom + 32
+    missing_top = method_bottom + 32
     missing_body_y = missing_top + 94
     missing_bottom = missing_body_y + len(missing_lines) * 41 + 30
     height = missing_bottom + 74
@@ -2517,7 +2511,6 @@ def render_training_phase(
 
     for top, bottom, heading, lines, body_y, wash in (
         (method_top, method_bottom, method_title, method_lines, method_body_y, False),
-        (answer_top, answer_bottom, "What an Answer Might Look Like", answer_lines, answer_body_y, True),
         (missing_top, missing_bottom, "What Still Needs Work", missing_lines, missing_body_y, False),
     ):
         draw.rounded_rectangle(
@@ -3061,6 +3054,23 @@ def board_path(lesson: str, filename: str) -> Path:
     return OUT / "boards" / lesson / filename
 
 
+def render_training_phases(output_dir: Path) -> None:
+    """Render the three phase boards without rebuilding other lesson assets."""
+    render_pretraining_phase(output_dir / "how-ai-learns-pretraining.jpg")
+    render_training_phase(
+        "2 · Instruction Tuning", BLUE, "Learn to Follow Instructions",
+        "People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.",
+        "The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.",
+        output_dir / "how-ai-learns-instruction-tuning.jpg",
+    )
+    render_training_phase(
+        "3 · Preference Tuning", GREEN, "Learn from Feedback",
+        "People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.",
+        "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.",
+        output_dir / "how-ai-learns-preference-tuning.jpg",
+    )
+
+
 def render_training_boards() -> None:
     """Render only Training, without removing or rebuilding any other lesson."""
     render_flow("The Training Loop", [
@@ -3073,21 +3083,9 @@ def render_training_boards() -> None:
         Card("Set Up the System", "Engineers design the model and give its internal numbers starting values. Training will adjust those numbers as the model learns.", PURPLE, "training-setup-system"),
         Card("Gather the Data", "Teams collect books, websites, conversations, code, images, audio, and video. This becomes the curriculum.", BLUE, "training-gather-data"),
     ], None, board_path("how-ai-learns", "02-before-training.jpg"))
-    render_pretraining_phase(board_path("how-ai-learns", "03-pretraining.jpg"))
-    render_training_phase(
-        "2 · Instruction Tuning", BLUE, "Learn to Follow Instructions",
-        "People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.",
-        "“To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”",
-        "The model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.",
-        board_path("how-ai-learns", "04-instruction-tuning.jpg"),
-    )
-    render_training_phase(
-        "3 · Preference Tuning", GREEN, "Learn from Feedback",
-        "People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.",
-        "“Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”",
-        "Feedback helps improve the answers, but AI can still give a wrong answer that sounds right.",
-        board_path("how-ai-learns", "05-preference-tuning.jpg"),
-    )
+    render_training_phases(board_path("how-ai-learns", ""))
+    for canonical, review in (("pretraining", "03-pretraining"), ("instruction-tuning", "04-instruction-tuning"), ("preference-tuning", "05-preference-tuning")):
+        shutil.copyfile(board_path("how-ai-learns", f"how-ai-learns-{canonical}.jpg"), board_path("how-ai-learns", f"{review}.jpg"))
     render_teaching(
         "Training Is Finished",
         OUT / "assets/teaching-illustrations/how-ai-learns-finished.png",

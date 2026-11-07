@@ -26,7 +26,7 @@ The model’s internal numbers are called **weights**. Training adjusts these nu
 
 ## Three Phases
 
-Training builds different abilities in three main phases. We’ll use the same basketball question to see what each phase adds.
+Training builds different abilities in three main phases. Here’s what each phase adds.
 
 ### Board 2: Three Phases of Training
 
@@ -35,10 +35,6 @@ Training builds different abilities in three main phases. We’ll use the same b
 ![Three Phases of Training](how-ai-learns-three-phases.jpg)
 
 **Teaching content:**
-
-We’ll compare what the model can do after each phase using the same question:
-
-“How do I shoot a basketball?”
 
 Phase 1 is Pretraining. Learn patterns from data.
 
@@ -86,10 +82,6 @@ Learning from more text than you could read in 1,000 lifetimes.
 
 Across vast amounts of text and code, the model learns patterns in language and information. These patterns help it write sentences, explain ideas, and produce code. The result is a broad foundation that later training can shape into a more useful assistant.
 
-After pretraining, here is what an answer might look like for the basketball question:
-
-“The basketball shot is one of the most fundamental skills in the sport. In this guide, we will cover...”
-
 What still needs work: the model can produce fluent text, but it doesn’t reliably follow your instructions yet.
 
 ## From Patterns to Instructions
@@ -108,10 +100,6 @@ Phase 2 is Instruction Tuning. In this phase, the model will learn to follow ins
 
 People provide questions paired with helpful example answers. The model practices answering those questions, comparing its guesses with the examples. Training adjusts its weights so its answers become more like those examples.
 
-After instruction tuning, here is what an answer might look like for the basketball question:
-
-“To shoot a basketball, square your feet to the hoop, bend your knees, and push up, releasing off your fingertips with a follow-through.”
-
 What still needs work: the model can follow a request, but its answer may still be unclear, incomplete, or unhelpful.
 
 ## From Instructions to Feedback
@@ -129,10 +117,6 @@ Then, feedback helps shape which responses the model is more likely to give.
 Phase 3 is Preference Tuning. In this phase, the model will learn from feedback.
 
 People provide a question, and the model produces several answers. People compare the answers and select the one they think is best, looking for clear, useful, and accurate information. Training adjusts the model’s weights to make answers like the selected one more likely.
-
-After preference tuning, here is what an answer might look like for the basketball question:
-
-“Great question! Start close to the hoop. Use one hand to shoot and the other to steady the ball. Bend your knees, then push up as you shoot. Finish with your wrist bent and your fingers pointing toward the hoop. Practice from the same spot before moving farther away.”
 
 What still needs work:
 

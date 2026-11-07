@@ -7,13 +7,13 @@ from PIL import Image, ImageDraw, ImageFilter
 
 try:
     from .course_credit import save_course_image
-    from .editorial_typography import ROOT, draw_board_title, draw_tracked, face
+    from .editorial_typography import ROOT, draw_board_title, face
 except ImportError:
     from course_credit import save_course_image
-    from editorial_typography import ROOT, draw_board_title, draw_tracked, face
+    from editorial_typography import ROOT, draw_board_title, face
 
 
-WIDTH, HEIGHT = 1600, 620
+WIDTH, HEIGHT = 1600, 460
 FRAME = "#eae7fd"
 INK = "#0e0a1f"
 BODY = "#3a3550"
@@ -44,29 +44,10 @@ def render(output: Path = OUTPUT) -> Path:
 
     draw_board_title(draw, "Three Phases of Training")
 
-    question_box = (40, 112, 1560, 244)
-    _rounded_panel(image, question_box, radius=18)
-    draw = ImageDraw.Draw(image)
-    draw_tracked(
-        draw,
-        (76, 140),
-        "THE SAME QUESTION",
-        face("heavy", 17),
-        PURPLE,
-        2.2,
-    )
-    draw.text(
-        (76, 179),
-        "How do I shoot a basketball?",
-        font=face("bold", 34),
-        fill=INK,
-        anchor="la",
-    )
-
     cards = (
-        ((40, 272, 530, 558), PURPLE, "1", "Pretraining", "Learn patterns from data."),
-        ((555, 272, 1045, 558), BLUE, "2", "Instruction Tuning", "Learn to follow instructions."),
-        ((1070, 272, 1560, 558), GREEN, "3", "Preference Tuning", "Improve responses through\nfeedback."),
+        ((40, 112, 530, 398), PURPLE, "1", "Pretraining", "Learn patterns from data."),
+        ((555, 112, 1045, 398), BLUE, "2", "Instruction Tuning", "Learn to follow instructions."),
+        ((1070, 112, 1560, 398), GREEN, "3", "Preference Tuning", "Improve responses through\nfeedback."),
     )
     for box, color, number, title, copy in cards:
         _rounded_panel(image, box, radius=18)

@@ -8,25 +8,7 @@ That seems counterintuitive, because when you write an email, send a text, or ty
 
 Behind the scenes, those words are converted to numbers so the computer can work with them.
 
-The same applies to AI. Consider this simple chat:
-
-### Board 1: You Use Words. AI Uses Numbers.
-
-**Image file:** `tokens-using-ai-feels-like.jpg`
-
-![You Use Words. AI Uses Numbers.](tokens-using-ai-feels-like.jpg)
-
-**Teaching content:**
-
-You use words. AI uses numbers.
-
-You ask: “What’s the best Avengers movie?”
-
-AI answers: “Most people point to Avengers: Endgame. It’s the big payoff to a decade of films, and it broke box-office records. Infinity War is the other top pick if you like a darker ending.”
-
-## From Words to Numbers and Back
-
-You sent and received words. How did your words become numbers that AI could work with? And how did AI’s response turn back into words you could read?
+The same applies to AI. How do your words become numbers that AI can work with? And how does its response turn back into words you can read?
 
 ## What Doesn’t Work
 
@@ -38,7 +20,7 @@ But that breaks down fast. People keep inventing words, names, and slang. They a
 
 Instead, AI uses reusable chunks of text called **tokens**. Think of them as building blocks for language.
 
-### Board 2: What Tokens Look Like
+### Board 1: What Tokens Look Like
 
 **Image file:** `tokens-how-ai-splits-text.jpg`
 
@@ -68,7 +50,7 @@ A token can be a whole word or just part of one. The full collection of tokens i
 
 When setting up AI, engineers run a program that analyzes a large collection of text to build the vocabulary. Each token gets a number, its **token ID**. Think of it as an address: it identifies the token, but says nothing about what it means.
 
-### Board 3: You See a Word. AI Starts With a Number.
+### Board 2: You See a Word. AI Starts With a Number.
 
 **Image file:** `tokens-cat-token-id.jpg`
 
@@ -82,9 +64,7 @@ When you read the word cat, you know what it means: fur, whiskers, the animal.
 
 For AI, it starts with a token ID. Here, the tokenizer converts the written word cat to ID 4719. The number identifies the token, not its meaning.
 
-A token ID identifies the token. Meaning comes later.
-
-### Board 4: What Happens When You Hit Send
+### Board 3: What Happens When You Hit Send
 
 **Image file:** `tokens-how-tokenization-works.jpg`
 

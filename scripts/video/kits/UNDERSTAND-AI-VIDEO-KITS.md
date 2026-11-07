@@ -228,21 +228,21 @@ The three banner lines are spoken forms of the on-board banners (the board text 
 
 ## Tokens
 
-**Full-lesson reroll materials updated 2026-10-04 at David’s request.** The [rebuilt-lesson review](../../../video-audit/tokens-rebuilt-lesson-review-2026-10-04/REVIEW.md) recommends a fresh narration base: the current v11 and checked donors lack the everyday-computing opening and complete unusual/unmatchable breakdowns. The lesson retains David’s October 3 sequence. No new roll has been generated or installed; the current course video remains v11 (`20260929ship1`).
+**v15 shipped locally 2026-11-07** (`20261107ship1`, 3 min pill, 3:22.133). Removes the chat setup, Avengers exchange, and retrospective sentence; retains the AI bridge and both conversion questions. Removes the repeated cat takeaway narration and uses the shortened current cat board with refitted complete-card cameras and outlines. Built from pristine rolls and retained lossless PCM. The owner approved shipping after disclosure of the listening limitations. Review: `video-audit/tokens-lesson-cuts-2026-11-07-v15/REVIEW.md`. Queued for batch deployment.
 
-Current sources: `lessons/tokens.md`, `gemini-notebook/tokens/PROMPT.txt`, and the Tokens entry in `gemini-notebook/upload-sets.json`. Upload the six files assembled in `gemini-notebook/tokens/upload/`; paste the prompt separately. Save as `Prompts/tokens-reroll.mp4`, or the next unused numbered reroll filename. Preserve previous rolls as potential donors. See [Tokens prep notes](../../../gemini-notebook/tokens/PREP-NOTES.md) for generation and review checks.
+Current sources: `lessons/tokens.md`, `gemini-notebook/tokens/PROMPT.txt`, and the Tokens entry in `gemini-notebook/upload-sets.json`. Upload the five files assembled in `gemini-notebook/tokens/upload/`; paste the prompt separately. Save as `Prompts/tokens-reroll.mp4`, or the next unused numbered reroll filename. Preserve previous rolls as potential donors. See [Tokens prep notes](../../../gemini-notebook/tokens/PREP-NOTES.md) for generation and review checks.
 
 **Beat spine**
 
-Computers process numbers, including everyday text → full Avengers exchange and both conversion questions → why numbering every word falls short → reusable tokens and examples → whole words or parts and vocabulary → vocabulary construction and token IDs → cat meaning versus ID → three Send steps → IDs back to readable text → exact closing lines.
+Computers process numbers, including everyday text → AI bridge and both conversion questions → why numbering every word falls short → reusable tokens and examples → whole words or parts and vocabulary → vocabulary construction and token IDs → cat meaning versus ID → three Send steps → IDs back to readable text → exact closing lines.
 
 **Boards**
 
-Chat → What Tokens Look Like → You See a Word. AI Starts With a Number. → What Happens When You Hit Send → close. The seven-row examples board replaces Building Blocks, adding verified unusual and unmatchable splits immediately after unbelievable. No faceless substitute or post-only board remains in this kit. Model vocabulary sizes and the training/chat aside are removed.
+What Tokens Look Like → You See a Word. AI Starts With a Number. → What Happens When You Hit Send → close. The seven-row examples board replaces Building Blocks, adding verified unusual and unmatchable splits immediately after unbelievable. No faceless substitute or post-only board remains in this kit. Model vocabulary sizes and the training/chat aside are removed.
 
 **Narration and verification**
 
-The prompt contains nine required verbatim passages, adding the everyday conversion sentence and both post-chat questions to the seven existing requirements. Explain the three un examples and their counts together, then basketball, spaces/symbols, and the URL’s eight-token count; do not narrate the ChatGPT row, URL fragments, or row numbers. Define vocabulary after the examples; the Markdown now separates that prose from board teaching. No token IDs in supporting drawings or narration before their definition. Speak IDs only for cat and unbelievable, and explain the reply becoming readable text after Send. Preserve complete-board framing and evaluate new timing from the new roll; old board numbers and edit timings are historical. The review contains a provisional five-board highlighting/camera proposal; actual spans and any pauses require the new narration.
+The prompt contains eight required verbatim passages, including the everyday conversion sentence and both conversion questions. Explain the three un examples and their counts together, then basketball, spaces/symbols, and the URL’s eight-token count; do not narrate the ChatGPT row, URL fragments, or row numbers. Define vocabulary after the examples; the Markdown now separates that prose from board teaching. No token IDs in supporting drawings or narration before their definition. Speak IDs only for cat and unbelievable, and explain the reply becoming readable text after Send. Preserve complete-board framing and evaluate new timing from the new roll; old board numbers and edit timings are historical. The review contains a provisional five-board highlighting/camera proposal; actual spans and any pauses require the new narration.
 
 ## Embeddings
 

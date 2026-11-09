@@ -10,15 +10,15 @@ Think back to the best group project you’ve ever done in history class. Your g
 
 The first move is to work with AI as a thought partner. Consider it a 2-person group project: you and AI. Ask each other questions and bounce ideas off each other. But remember that you make the final decisions.
 
-### Board 1: Starting a Summer Business
+### Board 1: Use AI as a Thought Partner
 
 **Image file:** `beyond-the-first-answer-summer-business.jpg`
 
-![Starting a Summer Business](beyond-the-first-answer-summer-business.jpg)
+![Use AI as a Thought Partner](beyond-the-first-answer-summer-business.jpg)
 
 **Teaching content:**
 
-Starting a summer business.
+Use AI as a thought partner.
 
 The student says: “I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?”
 
@@ -34,15 +34,15 @@ A good conversation asks about you before it answers.
 
 The second move is to use AI as a learning tool. When something does not make sense, ask it to explain. Ask follow-up questions, connect the idea to something you already know, and check whether you understand it. Then explain the idea back in your own words and ask what you missed.
 
-### Board 2: Understanding Profit
+### Board 2: Learn With AI
 
 **Image file:** `beyond-the-first-answer-profit.jpg`
 
-![Understanding Profit](beyond-the-first-answer-profit.jpg)
+![Learn With AI](beyond-the-first-answer-profit.jpg)
 
 **Teaching content:**
 
-Understanding profit.
+Learn with AI.
 
 The student says: “I might start a business this summer mowing lawns. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business.”
 
@@ -54,15 +54,15 @@ Ask AI to explain the idea using a situation you know.
 
 What if you face a big decision or issue, and don’t even know where to start? In those moments, AI can help. The third move is using AI to find the right starting place.
 
-### Board 3: Thinking About College
+### Board 3: Find a Place to Start
 
 **Image file:** `beyond-the-first-answer-college.jpg`
 
-![Thinking About College](beyond-the-first-answer-college.jpg)
+![Find a Place to Start](beyond-the-first-answer-college.jpg)
 
 **Teaching content:**
 
-Thinking about college.
+Find a place to start.
 
 The student says: “I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet.”
 
@@ -76,15 +76,15 @@ The fourth move is to work with AI to improve your work over several rounds. Tha
 
 To iterate means to build something in versions, using each version to improve the next.
 
-### Board 4: From Idea to Business Plan
+### Board 4: Iterate With AI
 
 **Image file:** `beyond-the-first-answer-iteration.jpg`
 
-![From Idea to Business Plan](beyond-the-first-answer-iteration.jpg)
+![Iterate With AI](beyond-the-first-answer-iteration.jpg)
 
 **Teaching content:**
 
-From idea to business plan.
+Iterate with AI.
 
 In the early round, the student says: “Give me ideas for a summer business.”
 
@@ -93,8 +93,6 @@ AI answers: “Here are some ideas: lawn care, pet sitting, tutoring, car washin
 In the later round, the student says: “I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it.”
 
 AI answers: “Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains?”
-
-Better details give AI better material to improve.
 
 ## Closing Message
 

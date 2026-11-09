@@ -16,10 +16,11 @@ def measure(text,width,size=29):
 
 def shell(board,bottom):
     footer=bottom+40
-    im=Image.new('RGB',(1600,footer+128),'white')
+    im=Image.new('RGB',(1600,footer+128 if board.takeaway else bottom+50),'white')
     d=ImageDraw.Draw(im);d.rounded_rectangle((0,0,1599,im.height-1),22,fill='#eae7fd')
     draw_board_title(d,board.title)
-    draw_takeaway_band(im,top=footer,left=40,right=1560,text=board.takeaway,font=face('medium',32))
+    if board.takeaway:
+        draw_takeaway_band(im,top=footer,left=40,right=1560,text=board.takeaway,font=face('medium',32))
     return im
 
 def card(im,x,y,w,h,slug,half,art_h):

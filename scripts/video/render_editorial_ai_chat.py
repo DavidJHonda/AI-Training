@@ -68,7 +68,7 @@ class Board:
 BOARDS = (
     Board(
         slug="summer-business",
-        title="Starting a Summer Business",
+        title="Use AI as a Thought Partner",
         turns=(
             Turn("YOU", "I’d like to earn money this summer by starting a small business. Can we talk through what might fit me?"),
             Turn("AI", "What are you already good at, and what problems do people around you regularly need help solving?"),
@@ -79,7 +79,7 @@ BOARDS = (
     ),
     Board(
         slug="profit",
-        title="Understanding Profit",
+        title="Learn With AI",
         turns=(
             Turn("YOU", "I might start a business this summer mowing lawns. What is profit, and how do I calculate it? Explain it using simple numbers that apply to a lawn-mowing business."),
             Turn("AI", "Profit is the money left after you subtract every cost from your sales. For example, your sales are $300. Your total costs are $150, leaving you with $150 in profit. The formula is: Sales − Costs = Profit."),
@@ -88,7 +88,7 @@ BOARDS = (
     ),
     Board(
         slug="college",
-        title="Thinking About College",
+        title="Find a Place to Start",
         turns=(
             Turn("YOU", "I need to start thinking about college, but I don’t know where to begin. Ask me one question at a time to help me figure out what matters to me. Don’t recommend a college yet."),
             Turn("AI", "Do you already have a career or field in mind, or do you want college to help you explore different possibilities?"),
@@ -97,14 +97,14 @@ BOARDS = (
     ),
     Board(
         slug="iteration",
-        title="From Idea to Business Plan",
+        title="Iterate With AI",
         turns=(
             Turn("YOU", "Give me ideas for a summer business.", phase="EARLY ROUND"),
             Turn("AI", "Here are some ideas: lawn care, pet sitting, tutoring, car washing, and selling crafts online."),
             Turn("YOU", "I’m considering a lawn-cutting business. I’ll serve homes within biking distance, use the customer’s mower, work weekday afternoons, and charge by lawn size. Help me find weaknesses in the plan and improve it.", phase="LATER ROUND"),
             Turn("AI", "Let’s pressure-test it. How will you quote lawn sizes? What happens when it rains?"),
         ),
-        takeaway="Better details give AI better material to improve.",
+        takeaway=None,
     ),
 )
 

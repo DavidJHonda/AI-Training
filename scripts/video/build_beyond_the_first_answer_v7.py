@@ -78,7 +78,8 @@ def targets(board,bh):
   times=[201.46,204.84,213.04,224.16,230.56]
   for i in range(4):add(times[i],times[i+1],bubs[i],f'Turn {i+1}',PURPLE if i%2==0 else BLUE)
   banner=230.56
- add(banner,SPANS[slug][1]/FPS,[40,bh-128,1520,88],'Takeaway')
+ if board.takeaway:
+  add(banner,SPANS[slug][1]/FPS,[40,bh-128,1520,88],'Takeaway')
  return rows
 
 def prepare():

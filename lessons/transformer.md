@@ -18,23 +18,37 @@ There are two problems context must solve.
 
 Problem 1 is different meanings. The same word can mean something different in each sentence.
 
-Sentence 1: “Please turn on the LIGHT.” Here, LIGHT means brightness.
+“Please turn on the LIGHT.”
 
-Sentence 2: “The empty suitcase felt LIGHT.” Here, LIGHT means not heavy.
+**LIGHT** means brightness
 
-The problem: which meaning should AI use?
+“The empty suitcase felt LIGHT.”
+
+**LIGHT** means not heavy
+
+What AI must figure out: When you use LIGHT in a sentence, how does AI know which meaning you mean?
+
+The surrounding words provide the clues.
 
 Problem 2 is pronouns. The same pronoun can point to a different thing in each sentence.
 
-Sentence 1: “The cat was thirsty, so IT drank the milk.” Here, IT refers to the cat.
+“The cat was thirsty, so IT drank the milk.”
 
-Sentence 2: “The milk was fresh, so the cat drank IT.” Here, IT refers to the milk.
+**IT** means cat
 
-The problem: what does IT point to?
+“The milk was fresh, so the cat drank IT.”
 
-Context determines which meaning fits.
+**IT** means milk
+
+What AI must figure out: When you use IT in a sentence, how does AI know what you’re referring to?
+
+Again, the surrounding words provide the clues.
+
+The surrounding words help AI figure out the meaning.
 
 ## Why this was hard for AI
+
+The surrounding words give us the clues. The challenge for AI is keeping those clues connected.
 
 Our human brains see the right meaning instantly from the surrounding words. For earlier AI, this was a challenge because it read text in order, one word at a time. In longer passages, it could lose track of the earlier words.
 
@@ -52,27 +66,27 @@ The sentence is “The tired cat sat on the mat during the May rainstorm. IT soo
 
 The diagram follows the sentence from left to right, one word at a time, with an arrow from each word to the next.
 
-We know IT refers to CAT.
-
 Earlier AI often struggled to keep that connection, especially in longer passages.
 
 ## The breakthrough
 
+That difficulty brings us to the Transformer.
+
 In 2017, eight researchers at Google published a paper called Attention Is All You Need. It introduced the Transformer, a widely used architecture for large language models, and the “T” in ChatGPT.
 
-The Transformer can process the tokens in your message in parallel.
+The Transformer can process the tokens in your message at once.
 
-In our example, IT can draw on information from the earlier word CAT, even with several words in between.
+In our example, **IT** can use information from the earlier word **CAT**, even with several words in between.
 
-### Board 3: How a Transformer Reads a Sentence
+### Board 3: How A Transformer Reads
 
 **Image file:** `transformer-how-transformer-reads.jpg`
 
-![How a Transformer Reads a Sentence](transformer-how-transformer-reads.jpg)
+![How A Transformer Reads](transformer-how-transformer-reads.jpg)
 
 **Teaching content:**
 
-This is how a Transformer reads a sentence.
+This is how a Transformer reads.
 
 The complete message arrives together. The same sentence, “The tired cat sat on the mat during the May rainstorm. IT soon fell asleep,” is laid out with every word visible at the same time. CAT and IT are highlighted.
 
@@ -80,7 +94,9 @@ IT can draw on CAT, even across several words.
 
 ## Only the start
 
-There’s more to reading than taking in the words. AI needs to figure out which words matter and use that information to update the numbers. In our example, IT needs information from CAT to help represent what it refers to in this sentence. Attention and transformation work together to make that happen.
+There’s more to reading than taking in the words.
+
+AI needs to figure out which words matter and use that information to update the numbers. In our example, IT needs information from CAT to help represent what it refers to in this sentence. Attention and transformation work together to make that happen.
 
 ### Board 4: How Context Changes the Numbers
 
@@ -92,21 +108,17 @@ There’s more to reading than taking in the words. AI needs to figure out which
 
 This is how context changes the numbers.
 
-Attention: weigh information from relevant words and blend it into the token’s numbers. On the board, an arrow curves from IT back to CAT. That connection is the information that matters here.
+Attention weighs information from relevant words and blends it into the token’s numbers. On the board, an arrow curves from IT back to CAT. That connection is the information that matters here.
 
-Transformation: use learned patterns to further process those numbers. On the board, two sets of number bars compare IT after attention with IT with context.
+Transformation uses learned patterns to further process those numbers. On the board, two sets of number bars compare IT after attention with IT with context.
 
-Attention and transformation work together to build meaning from context.
+The surrounding words help AI update each token’s numbers.
 
-## What changes
-
-Both steps update the numbers that represent the token.
-
-The model’s learned weights stay fixed.
-
-What changes is the row of numbers representing each token in your message.
+## Return to the examples
 
 Now let’s return to our two examples.
+
+We’ve seen how the numbers change. Here is how the surrounding words help in each case.
 
 ### Board 5: How the Transformer Resolves Meaning
 
@@ -118,9 +130,37 @@ Now let’s return to our two examples.
 
 This is how the Transformer resolves meaning.
 
-Problem 1, different meanings. Which words provide the clues? In “Please turn on the LIGHT,” the words “turn on” tell us LIGHT means brightness. In “The empty suitcase felt LIGHT,” the word “empty” helps us interpret LIGHT as not heavy.
+Problem 1 is different meanings.
 
-Problem 2, pronouns. Which words provide the clues? In “The cat was thirsty, so IT drank the milk,” IT points back to the thirsty cat. In “The milk was fresh, so the cat drank IT,” IT points back to the milk that the cat drank.
+“Please turn on the LIGHT.”
+
+**LIGHT** means brightness.
+
+“The empty suitcase felt LIGHT.”
+
+**LIGHT** means not heavy.
+
+Here is how the surrounding words help.
+
+“Turn on” tells us **LIGHT** means brightness.
+
+“Empty” helps us interpret **LIGHT** as not heavy.
+
+Problem 2 is pronouns.
+
+“The cat was thirsty, so IT drank the milk.”
+
+**IT** means cat.
+
+“The milk was fresh, so the cat drank IT.”
+
+**IT** means milk.
+
+Here is how the surrounding words help.
+
+In the first sentence, **IT** points back to the thirsty **cat**.
+
+In the second sentence, **IT** points back to the **milk** that the cat drank.
 
 Attention and transformation help AI work out which meaning fits.
 
@@ -130,7 +170,11 @@ Attention and transformation also help AI interpret sarcasm and idioms.
 
 ## One catch: word order
 
-The words alone aren’t enough. Their order matters too. Consider a simple sentence: “Dog bites man.” Same three tokens. Same starting embeddings. But the order carries the meaning.
+So far, we’ve looked at which words help us interpret the message. There’s one more piece: where those words appear.
+
+The words alone aren’t enough. Their order matters too.
+
+Consider a simple sentence: “Dog bites man.” Same three tokens. Same starting embeddings. But the order carries the meaning.
 
 ### Board 6: How a Transformer Keeps Words in Order
 

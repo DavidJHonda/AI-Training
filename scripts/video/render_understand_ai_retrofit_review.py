@@ -339,7 +339,7 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
     card_w = 744
     gutter = 32
     art_h = round(card_w * 9 / 16)
-    content_h = 628
+    content_h = 729
     card_h = art_h + content_h
     card_bottom = card_top + card_h
     footer_top = card_bottom + TAKEAWAY_GAP
@@ -359,10 +359,13 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
             "intro": "The same word can mean something different in each sentence.",
             "art": light_art,
             "rows": (
-                ("SENTENCE 1", "LIGHT = BRIGHTNESS", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
-                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
+                ("LIGHT means brightness", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
+                ("LIGHT means not heavy", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
             ),
-            "question": "Which meaning should AI use?",
+            "question": (
+                (("When you use ", "bold", INK), ("LIGHT", "bold", BLUE), (" in a sentence,", "bold", INK)),
+                (("how does AI know which meaning you mean?", "bold", INK),),
+            ),
         },
         {
             "left": 40 + card_w + gutter,
@@ -372,10 +375,13 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
             "intro": "The same pronoun can point to a different thing in each sentence.",
             "art": pronoun_art,
             "rows": (
-                ("SENTENCE 1", "IT = THE CAT", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
-                ("SENTENCE 2", "IT = THE MILK", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
+                ("IT means cat", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
+                ("IT means milk", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
             ),
-            "question": "What does IT point to?",
+            "question": (
+                (("When you use ", "bold", INK), ("IT", "bold", GREEN), (" in a sentence,", "bold", INK)),
+                (("how does AI know what you’re referring to?", "bold", INK),),
+            ),
         },
     )
 
@@ -383,12 +389,11 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
     body_font = face("medium", 29)
     sentence_fonts = {"medium": body_font, "bold": face("bold", 29)}
     row_label_font = face("heavy", 19)
-    answer_font = face("heavy", 20)
 
-    def draw_spans(d: ImageDraw.ImageDraw, x: int, y: int, spans) -> None:
+    def draw_spans(d: ImageDraw.ImageDraw, x: int, y: int, spans, fonts=sentence_fonts) -> None:
         cursor = x
         for text, weight, color in spans:
-            font = sentence_fonts[weight]
+            font = fonts[weight]
             d.text((cursor, y), text, font=font, fill=color, anchor="la")
             cursor += round(d.textlength(text, font=font))
 
@@ -426,9 +431,9 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
             y += 41
         y += 22
 
-        for row_label, answer, spans in card["rows"]:
+        for answer, spans in card["rows"]:
             row_top = y
-            row_h = 113
+            row_h = 133
             draw.rounded_rectangle(
                 (x, row_top, left + card_w - 34, row_top + row_h),
                 radius=12,
@@ -436,21 +441,24 @@ def render_context_problems(light_art: Path, pronoun_art: Path, out_path: Path, 
                 outline=mix(accent, 0.22),
                 width=1,
             )
-            draw.text((x + 20, row_top + 23), row_label, font=row_label_font, fill=MUTED, anchor="lm")
-            draw.text((left + card_w - 54, row_top + 23), answer, font=answer_font, fill=accent, anchor="rm")
-            draw_spans(draw, x + 20, row_top + 66, spans)
+            draw_spans(draw, x + 20, row_top + 20, spans)
+            keyword, meaning = answer.split(" ", 1)
+            draw_spans(draw, x + 20, row_top + 85, (
+                (keyword, "bold", accent), (" " + meaning, "medium", accent),
+            ))
             y += row_h + 14
 
-        y += 8
-        draw.text((x, y), "THE PROBLEM", font=row_label_font, fill=accent, anchor="la")
-        draw.text((x, y + 38), card["question"], font=face("bold", 30), fill=INK, anchor="la")
+        y += 28
+        draw.text((x, y), "WHAT AI MUST FIGURE OUT", font=row_label_font, fill=accent, anchor="la")
+        for line_index, spans in enumerate(card["question"]):
+            draw_spans(draw, x, y + 38 + line_index * 41, spans, {"bold": face("bold", 30)})
 
     draw_takeaway_band(
         canvas,
         top=footer_top,
         left=40,
         right=1560,
-        text="Context determines which meaning fits.",
+        text="The surrounding words help AI figure out the meaning.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)
@@ -463,7 +471,7 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
     card_w = 744
     gutter = 32
     art_h = round(card_w * 9 / 16)
-    content_h = 690
+    content_h = 748
     card_h = art_h + content_h
     card_bottom = card_top + card_h
     footer_top = card_bottom + TAKEAWAY_GAP
@@ -482,8 +490,8 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             "title": "Different Meanings",
             "art": light_art,
             "rows": (
-                ("SENTENCE 1", "LIGHT = BRIGHTNESS", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
-                ("SENTENCE 2", "LIGHT = NOT-HEAVY", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
+                ("LIGHT means brightness", (("Please turn on the ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
+                ("LIGHT means not heavy", (("The empty suitcase felt ", "medium", BODY), ("LIGHT", "bold", BLUE), (".", "medium", BODY))),
             ),
         },
         {
@@ -493,8 +501,8 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
             "title": "Pronouns",
             "art": pronoun_art,
             "rows": (
-                ("SENTENCE 1", "IT = THE CAT", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
-                ("SENTENCE 2", "IT = THE MILK", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
+                ("IT means cat", (("The cat was thirsty, so ", "medium", BODY), ("IT", "bold", GREEN), (" drank the milk.", "medium", BODY))),
+                ("IT means milk", (("The milk was fresh, so the cat drank ", "medium", BODY), ("IT", "bold", GREEN), (".", "medium", BODY))),
             ),
         },
     )
@@ -502,9 +510,7 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
     pill_font = face("heavy", 20)
     body_font = face("medium", 29)
     rich_fonts = {"medium": body_font, "bold": face("bold", 29)}
-    row_label_font = face("heavy", 19)
-    answer_font = face("heavy", 20)
-    step_label_font = face("heavy", 22)
+    step_label_font = face("heavy", 19)
 
     def draw_spans(d: ImageDraw.ImageDraw, x: int, y: int, spans) -> None:
         cursor = x
@@ -540,9 +546,9 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
         draw_inner_title(draw, (x, y), card["title"], fill=accent, anchor="la")
         y += 70
 
-        for row_label, answer, spans in card["rows"]:
+        for answer, spans in card["rows"]:
             row_top = y
-            row_h = 113
+            row_h = 133
             draw.rounded_rectangle(
                 (x, row_top, left + card_w - 34, row_top + row_h),
                 radius=12,
@@ -550,27 +556,29 @@ def render_context_resolutions(light_art: Path, pronoun_art: Path, out_path: Pat
                 outline=mix(accent, 0.22),
                 width=1,
             )
-            draw.text((x + 20, row_top + 23), row_label, font=row_label_font, fill=MUTED, anchor="lm")
-            draw.text((left + card_w - 54, row_top + 23), answer, font=answer_font, fill=accent, anchor="rm")
-            draw_spans(draw, x + 20, row_top + 66, spans)
+            draw_spans(draw, x + 20, row_top + 20, spans)
+            keyword, meaning = answer.split(" ", 1)
+            draw_spans(draw, x + 20, row_top + 85, (
+                (keyword, "bold", accent), (" " + meaning, "medium", accent),
+            ))
             y += row_h + 14
 
-        y += 10
-        draw.text((x, y), "WHICH WORDS PROVIDE THE CLUES?", font=step_label_font, fill=accent, anchor="la")
+        y += 28
+        draw.text((x, y), "HOW THE SURROUNDING WORDS HELP", font=step_label_font, fill=accent, anchor="la")
         y += 39
         draw.rounded_rectangle((x, y, left + card_w - 34, y + 218), radius=12,
                                fill=mix(accent, 0.055), outline=mix(accent, 0.20), width=1)
         if card["left"] == 40:
             explanations = (
-                ((("“Turn on”", "bold", accent), (" tells us LIGHT means", "medium", BODY)),
+                ((("“Turn on”", "bold", accent), (" tells us ", "medium", BODY), ("LIGHT", "bold", accent), (" means", "medium", BODY)),
                  (("brightness.", "medium", BODY),)),
-                ((("“Empty”", "bold", accent), (" helps us interpret LIGHT as", "medium", BODY)),
-                 (("not-heavy.", "medium", BODY),)),
+                ((("“Empty”", "bold", accent), (" helps us interpret ", "medium", BODY), ("LIGHT", "bold", accent), (" as", "medium", BODY)),
+                 (("not heavy.", "medium", BODY),)),
             )
         else:
             explanations = (
                 ((("IT", "bold", accent), (" points back to the", "medium", BODY)),
-                 (("thirsty cat.", "bold", accent),)),
+                 (("thirsty ", "medium", BODY), ("cat", "bold", accent), (".", "medium", BODY))),
                 ((("IT", "bold", accent), (" points back to the", "medium", BODY)),
                  (("milk", "bold", accent), (" that the cat drank.", "medium", BODY))),
             )
@@ -1272,9 +1280,7 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
     title = "How Earlier AI Read Text"
     stage_top = 127
     stage_h = 391
-    # Keep the established 734 px canvas. The former two-line banner used 136
-    # px; the standard 88 px banner releases 48 px for the explanatory line.
-    footer_top = stage_top + stage_h + TAKEAWAY_GAP + 48
+    footer_top = stage_top + stage_h + TAKEAWAY_GAP
     height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
     canvas = Image.new("RGB", (WIDTH, height), FRAME)
     draw = ImageDraw.Draw(canvas)
@@ -1292,8 +1298,6 @@ def render_before_transformers(source: Path, out_path: Path) -> None:
         outline=mix(PURPLE, 0.22),
         width=1,
     )
-    explanation = "We know IT refers to CAT."
-    draw.text((WIDTH / 2, footer_top - 38), explanation, font=face("medium", 29), fill=INK, anchor="mm")
     takeaway = "Earlier AI often struggled to keep that connection, especially in longer passages."
     assert draw.textlength(takeaway, font=face("medium", TAKEAWAY_TEXT_SIZE)) <= 1400
     draw_takeaway_band(
@@ -1516,7 +1520,7 @@ def render_layers_inside_illustration(source: Path, out_path: Path) -> None:
 
 def render_transformer_reads_whole_message(out_path: Path) -> None:
     """Show the revised example with CAT and the later IT highlighted."""
-    title = "How a Transformer Reads a Sentence"
+    title = "How A Transformer Reads"
     stage_top = 127
     stage_h = 460
     footer_top = stage_top + stage_h + TAKEAWAY_GAP
@@ -1610,8 +1614,8 @@ def render_attention_transformation(out_path: Path) -> None:
     draw_board_title(draw, title)
 
     cards = (
-        (40, BLUE, "Attention", "Weigh information from relevant words and blend it into the token’s numbers."),
-        (40 + card_w + gutter, TEAL, "Transformation", "Use learned patterns to further process those numbers."),
+        (40, BLUE, "Attention", "Weighs information from relevant words and blends it into the token’s numbers."),
+        (40 + card_w + gutter, TEAL, "Transformation", "Uses learned patterns to further process those numbers."),
     )
     body_font = face("medium", 29)
 
@@ -1698,7 +1702,7 @@ def render_attention_transformation(out_path: Path) -> None:
         top=footer_top,
         left=40,
         right=1560,
-        text="Attention and transformation work together to build meaning from context.",
+        text="The surrounding words help AI update each token’s numbers.",
         font=face("medium", TAKEAWAY_TEXT_SIZE),
     )
     save(canvas, out_path)

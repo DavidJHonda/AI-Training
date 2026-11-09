@@ -17,7 +17,7 @@ OUT = ROOT / 'course-assets/transformer'
 
 def render_before(out):
     """Retain the original sequential path, with the approved revised example."""
-    canvas = Image.new('RGB', (1600, 734), r.FRAME)
+    canvas = Image.new('RGB', (1600, 686), r.FRAME)
     d = ImageDraw.Draw(canvas)
     r.draw_board_title(d, 'How Earlier AI Read Text')
     d.rounded_rectangle((40, 127, 1560, 518), radius=14, fill=r.WHITE,
@@ -48,8 +48,7 @@ def render_before(out):
     start = row_edges[1][0] - 22
     d.line([(end,230),(1520,230),(1520,352),(start,352),(start,450)], fill=color, width=4)
     r.arrow(d, (start,450), (row_edges[1][0]-5,450), color, 3)
-    d.text((800,568), 'We know IT refers to CAT.', font=r.face('medium',29), fill=r.INK, anchor='mm')
-    r.draw_takeaway_band(canvas, top=606, left=40, right=1560,
+    r.draw_takeaway_band(canvas, top=558, left=40, right=1560,
                         text='Earlier AI often struggled to keep that connection, especially in longer passages.',
                         font=r.face('medium',r.TAKEAWAY_TEXT_SIZE))
     r.save(canvas,out)

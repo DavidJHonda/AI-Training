@@ -311,70 +311,58 @@ Prompt: `gemini-notebook/embeddings/PROMPT.txt` (under 500 words). Save the roll
 
 ## Transformer
 
-**v10 SHIPPED 2026-09-22** (cache key 20260922ship6, pill 4 min, 3:46): roll 2 of 2026-09-22 (8/8 required lines) with roll 3's 2017 beat grafted in (fixes "the D in ChatGPT" and restores the paper title) under the live v8's own 2017 drawing, one production sentence cut, canonical boards, and David's ring notes (no ring on the already-bordered IT chip; clue rings hug the tinted boxes); close hold faded to silence to remove the room-tone loop pulse. Rolls 1 (REROLL) and 3 (donor) retained. Review: `video-audit/transformer-comparison-2026-09-22/`. Previous line: Materials rebuilt 2026-09-21 on the 2026-09-20 recipe; live `transformer.mp4` v8 shipped 2026-09-17 under the old method (visual-only retrofit of v7); reroll pending David's approval of the beat spine below.
+**Transformer v17 local release — 2026-11-09.** Approved combined reroll edit,
+4:26.93 (`20261109ship-transformer-v17`, displayed as 4 min). Uses roll 6 with
+roll 5's opening/transitions, the older qualified earlier-AI line, restored
+examples, and current canonical boards. The Attention/Transformation descriptions
+now use “Weighs … blends …” and “Uses …” to match narration. Queued for batch
+publication; audit and disclosed listening limits are recorded in
+`video-audit/transformer-build-v17-2026-11-09/`.
 
-**Notebook sources**
+**Current sources and instructions**
 
-1. `lessons/transformer.md`
-2. `course-assets/transformer/transformer-context-problems.jpg` (Board 1, canonical; photo strip has no faces, David 2026-09-21)
-3. `course-assets/transformer/transformer-before-transformers.jpg`
-4. `course-assets/transformer/transformer-how-transformer-reads.jpg`
-5. `course-assets/transformer/transformer-attention-transformation.jpg`
-6. `course-assets/transformer/transformer-resolves-meaning.jpg` (Board 5, canonical; same strip)
-7. `course-assets/transformer/transformer-word-order.jpg`
-8. `course-assets/transformer/transformer-close.jpg`
+- Narration: `lessons/transformer.md` — current page and board teaching, with
+  explicit spoken bridges between the main ideas.
+- Prompt: `gemini-notebook/transformer/PROMPT.txt` — under 500 words; current
+  required lines and teaching guardrails. Use this verbatim list, not older kits.
+- Upload list: the Transformer entry in `gemini-notebook/upload-sets.json`.
+  Sync produces `gemini-notebook/transformer/upload/`: the Markdown and seven
+  canonical boards in lesson order, including the close.
+- Detailed beat spine, transitions, visual continuity, and incoming-roll checklist:
+  `gemini-notebook/transformer/PREP-NOTES.md` (November 9 section).
+- Boards 1 and 5 retain the approved photographs with no visible human faces;
+  upload the canonical boards. No faceless variants or post-only boards.
 
-**Post-production boards**
+**Teaching spine**
 
-- None. Boards 1 and 5 carry a photo strip (a hand at a lamp, a shoulders-down person with a suitcase, two cats) with no visible faces. Faceless variants were rendered and then dropped on David's call (2026-09-21): the boards upload as they appear in the lesson.
+1. Words → tokens → embeddings as starting numbers; whole words illustrate connections.
+2. Two problems: all four exact LIGHT/IT sentences and meanings. Surrounding words
+   provide clues; detailed clue explanations come on the return visit.
+3. Why earlier AI struggled: sequential reading, distant connections, the full
+   “The tired cat sat on the mat during the May rainstorm. IT soon fell asleep.”
+   example, including TIRED in any word-by-word walk.
+4. The breakthrough: 2017, eight Google researchers, the paper title, Transformer,
+   T in ChatGPT. Tokens can be processed at once; IT can use earlier CAT information.
+5. Taking in words is only the start. Introduce attention and transformation,
+   explain the IT-to-CAT arrow and number updates. Omit the fixed-weight passage.
+6. Return to the original examples: turn on → brightness; empty → not heavy;
+   IT → thirsty cat or the milk the cat drank. Mention sarcasm and idioms.
+7. Connect meaning to word order: DOG BITES MAN versus MAN BITES DOG, identical
+   tokens and starting embeddings, different events; position information and
+   DOG 1, BITES 2, MAN 3. End with the two unchanged closing lines.
 
-**Beat spine**
+**Learning and production guardrails**
 
-1. Words in, words out; underneath, tokens, each with an embedding, a row of numbers for its starting meaning. The lesson uses whole words instead of tokens to make connections easier to see.
-2. Board 1: two problems context must solve. Different meanings: LIGHT means brightness in "turn on the light," not heavy in "light enough to carry." Pronouns: IT refers to the cat when it was thirsty, the milk when it was fresh. "Context determines which meaning fits."
-3. Why this was hard for AI: earlier AI read in order, one word at a time, and could lose track of earlier words. Board 2 walks the cat-and-rainstorm sentence left to right; we know IT refers to CAT. "Earlier AI often struggled to keep that connection, especially in longer passages."
-4. The breakthrough: 2017, eight researchers at Google, "Attention Is All You Need," the Transformer, the T in ChatGPT. "The Transformer reads your whole message at once." Board 3: the complete message arrives together; IT can draw on CAT with several words in between; all words are present from the start.
-5. Reading at once is only the start: AI has to figure out which words matter and update the numbers. Board 4: attention weighs and blends information from relevant words into the token's numbers (IT back to CAT); transformation uses learned patterns to further process those numbers (bars: IT after attention, IT with context). Both steps update the token's numbers. "Attention and transformation work together to build meaning from context."
-6. "The model's learned weights stay fixed." What changes is the row of numbers for each token in your message.
-7. Board 5: return to the two examples and name the clue words: "turn on" gives brightness, "carry" gives not heavy, "thirsty" gives the cat, "fresh" gives the milk. Attention and transformation help AI work out which meaning fits. Also sarcasm, idioms, and the empty "it" in "it was a cold day."
-8. One catch, word order: "Dog bites man" versus "Man bites dog," same three tokens, same starting embeddings, order carries the meaning. Board 6: without positions the model cannot tell which came first; position stamps DOG 1, BITES 2, MAN 3. "Positional encoding tells the Transformer where every token belongs."
-9. Close: "Attention is all you need." / "AI uses relationships between words to help interpret your message."
+Speak why each section follows; headings alone do not provide transitions. Give
+opening examples and their later revisit different jobs. Do not imply that parallel
+processing alone resolves meaning, that later words update an earlier token, or
+that reading retrains the model. Introduce the attention mechanism only after the
+reading comparison; the earlier paper title is fine. No fixed-weight detour,
+causal-mask lesson, query/key/value expansion, activity, or new mechanisms.
 
-**Required verbatim lines**
-
-- "Context determines which meaning fits."
-- "Earlier AI often struggled to keep that connection, especially in longer passages."
-- "The Transformer reads your whole message at once."
-- "Attention and transformation work together to build meaning from context."
-- "The model's learned weights stay fixed."
-- "Positional encoding tells the Transformer where every token belongs."
-- "Attention is all you need."
-- "AI uses relationships between words to help interpret your message."
-
-(Two other banners, "All words are present from the start." and "Attention and transformation help AI work out which meaning fits.", stand alone in the Markdown and are named in the beat spine but were left off the verbatim list to keep it at eight.)
-
-**Guardrails carried from the old prompt or reviews**
-
-- Old prompt: preserve the distinction between examples and actual mechanisms; keep the qualifications that affect accuracy; do not read every table cell aloud. Carried as: teach the Markdown's definitions of attention and transformation only, and add no mechanism beyond what the Markdown states (no layers, neural networks, self-attention, query/key/value).
-- Old Markdown (Board 5): "These examples illustrate interpreting the complete sentences. They do not depict a token attending to words that come after it." Carried as a negative in the prompt: the clues come from the complete sentence; do not describe a token reaching ahead to later words.
-- New, from the page's weights-stay-fixed sentence: do not say the model learns or retrains while reading your message.
-- Activity exclusion: the TRY IT (`BeTheAttentionTryIt`, which plays `transformers-quiz.mp4`) is out of the Markdown and named in the prompt as not to be narrated.
-- REVIEW.md (2026-09-17) was a visual-only retrofit and carries no teaching pitfalls; its one note is that the two tall boards read small at full view, which matters for the edit, not the roll.
-
-**Markdown versus page**
-
-- Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all six board titles added. Removed "Information from CAT had to be carried forward" (not on the board or page; now a prompt negative).
-- Kept beyond the page prose, from the boards themselves: the two card lead-ins ("The same word can mean something different in each sentence." / "The same pronoun can point to a different thing in each sentence."), the two "The problem" questions with their answers spoken, "The complete message arrives together," and the Board 6 card sentences.
-- Kept from the old Markdown because it clarifies Board 2: the left-to-right, word-by-word description with information from CAT carried forward to IT. Also kept: the spoken position answers (DOG 1, BITES 2, MAN 3).
-- Dropped from the old Markdown: the Board 5 qualifier about not attending to later words (moved to the prompt as a guardrail rather than narrated to students); the "Takeaway:" labels and the clue table (rewritten as sentences).
-- Split for the stand-alone rule: "The Transformer reads your whole message at once." and "The model's learned weights stay fixed." now sit on their own lines.
-- "not-heavy" on the board is written "not heavy" for the ear.
-- Page wrinkle, noted only: Board 5 presents "thirsty" and "fresh" as the clues for IT, and both words come after IT in the sentence. At sentence level this is right, but a literal narration could imply IT looks ahead. The prompt guards against that wording; the page itself is unchanged.
-
-**Open questions**
-
-1. Resolved 2026-09-21: Boards 1 and 5 upload as the canonical boards.
-2. Resolved 2026-09-21 (David): the later-words qualifier stays prompt-only, not spoken.
+Use the November 9 board layouts, titles, meanings, and banners. Do not reuse old
+highlight coordinates or camera paths: several canonical dimensions changed.
+Current workflow rules govern the edit after the new narration is reviewed.
 
 ## Layers
 

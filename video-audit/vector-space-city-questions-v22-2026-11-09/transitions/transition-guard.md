@@ -1,0 +1,52 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/vector-space-v22.mp4`
+- Decoded frames: 6538
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f305 `Opening question through first city question` — [`boundary-000305-Opening-question-through-first-city-question.jpg`](boundary-000305-Opening-question-through-first-city-question.jpg)
+- PASS — f668 `Nearby drawing` — [`boundary-000668-Nearby-drawing.jpg`](boundary-000668-Nearby-drawing.jpg)
+- PASS — f942 `cities-0` — [`boundary-000942-cities-0.jpg`](boundary-000942-cities-0.jpg)
+- PASS — f1061 `cities-1` — [`boundary-001061-cities-1.jpg`](boundary-001061-cities-1.jpg)
+- PASS — f1260 `cities-2` — [`boundary-001260-cities-2.jpg`](boundary-001260-cities-2.jpg)
+- PASS — f1421 `cities-3` — [`boundary-001421-cities-3.jpg`](boundary-001421-cities-3.jpg)
+- PASS — f1669 `cities-4` — [`boundary-001669-cities-4.jpg`](boundary-001669-cities-4.jpg)
+- PASS — f1848 `First city question and response pause` — [`boundary-001848-First-city-question-and-response-pause.jpg`](boundary-001848-First-city-question-and-response-pause.jpg)
+- PASS — f1854 `cities-5` — [`boundary-001854-cities-5.jpg`](boundary-001854-cities-5.jpg)
+- PASS — f1953 `cities-6` — [`boundary-001953-cities-6.jpg`](boundary-001953-cities-6.jpg)
+- PASS — f2115 `Second city question and response pause` — [`boundary-002115-Second-city-question-and-response-pause.jpg`](boundary-002115-Second-city-question-and-response-pause.jpg)
+- PASS — f2123 `cities-7` — [`boundary-002123-cities-7.jpg`](boundary-002123-cities-7.jpg)
+- PASS — f2358 `drinks-0` — [`boundary-002358-drinks-0.jpg`](boundary-002358-drinks-0.jpg)
+- PASS — f2819 `drinks-1` — [`boundary-002819-drinks-1.jpg`](boundary-002819-drinks-1.jpg)
+- PASS — f2861 `Pepsi with correct Citrus 10` — [`boundary-002861-Pepsi-with-correct-Citrus-10.jpg`](boundary-002861-Pepsi-with-correct-Citrus-10.jpg)
+- PASS — f2874 `drinks-2` — [`boundary-002874-drinks-2.jpg`](boundary-002874-drinks-2.jpg)
+- PASS — f2904 `Pepsi relationship and hot coffee` — [`boundary-002904-Pepsi-relationship-and-hot-coffee.jpg`](boundary-002904-Pepsi-relationship-and-hot-coffee.jpg)
+- PASS — f3068 `drinks-3` — [`boundary-003068-drinks-3.jpg`](boundary-003068-drinks-3.jpg)
+- PASS — f3120 `Coffee coordinate readout` — [`boundary-003120-Coffee-coordinate-readout.jpg`](boundary-003120-Coffee-coordinate-readout.jpg)
+- PASS — f3312 `Mystery A introduction` — [`boundary-003312-Mystery-A-introduction.jpg`](boundary-003312-Mystery-A-introduction.jpg)
+- PASS — f3429 `drinks-4` — [`boundary-003429-drinks-4.jpg`](boundary-003429-drinks-4.jpg)
+- PASS — f3492 `Mystery A comparison; coordinate readout removed` — [`boundary-003492-Mystery-A-comparison-coordinate-readout-removed.jpg`](boundary-003492-Mystery-A-comparison-coordinate-readout-removed.jpg)
+- PASS — f3879 `Drink A comparison extension` — [`boundary-003879-Drink-A-comparison-extension.jpg`](boundary-003879-Drink-A-comparison-extension.jpg)
+- PASS — f3913 `Pepsi answer and Mystery B introduction` — [`boundary-003913-Pepsi-answer-and-Mystery-B-introduction.jpg`](boundary-003913-Pepsi-answer-and-Mystery-B-introduction.jpg)
+- PASS — f3922 `drinks-5` — [`boundary-003922-drinks-5.jpg`](boundary-003922-drinks-5.jpg)
+- PASS — f4069 `drinks-6` — [`boundary-004069-drinks-6.jpg`](boundary-004069-drinks-6.jpg)
+- PASS — f4119 `Mystery B comparison; coordinate readout removed` — [`boundary-004119-Mystery-B-comparison-coordinate-readout-removed.jpg`](boundary-004119-Mystery-B-comparison-coordinate-readout-removed.jpg)
+- PASS — f4357 `Drink B comparison extension` — [`boundary-004357-Drink-B-comparison-extension.jpg`](boundary-004357-Drink-B-comparison-extension.jpg)
+- PASS — f4391 `Coffee answer and vector conclusion` — [`boundary-004391-Coffee-answer-and-vector-conclusion.jpg`](boundary-004391-Coffee-answer-and-vector-conclusion.jpg)
+- PASS — f4400 `drinks-7` — [`boundary-004400-drinks-7.jpg`](boundary-004400-drinks-7.jpg)
+- PASS — f4754 `Distance and learned-dimensional meaning callback` — [`boundary-004754-Distance-and-learned-dimensional-meaning-callback.jpg`](boundary-004754-Distance-and-learned-dimensional-meaning-callback.jpg)
+- PASS — f4901 `Scale drawing` — [`boundary-004901-Scale-drawing.jpg`](boundary-004901-Scale-drawing.jpg)
+- PASS — f4959 `Corrected scale panel` — [`boundary-004959-Corrected-scale-panel.jpg`](boundary-004959-Corrected-scale-panel.jpg)
+- PASS — f5052 `Scale relationships` — [`boundary-005052-Scale-relationships.jpg`](boundary-005052-Scale-relationships.jpg)
+- PASS — f5274 `Dimensional drawing` — [`boundary-005274-Dimensional-drawing.jpg`](boundary-005274-Dimensional-drawing.jpg)
+- PASS — f5366 `Lesson sentence card` — [`boundary-005366-Lesson-sentence-card.jpg`](boundary-005366-Lesson-sentence-card.jpg)
+- PASS — f5712 `Context board` — [`boundary-005712-Context-board.jpg`](boundary-005712-Context-board.jpg)
+- PASS — f6009 `IT before-and-after number readouts` — [`boundary-006009-IT-before-and-after-number-readouts.jpg`](boundary-006009-IT-before-and-after-number-readouts.jpg)
+- PASS — f6016 `Context focus` — [`boundary-006016-Context-focus.jpg`](boundary-006016-Context-focus.jpg)
+- PASS — f6134 `Context focus` — [`boundary-006134-Context-focus.jpg`](boundary-006134-Context-focus.jpg)
+- PASS — f6252 `Canonical close` — [`boundary-006252-Canonical-close.jpg`](boundary-006252-Canonical-close.jpg)
+- PASS — f6418 `Settled close hold` — [`boundary-006418-Settled-close-hold.jpg`](boundary-006418-Settled-close-hold.jpg)

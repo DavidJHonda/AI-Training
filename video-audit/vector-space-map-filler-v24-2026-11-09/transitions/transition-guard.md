@@ -1,0 +1,54 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/vector-space-v24.mp4`
+- Decoded frames: 6212
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f305 `Opening question through first city question` — [`boundary-000305-Opening-question-through-first-city-question.jpg`](boundary-000305-Opening-question-through-first-city-question.jpg)
+- PASS — f668 `Nearby drawing` — [`boundary-000668-Nearby-drawing.jpg`](boundary-000668-Nearby-drawing.jpg)
+- PASS — f942 `cities-0` — [`boundary-000942-cities-0.jpg`](boundary-000942-cities-0.jpg)
+- PASS — f1061 `cities-1` — [`boundary-001061-cities-1.jpg`](boundary-001061-cities-1.jpg)
+- PASS — f1260 `cities-2` — [`boundary-001260-cities-2.jpg`](boundary-001260-cities-2.jpg)
+- PASS — f1301 `Mountain View coordinate readout` — [`boundary-001301-Mountain-View-coordinate-readout.jpg`](boundary-001301-Mountain-View-coordinate-readout.jpg)
+- PASS — f1312 `cities-3` — [`boundary-001312-cities-3.jpg`](boundary-001312-cities-3.jpg)
+- PASS — f1340 `New York City coordinate readout` — [`boundary-001340-New-York-City-coordinate-readout.jpg`](boundary-001340-New-York-City-coordinate-readout.jpg)
+- PASS — f1466 `cities-4` — [`boundary-001466-cities-4.jpg`](boundary-001466-cities-4.jpg)
+- PASS — f1581 `First map-addition line plus previously removed city question and pause` — [`boundary-001581-First-map-addition-line-plus-previously-removed-city-question-and-pause.jpg`](boundary-001581-First-map-addition-line-plus-previously-removed-city-question-and-pause.jpg)
+- PASS — f1587 `cities-5` — [`boundary-001587-cities-5.jpg`](boundary-001587-cities-5.jpg)
+- PASS — f1686 `cities-6` — [`boundary-001686-cities-6.jpg`](boundary-001686-cities-6.jpg)
+- PASS — f1789 `Second map-addition line plus previously removed city question and pause` — [`boundary-001789-Second-map-addition-line-plus-previously-removed-city-question-and-pause.jpg`](boundary-001789-Second-map-addition-line-plus-previously-removed-city-question-and-pause.jpg)
+- PASS — f1797 `cities-7` — [`boundary-001797-cities-7.jpg`](boundary-001797-cities-7.jpg)
+- PASS — f2032 `drinks-0` — [`boundary-002032-drinks-0.jpg`](boundary-002032-drinks-0.jpg)
+- PASS — f2493 `drinks-1` — [`boundary-002493-drinks-1.jpg`](boundary-002493-drinks-1.jpg)
+- PASS — f2535 `Pepsi with correct Citrus 10` — [`boundary-002535-Pepsi-with-correct-Citrus-10.jpg`](boundary-002535-Pepsi-with-correct-Citrus-10.jpg)
+- PASS — f2548 `drinks-2` — [`boundary-002548-drinks-2.jpg`](boundary-002548-drinks-2.jpg)
+- PASS — f2578 `Pepsi relationship and hot coffee` — [`boundary-002578-Pepsi-relationship-and-hot-coffee.jpg`](boundary-002578-Pepsi-relationship-and-hot-coffee.jpg)
+- PASS — f2742 `drinks-3` — [`boundary-002742-drinks-3.jpg`](boundary-002742-drinks-3.jpg)
+- PASS — f2794 `Coffee coordinate readout` — [`boundary-002794-Coffee-coordinate-readout.jpg`](boundary-002794-Coffee-coordinate-readout.jpg)
+- PASS — f2986 `Mystery A introduction` — [`boundary-002986-Mystery-A-introduction.jpg`](boundary-002986-Mystery-A-introduction.jpg)
+- PASS — f3103 `drinks-4` — [`boundary-003103-drinks-4.jpg`](boundary-003103-drinks-4.jpg)
+- PASS — f3166 `Mystery A comparison; coordinate readout removed` — [`boundary-003166-Mystery-A-comparison-coordinate-readout-removed.jpg`](boundary-003166-Mystery-A-comparison-coordinate-readout-removed.jpg)
+- PASS — f3553 `Drink A comparison extension` — [`boundary-003553-Drink-A-comparison-extension.jpg`](boundary-003553-Drink-A-comparison-extension.jpg)
+- PASS — f3587 `Pepsi answer and Mystery B introduction` — [`boundary-003587-Pepsi-answer-and-Mystery-B-introduction.jpg`](boundary-003587-Pepsi-answer-and-Mystery-B-introduction.jpg)
+- PASS — f3596 `drinks-5` — [`boundary-003596-drinks-5.jpg`](boundary-003596-drinks-5.jpg)
+- PASS — f3743 `drinks-6` — [`boundary-003743-drinks-6.jpg`](boundary-003743-drinks-6.jpg)
+- PASS — f3793 `Mystery B comparison; coordinate readout removed` — [`boundary-003793-Mystery-B-comparison-coordinate-readout-removed.jpg`](boundary-003793-Mystery-B-comparison-coordinate-readout-removed.jpg)
+- PASS — f4031 `Drink B comparison extension` — [`boundary-004031-Drink-B-comparison-extension.jpg`](boundary-004031-Drink-B-comparison-extension.jpg)
+- PASS — f4065 `Coffee answer and vector conclusion` — [`boundary-004065-Coffee-answer-and-vector-conclusion.jpg`](boundary-004065-Coffee-answer-and-vector-conclusion.jpg)
+- PASS — f4074 `drinks-7` — [`boundary-004074-drinks-7.jpg`](boundary-004074-drinks-7.jpg)
+- PASS — f4428 `Distance and learned-dimensional meaning callback` — [`boundary-004428-Distance-and-learned-dimensional-meaning-callback.jpg`](boundary-004428-Distance-and-learned-dimensional-meaning-callback.jpg)
+- PASS — f4575 `Scale drawing` — [`boundary-004575-Scale-drawing.jpg`](boundary-004575-Scale-drawing.jpg)
+- PASS — f4633 `Corrected scale panel` — [`boundary-004633-Corrected-scale-panel.jpg`](boundary-004633-Corrected-scale-panel.jpg)
+- PASS — f4726 `Scale relationships` — [`boundary-004726-Scale-relationships.jpg`](boundary-004726-Scale-relationships.jpg)
+- PASS — f4948 `Dimensional drawing` — [`boundary-004948-Dimensional-drawing.jpg`](boundary-004948-Dimensional-drawing.jpg)
+- PASS — f5040 `Lesson sentence card` — [`boundary-005040-Lesson-sentence-card.jpg`](boundary-005040-Lesson-sentence-card.jpg)
+- PASS — f5386 `Context board` — [`boundary-005386-Context-board.jpg`](boundary-005386-Context-board.jpg)
+- PASS — f5683 `IT before-and-after number readouts` — [`boundary-005683-IT-before-and-after-number-readouts.jpg`](boundary-005683-IT-before-and-after-number-readouts.jpg)
+- PASS — f5690 `Context focus` — [`boundary-005690-Context-focus.jpg`](boundary-005690-Context-focus.jpg)
+- PASS — f5808 `Context focus` — [`boundary-005808-Context-focus.jpg`](boundary-005808-Context-focus.jpg)
+- PASS — f5926 `Canonical close` — [`boundary-005926-Canonical-close.jpg`](boundary-005926-Canonical-close.jpg)
+- PASS — f6092 `Settled close hold` — [`boundary-006092-Settled-close-hold.jpg`](boundary-006092-Settled-close-hold.jpg)

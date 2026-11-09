@@ -2,7 +2,7 @@
 
 # Why Answers Vary
 
-You’ve learned that changing your prompt or the information in the context window can change AI’s answer. But even when that information stays the same, AI can produce different answers. The reason starts with how it chooses the next token.
+Changing the model, your prompt, or the information in the context window can change AI’s answer. But even with the same model and the same information, answers can vary. To understand why, we’ll look at how AI chooses the next token.
 
 AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next.
 
@@ -82,6 +82,6 @@ Illustrative probabilities. Other combines the rest of the vocabulary.
 
 ## Closing Message
 
-The best chance isn’t a guarantee.
+AI answers vary.
 
-Different choices. Same learned weights.
+Different inputs. Different odds. Different choices.

@@ -616,67 +616,19 @@ Open questions
 
 - Board-coverage pass 2026-09-21 (David: the Markdown matches the lesson, and every printed point on a board must be in it because Notebook sometimes skips them): all four board titles and the step numbers added; FINAL VECTOR label folded in. The question-mark sentence stays: Board 2 labels the tile FINAL TOKEN.
 
-## The Next Token
+## Why Answers Vary
 
-Prep updated 2026-10-09 for the revised lesson, formerly One More Thing. The internal lesson ID remains `inference`; current lesson, asset, and prep paths use `why-answers-vary`. Directories and current filenames were renamed on 2026-10-09; historical raw rolls, versioned build scripts, and audit records retain their original names. This is preparation only: no new roll, edit, or publication. The installed video remains v14, `why-answers-vary.mp4?v=20260929ship1`, 3:24.23. Its 2026-09-29 shipping receipt records publication verification; no fresh public verification is claimed here.
+Reroll prep updated 2026-11-09. Internal lesson ID: `inference`.
 
-### Prepared sources
+Current directions: [Why Answers Vary reroll notes](../../../gemini-notebook/why-answers-vary/REROLL-NOTES.md). These replace the October 9 prep and September donor timings formerly listed here.
 
-- Prompt: `gemini-notebook/why-answers-vary/PROMPT.txt`.
-- Narration source: `lessons/why-answers-vary.md`.
-- Ready-to-upload folder: `gemini-notebook/why-answers-vary/upload/` (one Markdown and three JPGs).
-- Uploads in teaching order: `course-assets/why-answers-vary/why-answers-vary-draws.jpg`, `gemini-notebook/why-answers-vary/assets/why-answers-vary-temperature.jpg`, and `course-assets/why-answers-vary/why-answers-vary-close.jpg`.
-- The temperature JPG is a complete, unhighlighted capture of the current demonstration. It replaces the former static temperature board in this kit. No face variants or post-only boards.
-- The old calculation board is excluded. Its teaching and the scale activity remain saved in `docs/parking-lot.html` for Data Centers; neither belongs in this narration.
-- Paste the prompt into customization; upload only the four files in `upload/`. Save the raw roll as `Prompts/why-answers-vary-reroll.mp4`, or the next unused numbered filename. Preserve existing rolls.
+- Approved opening covers changes in model, prompt, and context, then narrows to variation with the same model and information.
+- Sampling uses one concise dog-name example and five independent picks with unchanged odds; consolidate repeated explanations.
+- The finished edit uses the current temperature demonstration with timed animated reveals, followed by a brief comparison. The uploaded JPG is a complete reference for generation. See the reroll notes for capture-mode motion handling.
+- Close: “AI answers vary.” / “Different inputs. Different odds. Different choices.”
+- Prompt: `gemini-notebook/why-answers-vary/PROMPT.txt`; narration: `lessons/why-answers-vary.md`.
+- Upload all four files in `gemini-notebook/why-answers-vary/upload/`; paste the prompt into customization. No face variants are needed.
+- Save as `Prompts/why-answers-vary-reroll.mp4` or the next unused `-reroll-N` filename.
+- Current local reference is v4, cache key `20261023ship4`, 3:21.10; verified SHA-256 `3692635c319e3fbf439ff676efbc4c6d452dc1013cd39968b39bda72d2b4fa57`. No fresh public verification claimed. Older v14 references are historical.
 
-### Lesson arc and scene directions
-
-AI builds an answer one token at a time; the dog-name example shows different selections from unchanged odds, then how temperature changes those odds while learned weights stay the same.
-
-1. Open with the introduction connecting prompt and context changes to different answers even when that information stays the same. Follow with token-by-token building and probabilities, then sampling and temperature. Use answer-building visuals. No title card, three-question preview, or promise of a calculation section.
-2. Establish the dog prompt and the open token in “You could name him.” Spot leads at 22%. Preserve “about 22 times out of 100 tries, on average, if the odds stay the same,” followed by “That’s called sampling.”
-3. **Same Probabilities, Different Choices:** keep the odds unchanged for five separate picks at the same open token: Max, Spot, Buddy, Rex, Max. This is one possible set, not five names in one answer. Spot appears once; another set could differ. The highest probability does not guarantee selection.
-4. Leave the board for the two connected ideas: giving other likely tokens a chance adds variety, and one changed token can change what follows. Preserve “can make answers repetitive,” rather than the old categorical wording.
-5. Introduce temperature as changing how concentrated or spread out the probabilities are. Explicitly say it is already set behind the scenes in chat apps. The demonstration compares settings; it does not ask viewers to change their app.
-6. **How Temperature Changes the Odds:** return to the same unfinished reply. Starting probabilities use what AI learned during training and the current context. Reveal the starting odds, then lower temperature (Spot 22% → 36%), then higher temperature from the same starting odds (22% → 16%). Explain smaller versus larger chances for less likely names. These are illustrative probabilities; Other combines the remaining vocabulary.
-7. Compare all three Spot values with a single continuous outline around the full row. State that temperature changes the probabilities used to pick a token, without changing what AI learned. Do not imply that choosing a different token retrains AI.
-8. End with “The best chance isn’t a guarantee.” Then “Different choices. Same learned weights.” End on the current closing board, with nothing after. No calculation section or matching-activity narration.
-
-### Required verbatim audio and narration review
-
-The prompt requires nine passages: the prompt-and-context introduction, both existing opening paragraphs, the qualified 22%-over-100 explanation, “That’s called sampling,” temperature already set behind the scenes, the distinction between probability changes and learning, and both closing lines. Each is a standalone paragraph in the narration source. Formatting emphasis is not spoken.
-
-David approved avoiding a recital of every table cell on 2026-09-28. Preserve that choice: both uploaded teaching graphics retain the full numbers, while the narration explains their relationships and the key Spot comparisons. Numerical coverage does not require reading all cells. The source Markdown removes webpage-only instructions and labels, and keeps variety/branching prose outside Board 1 so it can receive its own visuals.
-
-Judge the new roll first on the complete teaching arc, required lines, spoken comparisons, and the distinction between changing a choice and changing learned weights. Check that lower and higher temperature are compared to the same baseline. Do not accept a roll that omits the behind-the-scenes setting or treats the starting probabilities as fixed values memorized during training. Sampling is now an explicit taught term. Avoid extra technical labels, computation scale, or claims about real model sizes, hardware, and costs.
-
-### Temperature capture and later edit
-
-The live component is `TemperatureScene` in `index.html`, using `TEMPERATURE_STATES` and `TEMPERATURE_DATA`. Regenerate its standalone preview with `node scripts/video/preview_temperature.cjs`. With the local course server running, `BASE_URL=http://127.0.0.1:8793 node scripts/video/capture_temperature_board.cjs` captures step 2 into the registered upload asset. It contains all columns, no outline, no controls, and only “Answer so far” above the unfinished reply. Refresh the upload bundle after recapturing.
-
-For the eventual video edit, use `/previews/temperature.html?capture=1&step=0` and advance with `window.setTemperatureScene(step)` as narration reaches each comparison:
-
-| State | Visible teaching | Edit cue |
-| --- | --- | --- |
-| 0 | Starting odds only | Spot starts at 22%. |
-| 1 | Starting and low-temperature columns | Spot rises to 36%; less likely names get smaller chances. |
-| 2 | All three columns | Higher temperature starts from the same baseline; Spot falls to 16%. |
-| 3 | All three columns; full Spot row outlined | Compare 22%, 36%, 16%; learning stays unchanged. |
-
-Capture the scene without the Guided Demonstration shell, instructions, buttons, or a cursor. Preserve the white-panel layout; do not restore the deleted prompt box. Use the current Edit Spec for final framing and outline treatment. Reveal on spoken cues, not a fixed timer. Measure timing, pauses, and outline onset against the new roll; no old timings carry over automatically.
-
-### Existing-video reference and reusable visuals
-
-The installed v14 file is `course-assets/why-answers-vary/why-answers-vary.mp4`, SHA-256 `321a52242ce10b86e151a8ffcf000b4684db8a340945da06fe3b317eee8a86ca`. The matching transcript is `video-audit/understand-ai-illustration-opportunities-2026-10-08/transcripts/why-answers-vary.txt`; its source record matches that hash. Shipping receipt: `video-audit/why-answers-vary-repair-2026-09-29-v14/shipping-receipt.json`.
-
-Approximate source ranges from the transcript and sequential sampled frames, for later evaluation rather than cut instructions:
-
-- 0–12 s: obsolete three-question opening; replace.
-- 12–69 s: dog example, qualified 22%-over-100 explanation, unchanged odds and five selections; useful teaching. The 100-trial grid around 37–45 s is a possible visual donor.
-- 69–81 s: variety and branching continuation; possible visual donors, including the name pattern around 69–78 s and branching around 78–81 s.
-- 81–134 s: temperature teaching; replace its static comparison with the current scene and retain the behind-the-scenes and unchanged-learning concepts.
-- 135–195 s: computation; excluded from this lesson and available for a later Data Centers review.
-- 195–204 s: obsolete close; replace.
-
-The previous evaluation used the matching transcript and sampled visual frames; it did not audition audio joins or certify full audiovisual playback. Recheck useful scenes in motion with narration before reuse. Verify the source hash before extracting anything, and do not bind a future edit to an unchecked, replaceable live filename. No donor extraction or audio graft is part of this prep update.
+Preparation only: no new video generated, edited, or installed. Computation and the matching activity remain excluded from narration.

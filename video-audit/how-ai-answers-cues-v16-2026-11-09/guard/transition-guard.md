@@ -1,0 +1,56 @@
+# Transition guard
+
+- Result: PASS
+- Video: `/Users/davidobrien/Developer/AI-Training/Prompts/how-ai-answers-v16.mp4`
+- Decoded frames: 5101
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f400 `splice-400` — [`boundary-000400-splice-400.jpg`](boundary-000400-splice-400.jpg)
+- PASS — f1176 `splice-1176` — [`boundary-001176-splice-1176.jpg`](boundary-001176-splice-1176.jpg)
+- PASS — f1657 `splice-1657` — [`boundary-001657-splice-1657.jpg`](boundary-001657-splice-1657.jpg)
+- PASS — f1684 `splice-1684` — [`boundary-001684-splice-1684.jpg`](boundary-001684-splice-1684.jpg)
+- PASS — f1744 `splice-1744` — [`boundary-001744-splice-1744.jpg`](boundary-001744-splice-1744.jpg)
+- PASS — f1760 `splice-1760` — [`boundary-001760-splice-1760.jpg`](boundary-001760-splice-1760.jpg)
+- PASS — f2052 `splice-2052` — [`boundary-002052-splice-2052.jpg`](boundary-002052-splice-2052.jpg)
+- PASS — f2070 `splice-2070` — [`boundary-002070-splice-2070.jpg`](boundary-002070-splice-2070.jpg)
+- PASS — f2131 `splice-2131` — [`boundary-002131-splice-2131.jpg`](boundary-002131-splice-2131.jpg)
+- PASS — f2179 `splice-2179` — [`boundary-002179-splice-2179.jpg`](boundary-002179-splice-2179.jpg)
+- PASS — f2255 `splice-2255` — [`boundary-002255-splice-2255.jpg`](boundary-002255-splice-2255.jpg)
+- PASS — f2303 `splice-2303` — [`boundary-002303-splice-2303.jpg`](boundary-002303-splice-2303.jpg)
+- PASS — f2362 `splice-2362` — [`boundary-002362-splice-2362.jpg`](boundary-002362-splice-2362.jpg)
+- PASS — f2388 `splice-2388` — [`boundary-002388-splice-2388.jpg`](boundary-002388-splice-2388.jpg)
+- PASS — f2451 `splice-2451` — [`boundary-002451-splice-2451.jpg`](boundary-002451-splice-2451.jpg)
+- PASS — f2463 `splice-2463` — [`boundary-002463-splice-2463.jpg`](boundary-002463-splice-2463.jpg)
+- PASS — f2476 `splice-2476` — [`boundary-002476-splice-2476.jpg`](boundary-002476-splice-2476.jpg)
+- PASS — f2518 `splice-2518` — [`boundary-002518-splice-2518.jpg`](boundary-002518-splice-2518.jpg)
+- PASS — f2690 `splice-2690` — [`boundary-002690-splice-2690.jpg`](boundary-002690-splice-2690.jpg)
+- PASS — f2701 `splice-2701` — [`boundary-002701-splice-2701.jpg`](boundary-002701-splice-2701.jpg)
+- PASS — f2712 `splice-2712` — [`boundary-002712-splice-2712.jpg`](boundary-002712-splice-2712.jpg)
+- PASS — f2714 `splice-2714` — [`boundary-002714-splice-2714.jpg`](boundary-002714-splice-2714.jpg)
+- PASS — f2716 `splice-2716` — [`boundary-002716-splice-2716.jpg`](boundary-002716-splice-2716.jpg)
+- PASS — f2722 `splice-2722` — [`boundary-002722-splice-2722.jpg`](boundary-002722-splice-2722.jpg)
+- PASS — f2732 `splice-2732` — [`boundary-002732-splice-2732.jpg`](boundary-002732-splice-2732.jpg)
+- PASS — f2734 `splice-2734` — [`boundary-002734-splice-2734.jpg`](boundary-002734-splice-2734.jpg)
+- PASS — f2741 `splice-2741` — [`boundary-002741-splice-2741.jpg`](boundary-002741-splice-2741.jpg)
+- PASS — f2747 `splice-2747` — [`boundary-002747-splice-2747.jpg`](boundary-002747-splice-2747.jpg)
+- PASS — f2755 `splice-2755` — [`boundary-002755-splice-2755.jpg`](boundary-002755-splice-2755.jpg)
+- PASS — f2801 `splice-2801` — [`boundary-002801-splice-2801.jpg`](boundary-002801-splice-2801.jpg)
+- PASS — f3290 `splice-3290` — [`boundary-003290-splice-3290.jpg`](boundary-003290-splice-3290.jpg)
+- PASS — f3343 `splice-3343` — [`boundary-003343-splice-3343.jpg`](boundary-003343-splice-3343.jpg)
+- PASS — f3415 `splice-3415` — [`boundary-003415-splice-3415.jpg`](boundary-003415-splice-3415.jpg)
+- PASS — f3444 `splice-3444` — [`boundary-003444-splice-3444.jpg`](boundary-003444-splice-3444.jpg)
+- PASS — f3486 `splice-3486` — [`boundary-003486-splice-3486.jpg`](boundary-003486-splice-3486.jpg)
+- PASS — f3498 `splice-3498` — [`boundary-003498-splice-3498.jpg`](boundary-003498-splice-3498.jpg)
+- PASS — f3510 `splice-3510` — [`boundary-003510-splice-3510.jpg`](boundary-003510-splice-3510.jpg)
+- PASS — f3551 `splice-3551` — [`boundary-003551-splice-3551.jpg`](boundary-003551-splice-3551.jpg)
+- PASS — f3620 `splice-3620` — [`boundary-003620-splice-3620.jpg`](boundary-003620-splice-3620.jpg)
+- PASS — f3625 `splice-3625` — [`boundary-003625-splice-3625.jpg`](boundary-003625-splice-3625.jpg)
+- PASS — f3638 `splice-3638` — [`boundary-003638-splice-3638.jpg`](boundary-003638-splice-3638.jpg)
+- PASS — f3698 `splice-3698` — [`boundary-003698-splice-3698.jpg`](boundary-003698-splice-3698.jpg)
+- PASS — f3938 `splice-3938` — [`boundary-003938-splice-3938.jpg`](boundary-003938-splice-3938.jpg)
+- PASS — f4208 `splice-4208` — [`boundary-004208-splice-4208.jpg`](boundary-004208-splice-4208.jpg)
+- PASS — f4609 `splice-4609` — [`boundary-004609-splice-4609.jpg`](boundary-004609-splice-4609.jpg)
+- PASS — f4794 `splice-4794` — [`boundary-004794-splice-4794.jpg`](boundary-004794-splice-4794.jpg)

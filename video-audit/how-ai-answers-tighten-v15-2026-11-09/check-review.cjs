@@ -1,0 +1,20 @@
+const { chromium } = require('playwright');
+const path = require('node:path');
+(async () => {
+  const browser = await chromium.launch({headless:true,channel:'chrome'});
+  const page = await browser.newPage({viewport:{width:1280,height:1000}});
+  const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+  await page.goto('file://'+path.join(__dirname,'review.html'));
+  await page.waitForFunction(()=>document.getElementById('player').readyState>=1);
+  await page.getByRole('button',{name:'New token graphic',exact:true}).click();
+  await page.waitForFunction(()=>document.getElementById('player').currentTime>=68);
+  await page.evaluate(()=>{const v=document.getElementById('player');v.pause();v.currentTime=100;});
+  await page.waitForFunction(()=>!document.getElementById('player').seeking && document.getElementById('player').readyState>=3);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  await page.screenshot({path:path.join(__dirname,'review-player.png'),fullPage:true});
+  const desktop=await page.evaluate(()=>({duration:document.getElementById('player').duration,time:document.getElementById('player').currentTime,width:document.documentElement.scrollWidth,viewport:window.innerWidth}));
+  await page.setViewportSize({width:390,height:844});
+  const mobile=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:window.innerWidth}));
+  if(errors.length || desktop.width>desktop.viewport || mobile.width>mobile.viewport)throw Error(JSON.stringify({errors,desktop,mobile}));
+  console.log(JSON.stringify({desktop,mobile,errors}));await browser.close();
+})().catch(e=>{console.error(e);process.exit(1);});

@@ -310,13 +310,13 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .club-builder-finish { grid-column: 1 / -1; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
   .club-builder-finish > p:not(.club-builder-prompt) { font-size: 16px; line-height: 1.65; margin: 0 0 20px; }
   .club-builder-possibilities { margin-top: 24px; border-top: 1px solid var(--rule); padding-top: 12px; }
-  .club-builder-possibilities > summary { padding: 12px 0; color: var(--primaryDeep); font-size: 16px; font-weight: 700; cursor: pointer; }
-  .club-builder-possibilities > p { margin: 4px 0 12px; font-size: 16px; line-height: 1.5; }
+  .club-builder-possibilities > summary { width: fit-content; max-width: 100%; box-sizing: border-box; padding: 14px 16px; border-radius: 10px; background: var(--primaryFaint); color: var(--primaryDeep); font-size: 16px; font-weight: 700; line-height: 1.5; cursor: pointer; }
+  .club-builder-possibilities > p { margin: 18px 0 16px; font-size: 16px; line-height: 1.5; }
   .club-builder-possibilities summary:focus-visible, .club-builder-name-list:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
-  .club-builder-name-list { height: 352px; overflow-y: scroll; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-color: var(--primary) var(--primaryFaint); background: var(--primaryFaint); border: 1px solid var(--rule); border-radius: 10px; }
-  .club-builder-name-list ul { list-style: none; margin: 0; padding: 0; }
-  .club-builder-name-list li { display: flex; align-items: center; min-height: 64px; box-sizing: border-box; padding: 8px 14px; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 24px; }
-  .club-builder-name-list li:last-child { border-bottom: 0; }
+  .club-builder-name-list { height: 400px; overflow-y: scroll; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-color: var(--primary) var(--primaryFaint); border-radius: 10px; }
+  .club-builder-name-list ul { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0 16px; }
+  .club-builder-name-list li { display: flex; align-items: center; min-height: 64px; box-sizing: border-box; padding: 10px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); font-size: 16px; font-weight: 600; line-height: 1.4; }
+  .club-builder-name-funny { color: var(--primaryDeep); }
   @media (max-width: 650px) {
     .club-builder { padding: 18px 14px; }
     .club-builder-context { grid-template-columns: 72px minmax(0,1fr); gap: 20px 10px; }
@@ -7451,6 +7451,7 @@ function MatchTermsTryIt() {
 
 // A small authored vocabulary for this activity, not predictions from a live model.
 // Each branch provides three choices; every complete path contains five words.
+// Before the final word, sibling choices lead to different next-word distributions.
 var AI_CLUB_BRANCHES = (function() {
   function branch(words, next, weights) {
     return words.map(function(word,i){return {token:word,probability:(weights || [50,30,20])[i],next:next?next(word):[]};});
@@ -7458,33 +7459,38 @@ var AI_CLUB_BRANCHES = (function() {
   function endings(words, weights) { return branch(words,null,weights); }
   function league(link) {
     var adjectives = link==="of"?["Curious","Clever","Helpful"]:link==="for"?["Human","Shared","Artificial"]:["Machine","Human","Shared"];
+    var endingWeights={Curious:[50,30,20],Clever:[30,50,20],Helpful:[20,30,50],Human:[30,50,20],Shared:[40,35,25],Artificial:[60,25,15],Machine:[60,25,15]};
     return branch(adjectives,function(adjective){
-      return endings(link==="of"?["Machines","Minds","Humans"]:link==="for"?["Intelligence","Creativity","Discovery"]:["Intelligence","Creativity","Potential"],adjective==="Human"?[30,50,20]:[50,30,20]);
+      return endings(link==="of"?["Machines","Minds","Humans"]:link==="for"?["Intelligence","Creativity","Discovery"]:["Intelligence","Creativity","Potential"],endingWeights[adjective]);
     });
   }
   function robots(verb) {
     return branch(["My","Our","Your"],function(owner){
-      return endings(verb==="Ate"?["Homework","Lunch","Notes"]:verb==="Stole"?["Homework","Job","Lunch"]:["Homework","Research","Taxes"],owner==="Our"?[30,50,20]:[50,30,20]);
-    });
+      return endings(verb==="Ate"?["Homework","Lunch","Notes"]:verb==="Stole"?["Homework","Job","Lunch"]:["Homework","Research","Taxes"],{My:[50,30,20],Our:[30,50,20],Your:[40,25,35]}[owner]);
+    },{Ate:[50,30,20],Stole:[35,40,25],Did:[30,20,50]}[verb]);
   }
   function curious(subject) {
     return branch(["Explore","Question","Build"],function(verb){
       return endings(verb==="Explore"?["AI","Tomorrow","Possibilities"]:verb==="Question"?["Everything","AI","Assumptions"]:["Tools","Robots","Tomorrow"]);
-    },subject==="Machines"?[30,20,50]:[50,30,20]);
+    },{Minds:[50,30,20],Humans:[40,35,25],Machines:[30,20,50]}[subject]);
   }
   function humans(verb) {
     var subjects=verb==="Build"?["AI","Tools","Technology"]:["Robots","Machines","Computers"];
+    var subjectWeights={Robots:[50,30,20],Machines:[30,50,20],Computers:[20,35,45],AI:[50,30,20],Tools:[30,50,20],Technology:[20,35,45]};
+    var endingWeights={Bring:[60,25,15],Share:[30,50,20],Invent:[20,30,50],New:[55,30,15],Useful:[20,60,20],Unexpected:[25,15,60],for:[60,25,15],with:[15,50,35],alongside:[10,30,60]};
     return branch(subjects,function(subject){
       return branch(verb==="First"?["Bring","Share","Invent"]:verb==="Teach"?["New","Useful","Unexpected"]:["for","with","alongside"],function(word){
-        return endings(verb==="First"?["Snacks","Ideas","Stories"]:verb==="Teach"?["Tricks","Skills","Habits"]:["Everyone","Friends","Humans"],word==="Share"?[30,50,20]:[50,30,20]);
-      },subject==="Machines"?[30,50,20]:[50,30,20]);
-    });
+        return endings(verb==="First"?["Snacks","Ideas","Stories"]:verb==="Teach"?["Tricks","Skills","Habits"]:["Everyone","Friends","Humans"],endingWeights[word]);
+      },subjectWeights[subject]);
+    },verb==="Teach"?[45,20,35]:[50,30,20]);
   }
   function less(noun) {
+    var wordWeights={More:[50,30,20],Real:[35,45,20],Practical:[25,35,40],Shared:[20,50,30],Collective:[30,25,45],Better:[35,45,20]};
+    var endingWeights={Human:[60,25,15],Shared:[30,50,20],Machine:[45,20,35],Artificial:[55,15,30],Collective:[25,45,30],Practical:[35,25,40]};
     return branch(noun==="Hype"?["More","Real","Practical"]:noun==="Fear"?["More","Shared","Collective"]:["More","Better","Shared"],function(word){
       return branch(noun==="Fear"?["Human","Machine","Artificial"]:noun==="Guesswork"?["Human","Collective","Practical"]:["Human","Shared","Machine"],function(adjective){
-        return endings(noun==="Hype"?["Intelligence","Creativity","Ingenuity"]:noun==="Fear"?["Intelligence","Creativity","Curiosity"]:["Intelligence","Discovery","Learning"],adjective==="Shared"?[30,50,20]:[50,30,20]);
-      },word==="Shared"?[20,50,30]:[50,30,20]);
+        return endings(noun==="Hype"?["Intelligence","Creativity","Ingenuity"]:noun==="Fear"?["Intelligence","Creativity","Curiosity"]:["Intelligence","Discovery","Learning"],endingWeights[adjective]);
+      },wordWeights[word]);
     },noun==="Fear"?[30,50,20]:[50,30,20]);
   }
   return branch(["The","Humans","Less"],function(start){
@@ -7502,16 +7508,16 @@ function aiClubChoices(tokens) {
   },AI_CLUB_BRANCHES).slice().sort(function(a,b){return b.probability-a.probability;});
 }
 var AI_CLUB_STRANGE_NAMES = [
-  "The Robots Ate My Homework",
-  "The Robots Stole My Lunch",
-  "The Robots Did My Taxes",
-  "Humans First Robots Bring Snacks",
-  "Humans First Computers Invent Snacks",
-  "Humans Teach Robots Unexpected Habits",
-  "Humans Teach Computers New Tricks",
-  "The Curious Machines Question AI",
-  "The Curious Machines Build Robots",
-  "Humans Build AI with Humans"
+  {name:"The Robots Ate My Homework",highlight:"Ate My Homework"},
+  {name:"The Robots Stole My Lunch",highlight:"Stole My Lunch"},
+  {name:"The Robots Did My Taxes",highlight:"Did My Taxes"},
+  {name:"Humans First Robots Bring Snacks",highlight:"Bring Snacks"},
+  {name:"Humans First Computers Invent Snacks",highlight:"Invent Snacks"},
+  {name:"Humans Teach Robots Unexpected Habits",highlight:"Unexpected Habits"},
+  {name:"Humans Teach Computers New Tricks",highlight:"New Tricks"},
+  {name:"The Curious Machines Question AI",highlight:"Question AI"},
+  {name:"The Curious Machines Build Robots",highlight:"Build Robots"},
+  {name:"Humans Build AI with Humans",highlight:"with Humans"}
 ];
 function PredictionLoopTryIt(props) {
   var E=React.createElement;
@@ -7546,7 +7552,7 @@ function PredictionLoopTryIt(props) {
       previousName?E(React.Fragment,null,
         E("span",{className:"answer-build-speaker"},"Previous name"),
         E("p",{className:"club-builder-previous"},previousName)):null,
-      E("span",{className:"answer-build-speaker"},"AI’s Answer"),
+      E("span",{className:"answer-build-speaker"},"Answer"),
       E("div",{className:"club-builder-answer","aria-live":"polite","aria-atomic":"true"},
         Array.from({length:5},function(_,i){return E(React.Fragment,{key:i},i?" ":null,
           i<tokens.length?E("span",{className:i===tokens.length-1?"club-builder-new":undefined},tokens[i]):
@@ -7564,10 +7570,14 @@ function PredictionLoopTryIt(props) {
           E("span",{className:"club-builder-choice-bar","aria-hidden":"true"},E("span",{style:{width:option.probability+"%"}})));}))):
       null,
     hasCompletedName?E("details",{className:"club-builder-possibilities"},
-      E("summary",null,"See some strange possibilities"),
-      E("p",null,"Can you build one of these?"),
+      E("summary",null,"See some unexpected possibilities"),
+      E("p",null,"The same question can lead to all of these names. Can you build one?"),
       E("div",{className:"club-builder-name-list",tabIndex:0,role:"region","aria-label":"Ten strange club names"},
-        E("ul",null,AI_CLUB_STRANGE_NAMES.map(function(name){return E("li",{key:name},name);})))):null));
+        E("ul",null,AI_CLUB_STRANGE_NAMES.map(function(item){
+          var start=item.name.indexOf(item.highlight);
+          return E("li",{key:item.name},E("span",null,item.name.slice(0,start),
+            E("span",{className:"club-builder-name-funny"},item.highlight),item.name.slice(start+item.highlight.length)));
+        })))):null));
 }
 
 function HorseReadsBox() {
@@ -7650,8 +7660,8 @@ var TEMPERATURE_DATA = [
 ];
 var TEMPERATURE_STATES = [
   {instruction:"Training and the current context determine the starting probabilities. Spot leads at 22%.\n\nSee how lower temperature changes the odds."},
-  {instruction:"Lower temperature concentrates the odds. Spot rises from 22% to 36%, while less likely names lose probability.\n\nNow try higher temperature with the same starting odds."},
-  {instruction:"Higher temperature spreads the odds. Spot falls from 22% to 16%, while less likely names gain probability.\n\nCompare Spot across all three settings."},
+  {instruction:"Lower temperature concentrates more probability on the leading choices. Spot rises from 22% to 36%.\n\nNow try higher temperature with the same starting odds."},
+  {instruction:"Higher temperature spreads probability more widely. Spot falls from 22% to 16%.\n\nCompare Spot across all three settings."},
   {instruction:"Spot: 22% to start, 36% at low temperature, and 16% at high temperature.\n\nSpot remains the most likely individual token at all three settings. Temperature changes its probability."}
 ];
 function TemperatureScene(props) {
@@ -7775,7 +7785,7 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety and can make answers more creative."),
   /*#__PURE__*/React.createElement(BodyP, null, "Choosing a different token shapes what comes next and can send the answer in a different direction."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Compare what different settings do to the dog-name choices."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Sampling selects a token using probabilities. Temperature adjusts those probabilities. In ChatGPT, Gemini, and Claude, temperature is set for you behind the scenes. Compare how different temperature settings change the probabilities for each dog name."),
   /*#__PURE__*/React.createElement(VaryLessonBoard, {
     kind: "temperature",
     src: "course-assets/why-answers-vary/why-answers-vary-temperature.jpg?v=20261110columns",

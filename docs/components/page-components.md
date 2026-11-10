@@ -269,15 +269,24 @@ with the next position accented; they fill as words are chosen and return on
 Choice bars use a shared 0–100% scale. Every branch totals 100%; there is no
 additional unseen pool.
 
+Every choice before the final word changes the next-word options or their
+probabilities. Authored context-dependent weights make the change visible, such
+as New favoring Tricks and Unexpected favoring Habits after “Humans Teach Robots.”
+All 243 names and the ten featured examples remain available. These distributions
+are fixed teaching examples; Undo restores the same odds for the same prefix.
+
 At completion, the explanation and **Build another name** button appear after
 the question and before the previous and current names. During building, the
 growing answer and placeholders remain above the choices.
 
-After the first complete name, a collapsed **See some strange possibilities**
-disclosure appears below the activity controls. It invites “Can you build one of
-these?” and lists ten buildable names without probabilities. The scrollable list
+After the first complete name, a collapsed **See some unexpected possibilities**
+disclosure appears below the activity controls. It invites “The same question can
+lead to all of these names. Can you build one?” and lists ten buildable names in
+compact white rows with 16px text and purple emphasis on the funny phrases.
+The list includes no probabilities or claims about rarity. The 400px-tall scrollable list
 shows about five names and part of the next, supports keyboard scrolling, and
-wraps on narrow screens. The disclosure remains available after undoing or
+wraps on narrow screens. One completed name is enough; replay is optional.
+The disclosure remains available after undoing or
 starting another name and preserves the learner’s open or closed choice.
 
 **Build another name** clears all five word positions and keeps

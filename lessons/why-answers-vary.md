@@ -60,11 +60,13 @@ Choosing a different token shapes what comes next and can send the answer in a d
 
 ## Temperature
 
-Temperature changes how concentrated or spread out the probabilities are.
+Sampling selects a token using probabilities.
 
-In chat apps, it’s already set for you behind the scenes.
+Temperature adjusts those probabilities.
 
-Compare what different settings do to the dog-name choices.
+In ChatGPT, Gemini, and Claude, temperature is set for you behind the scenes.
+
+Compare how different temperature settings change the probabilities for each dog name.
 
 ### Board 3: How Temperature Changes the Odds
 
@@ -91,7 +93,7 @@ High Temperature: Spreads the odds.
 | Biscuit | 3% | 6% | 8% |
 | All other tokens | 19% | 32% | 39% |
 
-Spot leads at 22%. At low temperature, its chance rises to 36%, while less likely names lose probability. At high temperature, its chance falls to 16%, while less likely names gain probability. Both settings change the same starting odds.
+Spot leads at 22%. At low temperature, its chance rises to 36%. At high temperature, its chance falls to 16%. Lower temperature concentrates more probability on the leading choices. Higher temperature spreads it more widely. Both settings change the same starting odds.
 
 Spot remains the most likely individual token at all three settings. Temperature changes its probability.
 

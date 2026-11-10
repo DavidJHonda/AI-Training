@@ -15,12 +15,20 @@ function walk(tokens){
  assert.equal(options.length,3,'Every unfinished path offers three choices');
  assert.equal(options.reduce((sum,o)=>sum+o.probability,0),100);
  assert.equal(new Set(options.map(o=>o.token)).size,3);
+ if(tokens.length<4){
+  const nextDistributions=options.map(option=>JSON.stringify(
+   context.aiClubChoices(tokens.concat(option.token)).map(next=>[next.token,next.probability]).sort((a,b)=>a[0].localeCompare(b[0]))));
+  assert.equal(new Set(nextDistributions).size,3,`Every choice changes the next distribution after: ${tokens.join(' ') || '(start)'}`);
+ }
  for(const option of options){assert.match(option.token,/^\S+$/);walk(tokens.concat(option.token));}
 }
 walk([]);
 assert.equal(leaves,243);
 assert.equal(context.AI_CLUB_STRANGE_NAMES.length,10);
-for(const name of context.AI_CLUB_STRANGE_NAMES)assert.ok(possibleNames.has(name),`Featured name is buildable: ${name}`);
+for(const item of context.AI_CLUB_STRANGE_NAMES){
+ assert.ok(possibleNames.has(item.name),`Featured name is buildable: ${item.name}`);
+ assert.ok(item.name.includes(item.highlight),'Purple emphasis is part of the name');
+}
 const base=process.env.BASE_URL || 'http://127.0.0.1:8797';
 const output=path.join(__dirname,'../output/ai-club-try-it');
 (async()=>{
@@ -78,6 +86,15 @@ const output=path.join(__dirname,'../output/ai-club-try-it');
   assert.deepEqual(await choices(),['Homework','Lunch','Notes']);
   await choose('Lunch');await restart();
   assert.equal(await possibilities.evaluate(n=>n.open),true,'Examples remain available and open during rebuilding');
+  // Revising a word changes both the displayed odds and the leading continuation.
+  await choose('Humans');await choose('Teach');await choose('Robots');await choose('New');
+  assert.deepEqual(await choices(),['Tricks','Skills','Habits']);
+  assert.deepEqual(await club.locator('.club-builder-probability').allTextContents(),['55%','30%','15%']);
+  await club.getByRole('button',{name:'Undo last word',exact:true}).click();await choose('Unexpected');
+  assert.deepEqual(await choices(),['Habits','Tricks','Skills']);
+  assert.deepEqual(await club.locator('.club-builder-probability').allTextContents(),['60%','25%','15%']);
+  assert.deepEqual(await club.locator('.club-builder-choice-bar > span').evaluateAll(nodes=>nodes.map(n=>n.style.width)),['60%','25%','15%']);
+  await choose('Habits');await restart();
   for(const words of [
    ['The','League','of','Curious','Machines'],
    ['Humans','First','Robots','Bring','Snacks'],

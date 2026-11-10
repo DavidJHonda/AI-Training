@@ -14,7 +14,7 @@ function section(start, end) {
 const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(m => m[1]).join('\n');
 const scripts = [...html.matchAll(/<script[^>]*src="[^"]*react[^>]*><\/script>/g)].map(m => m[0]).join('\n');
 const fonts = [...html.matchAll(/<link[^>]*href="https:\/\/fonts\.[^>]*>/g)].map(m => m[0]).join('\n');
-const output = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Next Token · Temperature</title>${fonts}<style>${css}
+const output = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Why Answers Vary · Temperature</title>${fonts}<style>${css}
 main{max-width:900px;margin:32px auto;padding:0 16px}h1{font-family:var(--serif);font-size:42px;font-weight:400;margin:0 0 20px;color:var(--ink)}.capture{max-width:none;width:1280px;height:900px;margin:0;padding:0;background:var(--card);display:flex;align-items:center;justify-content:center}.capture .temperature-scene{width:900px}.capture .temperature-bar > span{transition:none}
 </style></head><body><main id="preview"></main>${scripts}<script>
 var useState=React.useState,useEffect=React.useEffect,useRef=React.useRef;
@@ -27,7 +27,7 @@ function Preview(){
  var state=useState(Math.max(0,Math.min(Number(params.get('step'))||0,TEMPERATURE_STATES.length-1))),step=state[0],setStep=state[1];
  useEffect(function(){window.setTemperatureScene=function(n){if(!Number.isInteger(n)||n<0||n>=TEMPERATURE_STATES.length)throw new Error('Invalid temperature state');setStep(n);};},[]);
  if(capture){document.getElementById('preview').className='capture';return E(TemperatureScene,{state:TEMPERATURE_STATES[step],step:step});}
- return E(React.Fragment,null,E('h1',null,'How Temperature Changes the Odds'),E(BodyP,null,'Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Watch what different settings do to the dog-name choices.'),E(TemperatureDemo));
+ return E(React.Fragment,null,E('h1',null,'How Temperature Changes the Odds'),E(BodyP,null,'Sampling selects a token using probabilities. Temperature adjusts those probabilities. In ChatGPT, Gemini, and Claude, temperature is set for you behind the scenes. Compare how different temperature settings change the probabilities for each dog name.'),E(TemperatureDemo));
 }
 ReactDOM.createRoot(document.getElementById('preview')).render(React.createElement(Preview));
 </script></body></html>`;

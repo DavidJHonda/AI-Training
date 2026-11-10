@@ -1,0 +1,60 @@
+   0.00-   4.72  When you ask an AI a question, it first works out what your words mean together.
+   5.28-   7.30  But then it faces a new problem.
+   7.98-  10.06  How exactly does it begin an answer?
+  10.82-  14.66  To see how this works, we will treat individual words as single tokens
+  14.66-  16.40  to make our example easy to follow.
+  17.42-  20.62  This diagram shows what happens right before the answer begins.
+  21.34-  23.66  When you ask, what should I name my new dog?
+  24.10-  26.84  The question goes through four distinct processing steps.
+  26.84-  30.62  First, the AI breaks your question into token pieces.
+  31.54-  35.34  Next, it marks the precise position where each of those pieces belongs.
+  36.28-  39.98  For step 3, the system turns each token into starting vectors,
+  40.90-  42.36  numbers that carry their initial meaning.
+  43.42-  46.76  Finally, in step 4, those numbers pass through the model's layers,
+  46.94-  50.24  where attention and transformation work together to update them.
+  50.88-  53.24  Before a single letter of the response is generated,
+  53.24-  57.72  your entire question is mapped out as a complex mathematical context.
+  58.60-  60.08  As those tokens pass through the layers,
+  60.60-  64.88  every token's vector is updated using information from the tokens that came before it.
+  65.58-  70.02  This comparison diagram shows exactly how preceding words change token's math.
+  70.68-  72.94  Let's look at the question mark at the very end of our prompt.
+  73.70-  76.46  In the first box, for the question, what should I name my new dog?
+  76.88-  79.84  The question mark's updated vector reflects naming a dog.
+  79.84-  83.32  But in the second box, what should I cook for dinner?
+  83.90-  88.50  That exact same symbol now has a vector reflecting a choice about a meal.
+  89.38-  91.50  Because it sits at the very end of the prompt,
+  91.98-  94.38  that final question mark acts as a container.
+  94.94- 100.74  Its updated vector holds the accumulated, unique context of your entire specific question.
+ 101.46- 107.12  The AI uses that final token's updated vector to predict the very first token of its answer.
+ 107.12- 110.34  This interface shows the AI's first prediction.
+ 111.08- 113.26  The model hasn't written any part of the answer yet,
+ 113.68- 116.02  but it generates a menu of possible starts.
+ 116.74- 120.66  Based on the math, u has an 18% chance of being the next word,
+ 121.40- 124.92  a sits at 14%, great is at 9%,
+ 124.92- 128.12  and all other possible tokens make up the remaining 59%.
+ 128.94- 134.52  From these calculations, the AI makes its selection and chooses u to begin its reply.
+ 134.52- 138.24  The AI does not pull a pre-written answer from a database.
+ 138.86- 143.42  It calculates the odds for every possible word and makes a selection from those probabilities.
+ 144.42- 148.06  Once u is selected, it is immediately added to the context.
+ 148.60- 150.24  It becomes the new final token,
+ 150.58- 155.86  and its updated vector now reflects both your original question and the single word reply so far.
+ 156.64- 157.42  The cycle repeats.
+ 158.22- 162.94  The AI calculates and adds could, then name, and then him.
+ 163.58- 167.64  Every newly added token is immediately folded into the growing context.
+ 168.48- 170.44  This screen shows the next prediction step.
+ 171.20- 174.22  The prompt is still, what should I name my new dog?
+ 174.70- 177.64  And the answer so far is, you could name him.
+ 178.34- 181.78  The accumulated context now strongly points to a dog's name.
+ 182.34- 184.28  The probabilities reflect this shift.
+ 185.36- 187.62  Spot jumps to a 22% likelihood.
+ 187.62- 194.62  Max is at 17%, Buddy at 14%, with all other tokens accounting for 47%.
+ 195.48- 199.58  The AI selects spot based on these odds, finalizing the name.
+ 200.56- 203.08  Because the entire system runs on probabilities,
+ 203.52- 208.32  running the exact same prompt again could yield a completely different selection, like Max.
+ 209.24- 214.78  After outputting spot, the AI repeats the process one more time to predict and add a period.
+ 214.78- 217.84  But a punctuation mark doesn't halt the system.
+ 218.62- 222.82  The AI ultimately generates a special hidden end-of-answer token.
+ 223.50- 228.60  That specific token acts as a hard stop, signaling that the reply is 100% complete.
+ 229.54- 231.28  This graphic summarizes the core mechanism.
+ 232.24- 236.20  Every answer is built exactly like this, one token at a time.
+ 236.86- 239.82  And this entire start-to-finish sequence is called inference.

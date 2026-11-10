@@ -653,11 +653,12 @@ Current directions: [Why Answers Vary reroll notes](../../../gemini-notebook/why
 
 - Approved opening asks the dog-name question in two separate chats: Spot, then Max. The new EE-3FB overview board covers Model & Thinking, What AI Receives, and AI’s Choices, followed by “Two techniques help explain AI’s choices: sampling and temperature.” Go straight into Sampling without restarting the example or repeating the token-by-token explanation.
 - Sampling uses one concise dog-name example and five independent picks with unchanged odds; consolidate repeated explanations.
-- The lesson uses the static standard temperature board with all three columns visible. The finished edit uses the retained temperature scene with timed animated reveals, followed by a brief comparison. The uploaded JPG is the same canonical board as the lesson. See the reroll notes for capture-mode motion handling.
+- Temperature opens: “Sampling selects a token using probabilities.” / “Temperature adjusts those probabilities.” / “In ChatGPT, Gemini, and Claude, temperature is set for you behind the scenes.” Then compare the probabilities for each dog name. Lower temperature concentrates probability on leading choices; higher temperature spreads it more widely. Do not imply every less-likely name moves in the same direction.
+- The desktop lesson uses the static standard temperature board with all three columns visible. The finished edit uses the retained temperature scene with timed animated reveals, followed by a brief comparison. The uploaded JPG is the same canonical desktop board. Stacked phone cards remain page-only adaptations. See the reroll notes for capture-mode motion handling.
 - Close: “AI answers vary.” / “Different inputs. Different odds. Different choices.”
 - Prompt: `gemini-notebook/why-answers-vary/PROMPT.txt`; narration: `lessons/why-answers-vary.md`.
 - Upload all five files in `gemini-notebook/why-answers-vary/upload/`; paste the prompt into customization. No face variants are needed.
 - Save as `Prompts/why-answers-vary-reroll.mp4` or the next unused `-reroll-N` filename.
 - Current local reference is v4, cache key `20261023ship4`, 3:21.10; verified SHA-256 `3692635c319e3fbf439ff676efbc4c6d452dc1013cd39968b39bda72d2b4fa57`. No fresh public verification claimed. Older v14 references are historical.
 
-Preparation only: no new video generated, edited, or installed. Computation and the matching activity remain excluded from narration.
+Preparation only: no new video generated, edited, or installed. Computation and the Build an AI Response activity, including its optional unexpected-names list, remain excluded from narration.

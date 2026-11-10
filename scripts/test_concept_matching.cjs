@@ -12,9 +12,10 @@ const base=process.env.BASE_URL || 'http://127.0.0.1:8794';
   const page=await browser.newPage({viewport:{width:1280,height:1100}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.route(/script\.google|script\.googleusercontent|\.mp4/,r=>r.abort());
-  await page.addInitScript(()=>{localStorage.setItem('llm-user-name','Preview');localStorage.setItem('llm-explorer-progress',JSON.stringify({activeSection:'inference',visited:['inference'],completed:[]}));});
-  await page.goto(base);
+  await page.addInitScript(()=>{localStorage.setItem('llm-user-name','Preview');localStorage.setItem('llm-explorer-progress',JSON.stringify({activeSection:'prediction',visited:['prediction'],completed:[]}));});
+  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded'});
   const game=page.locator('.concept-match');await game.waitFor();
+  assert.equal(await page.locator('.club-builder').count(),0,'Club activity belongs in Why Answers Vary');
   await page.evaluate(()=>document.fonts.ready);
   assert.equal(await page.getByText('How Big Is 2 Quadrillion?',{exact:false}).count(),0);
   const expected=[
@@ -26,8 +27,8 @@ const base=process.env.BASE_URL || 'http://127.0.0.1:8794';
    ['layers','Repeated steps that build meaning by updating each token’s numbers.'],
    ['vector-space','A map made of numbers. Similar meanings tend to land near each other.'],
    ['inference','AI uses what it learned to build an answer, one token at a time.'],
-   ['sampling','Picking the next token using the odds. The top choice doesn’t always win.'],
-   ['temperature','Changes the odds, giving less likely tokens more or less of a chance.']
+   ['next-token-prediction','Calculates how likely each possible next token is, using the question and the answer so far.'],
+   ['end-of-answer-token','A special token that signals the answer is complete.']
   ];
   fs.mkdirSync('tmp/concept-matching',{recursive:true});
   await page.addStyleTag({content:'.sticky-lesson-bar{visibility:hidden!important}'});
@@ -89,74 +90,67 @@ const base=process.env.BASE_URL || 'http://127.0.0.1:8794';
    }
    assert.equal(seen.size,10,'All ten concepts reviewed');
   }
-  await page.goto(base+'/previews/concept-matching.html');await game.waitFor();
-  assert.equal(await game.getAttribute('data-round'),'0');
-  await page.setViewportSize({width:1280,height:1100});
-  async function beginDrag(id){
-    const source=game.locator(`[data-concept="${id}"]`);await source.scrollIntoViewIfNeeded();
-    const box=await source.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();
-    await page.mouse.move(box.x+box.width/2+12,box.y+box.height/2+12,{steps:3});
-    assert.equal(await page.locator('.concept-match-drag').count(),1);
+  // Recreate the exact reported layout; complete both rounds with real clicks/taps.
+  const fixture=`
+   mixedConceptDeck=function(){
+    var first=['embeddings','vector-space','tokens','inference','attention'];
+    return first.map(id=>UNDERSTAND_AI_CONCEPTS.find(c=>c.id===id)).concat(UNDERSTAND_AI_CONCEPTS.filter(c=>!first.includes(c.id)));
+   };
+   mixedDescriptionIds=function(items){
+    return items[0].id==='embeddings'?['tokens','inference','attention','vector-space','embeddings']:items.map(c=>c.id).slice(1).concat(items[0].id);
+   };
+  `;
+  for(const mode of ['mouse','touch']){
+   const input=await browser.newPage(mode==='touch'?{viewport:{width:390,height:844},hasTouch:true,isMobile:true}:{viewport:{width:1280,height:650}});
+   input.on('pageerror',e=>errors.push(e.message));
+   await input.route('**/previews/concept-matching.html',route=>{
+    const html=fs.readFileSync('previews/concept-matching.html','utf8');
+    const marker="ReactDOM.createRoot(document.getElementById('preview'))";
+    assert.ok(html.includes(marker));
+    return route.fulfill({contentType:'text/html',body:html.replace(marker,fixture+marker)});
+   });
+   await input.goto(base+'/previews/concept-matching.html',{waitUntil:'domcontentloaded'});
+   const g=input.locator('.concept-match');await g.waitFor();
+   const select=async locator=>mode==='touch'?locator.tap():locator.click();
+   const concept=id=>g.locator(`[data-concept="${id}"]`);
+   const description=id=>g.locator(`[data-description="${id}"]`);
+   assert.ok(await input.getByText('Select a concept, then select its description.',{exact:true}).isVisible());
+   await select(description('embeddings'));
+   assert.equal(await g.locator('[data-concept]:disabled').count(),0,'Description alone cannot match');
+   for(const id of ['tokens','inference','attention']){
+    await select(concept(id));await select(description(id));
+    assert.ok(await concept(id).isDisabled());
+   }
+   assert.equal(await g.locator('[data-concept]:disabled').count(),3);
+   // Switching selection and recovering from a wrong answer must not require a second click.
+   await select(concept('vector-space'));await select(concept('embeddings'));
+   assert.equal(await concept('vector-space').getAttribute('aria-pressed'),'false');
+   await select(description('vector-space'));
+   assert.match(await g.getByRole('status').innerText(),/^Not quite/);
+   assert.equal(await concept('embeddings').getAttribute('aria-pressed'),'true');
+   assert.ok((await concept('embeddings').getAttribute('class')).includes('is-selected'));
+   assert.equal(await g.locator('[data-concept]:disabled').count(),3);
+   await select(description('embeddings'));
+   assert.ok(await concept('embeddings').isDisabled(),'Fourth pair matches without reselecting');
+   await select(concept('vector-space'));
+   await description('vector-space').scrollIntoViewIfNeeded();
+   assert.equal(await concept('vector-space').getAttribute('aria-pressed'),'true','Selection survives scrolling');
+   await select(description('vector-space'));
+   assert.ok(await concept('vector-space').isDisabled(),'Last pair matches on first selection');
+   assert.equal(await g.locator('[data-description]:disabled').count(),5);
+   await select(g.getByRole('button',{name:'Next Five',exact:true}));
+   const remaining=await g.locator('[data-concept]').evaluateAll(nodes=>nodes.map(n=>n.dataset.concept));
+   for(const id of remaining){await select(concept(id));await select(description(id));assert.ok(await concept(id).isDisabled());}
+   assert.match(await g.locator('.concept-match-heading').innerText(),/10 of 10 matched/);
+   await select(g.getByRole('button',{name:'Try Again',exact:true}));
+   assert.equal(await g.locator('[data-concept]:disabled').count(),0);
+   await input.close();
   }
-  async function hoverDescription(id){
-    const target=game.locator(`[data-description="${id}"]`);const box=await target.boundingBox();
-    await page.mouse.move(box.x+box.width/2,box.y+box.height/2,{steps:8});
-    return target;
-  }
-  const dragIds=await game.locator('[data-concept]').evaluateAll(nodes=>nodes.map(n=>n.dataset.concept));
-  await beginDrag(dragIds[0]);
-  const wrongDrop=await hoverDescription(dragIds[1]);
-  assert.ok((await wrongDrop.getAttribute('class')).includes('is-drop-target'));
-  await page.screenshot({path:'tmp/concept-matching/drag-target.png'});
-  await page.mouse.up();
-  assert.match(await game.getByRole('status').innerText(),/^Not quite/);
-  assert.ok(await wrongDrop.evaluate(el=>el.matches(':hover')),'Pointer remains over the wrong drop');
-  assert.equal(await wrongDrop.evaluate(el=>getComputedStyle(el).borderTopColor),'rgb(212, 51, 74)','Wrong drop turns red immediately under the stationary pointer');
-  await page.screenshot({path:'tmp/concept-matching/wrong-drop-released.png'});
-
-  assert.equal(await game.locator('[data-description]:disabled').count(),0);
-  await beginDrag(dragIds[0]);await hoverDescription(dragIds[0]);await page.mouse.up();
-  assert.ok(await game.locator(`[data-concept="${dragIds[0]}"]`).isDisabled());
-  assert.ok(await game.locator(`[data-description="${dragIds[0]}"]`).isDisabled());
-  assert.equal(await page.locator('.concept-match-drag').count(),0);
-  await beginDrag(dragIds[1]);await page.mouse.move(5,5);await page.mouse.up();
-  assert.equal(await game.locator('[data-description]:disabled').count(),1,'Outside drop does not match');
-  await beginDrag(dragIds[1]);await page.keyboard.press('Escape');await page.mouse.up();
-  assert.equal(await page.locator('.concept-match-drag').count(),0,'Escape removes drag preview');
-  await game.locator(`[data-concept="${dragIds[1]}"]`).focus();await page.keyboard.press('Enter');
-  assert.equal(await game.locator(`[data-concept="${dragIds[1]}"]`).getAttribute('aria-pressed'),'true','Keyboard selection works after cancelled drag');
-  // Touch uses the same drop behavior and can scroll down to descriptions.
-  const touch=await browser.newPage({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
-  touch.on('pageerror',e=>errors.push(e.message));
-  await touch.goto(base+'/previews/concept-matching.html');
-  const tg=touch.locator('.concept-match');await tg.waitFor();
-  const cdp=await touch.context().newCDPSession(touch);
-  async function touchStart(id){
-    const source=tg.locator(`[data-concept="${id}"]`);await source.scrollIntoViewIfNeeded();
-    const box=await source.boundingBox();const point={x:Math.round(box.x+box.width/2),y:Math.round(box.y+box.height/2),id:1};
-    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});
-    await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{...point,x:point.x+12}]});
-  }
-  const touchIds=await tg.locator('[data-concept]').evaluateAll(nodes=>nodes.map(n=>n.dataset.concept));
-  await touchStart(touchIds[0]);
-  const before=await touch.evaluate(()=>scrollY);
-  await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:200,y:830,id:1}]});
-  await touch.waitForFunction(y=>scrollY>y,before);
-  await tg.locator(`[data-description="${touchIds[0]}"]`).scrollIntoViewIfNeeded();
-  const dropBox=await tg.locator(`[data-description="${touchIds[0]}"]`).boundingBox();
-  await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:Math.round(dropBox.x+dropBox.width/2),y:Math.round(dropBox.y+dropBox.height/2),id:1}]});
-  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
-  assert.ok(await tg.locator(`[data-description="${touchIds[0]}"]`).isDisabled(),'Touch drop matches');
-  await touchStart(touchIds[1]);
-  await cdp.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
-  assert.equal(await touch.locator('.concept-match-drag').count(),0,'Touch cancellation clears drag');
-  assert.equal(await tg.locator('[data-description]:disabled').count(),1);
-  await touch.close();
-  await page.goto(base+'/?print=lesson:inference');
+  await page.goto(base+'/index.html?print=lesson:prediction',{waitUntil:'domcontentloaded'});
   await game.waitFor({state:'attached'});
   await page.emulateMedia({media:'print'});
   assert.equal(await game.isVisible(),false,'Practice excluded from content-only print');
   assert.deepEqual(errors,[]);
-  console.log('Concept matching passed: approved copy, shuffled rounds with no direct row matches, all ten concepts exactly once, wrong-answer recovery, locked correct pairs, keyboard focus, replay, mouse/touch dragging, drop highlighting, cancellation, edge scrolling, mobile layout, preview, and print exclusion.');
+  console.log('Concept matching passed: both rounds, all ten concepts, keyboard controls, mouse clicks, touch taps, exact final-two regression, wrong-answer recovery, selection through scrolling, restart, mobile layout, preview, and print exclusion.');
  }finally{if(browser)await browser.close();if(server)server.kill();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

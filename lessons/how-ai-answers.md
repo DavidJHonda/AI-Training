@@ -4,7 +4,7 @@
 
 When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?
 
-Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow.
+Let’s watch AI build an answer. Each time it adds a token, that token becomes part of the context for predicting what comes next. AI uses both your question and the answer so far. We’ll show words as single tokens to make the example easier to follow.
 
 ### Board 1: Before the Answer Begins
 
@@ -26,11 +26,13 @@ Step 3, Starting Vectors: AI turns each token into numbers that carry its starti
 
 Step 4, Through Layers: attention and transformation work together to update the numbers.
 
+## How the Context Changes the Numbers
+
 Here’s an important point about the layers. **Each token’s vector is updated using information from the tokens before it.**
 
-Let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question.
+In this simplified example, let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question.
 
-Let’s see what this looks like. Both questions below end with the same token: a question mark. But the question mark’s vector has different numbers in each case because it reflects a different question.
+Let’s see what this looks like. Both questions end with a question mark, but its updated vector is different in each.
 
 ### Board 2: Same Token, Different Context
 
@@ -44,51 +46,91 @@ In “What should I name my new dog?” the question mark’s vector reflects na
 
 In “What should I cook for dinner?” the question mark’s vector reflects choosing a meal.
 
-## WHY IS THIS IMPORTANT
+## WHY IS THIS IMPORTANT?
 
-AI uses the final token’s updated vector to predict the first token of its answer. It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far.
+AI uses the final token’s updated vector to predict the first token of its answer.
 
-## Starting the Answer
+It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far.
 
-AI is ready to answer your question. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary.
+For example, AI might select “You” to begin its reply.
 
-Now watch the loop. AI selects a token, adds it to the reply, and uses the growing context to predict again.
+“You” is now the last token.
 
-### Board 3: The Answer, Token by Token
+Its updated vector reflects your question and the reply so far.
 
-**Image file:** `how-ai-answers-token-by-token.jpg`
+AI uses those numbers to predict what comes next.
 
-![The Answer, Token by Token](how-ai-answers-token-by-token.jpg)
+## How AI Answers
+
+Follow one possible reply, from its first token to the end of the answer.
+
+### Board 3: Possible Starts
+
+**Image file:** `how-ai-answers-first-prediction.jpg`
+
+![Possible Starts](how-ai-answers-first-prediction.jpg)
 
 **Teaching content:**
 
-Here is the answer, token by token.
-
 You ask: “What should I name my new dog?”
 
-Prediction 1. The reply has not started, so the final token is the question mark. The top predictions are You at 18 percent, A at 14 percent, and Great at 9 percent. AI selects You in this example.
+AI’s answer has no tokens yet.
 
-Three more predictions add could, name, and him.
+AI predicts possible starts to its reply. Possible next tokens include You at 18 percent, A at 14 percent, and Great at 9 percent. Other tokens together account for 59 percent.
 
-Prediction 5. The reply so far is You could name him, so the final token is him. The top predictions are Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. AI selects Spot in this example.
+### Board 4: AI Selected You
 
-The completed answer is a full sentence.
+**Image file:** `how-ai-answers-you-selected.jpg`
+
+![AI Selected You](how-ai-answers-you-selected.jpg)
+
+**Teaching content:**
+
+AI selects You and adds it to the reply. You is now the last token, whose updated vector helps predict what comes next.
+
+The highlighted You is the token AI selected from those choices: You at 18 percent, A at 14 percent, Great at 9 percent, and other tokens together at 59 percent.
+
+## The Growing Reply
+
+AI adds could, name, and him, one token at a time.
+
+Each added token becomes part of the context.
+
+### Board 5: Possible Dog Names
+
+**Image file:** `how-ai-answers-name-prediction.jpg`
+
+![Possible Dog Names](how-ai-answers-name-prediction.jpg)
+
+**Teaching content:**
+
+Your question is still “What should I name my new dog?” AI’s answer so far is “You could name him”.
+
+After You could name him, a dog name becomes a likely next token.
+
+Possible next tokens include Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. Other tokens together account for 47 percent.
+
+### Board 6: AI Selected Spot
+
+**Image file:** `how-ai-answers-spot-selected.jpg`
+
+![AI Selected Spot](how-ai-answers-spot-selected.jpg)
+
+**Teaching content:**
+
+AI selects Spot in this example; another run could select a different name.
+
+The highlighted Spot is the token AI selected from those choices: Spot at 22 percent, Max at 17 percent, Buddy at 14 percent, and other tokens together at 47 percent.
+
+AI’s answer now reads “You could name him Spot”.
+
+## Finishing the Reply
+
+AI adds a period, then an end-of-answer token.
+
+A special end-of-answer token signals that the reply is complete.
 
 You could name him Spot.
-
-## What Can Fit Next
-
-You asked for a dog name, but AI began with You, a possible start to a reply.
-
-Each added token changes what can fit next.
-
-After You could name him, a dog name becomes a likely continuation.
-
-AI keeps predicting tokens until it produces a special token that signals the answer is finished.
-
-## Inference
-
-AI repeats the same loop: predict a next token, select it, and add it to the answer. Each addition becomes part of the context for the next prediction. This process of generating an answer is called inference.
 
 ## Closing Message
 

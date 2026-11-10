@@ -81,10 +81,6 @@
   .concept-match-choice:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
   .concept-match-choice.is-selected { border-color: var(--primary); background: var(--primaryFaint); }
   .concept-match-choice.is-matched { border-color: var(--tryAccent); cursor: default; color: var(--ink); }
-  .concept-match-concepts .concept-match-choice:not(:disabled) { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
-  .concept-match-concepts .concept-match-choice:active:not(:disabled) { cursor: grabbing; }
-  .concept-match-description.is-drop-target { border-color: var(--primary); background: var(--primaryFaint); outline: 2px dashed var(--primary); outline-offset: 3px; }
-  .concept-match-drag { position: fixed; z-index: 10000; pointer-events: none; width: 170px; padding: 12px 16px; border: 2px solid var(--primary); border-radius: 12px; background: var(--card); box-shadow: var(--shadowElevated); color: var(--ink); font-family: var(--sans); font-size: 17px; font-weight: 700; line-height: 1.5; }
   .concept-match-choice.is-wrong { border-color: var(--red); }
   .concept-match-feedback { margin: 14px 0 0; font-size: 15px; line-height: 1.5; color: var(--inkSoft); }
   .concept-match-feedback.is-quiet { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -175,6 +171,27 @@
   .answer-build-reply > div { grid-area: 1 / 1; }
   .answer-build-measure { visibility: hidden; pointer-events: none; }
   .answer-build-empty { font-size: 17px; font-weight: 400; color: var(--inkMuted); }
+  .answer-lesson-board { max-width: 880px; margin: 8px auto 24px; font-family: var(--sans); color: var(--ink); }
+  .answer-lesson-board-desktop { display: block; width: 100%; border-radius: 12px; }
+  .answer-lesson-board-mobile { display: none; }
+  @media screen and (max-width: 640px) {
+    .answer-lesson-board-desktop { display: none; }
+    .answer-lesson-board-mobile { display: block; padding: 16px; border-radius: 14px; background: #ebe8fc; }
+    .answer-lesson-board-mobile h3 { margin: 0 0 16px; font-size: 24px; font-weight: 800; line-height: 1.2; letter-spacing: -0.025em; }
+    .answer-lesson-board-mobile p { margin: 0; font-size: 16px; line-height: 1.5; }
+    .answer-board-prompt { padding: 14px; border-left: 4px solid #5430cc; border-radius: 10px; background: var(--card); }
+    .answer-board-prompt strong { display: block; margin-bottom: 6px; color: #5430cc; font-size: 13px; }
+    .answer-board-steps { display: grid; gap: 12px; list-style: none; padding: 0; margin: 16px 0 0; }
+    .answer-board-step { padding: 14px; border-radius: 10px; background: var(--card); }
+    .answer-board-step h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--step-color); font-size: 19px; line-height: 1.3; }
+    .answer-board-step-number { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 30px; height: 30px; border-radius: 50%; background: var(--step-color); color: white; font-size: 16px; }
+    .answer-board-context-cards { display: grid; gap: 14px; }
+    .answer-board-context-card { padding: 16px; border: 1px solid #d8cff7; border-radius: 10px; background: var(--card); }
+    .answer-board-context-card .answer-board-question { margin-bottom: 22px; font-size: 21px; font-weight: 600; line-height: 1.5; }
+    .answer-board-last-token { display: inline-block; padding: 0 6px; border-radius: 5px; background: #5430cc; color: white; font-weight: 800; }
+    .answer-board-context-card .answer-board-context { margin-top: 8px; color: #5430cc; font-size: 22px; font-weight: 800; line-height: 1.3; }
+  }
+
   .answer-build-token.is-new { color: var(--primaryDeep); background: var(--card); border-radius: 4px; animation: answerTokenAppear 350ms ease-out; }
   .answer-build-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px 16px; align-items: baseline; }
   .answer-build-speaker { color: #1d4ed8; font-size: 14px; font-weight: 700; line-height: 1.5; }
@@ -211,6 +228,55 @@
     .answer-build-percent { grid-column: 2; grid-row: 1; font-size: 17px; }
   }
   @media print { .answer-build-token.is-new { animation: none; } }
+
+  .club-builder { background: var(--card); border-radius: 14px; padding: 24px; color: var(--ink); }
+  .club-builder-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px 16px; align-items: baseline; }
+  .club-builder-question { margin: 0; font-size: 17px; line-height: 1.6; font-weight: 600; }
+  .club-builder-answer { min-height: 76px; font-size: 24px; line-height: 1.6; font-weight: 700; overflow-wrap: anywhere; }
+  .club-builder-slot { display: inline-block; width: 3.5em; height: 1.5em; margin: 4px 0; border: 2px dashed var(--rule); border-radius: 8px; vertical-align: middle; box-sizing: border-box; }
+  .club-builder-slot.is-next { border-color: var(--primary); }
+  .club-builder-new { color: var(--primaryDeep); }
+  .club-builder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; }
+  .club-builder-count { color: var(--inkMuted); font-size: 14px; }
+  .club-builder-next, .club-builder-finish { border-top: 1px solid var(--rule); padding-top: 24px; }
+  .club-builder-prompt { margin: 0 0 14px; font-size: 17px; font-weight: 700; }
+  .club-builder-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+  .club-builder-choice { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 72px; padding: 16px; border: 1.5px solid var(--rule); border-radius: 10px; background: var(--card); color: var(--ink); font-family: var(--sans); cursor: pointer; text-align: left; }
+  .club-builder-choice:hover { background: var(--primaryFaint); border-color: var(--primary); }
+  .club-builder-choice:focus-visible, .club-builder button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .club-builder-word { font-size: 19px; font-weight: 700; overflow-wrap: anywhere; }
+  .club-builder-probability { color: var(--inkMuted); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .club-builder-choice-bar { grid-column: 1 / -1; display: block; height: 7px; border-radius: 6px; overflow: hidden; background: var(--primaryFaint); }
+  .club-builder-choice-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+  .club-builder-choice-heading, .club-builder-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .club-builder-choice-heading { margin-bottom: 14px; }
+  .club-builder-choice-heading .club-builder-prompt { margin: 0; }
+  .club-builder-actions { justify-content: flex-start; }
+  .club-builder-previous { margin: 0; font-size: 19px; line-height: 1.6; color: var(--inkSoft); overflow-wrap: anywhere; }
+  .club-builder-finish { grid-column: 1 / -1; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+  .club-builder-finish > p:not(.club-builder-prompt) { font-size: 16px; line-height: 1.65; margin: 0 0 20px; }
+  .club-builder-possibilities { margin-top: 24px; border-top: 1px solid var(--rule); padding-top: 12px; }
+  .club-builder-possibilities > summary { padding: 12px 0; color: var(--primaryDeep); font-size: 16px; font-weight: 700; cursor: pointer; }
+  .club-builder-possibilities > p { margin: 4px 0 12px; font-size: 16px; line-height: 1.5; }
+  .club-builder-possibilities summary:focus-visible, .club-builder-name-list:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .club-builder-name-list { height: 352px; overflow-y: scroll; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-color: var(--primary) var(--primaryFaint); background: var(--primaryFaint); border: 1px solid var(--rule); border-radius: 10px; }
+  .club-builder-name-list ul { list-style: none; margin: 0; padding: 0; }
+  .club-builder-name-list li { display: flex; align-items: center; min-height: 64px; box-sizing: border-box; padding: 8px 14px; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 24px; }
+  .club-builder-name-list li:last-child { border-bottom: 0; }
+  @media (max-width: 650px) {
+    .club-builder { padding: 18px 14px; }
+    .club-builder-context { grid-template-columns: 72px minmax(0,1fr); gap: 20px 10px; }
+    .club-builder-answer { font-size: 21px; }
+    .club-builder-choices { grid-template-columns: 1fr; gap: 8px; }
+    .club-builder-choice { min-height: 58px; padding: 12px 14px; }
+  }
+
+  @media (max-width: 420px) {
+    .club-builder-context { grid-template-columns: minmax(0,1fr); row-gap: 8px; }
+    .club-builder-context > .answer-build-speaker:not(:first-child) { margin-top: 12px; }
+    .club-builder-question { font-size: 16px; }
+    .club-builder-answer { min-height: 64px; }
+  }
 
   :root {
     /* surfaces */
@@ -1258,7 +1324,7 @@ var ANSWER_BUILD_STATES = [
   },
   {
     reply: ["You"], options: [["You",18],["A",14],["Great",9],["All other tokens",59]], selected:"You", added:true,
-    instruction: "AI selects **You** and adds it to the reply."
+    instruction: "AI selects **You** and adds it to the reply. **You** is now the last token, whose updated vector helps predict what comes next."
   },
   {
     reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]], added:true,
@@ -1321,7 +1387,7 @@ function AnswerBuildScene(props) {
     !props.hideContext ? E(AnswerBuildContext,{state:state,isPrint:props.isPrint}) : null,
     E("div", {className:"answer-build-prediction"},
       E("div", {className:"answer-build-chart",style:{visibility:state.options?"visible":"hidden"},"aria-hidden":state.options?undefined:"true",inert:state.options?undefined:""},
-        E("p", {className:"answer-build-label"}, "Possible next tokens"),
+        E("p", {className:"answer-build-label"}, state.selected ? "AI selected " + state.selected : "Possible next tokens"),
         E("ul", {className:"answer-build-list"},
           options.slice(0,3).map(function(option){var selected = option[0] === state.selected; return E("li", {key:option[0],className:"answer-build-option"+(selected?" is-selected":"")},
             E("span", {className:"answer-build-option-name"},option[0]),

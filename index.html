@@ -110,10 +110,6 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .concept-match-choice:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
   .concept-match-choice.is-selected { border-color: var(--primary); background: var(--primaryFaint); }
   .concept-match-choice.is-matched { border-color: var(--tryAccent); cursor: default; color: var(--ink); }
-  .concept-match-concepts .concept-match-choice:not(:disabled) { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
-  .concept-match-concepts .concept-match-choice:active:not(:disabled) { cursor: grabbing; }
-  .concept-match-description.is-drop-target { border-color: var(--primary); background: var(--primaryFaint); outline: 2px dashed var(--primary); outline-offset: 3px; }
-  .concept-match-drag { position: fixed; z-index: 10000; pointer-events: none; width: 170px; padding: 12px 16px; border: 2px solid var(--primary); border-radius: 12px; background: var(--card); box-shadow: var(--shadowElevated); color: var(--ink); font-family: var(--sans); font-size: 17px; font-weight: 700; line-height: 1.5; }
   .concept-match-choice.is-wrong { border-color: var(--red); }
   .concept-match-feedback { margin: 14px 0 0; font-size: 15px; line-height: 1.5; color: var(--inkSoft); }
   .concept-match-feedback.is-quiet { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -204,6 +200,52 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .answer-build-reply > div { grid-area: 1 / 1; }
   .answer-build-measure { visibility: hidden; pointer-events: none; }
   .answer-build-empty { font-size: 17px; font-weight: 400; color: var(--inkMuted); }
+  .answer-lesson-board { max-width: 880px; margin: 8px auto 24px; font-family: var(--sans); color: var(--ink); }
+  .answer-lesson-board-desktop { display: block; width: 100%; border-radius: 12px; }
+  .answer-lesson-board-mobile { display: none; }
+  .vary-board { max-width: 880px; margin: 8px auto 24px; font-family: var(--sans); color: var(--ink); }
+  .vary-board-desktop { display: block; width: 100%; border-radius: 12px; }
+  .vary-board-mobile { display: none; }
+  @media screen and (max-width: 760px), screen and (pointer: coarse) and (max-height: 500px) {
+    .vary-board > .vary-board-desktop { display: none; }
+    .vary-board-mobile { display: block; padding: 12px; border-radius: 14px; background: #eae7fd; }
+    .vary-board-mobile h3 { margin: 0 0 18px; font-size: 24px; line-height: 1.25; font-weight: 800; letter-spacing: -0.025em; }
+    .vary-board-mobile h4 { margin: 0 0 10px; font-size: 20px; line-height: 1.3; color: var(--vary-accent, #4f2fc4); }
+    .vary-board-mobile p { margin: 0; font-size: 16px; line-height: 1.55; }
+    .vary-board-stack { display: grid; gap: 16px; }
+    .vary-board-card { min-width: 0; border-radius: 12px; background: white; overflow: hidden; }
+    .vary-board-copy { padding: 16px; }
+    .vary-board-art { display: block; width: 100%; height: auto; }
+    .vary-board-prompt { padding: 14px; margin-bottom: 16px !important; border-radius: 10px; background: white; font-weight: 600; }
+    .vary-board-blank { display: inline-block; min-width: 36px; margin-left: 4px; text-align: center; border: 1px solid #d9d0fb; border-radius: 5px; color: #4f2fc4; }
+    .vary-board-odds { list-style: none; padding: 0; margin: 24px 0 0; }
+    .vary-board-odds li { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px 12px; margin-top: 22px; font-size: 16px; line-height: 1.5; }
+    .vary-board-odds strong { color: var(--vary-accent, #4f2fc4); font-variant-numeric: tabular-nums; }
+    .vary-board-bar { grid-column: 1 / -1; height: 8px; overflow: hidden; background: #fff; border-radius: 8px; }
+    .vary-board-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--vary-accent, #4f2fc4); }
+    .vary-board-sampling .vary-board-bar { background: #eeebfc; }
+    .vary-board-picks { display: grid; gap: 12px; margin: 18px 0; padding: 0; list-style: none; counter-reset: vary-pick; }
+    .vary-board-picks li { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; counter-increment: vary-pick; }
+    .vary-board-picks li::before { content: counter(vary-pick); display: grid; place-items: center; flex: 0 0 30px; height: 30px; border-radius: 50%; color: white; background: #4f2fc4; font-size: 16px; }
+  }
+  @media screen and (max-width: 640px) {
+    .answer-lesson-board-desktop { display: none; }
+    .answer-lesson-board-mobile { display: block; padding: 16px; border-radius: 14px; background: #ebe8fc; }
+    .answer-lesson-board-mobile h3 { margin: 0 0 16px; font-size: 24px; font-weight: 800; line-height: 1.2; letter-spacing: -0.025em; }
+    .answer-lesson-board-mobile p { margin: 0; font-size: 16px; line-height: 1.5; }
+    .answer-board-prompt { padding: 14px; border-left: 4px solid #5430cc; border-radius: 10px; background: var(--card); }
+    .answer-board-prompt strong { display: block; margin-bottom: 6px; color: #5430cc; font-size: 13px; }
+    .answer-board-steps { display: grid; gap: 12px; list-style: none; padding: 0; margin: 16px 0 0; }
+    .answer-board-step { padding: 14px; border-radius: 10px; background: var(--card); }
+    .answer-board-step h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--step-color); font-size: 19px; line-height: 1.3; }
+    .answer-board-step-number { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 30px; height: 30px; border-radius: 50%; background: var(--step-color); color: white; font-size: 16px; }
+    .answer-board-context-cards { display: grid; gap: 14px; }
+    .answer-board-context-card { padding: 16px; border: 1px solid #d8cff7; border-radius: 10px; background: var(--card); }
+    .answer-board-context-card .answer-board-question { margin-bottom: 22px; font-size: 21px; font-weight: 600; line-height: 1.5; }
+    .answer-board-last-token { display: inline-block; padding: 0 6px; border-radius: 5px; background: #5430cc; color: white; font-weight: 800; }
+    .answer-board-context-card .answer-board-context { margin-top: 8px; color: #5430cc; font-size: 22px; font-weight: 800; line-height: 1.3; }
+  }
+
   .answer-build-token.is-new { color: var(--primaryDeep); background: var(--card); border-radius: 4px; animation: answerTokenAppear 350ms ease-out; }
   .answer-build-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px 16px; align-items: baseline; }
   .answer-build-speaker { color: #1d4ed8; font-size: 14px; font-weight: 700; line-height: 1.5; }
@@ -245,20 +287,36 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .club-builder-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px 16px; align-items: baseline; }
   .club-builder-question { margin: 0; font-size: 17px; line-height: 1.6; font-weight: 600; }
   .club-builder-answer { min-height: 76px; font-size: 24px; line-height: 1.6; font-weight: 700; overflow-wrap: anywhere; }
-  .club-builder-empty { color: var(--inkMuted); font-size: 17px; font-weight: 400; }
+  .club-builder-slot { display: inline-block; width: 3.5em; height: 1.5em; margin: 4px 0; border: 2px dashed var(--rule); border-radius: 8px; vertical-align: middle; box-sizing: border-box; }
+  .club-builder-slot.is-next { border-color: var(--primary); }
   .club-builder-new { color: var(--primaryDeep); }
   .club-builder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; }
   .club-builder-count { color: var(--inkMuted); font-size: 14px; }
   .club-builder-next, .club-builder-finish { border-top: 1px solid var(--rule); padding-top: 24px; }
   .club-builder-prompt { margin: 0 0 14px; font-size: 17px; font-weight: 700; }
   .club-builder-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
-  .club-builder-choice { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 72px; padding: 16px; border: 1.5px solid var(--rule); border-radius: 10px; background: var(--card); color: var(--ink); font-family: var(--sans); cursor: pointer; text-align: left; }
+  .club-builder-choice { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 72px; padding: 16px; border: 1.5px solid var(--rule); border-radius: 10px; background: var(--card); color: var(--ink); font-family: var(--sans); cursor: pointer; text-align: left; }
   .club-builder-choice:hover { background: var(--primaryFaint); border-color: var(--primary); }
   .club-builder-choice:focus-visible, .club-builder button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
   .club-builder-word { font-size: 19px; font-weight: 700; overflow-wrap: anywhere; }
   .club-builder-probability { color: var(--inkMuted); font-size: 14px; font-variant-numeric: tabular-nums; }
-  .club-builder-note { color: var(--inkMuted); font-size: 13px; line-height: 1.5; margin: 14px 0 0; }
+  .club-builder-choice-bar { grid-column: 1 / -1; display: block; height: 7px; border-radius: 6px; overflow: hidden; background: var(--primaryFaint); }
+  .club-builder-choice-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+  .club-builder-choice-heading, .club-builder-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .club-builder-choice-heading { margin-bottom: 14px; }
+  .club-builder-choice-heading .club-builder-prompt { margin: 0; }
+  .club-builder-actions { justify-content: flex-start; }
+  .club-builder-previous { margin: 0; font-size: 19px; line-height: 1.6; color: var(--inkSoft); overflow-wrap: anywhere; }
+  .club-builder-finish { grid-column: 1 / -1; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
   .club-builder-finish > p:not(.club-builder-prompt) { font-size: 16px; line-height: 1.65; margin: 0 0 20px; }
+  .club-builder-possibilities { margin-top: 24px; border-top: 1px solid var(--rule); padding-top: 12px; }
+  .club-builder-possibilities > summary { padding: 12px 0; color: var(--primaryDeep); font-size: 16px; font-weight: 700; cursor: pointer; }
+  .club-builder-possibilities > p { margin: 4px 0 12px; font-size: 16px; line-height: 1.5; }
+  .club-builder-possibilities summary:focus-visible, .club-builder-name-list:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .club-builder-name-list { height: 352px; overflow-y: scroll; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-color: var(--primary) var(--primaryFaint); background: var(--primaryFaint); border: 1px solid var(--rule); border-radius: 10px; }
+  .club-builder-name-list ul { list-style: none; margin: 0; padding: 0; }
+  .club-builder-name-list li { display: flex; align-items: center; min-height: 64px; box-sizing: border-box; padding: 8px 14px; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 24px; }
+  .club-builder-name-list li:last-child { border-bottom: 0; }
   @media (max-width: 650px) {
     .club-builder { padding: 18px 14px; }
     .club-builder-context { grid-template-columns: 72px minmax(0,1fr); gap: 20px 10px; }
@@ -7306,8 +7364,8 @@ var UNDERSTAND_AI_CONCEPTS = [
   {id:"layers",name:"Layers",description:"Repeated steps that build meaning by updating each token’s numbers.",hint:"Look for repeated steps that update the numbers."},
   {id:"vector-space",name:"Vector space",description:"A map made of numbers. Similar meanings tend to land near each other.",hint:"Look for positions and distances on a map."},
   {id:"inference",name:"Inference",description:"AI uses what it learned to build an answer, one token at a time.",hint:"Look for using what AI already learned to produce an answer."},
-  {id:"sampling",name:"Sampling",description:"Picking the next token using the odds. The top choice doesn’t always win.",hint:"Look for choosing a token using the odds."},
-  {id:"temperature",name:"Temperature",description:"Changes the odds, giving less likely tokens more or less of a chance.",hint:"Look for changing the odds before a token is picked."}
+  {id:"next-token-prediction",name:"Next-token prediction",description:"Calculates how likely each possible next token is, using the question and the answer so far.",hint:"Look for calculating the chances of what could come next."},
+  {id:"end-of-answer-token",name:"End-of-answer token",description:"A special token that signals the answer is complete.",hint:"Look for the signal that tells AI to stop generating the answer."}
 ];
 function shuffledConceptIds(items) {
   var ids = items.map(function(item){return item.id;});
@@ -7338,9 +7396,6 @@ function MatchTermsTryIt() {
   var _matched=useState([]), matched=_matched[0], setMatched=_matched[1];
   var _feedback=useState(""), feedback=_feedback[0], setFeedback=_feedback[1];
   var _wrong=useState(null), wrong=_wrong[0], setWrong=_wrong[1];
-  var _drag=useState(null), dragVisual=_drag[0], setDragVisual=_drag[1];
-  var _hover=useState(null), dropHover=_hover[0], setDropHover=_hover[1];
-  var dragRef=useRef(null), suppressClick=useRef(false);
   var _order=useState(function(){return mixedDescriptionIds(deck.slice(0,5));}), order=_order[0], setOrder=_order[1];
   var rootRef=useRef(null), actionRef=useRef(null), previous=useRef("0:0");
   var concepts=deck.slice(round*5,round*5+5);
@@ -7354,80 +7409,24 @@ function MatchTermsTryIt() {
     previous.current=key;
   },[round,matched.length]);
   function startRound(next){
-    clearDrag();setRound(next);setSelected(null);setMatched([]);setWrong(null);setFeedback("");
+    setRound(next);setSelected(null);setMatched([]);setWrong(null);setFeedback("");
     var nextDeck=next===0?mixedConceptDeck():deck;
     if(next===0)setDeck(nextDeck);
     setOrder(mixedDescriptionIds(nextDeck.slice(next*5,next*5+5)));
   }
   function choose(id){setSelected(id);setWrong(null);setFeedback("");}
-  function match(id,draggedId){
-    var choiceId=draggedId || selected;
+  function match(id){
+    var choiceId=selected;
     var choice=concepts.find(function(item){return item.id===choiceId;});
     if(matched.indexOf(id)!==-1 || matched.indexOf(choiceId)!==-1)return;
     if(!choice){setFeedback("Choose a concept first, then its description.");return;}
     if(choiceId!==id){setWrong(id);setFeedback("Not quite. "+choice.hint);return;}
-    setMatched(function(prev){return prev.concat(id);});setSelected(null);setWrong(null);
+    setMatched(function(prev){return prev.indexOf(id)===-1?prev.concat(id):prev;});setSelected(null);setWrong(null);
     setFeedback(choice.name+" matched. "+(matched.length===4?(round===1?"All ten concepts matched.":"Ready for the next five."):"Choose another concept."));
   }
-  function dropTarget(x,y){
-    var element=document.elementFromPoint(x,y);
-    var target=element && element.closest("[data-description]");
-    return target && rootRef.current && rootRef.current.contains(target) && !target.disabled ? target.getAttribute("data-description") : null;
-  }
-  function updateDrag(x,y){
-    var drag=dragRef.current;
-    if(!drag)return;
-    drag.x=x;drag.y=y;
-    setDragVisual({name:drag.name,x:x,y:y});setDropHover(dropTarget(x,y));
-  }
-  function clearDrag(){
-    var drag=dragRef.current;dragRef.current=null;
-    if(drag && drag.element.hasPointerCapture(drag.pointerId))drag.element.releasePointerCapture(drag.pointerId);
-    setDragVisual(null);setDropHover(null);
-  }
-  function pointerDown(event,item){
-    if(!event.isPrimary || event.button!==0 || dragRef.current)return;
-    suppressClick.current=false;
-    dragRef.current={id:item.id,name:item.name,startX:event.clientX,startY:event.clientY,x:event.clientX,y:event.clientY,active:false,pointerId:event.pointerId,element:event.currentTarget};
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }
-  function pointerMove(event){
-    var drag=dragRef.current;
-    if(!drag || drag.pointerId!==event.pointerId)return;
-    if(!drag.active && Math.hypot(event.clientX-drag.startX,event.clientY-drag.startY)<6)return;
-    if(!drag.active){drag.active=true;choose(drag.id);setFeedback("Dragging "+drag.name+". Drop it on its description, or press Escape to cancel.");}
-    event.preventDefault();updateDrag(event.clientX,event.clientY);
-  }
-  function pointerUp(event){
-    var drag=dragRef.current;
-    if(!drag || drag.pointerId!==event.pointerId)return;
-    var target=drag.active?dropTarget(event.clientX,event.clientY):null;
-    suppressClick.current=drag.active;
-    clearDrag();
-    if(drag.active){
-      if(target)match(target,drag.id);
-      else setFeedback("Drop on a description to make a match. You can also click the concept, then its description.");
-    }
-  }
-  var dragging=!!dragVisual;
-  useEffect(function(){
-    if(!dragging)return;
-    var frame,lastTime;
-    function scrollFrame(time){
-      var drag=dragRef.current;
-      if(!drag || !drag.active)return;
-      var edge=70,velocity=drag.y<edge?-Math.min(1,(edge-drag.y)/edge):drag.y>window.innerHeight-edge?Math.min(1,(drag.y-window.innerHeight+edge)/edge):0;
-      if(velocity){window.scrollBy(0,velocity*600*Math.min((time-(lastTime||time))/1000,0.04));setDropHover(dropTarget(drag.x,drag.y));}
-      lastTime=time;frame=requestAnimationFrame(scrollFrame);
-    }
-    function cancel(event){if(event.key==="Escape"){event.preventDefault();suppressClick.current=true;clearDrag();setFeedback("Drag cancelled. Choose a concept to try again.");setSelected(null);}}
-    frame=requestAnimationFrame(scrollFrame);window.addEventListener("keydown",cancel);
-    return function(){cancelAnimationFrame(frame);window.removeEventListener("keydown",cancel);};
-  },[dragging]);
   return E(InteractiveBox,{variant:"try",surface:"mint",title:"Match the Concepts",
     lead:"You’ve followed the pieces that turn a prompt into an answer. Match each description to the concept it explains.",
-    instructions:["Drag a concept onto its description. You can also click or tap the concept, then its description.","Match all five pairs, then continue to the next five. You can try again if a match isn’t right."]},
-    dragVisual?ReactDOM.createPortal(E("div",{className:"concept-match-drag", "aria-hidden":"true",style:{left:Math.max(8,Math.min(dragVisual.x+14,window.innerWidth-178)),top:Math.max(8,Math.min(dragVisual.y+14,window.innerHeight-58))}},dragVisual.name),document.body):null,
+    instructions:["Select a concept, then select its description.","Match all five pairs, then continue to the next five. You can try again if a match isn’t right."]},
     E("div",{className:"concept-match",ref:rootRef,"data-round":round,"aria-label":"Understand AI concept matching"},
       E("div",{className:"concept-match-heading"},E("h3",null,complete?"Complete":"Round "+(round+1)+" of 2"),
         E("span",null,(round*5+matched.length)+" of 10 matched")),
@@ -7436,18 +7435,15 @@ function MatchTermsTryIt() {
           concepts.map(function(item){var done=matched.indexOf(item.id)!==-1;return E("button",{
             key:item.id,type:"button","data-concept":item.id,disabled:done,"aria-pressed":selected===item.id,"aria-label":done?item.name+", matched":undefined,
             className:"concept-match-choice"+(selected===item.id?" is-selected":"")+(done?" is-matched":""),
-            onPointerDown:function(event){pointerDown(event,item);},onPointerMove:pointerMove,onPointerUp:pointerUp,
-            onPointerCancel:function(){suppressClick.current=true;clearDrag();setSelected(null);setFeedback("Drag cancelled. Try again when you’re ready.");},
-            onLostPointerCapture:function(){if(dragRef.current){clearDrag();setSelected(null);setFeedback("");}},
-            onClick:function(event){if(suppressClick.current && event.detail!==0){suppressClick.current=false;return;}suppressClick.current=false;choose(item.id);}},item.name);
+            onClick:function(){choose(item.id);}},item.name);
           })),
         E("div",{className:"concept-match-descriptions",role:"group","aria-label":"Descriptions"},
           order.map(function(id){var item=concepts.find(function(c){return c.id===id;}),done=matched.indexOf(id)!==-1;return E("button",{
-            key:id,type:"button","data-description":id,disabled:done,"aria-disabled":!selected && !done?"true":undefined,"aria-label":done?item.name+", matched. "+item.description:undefined,
-            className:"concept-match-choice concept-match-description"+(done?" is-matched":"")+(wrong===id?" is-wrong":"")+(dropHover===id?" is-drop-target":""),
+            key:id,type:"button","data-description":id,disabled:done,"aria-label":done?item.name+", matched. "+item.description:undefined,
+            className:"concept-match-choice concept-match-description"+(done?" is-matched":"")+(wrong===id?" is-wrong":""),
             onClick:function(){match(id);}},item.description);
           }))),
-      E("p",{className:"concept-match-feedback"+(wrong?"":" is-quiet"),role:"status","aria-live":"polite","aria-atomic":"true"},feedback),
+      E("p",{className:"concept-match-feedback"+(wrong || feedback==="Choose a concept first, then its description."?"":" is-quiet"),role:"status","aria-live":"polite","aria-atomic":"true"},feedback),
       roundDone?E("div",{className:"concept-match-finish"},
         complete?E("p",null,"✓ Complete. You matched all ten concepts from Understand AI."):E("p",null,"Five matched. Ready for the next five?"),
         E(ActivityButton,{buttonRef:actionRef,onClick:function(){startRound(complete?0:1);}},complete?"Try Again":"Next Five")):null));
@@ -7505,9 +7501,23 @@ function aiClubChoices(tokens) {
     return choice?choice.next:[];
   },AI_CLUB_BRANCHES).slice().sort(function(a,b){return b.probability-a.probability;});
 }
+var AI_CLUB_STRANGE_NAMES = [
+  "The Robots Ate My Homework",
+  "The Robots Stole My Lunch",
+  "The Robots Did My Taxes",
+  "Humans First Robots Bring Snacks",
+  "Humans First Computers Invent Snacks",
+  "Humans Teach Robots Unexpected Habits",
+  "Humans Teach Computers New Tricks",
+  "The Curious Machines Question AI",
+  "The Curious Machines Build Robots",
+  "Humans Build AI with Humans"
+];
 function PredictionLoopTryIt(props) {
   var E=React.createElement;
   var state=useState([]),tokens=state[0],setTokens=state[1];
+  var previousState=useState(null),previousName=previousState[0],setPreviousName=previousState[1];
+  var completedState=useState(false),hasCompletedName=completedState[0],setHasCompletedName=completedState[1];
   var options=aiClubChoices(tokens),done=tokens.length===5;
   var choicesRef=useRef(null),restartRef=useRef(null),needsFocus=useRef(false);
   useEffect(function(){
@@ -7519,36 +7529,47 @@ function PredictionLoopTryIt(props) {
     if(target)target.focus({preventScroll:true});
     needsFocus.current=false;
   },[tokens]);
-  function update(next){needsFocus.current=true;setTokens(next);}
+  function update(next){needsFocus.current=true;if(next.length===5)setHasCompletedName(true);setTokens(next);}
+  function buildAnother(){setPreviousName(tokens.join(" "));update([]);}
   return E(InteractiveBox,{
     variant:"try",surface:"mint",title:"Build an AI Response",
-    lead:"Your new AI club needs a new name. Imagine you are ChatGPT and build the answer, one word at a time. AI uses tokens, but we’ll use words.",
-    instructions:[
-      "Choose the first word.",
-      E(React.Fragment,null,"Repeat until your five-word name is complete. To try a different direction, select ",E("strong",null,"Undo"),".")
-    ]
+    lead:"Your new AI club needs a new name. Imagine you are ChatGPT and build the answer, one word at a time. AI uses tokens, but we’ll use words. Each choice you make shapes what could come next."
   },E("div",{className:"club-builder","aria-label":"Build a five-word AI club name"},
     E("div",{className:"club-builder-context"},
       E("span",{className:"answer-build-speaker"},"You"),
       E("p",{className:"club-builder-question"},"What’s a good name for the AI club I’m starting?"),
+      done?E("div",{className:"club-builder-finish"},
+        E("p",{className:"club-builder-prompt"},"Your club has a name."),
+        E("p",null,"Build another name to see how the same starting question can lead to a different answer."),
+        E("div",{className:"club-builder-actions"},
+          E(ActivityButton,{buttonRef:restartRef,onClick:buildAnother},"Build another name"))):null,
+      previousName?E(React.Fragment,null,
+        E("span",{className:"answer-build-speaker"},"Previous name"),
+        E("p",{className:"club-builder-previous"},previousName)):null,
       E("span",{className:"answer-build-speaker"},"AI’s Answer"),
       E("div",{className:"club-builder-answer","aria-live":"polite","aria-atomic":"true"},
-        tokens.length?tokens.map(function(token,i){return E(React.Fragment,{key:i},i?" ":null,E("span",{className:i===tokens.length-1?"club-builder-new":undefined},token));}):E("span",{className:"club-builder-empty"},"Choose the first word below."))),
+        Array.from({length:5},function(_,i){return E(React.Fragment,{key:i},i?" ":null,
+          i<tokens.length?E("span",{className:i===tokens.length-1?"club-builder-new":undefined},tokens[i]):
+            E("span",{className:"club-builder-slot"+(i===tokens.length?" is-next":""),"aria-hidden":"true"}));}))),
     E("div",{className:"club-builder-toolbar"},
       E("span",{className:"club-builder-count"},tokens.length+" of 5 words"),
-      E(ActivityButton,{onClick:function(){update(tokens.slice(0,-1));},disabled:!tokens.length,style:{background:"var(--primaryFaint)",color:"var(--primaryDeep)"}},"Undo")),
+      E(ActivityButton,{onClick:function(){update(tokens.slice(0,-1));},disabled:!tokens.length,style:{background:"var(--primaryFaint)",color:"var(--primaryDeep)"}},"Undo last word")),
     !done?E("div",{className:"club-builder-next"},
-      E("p",{className:"club-builder-prompt"},tokens.length?"Choose the next word":"Choose the first word"),
+      E("div",{className:"club-builder-choice-heading"},
+        E("p",{className:"club-builder-prompt"},tokens.length?"Choose the next word":"Choose the first word")),
       E("div",{className:"club-builder-choices",ref:choicesRef,role:"group","aria-label":"Possible next tokens"},
         options.map(function(option){return E("button",{key:tokens.join(" ")+"/"+option.token,type:"button",className:"club-builder-choice","aria-label":option.token+", "+option.probability+" percent",
           onClick:function(){update(tokens.concat(option.token));}},
-          E("span",{className:"club-builder-word"},option.token),E("span",{className:"club-builder-probability"},option.probability+"%"));})),
-      E("p",{className:"club-builder-note"},"These are example probabilities.")):
-      E("div",{className:"club-builder-finish"},
-        E("p",{className:"club-builder-prompt"},"Your club has a name."),
-        E("p",null,"Each choice changed the context for the next prediction. Select ",E("strong",null,"Undo")," to change a word, or start again in a different direction."),
-        E(ActivityButton,{buttonRef:restartRef,onClick:function(){update([]);}},"Try Another Direction"))));
+          E("span",{className:"club-builder-word"},option.token),E("span",{className:"club-builder-probability"},option.probability+"%"),
+          E("span",{className:"club-builder-choice-bar","aria-hidden":"true"},E("span",{style:{width:option.probability+"%"}})));}))):
+      null,
+    hasCompletedName?E("details",{className:"club-builder-possibilities"},
+      E("summary",null,"See some strange possibilities"),
+      E("p",null,"Can you build one of these?"),
+      E("div",{className:"club-builder-name-list",tabIndex:0,role:"region","aria-label":"Ten strange club names"},
+        E("ul",null,AI_CLUB_STRANGE_NAMES.map(function(name){return E("li",{key:name},name);})))):null));
 }
+
 function HorseReadsBox() {
   return React.createElement("img", {
     src: "course-assets/layers/layers-horse-three-reads.jpg?v=20260914attribution1",
@@ -7665,15 +7686,71 @@ function TemperatureDemo() {
   });
 }
 
+// Keep the authored desktop/video boards; reflow their teaching content on phones.
+function VaryBoardOdds(props) {
+  var E=React.createElement;
+  return E("ul",{className:"vary-board-odds"},TEMPERATURE_DATA.map(function(row){
+    var value=row.odds[props.column];
+    return E("li",{key:row.name},
+      E("span",null,row.name),E("strong",null,value+"%"),
+      E("span",{className:"vary-board-bar","aria-hidden":"true"},
+        E("span",{style:{width:(value/props.max*100)+"%"}})));
+  }));
+}
+function VaryLessonBoard(props) {
+  var E=React.createElement,kind=props.kind;
+  var title=kind==="overview"?"Why Answers Vary":kind==="sampling"?"Same Probabilities, Different Choices":"How Temperature Changes the Odds";
+  var content;
+  if(kind==="overview") {
+    var cards=[
+      ["Model & Thinking","The model you use and how much thinking it does can change the answer.","#1652f0",40,485],
+      ["What AI Receives","Your prompt and the other information available to AI can change its answer.","#0e8f86",557,486],
+      ["AI’s Choices","Behind the scenes, AI uses techniques that give different tokens a chance to be selected.","#4f2fc4",1075,485]
+    ];
+    content=E("div",{className:"vary-board-stack"},cards.map(function(card){
+      return E("div",{key:card[0],className:"vary-board-card",style:{"--vary-accent":card[2]}},
+        // The viewBox exposes only the existing illustration, without raster text.
+        E("svg",{className:"vary-board-art",viewBox:card[3]+" 127 "+card[4]+" 273",width:card[4],height:273,"aria-hidden":"true",focusable:"false"},
+          E("image",{href:props.src,width:1600,height:732})),
+        E("div",{className:"vary-board-copy"},E("h4",null,card[0]),E("p",null,card[1])));
+    }));
+  } else if(kind==="sampling") {
+    content=E("div",{className:"vary-board-stack vary-board-sampling"},
+      E("div",{className:"vary-board-card vary-board-copy"},
+        E("h4",null,"The Probabilities"),E("p",null,"Unchanged across all five picks"),
+        E(VaryBoardOdds,{column:0,max:32})),
+      E("div",{className:"vary-board-card vary-board-copy"},
+        E("h4",null,"Five Random Picks"),
+        E("ol",{className:"vary-board-picks",role:"list"},["Max","Spot","Buddy","Rex","Max"].map(function(name,i){return E("li",{key:i},name);})),
+        E("p",null,"Spot was picked only once, even with the highest probability. Another five picks could turn out differently.")));
+  } else {
+    var settings=[
+      ["Low Temperature","Concentrates the odds",1,"#1652f0","#edf2fe"],
+      ["Starting Odds","From training and context",0,"#4f2fc4","#eeebfc"],
+      ["High Temperature","Spreads the odds",2,"#c41f28","#fceeed"]
+    ];
+    content=E("div",{className:"vary-board-stack"},settings.map(function(setting){
+      return E("div",{key:setting[0],className:"vary-board-card vary-board-copy",style:{"--vary-accent":setting[3],background:setting[4]}},
+        E("h4",null,setting[0]),E("p",null,setting[1]),E(VaryBoardOdds,{column:setting[2],max:40}));
+    }));
+  }
+  return E("div",{className:"vary-board","data-vary-board":kind},
+    E("img",{className:"vary-board-desktop",src:props.src,alt:props.alt}),
+    E("section",{className:"vary-board-mobile","aria-label":title},
+      E("h3",null,title),
+      kind!=="overview"?E("p",{className:"vary-board-prompt"},"You could name him ",E("span",{className:"vary-board-blank","aria-label":"next token not selected"},"?")):null,
+      content));
+}
+
 function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
     React.createElement(LessonReading, { sectionId: "inference" },
   /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” It suggests Spot. You start a new chat and ask the exact same question. This time, it suggests Max."),
   /*#__PURE__*/React.createElement(BodyP, null, "Why did the same question get a different answer?"),
-  /*#__PURE__*/React.createElement("img", {
+  /*#__PURE__*/React.createElement(VaryLessonBoard, {
+    kind: "overview",
     src: "course-assets/why-answers-vary/why-answers-vary-overview.jpg?v=20261110ee3fb3",
-    alt: "Why Answers Vary. Model & Thinking: The model you use and how much thinking it does can change the answer. What AI Receives: Your prompt and the other information available to AI can change its answer. AI’s Choices: Behind the scenes, AI uses techniques that give different tokens a chance to be selected.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    alt: "Why Answers Vary. Model & Thinking: The model you use and how much thinking it does can change the answer. What AI Receives: Your prompt and the other information available to AI can change its answer. AI’s Choices: Behind the scenes, AI uses techniques that give different tokens a chance to be selected."
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
     /*#__PURE__*/React.createElement("h3", null, "Why Answers Vary"),
@@ -7684,10 +7761,10 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(SectionKicker, null, "Sampling"),
   /*#__PURE__*/React.createElement(BodyP, null, "When AI reaches the dog’s name, it calculates a probability for every token in its vocabulary. In our example, Spot is the top choice at 22%, so you might expect AI to pick it every time."),
   /*#__PURE__*/React.createElement(BodyP, null, "But it doesn’t. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same. That’s called ", React.createElement("strong", null, "sampling"), "."),
-  /*#__PURE__*/React.createElement("img", {
+  /*#__PURE__*/React.createElement(VaryLessonBoard, {
+    kind: "sampling",
     src: "course-assets/why-answers-vary/why-answers-vary-draws.jpg?v=20261110caption",
-    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, these five picks are Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, these five picks are Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently."
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
     /*#__PURE__*/React.createElement("h3", null, "Same Probabilities, Different Choices"),
@@ -7699,10 +7776,10 @@ function InferenceSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Choosing a different token shapes what comes next and can send the answer in a different direction."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
   /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Compare what different settings do to the dog-name choices."),
-  /*#__PURE__*/React.createElement("img", {
+  /*#__PURE__*/React.createElement(VaryLessonBoard, {
+    kind: "temperature",
     src: "course-assets/why-answers-vary/why-answers-vary-temperature.jpg?v=20261110columns",
-    alt: "How Temperature Changes the Odds. Low temperature concentrates the odds. Starting odds come from training and context. High temperature spreads the odds. Spot changes from 22% to 36% at low temperature and 16% at high temperature.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+    alt: "How Temperature Changes the Odds. Low temperature concentrates the odds. Starting odds come from training and context. High temperature spreads the odds. Spot changes from 22% to 36% at low temperature and 16% at high temperature."
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
     /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
@@ -7710,7 +7787,7 @@ function InferenceSection(props) {
     /*#__PURE__*/React.createElement("p", null, "Low, starting, high: Spot 36%, 22%, 16%; Max 21%, 17%, 14%; Buddy 15%, 14%, 13%; Rex 6%, 9%, 10%; Biscuit 3%, 6%, 8%; All other tokens 19%, 32%, 39%.")),
   /*#__PURE__*/React.createElement(BodyP, null, "Spot remains the most likely individual token at all three settings. Temperature changes its probability."),
   closeBoard("inference")),
-  /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
+  /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerprotect"), label: "Next: Avoid Traps" }));
 }
@@ -8391,24 +8468,46 @@ function PhoneTrayStrip() {
 }
 function DogRecapStrip() {
   var E = React.createElement;
-  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
   var steps = [
-    ["Tokens", "Breaks the question into pieces."],
-    ["Positions", "Marks where each piece belongs."],
-    ["Starting Vectors", "Turns each token into numbers that carry its starting meaning."],
-    ["Through Layers", "Attention and transformation work together to update the numbers."]
+    ["Tokens", "Breaks the question into pieces.", "#5430cc"],
+    ["Positions", "Marks where each piece belongs.", "#005bea"],
+    ["Starting Vectors", "Turns each token into numbers that carry its starting meaning.", "#087e78"],
+    ["Through Layers", "Attention and transformation work together to update the numbers.", "#187248"]
   ];
-  return E(React.Fragment, null,
+  return E("div", {className:"answer-lesson-board", "data-answer-board":"before"},
     E("img", {
+      className:"answer-lesson-board-desktop",
       src: "course-assets/how-ai-answers/how-ai-answers-before-answer-begins.jpg?v=20261110nobanner",
-      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers."
     }),
-    E("div", { style: visuallyHidden },
+    E("section", {className:"answer-lesson-board-mobile", "aria-label":"Before the Answer Begins"},
       E("h3", null, "Before the Answer Begins"),
-      E("p", null, E("strong", null, "You: "), "What should I name my new dog?"),
-      E("ol", null, steps.map(function(step, i) {
-        return E("li", { key: i }, E("strong", null, step[0]), " ", step[1]);
+      E("div", {className:"answer-board-prompt"}, E("strong", null, "YOU"), E("p", null, "What should I name my new dog?")),
+      E("ol", {className:"answer-board-steps"}, steps.map(function(step, i) {
+        return E("li", {key:i,className:"answer-board-step",style:{"--step-color":step[2]}},
+          E("h4", null, E("span", {className:"answer-board-step-number","aria-hidden":"true"},i+1), step[0]),
+          E("p", null, step[1]));
+      }))));
+}
+function SameTokenContextBoard() {
+  var E = React.createElement;
+  var examples = [
+    ["What should I name my new dog", "Naming a dog"],
+    ["What should I cook for dinner", "Choosing a meal"]
+  ];
+  return E("div", {className:"answer-lesson-board", "data-answer-board":"context"},
+    E("img", {
+      className:"answer-lesson-board-desktop",
+      src:"course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context1",
+      alt:"Same Token, Different Context. In ‘What should I name my new dog?’ the question mark’s vector reflects naming a dog. In ‘What should I cook for dinner?’ the same question-mark token has a vector reflecting choosing a meal."
+    }),
+    E("section", {className:"answer-lesson-board-mobile", "aria-label":"Same Token, Different Context"},
+      E("h3", null, "Same Token, Different Context"),
+      E("div", {className:"answer-board-context-cards"}, examples.map(function(example,i){
+        return E("div", {key:i,className:"answer-board-context-card"},
+          E("p", {className:"answer-board-question"},example[0],"\u00a0",E("span", {className:"answer-board-last-token"},"?")),
+          E("p", null, "The question mark’s vector reflects…"),
+          E("p", {className:"answer-board-context"}, example[1]));
       }))));
 }
 // Authored illustrative states, shared by the lesson and scene-only video capture.
@@ -8420,7 +8519,7 @@ var ANSWER_BUILD_STATES = [
   },
   {
     reply: ["You"], options: [["You",18],["A",14],["Great",9],["All other tokens",59]], selected:"You", added:true,
-    instruction: "AI selects **You** and adds it to the reply."
+    instruction: "AI selects **You** and adds it to the reply. **You** is now the last token, whose updated vector helps predict what comes next."
   },
   {
     reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]], added:true,
@@ -8483,7 +8582,7 @@ function AnswerBuildScene(props) {
     !props.hideContext ? E(AnswerBuildContext,{state:state,isPrint:props.isPrint}) : null,
     E("div", {className:"answer-build-prediction"},
       E("div", {className:"answer-build-chart",style:{visibility:state.options?"visible":"hidden"},"aria-hidden":state.options?undefined:"true",inert:state.options?undefined:""},
-        E("p", {className:"answer-build-label"}, "Possible next tokens"),
+        E("p", {className:"answer-build-label"}, state.selected ? "AI selected " + state.selected : "Possible next tokens"),
         E("ul", {className:"answer-build-list"},
           options.slice(0,3).map(function(option){var selected = option[0] === state.selected; return E("li", {key:option[0],className:"answer-build-option"+(selected?" is-selected":"")},
             E("span", {className:"answer-build-option-name"},option[0]),
@@ -8532,23 +8631,20 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "prediction" }),
     React.createElement(LessonReading, { sectionId: "prediction" },
   /*#__PURE__*/React.createElement(BodyP, null, "When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s watch AI build an answer. Each time it adds a token, that token becomes part of the context for predicting what comes next. AI uses both your question and the answer so far. We’ll show words as single tokens to make the example easier to follow."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
   /*#__PURE__*/React.createElement(BodyP, null, "Here’s an important point about the layers. ", /*#__PURE__*/React.createElement("strong", null, "Each token’s vector is updated using information from the tokens before it.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Let’s see what this looks like. Both questions below end with the same token: a question mark. But the question mark’s vector has different numbers in each case because it reflects a different question."),
-  /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context1",
-    alt: "Same Token, Different Context. In ‘What should I name my new dog?’ the question mark’s vector reflects naming a dog. In ‘What should I cook for dinner?’ the same question-mark token has a vector reflecting choosing a meal.",
-    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-  }),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "WHY IS THIS IMPORTANT"),
+  /*#__PURE__*/React.createElement(BodyP, null, "In this simplified example, let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s see what this looks like. Both questions end with a question mark, but its updated vector is different in each."),
+  /*#__PURE__*/React.createElement(SameTokenContextBoard, null),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "WHY IS THIS IMPORTANT?"),
   /*#__PURE__*/React.createElement(BodyP, null, "AI uses the final token’s updated vector to predict the first token of its answer. It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far."),
+  /*#__PURE__*/React.createElement(BodyP, null, "For example, AI might select “You” to begin its reply. “You” is now the last token. Its updated vector reflects your question and the reply so far. AI uses those numbers to predict what comes next."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "How AI Answers"),
   /*#__PURE__*/React.createElement(BodyP, null, "Follow one possible reply, from its first token to the end of the answer."),
   /*#__PURE__*/React.createElement(AnswerBuildDemo, null),
   closeBoard("prediction")),
-  /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),
+  /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   React.createElement(GroupExercise, { id: "prediction-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prediction-discussion"; }).questions })),
   /*#__PURE__*/React.createElement(LessonRule, null),

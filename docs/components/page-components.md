@@ -207,6 +207,19 @@ This supplemental video does not replace `LESSON_VIDEOS.unexpected`.
 Activities remain interactive page components. Screenshots of them may support a
 video edit, but their chrome should not become a general static-board template.
 
+### Why Answers Vary boards on phones
+
+`VaryLessonBoard` preserves the three authored board images on desktop and in
+print. At phone widths up to 760px, or on coarse-pointer landscape screens up to
+500px tall, it shows stacked HTML cards with 16px body text and 20px card titles.
+The overview retains its original illustrations through SVG viewBox crops and
+renders the explanations as text. Sampling stacks the unchanged probabilities
+above the five example picks. Temperature stacks Low Temperature, Starting Odds,
+and High Temperature, repeating the token names inside each card. Both probability
+layouts use `TEMPERATURE_DATA`; all temperature bars retain the same 40% maximum
+scale. Only the visible version enters the accessibility tree. The existing
+closing-message component already reflows on narrow screens.
+
 ## Course chrome
 
 - `LessonHeader` identifies the lesson and section.
@@ -227,12 +240,12 @@ not need to be identical.
 
 ### Understand AI concept matching
 
-`MatchTermsTryIt` ends The Next Token with two rounds of five concept-description
+`MatchTermsTryIt` ends How AI Answers with two rounds of five concept-description
 pairs. `UNDERSTAND_AI_CONCEPTS` holds the approved descriptions and retry hints.
-Drag a concept onto its description, or select the concept and then its description.
-Pointer dragging supports mouse, pen, and touch, highlights the current drop target,
-and scrolls near the viewport edge. Escape or pointer cancellation ends a drag;
-wrong or outside drops do not lock either card. All ten concepts are shuffled before splitting into two rounds, including on
+Select a concept, then select its description using clicks, taps, or keyboard controls.
+The selected concept stays highlighted until matched or another concept is selected.
+Wrong answers retain the selection so the learner can try another description.
+All ten concepts are shuffled before splitting into two rounds, including on
 Try Again. Description order is shuffled with no matching concept directly across
 from its own description; matched pairs stay visible and locked. Success changes only the border color to
 green; it adds no visible labels or checkmarks and preserves card dimensions.
@@ -246,3 +259,31 @@ Run `node scripts/preview_concept_matching.cjs` to regenerate
 `previews/concept-matching.html`, and `node scripts/test_concept_matching.cjs`
 to verify interaction, focus, both rounds, retry, mobile layout, and print behavior.
 The former giant-number quiz is preserved in `docs/parking-lot.html` for Data Centers.
+
+### Build an AI Response
+
+`PredictionLoopTryIt` in Why Answers Vary uses the authored `AI_CLUB_BRANCHES`
+for five-word club names. Dashed placeholders show the remaining word positions,
+with the next position accented; they fill as words are chosen and return on
+**Undo last word** or **Build another name**. Learners choose each word themselves.
+Choice bars use a shared 0–100% scale. Every branch totals 100%; there is no
+additional unseen pool.
+
+At completion, the explanation and **Build another name** button appear after
+the question and before the previous and current names. During building, the
+growing answer and placeholders remain above the choices.
+
+After the first complete name, a collapsed **See some strange possibilities**
+disclosure appears below the activity controls. It invites “Can you build one of
+these?” and lists ten buildable names without probabilities. The scrollable list
+shows about five names and part of the next, supports keyboard scrolling, and
+wraps on narrow screens. The disclosure remains available after undoing or
+starting another name and preserves the learner’s open or closed choice.
+
+**Build another name** clears all five word positions and keeps
+the immediately previous complete name visible. The learner chooses each word
+again; no words are automatically generated. **Undo last word** edits the current
+path. The introduction explains that each choice shapes what could come next;
+completion invites learners to build another name for comparison. Do not add
+whole-answer probability calculations or probabilities beneath words already
+chosen. The activity remains outside the lesson video narration.

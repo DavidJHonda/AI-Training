@@ -488,13 +488,34 @@ See `STORYBOARD.md` for visual directions and `reveal-cues.json` for the 16 exac
 
 ## How AI Answers
 
-**TRY IT update, 2026-11-10:** The live “Build an AI Response” activity replaces the floating-ice quiz. Learners name an AI club by selecting five word-tokens from authored branching choices with example probabilities, Undo, and Try Another Direction. Every offered token is valid; the exercise no longer requires picking the highest probability. The activity is excluded from video narration.
+**Current preparation, 2026-11-10:** The approved lesson review is reflected in
+`lessons/how-ai-answers.md`, `gemini-notebook/how-ai-answers/PROMPT.txt`, and the
+active upload registry. See [the current preparation notes](../../../gemini-notebook/how-ai-answers/PREP-NOTES.md)
+for the teaching progression, capture command, and editing checks. These sources
+supersede the historical upload lists, required lines, and board instructions below.
 
-**Interactive demonstration update, 2026-11-10:** The live lesson now has five moments: possible starts, selecting You, adding could/name/him one at a time, comparing dog names and selecting Spot, and adding a period followed by the end-of-answer token. Only the first-token and dog-name comparisons show probabilities; other tokens appear as a small percentage line. Controls say Continue, and brief timed sequences finish before advancing. The generated preview and browser checks use the same five states. No video has been rerendered for this change.
+The lesson establishes the growing context, compares question marks in two questions,
+then explains the handoff to You before the guided demonstration. The demonstration
+stays inside Read the lesson on the page and is fully covered by the video. Its
+selection states now say AI selected You and AI selected Spot. The active bundle
+uses four current demonstration captures instead of the old token-by-token and
+Rank/Pick/Add/Repeat boards. Before the Answer Begins has no prediction banner;
+Same Token, Different Context replaces Why the Final Token Matters and the essay
+analogy. Keep the original desktop boards for video; stacked phone versions are
+page-only adaptations.
 
-**Banner and bridge update, 2026-11-10:** “Before the Answer Begins” now ends after the four preparation steps, with no prediction banner or matching spoken line. Current asset is 1600×922, exported by `scripts/video/render_how_ai_answers_before_answer.py` from the approved image edit. Do not restore the banner using the legacy retrofit renderer. The following prose describes the question mark’s vector as reflecting the context of the specific question, then introduces the two-question comparison. The prediction transition remains after that comparison. Lesson, accessible text, narration source, and preparation bundle are synchronized; the installed video is unchanged.
+Match the Concepts remains the on-page activity, with Next-token prediction and
+End-of-answer token replacing Sampling and Temperature. Its interaction is now
+select a concept, then its description; dragging is removed. Build an AI Response
+belongs to Why Answers Vary. The proposed additional understanding question was
+skipped. Neither activity nor discussion questions are narrated here.
 
-**Current lesson update, 2026-11-10:** After the “Let’s follow the last token…” paragraph, use the approved EE-COMPARE board `course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg` (“Same Token, Different Context”). Its identical question marks compare naming a dog with choosing a meal. It replaces the separate “Why the Final Token Matters” board and the essay analogy in the current lesson and preparation sources. Continue with “AI uses the final token’s updated vector to predict the first token of its answer.” The new source is `scripts/video/assets/how-ai-answers-same-token-context.html`; render with `scripts/video/render_how_ai_answers_context_compare.cjs`. No new video render is included in this lesson update. Earlier board lists, Board 2 copy, and requirements to repeat its old prediction line below are historical and superseded by the current Markdown, prompt, and upload registry.
+Preparation only: no new video render or installation. The current `index.html`
+video entry is the October v12 asset, cache key `20261006ship1`; November v16 remains
+a review candidate. Historical status entries below do not identify the current
+installed video.
+
+### Historical production notes
 
 **v4 SHIPPED 2026-09-23 (David: "we can ship how-ai-answers-v4")** - `Prompts/how-ai-answers-v4.mp4`,
 4:13.90, is the live `course-assets/how-ai-answers/how-ai-answers.mp4`, cache key `20260923ship1`,

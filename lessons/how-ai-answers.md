@@ -42,21 +42,25 @@ Let’s see what this looks like. Both questions end with a question mark, but i
 
 **Teaching content:**
 
-In “What should I name my new dog?” the question mark’s vector reflects naming a dog.
+Naming your new dog: the question mark’s updated vector reflects the context of your whole question.
 
-In “What should I cook for dinner?” the question mark’s vector reflects choosing a meal.
+Choosing your dinner: the same question mark now has a different updated vector, reflecting this different question.
 
 ## WHY IS THIS IMPORTANT?
 
 AI uses the final token’s updated vector to predict the first token of its answer.
 
-It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far.
+Think about *Peanut butter and* or *Salt and*. Both end with **and**, but its updated vector reflects different words before it.
+
+Using patterns learned during training, AI would likely give **jelly** a high probability after *Peanut butter and*, and **pepper** a high probability after *Salt and*. The prediction depends on the context reflected in those numbers.
+
+The same process builds a longer answer. Each token AI adds becomes part of the context for predicting the next one.
 
 For example, AI might select “You” to begin its reply.
 
 “You” is now the last token.
 
-Its updated vector reflects your question and the reply so far.
+The last token’s updated vector reflects both your question and everything AI has written so far.
 
 AI uses those numbers to predict what comes next.
 
@@ -86,7 +90,7 @@ AI predicts possible starts to its reply. Possible next tokens include You at 18
 
 **Teaching content:**
 
-AI selects You and adds it to the reply. You is now the last token, whose updated vector helps predict what comes next.
+You is now the last token. Its updated vector reflects your question plus the answer so far, which is just You. AI uses those numbers to predict the next token.
 
 The highlighted You is the token AI selected from those choices: You at 18 percent, A at 14 percent, Great at 9 percent, and other tokens together at 59 percent.
 
@@ -106,7 +110,7 @@ Each added token becomes part of the context.
 
 Your question is still “What should I name my new dog?” AI’s answer so far is “You could name him”.
 
-After You could name him, a dog name becomes a likely next token.
+Him is now the last token. Its updated vector reflects your question plus the answer so far: You could name him. AI uses those numbers to predict the next token. A dog name is now a likely choice.
 
 Possible next tokens include Spot at 22 percent, Max at 17 percent, and Buddy at 14 percent. Other tokens together account for 47 percent.
 

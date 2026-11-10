@@ -1496,7 +1496,7 @@ const LESSON_VIDEOS = {
   attention: { src: "course-assets/transformer/transformer.mp4?v=20261109ship-transformer-v17", duration: "4 min", title: "Reading everything at once — the T in ChatGPT." },
   layers: { src: "course-assets/layers/layers.mp4?v=20261109ship-layers-v13", duration: "3 min", title: "Meaning builds up, layer by layer." },
   vectorspace: { src: "course-assets/vector-space/vector-space.mp4?v=20261109ship-vector-space-v25", duration: "3 min", title: "Where a token's numbers finally land." },
-  prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20261006ship1", duration: "4 min", title: "How the answer builds itself, one token at a time." },
+  prediction: { src: "course-assets/how-ai-answers/how-ai-answers.mp4?v=20261110ship1", duration: "4 min", title: "How the answer builds itself, one token at a time." },
   inference: { src: "course-assets/why-answers-vary/why-answers-vary.mp4?v=20261110ship18", duration: "3 min", title: "How sampling and temperature shape the next token." },
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener.mp4?v=20261027ship11", duration: "3 min", title: "When AI fails, nothing looks broken. Learn to read the water.", cta: "Both walk the same section map." },
   hallucination: { src: "course-assets/hallucination/hallucination.mp4?v=20261027ship-hallucination-v20", duration: "3 min", title: "Why AI can make up facts that sound true.", cta: "Both end at the same LAB." },
@@ -8502,22 +8502,22 @@ function DogRecapStrip() {
 function SameTokenContextBoard() {
   var E = React.createElement;
   var examples = [
-    ["What should I name my new dog", "Naming a dog"],
-    ["What should I cook for dinner", "Choosing a meal"]
+    ["What should I name my new dog", "Naming your new dog", "The question mark’s updated vector reflects the context of your whole question."],
+    ["What should I cook for dinner", "Choosing your dinner", "The same question mark now has a different updated vector, reflecting this different question."]
   ];
   return E("div", {className:"answer-lesson-board", "data-answer-board":"context"},
     E("img", {
       className:"answer-lesson-board-desktop",
-      src:"course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context1",
-      alt:"Same Token, Different Context. In ‘What should I name my new dog?’ the question mark’s vector reflects naming a dog. In ‘What should I cook for dinner?’ the same question-mark token has a vector reflecting choosing a meal."
+      src:"course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context2",
+      alt:"Same Token, Different Context. Naming your new dog: the question mark’s updated vector reflects the context of your whole question. Choosing your dinner: the same question mark now has a different updated vector, reflecting this different question."
     }),
     E("section", {className:"answer-lesson-board-mobile", "aria-label":"Same Token, Different Context"},
       E("h3", null, "Same Token, Different Context"),
       E("div", {className:"answer-board-context-cards"}, examples.map(function(example,i){
         return E("div", {key:i,className:"answer-board-context-card"},
           E("p", {className:"answer-board-question"},example[0],"\u00a0",E("span", {className:"answer-board-last-token"},"?")),
-          E("p", null, "The question mark’s vector reflects…"),
-          E("p", {className:"answer-board-context"}, example[1]));
+          E("p", {className:"answer-board-context"}, example[1]),
+          E("p", null, example[2]));
       }))));
 }
 // Authored illustrative states, shared by the lesson and scene-only video capture.
@@ -8529,11 +8529,11 @@ var ANSWER_BUILD_STATES = [
   },
   {
     reply: ["You"], options: [["You",18],["A",14],["Great",9],["All other tokens",59]], selected:"You", added:true,
-    instruction: "AI selects **You** and adds it to the reply. **You** is now the last token, whose updated vector helps predict what comes next."
+    instruction: "**You** is now the last token. Its updated vector reflects your question plus the answer so far, which is just **You**. AI uses those numbers to predict the next token."
   },
   {
     reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]], added:true,
-    instruction: "After **You could name him**, a dog name becomes a likely next token.",
+    instruction: "**him** is now the last token. Its updated vector reflects your question plus the answer so far: **You could name him**. AI uses those numbers to predict the next token. A dog name is now a likely choice.",
     frames: [
       {at:0, reply:["You"], options:null, added:false,
         instruction:"AI adds **could**, **name**, and **him**, one token at a time."},
@@ -8648,8 +8648,11 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "Let’s see what this looks like. Both questions end with a question mark, but its updated vector is different in each."),
   /*#__PURE__*/React.createElement(SameTokenContextBoard, null),
   /*#__PURE__*/React.createElement(SectionKicker, null, "WHY IS THIS IMPORTANT?"),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI uses the final token’s updated vector to predict the first token of its answer. It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far."),
-  /*#__PURE__*/React.createElement(BodyP, null, "For example, AI might select “You” to begin its reply. “You” is now the last token. Its updated vector reflects your question and the reply so far. AI uses those numbers to predict what comes next."),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI uses the final token’s updated vector to predict the first token of its answer."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Think about ", /*#__PURE__*/React.createElement("em", null, "Peanut butter and"), " or ", /*#__PURE__*/React.createElement("em", null, "Salt and"), ". Both end with ", /*#__PURE__*/React.createElement("strong", null, "and"), ", but its updated vector reflects different words before it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Using patterns learned during training, AI would likely give ", /*#__PURE__*/React.createElement("strong", null, "jelly"), " a high probability after ", /*#__PURE__*/React.createElement("em", null, "Peanut butter and"), ", and ", /*#__PURE__*/React.createElement("strong", null, "pepper"), " a high probability after ", /*#__PURE__*/React.createElement("em", null, "Salt and"), ". The prediction depends on the context reflected in those numbers."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The same process builds a longer answer. Each token AI adds becomes part of the context for predicting the next one."),
+  /*#__PURE__*/React.createElement(BodyP, null, "For example, AI might select “You” to begin its reply. “You” is now the last token. The last token’s updated vector reflects both your question and everything AI has written so far. AI uses those numbers to predict what comes next."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "How AI Answers"),
   /*#__PURE__*/React.createElement(BodyP, null, "Follow one possible reply, from its first token to the end of the answer."),
   /*#__PURE__*/React.createElement(AnswerBuildDemo, null),

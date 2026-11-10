@@ -1,0 +1,70 @@
+   0.00-   3.08  When you ask a question, the system first processes your words together.
+   3.58-   5.44  Then, it faces a new problem.
+   6.04-   7.78  How does it actually begin an answer?
+   8.32-  11.74  We'll show words as single tokens to make this example much easier to follow.
+  12.64-  15.04  Imagine you ask, what should I name my new dog?
+  15.60-  19.38  Before the answer begins, the question goes through four steps you've already seen.
+  20.42-  21.90  Tokens breaks the question into pieces.
+  22.54-  24.50  Positions marks where each piece belongs.
+  25.14-  29.54  Starting vectors turns each token into numbers that carry its starting meaning.
+  30.14-  35.22  And finally, through layers, where attention and transformation work together to update those numbers.
+  36.32-  39.76  As the tokens pass through the layers, each token's vector is updated,
+  39.98-  42.06  using information from the tokens before it.
+  42.46-  45.82  In this simplified example, let's follow the last token in the question,
+  46.18-  47.30  what should I name my new dog?
+  47.84-  50.74  It begins with a starting vector representing a question mark.
+  50.74-  55.76  As it passes through the layers, those numbers change to reflect your question about naming a dog.
+  56.32-  57.52  After running through all the layers,
+  57.90-  61.06  the question mark's vector reflects the context of your specific question.
+  62.08-  64.54  Looking at naming a dog versus choosing dinner,
+  64.94-  68.66  we see the identical final token gets different updated vectors
+  68.66-  71.70  because the different contexts change the question mark's numbers.
+  72.38-  75.10  For naming your new dog, the question mark's updated vector
+  75.10-  77.12  reflects the context of your whole question.
+  77.12-  78.50  For choosing your dinner,
+  78.96-  82.34  the exact same question mark now has a completely different updated vector,
+  82.72-  83.96  reflecting this different question.
+  84.88-  85.62  Why is this important?
+  86.94-  90.80  AI uses the final token's updated vector to predict the first token of its answer.
+  91.26-  93.88  Think about peanut butter and and salt and.
+  94.46-  95.64  Now both end with and.
+  96.56-  99.52  But its updated vector reflects different words before it.
+  99.96- 102.36  So using patterns learned during training,
+ 102.78- 104.46  an AI would likely give
+ 105.26- 108.28  jelly a high probability after peanut butter and
+ 108.28- 111.20  and pepper a high probability after salt and.
+ 111.46- 114.24  The prediction depends on the context reflected in those numbers.
+ 114.90- 117.96  It adds the chosen token to the context and then predicts the next one.
+ 118.38- 120.00  That's exactly how our response is built,
+ 120.32- 122.26  using your question and the answer so far.
+ 123.18- 125.58  For the dog naming question, the answer has no tokens yet.
+ 126.28- 127.92  AI predicts possible starts to its reply,
+ 128.22- 133.46  which include U at 18%, A at 14%, and Great at 9%.
+ 133.46- 135.86  With other tokens together accounting for 59%.
+ 136.86- 140.66  AI selected U. U is now the last token.
+ 141.66- 144.60  The last token's updated vector reflects both your question
+ 144.60- 146.66  and everything that AI has written so far.
+ 147.62- 150.08  Now the context includes part of the answer too.
+ 150.44- 154.64  Its updated vector reflects the question plus the one word answer, U.
+ 155.16- 158.30  The system uses those numbers to predict exactly what comes next.
+ 159.16- 160.82  To continue the growing reply,
+ 161.28- 163.16  AI adds the word could to the sequence.
+ 164.02- 166.16  Next, AI adds the word name.
+ 167.16- 168.98  Then AI adds the word him.
+ 169.48- 171.34  Each added token becomes part of the context.
+ 172.38- 173.70  Him is now the last token.
+ 174.10- 176.08  And its updated vector reflects the question
+ 176.08- 178.50  plus all four answer words to predict a dog name.
+ 179.10- 181.20  A dog name is now a highly likely choice.
+ 181.86- 185.88  Possibilities include spot at 22%, max at 17%,
+ 185.88- 189.46  and buddy at 14%, with other tokens accounting for 47%.
+ 190.30- 192.72  AI selected spot to build this answer,
+ 192.72- 195.04  but it is important to note that another run
+ 195.04- 196.32  could select a different name entirely.
+ 196.96- 198.96  The answer now reads, you could name him spot.
+ 199.96- 202.10  Finishing the reply, AI adds a period,
+ 202.44- 203.90  then an end of answer token.
+ 204.86- 206.76  A special end of answer token signals
+ 206.76- 207.98  that the reply is complete.
+ 209.08- 211.50  Every answer is built one token at a time.
+ 212.40- 214.10  The whole run is called inference.

@@ -220,6 +220,115 @@ layouts use `TEMPERATURE_DATA`; all temperature bars retain the same 40% maximum
 scale. Only the visible version enters the accessibility tree. The existing
 closing-message component already reflows on narrow screens.
 
+### First phone-readability wave
+
+`PhoneReadingBoard` was introduced for the eight teaching boards in Welcome,
+Prompting Matters, and Critical Thinking. It uses the same screen-only 760px / coarse-pointer
+500px-height convention as `VaryLessonBoard`. The original image and its desktop
+description remain together inside a `display: contents` wrapper, preserving their
+desktop and print geometry. Only that representation or the phone section is
+exposed at a time. The three closing boards remain unchanged.
+
+Phone cards use 16px explanatory text and 20px headings, with original artwork
+exposed through SVG viewBox crops. `PHONE_READING_BOARDS` holds the exact board
+copy and crop coordinates. Prompting's desktop transcript shares that data;
+Critical Thinking's existing transcript shares its card copy. The Welcome roadmap
+stays a continuous ordered list, the equation retains its plus and result arrow,
+and each Weak/Better prompt pair stays within its move.
+
+Run `node scripts/test_phone_reading_wave.cjs` for phone widths, landscape,
+breakpoints, accessible alternatives, print visibility, and lesson interactions.
+Desktop preservation also requires rendered before/after pixel comparisons.
+
+### Second phone-readability batch
+
+Support Trap, Questions Matter, and Beyond the First Answer opt in eleven more
+boards through the same wrapper. Their canonical images, print presentation, and
+closing boards remain unchanged. `PhoneReadingFacts` keeps repeated comparison
+labels, time-to-answer labels, and support-action lines with their explanations.
+Questions Matter's quality cards share their unchanged copy with the existing
+accessible transcript and matching LAB prompt.
+
+`PhoneReadingBoard` accepts optional children for relationships that need a
+tailored layout. Beyond the First Answer uses a continuous, full-width phone
+conversation with explicit speaker labels, ordered Early/Later Round groups, and
+a connected vertical Sales minus Costs equals Profit calculation. The thought-partner
+phone conversation omits the “Your strengths” and “Possible directions” illustrated
+callouts; their subjects remain in the complete dialogue. Desktop and print retain
+both original callouts. These additions do not change the
+first-wave layouts. Only the visible alternative enters the accessibility tree.
+
+Run `node scripts/test_phone_reading_wave_two.cjs` for the eleven new boards and
+their lesson interactions, plus `node scripts/test_phone_reading_wave.cjs` for the
+first-wave regression checks. Desktop and print comparisons cover all six callers.
+
+### Third phone-readability batch
+
+Flattery Trap, Loudest Voices, and Layers opt in ten teaching boards through
+`ThirdPhoneReadingBoard`, without changing existing phone helpers or CSS selectors.
+Standard illustrated cards retain full quotations, qualifications, shared scenarios,
+and Weak/Better prompts. The original canonical copy, rather than historical hidden
+transcript summaries, supplies the phone text.
+
+`PhoneThreeSequence` connects numbered reading/training stages and exact numeric
+states vertically. Layers keeps both attention and transformation, input/output
+labels, all vector values, repeated layers, and the IT/CAT distinction. Loudest
+Voices groups each Out of Your Hands point with its matching In Your Hands response,
+repeating category labels within each pair. Original artwork is reused through crops.
+
+The existing screen-only 760px / coarse-pointer max-height 500px convention applies.
+The original images, closing boards, assets, and print presentation remain intact.
+Verify with `scripts/test_phone_reading_wave_three.cjs`, full-page desktop pixel
+comparisons at 1024/1280/1440px, and print comparisons for all three lessons.
+
+### Fourth phone-readability batch
+
+Tokens, Probability & Prediction, and Transformer opt in thirteen teaching boards
+through `FourthPhoneReadingBoard`. Existing phone helpers and selectors are unchanged.
+Seven token rows preserve exact strings, chunks, counts, and SP notation. The send
+flow keeps each chunk paired with its exact ID. The probability formula retains
+numerator/denominator structure, and both coin examples keep a two-by-two grid of
+all four outcomes, including explicit ruled-out labels after the first-coin clue.
+
+Transformer keeps sequential word arrows distinct from the grouped complete message.
+Its two context examples share phone data; every original sentence, definition,
+question, and resolution remains. Attention preserves the IT-to-CAT arc, transformation
+reuses the original vector artwork, and position stamps retain the 1/2/3 mapping.
+Original illustrated panels use SVG crops. All explanatory labels are real HTML.
+
+The existing screen-only 760px / coarse-pointer max-height 500px convention applies.
+Desktop images and existing transcripts stay together in a display:contents wrapper;
+only the visible representation enters the accessibility tree. Closing boards,
+canonical assets, videos, NotebookLM uploads, and print remain unchanged. Verify with
+`scripts/test_phone_reading_wave_four.cjs`, desktop pixel comparisons at
+1024/1280/1440px, and print comparisons for all three lessons.
+
+### Fifth phone-readability batch
+
+How AI Learns, Embeddings, and Vector Space opt in twelve boards, including three
+live demonstrations. Nine canonical images use `FifthPhoneReadingBoard` with full
+HTML copy and original art crops. Training keeps all phases and limitations, plus
+the connected Guess → Check → Adjust loop and explicit return to Guess. Embeddings
+keeps the complete Student ID scene and readable IDs, and pairs each Taste Test / AI
+comparison under its original row label. Vector Space keeps the whole context map,
+all neighborhood labels, and both exact IT vectors.
+
+Phone-only CSS on the Embeddings guided demo places each trait label above three
+side-by-side drink values. All seven dimensions, shared data, reveal timing, and
+native table semantics remain. Revealed phone row headings use explicit visibility
+and synchronized aria-hidden attributes so off-screen reveals remain accessible
+after desktop-to-phone resizing. `PhoneFiveMap` reuses the original map shapes,
+markers, point coordinates, connectors, and answer rings; numbered leader lines
+connect points to readable HTML names and vectors. It is enabled only by the two
+live Vector Space maps. Bare capture scenes and shared guided-demo helpers remain
+unchanged. Existing desktop and print SVG markup remains visible as before.
+
+The established screen-only 760px / coarse-pointer max-height 500px convention
+applies. Only the visible desktop or phone version enters the accessibility tree.
+Verify every reveal state with `scripts/test_phone_reading_wave_five.cjs`, full-page
+and reveal-state desktop comparisons at 1024/1280/1440px, protected asset hashes,
+and print output for all three lessons.
+
 ## Course chrome
 
 - `LessonHeader` identifies the lesson and section.

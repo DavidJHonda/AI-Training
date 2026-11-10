@@ -1,5 +1,11 @@
 # How AI Answers — current video preparation
 
+The continuous narration clarity draft is in [NARRATION-DRAFT.md](NARRATION-DRAFT.md),
+with its shot and pause plan in [NARRATION-VISUAL-MAP.md](NARRATION-VISUAL-MAP.md).
+These are review materials, separate from the current upload source. They make
+the transitions audible and explain the context at the question mark, You, and
+him stages. No new recording or video has been generated from the draft.
+
 Updated 2026-11-10 after the approved lesson review. These notes and the active
 registry supersede the historical board lists in the section kit.
 
@@ -17,8 +23,9 @@ how each added token changes the context used to predict what comes next.
    a perfect compressed copy, a unique encoding of the whole question, a funnel,
    or the discarded essay/“end” analogy.
 4. Under WHY IS THIS IMPORTANT?, explain the first prediction and the handoff to
-   You. Once selected, You is the last token. Its updated vector reflects the
-   question and reply so far. Teach the full paragraph here and only the shorter
+   You. Once selected, You is the last token. The last token’s updated vector
+   reflects both your question and everything AI has written so far. Teach the
+   full paragraph here and only the shorter
    reminder during the demonstration.
 5. Cover the complete demonstration in the video. The on-page version stays inside
    Read the lesson because the video provides this teaching too. Introduce the
@@ -82,3 +89,31 @@ published by this update. The installed course asset remains the October v12 vid
 v16 is a separate November review candidate and predates the settled explanation.
 Assess any future roll against this source and the current prompt, not historical
 required-line lists.
+
+## Approved narration clarification — 2026-11-10
+
+Replace “Its updated vector reflects your question and the reply so far.” with:
+
+“The last token’s updated vector reflects both your question and everything AI has written so far.”
+
+This wording is now in the lesson and the required verbatim narration prompt.
+The existing v20 review candidate still has the earlier audio at approximately
+1:28–1:32. None of the three reviewed rolls contains the new sentence verbatim;
+a new recording is needed to carry this exact wording into the video. Preserve
+v20’s approved visual treatment when replacing that sentence.
+
+## Explicit context at each stage
+
+The Same Token board explains that each question mark’s updated vector reflects
+the context of its whole question. At You, name the question plus the one-word
+answer. At You could name him, identify him as the last token and name the
+question plus all four answer words as the context. Use the current source
+wording without em dashes. These revisions require fresh narration; v20 is unchanged.
+
+## Familiar continuation example
+
+Under WHY IS THIS IMPORTANT?, the lesson now compares “Peanut butter and”
+with “Salt and” to connect learned patterns, contextualized vectors, and likely
+continuations. It follows the first-token explanation and precedes the transition
+to a longer answer. The upload source, prompt, and continuous narration draft
+include it. Existing video recordings do not contain this new passage.

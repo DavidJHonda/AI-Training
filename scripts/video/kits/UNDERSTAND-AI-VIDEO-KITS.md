@@ -488,6 +488,14 @@ See `STORYBOARD.md` for visual directions and `reveal-cues.json` for the 16 exac
 
 ## How AI Answers
 
+**TRY IT update, 2026-11-10:** The live “Build an AI Response” activity replaces the floating-ice quiz. Learners name an AI club by selecting five word-tokens from authored branching choices with example probabilities, Undo, and Try Another Direction. Every offered token is valid; the exercise no longer requires picking the highest probability. The activity is excluded from video narration.
+
+**Interactive demonstration update, 2026-11-10:** The live lesson now has five moments: possible starts, selecting You, adding could/name/him one at a time, comparing dog names and selecting Spot, and adding a period followed by the end-of-answer token. Only the first-token and dog-name comparisons show probabilities; other tokens appear as a small percentage line. Controls say Continue, and brief timed sequences finish before advancing. The generated preview and browser checks use the same five states. No video has been rerendered for this change.
+
+**Banner and bridge update, 2026-11-10:** “Before the Answer Begins” now ends after the four preparation steps, with no prediction banner or matching spoken line. Current asset is 1600×922, exported by `scripts/video/render_how_ai_answers_before_answer.py` from the approved image edit. Do not restore the banner using the legacy retrofit renderer. The following prose describes the question mark’s vector as reflecting the context of the specific question, then introduces the two-question comparison. The prediction transition remains after that comparison. Lesson, accessible text, narration source, and preparation bundle are synchronized; the installed video is unchanged.
+
+**Current lesson update, 2026-11-10:** After the “Let’s follow the last token…” paragraph, use the approved EE-COMPARE board `course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg` (“Same Token, Different Context”). Its identical question marks compare naming a dog with choosing a meal. It replaces the separate “Why the Final Token Matters” board and the essay analogy in the current lesson and preparation sources. Continue with “AI uses the final token’s updated vector to predict the first token of its answer.” The new source is `scripts/video/assets/how-ai-answers-same-token-context.html`; render with `scripts/video/render_how_ai_answers_context_compare.cjs`. No new video render is included in this lesson update. Earlier board lists, Board 2 copy, and requirements to repeat its old prediction line below are historical and superseded by the current Markdown, prompt, and upload registry.
+
 **v4 SHIPPED 2026-09-23 (David: "we can ship how-ai-answers-v4")** - `Prompts/how-ai-answers-v4.mp4`,
 4:13.90, is the live `course-assets/how-ai-answers/how-ai-answers.mp4`, cache key `20260923ship1`,
 pill 4 min. It is v1 with the live 9/18 video's opening grafted under Boards 1 and 2 at David's
@@ -618,16 +626,16 @@ Open questions
 
 ## Why Answers Vary
 
-Reroll prep updated 2026-11-09. Internal lesson ID: `inference`.
+Reroll prep updated 2026-11-10. Internal lesson ID: `inference`.
 
 Current directions: [Why Answers Vary reroll notes](../../../gemini-notebook/why-answers-vary/REROLL-NOTES.md). These replace the October 9 prep and September donor timings formerly listed here.
 
-- Approved opening covers changes in model, prompt, and context, then narrows to variation with the same model and information.
+- Approved opening asks the dog-name question in two separate chats: Spot, then Max. The new EE-3FB overview board covers Model & Thinking, What AI Receives, and AI’s Choices, followed by “Two techniques help explain AI’s choices: sampling and temperature.” Go straight into Sampling without restarting the example or repeating the token-by-token explanation.
 - Sampling uses one concise dog-name example and five independent picks with unchanged odds; consolidate repeated explanations.
-- The finished edit uses the current temperature demonstration with timed animated reveals, followed by a brief comparison. The uploaded JPG is a complete reference for generation. See the reroll notes for capture-mode motion handling.
+- The lesson uses the static standard temperature board with all three columns visible. The finished edit uses the retained temperature scene with timed animated reveals, followed by a brief comparison. The uploaded JPG is the same canonical board as the lesson. See the reroll notes for capture-mode motion handling.
 - Close: “AI answers vary.” / “Different inputs. Different odds. Different choices.”
 - Prompt: `gemini-notebook/why-answers-vary/PROMPT.txt`; narration: `lessons/why-answers-vary.md`.
-- Upload all four files in `gemini-notebook/why-answers-vary/upload/`; paste the prompt into customization. No face variants are needed.
+- Upload all five files in `gemini-notebook/why-answers-vary/upload/`; paste the prompt into customization. No face variants are needed.
 - Save as `Prompts/why-answers-vary-reroll.mp4` or the next unused `-reroll-N` filename.
 - Current local reference is v4, cache key `20261023ship4`, 3:21.10; verified SHA-256 `3692635c319e3fbf439ff676efbc4c6d452dc1013cd39968b39bda72d2b4fa57`. No fresh public verification claimed. Older v14 references are historical.
 

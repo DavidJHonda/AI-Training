@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render The Next Token probability board for page and video use."""
+"""Render the canonical Why Answers Vary sampling board without a takeaway banner."""
 
 try:
     from .course_credit import save_course_image
@@ -11,12 +11,11 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-from editorial_typography import draw_board_title, draw_inner_title, face
-from editorial_takeaway import draw_takeaway_band
+from editorial_typography import draw_board_title, draw_inner_title
 
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H = 1600, 950
+W, H = 1600, 822
 
 LAVENDER = "#eae7fd"
 WHITE = "#ffffff"
@@ -133,7 +132,6 @@ def render() -> None:
 
     # Right: five outcomes from that same list.
     draw_inner_title(draw, (956, 274), "Five Random Picks", fill=PURPLE_DARK)
-    draw.text((956, 323), "One possible set", font=font(26, "Medium"), fill=MUTED)
     draws = ["Max", "Spot", "Buddy", "Rex", "Max"]
     for i, name in enumerate(draws, start=1):
         y0 = 362 + (i - 1) * 54
@@ -159,12 +157,6 @@ def render() -> None:
     for j, line in enumerate(lines):
         draw.text((956, 641 + j * 41), line, font=note_font, fill=BODY, anchor="lt")
     assert 641 + len(lines) * 41 <= stage[3] - 10, lines
-
-    # Standard takeaway band.
-    draw_takeaway_band(
-        image, top=822, left=40, right=1560,
-        text="The best chance is not a guarantee.", font=face("medium", 32),
-    )
 
     output = ROOT / "course-assets/why-answers-vary/why-answers-vary-draws.jpg"
     output.parent.mkdir(parents=True, exist_ok=True)

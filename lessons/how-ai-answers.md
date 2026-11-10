@@ -26,25 +26,27 @@ Step 3, Starting Vectors: AI turns each token into numbers that carry its starti
 
 Step 4, Through Layers: attention and transformation work together to update the numbers.
 
-AI uses the final token’s updated numbers to predict what comes next.
+Here’s an important point about the layers. **Each token’s vector is updated using information from the tokens before it.**
 
-### Board 2: Why the Final Token Matters
+Let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question.
 
-**Image file:** `how-ai-answers-where-answer-begins.jpg`
+Let’s see what this looks like. Both questions below end with the same token: a question mark. But the question mark’s vector has different numbers in each case because it reflects a different question.
 
-![Why the Final Token Matters](how-ai-answers-where-answer-begins.jpg)
+### Board 2: Same Token, Different Context
+
+**Image file:** `how-ai-answers-same-token-context.jpg`
+
+![Same Token, Different Context](how-ai-answers-same-token-context.jpg)
 
 **Teaching content:**
 
-Here is why the final token matters.
+In “What should I name my new dog?” the question mark’s vector reflects naming a dog.
 
-The question sits in a row of tokens: What, should, I, name, my, new, dog, and a question mark. In this example, the question mark is the final token.
+In “What should I cook for dinner?” the question mark’s vector reflects choosing a meal.
 
-The Question: the final token gathers information from every token before it.
+## WHY IS THIS IMPORTANT
 
-The Final Token: its updated numbers are its final vector, and they help AI predict a reply that fits the question.
-
-AI uses the final token’s vector to predict the first token of its answer.
+AI uses the final token’s updated vector to predict the first token of its answer. It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far.
 
 ## Starting the Answer
 

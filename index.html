@@ -58,6 +58,8 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .guided-demo { margin: 18px 0 28px; padding: 24px; border: 1.5px solid color-mix(in srgb, var(--info) 30%, transparent); border-radius: 20px; background: color-mix(in srgb, var(--info) 8%, var(--card)); font-family: var(--sans); break-inside: avoid; }
   .guided-demo-panel { background: var(--card); border-radius: 16px; overflow: hidden; }
   .guided-demo-instructions { position: relative; margin: 0 0 20px; padding: 20px 24px; border: 1px solid color-mix(in srgb, var(--info) 22%, transparent); border-radius: 16px; background: var(--card); color: var(--inkSoft); font-size: 17px; line-height: 1.65; }
+  .guided-demo-caption { padding: 20px 24px; border-top: 1px solid var(--rule); color: var(--inkSoft); font-size: 17px; line-height: 1.65; }
+  .guided-demo-caption .guided-demo-controls { margin: 0 0 18px; padding: 0; border: 0; }
   .guided-demo-instruction-text { display: grid; }
   .guided-demo-instruction-text > div { grid-area: 1 / 1; }
   .guided-demo-instruction-measure { visibility: hidden; pointer-events: none; }
@@ -87,6 +89,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .guided-demo { padding: 12px; }
     .guided-demo-panel { border-radius: 12px; }
     .guided-demo-instructions { margin-bottom: 12px; padding: 16px; border-radius: 12px; font-size: 16px; }
+    .guided-demo-caption { padding: 16px 12px; font-size: 16px; }
     .vs-map-frame { padding: 16px 12px; }
     .vs-map-caption { font-size: 16px; min-height: 130px; }
     .guided-demo-controls { padding: 14px 12px; gap: 10px; }
@@ -143,7 +146,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .temperature-value { font-weight: 800; font-variant-numeric: tabular-nums; }
   .temperature-value.is-pending { visibility: hidden; }
   .temperature-pending { position: absolute; top: 12px; left: 0; right: 0; color: var(--inkFaint); }
-  .temperature-bar { display: block; height: 7px; margin-top: 7px; background: color-mix(in srgb, currentColor 12%, transparent); border-radius: 6px; overflow: hidden; }
+  .temperature-bar { display: block; height: 10px; margin-top: 7px; background: color-mix(in srgb, currentColor 12%, transparent); border-radius: 6px; overflow: hidden; }
   .temperature-bar > span { display: block; height: 100%; background: currentColor; border-radius: inherit; transition: width 450ms ease; }
   .temperature-combined { display: block; font-size: 12px; font-weight: 400; color: var(--inkMuted); }
   .temperature-table .is-combined .temperature-bar > span { background: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 4px); }
@@ -202,17 +205,24 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .answer-build-measure { visibility: hidden; pointer-events: none; }
   .answer-build-empty { font-size: 17px; font-weight: 400; color: var(--inkMuted); }
   .answer-build-token.is-new { color: var(--primaryDeep); background: var(--card); border-radius: 4px; animation: answerTokenAppear 350ms ease-out; }
-  .answer-build-prediction { margin-top: 24px; }
-  .answer-build-options { display: grid; max-width: 600px; }
-  .answer-build-options > * { grid-area: 1 / 1; }
-  .answer-build-waiting { align-self: center; text-align: center; padding: 16px; }
+  .answer-build-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px 16px; align-items: baseline; }
+  .answer-build-speaker { color: #1d4ed8; font-size: 14px; font-weight: 700; line-height: 1.5; }
+  .guided-demo-instructions .answer-build-context { margin-bottom: 20px; }
+  .answer-build-complete .guided-demo-instructions { margin-bottom: 0; }
+  .answer-build-prediction:first-child { margin-top: 0; }
+  .answer-build-question { margin: 0; font-weight: 600; color: var(--ink); }
+  .answer-build-prediction { margin-top: 24px; display: grid; max-width: 600px; }
+  .answer-build-prediction > * { grid-area: 1 / 1; }
+  .answer-build-summary { align-self: center; text-align: center; }
+  .answer-build-scene.is-finished .answer-build-chart { display: none; }
+  .answer-build-scene.is-finished .answer-build-summary { padding: 12px 0; text-align: left; }
+  .answer-build-end { display: inline-block; padding: 10px 18px; border: 2px solid var(--primary); border-radius: 8px; color: var(--primaryDeep); font-weight: 600; }
+  .answer-build-other { margin: 12px 0 0; font-size: 14px; color: var(--inkMuted); }
   .answer-build-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .answer-build-option { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(40px, 1fr) 52px; gap: 14px; align-items: center; min-height: 64px; padding: 8px 14px; border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--card)); border-radius: 8px; }
   .answer-build-option-name { font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--ink); }
-  .answer-build-combined { display: block; color: var(--inkMuted); font-size: 13px; font-weight: 400; }
   .answer-build-bar { height: 16px; border-radius: 8px; background: color-mix(in srgb, var(--primary) 10%, var(--card)); overflow: hidden; }
   .answer-build-bar > span { display: block; height: 100%; background: var(--primary); border-radius: inherit; }
-  .answer-build-option.is-combined .answer-build-bar > span { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--primary) 30%, var(--card)) 0 4px, color-mix(in srgb, var(--primary) 14%, var(--card)) 4px 8px); }
   .answer-build-percent { text-align: right; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .answer-build-option.is-selected { border: 2px solid var(--primary); padding: 7px 13px; }
   .answer-build-option.is-selected .answer-build-option-name, .answer-build-option.is-selected .answer-build-percent { color: var(--primaryDeep); }
@@ -221,6 +231,8 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   @media (prefers-reduced-motion: reduce) { .answer-build-token.is-new { animation: none; } }
   @media (max-width: 540px) {
     .answer-build-scene { padding: 16px 12px; }
+    .answer-build-context { grid-template-columns: 76px minmax(0, 1fr); column-gap: 10px; }
+    .answer-build-speaker { font-size: 13px; }
     .answer-build-reply { font-size: 22px; }
     .answer-build-option { grid-template-columns: minmax(0, 1fr) 42px; gap: 4px 8px; min-height: 88px; padding: 8px 10px; }
     .answer-build-option.is-selected { padding: 7px 9px; }
@@ -228,6 +240,39 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .answer-build-percent { grid-column: 2; grid-row: 1; font-size: 17px; }
   }
   @media print { .answer-build-token.is-new { animation: none; } }
+
+  .club-builder { background: var(--card); border-radius: 14px; padding: 24px; color: var(--ink); }
+  .club-builder-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px 16px; align-items: baseline; }
+  .club-builder-question { margin: 0; font-size: 17px; line-height: 1.6; font-weight: 600; }
+  .club-builder-answer { min-height: 76px; font-size: 24px; line-height: 1.6; font-weight: 700; overflow-wrap: anywhere; }
+  .club-builder-empty { color: var(--inkMuted); font-size: 17px; font-weight: 400; }
+  .club-builder-new { color: var(--primaryDeep); }
+  .club-builder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; }
+  .club-builder-count { color: var(--inkMuted); font-size: 14px; }
+  .club-builder-next, .club-builder-finish { border-top: 1px solid var(--rule); padding-top: 24px; }
+  .club-builder-prompt { margin: 0 0 14px; font-size: 17px; font-weight: 700; }
+  .club-builder-choices { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+  .club-builder-choice { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 72px; padding: 16px; border: 1.5px solid var(--rule); border-radius: 10px; background: var(--card); color: var(--ink); font-family: var(--sans); cursor: pointer; text-align: left; }
+  .club-builder-choice:hover { background: var(--primaryFaint); border-color: var(--primary); }
+  .club-builder-choice:focus-visible, .club-builder button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .club-builder-word { font-size: 19px; font-weight: 700; overflow-wrap: anywhere; }
+  .club-builder-probability { color: var(--inkMuted); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .club-builder-note { color: var(--inkMuted); font-size: 13px; line-height: 1.5; margin: 14px 0 0; }
+  .club-builder-finish > p:not(.club-builder-prompt) { font-size: 16px; line-height: 1.65; margin: 0 0 20px; }
+  @media (max-width: 650px) {
+    .club-builder { padding: 18px 14px; }
+    .club-builder-context { grid-template-columns: 72px minmax(0,1fr); gap: 20px 10px; }
+    .club-builder-answer { font-size: 21px; }
+    .club-builder-choices { grid-template-columns: 1fr; gap: 8px; }
+    .club-builder-choice { min-height: 58px; padding: 12px 14px; }
+  }
+
+  @media (max-width: 420px) {
+    .club-builder-context { grid-template-columns: minmax(0,1fr); row-gap: 8px; }
+    .club-builder-context > .answer-build-speaker:not(:first-child) { margin-top: 12px; }
+    .club-builder-question { font-size: 16px; }
+    .club-builder-answer { min-height: 64px; }
+  }
 
   :root {
     /* surfaces */
@@ -6986,13 +7031,16 @@ function GuidedDemoShell(props) {
         isConclusion && i > 0 ? React.createElement("strong", null, content) : content);
     });
   };
+  var instructions = props.instructions ? React.createElement("div", {className:props.integrated ? "guided-demo-caption" : "guided-demo-instructions"},
+    props.integrated ? props.controls : null,
+    props.beforeInstructions || null,
+    React.createElement("div", {className:"guided-demo-instruction-text"},
+      React.createElement("div", {role:"status", "aria-live":props.quiet?"off":"polite", "aria-atomic":"true"}, instructionBody(props.instructions)),
+      (props.instructionOptions || []).map(function(value,i){return React.createElement("div", {key:i,className:"guided-demo-instruction-measure","aria-hidden":"true",inert:""}, instructionBody(value));})),
+    !props.integrated ? props.controls : null) : null;
   return React.createElement("section", {className:"guided-demo"+(props.className?" "+props.className:""), "data-kind":props.kind, "aria-label":props.label},
-    props.instructions ? React.createElement("div", {className:"guided-demo-instructions"},
-      React.createElement("div", {className:"guided-demo-instruction-text"},
-        React.createElement("div", {role:"status", "aria-live":props.quiet?"off":"polite", "aria-atomic":"true"}, instructionBody(props.instructions)),
-        (props.instructionOptions || []).map(function(value,i){return React.createElement("div", {key:i,className:"guided-demo-instruction-measure","aria-hidden":"true",inert:""}, instructionBody(value));})),
-      props.controls) : null,
-    React.createElement("div", {className:"guided-demo-panel"}, props.children, !props.instructions ? props.controls : null));
+    !props.integrated ? instructions : null,
+    props.hidePanel ? null : React.createElement("div", {className:"guided-demo-panel"}, props.children, props.integrated ? instructions : null, !props.instructions ? props.controls : null));
 }
 function GuidedDemoControls(props) {
   var E = React.createElement, done = props.done;
@@ -7010,7 +7058,7 @@ function GuidedDemoControls(props) {
       E("svg", {viewBox:"0 0 24 24","aria-hidden":"true",fill:"none"},
         E("circle", {cx:12,cy:12,r:10,stroke:"currentColor",strokeWidth:2}),
         E("path", {d:"M7 12l3 3 7-7",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"})), "Complete")
-      : E(ActivityButton, {buttonRef:actionRef,onClick:props.onAdvance,style:{minHeight:44}}, props.actionLabel || "See It"),
+      : E(ActivityButton, {buttonRef:actionRef,onClick:props.onAdvance,disabled:props.disabled,style:{minHeight:44}}, props.actionLabel || "See It"),
     done ? E(ActivityButton, {buttonRef:replayRef,onClick:props.onReplay,style:{minHeight:44,background:"var(--primaryFaint)",color:"var(--primaryDeep)"}}, "Replay") : null,
     props.onPlay ? E(ActivityButton, {onClick:props.onPlay}, "Play sequence") : null),
     E("div", {className:"guided-demo-controls guided-demo-control-measure","aria-hidden":"true",inert:""},
@@ -7023,7 +7071,7 @@ function GuidedDemonstration(props) {
   var state = useState(0), current = state[0], setCurrent = state[1];
   var isPrint = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print");
   var last = states.length - 1, step = isPrint ? last : current;
-  return E(GuidedDemoShell, {label:props.label,kind:props.kind,className:props.className,
+  return E(GuidedDemoShell, {label:props.label,kind:props.kind,className:props.className,integrated:props.integrated,
     instructions:states[step].instruction,instructionOptions:states.map(function(s){return s.instruction;}),quiet:isPrint,
     controls:isPrint ? null : E(GuidedDemoControls, {done:step===last,actionLabel:states[step].actionLabel,
       onAdvance:function(){setCurrent(function(n){return Math.min(n+1,last);});},onReplay:function(){setCurrent(0);}})},
@@ -7405,110 +7453,101 @@ function MatchTermsTryIt() {
         E(ActivityButton,{buttonRef:actionRef,onClick:function(){startRound(complete?0:1);}},complete?"Try Again":"Next Five")):null));
 }
 
+// A small authored vocabulary for this activity, not predictions from a live model.
+// Each branch provides three choices; every complete path contains five words.
+var AI_CLUB_BRANCHES = (function() {
+  function branch(words, next, weights) {
+    return words.map(function(word,i){return {token:word,probability:(weights || [50,30,20])[i],next:next?next(word):[]};});
+  }
+  function endings(words, weights) { return branch(words,null,weights); }
+  function league(link) {
+    var adjectives = link==="of"?["Curious","Clever","Helpful"]:link==="for"?["Human","Shared","Artificial"]:["Machine","Human","Shared"];
+    return branch(adjectives,function(adjective){
+      return endings(link==="of"?["Machines","Minds","Humans"]:link==="for"?["Intelligence","Creativity","Discovery"]:["Intelligence","Creativity","Potential"],adjective==="Human"?[30,50,20]:[50,30,20]);
+    });
+  }
+  function robots(verb) {
+    return branch(["My","Our","Your"],function(owner){
+      return endings(verb==="Ate"?["Homework","Lunch","Notes"]:verb==="Stole"?["Homework","Job","Lunch"]:["Homework","Research","Taxes"],owner==="Our"?[30,50,20]:[50,30,20]);
+    });
+  }
+  function curious(subject) {
+    return branch(["Explore","Question","Build"],function(verb){
+      return endings(verb==="Explore"?["AI","Tomorrow","Possibilities"]:verb==="Question"?["Everything","AI","Assumptions"]:["Tools","Robots","Tomorrow"]);
+    },subject==="Machines"?[30,20,50]:[50,30,20]);
+  }
+  function humans(verb) {
+    var subjects=verb==="Build"?["AI","Tools","Technology"]:["Robots","Machines","Computers"];
+    return branch(subjects,function(subject){
+      return branch(verb==="First"?["Bring","Share","Invent"]:verb==="Teach"?["New","Useful","Unexpected"]:["for","with","alongside"],function(word){
+        return endings(verb==="First"?["Snacks","Ideas","Stories"]:verb==="Teach"?["Tricks","Skills","Habits"]:["Everyone","Friends","Humans"],word==="Share"?[30,50,20]:[50,30,20]);
+      },subject==="Machines"?[30,50,20]:[50,30,20]);
+    });
+  }
+  function less(noun) {
+    return branch(noun==="Hype"?["More","Real","Practical"]:noun==="Fear"?["More","Shared","Collective"]:["More","Better","Shared"],function(word){
+      return branch(noun==="Fear"?["Human","Machine","Artificial"]:noun==="Guesswork"?["Human","Collective","Practical"]:["Human","Shared","Machine"],function(adjective){
+        return endings(noun==="Hype"?["Intelligence","Creativity","Ingenuity"]:noun==="Fear"?["Intelligence","Creativity","Curiosity"]:["Intelligence","Discovery","Learning"],adjective==="Shared"?[30,50,20]:[50,30,20]);
+      },word==="Shared"?[20,50,30]:[50,30,20]);
+    },noun==="Fear"?[30,50,20]:[50,30,20]);
+  }
+  return branch(["The","Humans","Less"],function(start){
+    if(start==="Humans") return branch(["First","Teach","Build"],humans);
+    if(start==="Less") return branch(["Hype","Fear","Guesswork"],less);
+    return branch(["League","Robots","Curious"],function(word){
+      return word==="League"?branch(["of","for","Exploring"],league):word==="Robots"?branch(["Ate","Stole","Did"],robots):branch(["Minds","Humans","Machines"],curious);
+    },[40,35,25]);
+  },[40,35,25]);
+})();
+function aiClubChoices(tokens) {
+  return tokens.reduce(function(options,token){
+    var choice=options.find(function(option){return option.token===token;});
+    return choice?choice.next:[];
+  },AI_CLUB_BRANCHES).slice().sort(function(a,b){return b.probability-a.probability;});
+}
 function PredictionLoopTryIt(props) {
-  var E = React.createElement;
-  var _a = useState(null), finalPick = _a[0], setFinalPick = _a[1];
-  var _b = useState(null), firstPick = _b[0], setFirstPick = _b[1];
-  var _c = useState(null), meaningPick = _c[0], setMeaningPick = _c[1];
-  var _d = useState(null), secondPick = _d[0], setSecondPick = _d[1];
-  var finalCorrect = finalPick === "?";
-  var firstCorrect = firstPick === "Ice";
-  var meaningCorrect = meaningPick === "The question and the answer so far";
-  var done = secondPick === "floats";
-  useEffect(function() { if (done && props && props.onComplete) props.onComplete(); }, [done]);
-
-  function choiceRow(options, picked, correct, onPick) {
-    return E("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } },
-      options.map(function(label) {
-        return E(FeedbackPill, {
-          key: label,
-          answered: picked !== null,
-          isCorrect: label === correct,
-          isPicked: picked === label,
-          label: label,
-          onClick: function() { if (picked !== correct) onPick(label); }
-        });
-      }));
-  }
-  function feedback(picked, correct, right, wrong) {
-    if (picked === null) return null;
-    var ok = picked === correct;
-    return E("div", { style: { marginTop: 14, fontSize: 14.5, lineHeight: 1.55, color: "var(--inkSoft)" } },
-      E("strong", { style: { color: ok ? "var(--green)" : "var(--red)", marginRight: 6 } }, ok ? "Right." : "Not quite."),
-      ok ? right : wrong);
-  }
-  function ranking(options, picked, correct, onPick) {
-    return E("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
-      options.map(function(item) {
-        return E(FeedbackPill, {
-          key: item[0],
-          answered: picked !== null,
-          isCorrect: item[0] === correct,
-          isPicked: picked === item[0],
-          label: item[0] + " " + item[1] + "%",
-          onClick: function() { if (picked !== correct) onPick(item[0]); }
-        });
-      }));
-  }
-  function step(number, title, children, context) {
-    return E("div", { style: { padding: number === 1 ? "0 4px 24px" : "24px 4px", borderTop: number === 1 ? "none" : "1px solid var(--tryRule)" } },
-      E("div", { style: { paddingBottom: 8 } }, context),
-      E("div", { style: { display: "flex", gap: 20, alignItems: "flex-start", marginBottom: 16 } },
-        E("div", { style: { fontFamily: "var(--serif)", fontSize: 40, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(number).padStart(2, "0")),
-        E("div", { style: { fontSize: 18, lineHeight: 1.4, color: "var(--ink)" } }, title)),
-      E("div", { style: { paddingLeft: 60 } }, children));
-  }
-  function contextLine(promptWords, replyWords, hotIndex) {
-    function row(label, words, tokenOffset) {
-      return E("div", { style: { marginTop: tokenOffset ? 18 : 0 } },
-        E("div", { style: { fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", color: "var(--ink)", marginBottom: 8 } }, label),
-        E("div", { style: { display: "flex", gap: 7, flexWrap: "wrap" } },
-          words.map(function(word, i) {
-            var highlighted = tokenOffset + i === hotIndex;
-            return E("span", { key: i, style: { fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, color: highlighted ? "#fff" : "var(--ink)", background: highlighted ? "var(--ink)" : "#fff", border: "1px solid " + (highlighted ? "var(--ink)" : "var(--rule)"), borderRadius: 8, padding: "5px 9px" } }, word);
-          })));
-    }
-    return E("div", { style: { background: "#f7f6fb", border: "1px solid var(--rule)", borderRadius: 12, padding: "16px 14px", marginBottom: 16 } },
-      row("YOU", promptWords, 0),
-      replyWords.length ? row("AI’S REPLY SO FAR", replyWords, promptWords.length) : null);
-  }
-
-  return E(InteractiveBox, {
-    variant: "try",
-    surface: "mint",
-    title: "Run the Prediction Loop",
-    lead: "Build the beginning of an answer, one token at a time. Each prediction uses the question and the reply so far.",
-    instructions: [
-      "Choose an answer below. Each correct answer reveals the next step."
+  var E=React.createElement;
+  var state=useState([]),tokens=state[0],setTokens=state[1];
+  var options=aiClubChoices(tokens),done=tokens.length===5;
+  var choicesRef=useRef(null),restartRef=useRef(null),needsFocus=useRef(false);
+  useEffect(function(){
+    if(done && props && props.onComplete) props.onComplete();
+  },[done]);
+  useEffect(function(){
+    if(!needsFocus.current)return;
+    var target=done?restartRef.current:choicesRef.current && choicesRef.current.querySelector('button');
+    if(target)target.focus({preventScroll:true});
+    needsFocus.current=false;
+  },[tokens]);
+  function update(next){needsFocus.current=true;setTokens(next);}
+  return E(InteractiveBox,{
+    variant:"try",surface:"mint",title:"Build an AI Response",
+    lead:"Your new AI club needs a new name. Imagine you are ChatGPT and build the answer, one word at a time. AI uses tokens, but we’ll use words.",
+    instructions:[
+      "Choose the first word.",
+      E(React.Fragment,null,"Repeat until your five-word name is complete. To try a different direction, select ",E("strong",null,"Undo"),".")
     ]
-  },
-    E(InnerCard, { style: { marginBottom: 0 } },
-      step(1, "Which token comes last in the question shown above?",
-        E(React.Fragment, null,
-          choiceRow(["Why", "float", "?"], finalPick, "?", setFinalPick),
-          feedback(finalPick, "?", "The question mark is the final token, so its vector carries the question into the first prediction.", "The answer begins from the token at the very end of the prompt.")),
-        contextLine(["Why", "does", "ice", "float", "?"], [], finalCorrect ? 4 : -1)),
-      finalCorrect ? step(2, "Select the highest-scoring first token.",
-        E(React.Fragment, null,
-          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 10 } }, "Top predictions"),
-          ranking([["Ice", 24], ["It", 18], ["Because", 11]], firstPick, "Ice", setFirstPick),
-          feedback(firstPick, "Ice", "Ice joins the context and becomes the new final token.", "For this walkthrough, choose the token with the highest score.")),
-        contextLine(["Why", "does", "ice", "float", "?"], [], 4)) : null,
-      firstCorrect ? step(3, "What information does AI use to predict the next token?",
-        E(React.Fragment, null,
-          choiceRow(["Only the meaning of Ice", "The question and the answer so far", "The previous ranked list"], meaningPick, "The question and the answer so far", setMeaningPick),
-          feedback(meaningPick, "The question and the answer so far", "AI uses the question and the answer so far to predict what comes next.", "AI uses more than the meaning of Ice. Consider the full context shown above.")),
-        contextLine(["Why", "does", "ice", "float", "?"], ["Ice"], 5)) : null,
-      meaningCorrect ? step(4, "Run the prediction one more time.",
-        E(React.Fragment, null,
-          E("div", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--inkMuted)", marginBottom: 10 } }, "Top predictions"),
-          ranking([["floats", 31], ["is", 19], ["can", 8]], secondPick, "floats", setSecondPick),
-          feedback(secondPick, "floats", "Floats joins the context. You have now repeated the prediction loop.", "Choose the highest-scoring token in this walkthrough.")),
-        contextLine(["Why", "does", "ice", "float", "?"], ["Ice"], 5)) : null,
-      done ? E("div", { style: { marginTop: 24, background: "var(--tryBand)", border: "1px solid var(--tryRule)", borderRadius: 14, padding: "18px 20px", animation: "fadeIn 0.3s ease" } },
-        contextLine(["Why", "does", "ice", "float", "?"], ["Ice", "floats"], 6),
-        E("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--ink)", marginBottom: 6 } }, "You ran the prediction loop."),
-        E("div", { style: { fontSize: 15, lineHeight: 1.6, color: "var(--inkSoft)" } }, "AI scored possible next tokens, selected one, added it to the context, and repeated. That answer-time process is called ", E("strong", { style: { color: "var(--ink)" } }, "inference"), ".")) : null));
+  },E("div",{className:"club-builder","aria-label":"Build a five-word AI club name"},
+    E("div",{className:"club-builder-context"},
+      E("span",{className:"answer-build-speaker"},"You"),
+      E("p",{className:"club-builder-question"},"What’s a good name for the AI club I’m starting?"),
+      E("span",{className:"answer-build-speaker"},"AI’s Answer"),
+      E("div",{className:"club-builder-answer","aria-live":"polite","aria-atomic":"true"},
+        tokens.length?tokens.map(function(token,i){return E(React.Fragment,{key:i},i?" ":null,E("span",{className:i===tokens.length-1?"club-builder-new":undefined},token));}):E("span",{className:"club-builder-empty"},"Choose the first word below."))),
+    E("div",{className:"club-builder-toolbar"},
+      E("span",{className:"club-builder-count"},tokens.length+" of 5 words"),
+      E(ActivityButton,{onClick:function(){update(tokens.slice(0,-1));},disabled:!tokens.length,style:{background:"var(--primaryFaint)",color:"var(--primaryDeep)"}},"Undo")),
+    !done?E("div",{className:"club-builder-next"},
+      E("p",{className:"club-builder-prompt"},tokens.length?"Choose the next word":"Choose the first word"),
+      E("div",{className:"club-builder-choices",ref:choicesRef,role:"group","aria-label":"Possible next tokens"},
+        options.map(function(option){return E("button",{key:tokens.join(" ")+"/"+option.token,type:"button",className:"club-builder-choice","aria-label":option.token+", "+option.probability+" percent",
+          onClick:function(){update(tokens.concat(option.token));}},
+          E("span",{className:"club-builder-word"},option.token),E("span",{className:"club-builder-probability"},option.probability+"%"));})),
+      E("p",{className:"club-builder-note"},"These are example probabilities.")):
+      E("div",{className:"club-builder-finish"},
+        E("p",{className:"club-builder-prompt"},"Your club has a name."),
+        E("p",null,"Each choice changed the context for the next prediction. Select ",E("strong",null,"Undo")," to change a word, or start again in a different direction."),
+        E(ActivityButton,{buttonRef:restartRef,onClick:function(){update([]);}},"Try Another Direction"))));
 }
 function HorseReadsBox() {
   return React.createElement("img", {
@@ -7586,41 +7625,42 @@ var TEMPERATURE_DATA = [
   {name:"Buddy", odds:[14,15,13]},
   {name:"Rex", odds:[9,6,10]},
   {name:"Biscuit", odds:[6,3,8]},
-  {name:"Other", combined:true, odds:[32,19,39]}
+  {name:"All other tokens", combined:true, odds:[32,19,39]}
 ];
 var TEMPERATURE_STATES = [
-  {instruction:"The model uses what it learned during training and the current context to calculate probabilities for the next token. In our example, Spot has the highest probability at 22%.\n\nWatch what happens when we lower the temperature."},
-  {instruction:"Lower temperature concentrates the odds on the most likely tokens. Spot’s chance rises from 22% to 36%. Less likely names get smaller chances.\n\nNow see what higher temperature does to the same starting odds."},
-  {instruction:"Higher temperature spreads the odds more widely. Spot’s chance falls from 22% to 16%, while less likely names get a better chance.\n\nCompare Spot’s chance across all three settings. What did temperature change?"},
-  {instruction:"Spot’s chance is 22% to start, 36% with lower temperature, and 16% with higher temperature.\n\nTemperature reshapes the probabilities used to pick the next token. It doesn’t change what the model learned."}
+  {instruction:"Training and the current context determine the starting probabilities. Spot leads at 22%.\n\nSee how lower temperature changes the odds."},
+  {instruction:"Lower temperature concentrates the odds. Spot rises from 22% to 36%, while less likely names lose probability.\n\nNow try higher temperature with the same starting odds."},
+  {instruction:"Higher temperature spreads the odds. Spot falls from 22% to 16%, while less likely names gain probability.\n\nCompare Spot across all three settings."},
+  {instruction:"Spot: 22% to start, 36% at low temperature, and 16% at high temperature.\n\nSpot remains the most likely individual token at all three settings. Temperature changes its probability."}
 ];
 function TemperatureScene(props) {
   var E = React.createElement, step = props.step;
   var labels = ["Starting odds", "Low temperature", "High temperature"];
+  var columnOrder = [1,0,2]; // Low, starting, high; reveal the baseline first.
   return E("div", {className:"temperature-scene", "data-step":step},
     E("p", {className:"temperature-reply"}, E("span", {className:"temperature-reply-label"}, "Answer so far"),
       "You could name him ", E("span", {className:"temperature-open-token", "aria-label":"next token not selected"}, "___")),
     E("table", {className:"temperature-table", role:"table", "aria-label":"Next-token probabilities at different temperatures"},
-      E("thead", null, E("tr", null, E("th", {scope:"col"}, "Token"), labels.map(function(label,i) {
-        return E("th", {key:label,scope:"col",className:"temperature-column-"+i}, label);
+      E("thead", null, E("tr", null, E("th", {scope:"col"}, "Token"), columnOrder.map(function(i) {
+        return E("th", {key:labels[i],scope:"col",className:"temperature-column-"+i}, labels[i]);
       }))),
       E("tbody", null, TEMPERATURE_DATA.map(function(row) {
         return E("tr", {key:row.name,role:"row",className:(row.combined?"is-combined ":"")+(step===3 && row.name==="Spot"?"is-focus":"")},
-          E("th", {scope:"row",role:"rowheader"}, row.name, row.combined?E("span", {className:"temperature-combined"}, "(combined)"):null),
-          row.odds.map(function(value,i) {
+          E("th", {scope:"row",role:"rowheader"}, row.combined?E(React.Fragment, null, "All other", E("br"), "tokens"):row.name),
+          columnOrder.map(function(i) {
+            var value = row.odds[i];
             var visible = i===0 || step>=i;
             return E("td", {key:i,role:"cell",className:"temperature-column-"+i,"aria-label":labels[i]+": "+(visible?value+"%":"Not revealed yet")},
               E("span", {className:"temperature-mobile-label","aria-hidden":"true"}, ["Starting","Low","High"][i]),
               E("span", {className:"temperature-value"+(visible?"":" is-pending"), "aria-hidden":visible?undefined:"true"}, value+"%"),
               !visible?E("span", {className:"temperature-pending", "aria-label":"Not revealed yet"}, "…"):null,
-              E("span", {className:"temperature-bar", "aria-hidden":"true"}, E("span", {style:{width:visible?value+"%":"0%"}})));
+              E("span", {className:"temperature-bar", "aria-hidden":"true"}, E("span", {style:{width:visible?(value/40*100)+"%":"0%"}})));
           }));
-      }))),
-    E("p", {className:"temperature-note"}, "Illustrative probabilities. Other combines the rest of the vocabulary."));
+      }))));
 }
 function TemperatureDemo() {
   return React.createElement(GuidedDemonstration, {
-    label:"How Temperature Changes the Odds",kind:"temperature",states:TEMPERATURE_STATES,
+    label:"How Temperature Changes the Odds",kind:"temperature",states:TEMPERATURE_STATES,integrated:true,
     renderScene:function(state,step){return React.createElement(TemperatureScene,{step:step});}
   });
 }
@@ -7628,28 +7668,47 @@ function TemperatureDemo() {
 function InferenceSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "inference" }),
     React.createElement(LessonReading, { sectionId: "inference" },
-  /*#__PURE__*/React.createElement(BodyP, null, "Changing the model, your prompt, or the information in the context window can change AI’s answer. But even with the same model and the same information, answers can vary. To understand why, we’ll look at how AI chooses the next token."),
-  /*#__PURE__*/React.createElement(BodyP, null, "AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next."),
-  /*#__PURE__*/React.createElement(BodyP, null, "But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: ", React.createElement("strong", null, "sampling"), " and ", React.createElement("strong", null, "temperature"), "."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Sampling"),
-  /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time."),
-  /*#__PURE__*/React.createElement(BodyP, null, "But having the highest probability doesn’t guarantee selection. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same. That’s called sampling."),
+  /*#__PURE__*/React.createElement(BodyP, null, "You ask AI, “What should I name my new dog?” It suggests Spot. You start a new chat and ask the exact same question. This time, it suggests Max."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Why did the same question get a different answer?"),
   /*#__PURE__*/React.createElement("img", {
-    src: "course-assets/why-answers-vary/why-answers-vary-draws.jpg?v=20261023body29",
-    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, one possible set is Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently. The best chance is not a guarantee.",
+    src: "course-assets/why-answers-vary/why-answers-vary-overview.jpg?v=20261110ee3fb3",
+    alt: "Why Answers Vary. Model & Thinking: The model you use and how much thinking it does can change the answer. What AI Receives: Your prompt and the other information available to AI can change its answer. AI’s Choices: Behind the scenes, AI uses techniques that give different tokens a chance to be selected.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+    /*#__PURE__*/React.createElement("h3", null, "Why Answers Vary"),
+    /*#__PURE__*/React.createElement("p", null, "Model & Thinking: The model you use and how much thinking it does can change the answer."),
+    /*#__PURE__*/React.createElement("p", null, "What AI Receives: Your prompt and the other information available to AI can change its answer."),
+    /*#__PURE__*/React.createElement("p", null, "AI’s Choices: Behind the scenes, AI uses techniques that give different tokens a chance to be selected.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Two techniques help explain AI’s choices: ", React.createElement("strong", null, "sampling"), " and ", React.createElement("strong", null, "temperature"), "."),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Sampling"),
+  /*#__PURE__*/React.createElement(BodyP, null, "When AI reaches the dog’s name, it calculates a probability for every token in its vocabulary. In our example, Spot is the top choice at 22%, so you might expect AI to pick it every time."),
+  /*#__PURE__*/React.createElement(BodyP, null, "But it doesn’t. A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same. That’s called ", React.createElement("strong", null, "sampling"), "."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "course-assets/why-answers-vary/why-answers-vary-draws.jpg?v=20261110caption",
+    alt: "Same Probabilities, Different Choices. Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. Five Random Picks: with these probabilities unchanged, these five picks are Max, Spot, Buddy, Rex, and Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently.",
     style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
   }),
   /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
     /*#__PURE__*/React.createElement("h3", null, "Same Probabilities, Different Choices"),
     /*#__PURE__*/React.createElement("p", null, "You could name him ___."),
     /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The probabilities: "), "Spot 22%, Max 17%, Buddy 14%, Rex 9%, Biscuit 6%, and other tokens combined 32%. These probabilities stay unchanged across all five picks."),
-    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five Random Picks: "), "Max, Spot, Buddy, Rex, Max. One possible set. Spot was picked only once, even with the highest probability. Another five picks could turn out differently."),
-    /*#__PURE__*/React.createElement("p", null, "The best chance is not a guarantee.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction."),
+    /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Five Random Picks: "), "Max, Spot, Buddy, Rex, Max. Spot was picked only once, even with the highest probability. Another five picks could turn out differently.")),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "Why does AI work this way?"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety and can make answers more creative."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Choosing a different token shapes what comes next and can send the answer in a different direction."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "Temperature"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Watch what different settings do to the dog-name choices."),
-  /*#__PURE__*/React.createElement(TemperatureDemo, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "Temperature changes how concentrated or spread out the probabilities are. In chat apps, it’s already set for you behind the scenes. Compare what different settings do to the dog-name choices."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "course-assets/why-answers-vary/why-answers-vary-temperature.jpg?v=20261110columns",
+    alt: "How Temperature Changes the Odds. Low temperature concentrates the odds. Starting odds come from training and context. High temperature spreads the odds. Spot changes from 22% to 36% at low temperature and 16% at high temperature.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
+    /*#__PURE__*/React.createElement("h3", null, "How Temperature Changes the Odds"),
+    /*#__PURE__*/React.createElement("p", null, "You could name him ___. Low temperature: concentrates the odds. Starting odds: from training and context. High temperature: spreads the odds."),
+    /*#__PURE__*/React.createElement("p", null, "Low, starting, high: Spot 36%, 22%, 16%; Max 21%, 17%, 14%; Buddy 15%, 14%, 13%; Rex 6%, 9%, 10%; Biscuit 3%, 6%, 8%; All other tokens 19%, 32%, 39%.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Spot remains the most likely individual token at all three settings. Temperature changes its probability."),
   closeBoard("inference")),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   /*#__PURE__*/React.createElement(LessonRule, null),
@@ -8341,8 +8400,8 @@ function DogRecapStrip() {
   ];
   return E(React.Fragment, null,
     E("img", {
-      src: "course-assets/how-ai-answers/how-ai-answers-before-answer-begins.jpg?v=20260914attribution1",
-      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers. AI uses the final token’s updated numbers to predict what comes next.",
+      src: "course-assets/how-ai-answers/how-ai-answers-before-answer-begins.jpg?v=20261110nobanner",
+      alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),
     E("div", { style: visuallyHidden },
@@ -8350,68 +8409,48 @@ function DogRecapStrip() {
       E("p", null, E("strong", null, "You: "), "What should I name my new dog?"),
       E("ol", null, steps.map(function(step, i) {
         return E("li", { key: i }, E("strong", null, step[0]), " ", step[1]);
-      })),
-      E("p", null, "AI uses the final token’s updated numbers to predict what comes next.")));
+      }))));
 }
 // Authored illustrative states, shared by the lesson and scene-only video capture.
 // Probabilities include the rest of the vocabulary so every distribution totals 100.
 var ANSWER_BUILD_STATES = [
   {
-    reply: [], options: null,
-    instruction: [
-      React.createElement(React.Fragment, null, "You ask, ", React.createElement("strong", null, "“What should I name my new dog?”")),
-      "Before AI writes anything, it calculates what could come next. It uses the final token’s updated numbers to calculate a probability for every token in its vocabulary."
+    reply: [], options: [["You",18],["A",14],["Great",9],["All other tokens",59]],
+    instruction: "AI predicts possible starts to its reply."
+  },
+  {
+    reply: ["You"], options: [["You",18],["A",14],["Great",9],["All other tokens",59]], selected:"You", added:true,
+    instruction: "AI selects **You** and adds it to the reply."
+  },
+  {
+    reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]], added:true,
+    instruction: "After **You could name him**, a dog name becomes a likely next token.",
+    frames: [
+      {at:0, reply:["You"], options:null, added:false,
+        instruction:"AI adds **could**, **name**, and **him**, one token at a time."},
+      {at:700, reply:["You","could"], options:null,
+        instruction:"AI adds **could**, **name**, and **him**, one token at a time."},
+      {at:1400, reply:["You","could","name"], options:null,
+        instruction:"AI adds **could**, **name**, and **him**, one token at a time."},
+      {at:2100}
     ]
   },
   {
-    reply: [], options: [["You",18],["A",14],["Great",9],["All other tokens",59]],
-    instruction: "See which token AI chooses."
+    reply: ["You","could","name","him","Spot"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]], selected:"Spot", added:true,
+    instruction: "AI selects **Spot** in this example; another run could select a different name."
   },
   {
-    reply: ["You"], options: [["could",32],["can",26],["should",14],["All other tokens",28]],
-    selectionInstruction: "AI selected **You** and added it to the reply.\n\nSee what could come next.",
-    instruction: "**You** is now part of the context, alongside your question. The next-token possibilities have changed.\n\nReveal the next selected token."
-  },
-  {
-    reply: ["You","could"], options: [["name",48],["call",29],["try",8],["All other tokens",15]],
-    selectionInstruction: "AI selected **could**. The reply now says **You could**.\n\nSee the next possibilities.",
-    instruction: "The reply now says **You could**. AI uses your question and those words to predict again.\n\nReveal the next selected token."
-  },
-  {
-    reply: ["You","could","name"], options: [["him",35],["your",28],["the",12],["All other tokens",25]],
-    selectionInstruction: "AI selected **name** and added it to the reply.\n\nSee what could follow **You could name**.",
-    instruction: "AI added **name**. The words already written stay in the context. Notice what could follow **You could name**.\n\nReveal the next selected token."
-  },
-  {
-    reply: ["You","could","name","him"], options: [["Spot",22],["Max",17],["Buddy",14],["All other tokens",47]],
-    selectionInstruction: "AI selected **him** and added it to the reply.\n\nLook at the new possibilities.",
-    instruction: "Now the reply says **You could name him**. Compare these possibilities with the starts you saw earlier. A dog’s name fits here.\n\nWhich name might come next? Reveal the one selected in this example."
-  },
-  {
-    reply: ["You","could","name","him","Spot"], options: [[".",72],["!",8],[",",5],["All other tokens",15]],
-    selectionInstruction: "This time AI selected **Spot** and added it to the reply. A different run could select another name; the highest probability does not make a token the only possible choice.\n\nSee what could come next.",
-    instruction: "**Spot** is now part of the reply. The next possibilities include punctuation.\n\nReveal the next selected token."
-  },
-  {
-    reply: ["You","could","name","him","Spot","."], options: [["End of answer",82],["He",6],["It",3],["All other tokens",9]],
-    selectionInstruction: "AI selected a **period** and added it to the reply. Punctuation can be a token too.\n\nSee what could come next.",
-    instruction: "The **period** is a token too. A sentence ending does not automatically end the reply; AI could keep writing.\n\nReveal what it selects next to finish this answer."
-  },
-  {
-    reply: ["You","could","name","him","Spot","."], options: [["End of answer",82],["He",6],["It",3],["All other tokens",9]], selected:"End of answer", finished:true,
-    instruction: "AI selected a special **end-of-answer token**. That means AI's answer is complete.\n\nEach selected token became context for the next prediction. This whole process of generating an answer is called inference."
+    reply: ["You","could","name","him","Spot","."], options:null, finished:true,
+    instruction: "A special **end-of-answer token** signals that the reply is complete.",
+    frames: [
+      {at:0, reply:["You","could","name","him","Spot"], finished:false,
+        instruction:"AI adds a period, then an end-of-answer token."},
+      {at:650, finished:false, added:true,
+        instruction:"AI adds a period, then an end-of-answer token."},
+      {at:1600}
+    ]
   }
-].reduce(function(states, current, index, authored) {
-  // Reveal the selection and append it while preserving the chart for inspection.
-  // The following action shows probabilities for the updated reply.
-  if (current.selectionInstruction) states.push({
-    reply:current.reply, options:authored[index-1].options, added:true,
-    selected:current.reply[current.reply.length-1], instruction:answerInstruction(current.selectionInstruction)
-  });
-  current.instruction = answerInstruction(current.instruction);
-  states.push(current);
-  return states;
-}, []);
+];
 // Authored emphasis becomes semantic strong text in both visible and measured copy.
 function answerInstruction(value) {
   if (typeof value !== "string") return value;
@@ -8421,51 +8460,72 @@ function answerInstruction(value) {
     }));
   });
 }
+function AnswerBuildContext(props) {
+  var E = React.createElement, state = props.state;
+  var replyText = state.reply.join(" ").replace(" .", ".");
+  return E("div", {className:"answer-build-context"},
+    E("span", {className:"answer-build-speaker"}, "You"),
+    E("p", {className:"answer-build-question"}, "What should I name my new dog?"),
+    E("span", {className:"answer-build-speaker"}, "AI’s Answer"),
+    E("div", {className:"answer-build-reply", "aria-live":props.isPrint?"off":"polite", "aria-atomic":"true"},
+      E("div", {className:"answer-build-measure","aria-hidden":"true",inert:""}, "You could name him Spot."),
+      E("div", {"aria-label":replyText || "The reply has not started"},
+        state.reply.length ? state.reply.map(function(token,i){
+          return E(React.Fragment,{key:i}, i > 0 && token !== "." ? " " : null,
+            E("span",{className:"answer-build-token"+(i===state.reply.length-1 && state.added ? " is-new" : "")},token));
+        }) : E("span", {className:"answer-build-empty"}, "No tokens yet"))));
+}
 function AnswerBuildScene(props) {
   var E = React.createElement, state = props.state, step = props.step;
-  var options = state.options || ANSWER_BUILD_STATES[1].options;
-  var replyText = state.reply.join(" ").replace(" .", ".");
-  return E("div", {className:"answer-build-scene", "data-step":step, role:"group","aria-label":"Growing reply and next-token probabilities"},
-      E("p", {className:"answer-build-label"}, "Reply so far"),
-      E("div", {className:"answer-build-reply"},
-        E("div", {className:"answer-build-measure","aria-hidden":"true",inert:""}, "You could name him Spot."),
-        E("div", {"aria-label":replyText || "The reply has not started"},
-          state.reply.length ? state.reply.map(function(token,i){
-            return E(React.Fragment,{key:i}, i > 0 && token !== "." ? " " : null,
-              E("span",{className:"answer-build-token"+(i===state.reply.length-1 && state.added ? " is-new" : "")},token));
-          }) : E("span", {className:"answer-build-empty"}, "No tokens yet"))),
+  // Reserve the chart's space so the reply and controls stay still between moments.
+  var options = state.options || ANSWER_BUILD_STATES[0].options;
+  return E("div", {className:"answer-build-scene"+(state.finished?" is-finished":""), "data-step":step, role:"group","aria-label":"Growing reply and next-token probabilities"},
+    !props.hideContext ? E(AnswerBuildContext,{state:state,isPrint:props.isPrint}) : null,
     E("div", {className:"answer-build-prediction"},
-      E("p", {className:"answer-build-label"}, state.finished ? "Final selection" : "Possible next tokens"),
-      E("div", {className:"answer-build-options"},
-        !state.options ? E("p", {className:"answer-build-waiting"}, "No prediction yet") : null,
-        E("ul", {className:"answer-build-list",style:{visibility:state.options?"visible":"hidden"},"aria-hidden":state.options?undefined:"true",inert:state.options?undefined:""},
-          options.map(function(option,i){var combined = option[0] === "All other tokens", selected = option[0] === state.selected; return E("li", {key:option[0],className:"answer-build-option"+(combined?" is-combined":"")+(selected?" is-selected":"")},
-            E("span", {className:"answer-build-option-name"},combined ? "Other" : option[0],combined ? E("span",{className:"answer-build-combined"},"(combined)") : null),
+      E("div", {className:"answer-build-chart",style:{visibility:state.options?"visible":"hidden"},"aria-hidden":state.options?undefined:"true",inert:state.options?undefined:""},
+        E("p", {className:"answer-build-label"}, "Possible next tokens"),
+        E("ul", {className:"answer-build-list"},
+          options.slice(0,3).map(function(option){var selected = option[0] === state.selected; return E("li", {key:option[0],className:"answer-build-option"+(selected?" is-selected":"")},
+            E("span", {className:"answer-build-option-name"},option[0]),
             E("span", {className:"answer-build-bar","aria-hidden":"true"},E("span",{style:{width:option[1]+"%"}})),
-            E("span", {className:"answer-build-percent"},option[1]+"%"));})))),
-    props.isPrint ? E("p", {className:"answer-build-print"}, "You ask, “What should I name my new dog?” The probabilities shown are illustrative, not live model output; “Other (combined)” includes the rest of the vocabulary. The first prediction included You (18%), A (14%), and Great (9%). This example selected You, then could, name, and him. With You could name him in the context, the next prediction included Spot (22%), Max (17%), and Buddy (14%). Selecting Spot, a period, and then the end-of-answer token completed the reply. Each addition changed the context for the next prediction.") : null);
+            E("span", {className:"answer-build-percent"},option[1]+"%"));})),
+        E("p", {className:"answer-build-other"}, "Other tokens: ",options[3][1],"%")),
+      !state.options ? E("div", {className:"answer-build-summary"},
+        state.finished ? E("span", {className:"answer-build-end"}, "End of answer") :
+        E("p", null, step===2 ? "Each added token becomes part of the context." : "Finishing the reply…")) : null),
+    props.isPrint ? E("p", {className:"answer-build-print"}, "The probabilities shown are illustrative, not live model output. The first prediction included You (18%), A (14%), and Great (9%). This example selected You, then could, name, and him. With You could name him in the context, the next prediction included Spot (22%), Max (17%), and Buddy (14%). Selecting Spot, a period, and then the end-of-answer token completed the reply. Each addition changed the context for the next prediction.") : null);
 }
 function AnswerBuildDemo() {
-  return React.createElement(GuidedDemonstration, {
-    label:"Build an answer one token at a time",kind:"answer",states:ANSWER_BUILD_STATES,
-    renderScene:function(state,step,isPrint){return React.createElement(AnswerBuildScene,{state:state,step:step,isPrint:isPrint});}
-  });
-}
-function LastTokenBridgeBoard() {
   var E = React.createElement;
-  var visuallyHidden = { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 };
-  return E(React.Fragment, null,
-    E("img", {
-      src: "course-assets/how-ai-answers/how-ai-answers-where-answer-begins.jpg?v=20260914attribution1",
-      alt: "Why the Final Token Matters. The question appears as tokens with the final question mark highlighted. The final token gathers information from preceding tokens, and its updated numbers help AI predict a reply that fits the question.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
-    }),
-    E("div", { style: visuallyHidden },
-      E("h3", null, "Why the Final Token Matters"),
-      E("ul", null,
-        E("li", null, E("strong", null, "The Question. "), "The final token gathers information from every token before it."),
-        E("li", null, E("strong", null, "The Final Token. "), "Its updated numbers help AI predict a reply that fits the question.")),
-      E("p", null, "AI uses the final token’s vector to predict the first token of its answer.")));
+  var progress = useState({step:0,frame:0}), current = progress[0], setCurrent = progress[1];
+  var isPrint = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print");
+  var step = isPrint ? ANSWER_BUILD_STATES.length-1 : current.step;
+  var moment = ANSWER_BUILD_STATES[step], frames = moment.frames || [];
+  var busy = !isPrint && current.frame < frames.length-1;
+  var state = Object.assign({},moment,!isPrint && frames[current.frame]);
+  useEffect(function(){
+    if(isPrint) return;
+    var timers = frames.slice(1).map(function(frame,i){
+      return setTimeout(function(){setCurrent({step:step,frame:i+1});},frame.at);
+    });
+    return function(){timers.forEach(clearTimeout);};
+  },[step,isPrint]);
+  var instructions = [];
+  ANSWER_BUILD_STATES.forEach(function(s){
+    instructions.push(answerInstruction(s.instruction));
+    (s.frames || []).forEach(function(f){if(f.instruction) instructions.push(answerInstruction(f.instruction));});
+  });
+  return E(GuidedDemoShell, {
+    label:"Build an answer one token at a time",kind:"answer",
+    className:state.finished?"answer-build-complete":undefined,hidePanel:state.finished && !isPrint,
+    instructions:answerInstruction(state.instruction),instructionOptions:instructions,quiet:isPrint,
+    beforeInstructions:E(AnswerBuildContext,{state:state,isPrint:isPrint}),
+    controls:isPrint ? null : E(GuidedDemoControls, {
+      done:step===ANSWER_BUILD_STATES.length-1 && !busy,disabled:busy,actionLabel:step===0?"Start Response":"Continue",
+      onAdvance:function(){if(!busy) setCurrent({step:Math.min(step+1,ANSWER_BUILD_STATES.length-1),frame:0});},
+      onReplay:function(){setCurrent({step:0,frame:0});}
+    })
+  },E(AnswerBuildScene,{state:state,step:step,isPrint:isPrint,hideContext:true}));
 }
 function PredictionSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
@@ -8474,9 +8534,18 @@ function PredictionSection(props) {
   /*#__PURE__*/React.createElement(BodyP, null, "When you ask AI a question, it first works out what your words mean together. Then it faces a new problem: how does it begin an answer?"),
   /*#__PURE__*/React.createElement(BodyP, null, "Let’s give AI a simple question and watch how it builds an answer, one token at a time. We’ll show words as single tokens to make the example easier to follow."),
   /*#__PURE__*/React.createElement(DogRecapStrip, null),
-  /*#__PURE__*/React.createElement(LastTokenBridgeBoard, null),
+  /*#__PURE__*/React.createElement(BodyP, null, "Here’s an important point about the layers. ", /*#__PURE__*/React.createElement("strong", null, "Each token’s vector is updated using information from the tokens before it.")),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s follow the last token in “What should I name my new dog?” It begins with a starting vector representing a question mark. As it passes through the layers, those numbers change to reflect your question about naming a dog. After running through all the layers, the question mark’s vector reflects the context of your specific question."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Let’s see what this looks like. Both questions below end with the same token: a question mark. But the question mark’s vector has different numbers in each case because it reflects a different question."),
+  /*#__PURE__*/React.createElement("img", {
+    src: "course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context1",
+    alt: "Same Token, Different Context. In ‘What should I name my new dog?’ the question mark’s vector reflects naming a dog. In ‘What should I cook for dinner?’ the same question-mark token has a vector reflecting choosing a meal.",
+    style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
+  }),
+  /*#__PURE__*/React.createElement(SectionKicker, null, "WHY IS THIS IMPORTANT"),
+  /*#__PURE__*/React.createElement(BodyP, null, "AI uses the final token’s updated vector to predict the first token of its answer. It adds the chosen token to the context, then predicts the next one. That’s how AI builds a response: one token at a time, using your question and the answer so far."),
   /*#__PURE__*/React.createElement(SectionKicker, null, "How AI Answers"),
-  /*#__PURE__*/React.createElement(BodyP, null, "Follow one possible reply. At each reveal, watch what joins the answer and what becomes possible next."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Follow one possible reply, from its first token to the end of the answer."),
   /*#__PURE__*/React.createElement(AnswerBuildDemo, null),
   closeBoard("prediction")),
   /*#__PURE__*/React.createElement(PredictionLoopTryIt, null),

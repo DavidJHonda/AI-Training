@@ -6,45 +6,12 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
   }
-  /* Retained video-source creed boards. Each asset keeps its native text scale and
-     rounded corners; only the empty navy area between the text crop and right cap
-     grows with the lesson column. The original HTML remains the narrow-phone view
-     so long lines can wrap instead of being shrunk or clipped. */
-  .opener-navy-board { margin: 0 0 24px; }
-  .opener-navy-board-view {
-    display: block; position: relative; width: 100%; height: var(--opener-board-height);
-    overflow: hidden; padding: 0; border: 0; border-radius: var(--opener-board-radius);
-    background: rgb(14, 46, 121); cursor: zoom-in;
-  }
-  .opener-navy-board-view:focus-visible { outline: 3px solid #6c4dff; outline-offset: 4px; }
-  .opener-navy-board-left, .opener-navy-board-right {
-    position: absolute; top: 0; height: var(--opener-board-height); overflow: hidden;
-  }
-  .opener-navy-board-left { left: 0; width: var(--opener-board-left-width); }
-  .opener-navy-board-right { right: 0; width: var(--opener-board-right-width); }
-  .opener-navy-board-view img {
-    position: absolute; display: block; width: var(--opener-image-width); max-width: none;
-    height: var(--opener-image-height); top: var(--opener-image-top); left: var(--opener-image-left);
-  }
-  .opener-navy-board-right img { left: var(--opener-image-right-left); }
-  .opener-navy-board-narrow { display: none; }
-  .opener-navy-board-narrow > div { margin-bottom: 0 !important; }
-  .opener-navy-board-text {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
-  }
-  @media (max-width: 620px) {
-    .opener-navy-board-view { display: none; }
-    .opener-navy-board-narrow { display: block; }
-    .opener-navy-board > figcaption { display: none; }
-  }
-
   /* Canonical closing JPGs are rendered from CloseBoard at 3x and displayed at
      the component's original CSS size. Phones retain live HTML for wrapping. */
   .lesson-closing-board { margin: var(--blockGap) 0; width: 100%; }
   .lesson-closing-board-view {
     display: block; width: var(--close-board-width);
-    margin: 0 auto; padding: 0; border: 0; background: #fff; cursor: zoom-in;
+    margin: 0 auto; padding: 0; border: 0; background: #fff;
   }
   .lesson-closing-board-view:focus-visible { outline: 3px solid #6c4dff; outline-offset: 4px; }
   .lesson-closing-board-view img { display: block; width: 100%; height: auto; }
@@ -62,6 +29,8 @@
   .guided-demo { margin: 18px 0 28px; padding: 24px; border: 1.5px solid color-mix(in srgb, var(--info) 30%, transparent); border-radius: 20px; background: color-mix(in srgb, var(--info) 8%, var(--card)); font-family: var(--sans); break-inside: avoid; }
   .guided-demo-panel { background: var(--card); border-radius: 16px; overflow: hidden; }
   .guided-demo-instructions { position: relative; margin: 0 0 20px; padding: 20px 24px; border: 1px solid color-mix(in srgb, var(--info) 22%, transparent); border-radius: 16px; background: var(--card); color: var(--inkSoft); font-size: 17px; line-height: 1.65; }
+  .guided-demo-caption { padding: 20px 24px; border-top: 1px solid var(--rule); color: var(--inkSoft); font-size: 17px; line-height: 1.65; }
+  .guided-demo-caption .guided-demo-controls { margin: 0 0 18px; padding: 0; border: 0; }
   .guided-demo-instruction-text { display: grid; }
   .guided-demo-instruction-text > div { grid-area: 1 / 1; }
   .guided-demo-instruction-measure { visibility: hidden; pointer-events: none; }
@@ -91,6 +60,7 @@
     .guided-demo { padding: 12px; }
     .guided-demo-panel { border-radius: 12px; }
     .guided-demo-instructions { margin-bottom: 12px; padding: 16px; border-radius: 12px; font-size: 16px; }
+    .guided-demo-caption { padding: 16px 12px; font-size: 16px; }
     .vs-map-frame { padding: 16px 12px; }
     .vs-map-caption { font-size: 16px; min-height: 130px; }
     .guided-demo-controls { padding: 14px 12px; gap: 10px; }
@@ -147,7 +117,7 @@
   .temperature-value { font-weight: 800; font-variant-numeric: tabular-nums; }
   .temperature-value.is-pending { visibility: hidden; }
   .temperature-pending { position: absolute; top: 12px; left: 0; right: 0; color: var(--inkFaint); }
-  .temperature-bar { display: block; height: 7px; margin-top: 7px; background: color-mix(in srgb, currentColor 12%, transparent); border-radius: 6px; overflow: hidden; }
+  .temperature-bar { display: block; height: 10px; margin-top: 7px; background: color-mix(in srgb, currentColor 12%, transparent); border-radius: 6px; overflow: hidden; }
   .temperature-bar > span { display: block; height: 100%; background: currentColor; border-radius: inherit; transition: width 450ms ease; }
   .temperature-combined { display: block; font-size: 12px; font-weight: 400; color: var(--inkMuted); }
   .temperature-table .is-combined .temperature-bar > span { background: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 4px); }
@@ -206,17 +176,24 @@
   .answer-build-measure { visibility: hidden; pointer-events: none; }
   .answer-build-empty { font-size: 17px; font-weight: 400; color: var(--inkMuted); }
   .answer-build-token.is-new { color: var(--primaryDeep); background: var(--card); border-radius: 4px; animation: answerTokenAppear 350ms ease-out; }
-  .answer-build-prediction { margin-top: 24px; }
-  .answer-build-options { display: grid; max-width: 600px; }
-  .answer-build-options > * { grid-area: 1 / 1; }
-  .answer-build-waiting { align-self: center; text-align: center; padding: 16px; }
+  .answer-build-context { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px 16px; align-items: baseline; }
+  .answer-build-speaker { color: #1d4ed8; font-size: 14px; font-weight: 700; line-height: 1.5; }
+  .guided-demo-instructions .answer-build-context { margin-bottom: 20px; }
+  .answer-build-complete .guided-demo-instructions { margin-bottom: 0; }
+  .answer-build-prediction:first-child { margin-top: 0; }
+  .answer-build-question { margin: 0; font-weight: 600; color: var(--ink); }
+  .answer-build-prediction { margin-top: 24px; display: grid; max-width: 600px; }
+  .answer-build-prediction > * { grid-area: 1 / 1; }
+  .answer-build-summary { align-self: center; text-align: center; }
+  .answer-build-scene.is-finished .answer-build-chart { display: none; }
+  .answer-build-scene.is-finished .answer-build-summary { padding: 12px 0; text-align: left; }
+  .answer-build-end { display: inline-block; padding: 10px 18px; border: 2px solid var(--primary); border-radius: 8px; color: var(--primaryDeep); font-weight: 600; }
+  .answer-build-other { margin: 12px 0 0; font-size: 14px; color: var(--inkMuted); }
   .answer-build-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .answer-build-option { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(40px, 1fr) 52px; gap: 14px; align-items: center; min-height: 64px; padding: 8px 14px; border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--card)); border-radius: 8px; }
   .answer-build-option-name { font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--ink); }
-  .answer-build-combined { display: block; color: var(--inkMuted); font-size: 13px; font-weight: 400; }
   .answer-build-bar { height: 16px; border-radius: 8px; background: color-mix(in srgb, var(--primary) 10%, var(--card)); overflow: hidden; }
   .answer-build-bar > span { display: block; height: 100%; background: var(--primary); border-radius: inherit; }
-  .answer-build-option.is-combined .answer-build-bar > span { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--primary) 30%, var(--card)) 0 4px, color-mix(in srgb, var(--primary) 14%, var(--card)) 4px 8px); }
   .answer-build-percent { text-align: right; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .answer-build-option.is-selected { border: 2px solid var(--primary); padding: 7px 13px; }
   .answer-build-option.is-selected .answer-build-option-name, .answer-build-option.is-selected .answer-build-percent { color: var(--primaryDeep); }
@@ -225,6 +202,8 @@
   @media (prefers-reduced-motion: reduce) { .answer-build-token.is-new { animation: none; } }
   @media (max-width: 540px) {
     .answer-build-scene { padding: 16px 12px; }
+    .answer-build-context { grid-template-columns: 76px minmax(0, 1fr); column-gap: 10px; }
+    .answer-build-speaker { font-size: 13px; }
     .answer-build-reply { font-size: 22px; }
     .answer-build-option { grid-template-columns: minmax(0, 1fr) 42px; gap: 4px 8px; min-height: 88px; padding: 8px 10px; }
     .answer-build-option.is-selected { padding: 7px 9px; }
@@ -366,18 +345,6 @@
   }
   .temp-prob-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
   @media (max-width:700px){ .temp-prob-grid{ grid-template-columns:1fr; } }
-  /* Engagement Trap "what you could have done" rows: a big right-aligned figure
-     beside its label. Needs a media query (the number stacks above the label on
-     narrow, rather than squeezing the label to one word per line), so it lives
-     here rather than as an inline style on the row. */
-  .oay-row{ display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:center; padding:15px 2px; }
-  .oay-row > .oay-figure{ font-family:var(--serif); font-size:30px; line-height:1.05; color:var(--primaryDeep); white-space:nowrap; text-align:right; }
-  .oay-time-fields{ display:flex; gap:12px; }
-  @media (max-width:560px){
-    .oay-row{ grid-template-columns:1fr; gap:2px; }
-    .oay-row > .oay-figure{ text-align:left; font-size:26px; }
-    .oay-time-fields{ flex-direction:column; }
-  }
   /* Be the Transformer TRY IT: every word in the sentence is clickable, and an arc
      is drawn from the marked word to the one it depends on. Hover, wrapping and
      the draw-in stroke all need real CSS, so the sentence lives here rather than
@@ -543,7 +510,6 @@
     .using-course-modal-header{ gap:12px; }
     .using-course-modal h2{ font-size:27px; }
   }
-  .oay-input::placeholder{ color:#aaa6b5; opacity:1; font-weight:500; }
   /* TRY IT directions use numbered circles above the activity content. */
   .activity-instructions--try { list-style: none; margin: 0; padding: 0 4px; color: var(--inkSoft); font-family: var(--sans); font-size: 17px; line-height: 1.5; }
   .activity-instructions--try > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: 12px; }
@@ -554,6 +520,47 @@
   @media (max-width: 520px) {
     .activity-instructions--try { padding: 0; }
     .activity-instructions--try > li { gap: 10px; }
+  }
+  .lab-action-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; max-width: 100%; box-sizing: border-box; padding: 10px 20px; border: 1.5px solid var(--labAccent); border-radius: 8px; background: var(--labAccent); color: #fff; font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 1.4; text-align: center; text-decoration: none; cursor: pointer; }
+  .lab-action-button--copy { background: #fff; color: var(--labAccent); }
+  .lab-action-button--copied { background: var(--labBand); }
+  .dino-game-canvas:focus-visible { outline: 3px solid var(--labAccent); outline-offset: 3px; }
+  .lab-action-button:focus-visible { outline: 3px solid var(--labAccent); outline-offset: 3px; }
+  .lab-action-button:disabled { border-color: var(--inkFaint); background: var(--bg); color: var(--inkMuted); cursor: not-allowed; }
+  .lab-action-icon { width: 16px; height: 16px; flex: 0 0 16px; }
+  .lab-action-label { display: inline-grid; min-width: 0; }
+  .lab-action-label > span { grid-area: 1 / 1; }
+  .lab-action-label-reserved { visibility: hidden; }
+  .lab-prompt { display: block; margin-top: 10px; background: var(--bg); border-radius: 8px; padding: 14px; color: var(--ink); border-left: 3px solid var(--labAccent); }
+  .lab-prompt-text { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .lab-prompt-action { display: flex; justify-content: flex-start; margin-top: 14px; }
+  /* Doubling Game uses the shared TRY IT shell, cards, buttons, and takeaway. */
+  .doubling-game { color: var(--inkSoft); font-family: var(--sans); container-type: inline-size; }
+  .doubling-layout { display: grid; grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.35fr); gap: 32px; align-items: start; }
+  .doubling-layout > form, .doubling-stage { min-width: 0; }
+  .doubling-guesses { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .doubling-year + .doubling-year { border-top: 1px solid var(--rule); padding-top: 14px; }
+  .doubling-year { min-width: 0; }
+  .doubling-year label, .doubling-year-title { display: block; color: var(--ink); font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+  .doubling-year input { width: 100%; box-sizing: border-box; min-height: 48px; border: 1.5px solid var(--rule); border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 17px; color: var(--ink); background: var(--card); }
+  .doubling-year input[aria-invalid="true"] { border-color: var(--red); }
+  .doubling-error { margin: 8px 0 0; color: var(--red); font-size: 14px; line-height: 1.5; }
+  .doubling-answer { margin: 0; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+  .doubling-answer { margin-top: 10px; color: var(--tryAccent); }
+  .doubling-year--current label { color: var(--primary); }
+  .doubling-live { margin-top: 10px; }
+  .doubling-pending { margin: 10px 0 0; font-size: 14px; color: var(--inkMuted); }
+  .doubling-date { margin: 0 0 4px; font-size: 13px; color: var(--inkMuted); line-height: 1.5; }
+  .doubling-total { display: block; font-size: 24px; font-weight: 700; line-height: 1.3; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .doubling-count { display: flex; align-items: baseline; gap: 6px; }
+  .doubling-unit { font-size: 13px; }
+  .doubling-view { margin: 0; }
+  .doubling-burgers { display: block; width: 100%; max-width: 480px; aspect-ratio: 1; margin: 0 auto; background: var(--primaryFaint); }
+  .doubling-controls { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+  .doubling-game button { min-height: 44px; }
+  .doubling-game button:focus-visible, .doubling-game input:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+  @container (max-width: 640px) {
+    .doubling-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   }
   /* Group exercise headings reveal a mint activity surface below. */
   .group-exercise { margin: 0 0 var(--blockGap); color: var(--inkSoft); font-family: var(--sans); }
@@ -607,7 +614,9 @@
   .discussion-question-copy { color: var(--inkSoft); font-size: 17px; line-height: 1.5; }
   .discussion-question-copy p { margin: 0; }
   .discussion-question-title { color: var(--ink); font-size: 20px; font-weight: 700; line-height: 1.4; }
-  .discussion-question-title + p { margin-top: 4px; }
+  .discussion-question-copy p + .discussion-question-title { margin-top: 8px; }
+  .discussion-question-copy .discussion-question-follow-up { display: flex; align-items: baseline; gap: 10px; margin-top: 12px; }
+  .discussion-question-follow-up-arrow { flex: 0 0 auto; color: var(--tryAccent); }
   @media (max-width: 520px) {
     .discussion-question { grid-template-columns: 30px minmax(0, 1fr); gap: 14px; padding: 20px 0; }
     .discussion-question-number { font-size: 36px; }
@@ -947,7 +956,7 @@
     .travel-skill-cell:last-child { border-bottom: 0; }
   }
   /* Lesson illustrations are fixed compositions, so their internal labels cannot
-     reflow like the rest of the course. Give each one a full-screen, zoomable view. */
+     reflow like the rest of the course. Phones get a full-screen, zoomable view. */
   .zoomable-illustration {
     cursor: zoom-in;
     transition: box-shadow .16s ease, transform .16s ease;
@@ -1030,6 +1039,26 @@
     .illustration-lightbox-stage { padding: 8px; }
     .illustration-lightbox-toolbar-label { display: none; }
   }
+  /* Separate lesson explanations from hands-on practice without changing activity styling. */
+  .activity-divider { border: 0; border-top: 1px solid var(--tryAccent); margin: 40px 0 28px; }
+
+  /* Video-first lessons. Reading remains available in print exports. */
+  .lesson-video-expanded .lesson-video-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;color:var(--ink);font-family:var(--sans)}
+  .lesson-video-heading strong{font-size:17px;font-weight:800}
+  .lesson-video-heading span{font-size:14px;color:var(--inkMuted)}
+  .lesson-reading{margin:0 0 28px}
+  .lesson-reading-toggle{display:flex;align-items:center;gap:14px;width:100%;padding:17px 20px;border:1px solid var(--rule);border-radius:12px;background:var(--primaryFaint);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.5;text-align:left;cursor:pointer}
+  .lesson-reading-toggle:hover{border-color:var(--primary)}
+  .lesson-reading-toggle:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+  .lesson-reading-toggle .reading-chevron{margin-left:auto;flex-shrink:0;transition:transform .15s}
+  .lesson-reading-toggle[aria-expanded="true"] .reading-chevron{transform:rotate(180deg)}
+  .lesson-reading-content{padding-top:24px}
+  @media print{
+    .lesson-reading-content[hidden]{display:block!important}
+    .lesson-reading-content{padding:0}
+    .lesson-reading{margin:0}
+  }
+
   /* Per-lesson print: hide the app chrome so only the lesson (from its kicker + title
      down) goes to the PDF. Triggered by the "Print This Lesson" button -> window.print(). */
   @media print {
@@ -1089,6 +1118,10 @@
     .course-toolkit-actions{grid-column:2;flex-direction:row;align-items:center;flex-wrap:wrap;gap:6px 16px}
     .course-toolkit-title h3{font-size:17px}
   }
+  @media (max-width: 600px) {
+    .final-question-options { margin-left: 0 !important; }
+    .final-question-options [role="radio"] { align-items: flex-start !important; line-height: 1.45; }
+  }
 
 main{max-width:900px;margin:32px auto;padding:0 16px}h1{font-family:var(--serif);font-size:42px;font-weight:400;margin:0 0 20px;color:var(--ink)}.capture{max-width:none;width:1280px;height:900px;margin:0;padding:0;background:var(--card);display:flex;align-items:center;justify-content:center}.capture .temperature-scene{width:900px}.capture .temperature-bar > span{transition:none}
 </style></head><body><main id="preview"></main><script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -1108,6 +1141,32 @@ function BodyP(props) {
 }
 
 function ActivityButton(props) {
+  if (props.size === "lab") {
+    var E = React.createElement;
+    var copy = !props.href && !props.download;
+    var opensTab = props.href && !props.download;
+    var copied = copy && props.status === "copied";
+    var label = props.disabled && props.disabledLabel ? props.disabledLabel
+      : copied ? "Copied" : props.status === "copying" ? "Copying…" : props.status === "error" ? "Try Again" : props.children;
+    var icon = copy ? E("svg", { className: "lab-action-icon", viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.7, "aria-hidden": true, focusable: "false" },
+      copied ? E("path", { d: "M4 10 8 14 16 5", strokeLinecap: "round", strokeLinejoin: "round" }) :
+        E(React.Fragment, null, E("rect", { x: 7, y: 7, width: 10, height: 10, rx: 2 }), E("path", { d: "M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" }))) :
+      E("span", { "aria-hidden": true, className: "lab-action-icon" }, props.download ? "↓" : "↗");
+    return E(props.href ? "a" : "button", {
+      type: props.href ? undefined : "button", href: props.href,
+      target: opensTab ? "_blank" : undefined, rel: opensTab ? "noopener noreferrer" : undefined,
+      download: props.download,
+      className: "lab-action-button" + (copy ? " lab-action-button--copy" : "") + (copied ? " lab-action-button--copied" : ""),
+      "aria-label": props["aria-label"] || (opensTab && typeof props.children === "string" ? props.children + " (opens in a new tab)" : undefined),
+      "aria-live": copy ? "polite" : undefined,
+      "data-sample-allowed": props.sampleAllowed ? "" : undefined,
+      ref: props.buttonRef, onClick: props.onClick, disabled: props.disabled
+    }, copy ? icon : null,
+      E("span", { className: "lab-action-label" },
+        E("span", { className: "lab-action-label-reserved", "aria-hidden": true }, props.children),
+        E("span", null, label)),
+      copy ? null : icon);
+  }
   var sizeStyles = props.size === "large"
     ? { padding: "12px 28px", fontSize: 15 }
     : { padding: "10px 24px", fontSize: 14 };
@@ -1124,7 +1183,7 @@ function ActivityButton(props) {
     Object.assign(style, props.style);
   }
   return React.createElement("button", {
-    type: "button",
+    type: props.type || "button",
     ref: props.buttonRef,
     onClick: props.onClick,
     disabled: props.disabled,
@@ -1144,13 +1203,16 @@ function GuidedDemoShell(props) {
         isConclusion && i > 0 ? React.createElement("strong", null, content) : content);
     });
   };
+  var instructions = props.instructions ? React.createElement("div", {className:props.integrated ? "guided-demo-caption" : "guided-demo-instructions"},
+    props.integrated ? props.controls : null,
+    props.beforeInstructions || null,
+    React.createElement("div", {className:"guided-demo-instruction-text"},
+      React.createElement("div", {role:"status", "aria-live":props.quiet?"off":"polite", "aria-atomic":"true"}, instructionBody(props.instructions)),
+      (props.instructionOptions || []).map(function(value,i){return React.createElement("div", {key:i,className:"guided-demo-instruction-measure","aria-hidden":"true",inert:""}, instructionBody(value));})),
+    !props.integrated ? props.controls : null) : null;
   return React.createElement("section", {className:"guided-demo"+(props.className?" "+props.className:""), "data-kind":props.kind, "aria-label":props.label},
-    props.instructions ? React.createElement("div", {className:"guided-demo-instructions"},
-      React.createElement("div", {className:"guided-demo-instruction-text"},
-        React.createElement("div", {role:"status", "aria-live":props.quiet?"off":"polite", "aria-atomic":"true"}, instructionBody(props.instructions)),
-        (props.instructionOptions || []).map(function(value,i){return React.createElement("div", {key:i,className:"guided-demo-instruction-measure","aria-hidden":"true",inert:""}, instructionBody(value));})),
-      props.controls) : null,
-    React.createElement("div", {className:"guided-demo-panel"}, props.children, !props.instructions ? props.controls : null));
+    !props.integrated ? instructions : null,
+    props.hidePanel ? null : React.createElement("div", {className:"guided-demo-panel"}, props.children, props.integrated ? instructions : null, !props.instructions ? props.controls : null));
 }
 function GuidedDemoControls(props) {
   var E = React.createElement, done = props.done;
@@ -1168,7 +1230,7 @@ function GuidedDemoControls(props) {
       E("svg", {viewBox:"0 0 24 24","aria-hidden":"true",fill:"none"},
         E("circle", {cx:12,cy:12,r:10,stroke:"currentColor",strokeWidth:2}),
         E("path", {d:"M7 12l3 3 7-7",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"})), "Complete")
-      : E(ActivityButton, {buttonRef:actionRef,onClick:props.onAdvance,style:{minHeight:44}}, props.actionLabel || "See It"),
+      : E(ActivityButton, {buttonRef:actionRef,onClick:props.onAdvance,disabled:props.disabled,style:{minHeight:44}}, props.actionLabel || "See It"),
     done ? E(ActivityButton, {buttonRef:replayRef,onClick:props.onReplay,style:{minHeight:44,background:"var(--primaryFaint)",color:"var(--primaryDeep)"}}, "Replay") : null,
     props.onPlay ? E(ActivityButton, {onClick:props.onPlay}, "Play sequence") : null),
     E("div", {className:"guided-demo-controls guided-demo-control-measure","aria-hidden":"true",inert:""},
@@ -1181,7 +1243,7 @@ function GuidedDemonstration(props) {
   var state = useState(0), current = state[0], setCurrent = state[1];
   var isPrint = typeof window !== "undefined" && !!new URLSearchParams(window.location.search).get("print");
   var last = states.length - 1, step = isPrint ? last : current;
-  return E(GuidedDemoShell, {label:props.label,kind:props.kind,className:props.className,
+  return E(GuidedDemoShell, {label:props.label,kind:props.kind,className:props.className,integrated:props.integrated,
     instructions:states[step].instruction,instructionOptions:states.map(function(s){return s.instruction;}),quiet:isPrint,
     controls:isPrint ? null : E(GuidedDemoControls, {done:step===last,actionLabel:states[step].actionLabel,
       onAdvance:function(){setCurrent(function(n){return Math.min(n+1,last);});},onReplay:function(){setCurrent(0);}})},
@@ -1195,41 +1257,42 @@ var TEMPERATURE_DATA = [
   {name:"Buddy", odds:[14,15,13]},
   {name:"Rex", odds:[9,6,10]},
   {name:"Biscuit", odds:[6,3,8]},
-  {name:"Other", combined:true, odds:[32,19,39]}
+  {name:"All other tokens", combined:true, odds:[32,19,39]}
 ];
 var TEMPERATURE_STATES = [
-  {instruction:"The model uses what it learned during training and the current context to calculate probabilities for the next token. In our example, Spot has the highest probability at 22%.\n\nWatch what happens when we lower the temperature."},
-  {instruction:"Lower temperature concentrates the odds on the most likely tokens. Spot’s chance rises from 22% to 36%. Less likely names get smaller chances.\n\nNow see what higher temperature does to the same starting odds."},
-  {instruction:"Higher temperature spreads the odds more widely. Spot’s chance falls from 22% to 16%, while less likely names get a better chance.\n\nCompare Spot’s chance across all three settings. What did temperature change?"},
-  {instruction:"Spot’s chance is 22% to start, 36% with lower temperature, and 16% with higher temperature.\n\nTemperature reshapes the probabilities used to pick the next token. It doesn’t change what the model learned."}
+  {instruction:"Training and the current context determine the starting probabilities. Spot leads at 22%.\n\nSee how lower temperature changes the odds."},
+  {instruction:"Lower temperature concentrates the odds. Spot rises from 22% to 36%, while less likely names lose probability.\n\nNow try higher temperature with the same starting odds."},
+  {instruction:"Higher temperature spreads the odds. Spot falls from 22% to 16%, while less likely names gain probability.\n\nCompare Spot across all three settings."},
+  {instruction:"Spot: 22% to start, 36% at low temperature, and 16% at high temperature.\n\nSpot remains the most likely individual token at all three settings. Temperature changes its probability."}
 ];
 function TemperatureScene(props) {
   var E = React.createElement, step = props.step;
   var labels = ["Starting odds", "Low temperature", "High temperature"];
+  var columnOrder = [1,0,2]; // Low, starting, high; reveal the baseline first.
   return E("div", {className:"temperature-scene", "data-step":step},
     E("p", {className:"temperature-reply"}, E("span", {className:"temperature-reply-label"}, "Answer so far"),
       "You could name him ", E("span", {className:"temperature-open-token", "aria-label":"next token not selected"}, "___")),
     E("table", {className:"temperature-table", role:"table", "aria-label":"Next-token probabilities at different temperatures"},
-      E("thead", null, E("tr", null, E("th", {scope:"col"}, "Token"), labels.map(function(label,i) {
-        return E("th", {key:label,scope:"col",className:"temperature-column-"+i}, label);
+      E("thead", null, E("tr", null, E("th", {scope:"col"}, "Token"), columnOrder.map(function(i) {
+        return E("th", {key:labels[i],scope:"col",className:"temperature-column-"+i}, labels[i]);
       }))),
       E("tbody", null, TEMPERATURE_DATA.map(function(row) {
         return E("tr", {key:row.name,role:"row",className:(row.combined?"is-combined ":"")+(step===3 && row.name==="Spot"?"is-focus":"")},
-          E("th", {scope:"row",role:"rowheader"}, row.name, row.combined?E("span", {className:"temperature-combined"}, "(combined)"):null),
-          row.odds.map(function(value,i) {
+          E("th", {scope:"row",role:"rowheader"}, row.combined?E(React.Fragment, null, "All other", E("br"), "tokens"):row.name),
+          columnOrder.map(function(i) {
+            var value = row.odds[i];
             var visible = i===0 || step>=i;
             return E("td", {key:i,role:"cell",className:"temperature-column-"+i,"aria-label":labels[i]+": "+(visible?value+"%":"Not revealed yet")},
               E("span", {className:"temperature-mobile-label","aria-hidden":"true"}, ["Starting","Low","High"][i]),
               E("span", {className:"temperature-value"+(visible?"":" is-pending"), "aria-hidden":visible?undefined:"true"}, value+"%"),
               !visible?E("span", {className:"temperature-pending", "aria-label":"Not revealed yet"}, "…"):null,
-              E("span", {className:"temperature-bar", "aria-hidden":"true"}, E("span", {style:{width:visible?value+"%":"0%"}})));
+              E("span", {className:"temperature-bar", "aria-hidden":"true"}, E("span", {style:{width:visible?(value/40*100)+"%":"0%"}})));
           }));
-      }))),
-    E("p", {className:"temperature-note"}, "Illustrative probabilities. Other combines the rest of the vocabulary."));
+      }))));
 }
 function TemperatureDemo() {
   return React.createElement(GuidedDemonstration, {
-    label:"How Temperature Changes the Odds",kind:"temperature",states:TEMPERATURE_STATES,
+    label:"How Temperature Changes the Odds",kind:"temperature",states:TEMPERATURE_STATES,integrated:true,
     renderScene:function(state,step){return React.createElement(TemperatureScene,{step:step});}
   });
 }

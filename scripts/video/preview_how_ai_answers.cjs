@@ -1,6 +1,6 @@
 // Build a lesson preview and deterministic video scene from the same live source.
 // node scripts/video/preview_how_ai_answers.cjs
-// Open /previews/how-ai-answers.html; ?capture=1&step=10 shows only the scene.
+// Open /previews/how-ai-answers.html; ?capture=1&step=3 shows only the scene.
 // window.setAnswerScene(step) selects any authored state for capture.
 const fs = require('node:fs');
 const path = require('node:path');
@@ -21,13 +21,13 @@ var useState=React.useState,useEffect=React.useEffect,useRef=React.useRef;
 ${section('function BodyP(', '\n// lessonId ->')}
 ${section('function ActivityButton(', '\nfunction FeedbackPill(')}
 ${section('function GuidedDemoShell(', 'var VECTOR_MAP_SEQUENCES =')}
-${section('var ANSWER_BUILD_STATES =', 'function LastTokenBridgeBoard(')}
+${section('var ANSWER_BUILD_STATES =', 'function PredictionSection(')}
 function Preview(){
  var E=React.createElement,params=new URLSearchParams(location.search),capture=params.get('capture')==='1';
  var state=useState(Math.max(0,Math.min(Number(params.get('step'))||0,ANSWER_BUILD_STATES.length-1))),step=state[0],setStep=state[1];
  useEffect(function(){window.setAnswerScene=function(n){if(!Number.isInteger(n)||n<0||n>=ANSWER_BUILD_STATES.length)throw new Error('Invalid answer state');setStep(n);};},[]);
  if(capture){document.getElementById('preview').className='capture';return E(AnswerBuildScene,{state:ANSWER_BUILD_STATES[step],step:step});}
- return E(React.Fragment,null,E('h1',null,'How AI Answers'),E(BodyP,null,'Follow one possible reply. At each reveal, watch what joins the answer and what becomes possible next. We show words as single tokens to make the example easier to follow.'),E(AnswerBuildDemo));
+ return E(React.Fragment,null,E('h1',null,'How AI Answers'),E(BodyP,null,'Follow one possible reply, from its first token to the end of the answer. We show words as single tokens to make the example easier to follow.'),E(AnswerBuildDemo));
 }
 ReactDOM.createRoot(document.getElementById('preview')).render(React.createElement(Preview));
 </script></body></html>`;

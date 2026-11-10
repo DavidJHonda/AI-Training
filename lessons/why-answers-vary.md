@@ -2,23 +2,39 @@
 
 # Why Answers Vary
 
-Changing the model, your prompt, or the information in the context window can change AI’s answer. But even with the same model and the same information, answers can vary. To understand why, we’ll look at how AI chooses the next token.
+You ask AI, “What should I name my new dog?” It suggests Spot. You start a new chat and ask the exact same question. This time, it suggests Max.
 
-AI builds an answer one token at a time. At each step, the model calculates probabilities for the tokens that could come next.
+Why did the same question get a different answer?
 
-But AI doesn’t always pick the highest-probability token. To understand why, we’ll look at two things: **sampling** and **temperature**.
+### Board 1: Why Answers Vary
+
+**Image file:** `why-answers-vary-overview.jpg`
+
+![Why Answers Vary](why-answers-vary-overview.jpg)
+
+**Teaching content:**
+
+Here are reasons why answers vary.
+
+Model & Thinking: The model you use and how much thinking it does can change the answer.
+
+What AI Receives: Your prompt and the other information available to AI can change its answer.
+
+AI’s Choices: Behind the scenes, AI uses techniques that give different tokens a chance to be selected.
+
+Two techniques help explain AI’s choices: **sampling** and **temperature**.
 
 ## Sampling
 
-You ask AI, “What should I name my new dog?” When AI reaches the name, it calculates a probability for every token in its vocabulary. Spot is the top choice at 22%, so you might expect AI to pick it every time.
+When AI reaches the dog’s name, it calculates a probability for every token in its vocabulary. In our example, Spot is the top choice at 22%, so you might expect AI to pick it every time.
 
-But having the highest probability doesn’t guarantee selection.
+But it doesn’t.
 
 A 22% probability means AI would pick Spot about 22 times out of 100 tries, on average, if the odds stay the same.
 
-That’s called sampling.
+That’s called **sampling**.
 
-### Board 1: Same Probabilities, Different Choices
+### Board 2: Same Probabilities, Different Choices
 
 **Image file:** `why-answers-vary-draws.jpg`
 
@@ -32,17 +48,15 @@ The answer so far is “You could name him,” and the next token is still open.
 
 Keep the probabilities unchanged across all five picks. Spot still has the highest probability at 22%.
 
-Five random picks with these same probabilities produce: pick one, Max; pick two, Spot; pick three, Buddy; pick four, Rex; pick five, Max. The five picks are one possible set.
+Five random picks with these same probabilities produce: pick one, Max; pick two, Spot; pick three, Buddy; pick four, Rex; pick five, Max.
 
 Spot was picked only once, even with the highest probability. Another five picks could turn out differently.
 
-The best chance is not a guarantee.
+## Why does AI work this way?
 
-## How One Choice Shapes the Answer
+Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety and can make answers more creative.
 
-Choosing the most likely token every time can make answers repetitive. Giving other likely tokens a chance adds variety.
-
-Each token AI chooses shapes what comes next, so one different choice can send the answer in a different direction.
+Choosing a different token shapes what comes next and can send the answer in a different direction.
 
 ## Temperature
 
@@ -50,9 +64,9 @@ Temperature changes how concentrated or spread out the probabilities are.
 
 In chat apps, it’s already set for you behind the scenes.
 
-Watch what different settings do to the dog-name choices.
+Compare what different settings do to the dog-name choices.
 
-### Board 2: How Temperature Changes the Odds
+### Board 3: How Temperature Changes the Odds
 
 **Image file:** `why-answers-vary-temperature.jpg`
 
@@ -62,23 +76,24 @@ Watch what different settings do to the dog-name choices.
 
 The answer so far is “You could name him,” and the next token is still open.
 
-The model uses what it learned during training and the current context to calculate probabilities for the next token. In our example, Spot has the highest probability at 22%.
+Low Temperature: Concentrates the odds.
 
-Watch what happens when we lower the temperature.
+Starting Odds: From training and context.
 
-Lower temperature concentrates the odds on the most likely tokens. Spot’s chance rises from 22% to 36%. Less likely names get smaller chances.
+High Temperature: Spreads the odds.
 
-Now see what higher temperature does to the same starting odds.
+| Token | Low Temperature | Starting Odds | High Temperature |
+| --- | --- | --- | --- |
+| Spot | 36% | 22% | 16% |
+| Max | 21% | 17% | 14% |
+| Buddy | 15% | 14% | 13% |
+| Rex | 6% | 9% | 10% |
+| Biscuit | 3% | 6% | 8% |
+| All other tokens | 19% | 32% | 39% |
 
-Higher temperature spreads the odds more widely. Spot’s chance falls from 22% to 16%, while less likely names get a better chance.
+Spot leads at 22%. At low temperature, its chance rises to 36%, while less likely names lose probability. At high temperature, its chance falls to 16%, while less likely names gain probability. Both settings change the same starting odds.
 
-Compare Spot’s chance across all three settings.
-
-Spot’s chance is 22% to start, 36% with lower temperature, and 16% with higher temperature.
-
-Temperature reshapes the probabilities used to pick the next token. It doesn’t change what the model learned.
-
-Illustrative probabilities. Other combines the rest of the vocabulary.
+Spot remains the most likely individual token at all three settings. Temperature changes its probability.
 
 ## Closing Message
 

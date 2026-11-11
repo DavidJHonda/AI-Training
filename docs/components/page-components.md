@@ -309,9 +309,19 @@ How AI Learns, Embeddings, and Vector Space opt in twelve boards, including thre
 live demonstrations. Nine canonical images use `FifthPhoneReadingBoard` with full
 HTML copy and original art crops. Training keeps all phases and limitations, plus
 the connected Guess → Check → Adjust loop and explicit return to Guess. Embeddings
-keeps the complete Student ID scene and readable IDs, and pairs each Taste Test / AI
-comparison under its original row label. Vector Space keeps the whole context map,
-all neighborhood labels, and both exact IT vectors.
+keeps the Student ID illustration without a repeated ID list or takeaway banner,
+and pairs each Taste Test / AI comparison under its original row label. Vector Space
+keeps its context-map illustration and takeaway banner without additional
+neighborhood or position cards. These two illustrations expose the canonical image
+descriptions to screen readers. Desktop and print keep their original boards.
+
+The Embeddings TRY IT reflows the same fifteen inputs into three stacked club cards
+on phones, with a visible dimension label beside each score. Each input has an
+accessible club-and-dimension name. Normal page scrolling replaces sideways grid
+scrolling; scoring, validation, randomization, matching, and feedback remain shared.
+After hiding the names, phone focus and scrolling move to the mystery profiles.
+Desktop keeps the original grid. Styles are scoped to this activity and the existing
+phone breakpoint, including coarse-pointer landscape.
 
 Phone-only CSS on the Embeddings guided demo places each trait label above three
 side-by-side drink values. All seven dimensions, shared data, reveal timing, and
@@ -328,6 +338,145 @@ applies. Only the visible desktop or phone version enters the accessibility tree
 Verify every reveal state with `scripts/test_phone_reading_wave_five.cjs`, full-page
 and reveal-state desktop comparisons at 1024/1280/1440px, protected asset hashes,
 and print output for all three lessons.
+
+### Sixth phone-readability batch
+
+Context Matters, Evaluation Matters and Hallucination opt in eleven teaching boards
+through `SixthPhoneReadingBoard`. Existing phone helpers and selectors are unchanged.
+Original desktop images, image props, accessible evaluation transcripts, closing
+boards and print presentation stay intact. Only the visible board representation
+enters the accessibility tree.
+
+Context keeps the shared car question above both full replies. All three head-start
+examples and both outside-the-window explanations retain their original artwork and
+wording. The five-source illustration stays whole, with a readable companion graph:
+three original source groups and five independent branches feed one Context Window.
+The sources are parallel inputs, not steps in a sequence.
+
+Evaluation keeps the numbered overall process and the conditional closer-look step.
+The quick-review details form a connected sequence; the closer-look board keeps the
+two decision cards, bridging sentence and three checking methods in order. The three
+final actions remain unnumbered alternatives. Phone cards and the existing desktop
+transcripts share the original local item arrays.
+
+Hallucination keeps the complete You/AI exchange, all numbers and the separate false-
+study reveal. Both process boards connect the original numbered steps vertically;
+the probable-not-equal-true relationship has an explicit accessible heading name.
+
+The existing screen-only 760px / coarse-pointer max-height 500px convention applies,
+with at least 16px explanations and 20px card headings. Verify with
+`scripts/test_phone_reading_wave_six.cjs`, rendered desktop pixel comparisons at
+1024/1280/1440px, protected-file hashes and print comparisons for all three lessons.
+
+### Seventh phone-readability batch
+
+Training Bias, Document Trap and Trust Trap opt in eight teaching boards through
+`SeventhPhoneReadingBoard`. Original images and image props stay in the desktop
+branch. Document Trap’s existing accessible transcripts move into that branch too,
+so only the visible representation enters the accessibility tree. Shared phone
+helpers and other lessons are unchanged. Closing boards remain as authored.
+
+The two teaching scenes retain the complete illustration crop with HTML titles and
+takeaways. Training Bias stacks the three mechanisms and the three exact questions.
+Document Trap connects Split, Search and Load vertically, keeping the selected-pieces
+relationship and original step numbers. Its four retrieval moves remain unnumbered
+alternatives in row-major reading order. Both retrieval boards share the local item
+arrays with their desktop transcripts.
+
+Trust Trap keeps the common college question above both complete responses, including
+the MOM/AI labels and all six comparison facts. The two ELIZA-effect cards retain their
+original order and a connecting arrow. All artwork is reused from canonical images.
+
+Use the existing screen-only 760px / coarse-pointer max-height 500px convention,
+16px explanations and 20px card headings. Verify with
+`scripts/test_phone_reading_wave_seven.cjs`, rendered desktop comparisons at
+1024/1280/1440px, protected-file hashes and print comparisons for all three lessons.
+
+### Eighth phone-readability batch
+
+Fake Trap, Rise of Agents and Honesty & Privacy opt in eleven teaching boards through
+`EighthPhoneReadingBoard`. Existing shared phone helpers and CSS selectors are unchanged.
+Original desktop image props, hidden historical summaries, closing boards, activities,
+and print presentation stay intact. Only the visible representation is exposed. The
+existing `useIllustrationZoom` media-query hook mounts phone artwork only when needed,
+keeping its SVG resources independent of desktop image rendering.
+
+Fake Trap retains the shared school-closure scenario, both complete comparison panels,
+all checking/verdict labels, the four motives and all three verification questions.
+Rise of Agents keeps the continuous driving scene above its two full explanations,
+the complete basketball scenario and responsibility comparison, and the full dated
+PocketOS case and quotation. The connected Goal / Plan / Act / Check flow has a return
+spine and an explicit Check-to-Plan link. Activating it scrolls and focuses Plan.
+
+Honesty & Privacy stacks the school-use and sharing categories with full qualifications.
+The three numbered responsibilities form a connected vertical sequence. The complete
+privacy photo remains, with readable numbered overlays at its original six markers and
+an HTML key using its exact labels. The older unused PHOTO_ITEMS/renderPhoto helpers
+are not the source for this key; their numbering differs from the live canonical board.
+
+All artwork is reused through SVG crops. Use the established screen-only 760px /
+coarse-pointer max-height 500px convention, 16px explanations and 20px card headings.
+Verify with `scripts/test_phone_reading_wave_eight.cjs`, full-lesson desktop pixel
+comparisons at 1024/1280/1440px, protected-file hashes and print comparisons.
+
+### Ninth phone-readability batch
+
+Pace of Change, Big Downside and Big Upside opt in eleven teaching boards through
+`NinthPhoneReadingBoard`. The existing shared phone helpers and selectors are unchanged.
+The original images and props, hidden historical summaries, closing boards, activities,
+and print presentation remain intact. The existing `useIllustrationZoom` hook mounts
+phone artwork only when needed; only the visible representation enters the accessibility tree.
+
+Pace of Change groups each original comparison row with both complete 2023/2026
+explanations and repeats the year labels. Canonical board wording supplies all examples,
+including Spot, the novel series and the agent actions; older hidden summaries are not
+substitutes for the live board. The acceleration and future-idea cards retain all artwork,
+full names, acronyms, definitions and qualifications.
+
+Big Downside preserves the three distinct safeguards and their shared limitation.
+The full jailbreak wall scene remains, with GUARDRAILS and both sign texts in an HTML
+key. Voice Clip / Voice Cloned / Fake Call / Call Back keeps its original numbers and
+connected sequence. Assignment / Boundary Crossed / Harm forms a connected sequence
+without adding visible numbers to the original three panels. Both takeaways remain.
+
+Big Upside keeps each complete illustration above its two full explanations, including
+the experimental/predicted distinction and both protein counts. The scan review,
+camera-to-speech and warning-to-action relationships stay in their original order.
+The surrounding research qualification and lesson prose remain unchanged.
+
+Use the established screen-only 760px / coarse-pointer max-height 500px convention,
+16px explanations and 20px headings. Verify with `scripts/test_phone_reading_wave_nine.cjs`,
+rendered desktop pixel comparisons at 1024/1280/1440px, protected-file hashes and print checks.
+
+### Tenth phone-readability batch
+
+Work Changes, Data Centers and Unexpected Results opt in six teaching boards through
+`TenthPhoneReadingBoard`. Original image props, hidden historical summaries, closing
+boards, activities, supporting media and print presentation remain intact. Existing
+shared helpers and CSS are unchanged. The existing `useIllustrationZoom` hook mounts
+phone artwork only when needed; only the visible representation enters the accessibility tree.
+
+Work Changes keeps the complete 500-review assignment and before-AI statement before
+a connected Stage 1 / Stage 2 sequence, with all eight original task bullets and art.
+Automate / Augment retains both full examples and the outcome-ownership takeaway.
+The separate LAB still uses its original 100-review course file; that teaching transition
+is preserved rather than silently changing either example.
+
+Data Centers reuses all three visual arrays with readable Spot / ONE PASS, ABOUT 100
+TOKENS and ABOUT 1,000 TOKENS labels. All approximate calculation totals, the example
+model qualification and takeaway remain. Electricity, Water, Noise and Permanent Jobs
+stack in original row-major order with every number, date and caveat. The demand cards
+retain the distinction between more supply and efficiency per task. The data-center
+interior illustration needs no adaptation and remains untouched.
+
+Unexpected Results retains both complete Text Messaging / Cane Toads explanations and
+illustrations, including their planned-versus-actual relationships. The Hanoi story,
+quiz, optional story poster/video and group activities remain unchanged.
+
+Use the established screen-only 760px / coarse-pointer max-height 500px convention,
+16px explanations and 20px headings/totals. Verify with
+`scripts/test_phone_reading_wave_ten.cjs`, full-lesson desktop pixel comparisons at
+1024/1280/1440px, protected-file hashes and print comparisons.
 
 ## Course chrome
 

@@ -56,8 +56,45 @@ const lessons = {
         const pre=await page.locator('[data-phone-reading-board="pretrainingDetails"] .phone-reading-mobile').innerText();assert.ok(pre.includes('1,000 lifetimes'));
         assert.equal(await page.locator('[data-phone-reading-board] .phone-reading-mobile').getByText('What Still Needs Work',{exact:true}).count(),3);
       } else if (id === 'embeddings') {
-        assert.deepEqual(await page.locator('[data-phone-reading-board="studentIdentity"] .phone-four-chip').allTextContents(),['1024','2048','3072','4096']);
+        const idBoard=page.locator('[data-phone-reading-board="studentIdentity"] .phone-reading-mobile');
+        assert.equal(await idBoard.locator('.phone-four-chip, .phone-reading-takeaway, .phone-reading-card').count(),0);
+        assert.equal(await idBoard.getByRole('img').count(),1);
         assert.equal(await page.locator('.phone-five-comparison').count(),5);
+        const activity=page.locator('.embedding-club-activity');
+        const clubs=['Lego Club','AI Club','BBQ Club'],dims=['Tech','Build Things','Messy','Tasty','Career Edge'];
+        const values=[[3,10,5,0,4],[10,4,1,0,10],[1,3,10,10,1]];
+        const lock=activity.getByRole('button',{name:'Hide the names and match'});
+        assert.equal(await lock.isDisabled(),true);
+        for(const width of [320,390,430,844]) {
+          await page.setViewportSize({width,height:width===844?390:850});
+          await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+          assert.equal(await activity.getByRole('textbox').count(),15);
+          assert.deepEqual(await activity.locator('.embedding-club-dimension:visible').allTextContents(),[...dims,...dims,...dims]);
+          const issues=await activity.evaluate(n=>[...n.querySelectorAll('*')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+1).map(e=>e.tagName));
+          assert.deepEqual(issues,[],'Activity fits at '+width);
+          const fields=await activity.locator('input').evaluateAll(ns=>ns.map(n=>({font:parseFloat(getComputedStyle(n).fontSize),height:n.getBoundingClientRect().height})));
+          for(const field of fields){assert.ok(field.font>=16);assert.ok(field.height>=44);}
+        }
+        await page.setViewportSize({width:320,height:850});
+        const first=activity.getByRole('textbox',{name:'Lego Club, Tech',exact:true});
+        await first.fill('99');assert.equal(await first.inputValue(),'10');await first.fill('x');assert.equal(await first.inputValue(),'');
+        for(let ci=0;ci<3;ci++)for(let di=0;di<5;di++)await activity.getByRole('textbox',{name:clubs[ci]+', '+dims[di],exact:true}).fill(String(values[ci][di]));
+        assert.equal(await lock.isEnabled(),true);await lock.click();
+        await page.waitForFunction(()=>document.activeElement.classList.contains('embedding-club-matches'));
+        assert.equal(await activity.getByRole('group',{name:'Mystery clubs',exact:true}).count(),1);
+        const matches=activity.locator('.scenario-row-body').locator('..');assert.equal(await matches.count(),3);
+        const answers=[];
+        for(const row of await matches.all()){
+          const text=await row.textContent();const ci=values.findIndex(v=>text.includes(dims.map((d,i)=>d+' '+v[i]).join('  ·  ')));
+          assert.ok(ci>=0,'Every mystery keeps the exact five scores');answers.push(ci);
+        }
+        await matches.nth(0).getByRole('button',{name:clubs[(answers[0]+1)%3],exact:true}).click();assert.match(await matches.nth(0).innerText(),/not quite/i);
+        for(let i=0;i<3;i++)await matches.nth(i).getByRole('button',{name:clubs[answers[i]],exact:true}).click();
+        assert.ok((await activity.innerText()).includes('The numbers carried the meaning.'));
+        for(const width of [320,390,430,844]){
+          await page.setViewportSize({width,height:width===844?390:850});
+          assert.equal(await activity.evaluate(n=>[...n.querySelectorAll('*')].some(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+1)),false,'Completed activity fits at '+width);
+        }
         for(const width of [320,390,430,844]) {
           await page.setViewportSize({width,height:width===844?390:850});
           await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
@@ -76,7 +113,10 @@ const lessons = {
           await demo.getByRole('button',{name:'Replay',exact:true}).click();
         }
       } else {
-        const text=await page.locator('[data-phone-reading-board="contextPosition"] .phone-reading-mobile').innerText();for(const value of ['[.12, −.34, …]','[.41, .06, …]','Mat · Chair','Cloud · Rainstorm','CAT · Dog · Kitten · Pet'])assert.ok(text.includes(value));
+        const contextBoard=page.locator('[data-phone-reading-board="contextPosition"] .phone-reading-mobile');
+        assert.equal(await contextBoard.locator('.phone-reading-card').count(),0);
+        assert.equal(await contextBoard.getByRole('img').count(),1);
+        assert.equal(await contextBoard.locator('.phone-reading-takeaway').innerText(),'IT’s new position reflects its connection to CAT in this sentence.');
         for(const width of [320,390,430,844]) {
           await page.setViewportSize({width,height:width===844?390:850});
           await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));

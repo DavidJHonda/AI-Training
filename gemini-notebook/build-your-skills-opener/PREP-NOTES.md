@@ -20,6 +20,6 @@ Save the returned raw video as `Prompts/build-your-skills-opener-11.mp4`. That f
 
 ## Status and review
 
-Release follow-up, November 11: David approved the bike-first 1:40 edit, `Prompts/build-your-skills-opener-v15.mp4`. It is installed at the canonical course path with cache key `20261111ship15`; the original raw rolls and prior candidates are preserved. Commit and batch publication are being completed in the release chat. The Video Tracker was not accessed or changed.
+Release follow-up, November 11: David approved the bike-first 1:40 edit, `Prompts/build-your-skills-opener-v15.mp4`. It is installed at the canonical course path with cache key `20261111ship15`; the original raw rolls and prior candidates are preserved. The release is committed, pushed, and verified live; see `video-audit/batch-release-2026-11-11/publication.json`. The Video Tracker was not accessed or changed.
 
 Review the returned narration against `lessons/Opener-Build.md`, including all three questions and exact closing lines. Evaluate the actual audio before planning edits. Apply the opener exception above when reviewing visuals. Keep raw videos and editing candidates separate from the installed `course-assets/build-your-skills-opener/build-your-skills-opener.mp4`.

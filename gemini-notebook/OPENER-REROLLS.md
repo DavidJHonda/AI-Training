@@ -16,7 +16,7 @@ The output names were free when prepared. Recheck before saving and use the next
 
 Each kit has a `PREP-NOTES.md` describing its lesson arc, board exception, and review requirements. Current uploads and prompts passed the synchronizer's checks; each prompt is under 500 words and includes the three exact questions.
 
-Actual generation has not started in this session: no NotebookLM generation tool or matching plugin is available. Once generated, review the complete narration before planning production edits. Missing board shots are not a reason to reject a roll or force a board insert. The installed videos remain unchanged. The Video Tracker was not accessed or changed.
+November 11 release follow-up: the returned rolls were reviewed and David approved edited releases for all five openers: Work With AI v17, Understand AI v22, Avoid Traps v14, Navigate the Future v13, and Build Your Skills v15. All five are installed, committed, pushed, and verified live byte for byte. The preparation kits above remain generation references; detailed publication evidence is in `video-audit/batch-release-2026-11-11/publication.json`. The Video Tracker was not accessed or changed.
 
 ## Shared question introduction source
 

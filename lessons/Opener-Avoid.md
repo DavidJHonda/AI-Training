@@ -12,11 +12,11 @@ AI is the same. It has its rip currents, and recognizing them is the real skill.
 
 ### Avoid Traps
 
-In this section
+Three questions this section will help you answer.
 
-1. Traps in the Answer The ways an answer goes wrong on its own: invented facts, bias, stale knowledge, and summaries of documents the model never read.
-2. Traps in You The traps that work on you instead of the answer. Helpful, agreeable, and engaging can make AI easy to use and easy to fall for.
-3. Traps from the World The trap that comes looking for you. Other people’s AI can put fakes in front of you so convincing that seeing is no longer proof.
+1. Why can AI sound so sure and still be wrong?
+2. When might I be trusting AI too much?
+3. If AI can create convincing fakes, what should I check before trusting what I see or hear?
 
 When AI fails, nothing looks broken.
 

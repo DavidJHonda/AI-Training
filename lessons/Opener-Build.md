@@ -26,25 +26,13 @@ Your choices, questions, and judgment matter even when everyone has the same too
 
 **Teaching content:**
 
-This road map shows what we’ll explore in this section. Build Your Skills.
+Three questions this section will help you answer.
 
-One. Judgment and Responsibility.
+What will set me apart in a world with AI?
 
-Question claims, weigh evidence, use AI honestly, protect what you share, and consider who your choices affect.
+What skills should I start building now?
 
-Two. People Skills and Creative Thinking: listen, communicate, and work with others. Explore different ideas and find a better approach.
-
-Three. Curiosity and Your Next Steps: follow questions, explore your interests, and choose a next step you can take.
-
-Build the skills you keep when the tool changes.
-
-## Keep This Question in Mind
-
-Keep one question in mind through the whole section.
-
-Everyone will have the same tool. What do I bring that it doesn’t?
-
-This section is how you build your answer.
+How can I use AI effectively and responsibly in my future work?
 
 ## Closing Message
 

@@ -26,31 +26,21 @@ AI does not replace your thinking. It multiplies it.
 
 Two people, two identical phones, one sandwich. One rushed, blurry picture. One carefully framed, crisp shot. The phone never changed.
 
-### Board 2: Work With AI, the Section Map
+### Board 2: Work With AI
 
 **Image file:** `work-with-ai-opener-section-map.jpg`
 
-![Work With AI: the section map](work-with-ai-opener-section-map.jpg)
+![Work With AI](work-with-ai-opener-section-map.jpg)
 
 **Teaching content:**
 
-This road map shows what we’ll explore in this section.
+Three questions this section will help you answer.
 
-Work With AI.
+Where could AI help the most in my work?
 
-This section has three parts.
+How do I get great answers from AI?
 
-First, Find Where AI Helps: recognize the work AI does best and choose an app that fits your needs.
-
-Second, Ask Better Questions: ask useful questions, give clear instructions, and understand what information AI has when it answers.
-
-Giving AI the right details helps it give you a better answer.
-
-Third. Evaluate and Improve.
-
-Check the answer, improve it through conversation, and choose when a different model, more thinking, or research could help.
-
-The result depends on how you use the tool.
+What can I do to make those answers even better?
 
 ### Board 3: Close
 

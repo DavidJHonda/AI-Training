@@ -54,11 +54,12 @@ ROW_TOP = 29
 TITLE_BODY_GAP = 8
 ROW_BOTTOM = 25
 ACCENTS = ("#4f2fc4", "#1652f0", "#0e8f86", "#0f7a4a", "#a9760c")
+QUESTION_INTRO = "Three questions this section will help you answer."
 
 @dataclass(frozen=True)
 class Row:
     title: str
-    body: str
+    body: str = ""
 
 
 @dataclass(frozen=True)
@@ -70,75 +71,79 @@ class MapBoard:
     page_output: str
     prep_output: str
     review_output: str
+    questions: bool = False
 
 
 BOARDS = (
     MapBoard(
         key="work-with-ai",
         title="Work With AI",
-        takeaway="The result depends on how you use the tool.",
+        takeaway="",
         rows=(
-            Row("Find Where AI Helps", "Recognize the work AI does best and choose an app that fits your needs."),
-            Row("Ask Better Questions", "Ask useful questions, give clear instructions, and understand what information AI has when it answers."),
-            Row("Evaluate and Improve", "Check the answer, improve it through conversation, and choose when a different model, more thinking, or research could help."),
+            Row("Where could AI help the most in my work?"),
+            Row("How do I get great answers from AI?"),
+            Row("What can I do to make those answers even better?"),
         ),
         page_output="course-assets/work-with-ai-opener/work-with-ai-opener-section-map.jpg",
         prep_output="course-assets/work-with-ai-opener/work-with-ai-opener-2-section.jpg",
         review_output="board-review-first-four/current-selected/work-with-ai/work-with-ai-opener-2-section.jpg",
+        questions=True,
     ),
     MapBoard(
         key="understand-ai",
         title="Understand AI",
-        takeaway="Each piece builds on the one before it.",
+        takeaway="",
         rows=(
-            Row("Why Probability Matters", "How the information AI has changes what is likely to come next."),
-            Row("How AI Learned", "How training builds the patterns AI uses to answer you."),
-            Row("How Words Become Numbers", "How text becomes tokens, and tokens get numbers that represent meaning."),
-            Row("How Meaning Takes Shape", "How words affect one another, changing their numbers and the relationships those numbers represent."),
-            Row("How AI Builds an Answer", "How AI builds an answer and why answers vary."),
+            Row("Where does AI get all that knowledge?"),
+            Row("How does AI seem to understand what I ask?"),
+            Row("How does AI come up with its answers?"),
         ),
         page_output="course-assets/understand-ai-opener/understand-ai-opener-section-map.jpg",
         prep_output="course-assets/understand-ai-opener/understand-ai-opener-section-map.jpg",
         review_output="board-review-first-four/current-selected/understand-ai/understand-ai-opener-section-map.jpg",
+        questions=True,
     ),
     MapBoard(
         key="avoid-traps",
         title="Avoid Traps",
-        takeaway="Recognizing the pattern is the real skill.",
+        takeaway="",
         rows=(
-            Row("Traps in the Answer", "The ways an answer goes wrong on its own: invented facts, bias, stale knowledge, and summaries of documents the model never read."),
-            Row("Traps in You", "The traps that work on you instead of the answer. Helpful, agreeable, and engaging can make AI easy to use and easy to fall for."),
-            Row("Traps from the World", "The trap that comes looking for you. Other people’s AI can put fakes in front of you so convincing that seeing is no longer proof."),
+            Row("Why can AI sound so sure and still be wrong?"),
+            Row("When might I be trusting AI too much?"),
+            Row("If AI can create convincing fakes, what should I check before trusting what I see or hear?"),
         ),
         page_output="course-assets/avoid-traps-opener/avoid-traps-opener-section-map.jpg",
         prep_output="course-assets/avoid-traps-opener/opener-avoid-2-map.jpg",
         review_output="board-review-first-four/current-selected/avoid-traps/opener-avoid-2-map.jpg",
+        questions=True,
     ),
     MapBoard(
         key="navigate-the-future",
         title="Navigate the Future",
-        takeaway="Take both views of the map seriously.",
+        takeaway="",
         rows=(
-            Row("The Argument", "The loudest voices, why they disagree, and why the speed makes the argument louder."),
-            Row("Monsters and Open Water", "The honest case for worry alongside the real-world upside that has already happened."),
-            Row("Where It Lands on You", "How AI acts, how work may change, the bill for all that math, and what history teaches about predictions."),
+            Row("Why do people disagree so much about AI’s future?"),
+            Row("What could AI do to make society better, and where could it go wrong?"),
+            Row("How could AI change my future life and work?"),
         ),
         page_output="course-assets/navigate-the-future-opener/navigate-the-future-opener-section-map.jpg",
         prep_output="course-assets/navigate-the-future-opener/navigate-the-future-opener-section-map.jpg",
         review_output="board-review-first-four/current-selected/navigate-the-future/navigate-the-future-opener-section-map.jpg",
+        questions=True,
     ),
     MapBoard(
         key="build-your-skills",
         title="Build Your Skills",
-        takeaway="Build the skills you keep when the tool changes.",
+        takeaway="",
         rows=(
-            Row("Judgment and Responsibility", "Question claims, weigh evidence, use AI honestly, protect what you share, and consider who your choices affect."),
-            Row("People Skills and Creative Thinking", "Listen, communicate, and work with others. Explore different ideas and find a better approach."),
-            Row("Curiosity and Your Next Steps", "Follow questions, explore your interests, and choose a next step you can take."),
+            Row("What will set me apart in a world with AI?"),
+            Row("What skills should I start building now?"),
+            Row("How can I use AI effectively and responsibly in my future work?"),
         ),
         page_output="course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg",
         prep_output="course-assets/build-your-skills-opener/build-your-skills-opener-section-map.jpg",
         review_output="board-review-first-four/current-selected/build-your-skills/build-your-skills-opener-section-map.jpg",
+        questions=True,
     ),
 )
 
@@ -163,7 +168,66 @@ def multiline(draw, x: int, y: int, lines: list[str], font, fill: str) -> None:
         draw.text((x, y + index * BODY_LINE), line, font=font, fill=fill)
 
 
+def render_questions(board: MapBoard) -> Image.Image:
+    """Three tinted question cards inside the opener's white content sheet."""
+    assert len(board.rows) == 3
+    font = face("bold", 40)
+    measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    card_left, card_right = SHEET_LEFT + 48, SHEET_RIGHT - 48
+    text_left, number_x = card_left + 132, card_left + 68
+    text_width = card_right - text_left - 40
+    prepared = []
+    for row in board.rows:
+        lines = []
+        current = ""
+        for word in row.title.split():
+            trial = f"{current} {word}".strip()
+            if current and tracked_width(measure, trial, font, INNER_TITLE_TRACKING) > text_width:
+                lines.append(current)
+                current = word
+            else:
+                current = trial
+        if current:
+            lines.append(current)
+        # Keep a trailing word with its clause rather than stranding it alone.
+        if len(lines) == 2 and len(lines[-1].split()) < 3 and "," in row.title:
+            first, last = row.title.rsplit(",", 1)
+            clauses = [first + ",", last.strip()]
+            if all(tracked_width(measure, line, font, INNER_TITLE_TRACKING) <= text_width for line in clauses):
+                lines = clauses
+        prepared.append(lines)
+
+    # Equal cards keep the three questions visually parallel; the longest sets
+    # their shared height instead of forcing its text to a smaller size.
+    row_height = max(160, max(len(lines) for lines in prepared) * 54 + 52)
+    card_top, card_gap = SHEET_TOP + 102, 20
+    sheet_bottom = card_top + len(prepared) * row_height + (len(prepared) - 1) * card_gap + 48
+    height = sheet_bottom + 54  # Safe footer space for the course credit.
+    image = Image.new("RGB", (WIDTH, height), WHITE)
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
+    draw_tracked(draw, (TITLE_LEFT, 31), board.title, face("bold", 56), INK, BOARD_TITLE_TRACKING)
+    draw.rounded_rectangle((SHEET_LEFT, SHEET_TOP, SHEET_RIGHT, sheet_bottom), radius=20, fill=WHITE)
+    draw.text((card_left, SHEET_TOP + 38), QUESTION_INTRO, font=face("medium", 26), fill=BODY)
+
+    tints = ("#eeebfb", "#e8eefc", "#e4f2f1")
+    text_colors = (ACCENTS[0], ACCENTS[1], "#17766f")
+    row_top = card_top
+    for index, (lines, accent, tint, text_color) in enumerate(zip(prepared, ACCENTS, tints, text_colors), start=1):
+        center_y = row_top + row_height // 2
+        draw.rounded_rectangle((card_left, row_top, card_right, row_top + row_height), radius=22, fill=tint)
+        draw.ellipse((number_x - 32, center_y - 32, number_x + 32, center_y + 32), fill=accent)
+        draw.text((number_x, center_y), str(index), font=face("heavy", 28), fill=WHITE, anchor="mm")
+        text_top = row_top + (row_height - len(lines) * 54) // 2
+        for line_index, line in enumerate(lines):
+            draw_inner_title(draw, (text_left, text_top + line_index * 54), line, fill=text_color)
+        row_top += row_height + card_gap
+    return image
+
+
 def render(board: MapBoard) -> Image.Image:
+    if board.questions:
+        return render_questions(board)
     board_title_font = face("bold", 56)
     row_title_font = face("bold", 40)
     body_font = face("medium", 29)

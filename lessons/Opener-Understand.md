@@ -38,19 +38,13 @@ The goal is to understand how your words become an answer.
 
 **Teaching content:**
 
-This road map shows what we’ll explore in this section, Understand AI: how AI really works.
+Three questions this section will help you answer.
 
-One. Why Probability Matters: how the information AI has changes what is likely to come next.
+Where does AI get all that knowledge?
 
-Two. How AI Learned: how training builds the patterns AI uses to answer you.
+How does AI seem to understand what I ask?
 
-Three. How Words Become Numbers: how text becomes tokens, and tokens get numbers that represent meaning.
-
-Four. How Meaning Takes Shape: how words affect one another, changing their numbers and the relationships those numbers represent.
-
-Five. How AI Builds an Answer: how AI builds an answer and why answers vary.
-
-Each piece builds on the one before it.
+How does AI come up with its answers?
 
 ## Closing Message
 

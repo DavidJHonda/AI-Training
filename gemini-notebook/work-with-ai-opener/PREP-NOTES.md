@@ -1,4 +1,4 @@
-# Work With AI opener: full reroll, November 4, 2026
+# Work With AI opener: question-board revision, November 11, 2026
 
 ## Current request
 
@@ -6,9 +6,9 @@ David requested a complete reroll of both revised openers because the installed 
 
 ## Lesson arc
 
-How do you work with AI? → the same phones and sandwich produce different photographs because of how people use them → Find Where AI Helps → Ask Better Questions → Evaluate and Improve, including when a different model, more thinking, or research could help → “Don’t just use AI. Work with it.” / “It doesn’t replace your thinking. It multiplies it.”
+How do you work with AI? → the same phones and sandwich produce different photographs because of how people use them → three questions about where AI helps most, getting great answers, and improving them → “Don’t just use AI. Work with it.” / “It doesn’t replace your thinking. It multiplies it.”
 
-The map is a short orientation to the section. Speak its title and each complete row once, then its takeaway. Later lessons teach the details. Preserve the existing analogy and current close; do not restore retired opening declarations or add a recap.
+The question board orients students to the section. Speak each question once and leave it unanswered; later lessons teach the answers. The short introduction is optional narration. Use three tinted rows with numbered circles and no decorative question marks or takeaway banner. Preserve the existing analogy and current close; do not restore retired opening declarations or add a recap.
 
 ## Narration
 
@@ -18,7 +18,7 @@ The November 2 Work opener voice experiment is complete. David reported no audib
 
 ## Board handling
 
-Four uploads: `Opener-Work.md`, the existing Same Tool face-free stand-in, the current section map, and the close. The stand-in retains the title and takeaway at the canonical dimensions. Restore `course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg` during editing; its visible faces stay out of the upload set. The camera comparison is fully spoken in the Markdown.
+Four uploads: `Opener-Work.md`, the existing Same Tool face-free stand-in, the current question board, and the close. The stand-in retains the title and takeaway at the canonical dimensions. Restore `course-assets/work-with-ai-opener/work-with-ai-opener-same-tool.jpg` during editing; its visible faces stay out of the upload set. The camera comparison is fully spoken in the Markdown.
 
 Keep useful generated drawings between boards. Canonical board replacements, highlighting, camera treatment, and any pauses will be planned against the returned narration under the current Edit Spec.
 
@@ -28,8 +28,8 @@ Upload only the files in `upload/`; paste `PROMPT.txt` into customization. Do no
 
 Save the new raw roll as `Prompts/work-with-ai-opener-5.mp4`. If occupied, use the next unused numeric name. Preserve all previous rolls and candidates.
 
-The locally installed reference is v13, `course-assets/work-with-ai-opener/work-with-ai-opener.mp4`, SHA-256 `cbdf8cf869beed4c5fb7400e3ab3599ba00edab7c799deb7b7a278e024e8318e`. It remains installed pending review of a new candidate. This record does not establish public deployment status.
+The installed reference remains at `course-assets/work-with-ai-opener/work-with-ai-opener.mp4`; `LESSON_VIDEOS` identifies the current version. It still needs a matching narration and visual revision. Updating the lesson text and question board does not change the recorded video.
 
 ## Validation and status
 
-The prompt is under 500 words with all four required blocks. Sources and upload contents are checked with `sync_gemini_notebook.py --lesson work-with-ai-opener --check`. The current map and close were visually inspected. Generation has not started; no new narration or finished video has been reviewed, installed, or published.
+The prompt is under 500 words with all four required blocks. Sources and upload contents are checked with `sync_gemini_notebook.py --lesson work-with-ai-opener --check`. The updated question board and close are the canonical assets. The installed video still uses the old roadmap and requires a matching narration and visual revision. Generation has not started; no new narration or finished video has been reviewed, installed, or published.

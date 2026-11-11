@@ -46,15 +46,13 @@ And only one thing is certain: AI is here to stay. Not that it keeps getting bet
 
 **Teaching content:**
 
-This road map shows what we’ll explore in this section, Navigate the Future.
+Three questions this section will help you answer.
 
-One. The Argument: the loudest voices, why they disagree, and why the speed makes the argument louder.
+Why do people disagree so much about AI’s future?
 
-Two. Monsters and Open Water: the honest case for worry alongside the real-world upside that has already happened.
+What could AI do to make society better, and where could it go wrong?
 
-Three. Where It Lands on You: how AI acts, how work may change, the bill for all that math, and what history teaches about predictions.
-
-Take both views of the map seriously.
+How could AI change my future life and work?
 
 ## Closing Message
 

@@ -1,4 +1,4 @@
-# Build Your Skills opener: full reroll, November 4, 2026
+# Build Your Skills opener: question-board revision, November 11, 2026
 
 ## Current request
 
@@ -6,19 +6,19 @@ David agreed to a stricter Build Your Skills reroll after reviewing rolls 5, 6, 
 
 ## Lesson arc
 
-Tools change while skills can stay with you → the bike-and-balance example shows a skill that carries forward → practice thinking carefully, working with others, finding ideas, and staying curious → Judgment and Responsibility → People Skills and Creative Thinking → Curiosity and Your Next Steps → the personal question → “The tools will change.” / “The skills are yours to keep.”
+Tools change while skills can stay with you → the bike-and-balance example shows a skill that carries forward → practice thinking carefully, working with others, finding ideas, and staying curious → three questions about standing apart, building skills now, and using AI effectively and responsibly in future work → “The tools will change.” / “The skills are yours to keep.”
 
-The map is a short orientation to the section. Speak its title and each complete row once, then its takeaway. Later lessons teach the details. Preserve the existing analogy and current close; do not restore retired opening declarations or add a recap.
+The question board orients students to the section. Speak each question once and leave it unanswered; later lessons teach the answers. The short introduction can remain visual. Use three tinted rows with numbered circles and no decorative question marks or takeaway banner. The old separate personal question is removed because it overlaps the first guiding question. Preserve the existing analogy and current close; do not restore retired opening declarations or add a recap.
 
 ## Narration
 
-The 403-word `PROMPT.txt` now embeds all 256 spoken words from `Opener-Build.md` in order. It requires the entire script verbatim, rather than asking the generator to expand a teaching outline. The short supporting instructions require one narrator, no paraphrasing or added claims, the spoken map title and all descriptions, and an explicit stop after the exact two-line close. The lesson wording and uploads are unchanged.
+`PROMPT.txt` embeds the current narration verbatim, including the three agreed guiding questions. It requires one narrator, no paraphrasing or added claims, and an explicit stop after the exact two-line close. The question-board introduction stays visual. Old map descriptions and the extra personal question are superseded.
 
 Voice continuity and exact delivery must be checked on the returned roll; prompting does not guarantee either. Do not splice in older narrators merely to recover phrases. The review was based on complete transcripts, second-model checks of key passages, and sampled visuals; direct listening was not performed. Full evidence: `video-audit/build-your-skills-opener-rerolls-2026-11-04/REVIEW.md`. The evaluated prompt is preserved there as `PROMPT-ROLLS-5-7.txt`.
 
 ## Board handling
 
-Three uploads: `Opener-Build.md`, the current section map, and the new close. Both boards are face-free and upload directly. The retired creed board is excluded.
+Three uploads: `Opener-Build.md`, the current question board, and the new close. Both boards are face-free and upload directly. The retired creed board is excluded.
 
 Keep useful generated drawings between boards. Canonical board replacements, highlighting, camera treatment, and any pauses will be planned against the returned narration under the current Edit Spec.
 
@@ -28,8 +28,8 @@ Upload only the files in `upload/`; paste `PROMPT.txt` into customization. Do no
 
 Save the new raw roll as `Prompts/build-your-skills-opener-8.mp4`. If occupied, use the next unused numeric name. Preserve all previous rolls and candidates.
 
-The locally installed reference is v8, `course-assets/build-your-skills-opener/build-your-skills-opener.mp4`, SHA-256 `56a40ca37e189a0509c7ad970df04199bd2a615180fcb60287780d7c2caca9dd`. It remains installed pending review of a new candidate. This record does not establish public deployment status.
+The installed reference remains at `course-assets/build-your-skills-opener/build-your-skills-opener.mp4`; `LESSON_VIDEOS` identifies the current version. It still needs a matching narration and visual revision. Updating the lesson text and question board does not change the recorded video.
 
 ## Validation and status
 
-The prompt is under 500 words with all four required blocks. Sources and upload contents are checked with `sync_gemini_notebook.py --lesson build-your-skills-opener --check`. The current map and close were visually inspected. Rolls 5–7 have been evaluated. Roll 8 is prepared but has not been generated or reviewed. No replacement video has been installed or published.
+The prompt is under 500 words with all four required blocks. Sources and upload contents are checked with `sync_gemini_notebook.py --lesson build-your-skills-opener --check`. The updated question board and close are the canonical assets. The installed video still uses the old roadmap and requires a matching narration and visual revision. Rolls 5–7 have been evaluated. The next roll must use the revised questions and current prompt; earlier prepared uploads are superseded. No replacement video has been installed or published.

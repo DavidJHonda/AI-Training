@@ -26,6 +26,15 @@
   }
   let dialog;
   let trigger;
+  const phoneViewport = window.matchMedia('(max-width: 760px), (pointer: coarse) and (max-height: 500px)');
+  // The iframe is narrow even on desktop. Use the parent viewport to opt in.
+  function syncEntryViewport() {
+    const frame = dialog && dialog.querySelector('iframe');
+    if (frame && frame.contentDocument && frame.contentDocument.body) {
+      frame.contentDocument.body.classList.toggle('entry-phone', phoneViewport.matches);
+    }
+  }
+  phoneViewport.addEventListener('change', syncEntryViewport);
   function openEntry(button) {
     const requireEntry = button.hasAttribute('data-entry-required');
     if (!requireEntry && knownLearner()) { location.assign('/course'); return; }
@@ -36,6 +45,7 @@
       dialog.setAttribute('aria-label', 'Start the course');
       dialog.innerHTML = '<button type="button" class="start-dialog-close" aria-label="Close course entry">Close ×</button><iframe title="First name and country" src="/course?entry=dialog"></iframe>';
       if (requireEntry) dialog.querySelector('iframe').src = '/course?entry=dialog&enroll=1';
+      dialog.querySelector('iframe').addEventListener('load', syncEntryViewport);
       document.body.append(dialog);
       dialog.querySelector('button').addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', event => {
@@ -49,6 +59,7 @@
         if (trigger) trigger.focus();
       });
     }
+    syncEntryViewport();
     document.body.classList.add('entry-dialog-open');
     dialog.showModal();
   }
@@ -60,7 +71,14 @@
   });
   window.addEventListener('message', event => {
     if (!dialog || !dialog.open || event.origin !== location.origin || event.source !== dialog.querySelector('iframe').contentWindow) return;
-    if (event.data && event.data.type === 'course-entry-size' && Number.isFinite(event.data.height)) dialog.querySelector('iframe').style.height = Math.max(280, Math.min(900, event.data.height)) + 'px';
+    if (event.data && event.data.type === 'course-entry-size' && Number.isFinite(event.data.height)) {
+      const frame = dialog.querySelector('iframe');
+      frame.style.height = Math.max(280, Math.min(900, event.data.height)) + 'px';
+      if (phoneViewport.matches) {
+        const menu = frame.contentDocument && frame.contentDocument.querySelector('.gate-country-menu');
+        if (menu) requestAnimationFrame(() => { if (dialog.open && menu.isConnected) menu.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
+      }
+    }
     if (event.data && event.data.type === 'course-entered') location.assign('/course');
     if (event.data && event.data.type === 'course-entry-close') dialog.close();
   });

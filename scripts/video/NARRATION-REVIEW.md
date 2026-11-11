@@ -7,9 +7,24 @@ The course is for 16-year-olds. A video's job is to replace the lesson reading.
 
 ## The one question
 
+For the five section openers (David, 2026-11-11), judge the analogy, all three
+guiding questions spoken once in order, and the existing closing lines. Leave
+the guiding questions unanswered for later lessons. Showing an uploaded board
+is optional; its absence does not fail the roll or require an insert. Immediately
+before the questions, use the shared spoken introduction: “This section will help you answer three specific questions.”
+(David, 2026-11-11 follow-up). Standard lesson videos keep their existing rules.
+
 **Does the narration teach the current lesson accurately, clearly, and
 completely?** A student who watches instead of reading must lose no essential
 understanding. Everything else about a roll is editing work.
+
+**Selecting the finished video's sources (David, 2026-11-11):** Compare the live
+video and new rolls for engaging graphics as well as narration. Narration
+completeness or exact wording alone must not determine the chosen video. Choose
+the visual spine and narration source independently when needed, preserving
+stronger live graphics and their motion while repairing spoken requirements.
+Do not carry weaker new artwork or prolonged generic picture reuse into an edit
+merely because that roll supplies the required questions and closing words.
 
 ## Required inputs
 

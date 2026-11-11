@@ -9,6 +9,16 @@ Do not change the live lesson or finished video merely to prepare a source bundl
 
 ## The narration is the video
 
+**Section opener exception (David, 2026-11-11):** Work With AI, Understand AI,
+Avoid Traps, Navigate the Future, and Build Your Skills still upload their boards
+as wording references, but showing those boards in the video is optional.
+Require all three guiding questions to be spoken exactly once, without answering
+them in the opener. Preserve the analogy and exact closing lines. Immediately
+before the questions, require the same spoken introduction in all five openers:
+“This section will help you answer three specific questions.” (David, 2026-11-11 follow-up).
+Do not require board shots or full roadmap explanations to satisfy the
+standard-lesson rules below.
+
 Everything in this guide serves one outcome: a roll whose narration teaches the
 current lesson accurately, clearly, and completely. If the narration is solid, the
 video can be made to work. Boards are swapped for the canonical files, highlights are

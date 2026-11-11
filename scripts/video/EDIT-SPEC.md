@@ -70,6 +70,13 @@ proposal, not a factor in the narration verdict or authorization to ship or publ
 
 ## 2. Every course board is the current page asset
 
+**Section opener exception (David, 2026-11-11):** For the five section openers,
+board appearance is optional. Uploads support accurate narration; they do not
+require an on-screen insert or a board walk. Keep useful illustrated scenes
+instead when they serve the opener. If a course board is used in the finished
+edit, use its current canonical asset and apply the relevant treatment below.
+The three guiding questions and existing closing lines remain spoken requirements.
+
 Wherever the roll shows a lesson board, the candidate shows the exact current
 JPG asset from `course-assets/<lesson>/` as referenced by `index.html`, never
 Notebook's rendering of it, however close it looks. The replacement starts at

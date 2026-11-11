@@ -6,6 +6,7 @@ Use --hashes to verify every renamed binary against its pre-migration SHA-256.
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,9 +16,28 @@ migration = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(migration)
 ledger = json.loads(migration.LEDGER.read_text())
 errors = []
+tracked = set(subprocess.check_output(
+    ['git', '-C', str(ROOT), 'ls-files', '-z'], text=True).split('\0'))
+deleted_evidence = set()
+for receipt in ROOT.glob('output/storage-cleanup-*/**/verified-deletions.json'):
+    cleanup = json.loads(receipt.read_text())
+    if not cleanup.get('deletion_performed'):
+        continue
+    for row in cleanup.get('files', []):
+        name = row.get('path', '')
+        # Migration history is retained after owner-approved scratch cleanup.
+        # Never exempt canonical assets, donor videos, or tracked evidence.
+        if (name.startswith('video-audit/') and name not in tracked
+                and Path(name).suffix.lower() in {'.jpg', '.jpeg', '.png'}
+                and len(row.get('sha256', '')) == 64):
+            deleted_evidence.add(name)
+acknowledged_deletions = set()
 for old, new in ledger['files'].items():
     if not (ROOT / new).exists() and not (ROOT / new).is_symlink():
-        errors.append('Missing renamed asset: ' + new)
+        if new in deleted_evidence:
+            acknowledged_deletions.add(new)
+        else:
+            errors.append('Missing renamed asset: ' + new)
     if (ROOT / old).exists() or (ROOT / old).is_symlink():
         errors.append('Retired name recreated: ' + old)
 for old in ledger['directories']:
@@ -33,11 +53,16 @@ for row in ledger['symlinks'].values():
 if '--hashes' in sys.argv:
     for name, expected in ledger['binary_integrity'].items():
         path = ROOT / name
+        if not path.exists() and name in deleted_evidence:
+            acknowledged_deletions.add(name)
+            continue
         if not path.is_file() or migration.sha(path) != expected['sha256']:
             errors.append('Changed binary bytes: ' + name)
 if errors:
     print('\n'.join(errors))
     raise SystemExit(1)
 print(f"PASS: {len(ledger['files'])} renamed files, including ignored donors; no retired lesson filenames or newly broken symlinks.")
+if acknowledged_deletions:
+    print(f"PASS: {len(acknowledged_deletions)} absent untracked review images accounted for by verified cleanup receipts.")
 if '--hashes' in sys.argv:
-    print(f"PASS: all {len(ledger['binary_integrity'])} renamed binaries retain their original SHA-256.")
+    print('PASS: retained renamed binaries preserve their original SHA-256; recorded review-image deletions accounted for.')

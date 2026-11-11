@@ -478,6 +478,24 @@ Use the established screen-only 760px / coarse-pointer max-height 500px conventi
 `scripts/test_phone_reading_wave_ten.cjs`, full-lesson desktop pixel comparisons at
 1024/1280/1440px, protected-file hashes and print comparisons.
 
+### Remaining phone boards
+
+`RemainingPhoneReadingBoard` opts in the remaining lesson boards and the five section-question boards. It uses the existing `PhoneReadingBoard` visibility classes and the `760px` / coarse-pointer landscape convention. Desktop images retain their original props and surrounding spacing. Print continues to use those canonical images. Phone artwork mounts only while the phone media query matches.
+
+`REMAINING_PHONE_BOARDS` contains canonical phone copy and crop coordinates. `RemainingPhoneCards` supports stacked cards, connected sequences, and comparison rows with repeated category labels. Password outcomes use a shared condition and two distinct branches, with the connector ending at ELSE; the Chinese Room retains its ordered whole-phrase lookup and reply; the playlist keeps a horizontally scrollable three-column HTML spreadsheet with a keyboard-focusable region, plus its original handwritten paper, arrows and crossed-out song. The Ask the Desk / Ask AI phone board omits the extra ten-history-ideas list as requested, while keeping its scene, prompts and takeaway. The final keepsake retains all five scenes and the exact discount example.
+
+Reuse lesson data for the strength explanations (`ENGINES`), next-step explanations (`MOVES`), and section questions (`groups`), rather than duplicating those strings. A board’s existing accessible transcript belongs inside `desktopDescription`, or has `phone-reading-desktop-source` when shared across boards. Only the visible desktop or phone representation is exposed to assistive technology. Opener artwork keeps its original `BodyP` wrapper on desktop and becomes a sibling board on phones, avoiding nested paragraphs.
+
+Keep future changes inside the opt-in `phone-remaining-*` selectors. Body text and category labels are at least 16px, headings are 20px, and content wraps without fixed heights. Check the full lessons at 320, 390, 430px and coarse-pointer landscape; compare every affected page at 1024, 1280 and 1440px, plus print and asset hashes. `scripts/test_phone_reading_remaining.cjs` covers the responsive boundary, accessible visibility, exact examples and relationships, and lesson reading/navigation interactions.
+
+## Public entry on phones
+
+The landing page retains its canonical diagram image on desktop and in print. Its `course-preview-phone` branch uses real text for the same three connected prediction steps; only the visible branch is announced. The public-entry regression checks those sentences and output tokens against `REMAINING_PHONE_BOARDS` so wording cannot drift. Phone benefit rows and explanatory copy use 20px headings and at least 16px body text.
+
+`course-guest-shell` and `guest-lesson-navigation` opt only guest sample and group pages into narrow navigation reflow and coarse-pointer landscape navigation. Enrolled lesson rendering is unchanged. All 57 routed lesson pages are still included in desktop comparison coverage because `NextLessonGate` supplies the conditional guest class.
+
+The entry dialog's iframe follows the parent viewport through `start-course.js` and the `entry-phone` body class. This avoids applying phone typography to the narrow iframe on a desktop page. On phones the iframe grows to its measured content height; the outer dialog scrolls, its Close control stays reachable, and the country menu retains a bounded internal list. Resize changes do not reload the form or discard input. Names, country selection, enrollment delivery and stored progress keep their existing behavior.
+
 ## Course chrome
 
 - `LessonHeader` identifies the lesson and section.

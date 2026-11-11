@@ -10,13 +10,23 @@ Swim into that calm, and you'll be pulled far from shore. The skill isn't out-sw
 
 AI is the same. It has its rip currents, and recognizing them is the real skill. This section teaches you to read the water.
 
-### Avoid Traps
+### Board 1: Avoid Traps
+
+**Image file:** `avoid-traps-opener-section-map.jpg`
+
+![Avoid Traps](avoid-traps-opener-section-map.jpg)
+
+**Teaching content:**
 
 Three questions this section will help you answer.
 
-1. Why can AI sound so sure and still be wrong?
-2. When might I be trusting AI too much?
-3. If AI can create convincing fakes, what should I check before trusting what I see or hear?
+Why can AI sound so sure and still be wrong?
+
+When might I be trusting AI too much?
+
+If AI can create convincing fakes, what should I check before trusting what I see or hear?
+
+## Closing Message
 
 When AI fails, nothing looks broken.
 

@@ -20,7 +20,7 @@ The source lists and reserved-narration directions below document previous produ
 
 ## Current Flattery lesson
 
-Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flattery-trap.md`; active uploads and instructions: `gemini-notebook/flattery-trap/`. Four teaching boards plus the restored two-part Flattery close and narration Markdown make six uploads. Engagement, slope, infinite scroll, and company incentives are removed. Preserve the agreeable/RLHF signpost, rubric qualification, and all Flattery wording. The page retains all five feedback lab steps and a brief closing reminder after the lab. Historical merged videos remain source material; the new Flattery-only candidate awaits review and installation. The registry and lesson-owned PREP-NOTES.md supersede historical production notes below.
+Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flattery-trap.md`; active uploads and instructions: `gemini-notebook/flattery-trap/`. Four teaching boards plus the restored two-part Flattery close and narration Markdown make six uploads. Engagement, slope, infinite scroll, and company incentives are removed. Preserve the agreeable/RLHF signpost, rubric qualification, and all Flattery wording. The page retains all five feedback lab steps and ends the lab with a decision grounded in the student’s work. Historical merged videos remain source material; the new Flattery-only candidate awaits review and installation. The registry and lesson-owned PREP-NOTES.md supersede historical production notes below.
 
 ## Scene plan for review
 
@@ -30,7 +30,7 @@ Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flatter
 | Hallucination | Drawn chat → fabricated study reveal → definition scene → four explanations → uninterrupted pizza/Reddit example → checking mindset → three source-check steps applied to both examples → exact close |
 | Training Bias | Cow/grass shortcut → three distortions → three questions → historical wrong-answer chat and current-source correction → RAG → close |
 | Document Trap | Tournament exception → split/search/load → RAG → four retrieval moves applied to the rulebook → close |
-| Mind Trap | Mom versus chatbot college advice → brief ELIZA → why human language feels human → shared context versus shared experience → movie versus college → keep the decision → close |
+| Trust Trap | High-stakes trust question → Mom and chatbot give college advice → which answer to trust and why → why AI feels like somebody → talk important decisions through with people who know you → close |
 | Flattery Trap | Gatsby feedback comparison → human-feedback training → brief historical sycophancy failure → five demonstrated feedback moves with explanations and limits → close |
 | Engagement Trap | Slope question, two endings → infinite scroll removes a decision → Meta settlement restores limits and pauses → deliberate stopping in AI chat → close |
 | Support Trap | Sister versus chatbot at lunch → venting, preparation followed by action, and danger needing a person → content note and Sophie story → urgent human-help actions → close |
@@ -83,37 +83,17 @@ Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teac
 
 ## Document Trap
 
-**2026-10-27 lesson cuts:** The separate Retrieval heading, repeated rulebook-retrieval sentence, and repeated benefit/warning paragraph are removed. Both closing context paragraphs remain unchanged. TRY IT retains the lease, handbook, and scholarship scenarios; the scholarship feedback now includes the quotation-checking guidance. Current Markdown and prompt match the shortened page. The installed video still needs revision.
+Fresh full reroll prepared 2026-11-12. Use one narrator, including the student’s question and the quoted AI answer. Review the new take for a consistent voice from the basketball opening through the close.
 
-Rebuilt 2026-09-21 on the 2026-09-20 recipe (the Fake Trap template) after the 9/18 and 9/20 rolls did not carry the lesson: the prompt has the VOICE block, ten required-verbatim lines (both quotes from the story, the definition, both banners, the tournament-section question, the quotation line, the close), and a beat spine under 500 words; the Markdown is Board / Image file / Teaching content only with no Scene or Takeaway labels; Board 1 uploads as a faceless variant (title and banner, photo removed) that the canonical board replaces in post. Staged in `gemini-notebook/document-trap/`.
+Follow the 200-page rulebook story through the five-foul regular-season rule and six-foul tournament exception. Explain why a long-file search may miss a passage. Speak the revised tournament question, answer it, teach all four tips, and finish on “Uploaded doesn’t mean fully read.” followed by “Ask for the rule and any exceptions.”
 
-Revised again 2026-09-21 after rolls 7 and 8: both spoke seven of the ten required lines and missed the same three — the two definition sentences and Board 1's banner — and so did all six earlier rolls, so there was nothing to repair from. Those three were the only required lines buried mid-paragraph; every line that lands is either quoted dialogue or alone on its own line. The Markdown now gives all eleven that shape (the six-foul result is the eleventh, added because it has never landed in eight rolls), the two "may" sentences are split out so the conditional wording is not buried, and the prompt names the layout and the hardenings to avoid. Review: `video-audit/document-trap-reroll-2026-09-21/`.
+Upload the [ready sources](../../../gemini-notebook/document-trap/upload/) into a fresh notebook and paste the [prompt](../../../gemini-notebook/document-trap/PROMPT.txt) into video customization. The sources are the lesson Markdown, the faceless **An Incomplete Answer** board, **Four Tips for Working with Long Documents**, and the closing board. In the edit, use the [illustrated opening board](../../../course-assets/document-trap/document-trap-uploaded.jpg) in place of the faceless version. The [upload checklist](../../../gemini-notebook/document-trap/README.txt) gives the raw-roll filename.
 
-- Prompt: `gemini-notebook/document-trap/PROMPT.txt`
-- Markdown: `lessons/document-trap.md`
-- Upload checklist: `gemini-notebook/document-trap/README.txt`
-- Notebook sources:
-  1. `gemini-notebook/document-trap/assets/document-trap-uploaded-faceless.jpg` (upload variant of Board 1, photo removed)
-  2. `course-assets/document-trap/document-trap-flow.jpg`
-  3. `course-assets/document-trap/document-trap-moves.jpg`
-  4. `course-assets/document-trap/document-trap-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/document-trap/document-trap-uploaded.jpg` (faces; replaces the faceless variant in the edit)
+## Trust Trap
 
-## Mind Trap
+The November 12 reroll opens on the high-stakes trust question. Compare Mom’s Indiana answer with the chatbot’s Michigan answer, give each “The Truth” caption, then ask “Which answer would you trust?” Follow the definition with Why AI Feels Like Somebody and the practical role for AI in important decisions. Finish on “Sounding human doesn’t make AI human.” and “For important decisions, talk to people who know you.” The ELIZA history has been cut.
 
-**v3 SHIPPED 2026-09-21** (cache key 20260921ship4, pill 4 min): roll 6 of 2026-09-21 as the whole narration, no cuts, plus one graft from roll 5 (the shared-text-versus-shared-experience sentence, which roll 6 never speaks); post-only comparison board walked with section rings and returned to unmarked under the definition, which also removes the roll's chapter card; canonical Why AI Feels Like Somebody with card-hugging rings and a banner ring; the roll's 23.5 s archival mainframe photograph replaced by the previous live video's own ELIZA teletype drawing; standard close. Review: `video-audit/trust-trap-comparison-2026-09-21/`.
-
-Rebuilt to the 2026-09-10 materials spec on 2026-09-18 (Board sections with teaching content and takeaways; Speak the Answers prompt; the comparison board's narration reserved for post-production).
-
-- Prompt: **retired; fresh prep required**
-- Markdown: `lessons/trust-trap.md`
-- Upload checklist: **retired; fresh prep required**
-- Notebook sources:
-  1. `course-assets/trust-trap/trust-trap-eliza.jpg`
-  2. `course-assets/trust-trap/trust-trap-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/trust-trap/trust-trap-comparison.jpg` (faces; Board 1 narration reserved in the Markdown)
+Upload the four files in the [Trust Trap upload folder](../../../gemini-notebook/trust-trap/upload/) and paste the [customization prompt](../../../gemini-notebook/trust-trap/PROMPT.txt). The second board retains its historical filename, `trust-trap-eliza.jpg`. Its visible content is Why AI Feels Like Somebody. Replace the text-only college comparison with the [illustrated course board](../../../course-assets/trust-trap/trust-trap-comparison.jpg) during editing. Save the new raw roll as `Prompts/trust-trap-reroll.mp4` and review its narration before editing. The installed v6 predates this lesson revision.
 
 ## Flattery Trap
 

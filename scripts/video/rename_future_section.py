@@ -10,8 +10,12 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from cleanup_receipts import verified_cleanup_paths
 LEDGER = ROOT / 'scripts/video/future-section-migration-2026-11-04.json'
 SKIP = {'.git', '.video-venv', 'node_modules', '.superpowers', '.claude',
         '__pycache__', '.codex', '.agents'}
@@ -44,15 +48,19 @@ def sha(p):
 
 def check(hashes=False):
     data = json.loads(LEDGER.read_text())
+    tracked = set(subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT, text=True).split('\0'))
+    deleted_evidence = verified_cleanup_paths(ROOT, tracked)
     files, dirs = inventory()
     errors = [f'Retired filename: {p}' for p in files + dirs if rename(p) != p]
     for old, new in data['files'].items():
-        if not (ROOT / new).exists():
+        if not (ROOT / new).exists() and new not in deleted_evidence:
             errors.append('Missing: ' + new)
     if hashes:
         expected_hashes = dict(data['binary_sha256'])
         expected_hashes.update({p: board['sha256'] for p, board in data.get('regenerated_boards', {}).items()})
         for p, expected in expected_hashes.items():
+            if not (ROOT / p).exists() and p in deleted_evidence:
+                continue
             if not (ROOT / p).exists() or sha(ROOT / p) != expected:
                 errors.append('Unexpected binary change: ' + p)
     if errors:

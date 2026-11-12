@@ -16,32 +16,34 @@ from render_avoid_traps_editorial import CompareSide, Pair, render_comparison, s
 from render_navigate_editorial_batch import AMBER, BLUE, PURPLE, TEAL, Card, CardBoard, render_card_board
 
 
-def main():
-    comparison = render_comparison(
-        "The Same Question. Different Answers.",
+def render_trust_comparison():
+    return render_comparison(
+        "Same Question. Different Answers.",
         "Should I choose Michigan or Indiana?",
         (
             CompareSide(
-                "MOM", "Your Mom",
+                "", "Your Mom",
                 "Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking.",
-                (("KNOWS", "Your history."),
-                 ("NOTICES", "How you act when you are stuck."),
-                 ("STAKE", "Shares the outcome.")), BLUE,
+                (("THE TRUTH", "Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you."),), BLUE,
             ),
             CompareSide(
-                "AI", "The Chatbot",
+                "", "The Chatbot",
                 "Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you.",
-                (("SEES", "What you typed."),
-                 ("MATCHES", "Common patterns."),
-                 ("STAKE", "Does not share the outcome.")), AMBER,
+                (("THE TRUTH", "The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose."),), AMBER,
             ),
         ),
-        "scripts/video/assets/editorial-avoid-traps/comparisons/human-vs-ai.png",
-        scenario_label="YOU",
+        "previews/illustration-cast-refresh-batch-8/trust-trap-comparison-preview.jpg",
+        scenario_label="YOU", reuse_board_photos=True,
     )
-    save_pair(comparison, Pair(
-        "course-assets/trust-trap/trust-trap-comparison-v3.jpg", "course-assets/trust-trap/trust-trap-comparison.jpg",
-    ))
+
+
+def save_comparison():
+    target = Path(__file__).resolve().parents[2] / "course-assets/trust-trap/trust-trap-comparison.jpg"
+    save_course_image(render_trust_comparison(), target, quality=95, subsampling=0, optimize=True)
+
+
+def main():
+    save_comparison()
     # Reorder intact native artwork panels with their copy and accent colors.
     root = Path(__file__).resolve().parents[2]
     art_path = root/'scripts/video/assets/editorial-avoid-traps/mind-eliza/art-sheet.png'

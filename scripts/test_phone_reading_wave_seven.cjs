@@ -6,7 +6,7 @@ const path = require('node:path');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
   trainingbias: ['biasMechanisms','biasQuestions'],
-  documenttrap: ['documentIncomplete','documentFlow','documentMoves'],
+  documenttrap: ['documentIncomplete','documentMoves'],
   mindtrap: ['trustComparison','trustEliza']
 };
 (async () => {
@@ -59,25 +59,29 @@ const lessons = {
         assert.match(await sample.innerText(), /The AI tells you, based on what it learned, “Three hours\.”/);
         const checks=page.getByRole('button',{name:/^Mark step [0-9]+ (incomplete|complete)$/});assert.equal(await checks.count(),4);await checks.first().click();assert.equal(await checks.first().getAttribute('aria-pressed'),'true');await checks.first().click();assert.equal(await checks.first().getAttribute('aria-pressed'),'false');
       } else if(id==='documenttrap') {
-        assert.deepEqual(await page.locator('[data-phone-reading-board="documentFlow"] .phone-reading-mobile h4').allTextContents(),['1Split','2Search','3Load']);
-        assert.equal(await page.locator('[data-phone-reading-board="documentFlow"] .phone-seven-flow-arrow').count(),2);
+        assert.equal(await page.locator('[data-phone-reading-board="documentFlow"]').count(),0);
         assert.deepEqual(await page.locator('[data-phone-reading-board="documentMoves"] .phone-reading-mobile h4').allTextContents(),['Name the Section','Ask One Thing','Share What Matters','Ask for the Quote']);
         assert.equal(await page.locator('[data-phone-reading-board="documentMoves"] .phone-reading-mobile').locator('.phone-reading-number, ol').count(),0);
         const tree=await page.locator('#main-content').ariaSnapshot();
-        assert.equal(tree.split('heading "Split, Search, Load" [level=3]').length-1,1);
+        assert.equal(tree.includes('heading "Split, Search, Load" [level=3]'),false);
         assert.equal(tree.includes('heading "Four moves for better retrieval" [level=3]'),false);
-        for(const kind of ['documentFlow','documentMoves']) {
+        for(const kind of ['documentMoves']) {
           const wrapper=page.locator('[data-phone-reading-board="'+kind+'"]');
           const source=await wrapper.locator('.phone-reading-desktop').textContent();
           for(const p of await wrapper.locator('.phone-reading-mobile .phone-reading-copy > p').allTextContents())assert.ok(source.includes(p),kind+': '+p);
         }
-        for(const answer of ['Ask two questions in two messages: pets first, then the deposit.','Paste the two paragraphs into your message, then ask your question.','Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.'])await page.getByRole('button',{name:answer,exact:true}).click();
-        for(const feedback of ['One question, one target.','Put the evidence in the message.','Search for what could change the answer.'])assert.ok((await page.locator('#main-content').innerText()).includes(feedback));
+        const moves=page.locator('.activity-scenario');
+        assert.equal(await moves.count(),6);
+        for(const [i,good] of [true,false,true,true,false,true].entries()) {
+          await moves.nth(i).getByRole('button',{name:good?'Good Move':'Not So Good',exact:true}).click();
+          assert.ok(await moves.nth(i).getByText('Correct',{exact:true}).isVisible());
+        }
+        for(const feedback of ['A section heading tells AI where to look in those 500 pages.','The passage is now part of your question.','Reading the original lets you check both the wording and what it means in context.'])assert.ok((await page.locator('#main-content').innerText()).includes(feedback));
       } else {
         const comparison=page.locator('[data-phone-reading-board="trustComparison"] .phone-reading-mobile');
         assert.deepEqual(await comparison.locator('h4').allTextContents(),['YOU','Your Mom','The Chatbot']);
-        for(const phrase of ['Should I choose Michigan or Indiana?','Indiana. You seemed more comfortable there','Michigan. It offers world-class academics','KNOWS','Your history.','NOTICES','How you act when you are stuck.','SEES','What you typed.','MATCHES','Common patterns.','Shares the outcome.','Does not share the outcome.'])assert.ok((await comparison.innerText()).includes(phrase));
-        assert.equal((await comparison.innerText()).split('STAKE').length-1,2);
+        for(const phrase of ['Should I choose Michigan or Indiana?','Indiana. You seemed more comfortable there','Michigan. It offers world-class academics','Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you.','The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose.'])assert.ok((await comparison.innerText()).includes(phrase));
+        assert.deepEqual(await comparison.locator('.phone-reading-fact strong').allTextContents(), ['The Truth', 'The Truth']);
         const eliza=page.locator('[data-phone-reading-board="trustEliza"] .phone-reading-mobile');
         assert.deepEqual(await eliza.locator('h4').allTextContents(),['AI Sounds Like One','Your Brain Looks for a Person']);
         assert.equal(await eliza.locator('.phone-seven-flow-arrow').count(),1);
@@ -92,6 +96,6 @@ const lessons = {
       await context.close();
     }
     if (process.env.PHONE_WAVE_OUTPUT) { fs.mkdirSync(process.env.PHONE_WAVE_OUTPUT, { recursive: true }); fs.writeFileSync(path.join(process.env.PHONE_WAVE_OUTPUT, 'phone-checks.json'), JSON.stringify(records, null, 2)); }
-    console.log('PASS: study-time example and seven boards; phone, landscape, breakpoints, readable HTML, exact prompts, original scenes, ordered retrieval, complete trust comparison, accessible representations, shared retrieval data, lesson activities, print and no runtime errors');
+    console.log('PASS: study-time example and six boards; phone, landscape, breakpoints, readable HTML, exact prompts, original scenes, document tips and six choices, complete trust comparison, accessible representations, shared document data, lesson activities, print and no runtime errors');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

@@ -65,7 +65,7 @@ a decision map, not an instruction to rebuild every asset.
 | Training Bias | Friendly Schematic plus Editorial Explainer | Keep | Preserve the visual mechanisms and three corrective questions. |
 | Document Trap | Editorial process | Keep | Use as a compact process-board exemplar. |
 | Trust Trap | Friendly Schematic | Keep | Use “Why AI feels like somebody” as the clearest family exemplar. |
-| Flattery Trap | Friendly process schematic | Keep | Preserve the praise loop and text-led strategies. |
+| Flattery Trap | Editorial Explainer: Three-Card Full-Bleed (`EE-3FB`) | Adopted | How the Praise Got Baked In uses three illustrated cards with a step number above each column. |
 | Engagement Trap | Story and interface utility | Keep | The two chat endings are concrete evidence, not a template candidate. |
 | Support Trap | Friendly Schematic | Keep | Preserve the restrained real-value-versus-missing-person distinction. |
 | Fake Trap | Editorial Explainer | Keep | Preserve the motives and Source, Context, Corroboration boards. |

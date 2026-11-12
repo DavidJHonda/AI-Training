@@ -261,14 +261,16 @@ class CompareSide:
 
 def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, CompareSide],
                       source: str, takeaway: str | None = None,
-                      scenario_label: str = "THE SCENARIO") -> Image.Image:
+                      scenario_label: str = "THE SCENARIO", *, reuse_board_photos: bool = False,
+                      source_photo_top: int | None = None) -> Image.Image:
     card_width, gap = 744, 32
     lefts = (40, 816)
     scenario_top = 112 if title else PADDING
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     scenario_font = face("medium", 32)
     scenario_blocks = [wrap(measure, paragraph, scenario_font, 1430) for paragraph in scenario.split("\n")]
-    scenario_height = 54 + sum(len(lines) * 45 for lines in scenario_blocks) + 22 * (len(scenario_blocks) - 1) + 28
+    scenario_text_top = 54 if scenario_label else 24
+    scenario_height = scenario_text_top + sum(len(lines) * 45 for lines in scenario_blocks) + 22 * (len(scenario_blocks) - 1) + 28
     cards_top = scenario_top + scenario_height + gap
     # Match the approved Your First Assignment structured-comparison header.
     art_height = round(card_width * 9 / 16)
@@ -278,7 +280,8 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
     section_font = face("heavy", 20)
     text_width = card_width - 68
     prepared = []
-    peer = [0, 0, 0]
+    peer = [0] * max(len(side.sections) for side in sides)
+    label_height = 40 if any(side.label for side in sides) else 0
     max_answer_height = 0
     for side in sides:
         if "\n" in side.answer:
@@ -304,9 +307,9 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
             peer[i] = max(peer[i], len(lines))
             section_lines.append(lines)
         prepared.append((answer_block, section_lines))
-    text_height = 32 + 30 + 10 + 48 + 18 + max_answer_height + 40
+    text_height = 32 + label_height + 48 + 18 + max_answer_height + 40
     for i, n in enumerate(peer):
-        text_height += 28 + 12 + n * 41 + (38 if i < 2 else 0)
+        text_height += 28 + 12 + n * 41 + (38 if i + 1 < len(peer) else 0)
     text_height += 34
     card_height = art_height + text_height
     cards_bottom = cards_top + card_height
@@ -320,8 +323,9 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
     draw.rounded_rectangle((40, scenario_top, 1560, scenario_top + scenario_height), radius=18,
                            fill=WHITE, outline=mix_with_white(PURPLE, CARD_BORDER_OPACITY), width=1)
     draw.rectangle((40, scenario_top + 18, 47, scenario_top + scenario_height - 18), fill=PURPLE)
-    draw.text((72, scenario_top + 20), scenario_label, font=pill_font, fill=PURPLE)
-    scenario_y = scenario_top + 54
+    if scenario_label:
+        draw.text((72, scenario_top + 20), scenario_label, font=pill_font, fill=PURPLE)
+    scenario_y = scenario_top + scenario_text_top
     for i, lines in enumerate(scenario_blocks):
         multiline(draw, (72, scenario_y), lines, scenario_font, BODY, 45)
         scenario_y += len(lines) * 45 + (22 if i < len(scenario_blocks) - 1 else 0)
@@ -332,16 +336,22 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle((left, cards_top, left + card_width, cards_top + card_height), radius=CARD_RADIUS,
                                fill=WHITE, outline=mix_with_white(side.accent, CARD_BORDER_OPACITY), width=1)
-        image.paste(accent_wash(cover_portrait_header(panel, (card_width, art_height)), side.accent), (left, cards_top),
+        if reuse_board_photos:
+            top = cards_top if source_photo_top is None else source_photo_top
+            photo = src.crop((left, top, left + card_width, top + art_height))
+        else:
+            photo = accent_wash(cover_portrait_header(panel, (card_width, art_height)), side.accent)
+        image.paste(photo, (left, cards_top),
                     top_round_mask((card_width, art_height), CARD_RADIUS))
         draw = ImageDraw.Draw(image)
         divider = cards_top + art_height
         draw.line((left, divider, left + card_width, divider), fill=mix_with_white(side.accent, .20), width=1)
         x, y = left + 34, divider + 32
-        pill_w = round(draw.textlength(side.label, font=pill_font)) + 28
-        draw.rounded_rectangle((x, y, x + pill_w, y + 30), radius=15, fill=mix_with_white(side.accent, .12))
-        draw.text((x + 14, y + 15), side.label, font=pill_font, fill=side.accent, anchor="lm")
-        y += 40
+        if side.label:
+            pill_w = round(draw.textlength(side.label, font=pill_font)) + 28
+            draw.rounded_rectangle((x, y, x + pill_w, y + 30), radius=15, fill=mix_with_white(side.accent, .12))
+            draw.text((x + 14, y + 15), side.label, font=pill_font, fill=side.accent, anchor="lm")
+        y += label_height
         draw_inner_title(draw, (x, y), side.title, fill=side.accent)
         y += 66
         answer_block, section_lines = blocks
@@ -358,7 +368,7 @@ def render_comparison(title: str, scenario: str, sides: tuple[CompareSide, Compa
             draw.text((x, y), label, font=section_font, fill=side.accent)
             y += 40
             multiline(draw, (x, y), lines, body_font, BODY, 41)
-            y += peer[i] * 41 + (38 if i < 2 else 0)
+            y += peer[i] * 41 + 38
     if footer_top and takeaway:
         draw_takeaway_band(image, top=footer_top, left=40, right=1560, text=takeaway,
                            font=face("medium", TAKEAWAY_TEXT_SIZE))

@@ -383,8 +383,8 @@ relationship and original step numbers. Its four retrieval moves remain unnumber
 alternatives in row-major reading order. Both retrieval boards share the local item
 arrays with their desktop transcripts.
 
-Trust Trap keeps the common college question above both complete responses, including
-the MOM/AI labels and all six comparison facts. The two ELIZA-effect cards retain their
+Trust Trap keeps the common college question above both complete responses. Each response has
+one explanation labeled “The Truth.” The two ELIZA-effect cards retain their
 original order and a connecting arrow. All artwork is reused from canonical images.
 
 Use the existing screen-only 760px / coarse-pointer max-height 500px convention,

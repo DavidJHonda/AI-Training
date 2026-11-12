@@ -205,6 +205,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .answer-lesson-board-mobile { display: none; }
   /* Phone board alternatives. Each lesson opts in per board. */
   .phone-reading-board, .phone-reading-desktop { display: contents; }
+  .board-screen-reader-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); }
   .phone-reading-mobile { display: none; }
   @media screen and (max-width: 760px), screen and (pointer: coarse) and (max-height: 500px) {
     .phone-reading-board > .phone-reading-desktop, .phone-reading-desktop-source { display: none; }
@@ -218,6 +219,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .phone-reading-art { display: block; width: 100%; height: auto; }
     .phone-reading-mobile .phone-reading-label { margin-bottom: 8px; color: var(--phone-reading-accent, var(--inkSoft)); font-weight: 800; }
     .phone-reading-number { display: inline-grid; place-items: center; flex: 0 0 30px; height: 30px; border-radius: 50%; background: var(--phone-reading-accent); color: white; font-size: 16px; }
+    .phone-reading-card > .phone-reading-number { display: grid; width: 30px; margin: 10px auto; }
     .phone-reading-example { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule); }
     .phone-reading-example ul { margin: 0; padding-left: 22px; }
     .phone-reading-example li + li { margin-top: 8px; }
@@ -1870,8 +1872,8 @@ const CLOSE_BOARDS = {
   openerprotect: { pill: "When AI fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
   hallucination: { pill: "Hallucinations sound like every other AI answer.", sticky: "When something doesn’t add up, trace the claim to its source." },
   trainingbias: { pill: "AI learns from its training data.", sticky: "Bias in the data can shape the answer." },
-  documenttrap: { pill: "A missing passage can change the answer.", sticky: "Ask for the passage. Then check it." },
-  mindtrap: { pill: "For decisions that matter", sticky: "You make the call." },
+  documenttrap: { pill: "Uploaded doesn’t mean fully read.", sticky: "Ask for the rule and any exceptions." },
+  mindtrap: { pill: "Sounding human doesn’t make AI human.", sticky: "For important decisions, talk to people who know you." },
   flattery: { pill: "Useful feedback points to the work.", sticky: "Look for specifics, not approval." },
   supporttrap: { pill: "AI can help you get ready for people.", sticky: "In danger, leave the chat and bring in someone who can act." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
@@ -1928,8 +1930,8 @@ const CLOSE_BOARD_ASSETS = {
   openerprotect: { src: "course-assets/avoid-traps-opener/avoid-traps-opener-close.jpg", cssWidth: 495, width: 1488, height: 597 },
   hallucination: { src: "course-assets/hallucination/hallucination-close.jpg", cssWidth: 619, width: 1860, height: 597 },
   trainingbias: { src: "course-assets/training-bias/training-bias-close.jpg", cssWidth: 448, width: 1344, height: 597 },
-  documenttrap: { src: "course-assets/document-trap/document-trap-close.jpg", cssWidth: 566, width: 1698, height: 597 },
-  mindtrap: { src: "course-assets/trust-trap/trust-trap-close.jpg", cssWidth: 400, width: 1200, height: 597 },
+  documenttrap: { src: "course-assets/document-trap/document-trap-close.jpg?v=20261112rule", cssWidth: 566, width: 1698, height: 597 },
+  mindtrap: { src: "course-assets/trust-trap/trust-trap-close.jpg?v=db5d86a8", cssWidth: 556, width: 1668, height: 597 },
   flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg?v=20261102restoreclose", cssWidth: 495, width: 1488, height: 600 },
   supporttrap: { src: "course-assets/support-trap/support-trap-close.jpg", cssWidth: 530, width: 1590, height: 600 },
   faketrap: { src: "course-assets/fake-trap/fake-trap-close.jpg", cssWidth: 521, width: 1566, height: 597 },
@@ -5162,11 +5164,12 @@ function PhoneReadingCards(props) {
       return E(React.Fragment, { key: card.title },
         board.equation && i > 0 ? E("div", { className: "phone-reading-operator", role: "img", "aria-label": "plus" }, "+") : null,
         E(board.ordered ? "li" : "section", { className: "phone-reading-card", style: { "--phone-reading-accent": card.accent } },
+          board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null,
           card.art ? E("svg", { className: "phone-reading-art", viewBox: card.art.join(" "), width: card.art[2], height: card.art[3], "aria-hidden": "true", focusable: "false" },
             E("image", { href: props.src, width: board.width, height: board.height })) : null,
           E("div", { className: "phone-reading-copy" },
             card.label && !board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
-            E("h4", null, board.ordered ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title),
+            E("h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title),
             card.label && board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
             E("p", null, card.body),
             card.studyExample ? E("div", { className: "phone-reading-example" }, E("p", null, card.studyExample)) : null,
@@ -5177,10 +5180,9 @@ function PhoneReadingCards(props) {
 }
 function PhoneReadingBoard(props) {
   var E = React.createElement, board = PHONE_READING_BOARDS[props.kind];
-  var note = board.note ? E("aside", { className: "phone-reading-note" }, E("h4", null, board.noteTitle), E("p", null, board.note)) : null;
-  return E("div", { className: "phone-reading-board", "data-phone-reading-board": props.kind },
-    E("div", { className: "phone-reading-desktop" }, props.image, props.desktopDescription),
-    E("section", { className: "phone-reading-mobile", "aria-label": board.title },
+  var note = board.note ? E("aside", { className: "phone-reading-note" }, board.noteTitle ? E("h4", null, board.noteTitle) : null, E("p", null, board.note)) : null;
+  function boardText(className) {
+    return E("section", { className: className, "aria-label": board.title },
       E("h3", null, board.title),
       board.noteFirst ? note : null,
       props.children || E(PhoneReadingCards, { board: board, src: props.image.props.src }),
@@ -5189,7 +5191,12 @@ function PhoneReadingBoard(props) {
         E("p", { className: "phone-reading-result" }, board.result)) : null,
       !board.noteFirst ? note : null,
       board.takeaway ? E("p", { className: "phone-reading-takeaway" }, board.takeaway) : null,
-      E("p", { className: "phone-reading-credit" }, "besmarterthanthetool.com")));
+      E("p", { className: "phone-reading-credit" }, "besmarterthanthetool.com"));
+  }
+  return E("div", { className: "phone-reading-board", "data-phone-reading-board": props.kind },
+    E("div", { className: "phone-reading-desktop" }, props.image,
+      board.desktopText ? boardText("board-screen-reader-text") : props.desktopDescription),
+    boardText("phone-reading-mobile"));
 }
 
 // Second phone-readability batch. Copy is checked against the canonical boards;
@@ -5336,28 +5343,28 @@ function BeyondPhoneReadingBoard(props) {
 // Third phone-readability batch. Copy and crop boundaries follow the live boards.
 Object.assign(PHONE_READING_BOARDS, {
   flatteryFeedback: {
-    title: "Flattery vs. Useful Feedback", width: 1600, height: 1582,
-    noteFirst: true, noteTitle: "The Scenario",
+    desktopText: true, title: "Flattery Trap vs. Useful Feedback", width: 1600, height: 1520,
+    noteFirst: true,
     note: "You ask AI to evaluate this Great Gatsby essay introduction: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”",
     cards: [
-      { title: "Flattery", label: "The Trap", accent: "#a9760c", art: [41,382,742,416], body: React.createElement(PhoneReadingFacts, { intro: "“Great start! You’ve clearly identified the central theme. This is a strong foundation.”", rows: [["Praised", "The work without pointing to evidence."], ["Could Fit", "Almost any Gatsby essay."], ["Result", "False praise for a weak essay intro."]] }) },
-      { title: "Useful Feedback", label: "What You Need", accent: "#1652f0", art: [817,382,742,416], body: React.createElement(PhoneReadingFacts, { intro: "“Right topic, but this needs work. The opening is filler, and you still need a thesis.”", rows: [["Praised", "The topic and nothing more."], ["Named", "The missing thesis."], ["Result", "A specific next move."]] }) }
+      { title: "Flattery Trap", accent: "#a9760c", art: [41,354,742,416], body: React.createElement(PhoneReadingFacts, { intro: "“Great start! You’ve clearly identified the central theme. This is a strong foundation.”", rows: [["The Truth", "That praise could fit almost any Gatsby essay. It calls your introduction strong without pointing to a single line that earns the praise."]] }) },
+      { title: "Useful Feedback", accent: "#1652f0", art: [817,354,742,416], body: React.createElement(PhoneReadingFacts, { intro: "“You’ve named your topic: the American Dream. But ‘Fitzgerald explores this idea’ leaves me wondering what you think he shows about it. What does Gatsby’s experience suggest about that dream?”", rows: [["The Truth", "You’ve named your topic, but your reader still needs to know what you think. Your next step is to write a thesis that says what Fitzgerald shows about the American Dream."]] }) }
     ], takeaway: "Good feedback improves the work. Empty praise only improves the feeling."
   },
   praiseTraining: {
-    title: "How the Praise Got Baked In", width: 1600, height: 751,
-    stages: [
-      { title: "People Rank", number: 1, accent: "#4f2fc4", art: [76,176,309,173], body: "Reviewers compare answers and choose the ones they prefer." },
-      { title: "Agreement Can Win", number: 2, accent: "#1652f0", art: [646,176,309,173], body: "Positive, confident, agreeable answers can feel better in the moment." },
-      { title: "Numbers Move", number: 3, accent: "#0e8f86", art: [1216,176,309,173], body: "Training pushes the model toward patterns that earned approval." }
+    desktopText: true, title: "How the Praise Got Baked In", width: 1600, height: 796,
+    ordered: true, numbersAboveArt: true, cards: [
+      { title: "People Rank", accent: "#4f2fc4", art: [40,191,485,273], body: "Reviewers compare answers and choose the ones they prefer." },
+      { title: "Praise Can Win", accent: "#1652f0", art: [557,191,486,273], body: "Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful." },
+      { title: "Numbers Move", accent: "#0e8f86", art: [1075,191,485,273], body: "Training pushes the model toward patterns that earned approval." }
     ]
   },
   sycophancyResponse: {
-    title: "Sycophancy", width: 1600, height: 479,
+    desktopText: true, title: "Sycophancy", width: 1600, height: 479,
     cards: [{ title: "ChatGPT’s Response", accent: "#4f2fc4", body: "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode." }]
   },
   fightFlattery: {
-    title: "Three Ways to Fight the Flattery Trap", width: 1600, height: 1101, ordered: true,
+    desktopText: true, title: "Three Ways to Fight the Flattery Trap", width: 1600, height: 1101, ordered: true,
     cards: [
       { title: "Ask, Don’t Tell", accent: "#4f2fc4", body: null, weak: "“I think this plan is good. Thoughts?”", better: "“Evaluate this plan before I tell you what I think.”" },
       { title: "Ask for the Gaps", accent: "#1652f0", body: null, weak: "“Is my essay good?”", better: "“What’s weak, what’s missing, and what would someone who disagrees say?”" },
@@ -5787,20 +5794,15 @@ Object.assign(PHONE_READING_BOARDS, {
     {title:'Remove the Famous',accent:'#a9760c',art:[1075,128,485,273],body:'“Answer again, leaving out the most famous examples.”'}
   ]},
   documentIncomplete: {title:'An Incomplete Answer',width:1600,height:1308,scene:[40,128,1520,1012],takeaway:'Uploading a file doesn’t mean AI has read it all.'},
-  documentFlow: {title:'Split, Search, Load',width:1600,height:879,flow:true,cards:[
-    {accent:'#4f2fc4',art:[75,176,310,175]},
-    {accent:'#1652f0',art:[645,176,310,175]},
-    {accent:'#0e8f86',art:[1215,176,310,175]}
-  ],takeaway:'Search decides which parts reach the answer.'},
-  documentMoves: {title:'Four Moves for Better Retrieval',width:1600,height:1425,cards:[
+  documentMoves: {title:'Four Tips for Working with Long Documents',width:1600,height:1425,cards:[
     {accent:'#4f2fc4',art:[40,128,744,339]},
     {accent:'#1652f0',art:[817,128,744,339]},
     {accent:'#0e8f86',art:[40,709,744,339]},
     {accent:'#a9760c',art:[817,709,744,339]}
   ],takeaway:'Make the right passages easier to find.'},
-  trustComparison: {title:'The Same Question. Different Answers.',width:1600,height:1424,noteFirst:true,noteTitle:'YOU',note:'Should I choose Michigan or Indiana?',cards:[
-    {title:'Your Mom',label:'MOM',accent:'#1652f0',art:[40,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking.',rows:[['KNOWS','Your history.'],['NOTICES','How you act when you are stuck.'],['STAKE','Shares the outcome.']]})},
-    {title:'The Chatbot',label:'AI',accent:'#a9760c',art:[817,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you.',rows:[['SEES','What you typed.'],['MATCHES','Common patterns.'],['STAKE','Does not share the outcome.']]})}
+  trustComparison: {title:'Same Question. Different Answers.',width:1600,height:1228,noteFirst:true,noteTitle:'YOU',note:'Should I choose Michigan or Indiana?',cards:[
+    {title:'Your Mom',accent:'#1652f0',art:[40,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking.',rows:[['The Truth','Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you.']]})},
+    {title:'The Chatbot',accent:'#a9760c',art:[817,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you.',rows:[['The Truth','The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose.']]})}
   ]},
   trustEliza: {title:'Why AI Feels Like Somebody',width:1600,height:844,flow:true,cards:[
     {title:'AI Sounds Like One',accent:'#4f2fc4',art:[40,128,744,339],body:'Your brain hears a person when AI says “I think” and “I feel.” But those are generated words.'},
@@ -5818,7 +5820,7 @@ function SeventhPhoneReadingBoard(props) {
     content=E('ol',{className:'phone-seven-flow',role:'list'},cards.map(function(card,i){return E('li',{key:card.title},
       E('section',{className:'phone-reading-card',style:{'--phone-reading-accent':card.accent}},
         E(PhoneFourArt,{src:src,crop:card.art,height:board.height}),
-        E('div',{className:'phone-reading-copy'},E('h4',null,props.kind==='documentFlow'?E('span',{className:'phone-reading-number','aria-hidden':'true'},i+1):null,card.title),E('p',null,card.body))),
+        E('div',{className:'phone-reading-copy'},E('h4',null,card.title),E('p',null,card.body))),
       i<cards.length-1?E('span',{className:'phone-seven-flow-arrow','aria-hidden':'true'},'↓'):null); }));
   } else content=E(PhoneReadingCards,{board:Object.assign({},board,{cards:cards}),src:src});
   return E(PhoneReadingBoard,props,content);
@@ -9312,7 +9314,7 @@ function PromptSection(props) {
 }
 function DocumentChatSection(props) {
   var E = React.createElement;
-  const [scenarioAnswers, setScenarioAnswers] = useState({});
+  const [answers, setAnswers] = useState({});
 
   const TACTICS = [
     {
@@ -9333,36 +9335,38 @@ function DocumentChatSection(props) {
     }
   ];
 
-  const SCENARIOS = [
+  const moves = [
     {
-      prompt: "Your first apartment lease is 75 pages. You upload it because you have specific questions about pets and getting your deposit back. Which approach gives retrieval the best shot?",
-      options: [
-        { label: "Ask ChatGPT to summarize the lease, list your responsibilities, and explain the rules on pets and deposits.", correct: false, hint: "A broad, multi-part request gives retrieval several targets at once.", feedback: "AI may handle all three parts, but each one needs different passages. Asking separately makes it easier to see whether it found the pet rules and the deposit rules." },
-        { label: "Ask two questions in two messages: pets first, then the deposit.", correct: true, headline: "One question, one target.", feedback: "A focused question gives retrieval a clear target. Ask about pets first, then the deposit. Each answer can pull the passages that matter to that question." }
-      ]
+      label: "You want to know whether there’s a late fee. When you ask AI, you point it to the section called “Fees and Payments.”", good: true,
+      goodMoveFeedback: "A section heading tells AI where to look in those 500 pages.",
+      notSoGoodFeedback: "The same term can appear in several chapters. Naming the section helps AI find the passage you mean."
     },
     {
-      prompt: "Your first job at Anthropic comes with a 300-page employee handbook. You care deeply about one thing: whether you can keep building your own apps on the side. You’ve found the two paragraphs that cover it. What’s the better move?",
-      options: [
-        { label: "Paste the two paragraphs into your message, then ask your question.", correct: true, headline: "Put the evidence in the message.", feedback: "Pasting the two relevant paragraphs puts them directly into the context window. AI can still misunderstand them, but it no longer has to search 300 pages to find them." },
-        { label: "Upload the whole handbook, then ask about side projects.", correct: false, hint: "Why make AI search 300 pages when you already found the relevant section?", feedback: "Uploading the whole handbook could work, but it adds a retrieval step you do not need. Paste the paragraphs you already found so the answer starts with the right text." }
-      ]
+      label: "AI gives you a one-page summary of the document. You use that summary as your complete list of what to submit.", good: false,
+      goodMoveFeedback: "A summary can get the main point right and still skip a detail that changes your answer.",
+      notSoGoodFeedback: "A summary gives you the main points. For a specific decision, check the passage that covers your situation."
     },
     {
-      prompt: "Congratulations on your full scholarship to Stanford. The Scholarship Agreement lists all the legal terms and conditions. You upload it and ask AI, “Does it renew every year?” The AI says yes, every year. What’s the smarter next message?",
-      options: [
-        { label: "Great. That’s what I wanted to know.", correct: false, hint: "The general rule may be only part of the answer. What could stop the renewal?", feedback: "The annual renewal rule may be correct, but conditions or exceptions could change it. Ask about them directly before relying on the answer." },
-        { label: "Are there any conditions or exceptions anywhere in the document that could stop the renewal? Quote any you find.", correct: true, headline: "Search for what could change the answer.", feedback: "Naming conditions and exceptions gives retrieval new targets. Compare the quote with the original agreement. If it is missing, inaccurate, or does not support the answer, do not rely on the answer." }
-      ]
+      label: "You have questions about deadlines, fees, and eligibility. You start with just one: “When is the application due?”", good: true,
+      goodMoveFeedback: "One focused question helps AI find a passage that answers the specific thing you need to know.",
+      notSoGoodFeedback: "Try narrowing “What should I know?” to a question you could answer with a quote from the document."
+    },
+    {
+      label: "You found the paragraph about who qualifies, but one sentence is confusing. You paste the paragraph into your question and ask what that sentence means.", good: true,
+      goodMoveFeedback: "The passage is now part of your question. AI can use the exact wording you want to discuss.",
+      notSoGoodFeedback: "Uploading the file may leave AI searching for a passage you’ve already found. Pasting it puts that text in front of AI."
+    },
+    {
+      label: "AI tells you the deadline and doesn’t mention any exceptions. You assume the same deadline applies to everyone.", good: false,
+      goodMoveFeedback: "AI may have found only the general rule. Ask whether another passage lists exceptions.",
+      notSoGoodFeedback: "An exception can be on a page AI missed. Naming your situation helps it look for that page."
+    },
+    {
+      label: "AI says you need two references. You ask it to quote the requirement, then open the document to check the wording yourself.", good: true,
+      goodMoveFeedback: "Reading the original lets you check both the wording and what it means in context.",
+      notSoGoodFeedback: "Even an accurate quote can leave out a condition in the next sentence. Read the paragraph it came from."
     }
   ];
-
-  const CHUNK_STEPS = [
-    { title: "Split", body: "Break the long document into smaller pieces." },
-    { title: "Search", body: "Look for pieces that match the question by keywords and meaning." },
-    { title: "Load", body: "Put the selected pieces into the context window for AI to use." }
-  ];
-
 
   return E("div", null,
     E(LessonHeader, { sectionId: "documenttrap" }),
@@ -9383,35 +9387,17 @@ function DocumentChatSection(props) {
     })}),
     E(SectionKicker, null, "How AI Searches a Long Document"),
     E(BodyP, { marginBottom: 14 },
-      "AI can only answer from the document text that reaches its context window. A short file may fit there in full. With a long file, the system may search for the parts that seem most relevant and add those passages instead."),
-    E(BodyP, { marginBottom: 24 }, "One common process looks like this:"),
-    React.createElement(SeventhPhoneReadingBoard, {kind:"documentFlow",items:CHUNK_STEPS,image:E("img", {
-      src: "course-assets/document-trap/document-trap-flow.jpg?v=20260914attribution1",
-      alt: "Split, Search, Load. One common way AI searches a long document: split it into pieces, search those pieces using keywords and meaning, and load the selected pieces into the context window. Search decides which parts reach the answer.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 24px", borderRadius: 12 }
-    }),desktopDescription:E("div", {
-      style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
-    },
-      E("h3", null, "Split, Search, Load"),
-      E("ol", null,
-        CHUNK_STEPS.map(function(step, i) {
-          return E("li", { key: i },
-            E("strong", null, step.title),
-            " ", step.body);
-        })),
-      E("p", null, "Search decides which parts reach the answer."))}),
+      "AI can only answer from the document text that reaches its context window. A short file may fit there in full. When you ask a question about a long file, the system may search the file for passages that match your question. The AI then sees only those passages when it answers."),
     E(BodyP, null,
-      "This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out."),
-    E(BodyP, null,
-      "There’s a name for what happened: Retrieval-Augmented Generation, or RAG. The same process can pull information from the web or a database."),
+      "Try asking, “In tournament games, how many fouls are allowed? Quote the rule and any exceptions.”"),
     React.createElement(SeventhPhoneReadingBoard, {kind:"documentMoves",items:TACTICS,image:E("img", {
-      src: "course-assets/document-trap/document-trap-moves.jpg?v=20260914attribution1",
-      alt: "Four ways to improve document retrieval: name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.",
+      src: "course-assets/document-trap/document-trap-moves.jpg?v=20261112longdocs",
+      alt: "Four Tips for Working with Long Documents. Name the section, ask one thing, share what matters, and ask for a quote. Make the right passages easier to find.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }),desktopDescription:E("div", {
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
-      E("h3", null, "Four moves for better retrieval"),
+      E("h3", null, "Four Tips for Working with Long Documents"),
       E("ol", null,
         TACTICS.map(function(t, i) {
           return E("li", { key: i },
@@ -9421,28 +9407,37 @@ function DocumentChatSection(props) {
       E("p", null, "Make the right passages easier to find."))}),
     E(BodyP, null,
       "This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer."),
-    E(BodyP, null,
-      "Uploading a document and asking AI for help is a good starting point."),
     closeBoard("documenttrap")),
     E(InteractiveBox, {
       variant: "try",
       surface: "mint",
-      title: "Help AI Find the Answer",
-      lead: "Better retrieval starts by making the right passage easier to find.",
-      instructions: [
-        "Read the document situation and the question being asked.",
-        "Choose the move that gives retrieval the best chance to work."
-      ]
+      title: "Working with a Long Document",
+      lead: "You uploaded a 500-page document to AI.",
+      instructions: [E(React.Fragment, null, "For each move, choose ", E("strong", null, "Good Move"), " or ", E("strong", null, "Not So Good"), ".")]
     },
       E(InnerCard, { style: { display: "flex", flexDirection: "column" } },
-        SCENARIOS.map(function(sc, si) {
-          var picked = scenarioAnswers[si];
-          return E("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
-              E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
-              E("div", { style: { flex: 1 } },
-                E("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.prompt))),
-            E(QuizBlock, { key: si, surface: "mint", totalQuestions: SCENARIOS.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setScenarioAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
+        moves.map(function(move, index) {
+          const picked = answers[move.label];
+          const answered = picked !== undefined;
+          return E(ScenarioRow, {
+            key: move.label,
+            index: index + 1,
+            prompt: move.label,
+            answered: answered,
+            correct: picked === move.good,
+            feedback: picked ? move.goodMoveFeedback : move.notSoGoodFeedback
+          }, [true, false].map(function(good) {
+            return E(FeedbackPill, {
+              key: String(good),
+              label: good ? "Good Move" : "Not So Good",
+              answered: answered,
+              isCorrect: good === move.good,
+              isPicked: picked === good,
+              onClick: function() {
+                setAnswers(function(previous) { return { ...previous, [move.label]: good }; });
+              }
+            });
+          }));
         }))),
     E(GroupExercise, { id: "documenttrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "documenttrap-discussion"; }).questions })),
@@ -12143,26 +12138,23 @@ function MindTrapSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "mindtrap" }),
     React.createElement(LessonReading, { sectionId: "mindtrap" },
-    /*#__PURE__*/React.createElement(BodyP, null, "Some AI traps aren\u2019t about whether the answer is correct. They\u2019re about how the answer feels, and what that feeling makes you trust."),
+    /*#__PURE__*/React.createElement(BodyP, null, "We know AI is amazing, fantastic, and (insert your own superlative here). But how much should you trust it when you\u2019re the one making a high-stakes decision?"),
     /*#__PURE__*/React.createElement(BodyP, null, "Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:"),
     /*#__PURE__*/React.createElement(SeventhPhoneReadingBoard, {kind:"trustComparison",image:React.createElement("img", {
-      src: "course-assets/trust-trap/trust-trap-comparison.jpg?v=20260921batch8",
-      alt: "The Same Question. Different Answers. Should I choose Michigan or Indiana? Mom recommends Indiana using knowledge of the student. AI recommends Michigan with polished, generic college advice.",
+      src: "course-assets/trust-trap/trust-trap-comparison.jpg?v=0fc55ea2",
+      alt: "Same Question. Different Answers. Should I choose Michigan or Indiana? Mom recommends Indiana. Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you. The chatbot recommends Michigan. The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "The Same Question. Different Answers."),
+      /*#__PURE__*/React.createElement("h3", null, "Same Question. Different Answers."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "You:"), " Should I choose Michigan or Indiana?"),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Mom:"), " Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking."),
-      /*#__PURE__*/React.createElement("p", null, "She knows your history, notices how you act, and shares the stakes."),
+      /*#__PURE__*/React.createElement("p", null, React.createElement("strong", null, "The Truth"), " Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "AI:"), " Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you."),
-      /*#__PURE__*/React.createElement("p", null, "It sees what you typed, matches common patterns, and does not share the outcome.")),
+      /*#__PURE__*/React.createElement("p", null, React.createElement("strong", null, "The Truth"), " The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose.")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. ",
+      "Which answer would you trust? The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. ",
       /*#__PURE__*/React.createElement("strong", null, "Trust Trap is giving a human-sounding answer the trust you would give someone who knows you.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The ELIZA Effect"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "In the 1960s, some people began treating a simple chatbot called ELIZA as if it understood them. But ELIZA mostly matched patterns and turned their words back into questions. That response became known as the ELIZA effect."),
     /*#__PURE__*/React.createElement(SeventhPhoneReadingBoard, {kind:"trustEliza",image:React.createElement("img", {
       src: "course-assets/trust-trap/trust-trap-eliza.jpg?v=20260914attribution1",
       alt: "Why AI Feels Like Somebody. First, AI sounds like a person by using phrases such as I think and I feel. Then your brain looks for a person behind the response. Sounding human does not make AI human.",
@@ -12209,14 +12201,14 @@ function FlatteryWhyBox() {
   var E = React.createElement;
   return E(React.Fragment, null,
     E(ThirdPhoneReadingBoard, { kind: "praiseTraining", image: E("img", {
-      src: "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg?v=20260914attribution1",
-      alt: "How the praise got baked in. Reviewers compare answers, agreeable answers can win, and training moves the model toward patterns that earned approval.",
+      src: "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg?v=20261112cards",
+      alt: "How the praise got baked in. Reviewers compare answers, reviewers sometimes choose praise over more useful criticism, and training moves the model toward patterns that earned approval.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "How the praise got baked in"),
       E("p", null, "People Rank. Reviewers compare answers and choose the ones they prefer."),
-      E("p", null, "Agreement Can Win. Positive, confident, agreeable answers can feel better in the moment."),
+      E("p", null, "Praise Can Win. Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful."),
       E("p", null, "Numbers Move. Training pushes the model toward patterns that earned approval.")));
 }
 function FlatteryTrapSection(props) {
@@ -12240,7 +12232,7 @@ function FlatteryTrapSection(props) {
     body: "Three checks: which reply quoted your actual sentences? Which one named something specific to fix? Which one would make the essay better? If both replies are useful, that’s okay. Compare which one is more specific. If the new reply feels too harsh, soften your instruction. It’s yours to tune."
   }, {
     title: "Make it yours",
-    body: "Now run something real through it: a paragraph you actually wrote, a plan you actually have. The instruction will guide future regular chats; a project can still add its own more specific instructions.",
+    body: "Now run something real through it: a paragraph you actually wrote, a plan you actually have. Pick one suggestion. Would you use it? Point to the part of your work that helped you decide. The instruction will guide future regular chats; a project can still add its own more specific instructions.",
     prompt: "Is this good? [paste something you actually wrote]"
   }];
   var labCheckedCount = FLAT_LAB_STEPS.filter(function(st, i) { return !!labChecked[i]; }).length;
@@ -12266,30 +12258,33 @@ function FlatteryTrapSection(props) {
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "flattery" }),
     React.createElement(LessonReading, { sectionId: "flattery" },
-    /*#__PURE__*/React.createElement(BodyP, null, "AI is often encouraging. It can praise your essay, support your idea, and agree with your opinion, even when what you really need is honest criticism."),
+    /*#__PURE__*/React.createElement(BodyP, null, "One cool thing about working with ChatGPT, Claude, or Gemini is that their replies are usually friendly, positive, and encouraging. Sometimes I wish humans were just as friendly!"),
+    /*#__PURE__*/React.createElement(BodyP, null, "But there’s a downside. What if what you really need is honest criticism?"),
     /*#__PURE__*/React.createElement(BodyP, null,
       /*#__PURE__*/React.createElement("strong", null, "The Flattery Trap is treating AI’s approval as honest evaluation.")),
     /*#__PURE__*/React.createElement(ThirdPhoneReadingBoard, { kind: "flatteryFeedback", image: React.createElement("img", {
-      src: "course-assets/flattery-trap/flattery-trap-feedback-comparison.jpg?v=20260921batch8",
-      alt: "Flattery vs. Useful Feedback. The same Gatsby essay introduction receives generic praise on one side and specific feedback about the missing thesis on the other. Good feedback improves the work; empty praise only improves the feeling.",
+      src: "course-assets/flattery-trap/flattery-trap-feedback-comparison.jpg?v=20261112evidence",
+      alt: "Flattery Trap vs. Useful Feedback. The same Gatsby essay introduction receives generic praise on one side and specific feedback about the missing thesis on the other. Good feedback improves the work; empty praise only improves the feeling.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Praise feels good. Feedback makes it better."),
+      /*#__PURE__*/React.createElement("h3", null, "Flattery Trap vs. Useful Feedback"),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The essay intro:"), " The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The Flattery Trap:"), " Great start! This is a strong foundation. Just polish it up a bit and you’re good to go. It praises a theme it never named, fits almost any Gatsby essay, and gives false praise for a weak essay intro."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "What you needed:"), " Right topic, but the opening is filler and there is no thesis. What specifically does Gatsby reveal about the American Dream? This response praises the topic and nothing more, names what is missing, and gives the next move.")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Good feedback can still be positive. What matters is whether it points to something real in the work and helps you improve it."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Why AI Leans Agreeable"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Flattery Trap"), " “Great start! You’ve clearly identified the central theme. This is a strong foundation.”"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The Truth"), " That praise could fit almost any Gatsby essay. It calls your introduction strong without pointing to a single line that earns the praise."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Useful Feedback"), " “You’ve named your topic: the American Dream. But ‘Fitzgerald explores this idea’ leaves me wondering what you think he shows about it. What does Gatsby’s experience suggest about that dream?”"),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The Truth"), " You’ve named your topic, but your reader still needs to know what you think. Your next step is to write a thesis that says what Fitzgerald shows about the American Dream.")),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Why AI Sometimes Praises Weak Work"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One reason is a training process called reinforcement learning from human feedback, or RLHF."),
+      "When you’ve worked hard on an essay, “Great start!” can feel better to hear than a question about what your thesis will say. If people rating AI answers also favor the more encouraging reply, that preference can shape how the AI responds."),
+    /*#__PURE__*/React.createElement(BodyP, null,
+      "One training method that uses those ratings is called reinforcement learning from human feedback, or RLHF."),
     /*#__PURE__*/React.createElement(FlatteryWhyBox, null),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "A Real Sycophancy Failure"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Sycophancy"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "The technical name for this behavior is sycophancy: AI agrees with or praises the user instead of giving the more honest answer. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse."),
+      "The technical name for this behavior is sycophancy. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "A user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:"),
+      "One user shared an exchange in which they pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:"),
     /*#__PURE__*/React.createElement(ThirdPhoneReadingBoard, { kind: "sycophancyResponse", image: React.createElement("img", {
       src: "course-assets/flattery-trap/flattery-trap-sycophancy.jpg?v=20261027short",
       alt: "Sycophancy. ChatGPT enthusiastically calls the gag-product idea brilliant, genius, and performance art.",
@@ -12299,9 +12294,9 @@ function FlatteryTrapSection(props) {
       /*#__PURE__*/React.createElement("h3", null, "Sycophancy: ChatGPT’s Response"),
       /*#__PURE__*/React.createElement("p", null, "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode.")),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "OpenAI began rolling the update back three days after it launched and publicly described the behavior as sycophancy. The problem is not limited to ChatGPT. Researchers have found it across multiple AI assistants."),
+      "OpenAI released the update on April 25 and began rolling it back on April 28. Researchers have also found sycophancy across multiple AI assistants."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "AI companies now test for sycophancy and use training and system instructions to reduce it. The problem has improved, but it has not disappeared. How you ask still matters."),
+      "OpenAI added checks for sycophancy. You can still run into it. How you ask still matters."),
     /*#__PURE__*/React.createElement(ThirdPhoneReadingBoard, { kind: "fightFlattery", image: React.createElement("img", {
       src: "course-assets/flattery-trap/flattery-trap-three-moves.jpg?v=20261023three",
       alt: "Three ways to fight the Flattery Trap shown as weak-prompt and better-prompt rewrites: ask rather than tell, ask for gaps including opposing viewpoints, and use a rubric. A brief tip suggests saving a standing instruction.",
@@ -12317,13 +12312,14 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("p", null, "Better: ", s.good));
         })),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Tip: Save a standing instruction. "), "If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”")),
+    React.createElement(BodyP, null, "Treat the suggested grade as practice feedback. Check each rating against your writing and your teacher’s rubric."),
     closeBoard("flattery")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
       title: "Make Feedback Useful",
       hint: "Click the box after you finish each step.",
-      lead: "Change one setting so AI points to what needs work instead of just telling you it looks good. Then run the same prompt before and after to see what changes. Ten minutes.",
+      lead: "Try the same prompt before and after changing one setting. Compare the replies and decide which advice you would use. Ten minutes.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: FLAT_LAB_STEPS.length })},
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         FLAT_LAB_STEPS.map(function(st, i) {
@@ -12341,7 +12337,6 @@ function FlatteryTrapSection(props) {
               st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
-    /*#__PURE__*/React.createElement(BodyP, null, "Know what you came for. When you have it, choose what happens next."),
     React.createElement(GroupExercise, { id: "flattery-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
       React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "flattery-discussion"; }).questions })),
     /*#__PURE__*/React.createElement(LessonRule, null),

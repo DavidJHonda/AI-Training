@@ -51,10 +51,16 @@ const lessons = {
       }
       await page.setViewportSize({ width: 390, height: 850 });
       if (id === 'flattery') {
-        assert.deepEqual(await page.locator('[data-phone-reading-board="fightFlattery"] .phone-reading-number').allTextContents(), ['01','02','03']);
-        assert.deepEqual(await page.locator('[data-phone-reading-board="praiseTraining"] .phone-reading-mobile h4').allTextContents(), ['1People Rank','2Agreement Can Win','3Numbers Move']);
+        assert.deepEqual(await page.locator('[data-phone-reading-board="fightFlattery"] .phone-reading-mobile .phone-reading-number').allTextContents(), ['01','02','03']);
+        assert.deepEqual(await page.locator('[data-phone-reading-board="praiseTraining"] .phone-reading-mobile h4').allTextContents(), ['People Rank','Praise Can Win','Numbers Move']);
+        assert.deepEqual(await page.locator('[data-phone-reading-board="praiseTraining"] .phone-reading-mobile li > .phone-reading-number:first-child').allTextContents(), ['1','2','3']);
         const comparison=await page.locator('[data-phone-reading-board="flatteryFeedback"] .phone-reading-mobile').innerText();
-        for (const copy of ['The American Dream is something that many people have thought about over the years.','The work without pointing to evidence.','The missing thesis.']) assert.ok(comparison.includes(copy));
+        for (const copy of ['The American Dream is something that many people have thought about over the years.','That praise could fit almost any Gatsby essay.','Your next step is to write a thesis']) assert.ok(comparison.includes(copy));
+        const board = page.locator('[data-phone-reading-board="flatteryFeedback"] .phone-reading-mobile');
+        assert.equal(await board.locator('h3').textContent(), 'Flattery Trap vs. Useful Feedback');
+        assert.deepEqual(await board.locator('h4').allTextContents(), ['Flattery Trap', 'Useful Feedback']);
+        assert.equal(await board.locator('.phone-reading-label').count(), 0);
+        assert.deepEqual(await board.locator('.phone-reading-fact strong').allTextContents(), ['The Truth', 'The Truth']);
         const response=await page.locator('[data-phone-reading-board="sycophancyResponse"] .phone-reading-mobile').innerText();assert.ok(response.includes('It’s performance art disguised as a gag gift'));
         await page.getByRole('button', { name: 'Mark step 1 complete', exact: true }).click();
         assert.equal(await page.getByRole('button', { name: 'Mark step 1 incomplete', exact: true }).getAttribute('aria-pressed'), 'true');

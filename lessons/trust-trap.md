@@ -2,13 +2,15 @@
 
 # Trust Trap
 
-Some AI traps aren’t about whether the answer is correct. They’re about how the answer feels, and what that feeling makes you trust.
+We know AI is amazing, fantastic, and (insert your own superlative here). But how much should you trust it when you’re the one making a high-stakes decision?
 
 Think about picking a college. Ask the same question twice, once at the dinner table and once in a chat window:
 
-### Board 1: The Same Question. Different Answers.
+### Board 1: Same Question. Different Answers.
 
-**Course image (post-production only; not a Notebook upload):** `trust-trap-comparison.jpg`
+**Image file:** `trust-trap-comparison-faceless.jpg`
+
+![Same Question. Different Answers.](trust-trap-comparison-faceless.jpg)
 
 **Teaching content:**
 
@@ -16,23 +18,21 @@ You: “Should I choose Michigan or Indiana?”
 
 **Your Mom:** “Indiana. You seemed more comfortable there, and when you get stuck, you tend to go quiet. Being somewhere you’ll ask for help matters more for you than another ranking.”
 
-- Knows: your history.
-- Notices: how you act when you are stuck.
-- Stake: shares the outcome.
+**The Truth**
+
+Your mom knows you. She’s seen how you go quiet when you’re stuck, and she has a stake in what happens to you.
 
 **The Chatbot:** “Michigan. It offers world-class academics and a vibrant campus community. It could be an excellent fit for you.”
 
-- Sees: what you typed.
-- Matches: common patterns.
-- Stake: does not share the outcome.
+**The Truth**
 
-**Scene (your own drawing, no board):**
+The chatbot knows what you typed. It’s never seen how you act when you’re stuck, and it has no stake in which school you choose.
 
-The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone. **Trust Trap is giving a human-sounding answer the trust you would give someone who knows you.**
+## Trust Trap
 
-## The ELIZA Effect
-
-In the 1960s, some people began treating a simple chatbot called ELIZA as if it understood them. But ELIZA mostly matched patterns and turned their words back into questions. That response became known as the ELIZA effect.
+Which answer would you trust?
+The AI answer is smooth, confident, and easy to like. But it could have been written for almost anyone.
+**Trust Trap is giving a human-sounding answer the trust you would give someone who knows you.**
 
 ### Board 2: Why AI Feels Like Somebody
 
@@ -46,20 +46,14 @@ In the 1960s, some people began treating a simple chatbot called ELIZA as if it 
 
 **Your Brain Looks for a Person.** When something responds to you, your brain starts looking for a person behind it.
 
-**Takeaway:** Sounding human does not make AI human.
-
-**Scene (your own drawing, no board):**
+Sounding human does not make AI human.
 
 ## For Decisions That Matter
 
 AI can gather facts, lay out options, and challenge your thinking. It can use what you share about yourself. That is different from someone who knows you through shared experience and lives with the outcome. Talk important decisions through with people who know you. Then make the call.
 
-For an important decision, AI can help build a checklist, map the trade-offs, and suggest questions.
-
-Letting AI pick a movie is different from letting it choose your college. For a small choice, you may be happy to take its suggestion. For a decision that can change your life, use its help while keeping the decision yours.
-
 ## Closing Message
 
-For decisions that matter
+Sounding human doesn’t make AI human.
 
-You make the call.
+For important decisions, talk to people who know you.

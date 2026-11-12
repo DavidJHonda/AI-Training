@@ -5,6 +5,7 @@ Owns the v3 assets. The older Avoid Traps batch retains legacy v2 exports
 for existing video edit recipes. Use this renderer for current lesson boards.
 """
 
+from course_credit import ROOT, save_course_image
 from render_avoid_traps_editorial import Pair, render_feature, save_pair
 from render_navigate_editorial_batch import (
     AMBER, BLUE, PURPLE, TEAL, Card, CardBoard, FlowBoard,
@@ -32,18 +33,21 @@ def main():
         )),
         Pair("course-assets/document-trap/document-trap-flow.jpg", "course-assets/document-trap/document-trap-flow.jpg"),
     )
-    save_pair(
-        render_card_board(CardBoard(
-            "document-moves", "Four Moves for Better Retrieval", (
-                Card("Name the Section", "Use the document’s own headings and keywords."),
-                Card("Ask One Thing", "Give retrieval one clear target at a time."),
-                Card("Share What Matters", "Paste the exact passage or upload only the relevant section."),
-                Card("Ask for the Quote", "Ask AI to quote the exact passage, then compare it with the original."),
-            ), "scripts/video/assets/editorial-avoid-traps/document-moves/art-sheet.png",
-            "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER),
-        )),
-        Pair("course-assets/document-trap/document-trap-moves.jpg", "course-assets/document-trap/document-trap-moves.jpg"),
+    render_document_tips()
+
+
+def render_document_tips():
+    output = "course-assets/document-trap/document-trap-moves.jpg"
+    board = CardBoard(
+        "document-moves", "Four Tips for Working with Long Documents", (
+            Card("Name the Section", "Use the document’s own headings and keywords."),
+            Card("Ask One Thing", "Give retrieval one clear target at a time."),
+            Card("Share What Matters", "Paste the exact passage or upload only the relevant section."),
+            Card("Ask for the Quote", "Ask AI to quote the exact passage, then compare it with the original."),
+        ), "scripts/video/assets/editorial-avoid-traps/document-moves/art-sheet.png",
+        output, output, "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER),
     )
+    save_course_image(render_card_board(board), ROOT / output, quality=95, subsampling=0, optimize=True)
 
 
 if __name__ == "__main__":

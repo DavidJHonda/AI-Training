@@ -306,7 +306,8 @@ def split_art_sheet(sheet: Image.Image, count: int) -> list[Image.Image]:
     ]
 
 
-def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_colors=False) -> Image.Image:
+def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_colors=False,
+           numbers_above_cards=False) -> Image.Image:
     preserve_art_colors = preserve_art_colors or board.preserve_art_colors
     count = len(board.cards)
     if count not in (3, 4):
@@ -363,7 +364,8 @@ def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_col
     )
     card_height = art_height + text_height
     rows = 1 if count == 3 else 2
-    cards_bottom = CARDS_TOP + rows * card_height + (rows - 1) * GUTTER
+    cards_top = CARDS_TOP + (64 if numbers_above_cards else 0)
+    cards_bottom = cards_top + rows * card_height + (rows - 1) * GUTTER
     takeaway_top = cards_bottom + TAKEAWAY_GAP if board.takeaway else None
     height = (
         takeaway_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
@@ -387,7 +389,7 @@ def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_col
     ):
         row = 0 if count == 3 else index // 2
         x = card_xs[index]
-        y = CARDS_TOP + row * (card_height + GUTTER)
+        y = cards_top + row * (card_height + GUTTER)
         card_width = card_widths[index]
 
         shadow = Image.new("RGBA", image.size, (0, 0, 0, 0))
@@ -408,6 +410,11 @@ def render(board: Board, *, art_panels=None, wrap_titles=False, preserve_art_col
             outline=mix_with_white(accent, CARD_BORDER_OPACITY),
             width=1,
         )
+
+        if numbers_above_cards:
+            cx, cy = x + card_width // 2, y - 40
+            draw.ellipse((cx - 25, cy - 25, cx + 25, cy + 25), fill=accent)
+            draw.text((cx, cy), str(index + 1), font=face("heavy", 26), fill=WHITE, anchor="mm")
 
         art_crop = cover(art, (card_width, art_height))
         if not preserve_art_colors:

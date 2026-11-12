@@ -32,62 +32,40 @@ AI can only answer from the document text that reaches its context window.
 
 A short file may fit there in full.
 
-With a long file, the system may search for the parts that seem most relevant and add those passages instead.
+When you ask a question about a long file, the system may search the file for passages that match your question. The AI then sees only those passages when it answers.
 
-One common process looks like this:
+Try asking,
 
-### Board 2: Split, Search, Load
+“In tournament games, how many fouls are allowed? Quote the rule and any exceptions.”
 
-**Image file:** `document-trap-flow.jpg`
+In this league’s tournament games, the rule allows six fouls.
 
-![Split, Search, Load](document-trap-flow.jpg)
-
-**Teaching content:**
-
-Split: break the long document into smaller pieces.
-
-Search: look for pieces that match the question by keywords and meaning.
-
-Load: put the selected pieces into the context window for AI to use.
-
-Search decides which parts reach the answer.
-
-This is how the rulebook mistake can happen. The search finds the regular-season foul rule but misses the tournament exception. Only the selected pieces reach the context window. The answer can sound complete even when an important passage was left out.
-
-There’s a name for what happened: Retrieval-Augmented Generation, or RAG. The same process can pull information from the web or a database.
-
-### Board 3: Four Moves for Better Retrieval
+### Board 2: Four Tips for Working with Long Documents
 
 **Image file:** `document-trap-moves.jpg`
 
-![Four Moves for Better Retrieval](document-trap-moves.jpg)
+![Four Tips for Working with Long Documents](document-trap-moves.jpg)
 
 **Teaching content:**
 
-Name the Section: use the document’s own headings and keywords.
+Here are four tips for working with long documents.
 
-Ask One Thing: give retrieval one clear target at a time.
+Name the section. Use the document’s own headings and keywords.
 
-Share What Matters: paste the exact passage or upload only the relevant section.
+Ask one thing. Give the search one clear question to answer.
 
-Ask for the Quote: ask AI to quote the exact passage, then compare it with the original.
+Share what matters. Paste the exact passage or upload only the relevant section.
 
-Now apply those moves to the rulebook. Ask: “Look in the tournament section. How many personal fouls are allowed? Quote the rule and any exceptions.” Naming the tournament section gives the search a specific target. Asking only about personal fouls keeps it focused on one question.
-
-If the answer still misses the exception, paste the tournament passage yourself. Now the relevant text is directly in the conversation. Ask AI to quote the rule, then compare the quotation with the original rulebook.
-
-**In this example, the tournament rule allows six fouls.**
-
-**A quotation is useful because you can check it, not because AI quoted it.**
+Ask for the quote. Ask AI to quote the exact passage, then compare it with the original.
 
 Make the right passages easier to find.
 
-This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer.
+## Beyond the Rulebook
 
-Uploading a document and asking AI for help is a good starting point.
+This trap doesn’t stay in basketball. Apartment leases, employment contracts, insurance policies, and financial-aid letters can all contain conditions or exceptions that change the answer.
 
 ## Closing Message
 
-A missing passage can change the answer.
+Uploaded doesn’t mean fully read.
 
-Ask for the passage. Then check it.
+Ask for the rule and any exceptions.

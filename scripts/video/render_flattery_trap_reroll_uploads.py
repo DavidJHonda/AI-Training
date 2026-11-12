@@ -1,35 +1,82 @@
 #!/usr/bin/env python3
-"""Render text-only upload boards from their native layout and original copy.
-
-No canonical bitmap is edited. Blank art sheets let the existing board renderer
-preserve text, geometry, dimensions and diagram relationships without faces.
-"""
+"""Render the Flattery Trap comparison and its text-only upload boards."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from PIL import Image
-from render_avoid_traps_editorial import (ROOT,CompareSide,render_comparison,Card,FlowBoard,
- render_flow_board_with_title_size,AMBER,BLUE,PURPLE,TEAL)
+from render_avoid_traps_editorial import (ROOT,CompareSide,render_comparison,AMBER,BLUE,PURPLE,TEAL)
+from render_editorial_full_bleed_batch import Board, render
 from course_credit import save_course_image
 OUT=ROOT/'gemini-notebook/flattery-trap/assets'
 
+def render_feedback_comparison(art, *, reuse_board_photos=False):
+    return render_comparison(
+        'Flattery Trap vs. Useful Feedback',
+        'You ask AI to evaluate this Great Gatsby essay introduction:\n'
+        '“The American Dream is something that many people have thought about over the years. '
+        'Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”',
+        (
+            CompareSide(
+                '', 'Flattery Trap', '“Great start! You’ve clearly identified the central theme. This is a strong foundation.”',
+                (('THE TRUTH', 'That praise could fit almost any Gatsby essay. It calls your introduction strong without pointing to a single line that earns the praise.'),), AMBER,
+            ),
+            CompareSide(
+                '', 'Useful Feedback', '“You’ve named your topic: the American Dream. But ‘Fitzgerald explores this idea’ leaves me wondering what you think he shows about it. What does Gatsby’s experience suggest about that dream?”',
+                (('THE TRUTH', 'You’ve named your topic, but your reader still needs to know what you think. Your next step is to write a thesis that says what Fitzgerald shows about the American Dream.'),), BLUE,
+            ),
+        ),
+        str(art),
+        'Good feedback improves the work. Empty praise only improves the feeling.',
+        scenario_label='', reuse_board_photos=reuse_board_photos,
+        source_photo_top=383,  # Photo row in the original illustrated board.
+    )
+
+
+def save_comparison_boards(blank_art):
+    art = 'course-assets/flattery-engagement/flattery-engagement-feedback-comparison.jpg'
+    filename = 'flattery-trap-feedback-comparison.jpg'
+    for image, target in (
+        (render_feedback_comparison(art, reuse_board_photos=True), ROOT / 'course-assets/flattery-trap' / filename),
+        (render_feedback_comparison(blank_art), OUT / 'flattery-trap-feedback-comparison-faceless.jpg'),
+    ):
+        save_course_image(image, target, quality=95, subsampling=0, optimize=True)
+
+
+def render_praise_cards(*, illustrated):
+    board = Board(
+        key='praise-training', title='How the Praise Got Baked In',
+        cards=(
+            ('People Rank', 'Reviewers compare answers and choose the ones they prefer.'),
+            ('Praise Can Win', 'Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful.'),
+            ('Numbers Move', 'Training pushes the model toward patterns that earned approval.'),
+        ),
+        art_sheet='', page_output='', prep_output='', accents=(PURPLE, BLUE, TEAL),
+    )
+    if illustrated:
+        # Recover the three illustrations from the original flow, inside its rounded frames.
+        with Image.open(ROOT / 'course-assets/flattery-engagement/flattery-engagement-cycle-of-praise.jpg') as source:
+            panels = [source.crop((x + 8, 180, x + 302, 345)) for x in (75, 645, 1215)]
+    else:
+        panels = [Image.new('RGB', (485, 273), 'white') for _ in board.cards]
+    return render(board, art_panels=panels, preserve_art_colors=illustrated, numbers_above_cards=True)
+
+
+def save_praise_boards():
+    for illustrated, target in (
+        (True, ROOT / 'course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg'),
+        (False, OUT / 'flattery-trap-cycle-of-praise-faceless.jpg'),
+    ):
+        save_course_image(render_praise_cards(illustrated=illustrated), target,
+                          quality=95, subsampling=0, optimize=True)
+
+
 def main():
- OUT.mkdir(parents=True,exist_ok=True)
- with TemporaryDirectory(prefix='flattery-text-boards-') as tmp:
-  art=Path(tmp)/'blank-art.png';Image.new('RGB',(1800,600),'white').save(art)
-  comparison=render_comparison('Flattery vs. Useful Feedback',
-   'You ask AI to evaluate this Great Gatsby essay introduction:\n“The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”',
-   (CompareSide('THE TRAP','Flattery','“Great start! You’ve clearly identified the central theme. This is a strong foundation.”',
-    (('PRAISED','The work without pointing to evidence.'),('COULD FIT','Almost any Gatsby essay.'),('RESULT','False praise for a weak essay intro.')),AMBER),
-    CompareSide('WHAT YOU NEED','Useful Feedback','“Right topic, but this needs work. The opening is filler, and you still need a thesis.”',
-    (('PRAISED','The topic and nothing more.'),('NAMED','The missing thesis.'),('RESULT','A specific next move.')),BLUE)),str(art),
-   'Good feedback improves the work. Empty praise only improves the feeling.')
-  flow=render_flow_board_with_title_size(FlowBoard('praise-flow','How the Praise Got Baked In',
-   (Card('People Rank','Reviewers compare answers and choose the ones they prefer.'),
-    Card('Agreement Can Win','Positive, confident, agreeable answers can feel better in the moment.'),
-    Card('Numbers Move','Training pushes the model toward patterns that earned approval.')),
-   str(art),'','',(PURPLE,BLUE,TEAL)),31)
-  for im,name,size in [(comparison,'flattery-trap-feedback-comparison-faceless.jpg',(1600,1582)),(flow,'flattery-trap-cycle-of-praise-faceless.jpg',(1600,751))]:
-   assert im.size==size,(name,im.size,size)
-   save_course_image(im,OUT/name,quality=95,subsampling=0,optimize=True)
-   print(name,im.size)
-if __name__=='__main__':main()
+    OUT.mkdir(parents=True, exist_ok=True)
+    with TemporaryDirectory(prefix='flattery-text-boards-') as tmp:
+        art = Path(tmp) / 'blank-art.png'
+        Image.new('RGB', (1800, 600), 'white').save(art)
+        save_comparison_boards(art)
+        save_praise_boards()
+
+
+if __name__ == '__main__':
+    main()

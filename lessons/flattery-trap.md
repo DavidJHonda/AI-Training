@@ -2,35 +2,41 @@
 
 # Flattery Trap
 
-AI is often encouraging. It can praise your essay, support your idea, and agree with your opinion, even when what you really need is honest criticism.
+One cool thing about working with ChatGPT, Claude, or Gemini is that their replies are usually friendly, positive, and encouraging. Sometimes I wish humans were just as friendly!
+
+But there’s a downside. What if what you really need is honest criticism?
 
 **The Flattery Trap is treating AI’s approval as honest evaluation.**
 
-### Board 1: Flattery vs. Useful Feedback
+### Board 1: Flattery Trap vs. Useful Feedback
 
 **Image file:** `flattery-trap-feedback-comparison-faceless.jpg`
 
-![Flattery vs. Useful Feedback](flattery-trap-feedback-comparison-faceless.jpg)
+![Flattery Trap vs. Useful Feedback](flattery-trap-feedback-comparison-faceless.jpg)
 
 **Teaching content:**
 
 Here is flattery versus useful feedback. You ask AI to evaluate this Great Gatsby essay introduction: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”
 
-The trap, Flattery: “Great start! You’ve clearly identified the central theme. This is a strong foundation.” Praised: the work without pointing to evidence. Could fit: almost any Gatsby essay. Result: false praise for a weak essay intro.
+**Flattery Trap:** “Great start! You’ve clearly identified the central theme. This is a strong foundation.”
 
-What you need, Useful Feedback: “Right topic, but this needs work. The opening is filler, and you still need a thesis.” Praised: the topic and nothing more. Named: the missing thesis. Result: a specific next move.
+**The Truth**
+
+That praise could fit almost any Gatsby essay. It calls your introduction strong without pointing to a single line that earns the praise.
+
+**Useful Feedback:** “You’ve named your topic: the American Dream. But ‘Fitzgerald explores this idea’ leaves me wondering what you think he shows about it. What does Gatsby’s experience suggest about that dream?”
+
+**The Truth**
+
+You’ve named your topic, but your reader still needs to know what you think. Your next step is to write a thesis that says what Fitzgerald shows about the American Dream.
 
 Good feedback improves the work. Empty praise only improves the feeling.
 
-## What Makes Feedback Useful
+## Why AI Sometimes Praises Weak Work
 
-Good feedback can still be positive. What matters is whether it points to something real in the work and helps you improve it.
+When you’ve worked hard on an essay, “Great start!” can feel better to hear than a question about what your thesis will say. If people rating AI answers also favor the more encouraging reply, that preference can shape how the AI responds.
 
-## Why AI Leans Agreeable
-
-Here’s why AI leans agreeable.
-
-One reason is a training process called reinforcement learning from human feedback, or RLHF.
+One training method that uses those ratings is called reinforcement learning from human feedback, or RLHF.
 
 ### Board 2: How the Praise Got Baked In
 
@@ -44,17 +50,17 @@ Here’s how the praise got baked in.
 
 First, people rank. Reviewers compare answers and choose the ones they prefer.
 
-That is where agreement can win. Positive, confident, agreeable answers can feel better in the moment.
+That is where praise can win. Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful.
 
 Then the numbers move. Training pushes the model toward patterns that earned approval.
 
 The praise literally gets baked into the system.
 
-## A Real Sycophancy Failure
+## Sycophancy
 
-The technical name for this behavior is sycophancy: AI agrees with or praises the user instead of giving the more honest answer. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse.
+The technical name for this behavior is sycophancy. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse.
 
-A user pitched a gag product to ChatGPT called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
+One user shared an exchange in which they pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
 
 ### Board 3: Sycophancy
 
@@ -68,9 +74,9 @@ ChatGPT’s response: “Honestly? This is absolutely brilliant. You’re tappin
 
 ## What Changed
 
-OpenAI began rolling the update back three days after it launched and publicly described the behavior as sycophancy. The problem is not limited to ChatGPT. Researchers have found it across multiple AI assistants.
+OpenAI released the update on April 25 and began rolling it back on April 28. Researchers have also found sycophancy across multiple AI assistants.
 
-AI companies now test for sycophancy and use training and system instructions to reduce it. The problem has improved, but it has not disappeared.
+OpenAI added checks for sycophancy. You can still run into it.
 
 How you ask still matters.
 

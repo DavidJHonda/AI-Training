@@ -10,4 +10,4 @@ The recording moves from a familiar exam question to a case where the student ha
 4. Show **When You Suspect Training Bias**. Check all three prompts against the lesson, in order. The current board ends after the prompts.
 5. Land on “AI learns from its training data.” Then “Bias in the data can shape the answer.” End there.
 
-All three current board images can be uploaded directly. Compare the candidate narration against the revised lesson before replacing the installed v11 video.
+All three current board images can be uploaded directly. The approved v12 edit uses roll 2 narration, roll 3 opening illustrations, and the entrepreneur visual and evidence line from roll 1. It was installed locally on 2026-11-12.

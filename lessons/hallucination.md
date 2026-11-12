@@ -4,9 +4,9 @@
 
 ### Board 1: Nothing Sounds Wrong
 
-**Image file:** `hallucination-example.jpg`
+**Image file:** `hallucination-playlist-study.jpg`
 
-![Nothing Sounds Wrong](../course-assets/hallucination/hallucination-example.jpg)
+![Nothing Sounds Wrong](../course-assets/hallucination/hallucination-playlist-study.jpg)
 
 **Teaching content:**
 
@@ -48,15 +48,15 @@ Probable does not equal true.
 
 An answer can sound exactly right even when the facts are wrong. The patterns AI learns shape what comes next, but a likely next token does not establish that a claim is true.
 
-Hallucination is the term people often use whenever AI gets something wrong. But AI can also get something wrong by misreading a real source.
+AI companies are working to reduce hallucinations. In one third-party study, the AI tools tested were about half as likely to hallucinate on the study’s questions in 2026 as they were in 2024.
 
 Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up.
 
-### Board 3: Check the Claim
+### Board 3: Suspect a Hallucination?
 
-**Image file:** `hallucination-check-claim.jpg`
+**Image file:** `hallucination-suspect.jpg`
 
-![Check the Claim](../course-assets/hallucination/hallucination-check-claim.jpg)
+![Suspect a Hallucination?](../course-assets/hallucination/hallucination-suspect.jpg)
 
 **Teaching content:**
 

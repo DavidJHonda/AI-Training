@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
-  trainingbias: ['biasWrongPattern','biasMechanisms','biasQuestions'],
+  trainingbias: ['biasMechanisms','biasQuestions'],
   documenttrap: ['documentIncomplete','documentFlow','documentMoves'],
   mindtrap: ['trustComparison','trustEliza']
 };
@@ -51,10 +51,12 @@ const lessons = {
       }
       await page.setViewportSize({ width: 390, height: 850 });
       if(id==='trainingbias') {
-        assert.deepEqual(await page.locator('[data-phone-reading-board="biasMechanisms"] h4').allTextContents(),['Defaults','Blind Spots','Wrong Patterns']);
+        assert.deepEqual(await page.locator('[data-phone-reading-board="biasMechanisms"] h4').allTextContents(),['Shows Up Too Often','Gets Left Out']);
         const questions=page.locator('[data-phone-reading-board="biasQuestions"] .phone-reading-mobile');
-        for(const phrase of ['“What’s missing from this answer?”','“Show me examples that don’t fit the pattern you just gave.”','“Answer again, leaving out the most famous examples.”','The model often has the rest of the picture. It just doesn’t lead with it.'])assert.ok((await questions.innerText()).includes(phrase));
-        assert.equal(await page.locator('[data-phone-reading-board="biasWrongPattern"] .phone-reading-mobile [role="img"]').count(),1);
+        for(const phrase of ['“What’s missing from this answer?”','“Show me examples that don’t fit the pattern you just gave.”','“Answer again, leaving out the most famous examples.”'])assert.ok((await questions.innerText()).includes(phrase));
+        const sample = page.locator('p').filter({ hasText: 'gets all its study advice from websites written by science teachers' });
+        assert.ok(await sample.isVisible());
+        assert.match(await sample.innerText(), /The AI tells you, based on what it learned, “Three hours\.”/);
         const checks=page.getByRole('button',{name:/^Mark step [0-9]+ (incomplete|complete)$/});assert.equal(await checks.count(),4);await checks.first().click();assert.equal(await checks.first().getAttribute('aria-pressed'),'true');await checks.first().click();assert.equal(await checks.first().getAttribute('aria-pressed'),'false');
       } else if(id==='documenttrap') {
         assert.deepEqual(await page.locator('[data-phone-reading-board="documentFlow"] .phone-reading-mobile h4').allTextContents(),['1Split','2Search','3Load']);
@@ -90,6 +92,6 @@ const lessons = {
       await context.close();
     }
     if (process.env.PHONE_WAVE_OUTPUT) { fs.mkdirSync(process.env.PHONE_WAVE_OUTPUT, { recursive: true }); fs.writeFileSync(path.join(process.env.PHONE_WAVE_OUTPUT, 'phone-checks.json'), JSON.stringify(records, null, 2)); }
-    console.log('PASS: eight boards; phone, landscape, breakpoints, readable HTML, exact prompts, original scenes, ordered retrieval, complete trust comparison, accessible representations, shared retrieval data, lesson activities, print and no runtime errors');
+    console.log('PASS: study-time example and seven boards; phone, landscape, breakpoints, readable HTML, exact prompts, original scenes, ordered retrieval, complete trust comparison, accessible representations, shared retrieval data, lesson activities, print and no runtime errors');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

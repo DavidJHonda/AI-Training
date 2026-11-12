@@ -17,7 +17,7 @@ We’re high school students, too. AI is going to be part of our future, and we�
 <details>
 <summary>Taking the Course as a Group?</summary>
 
-This course works for classes, clubs, and other groups, too. Look for optional **Group Exercises** at the end of lessons, with discussion questions or activities to do together.
+This course works for classes, clubs, and other groups, too. At the end of many lessons, you’ll find optional **Discussion Questions**. Pick one that interests your group and compare answers. Some lessons also include hands-on **Group Exercises** you can try together.
 
 </details>
 

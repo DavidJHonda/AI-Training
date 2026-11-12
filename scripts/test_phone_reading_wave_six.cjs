@@ -85,11 +85,12 @@ const lessons = {
       } else {
         const example=page.locator('[data-phone-reading-board="hallucinationExample"] .phone-reading-mobile');const text=await example.innerText();
         for(const phrase of ['Will my hype playlist on Spotify help me study for chemistry, or will it distract me?','2022 Stanford study','1,200 high school students','18%','60 decibels','Want me to help you build a study playlist?','The study does not exist.'])assert.ok(text.includes(phrase));
-        assert.deepEqual(await example.locator('.phone-conversation-role').allTextContents(),['YOU','AI']);assert.equal(await example.locator('.phone-reading-takeaway').innerText(),'The study does not exist.');
+        assert.deepEqual(await example.locator('.phone-reading-card h4').allTextContents(),['You','AI']);
+        assert.equal(await example.locator('.phone-reading-stack + .phone-reading-takeaway').innerText(),'The study does not exist.');
         assert.equal(await page.locator('[data-phone-reading-board="hallucinationWhy"] .phone-six-flow > li').count(),4);
         assert.equal(await page.getByRole('heading',{name:'Probable does not equal True',exact:true}).count(),1);
         assert.deepEqual(await page.locator('[data-phone-reading-board="hallucinationCheck"] h4').allTextContents(),['1Notice the Claim','2Find the Source','3Check the Match']);
-        const answers=['A study that doesn’t exist','AI learns how credible answers sound','Yes, one detail can be invented','Neither of these','No, AI can also misunderstand'];
+        const answers=['A study that doesn’t exist','AI learns how credible answers sound','Yes, one detail can be invented','Neither of the above','All of the above'];
         for(const answer of answers)await page.getByRole('button',{name:answer,exact:true}).click();
         assert.equal(await page.locator('.hallucination-quiz-question').count(),5);
       }

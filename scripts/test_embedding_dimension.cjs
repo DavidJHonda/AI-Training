@@ -16,6 +16,8 @@ const output = '/tmp/embedding-dimension-review';
       localStorage.setItem('llm-explorer-progress',JSON.stringify({activeSection:'embeddings',visited:['embeddings'],completed:[]}));
     });
     await page.goto(base);
+    const reading = page.locator('.lesson-reading-toggle');
+    if (await reading.count() && await reading.getAttribute('aria-expanded') === 'false') await reading.click();
     const demo = page.locator('.guided-demo[data-kind="embedding-dimension"]');
     await demo.waitFor();
     await page.evaluate(() => document.fonts.ready);

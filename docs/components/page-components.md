@@ -496,6 +496,18 @@ The landing page retains its canonical diagram image on desktop and in print. It
 
 The entry dialog's iframe follows the parent viewport through `start-course.js` and the `entry-phone` body class. This avoids applying phone typography to the narrow iframe on a desktop page. On phones the iframe grows to its measured content height; the outer dialog scrolls, its Close control stays reachable, and the country menu retains a bounded internal list. Resize changes do not reload the form or discard input. Names, country selection, enrollment delivery and stored progress keep their existing behavior.
 
+## Phone activity and course usability
+
+`phone-usability.css` applies only to screens at the existing 760px phone breakpoint or coarse-pointer landscape screens up to 500px high. Desktop inline styles and print remain authoritative. The shared activity components expose small styling classes; their data, wording, callbacks, grading and state handling are unchanged.
+
+- `activity-inner-card`, the scenario/quiz heading classes, and existing choice/feedback classes reclaim space inside TRY ITs. Question numbers precede full-width questions; compact numeric options use two columns, while longer choices and feedback stack. Long token examples wrap without adding or removing characters.
+- `lab-step-row` covers the shared checklist and the three legacy checklist implementations. A 44px checkbox target sits beside a 20px heading; explanatory copy, fields and prompts have the full card width and at least 16px text. Copy/open/download controls retain their existing behavior. `activity-support-copy` identifies explanatory notes in the kitchen-helper and dinosaur demonstrations.
+- `lesson-navigation` stacks bottom navigation on narrow screens; course dropdown navigation also applies in coarse-pointer landscape. Sticky navigation has 44px targets and stays out of focus and accessibility navigation while offscreen on phones. Resource descriptions and review-form guidance use 16px phone text.
+- `CertificateDoc` keeps one HTML representation. Inside `certificate-block` and `certificate-print-page`, phone-only rules let its header, body, completion date and signatures flow vertically, including long names. The sample certificate scene is excluded. The landscape desktop certificate and print route retain their original layout.
+- Three standalone group activities have narrowly scoped screen rules: Find Your Match stacks its app references; Make the Question Better enlarges reference explanations; One Word at a Time enlarges helper text. Other group activity and discussion layouts are retained when readable.
+
+Keep phone changes outside canonical board/video assets, lesson PDFs and NotebookLM uploads. Verify actual rendered activity states as well as default pages, including incorrect/correct feedback, checklist and prompt fields, games, unfinished Finals, grading/retry, certificate naming and printing, and linked group activities. Preserve external submissions by using isolated profiles and intercepted test responses. Physical-device, software-keyboard and spoken screen-reader checks must be reported separately from browser emulation.
+
 ## Course chrome
 
 - `LessonHeader` identifies the lesson and section.

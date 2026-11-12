@@ -1,0 +1,46 @@
+# Hallucination video review · November 12, 2026
+
+**Keep the 3:12 v21 edit as the base. Take the study narration from roll 5.** Its two sentences run about 13 seconds, include both years and both qualifications, and sit between clean pauses. End the pickup after “as they were in 2024.” The very next sentence says hallucinations are “designed to blend in,” which implies an intention the lesson does not teach. Roll 6 supplies a second accurate reading and the strongest opening exchange of the three candidates.
+
+[Preview with roll 5](v21-with-roll-5-study.mp3) · [Same passage with roll 6](v21-with-roll-6-study.mp3)
+
+Both previews use the same v21 lead-in and return. They let the editor judge the change of voice independently of the generated charts. The installed video remains v21.
+
+## Narration review
+
+The comparison uses the current lesson, its upload script, full timestamped transcripts, sampled frames from all three candidates and v21, and waveform measurements around the study passages. A second speech recognizer checked the study readings and roll 6’s ending. The quotes below are transcription evidence. Human-sounding delivery, motion with sound and the perceptibility of the voice changes still need a listening pass. Raw times refer to each file before editing.
+
+| Teaching point | Roll 4 · 5:09 | Roll 5 · 4:11 | Roll 6 · 5:03 |
+|---|---|---|---|
+| Playlist question, AI reply, reveal | **TAUGHT** 0:00–0:30. Gets the figures and says “That study does not exist.” Shortens both sides and omits the offer to build a playlist. | **TAUGHT** 0:06–0:33. “It cites a 2022 Stanford study” introduces a summary. All four numbers and the exact reveal land. | **RICH** 0:13–0:40. Reads the exchange through “Want me to help you build a study playlist?” and delivers the reveal. Best new reading of the opener. |
+| Credible details, definition, one invented detail | **RICH** 0:30–1:07. “It borrows the format of truth” explains why Stanford and precise numbers work. Paraphrases the required definition. | **RICH** 0:34–1:10. Gives the exact definition and explains how “one invented detail” blends into real facts. | **RICH** 0:39–1:16. Stanford is real, the volume sounds careful, and the exact definition follows. |
+| Four reasons and why probability cannot verify a fact | **WRONG framing** 1:23–1:44. “This diagram breaks down the process,” then “Step 1” through “Step 4.” Covers the ideas but reinstates the specific error removed from v21. | **RICH** 1:14–2:05. “This board outlines four main reasons.” Explains training text, token prediction, pressure to answer, and why likely wording can still be false. | **RICH** 1:32–2:21. Explains each reason and lands “Probable does not equal true.” More technical and longer than roll 5. |
+| Improvement on the tested questions | **TAUGHT** 1:47–1:56. Qualifies “specific study questions” and “tested tools,” but paraphrases the approved passage and omits the third-party attribution. | **RICH** 2:06–2:18. Both approved sentences, including “on the study’s questions.” Best pickup. | **RICH** 2:25–2:37. Same approved wording. Cut in after “This chart shows the recent progress in reducing these errors.” |
+| Transition from improvement to noticing | **TAUGHT** 2:00–2:16. Recommends pausing at a “highly convenient” detail. Narrows the cue and misses the exact noticing line. | **WRONG lead-in**, then **TAUGHT**, 2:19–2:29. “Designed to blend in” is misleading. The standalone “The skill is noticing when something does not add up” at 2:26–2:29 is usable. | **TAUGHT** 2:48–2:58. Makes the link and delivers the noticing line after an extra “probability engine” passage. |
+| Notice, find, check | **RICH** 2:21–3:32. Strongest explanation of why each check matters. “Existence isn’t enough” leads into reading what the source actually says. Wordy and uses “Step one” etc. | **RICH** 2:45–3:26. Applies each check immediately. “A formatted citation on your screen is not sufficient proof.” Uses “Step one” etc. instead of the three exact prompts. | **RICH** 3:04–3:35. Gives “First, notice the claim,” “Second, find the source,” “Third, check the match,” then explains existence and support separately. |
+| Stanford application and unsuccessful searches | **TAUGHT** 3:37–4:21. Isolates 2022, 1,200 and 18%. “We have to treat those numbers as fabricated” is too categorical as a rule for an empty search. The next passage correctly says unverified. | **RICH** 2:53–3:26 and 3:41–3:55. Names exactly what to check and explains why failing to find a source leaves the claim unverified. | **TAUGHT** 3:55–4:46. Names the year, sample, and recall figure, and preserves the failed-search qualification. “The unverified trap” adds an unnecessary term. |
+| Closing takeaway | **TAUGHT** 4:41–5:05. Adds “exactly” to the first line, talks about the banners between lines, then speaks again after the takeaway. | **RICH** 4:01–4:07. Both required lines together and a clean spoken ending. | **TAUGHT** 4:47–4:59. Second transcription confirms both closing lines. Adds another sentence after “trace the claim to its source.” |
+
+### Candidate decisions
+
+- **Roll 4 — REPAIR, lowest priority.** Its best contribution is the explanation of checking the match at 3:05–3:16. To use it as a whole, the opener and definition would need the v21 reading, the four reasons through noticing would need replacement, and the close would need the two-line ending. The other sources already teach those beats. Keep the existing cut.
+- **Roll 5 — REPAIR, preferred pickup.** The new study audio and closing delivery are strong. As a full roll it abbreviates the dialogue, implies deliberate design at 2:19, and asks the viewer to pause at 2:32–2:40. A full repair could draw the opening from v21, retain the noticing line at 2:26, and use the original three-step labels from v21 or roll 6. Its chart also requires replacement.
+- **Roll 6 — REPAIR, best standalone starting point if replacing v21.** It has the full dialogue, definition, scoped study comparison, exact three checking labels, and two closing lines. Trim the chart introduction and extra commentary around the study, the pause-and-framework detour at 3:36–3:55, and the extra ending after 4:53. The worked example says again at 4:22 that the study was invented. Keep its explanation about checking the 18% claim. The requisite words already exist; none of these findings calls for another generation.
+
+[Roll 4 transcript](roll-4-transcript.txt) · [Roll 5 transcript](roll-5-transcript.txt) · [Roll 6 transcript](roll-6-transcript.txt)
+
+## Proposed edit
+
+Use v21 from the opener through “does not establish that a claim is actually true.” In the current file, end that passage around **1:54.95**. Insert **roll 5, 2:05.35–2:18.80**. Resume v21 around **1:58.53** on “Since hallucinations sound exactly like normal answers…” This replaces the old spoken introduction to the three-step graphic. It leads from progress, to the continuing need for judgment, to the three checks. The resulting cut would be around **3:22**. The alternate preview uses **roll 6, 2:25.05–2:37.05**.
+
+The two study passages have quiet boundaries. Roll 5’s proposed in and out fall in roughly −76 and −75 dBFS 50-millisecond windows. The comparison previews level-match voiced sections (about +0.7 dB on roll 5 and −0.5 dB on roll 6). These are review trims; confirm cadence at both joins. If exact page wording is desired for “The skill is noticing…,” roll 5 also has that standalone sentence at 2:26.40–2:28.98. The previews retain v21’s existing noticing line.
+
+| Board or scene | Proposed picture and timing |
+|---|---|
+| Nothing Sounds Wrong | Use the current illustrated cards over the v21 dialogue. Show the complete You card, then the AI card. Bring up the reveal beneath both on the spoken “The study does not exist” around 0:25. Roll 5 already shows the reveal around 0:14, well before it speaks the line at 0:31. |
+| Why Hallucinations Happen | Retain v21’s card highlights and next-token animation, including the example near 1:33. Keep all four reasons legible. Roll 4’s numbered-process narration and roll 5’s long board hold add little here. |
+| Study comparison | Give the pickup its own short visual. Use the caption “About half as likely on the study’s questions” with the two years. Roll 4 shows an indexed 100-to-50 chart under a broadly worded headline. Roll 5 shows 30% and 14%, neither supplied by the lesson nor the reported endpoints. Roll 6 shows 100% and 50% on a relative scale. The broadly worded headlines can suggest a universal rate. |
+| Suspect a Hallucination? | Use the retitled canonical board when the narrator asks how to check the claim. Highlight each complete card on “notice,” “find,” and “check.” Retain v21’s worked-example visuals that pull out 2022, 1,200 students, and 18%. Roll 4’s 3:05–3:16 illustration of matching the chat to the document is an optional visual for that explanation. |
+| Closing | Keep v21’s closing board and its two-line reading. Roll 5 offers a complete backup at 4:01–4:07. |
+
+The page and prep agree on the study’s scope and the three checks. One copy inconsistency remains in the page’s descriptive text for the reasons board, which calls them “Four steps.” The visible title and approved narration describe four reasons. This evaluation does not change any course file.

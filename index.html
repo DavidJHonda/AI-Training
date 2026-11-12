@@ -224,6 +224,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .phone-reading-note { margin-top: 16px; padding: 16px; border-radius: 12px; background: var(--card); }
     .phone-reading-mobile > h3 + .phone-reading-note { margin: 0 0 16px; }
     .phone-reading-mobile .phone-reading-takeaway { margin-top: 16px; padding: 16px; border-radius: 12px; background: var(--seeBand); }
+    [data-phone-reading-board="biasMechanisms"] .phone-reading-mobile h3 { font-weight: 700; letter-spacing: -.03em; color: #0e0a1f; }
     .phone-reading-operator { text-align: center; font-size: 30px; line-height: 1; }
     .phone-reading-mobile .phone-reading-result { padding: 16px; border-radius: 12px; background: var(--ink); color: white; font-size: 20px; font-weight: 700; text-align: center; }
     .phone-reading-mobile > .phone-reading-operator { margin: 16px 0; }
@@ -392,8 +393,6 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .phone-reading-mobile .phone-six-group-title { margin: 20px 0 16px; color: var(--primaryDeep); font-size: 20px; font-weight: 800; line-height: 1.4; }
     .phone-reading-mobile .phone-six-group-title:first-of-type { margin-top: 0; }
     .phone-reading-mobile .phone-six-bridge { margin: 24px 0; font-weight: 700; }
-    .phone-six-dialogue { padding: 16px; border-radius: 12px; background: var(--card); }
-    .phone-six-turn + .phone-six-turn { margin-top: 20px; }
     .phone-six-sources { position: relative; margin: 24px 0 0 8px; padding: 0 0 24px 28px; }
     .phone-six-sources::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; border-left: 2px solid var(--primaryDeep); }
     .phone-six-sources::after { content: '↓'; position: absolute; bottom: -8px; left: -8px; color: var(--primaryDeep); font-size: 24px; line-height: 1; }
@@ -1539,11 +1538,12 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .final-question-options [role="radio"] { align-items: flex-start !important; line-height: 1.45; }
   }
 </style>
+<link rel="stylesheet" href="phone-usability.css?v=20261112phone1">
 <link rel="stylesheet" href="entry-flow.css?v=20261111phoneentry1">
 <script defer src="start-course.js?v=20261111phoneentry1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
-<script src="group-activities-data.js?v=20261105discussions63"></script>
+<script src="group-activities-data.js?v=20261112trainingbias"></script>
 <script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
@@ -1869,7 +1869,7 @@ const CLOSE_BOARDS = {
   // Avoid Traps
   openerprotect: { pill: "When AI fails, nothing looks broken.", sticky: "This section teaches you to read the water." },
   hallucination: { pill: "Hallucinations sound like every other AI answer.", sticky: "When something doesn’t add up, trace the claim to its source." },
-  trainingbias: { pill: "AI repeats the shape of its data.", sticky: "Ask what’s missing. Check what’s changed." },
+  trainingbias: { pill: "AI learns from its training data.", sticky: "Bias in the data can shape the answer." },
   documenttrap: { pill: "A missing passage can change the answer.", sticky: "Ask for the passage. Then check it." },
   mindtrap: { pill: "For decisions that matter", sticky: "You make the call." },
   flattery: { pill: "Useful feedback points to the work.", sticky: "Look for specifics, not approval." },
@@ -2029,6 +2029,7 @@ function ShowcaseBox(props) {
 function InnerCard(props) {
   var pad = props.pad === "snug" ? "18px 22px" : "22px 26px";
   return /*#__PURE__*/React.createElement("div", {
+    className: "activity-inner-card",
     style: Object.assign({ background: "#fff", borderRadius: 14, padding: pad, boxShadow: "var(--shadowSoft)" }, props.style || {})
   }, props.children);
 }
@@ -2612,11 +2613,12 @@ function InteractiveBox(props) {
   };
   var eyebrowEl = primed ? null : /*#__PURE__*/React.createElement("div", { style: eyebrowStyle }, iconAndLabel);
   var titleEl = hasTitle && !externalTitle ? /*#__PURE__*/React.createElement("h3", { style: titleStyle }, props.title) : null;
-  var hintEl = hasHint ? /*#__PURE__*/React.createElement("p", { style: hintStyle }, props.hint) : null;
+  var hintEl = hasHint ? /*#__PURE__*/React.createElement("p", { className: "activity-hint", style: hintStyle }, props.hint) : null;
   var stack = /*#__PURE__*/React.createElement("div", null, eyebrowEl, titleEl, hintEl);
   var topRow;
   if (hasAction && hasTextStack) {
     topRow = /*#__PURE__*/React.createElement("div", {
+      className: "activity-top-row",
       style: { display: "grid", gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center" }
     }, stack, /*#__PURE__*/React.createElement("div", null, props.action));
   } else if (hasAction) {
@@ -2912,7 +2914,7 @@ function NextLessonGate(props) {
   });
 
   return React.createElement("div", {
-    className: "no-print" + (ctx.sample ? " guest-lesson-navigation" : ""),
+    className: "no-print lesson-navigation" + (ctx.sample ? " guest-lesson-navigation" : ""),
     style: { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "stretch", marginTop: 8 }
   }, prevCard, nextCard);
 }
@@ -3192,6 +3194,7 @@ function FeedbackPill(props) {
   };
   var L = LOOKS[look];
   return React.createElement("button", {
+    className: "activity-choice-pill",
     onClick: props.onClick,
     type: "button",
     "aria-label": props.ariaLabel,
@@ -3216,16 +3219,17 @@ function ScenarioRow(props) {
   var fbEyebrow = props.eyebrow || (props.correct ? "Correct" : "Not quite");
   var fbHeadline = props.headline || (props.correct ? "Right." : "Not quite.");
   return React.createElement("div", {
+    className: "activity-scenario",
     style: {
       padding: isFirst ? "0 4px 24px" : "24px 4px",
       borderTop: isFirst ? "none" : "1px solid var(--tryRule)"
     }
   },
-    React.createElement("div", { style: { display: "flex", gap: 22, alignItems: props.alignTop ? "flex-start" : "center", marginBottom: 16 } },
+    React.createElement("div", { className: "activity-scenario-heading", style: { display: "flex", gap: 22, alignItems: props.alignTop ? "flex-start" : "center", marginBottom: 16 } },
       React.createElement("div", {
         style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", opacity: numeralOpacity, flexShrink: 0 }
       }, String(props.index).padStart(2, "0")),
-      React.createElement("div", { style: { flex: 1 } },
+      React.createElement("div", { className: "activity-scenario-question", style: { flex: 1 } },
         props.kicker ? React.createElement("div", {
           style: { fontSize: 11, fontWeight: 700, color: "var(--tryAccent)", textTransform: "uppercase", letterSpacing: "0.10em", marginBottom: 4 }
         }, props.kicker) : null,
@@ -3423,7 +3427,7 @@ function ChoiceRadio(props) {
   var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f";
   if (props.picked && props.correct) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; }
   else if (props.picked) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; }
-  return React.createElement("button", { onClick: props.onClick, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
+  return React.createElement("button", { className: "activity-choice-radio", onClick: props.onClick, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
     React.createElement("span", { style: { width: 22, height: 22, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
       React.createElement("span", { style: { width: 11, height: 11, borderRadius: 999, background: dotFill } })),
     props.label);
@@ -3496,6 +3500,7 @@ function QuizBlock(props) {
       return React.createElement("div", { style: { padding: 0 } },
         (hasNumeral || props.statement) ? React.createElement("div", { style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : 66 } },
           hasNumeral ? React.createElement("div", {
+            className: "activity-question-number",
             style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 }
           }, String(props.questionNumber).padStart(2, "0")) : null,
           React.createElement("div", {
@@ -3556,9 +3561,11 @@ function QuizBlock(props) {
     // (48px numeral column + 18px gap) so they align with the item text, not the numeral.
     var extIndent = hasNumeral ? 66 : (props.optionsIndent != null ? props.optionsIndent : 66);
     var titleRow = (hasNumeral || props.statement) ? React.createElement("div", {
+      className: "activity-quiz-heading",
       style: { display: "flex", gap: 22, alignItems: "center", marginBottom: 18, paddingLeft: hasNumeral ? 0 : extIndent }
     },
       hasNumeral ? React.createElement("div", {
+            className: "activity-question-number",
         style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", opacity: numeralOpacity, flexShrink: 0 }
       }, String(props.questionNumber).padStart(2, "0")) : null,
       React.createElement("div", {
@@ -3566,7 +3573,7 @@ function QuizBlock(props) {
       }, props.statement)) : null;
 
     var optionsList = React.createElement("div", {
-      className: "choicequiz-options",
+      className: "choicequiz-options" + (props.optionsCompact ? " activity-options-compact" : ""),
       style: props.optionsRow
         ? (props.optionsCompact
           ? { display: "inline-grid", gridAutoFlow: "column", gridAutoColumns: "1fr", gap: 10, marginLeft: extIndent }
@@ -3631,7 +3638,7 @@ function QuizBlock(props) {
           React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, bodyText)));
     }
 
-    return React.createElement("div", { style: { padding: 0 } }, titleRow, optionsList, feedbackZone);
+    return React.createElement("div", { className: "activity-quiz activity-quiz--mint", style: { padding: 0 } }, titleRow, optionsList, feedbackZone);
   }
 
   // Default surface (unchanged from previous behavior)
@@ -3643,6 +3650,7 @@ function QuizBlock(props) {
       : "Q";
   }
   return React.createElement("div", {
+    className: "activity-quiz activity-quiz--default" + (minimal ? " activity-quiz--minimal" : ""),
     style: minimal ? { padding: 0 } : { background: "var(--bg)", border: "1px solid var(--rule)", borderRadius: 14, padding: 28 }
   },
     !minimal && qLabel ? React.createElement("div", {
@@ -3652,6 +3660,7 @@ function QuizBlock(props) {
       style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35, textWrap: "pretty", marginBottom: 24 }
     }, props.statement) : null,
     React.createElement("div", {
+      className: "activity-quiz-options",
       style: { display: "grid", gridTemplateColumns: options.length <= 2 ? "1fr 1fr" : "1fr", gap: options.length <= 2 ? 24 : 12 }
     },
       options.map(function(opt, i) {
@@ -3739,7 +3748,7 @@ function UserBubble(props) {
   var label = props.label != null ? props.label : "You";
   var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return React.createElement("div", { style: { display: "flex", justifyContent: alignLeft ? "flex-start" : "flex-end", animation: "fadeIn 0.3s ease" } },
-    React.createElement("div", { style: { maxWidth: maxWidth } },
+    React.createElement("div", { className: "activity-chat-bubble", style: { maxWidth: maxWidth } },
       label ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--primary)", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "var(--primary)", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)) : null,
@@ -3758,7 +3767,7 @@ function AIBubble(props) {
   var label = props.label || "AI";
   var cursor = React.createElement("span", { style: { color: "var(--primary)", fontWeight: 300, animation: "blink 0.7s infinite", marginLeft: 2 } }, "|");
   return React.createElement("div", { style: { display: "flex", justifyContent: alignLeft ? "flex-start" : "flex-end", animation: "fadeIn 0.3s ease" } },
-    React.createElement("div", { style: { maxWidth: maxWidth } },
+    React.createElement("div", { className: "activity-chat-bubble", style: { maxWidth: maxWidth } },
       React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, justifyContent: alignLeft ? "flex-start" : "flex-end", marginBottom: 6 } },
         React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "var(--tryAccent)", display: "inline-block", flexShrink: 0 } }),
         React.createElement("span", { style: { color: "var(--tryAccent)", fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" } }, label)),
@@ -3861,7 +3870,7 @@ const SECTION_META = {
   embeddings: { kicker: "WORDS AS COORDINATES", label: "Embeddings: Meaning as Numbers", title: "Embeddings", icon: "\uD83D\uDCD0" },
   attention: { kicker: "ALL AT ONCE", label: "Transformer", icon: "\uD83D\uDCD6" },
   training: { kicker: "HOW IT LEARNS", label: "How AI Learns", icon: "\uD83D\uDCDA" },
-  trainingbias: { kicker: "SKEWED AND STALE", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
+  trainingbias: { kicker: "SKEWED TRAINING DATA", label: "Training Bias", title: "Training Bias", icon: "\u2696\uFE0F" },
   prompt: { kicker: "WHAT THE MODEL SEES", label: "Context Matters", icon: "\u2709\uFE0F" },
   layers: { kicker: "BUILDING UP MEANING", label: "Layers", icon: "\uD83E\uDDC5" },
   vectorspace: { kicker: "MEANING IS A POSITION", label: "Vector Space", icon: "\uD83D\uDDFA\uFE0F" },
@@ -4123,14 +4132,14 @@ const FINAL_BANK = [
   },
   {
     id: "fx16", section: "Avoid Traps", lessonId: "trainingbias",
-    q: "You ask for “ten successful entrepreneurs” and the list feels same-y. Why?",
+    q: "You ask AI for ten successful entrepreneurs. It lists ten tech founders. What can you tell from that answer alone?",
     options: [
-      "The model reflects whoever shows up most in its training data",
-      "Those really are the only successful entrepreneurs",
-      "The app is sponsored by those people"
+      "The list covers one industry. I can ask for a broader list, but I don’t yet know why these ten appeared.",
+      "Most of the entrepreneurs in the training data must have worked in tech.",
+      "AI knows about founders in other industries and chose to leave them out."
     ],
     correct: 0,
-    explain: "The model reflects its training data, and whoever shows up most in that data shows up most in the answer. That sameness is the tell."
+    explain: "All ten names come from tech. That is a reason to ask for examples outside tech. One list cannot establish which examples the model learned from."
   },
   {
     id: "fx17", section: "Avoid Traps", lessonId: "faketrap",
@@ -4586,8 +4595,8 @@ function CopyableLabPrompt(props) {
         size: "lab", onClick: copyPrompt, disabled: disabled,
         disabledLabel: props.disabledLabel || "Enter Field First", status: status
       }, "Copy Prompt")),
-    disabled && props.disabledMessage ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
-    hasPlaceholder && !props.hidePlaceholderHint ? E("div", { style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
+    disabled && props.disabledMessage ? E("div", { className: "lab-prompt-note", style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, props.disabledMessage) : null,
+    hasPlaceholder && !props.hidePlaceholderHint ? E("div", { className: "lab-prompt-note", style: { marginTop: 8, fontFamily: "var(--sans)", fontSize: 12, lineHeight: 1.45, fontWeight: 700, color: "var(--labAccent)" } }, "Replace anything in brackets after you paste.") : null);
 }
 function LabOpenAction(props) {
   return React.createElement("div", { style: { marginTop: 12 } },
@@ -4599,7 +4608,7 @@ function LabStepList(props) {
   return E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
     steps.map(function(st, i) {
       var done = !!props.checked[i];
-      return E("div", {
+      return E("div", { className: "lab-step-row",
         key: i,
         style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
       },
@@ -5160,6 +5169,7 @@ function PhoneReadingCards(props) {
             E("h4", null, board.ordered ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title),
             card.label && board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
             E("p", null, card.body),
+            card.studyExample ? E("div", { className: "phone-reading-example" }, E("p", null, card.studyExample)) : null,
             card.include ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Include"), E("ul", null, card.include.map(function(item) { return E("li", { key: item }, item); }))) : null,
             card.weak ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Weak"), E("p", null, card.weak)) : null,
             card.better ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Better"), E("p", null, card.better)) : null)));
@@ -5715,9 +5725,9 @@ Object.assign(PHONE_READING_BOARDS, {
     {accent:'#0e8f86',art:[557,118,485,273]},
     {accent:'#0e8f86',art:[1075,118,485,273]}
   ]},
-  hallucinationExample: {title:'Nothing Sounds Wrong',takeaway:'The study does not exist.',turns:[
-    {role:'YOU',body:'Will my hype playlist on Spotify help me study for chemistry, or will it distract me?'},
-    {role:'AI',body:'Great question. A 2022 Stanford study of 1,200 high school students found that familiar instrumental music improved recall by 18%. Researchers recommend keeping the volume below 60 decibels. Want me to help you build a study playlist?'}
+  hallucinationExample: {title:'Nothing Sounds Wrong',width:1600,height:998,takeaway:'The study does not exist.',cards:[
+    {title:'You',accent:'#4f2fc4',art:[42,129,741,337],body:'Will my hype playlist on Spotify help me study for chemistry, or will it distract me?'},
+    {title:'AI',accent:'#1652f0',art:[817,129,741,337],body:'Great question. A 2022 Stanford study of 1,200 high school students found that familiar instrumental music improved recall by 18%. Researchers recommend keeping the volume below 60 decibels. Want me to help you build a study playlist?'}
   ]},
   hallucinationWhy: {title:'Why Hallucinations Happen',width:1600,height:871,flow:true,cards:[
     {title:'Learns From Training Text',accent:'#4f2fc4',art:[70,176,280,158],body:'That text includes mistakes, jokes, and lies. Those can shape the patterns AI learns too.'},
@@ -5725,7 +5735,7 @@ Object.assign(PHONE_READING_BOARDS, {
     {title:'Keeps Trying to Answer',accent:'#0e8f86',art:[858,176,280,158],body:'AI is trained to be helpful, so it often keeps going even when it is unsure.'},
     {title:'Probable ≠ True',accessibleTitle:'Probable does not equal True',accent:'#a9760c',art:[1252,176,280,158],body:'An answer can sound exactly right even when the facts are wrong.'}
   ]},
-  hallucinationCheck: {title:'Check the Claim',width:1600,height:778,flow:true,cards:[
+  hallucinationCheck: {title:'Suspect a Hallucination?',width:1600,height:778,flow:true,cards:[
     {title:'Notice the Claim',accent:'#4f2fc4',art:[70,176,430,242],body:'Something doesn’t add up. Identify the fact, number, or study you want to check.'},
     {title:'Find the Source',accent:'#1652f0',art:[585,176,430,242],body:'Look for the original study, article, or document. A citation alone isn’t proof.'},
     {title:'Check the Match',accent:'#0e8f86',art:[1100,176,430,242],body:'Does the source exist, and does it actually support what AI said?'}
@@ -5761,26 +5771,21 @@ function SixthPhoneReadingBoard(props) {
       E('p',{className:'phone-six-bridge'},props.items[2].title),
       E('p',{className:'phone-six-group-title'},'WAYS TO TAKE A CLOSER LOOK'),
       E(PhoneReadingCards,{board:Object.assign({},phoneBoard,{cards:cards.slice(2)}),src:src}));
-  } else if(board.turns) {
-    content=E('div',{className:'phone-six-dialogue'},board.turns.map(function(turn){return E('section',{key:turn.role,className:'phone-six-turn'},
-      E('p',{className:'phone-conversation-role'},turn.role),E('p',{className:'phone-conversation-words'},turn.body));}));
   } else content=E(PhoneReadingCards,{board:phoneBoard,src:src});
   return E(PhoneReadingBoard,props,content);
 }
 
 // Seventh phone-readability batch. Desktop images and transcripts stay together.
 Object.assign(PHONE_READING_BOARDS, {
-  biasWrongPattern: {title:'Wrong Pattern. Wrong Answer.',width:1600,height:1308,scene:[40,128,1520,1012],takeaway:'A model can learn the background instead of the thing that matters.'},
-  biasMechanisms: {title:'How Skewed Data Distorts the Picture',width:1600,height:819,cards:[
-    {title:'Defaults',accent:'#4f2fc4',art:[40,128,485,273],body:'Common cases appear often, so the model treats them as the standard answer.'},
-    {title:'Blind Spots',accent:'#1652f0',art:[557,128,485,273],body:'Rare cases barely appear, so the model learns less about them.'},
-    {title:'Wrong Patterns',accent:'#a9760c',art:[1075,128,485,273],body:'A clue works during training, so the model learns the clue instead of the concept.'}
-  ],takeaway:'The model repeats the shape of its data.'},
-  biasQuestions: {title:'Three Questions That Reveal Bias',width:1600,height:819,cards:[
+  biasMechanisms: {title:'Types of Training Bias',width:1600,height:914,cards:[
+    {title:"Shows Up Too Often",accent:"#4f2fc4",art:[40,118,744,339],body:"During training, AI saw the same advice so often that it learned to give that answer first.",studyExample:"“Three hours” keeps showing up on the teachers’ sites, so it becomes the AI’s go-to answer."},
+    {title:"Gets Left Out",accent:"#1652f0",art:[816,118,744,339],body:"AI learned from training examples that left out some situations, so its advice can overlook them, too.",studyExample:"Students who work evening shifts are missing from those sites, so the AI has fewer examples of how they prepare for exams."}
+  ]},
+  biasQuestions: {title:'When You Suspect Training Bias',width:1600,height:692,cards:[
     {title:'Ask What’s Missing',accent:'#4f2fc4',art:[40,128,485,273],body:'“What’s missing from this answer?”'},
     {title:'Ask for Exceptions',accent:'#1652f0',art:[557,128,485,273],body:'“Show me examples that don’t fit the pattern you just gave.”'},
     {title:'Remove the Famous',accent:'#a9760c',art:[1075,128,485,273],body:'“Answer again, leaving out the most famous examples.”'}
-  ],takeaway:'The model often has the rest of the picture. It just doesn’t lead with it.'},
+  ]},
   documentIncomplete: {title:'An Incomplete Answer',width:1600,height:1308,scene:[40,128,1520,1012],takeaway:'Uploading a file doesn’t mean AI has read it all.'},
   documentFlow: {title:'Split, Search, Load',width:1600,height:879,flow:true,cards:[
     {accent:'#4f2fc4',art:[75,176,310,175]},
@@ -6194,9 +6199,11 @@ function WelcomeSection(props) {
     }) }),
     E(GroupExercise, { id: "welcome-taking-course-as-group", boxed: true, label: "Taking the Course as a Group?", optional: false },
       E(BodyP, { marginBottom: 0 },
-        "This course works for classes, clubs, and other groups, too. Look for optional ",
+        "This course works for classes, clubs, and other groups, too. At the end of many lessons, you’ll find optional ",
+        E("strong", null, "Discussion Questions"),
+        ". Pick one that interests your group and compare answers. Some lessons also include hands-on ",
         E("strong", null, "Group Exercises"),
-        " at the end of lessons, with discussion questions or activities to do together.")),
+        " you can try together.")),
     E(PhoneReadingBoard, { kind: "coursePath", image: E("img", {
       src: "course-assets/welcome/welcome-where-this-course-takes-you.jpg?v=20261104navigate",
       alt: "Where This Course Takes You. Seven course sections move from Start Smarter through Work With AI, Understand AI, Avoid Traps, Navigate the Future, and Build Your Skills to Finish Smarter. Each section describes what the student will gain. The takeaway reads: Start with the tool. Finish with what you can do.",
@@ -7388,91 +7395,82 @@ function StaleInfoBox() {
 function TrainingBiasSection(props) {
   const [labChecked, setLabChecked] = useState({});
   const BIAS_LAB_STEPS = [{
-    title: "Get the default",
+    title: "Get a first list",
     open: { href: "https://chatgpt.com", label: "Open ChatGPT" }, body: "Select Open ChatGPT and sign in. Start a new chat outside any project. Paste this exactly. Read the list ChatGPT gives you. No judging yet. Just keep it where you can see it.",
     prompt: "Name ten successful entrepreneurs."
   }, {
-    title: "Tally the sameness",
-    body: "Count three things in your list: how many are men, how many are American, and how many made their money in tech. If the list is already varied, look for what is still missing: regions, industries, eras, or kinds of businesses."
+    title: "Look at the industries",
+    body: "Using the descriptions in the answer, tally the industries represented. Mark an industry as unclear if the answer doesn’t identify it. If several industries already appear, name one you’d like to see represented."
   }, {
     title: "Ask what’s missing",
-    body: "Stay in that chat and paste this next. Notice what the model adds, changes, or admits it left out.",
+    body: "Stay in that chat and paste this next. Notice which examples it adds and whether they broaden the list.",
     prompt: "What’s missing from this answer?"
   }, {
     title: "Break the pattern",
-    body: "Ask again without the most famous examples or anyone from American tech. New countries, industries, and eras should appear. The broader picture was often only one question away.",
+    body: "Ask again without the most famous examples or anyone from American tech. Compare the two lists. Choose one person from the second list. What does their example add to your picture of entrepreneurship? If it adds nothing new, say why.",
     prompt: "Answer again, leaving out the most famous examples and anyone from American tech."
   }];
   var labCheckedCount = BIAS_LAB_STEPS.filter(function(st, i) { return !!labChecked[i]; }).length;
-  const MECHANISMS = [
-    { icon: "📈", term: "Defaults", body: "Some cases appear too often in the data. The model treats them as the default." },
-    { icon: "📉", term: "Blind Spots", body: "Some cases appear too rarely. The model performs worse when those cases come up." },
-    { icon: "🪤", term: "Wrong Patterns", body: "A wrong clue happens to work in training. The model learns the clue instead of the real concept." }
-  ];
+  const studyBoard = PHONE_READING_BOARDS.biasMechanisms;
   return /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "trainingbias" }),
     React.createElement(LessonReading, { sectionId: "trainingbias" },
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Sometimes AI doesn\u2019t invent anything. Every fact in an answer can be real, but the picture can still be distorted."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Cows on the beach"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Computer-vision researchers saw a famous version of this. A model could recognize cows in familiar photos. Then researchers showed it cows in unusual settings, including a beach, and its performance fell apart. Same animal. Different background."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Most of the cows it learned from appeared on green pasture. The model had picked up a shortcut: green grass means cow. It learned the background along with the animal."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "This is training bias."),
-    /*#__PURE__*/React.createElement(SeventhPhoneReadingBoard, {kind:"biasWrongPattern",image:React.createElement("img", {
-      src: "course-assets/training-bias/training-bias-wrong-pattern.jpg?v=20260921batch3",
-      alt: "The board titled Wrong Pattern. Wrong Answer. shows a Black female student and a Latino male student thoughtfully testing a brass visual classifier trained on photo cards of cows standing on green grass. The machine locks onto the grass pattern, then rejects a photo of the same kind of cow on a beach.",
-      style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 }
-    })}),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Skewed data creates three overlapping problems."),
+    React.createElement(BodyP, null,
+      "You ask three people, “How much should I study for my exam?”"),
+    React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, paddingLeft: 22, margin: "18px 0" } },
+      React.createElement("li", null, "Your science teacher says, “Three hours.”"),
+      React.createElement("li", null, "Your mom says, “30 minutes, because you have to work tonight.”"),
+      React.createElement("li", null, "Your best friend says, “Studying is overrated.”")),
+    React.createElement(BodyP, null,
+      "How could three people you trust give you such different answers? Each brings their own experience to the question, and that can bias the advice they give you."),
+    React.createElement(SectionKicker, null, "Training Bias"),
+    React.createElement(BodyP, null,
+      "You heard three perspectives. Imagine an AI learned from only one."),
+    React.createElement(BodyP, null,
+      "In this example, it gets all its study advice from websites written by science teachers. On those sites, a common tip is to study for three hours before a big test. You ask, “How much should I study for my exam?” The AI tells you, based on what it learned, “Three hours.”"),
+    React.createElement(BodyP, null,
+      "That’s training bias. The AI learned from sources that gave it only part of the picture, and that shaped its answer."),
     /*#__PURE__*/React.createElement(SeventhPhoneReadingBoard, {kind:"biasMechanisms",image:React.createElement("img", {
-      src: "course-assets/training-bias/training-bias-how-bias-happens.jpg?v=20260914attribution1",
-      alt: "How skewed data distorts the picture: defaults, blind spots, and wrong patterns. What AI learns depends on the examples it gets.",
+      src: "course-assets/training-bias/training-bias-study-time.jpg?v=evening-shifts",
+      alt: [studyBoard.title, ...studyBoard.cards.map(card => [card.title + ".", card.body, card.studyExample].join(" "))].join(" "),
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "How Skewed Data Distorts the Picture"),
-      MECHANISMS.map(function(m, i) {
+      /*#__PURE__*/React.createElement("h3", null, studyBoard.title),
+      studyBoard.cards.map(function(m, i) {
         return /*#__PURE__*/React.createElement("p", { key: i },
-          /*#__PURE__*/React.createElement("strong", null, m.term), " ", m.body);
-      }),
-      /*#__PURE__*/React.createElement("p", null, "The model repeats the shape of its data.")),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "These patterns can have real consequences. Researchers have found major accuracy gaps across demographic groups in some facial-analysis systems. Face-recognition errors have even contributed to wrongful arrests. The stakes are much higher than a cow photo."),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "You cannot fact-check your way out of this trap because every individual fact may be correct. Look for sameness. ",
-      /*#__PURE__*/React.createElement("strong", null, "When every example looks alike, you are seeing the model’s default, not the world."),
-      " When you spot it, three questions can reveal what the first answer left out:"),
+          /*#__PURE__*/React.createElement("strong", null, m.title), " ", m.body, " ", m.studyExample);
+      })),
+    React.createElement(SectionKicker, null, "How to Spot Training Bias"),
+    React.createElement(BodyP, null,
+      "Training bias can be tough to spot. Often, your first clue is that an AI answer just doesn’t feel right."),
+    React.createElement(BodyP, null,
+      "Say you ask AI for examples of successful entrepreneurs. It lists ten tech founders, and you think, “Wait, why are all ten in tech?” So you ask, “Who else would make this list if we looked outside tech?”"),
+    React.createElement(BodyP, null,
+      "The list tells you which industry showed up. You’d need more evidence to know why."),
     /*#__PURE__*/React.createElement(SeventhPhoneReadingBoard, {kind:"biasQuestions",image:React.createElement("img", {
-      src: "course-assets/training-bias/training-bias-questions-to-ask.jpg?v=20260914attribution1",
-      alt: "Three Questions That Reveal Bias: ask what’s missing, ask for exceptions, and remove the famous. The model often has more of the picture.",
+      src: "course-assets/training-bias/training-bias-when-you-suspect.jpg?v=cards-only",
+      alt: "When You Suspect Training Bias: ask what’s missing, ask for exceptions, and remove the famous.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Three Questions That Reveal Bias"),
+      /*#__PURE__*/React.createElement("h3", null, "When You Suspect Training Bias"),
       /*#__PURE__*/React.createElement("ol", null,
         /*#__PURE__*/React.createElement("li", null, "What’s missing from this answer?"),
         /*#__PURE__*/React.createElement("li", null, "Show me examples that don’t fit the pattern you just gave."),
-        /*#__PURE__*/React.createElement("li", null, "Answer again, leaving out the most famous examples.")),
-      /*#__PURE__*/React.createElement("p", null, "The model often has more of the picture. It just doesn’t lead with it.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "When Training Data Gets Old"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Stale data is a separate limitation: information that was accurate during training may no longer be current. When the date matters, verify with a current source."),
+        /*#__PURE__*/React.createElement("li", null, "Answer again, leaving out the most famous examples."))),
     closeBoard("trainingbias")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",
       surface: "teal",
       title: "Broaden the Picture",
       hint: "Click the box after you finish each step.",
-      lead: "You know the tell: sameness. Now go catch it live, then use the questions from this lesson to make the model show you more of what its first answer left out.",
+      lead: "Ask AI for a list of entrepreneurs. See who makes the list, then ask a follow-up to find out who else belongs there.",
       action: /*#__PURE__*/React.createElement(ActivityCounter, { count: labCheckedCount, total: BIAS_LAB_STEPS.length })},
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         BIAS_LAB_STEPS.map(function(st, i) {
           var done = !!labChecked[i];
-          return /*#__PURE__*/React.createElement("div", {
+          return /*#__PURE__*/React.createElement("div", { className: "lab-step-row",
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
@@ -7615,7 +7613,7 @@ function TrainingKitchenHelper(props) {
       React.createElement("span", null, "Select ", React.createElement("strong", null, "See the other style"), " to compare.")
     ]
   },
-    E("p", { style: { fontSize: 14, lineHeight: 1.5, color: "var(--inkSoft)", margin: "0 0 20px" } },
+    E("p", { className: "activity-support-copy", style: { fontSize: 14, lineHeight: 1.5, color: "var(--inkSoft)", margin: "0 0 20px" } },
       "A simplified training simulation using prepared answers. No real AI model is being trained."),
     !ready ? E("div", null,
       E("div", { style: smallLabel }, "YOUR CHOICES · " + (state.round + 1) + " OF 3"),
@@ -7646,7 +7644,7 @@ function TrainingKitchenHelper(props) {
       E("div", { style: { display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center", marginTop: 20 } },
         E(ActivityButton, { disabled: selected === null, onClick: next, style: { fontSize: 16, minHeight: 44 } },
           state.round === 2 ? "Try your helper" : "Next question"),
-        E("span", { role: "status", style: { fontSize: 15, color: "var(--inkSoft)" } },
+        E("span", { className: "activity-support-copy", role: "status", style: { fontSize: 15, color: "var(--inkSoft)" } },
           selected === null ? "Choose the answer you prefer." : "Choice saved. You can change it before moving on.")))
     : E("div", null,
       E("div", { style: smallLabel }, "TRY YOUR KITCHEN HELPER · " + testedCount + " OF 2 QUESTIONS ASKED"),
@@ -7691,9 +7689,9 @@ function TrainingKitchenHelper(props) {
         E("h4", { style: { fontSize: 20, margin: "0 0 10px", color: "var(--ink)" } }, "Your feedback shaped the answers"),
         E("p", { style: bodyStyle },
           "You chose " + styleLabel + " in " + profile.count + " of 3 rounds. Your feedback made that kind of answer more likely."),
-        E("p", { style: { fontSize: 14, lineHeight: 1.5, color: "var(--inkSoft)", margin: "10px 0 0" } },
+        E("p", { className: "activity-support-copy", style: { fontSize: 14, lineHeight: 1.5, color: "var(--inkSoft)", margin: "10px 0 0" } },
           "This demo shows the style you chose more often. Real training uses far more examples and feedback."),
-        E("ul", { style: { fontSize: 15, lineHeight: 1.5, color: "var(--inkSoft)", paddingLeft: 22, margin: "14px 0 0" } },
+        E("ul", { className: "activity-support-copy", style: { fontSize: 15, lineHeight: 1.5, color: "var(--inkSoft)", paddingLeft: 22, margin: "14px 0 0" } },
           state.choices.map(function(choice, index) {
             var chosenStyle = KITCHEN_HELPER_ROUNDS[index].options[choice].style;
             return E("li", { key: index, style: { marginBottom: 5 } },
@@ -7710,7 +7708,7 @@ function TrainingKitchenHelper(props) {
         E(ActivityButton, { onClick: restart, style: {
           fontSize: 16, minHeight: 44, background: "transparent", color: "var(--inkSoft)", border: "1px solid var(--rule)"
         } }, "Start over"),
-        E("span", { role: "status", style: { fontSize: 15, color: "var(--inkSoft)" } },
+        E("span", { className: "activity-support-copy", role: "status", style: { fontSize: 15, color: "var(--inkSoft)" } },
           finished ? (state.showOther ? "Your selections haven’t changed. You’re comparing the two styles." : "Compare the two styles without starting over.") : "Try both questions before you finish.")))
   );
 }
@@ -9658,7 +9656,7 @@ function CareerFieldControl(props) {
   var value = typeof props.value === "string" ? props.value : "";
   return E("label", { htmlFor: props.id, style: { display: "block" } },
     E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Confirm or change your career field"),
-    E("input", {
+    E("input", { className: "phone-text-field",
       id: props.id,
       type: "text",
       value: value,
@@ -9678,6 +9676,7 @@ function CareerMoveSelector(props) {
   var E = React.createElement;
   var options = props.options || [];
   return E("div", {
+    className: "career-move-selector",
     role: "group",
     "aria-label": "Choose one move",
     style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 }
@@ -9703,7 +9702,7 @@ function CareerActionControl(props) {
   var value = typeof props.value === "string" ? props.value : "";
   return E("label", { htmlFor: props.id, style: { display: "block" } },
     E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Paste the action you chose here"),
-    E("textarea", {
+    E("textarea", { className: "phone-text-field",
       id: props.id,
       value: value,
       onChange: function(event) { props.onChange(event.target.value); },
@@ -9728,7 +9727,7 @@ function ThoughtPartnerLab() {
     var id = "idea-better-" + key;
     return E("label", { htmlFor: id, style: { display: "block", marginTop: 12 } },
       E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, label),
-      E("textarea", {
+      E("textarea", { className: "phone-text-field",
         id: id, rows: 2,
         value: typeof details[key] === "string" ? details[key] : "",
         onChange: function(event) { var value = event.target.value; setDetails(function(previous) { return Object.assign({}, previous, { [key]: value }); }); },
@@ -9740,14 +9739,14 @@ function ThoughtPartnerLab() {
     {
       title: "Bring an idea",
       body: "Choose something you would like to do, then open ChatGPT and start a new conversation.",
-      content: E("div", { style: { fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
+      content: E("div", { className: "activity-support-copy", style: { fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
         E("p", { style: { margin: "0 0 6px" } }, "Try one of these, or use your own idea:"),
         E("ul", { style: { margin: "0 0 10px", paddingLeft: 22 } },
           E("li", null, "Organize a study session with a few classmates."),
           E("li", null, "Plan a low-cost activity for a school club."),
           E("li", null, "Plan a game night with friends.")),
         entry("project", "Enter your idea here", "For example: organize a 45-minute study session for three classmates"),
-        E("p", { style: { margin: "6px 0 0", fontSize: 12.5, color: "var(--inkMuted)" } }, "Your idea will fill the Step 2 prompt automatically."))
+        E("p", { className: "activity-support-copy", style: { margin: "6px 0 0", fontSize: 12.5, color: "var(--inkMuted)" } }, "Your idea will fill the Step 2 prompt automatically."))
     },
     {
       title: "Talk it through",
@@ -9756,7 +9755,7 @@ function ThoughtPartnerLab() {
       promptDisabled: !answer("project"),
       promptDisabledLabel: "Enter Idea First",
       promptDisabledMessage: "Enter your idea in Step 1 to unlock this prompt.",
-      afterPromptContent: E("p", { style: { margin: 0, fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
+      afterPromptContent: E("p", { className: "activity-support-copy", style: { margin: 0, fontSize: BOX_TEXT, lineHeight: 1.55, color: "var(--inkSoft)" } },
         "Answer the questions. Ask your own questions, too.")
     },
     {
@@ -10186,7 +10185,7 @@ function DinoGameDemo() {
   return /*#__PURE__*/React.createElement("div", {
     style: { background: "#fff", border: "1px solid var(--rule)", borderRadius: 12, padding: "14px 16px 10px", boxShadow: "var(--shadowSoft)", marginBottom: 14 }
   },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
+    /*#__PURE__*/React.createElement("div", { className: "activity-support-copy", style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
       "Try this example of the game you’re about to build. ",
       /*#__PURE__*/React.createElement("strong", null, "Press Space or ↑, or click or tap the game, to start and jump.")),
     /*#__PURE__*/React.createElement("div", { ref: wrapRef },
@@ -10225,18 +10224,18 @@ function HallucinationQuiz() {
     { question: "Which is enough to establish that an AI claim is true?", options: [
       { label: "Precise dates and statistics", correct: false, headline: "Precision is not proof.",
         feedback: "AI can invent an exact year or percentage as easily as a vague claim. Specific numbers can make an error look more credible." },
-      { label: "Neither of these", correct: true, headline: "Presentation cannot establish truth.",
-        feedback: "Neither precise details nor confident explanations establish that a claim is true. Evidence matters more than how the answer sounds." },
       { label: "A confident, detailed explanation", correct: false, headline: "Confidence is not accuracy.",
-        feedback: "A clear, detailed explanation can still be built around a false claim. AI’s tone does not tell you whether its facts are right." }
+        feedback: "A clear, detailed explanation can still be built around a false claim. AI’s tone does not tell you whether its facts are right." },
+      { label: "Neither of the above", correct: true, headline: "Presentation cannot establish truth.",
+        feedback: "Neither precise details nor confident explanations establish that a claim is true. Evidence matters more than how the answer sounds." }
     ] },
-    { question: "AI misreads a real article. Is every error a hallucination?", options: [
-      { label: "No, AI can also misunderstand", correct: true, headline: "Errors can happen in different ways.",
-        feedback: "This lesson distinguishes inventing a factual claim from misreading real information. Both can produce an incorrect answer." },
-      { label: "Yes, every wrong answer is a hallucination", correct: false, headline: "Not every error invents a fact.",
-        feedback: "People sometimes use hallucination for any AI mistake. Here, the distinction is between making up a fact and misunderstanding an existing source." },
-      { label: "Real sources guarantee accurate summaries", correct: false, headline: "A real source can still be misread.",
-        feedback: "AI can overlook a condition, confuse two findings, or draw an unsupported conclusion from a real article. The source’s existence does not guarantee a correct summary." }
+    { question: "Why can AI hallucinate? Choose the most complete answer.", options: [
+      ...PHONE_READING_BOARDS.hallucinationWhy.cards.map(card => ({
+        label: card.title, correct: false, eyebrow: "Partly right", headline: "That’s one part of the explanation.",
+        feedback: card.body
+      })),
+      { label: "All of the above", correct: true, headline: "All four help explain the invented study.",
+        feedback: "AI learns patterns from text that can contain errors. When it tries to answer, it predicts one token at a time. Those predictions can produce a convincing description of a study that never happened." }
     ] }
   ];
   return E(InteractiveBox, {
@@ -10254,9 +10253,9 @@ function HallucinationQuiz() {
 function HallucinationSection(props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "hallucination" }),
     React.createElement(LessonReading, { sectionId: "hallucination" },
-    /*#__PURE__*/React.createElement(SixthPhoneReadingBoard, {kind:"hallucinationExample",image:React.createElement("img", {
-      src: "course-assets/hallucination/hallucination-example.jpg?v=20260914attribution1",
-      alt: "A user asks whether a hype playlist on Spotify will help with chemistry studying. AI cites a detailed Stanford study, recommends a volume limit, and offers to build a study playlist. A gold band reveals that the study does not exist.",
+    /*#__PURE__*/React.createElement(PhoneReadingBoard, {kind:"hallucinationExample",image:React.createElement("img", {
+      src: "course-assets/hallucination/hallucination-playlist-study.jpg",
+      alt: ["Nothing Sounds Wrong.", ...PHONE_READING_BOARDS.hallucinationExample.cards.map(card => card.title + ": " + card.body), PHONE_READING_BOARDS.hallucinationExample.takeaway].join(" "),
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
@@ -10284,17 +10283,17 @@ function HallucinationSection(props) {
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "One Token at a Time."), " It builds its response by predicting which token is likely to come next."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Keeps Trying to Answer."), " AI is trained to be helpful, so it often keeps going even when it is unsure."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Probable Does Not Equal True."), " An answer can sound exactly right even when the facts are wrong."))),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Hallucination is the term people often use whenever AI gets something wrong. But AI can also get something wrong by misreading a real source."),
+    React.createElement(BodyP, null,
+      "AI companies are working to reduce hallucinations. In one third-party study, the AI tools tested were about half as likely to hallucinate on the study’s questions in 2026 as they were in 2024."),
     /*#__PURE__*/React.createElement(BodyP, null,
       "Hallucinations do not sound different from everything else AI says. You will not catch every one, and the answer is not to question every sentence. The skill is noticing when something does not add up."),
     /*#__PURE__*/React.createElement(SixthPhoneReadingBoard, {kind:"hallucinationCheck",image:React.createElement("img", {
-      src: "course-assets/hallucination/hallucination-check-claim.jpg?v=20260914attribution1",
-      alt: "Check the Claim. Three steps: notice the specific fact, number, or study to check; find the original source, because a citation alone is not proof; and check whether the source exists and supports what AI said.",
+      src: "course-assets/hallucination/hallucination-suspect.jpg",
+      alt: "Suspect a Hallucination? Three steps: notice the specific fact, number, or study to check; find the original source, because a citation alone is not proof; and check whether the source exists and supports what AI said.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Check the Claim"),
+      /*#__PURE__*/React.createElement("h3", null, "Suspect a Hallucination?"),
       /*#__PURE__*/React.createElement("ol", null,
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Notice the Claim."), " Something doesn’t add up. Identify the fact, number, or study you want to check."),
         /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Find the Source."), " Look for the original study, article, or document. A citation alone isn’t proof."),
@@ -10735,13 +10734,14 @@ function PromptingSection(props) {
   var rubricEvaluationPrompt = "Build a rubric for a short high-school essay. Use exactly these four criteria and point values:\n\n" + rubricLines + "\n\nFor each criterion, briefly explain what the essay needs to earn full points. Show the criteria, descriptions, and possible points in a table. The possible points should total 100.\n\nThen apply the rubric to the essay below. For each criterion, give the points earned, identify specific evidence from the essay, and explain the score in one sentence. Show the total score out of 100 and name the single strongest improvement the writer could make. Do not rewrite the essay.\n\n" + essayText;
   var essayParts = essayText.split("\n\n");
   var essayReadingCard = React.createElement("article", {
+    className: "activity-inner-card",
     "aria-label": "Essay: " + essayParts[0],
     style: { background: "#fbfaf7", border: "1px solid #d8d2c4", borderRadius: 10, padding: "22px 24px", color: "var(--ink)", boxShadow: "0 6px 18px rgba(54, 45, 30, 0.08)" }
   },
     React.createElement("div", { style: { marginBottom: 8, color: "var(--labAccent)", fontSize: 11, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase" } }, "Essay"),
     React.createElement("h4", { style: { margin: "0 0 16px", fontFamily: "Georgia, serif", fontSize: 22, lineHeight: 1.25, color: "var(--ink)" } }, essayParts[0]),
     essayParts.slice(1).map(function(paragraph, index) {
-      return React.createElement("p", { key: index, style: { margin: index === essayParts.length - 2 ? 0 : "0 0 13px", fontFamily: "Georgia, serif", fontSize: 15, lineHeight: 1.65, color: "var(--inkSoft)" } }, paragraph);
+      return React.createElement("p", { key: index, className: "activity-support-copy", style: { margin: index === essayParts.length - 2 ? 0 : "0 0 13px", fontFamily: "Georgia, serif", fontSize: 15, lineHeight: 1.65, color: "var(--inkSoft)" } }, paragraph);
     }));
   var rubricRemaining = 100 - rubricTotal;
   var rubricInputs = React.createElement("div", { className: "rubric-values" },
@@ -11335,7 +11335,7 @@ function PeopleSkillsCareerLab() {
       body: "Pick the field that makes you most curious. You are choosing what to investigate next, not making a permanent career decision. If none of the three fits, explain what missed and ask for three different fields.",
       content: E("label", { htmlFor: "career-field-input", style: { display: "block" } },
         E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Enter your career field here"),
-        E("input", {
+        E("input", { className: "phone-text-field",
           id: "career-field-input",
           type: "text",
           value: typeof careerField === "string" ? careerField : "",
@@ -12328,7 +12328,7 @@ function FlatteryTrapSection(props) {
       /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         FLAT_LAB_STEPS.map(function(st, i) {
           var done = !!labChecked[i];
-          return /*#__PURE__*/React.createElement("div", {
+          return /*#__PURE__*/React.createElement("div", { className: "lab-step-row",
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
@@ -13144,8 +13144,8 @@ function CertificateDoc(props) {
     letterSpacing: "0.20em"
   };
   var instructor = function(key, name) {
-    return E("div", { key: key, style: { textAlign: "center", minWidth: 0 } },
-      E("div", {
+    return E("div", { key: key, className: "certificate-instructor", style: { textAlign: "center", minWidth: 0 } },
+      E("div", { className: "certificate-signature",
         style: {
           fontFamily: "var(--serif)", fontSize: "clamp(17px, 2.2vw, 28px)",
           lineHeight: 1.05, fontStyle: "italic", color: ink, padding: "0 4% 8px",
@@ -13153,7 +13153,7 @@ function CertificateDoc(props) {
         }
       }, name),
       E("div", { style: { height: 1, background: "#aaa7c5" } }),
-      E("div", {
+      E("div", { className: "certificate-caption",
         style: Object.assign({}, upper, {
           fontSize: "clamp(7px, 0.9vw, 10px)", color: muted, marginTop: 9
         })
@@ -13169,7 +13169,7 @@ function CertificateDoc(props) {
     }
   },
     E("div", {
-      key: "header",
+      key: "header", className: "certificate-header",
       style: {
         flex: "0 0 13.5%", background: navy, display: "flex", alignItems: "center",
         gap: "2.2%", padding: "2.1% 5.3%", boxSizing: "border-box"
@@ -13196,56 +13196,56 @@ function CertificateDoc(props) {
         })
       }, "AI for High Schoolers")),
     E("div", {
-      key: "body",
+      key: "body", className: "certificate-body",
       style: {
         flex: 1, minHeight: 0, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center", textAlign: "center",
         padding: "5.3% 8% 2.4%", boxSizing: "border-box"
       }
     },
-      E("div", {
+      E("div", { className: "certificate-caption",
         style: Object.assign({}, upper, {
           fontSize: "clamp(8px, 1.1vw, 13px)", color: muted, marginBottom: "1.8%"
         })
       }, "This certifies that"),
-      E("div", {
+      E("div", { className: "certificate-student-name",
         style: {
           fontFamily: "var(--serif)", fontSize: "clamp(32px, 6vw, 66px)", lineHeight: 1,
           letterSpacing: "-0.025em", color: ink, maxWidth: "90%", overflowWrap: "anywhere"
         }
       }, props.name),
       E("div", { style: { width: "19%", height: 2, background: gold, margin: "2.4% 0 2.6%" } }),
-      E("div", {
+      E("div", { className: "certificate-caption",
         style: Object.assign({}, upper, {
           fontSize: "clamp(8px, 1.05vw, 13px)", color: muted, marginBottom: "1.8%"
         })
       }, "Has completed the course"),
-      E("div", {
+      E("div", { className: "certificate-course-main",
         style: {
           fontFamily: "var(--sans)", fontSize: "clamp(24px, 4.3vw, 48px)", fontWeight: 800,
           lineHeight: 0.94, color: navy, letterSpacing: "-0.04em"
         }
       }, "Be Smarter"),
-      E("div", {
+      E("div", { className: "certificate-course-italic",
         style: {
           fontFamily: "var(--serif)", fontSize: "clamp(28px, 5vw, 55px)", fontStyle: "italic",
           lineHeight: 0.98, color: navy, letterSpacing: "-0.025em"
         }
       }, "Than the Tool"),
-      E("div", {
+      E("div", { className: "certificate-course-subtitle",
         style: {
           fontFamily: "var(--sans)", fontSize: "clamp(10px, 1.75vw, 20px)", fontWeight: 800,
           color: "#a9770c", marginTop: "2.4%"
         }
       }, COURSE_SUBTITLE),
-      E("div", {
+      E("div", { className: "certificate-conclusion",
         style: {
           fontFamily: "var(--serif)", fontSize: "clamp(12px, 1.75vw, 21px)", fontStyle: "italic",
           color: navy, marginTop: "2.4%"
         }
       }, "You’re now smarter than the tool.")),
     E("div", {
-      key: "footer",
+      key: "footer", className: "certificate-footer",
       style: {
         flex: "0 0 14.5%", borderTop: "1px solid #dedcea", margin: "0 5.3%",
         display: "grid", gridTemplateColumns: "1.3fr 1fr 1fr", gap: "4.5%",
@@ -13253,18 +13253,18 @@ function CertificateDoc(props) {
       }
     },
       E("div", { key: "date", style: { textAlign: "left" } },
-        E("div", {
+        E("div", { className: "certificate-caption",
           style: Object.assign({}, upper, {
             fontSize: "clamp(7px, 0.9vw, 10px)", color: muted, marginBottom: 8
           })
         }, "Completed"),
-        E("div", {
+        E("div", { className: "certificate-date",
           style: {
             fontFamily: "var(--sans)", fontSize: "clamp(12px, 1.55vw, 18px)",
             fontWeight: 800, color: ink
           }
         }, props.date),
-        E("div", {
+        E("div", { className: "certificate-site",
           style: Object.assign({}, upper, {
             fontSize: "clamp(6px, 0.78vw, 9px)", color: muted,
             marginTop: "clamp(6px, 0.8vw, 10px)", whiteSpace: "nowrap"
@@ -13329,7 +13329,7 @@ function CertificateBlock(props) {
     style: { fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--primary)", marginBottom: 12 }
   }, "CERTIFICATE");
   var wrap = function(children) {
-    return E("div", { style: { marginTop: 22 } }, children);
+    return E("div", { className: "certificate-block", style: { marginTop: 22 } }, children);
   };
   var save = function() {
     var first = draftFirst.trim();
@@ -13491,9 +13491,9 @@ function FinalOptionPill(props) {
     fontFamily: "var(--sans)", fontSize: 15, fontWeight: 600, color: "var(--ink)",
     transition: "all 150ms ease"
   };
-  if (!props.onClick) return /*#__PURE__*/React.createElement("div", { style: style }, body);
+  if (!props.onClick) return /*#__PURE__*/React.createElement("div", { className: "final-option-pill", style: style }, body);
   style.cursor = "pointer";
-  return /*#__PURE__*/React.createElement("button", { onClick: props.onClick, style: style }, body);
+  return /*#__PURE__*/React.createElement("button", { className: "final-option-pill", onClick: props.onClick, style: style }, body);
 }
 function TheFinalQuiz(props) {
   props = props || {};
@@ -13656,7 +13656,7 @@ function TheFinalQuiz(props) {
 
   var band = function(children) {
     return E("div", {
-      className: "interactive-box interactive-box--try",
+      className: "interactive-box interactive-box--try final-quiz",
       style: { background: "var(--tryBand)", borderRadius: 16, padding: "26px 28px", marginBottom: "var(--blockGap)" }
     }, children);
   };
@@ -13740,7 +13740,7 @@ function TheFinalQuiz(props) {
       E("div", { key: "qs" }, E(InnerCard, null,
         questions.map(function(q, qi) {
           return E("div", { key: q.id, id: "final-question-" + q.id, style: { paddingTop: qi === 0 ? 0 : 18, marginTop: qi === 0 ? 0 : 18, borderTop: qi === 0 ? "none" : "1px solid var(--rule)" } },
-            E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start" } },
+            E("div", { className: "final-question-heading", style: { display: "flex", gap: 16, alignItems: "flex-start" } },
               E("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 30, lineHeight: 1, color: "var(--tryAccent)", flexShrink: 0 } }, String(qi + 1).padStart(2, "0")),
               E("div", { id: "final-question-label-" + q.id, style: { flex: 1, fontFamily: "var(--sans)", fontSize: 16, color: "#0e0a1f", lineHeight: 1.45 } }, q.q)),
             // True/false rows lay their two options side by side, matching the
@@ -13903,7 +13903,7 @@ function TheFinalQuiz(props) {
         // Five lessons share the label "Opener", so name the section for those.
         var lessonName = meta.title || meta.label || q.lessonId;
         if (lessonName === "Opener") lessonName = q.section + " Opener";
-        return E("div", { key: q.id, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
+        return E("div", { className: "final-review-card", key: q.id, style: { background: "var(--card)", borderRadius: 14, padding: "18px 20px", boxShadow: "var(--shadowSoft)" } },
           E("div", { style: { display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 12 } },
             E("div", { style: { fontFamily: "var(--serif)", fontSize: 28, lineHeight: 1, color: got ? "var(--green)" : "var(--red)", flexShrink: 0 } }, String(qi + 1).padStart(2, "0")),
             E("div", { style: { flex: 1 } },
@@ -13919,7 +13919,7 @@ function TheFinalQuiz(props) {
               return E(FinalOptionPill, { key: oi, badge: FINAL_BADGES[oi], label: opt, mark: mark });
             })),
           E("div", { style: { marginTop: 14, borderTop: "1px solid var(--rule)", paddingTop: 12 } },
-            E("div", { style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 8 } }, q.explain),
+            E("div", { className: "final-review-explanation", style: { fontFamily: "var(--sans)", fontSize: 15, color: "var(--ink)", lineHeight: 1.55, marginBottom: 8 } }, q.explain),
             props.onNavigate ? E("button", {
               type: "button",
               onClick: function() { props.onNavigate(q.lessonId); },
@@ -14655,7 +14655,7 @@ function BigUpsideBenefitsLab() {
       body: "Choose an interest you would like to explore: sports, animals, education, the environment, or something else.",
       content: E("label", { htmlFor: "big-upside-interest-input", style: { display: "block" } },
         E("span", { style: { display: "block", marginBottom: 6, color: "var(--ink)", fontSize: 14, fontWeight: 800 } }, "Enter your interest here"),
-        E("input", {
+        E("input", { className: "phone-text-field",
           id: "big-upside-interest-input",
           type: "text",
           value: typeof interest === "string" ? interest : "",
@@ -15401,7 +15401,7 @@ function WorkChangesSection(props) {
       E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         REVIEW_LAB_STEPS.map(function(st, i) {
           var done = !!labChecked[i];
-          return E("div", {
+          return E("div", { className: "lab-step-row",
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
@@ -16213,7 +16213,7 @@ function StickyLessonBar(props) {
   };
 
   return E("div", {
-    className: "no-print",
+    className: "no-print sticky-lesson-bar" + (visible ? " sticky-lesson-bar--visible" : ""),
     style: { position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "#fff", borderBottom: "1px solid var(--rule)", boxShadow: visible ? "0 4px 16px -8px rgba(14,10,31,.22)" : "none", transform: visible ? "translateY(0)" : "translateY(-100%)", transition: "transform 220ms ease", pointerEvents: visible ? "auto" : "none" }
   },
     E("div", { className: "sticky-inner", style: { maxWidth: 1080, margin: "0 auto", padding: "8px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },

@@ -686,6 +686,11 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=trainingbias-discussion",
     "questions": [
       {
+        "context": "Your school wants an AI assistant that can answer questions about student life. It plans to use the school website, which mostly features awards, sports victories, and special events.",
+        "title": "What would you want included so the assistant could give a fuller picture of life at your school?",
+        "followUp": "Whose experiences might be hardest to find in the material the school publishes?"
+      },
+      {
         "context": "You ask AI for examples of successful people. It lists five billionaire technology founders. Every fact about them is accurate.",
         "title": "What picture of success does that answer give you, and what does it leave out?",
         "followUp": "Who would you include if you wanted someone to see a broader picture of success?"
@@ -699,11 +704,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "A voice assistant works well for most students, but it often misunderstands one student’s accent. The school wants everyone to use it for an assignment.",
         "title": "What would the school need to change before you would consider that a fair requirement?",
         "followUp": "Would offering a way to type instead solve the problem, or would something still be missing?"
-      },
-      {
-        "context": "Your school wants an AI assistant that can answer questions about student life. It plans to use the school website, which mostly features awards, sports victories, and special events.",
-        "title": "What would you want included so the assistant could give a fuller picture of life at your school?",
-        "followUp": "Whose experiences might be hardest to find in the material the school publishes?"
       }
     ]
   },

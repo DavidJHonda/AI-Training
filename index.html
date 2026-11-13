@@ -1801,7 +1801,7 @@ const LESSON_VIDEOS = {
   trainingbias: { src: "course-assets/training-bias/training-bias.mp4?v=20261112ship-training-bias-v12", duration: "3 min", title: "Every fact checks out. The picture is still distorted.", cta: "Both end at the same LAB." },
   documenttrap: { src: "course-assets/document-trap/document-trap.mp4?v=20261112ship10", duration: "3 min", title: "Uploaded doesn’t mean read." },
   mindtrap: { src: "course-assets/trust-trap/trust-trap.mp4?v=20261113ship8", duration: "2 min", title: "Why it feels like somebody’s there." },
-  flattery: { src: "course-assets/flattery-trap/flattery-trap.mp4?v=20261102ship17", duration: "4 min", title: "AI gives you praise, even when it shouldn’t.", cta: "Both end at the same LAB." },
+  flattery: { src: "course-assets/flattery-trap/flattery-trap.mp4?v=20261113ship21", duration: "4 min", title: "AI gives you praise, even when it shouldn’t.", cta: "Both end at the same LAB." },
   supporttrap: { src: "course-assets/support-trap/support-trap.mp4?v=20261102ship16", duration: "4 min", title: "Supportive words aren’t support." },
   faketrap: { src: "course-assets/fake-trap/fake-trap.mp4?v=20261027ship12", duration: "4 min", title: "Seeing isn’t proof anymore. Check the source." },
   // Build Your Skills lessons are ready to read. Approved videos use `src` below;
@@ -1874,7 +1874,7 @@ const CLOSE_BOARDS = {
   trainingbias: { pill: "AI learns from its training data.", sticky: "Bias in the data can shape the answer." },
   documenttrap: { pill: "Uploaded doesn’t mean fully read.", sticky: "Ask for the rule and any exceptions." },
   mindtrap: { pill: "Sounding human doesn’t make AI human.", sticky: "For important decisions, talk to people who know you." },
-  flattery: { pill: "Useful feedback points to the work.", sticky: "Look for specifics, not approval." },
+  flattery: { pill: "AI can learn to tell you what you want to hear.", sticky: "Steer it toward feedback you can use." },
   supporttrap: { pill: "AI can help you get ready for people.", sticky: "In danger, leave the chat and bring in someone who can act." },
   faketrap: { pill: "Seeing or hearing isn’t proof anymore.", sticky: "Check the source, not the pixels." },
   // Navigate the Future
@@ -1932,7 +1932,7 @@ const CLOSE_BOARD_ASSETS = {
   trainingbias: { src: "course-assets/training-bias/training-bias-close.jpg", cssWidth: 448, width: 1344, height: 597 },
   documenttrap: { src: "course-assets/document-trap/document-trap-close.jpg?v=20261112rule", cssWidth: 566, width: 1698, height: 597 },
   mindtrap: { src: "course-assets/trust-trap/trust-trap-close.jpg?v=db5d86a8", cssWidth: 556, width: 1668, height: 597 },
-  flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg?v=20261102restoreclose", cssWidth: 495, width: 1488, height: 600 },
+  flattery: { src: "course-assets/flattery-trap/flattery-trap-close.jpg?v=20261113steer", cssWidth: 592, width: 1776, height: 597 },
   supporttrap: { src: "course-assets/support-trap/support-trap-close.jpg", cssWidth: 530, width: 1590, height: 600 },
   faketrap: { src: "course-assets/fake-trap/fake-trap-close.jpg", cssWidth: 521, width: 1566, height: 597 },
   openerrealworld: { src: "course-assets/navigate-the-future-opener/navigate-the-future-opener-close.jpg", cssWidth: 509, width: 1530, height: 597 },
@@ -5161,7 +5161,7 @@ function PhoneReadingCards(props) {
   var E = React.createElement, board = props.board;
   return E(board.ordered ? "ol" : "div", { className: "phone-reading-stack" + (board.roadmap ? " phone-reading-roadmap" : ""), role: board.ordered ? "list" : undefined },
     board.cards.map(function(card, i) {
-      return E(React.Fragment, { key: card.title },
+      return E(React.Fragment, { key: card.title || i },
         board.equation && i > 0 ? E("div", { className: "phone-reading-operator", role: "img", "aria-label": "plus" }, "+") : null,
         E(board.ordered ? "li" : "section", { className: "phone-reading-card", style: { "--phone-reading-accent": card.accent } },
           board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null,
@@ -5169,7 +5169,7 @@ function PhoneReadingCards(props) {
             E("image", { href: props.src, width: board.width, height: board.height })) : null,
           E("div", { className: "phone-reading-copy" },
             card.label && !board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
-            E("h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title),
+            card.title ? E("h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title) : null,
             card.label && board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
             E("p", null, card.body),
             card.studyExample ? E("div", { className: "phone-reading-example" }, E("p", null, card.studyExample)) : null,
@@ -5352,7 +5352,7 @@ Object.assign(PHONE_READING_BOARDS, {
     ], takeaway: "Good feedback improves the work. Empty praise only improves the feeling."
   },
   praiseTraining: {
-    desktopText: true, title: "How the Praise Got Baked In", width: 1600, height: 796,
+    desktopText: true, title: "How AI Learns to Praise", width: 1600, height: 796,
     ordered: true, numbersAboveArt: true, cards: [
       { title: "People Rank", accent: "#4f2fc4", art: [40,191,485,273], body: "Reviewers compare answers and choose the ones they prefer." },
       { title: "Praise Can Win", accent: "#1652f0", art: [557,191,486,273], body: "Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful." },
@@ -5360,13 +5360,13 @@ Object.assign(PHONE_READING_BOARDS, {
     ]
   },
   sycophancyResponse: {
-    desktopText: true, title: "Sycophancy", width: 1600, height: 479,
-    cards: [{ title: "ChatGPT’s Response", accent: "#4f2fc4", body: "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode." }]
+    desktopText: true, title: "ChatGPT’s Response", width: 1600, height: 413,
+    cards: [{ accent: "#4f2fc4", body: "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode." }]
   },
   fightFlattery: {
-    desktopText: true, title: "Three Ways to Fight the Flattery Trap", width: 1600, height: 1101, ordered: true,
+    desktopText: true, title: "How to Get Better Feedback", width: 1600, height: 1101, ordered: true,
     cards: [
-      { title: "Ask, Don’t Tell", accent: "#4f2fc4", body: null, weak: "“I think this plan is good. Thoughts?”", better: "“Evaluate this plan before I tell you what I think.”" },
+      { title: "Share Your Opinion Last", accent: "#4f2fc4", body: null, weak: "“I think this plan is good. Thoughts?”", better: "“Evaluate this plan before I tell you what I think.”" },
       { title: "Ask for the Gaps", accent: "#1652f0", body: null, weak: "“Is my essay good?”", better: "“What’s weak, what’s missing, and what would someone who disagrees say?”" },
       { title: "Use a Rubric", accent: "#0e8f86", body: null, weak: "“Grade my essay.”", better: "“Grade it against this rubric, quote the evidence, and show how to move up one level.”" }
     ],
@@ -12201,12 +12201,12 @@ function FlatteryWhyBox() {
   var E = React.createElement;
   return E(React.Fragment, null,
     E(ThirdPhoneReadingBoard, { kind: "praiseTraining", image: E("img", {
-      src: "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg?v=20261112cards",
-      alt: "How the praise got baked in. Reviewers compare answers, reviewers sometimes choose praise over more useful criticism, and training moves the model toward patterns that earned approval.",
+      src: "course-assets/flattery-trap/flattery-trap-cycle-of-praise.jpg?v=20261113title",
+      alt: "How AI Learns to Praise. Reviewers compare answers, reviewers sometimes choose praise over more useful criticism, and training moves the model toward patterns that earned approval.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "How the praise got baked in"),
+      E("h3", null, "How AI Learns to Praise"),
       E("p", null, "People Rank. Reviewers compare answers and choose the ones they prefer."),
       E("p", null, "Praise Can Win. Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful."),
       E("p", null, "Numbers Move. Training pushes the model toward patterns that earned approval.")));
@@ -12238,7 +12238,7 @@ function FlatteryTrapSection(props) {
   var labCheckedCount = FLAT_LAB_STEPS.filter(function(st, i) { return !!labChecked[i]; }).length;
   const FIGHT_STRATEGIES = [{
     icon: "❓",
-    title: "Ask, don’t tell",
+    title: "Share Your Opinion Last",
     desc: "A neutral question gives AI less of your opinion to echo.",
     bad: "I think this plan is good. Thoughts?",
     good: "Here’s my plan. Evaluate it before I tell you what I think."
@@ -12274,36 +12274,34 @@ function FlatteryTrapSection(props) {
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The Truth"), " That praise could fit almost any Gatsby essay. It calls your introduction strong without pointing to a single line that earns the praise."),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Useful Feedback"), " “You’ve named your topic: the American Dream. But ‘Fitzgerald explores this idea’ leaves me wondering what you think he shows about it. What does Gatsby’s experience suggest about that dream?”"),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The Truth"), " You’ve named your topic, but your reader still needs to know what you think. Your next step is to write a thesis that says what Fitzgerald shows about the American Dream.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Why AI Sometimes Praises Weak Work"),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Why This Happens"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "When you’ve worked hard on an essay, “Great start!” can feel better to hear than a question about what your thesis will say. If people rating AI answers also favor the more encouraging reply, that preference can shape how the AI responds."),
+      "After you’ve worked hard on an essay, “Great start!” usually feels better to hear than “What are you trying to say about the American Dream?” That’s human nature. Remember, people rate AI answers during training. Sometimes they give the more encouraging reply a higher rating, even when the criticism would help more. Those ratings influence how AI responds."),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "One training method that uses those ratings is called reinforcement learning from human feedback, or RLHF."),
+      "One way AI learns from this feedback is called reinforcement learning from human feedback, or RLHF."),
     /*#__PURE__*/React.createElement(FlatteryWhyBox, null),
     /*#__PURE__*/React.createElement(SectionKicker, null, "Sycophancy"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "The technical name for this behavior is sycophancy. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse."),
+      "Sycophancy is excessive flattery or agreement. In April 2025, OpenAI released a ChatGPT update that took sycophancy to a new level."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 14 },
-      "One user shared an exchange in which they pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:"),
+      "One user pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:"),
     /*#__PURE__*/React.createElement(ThirdPhoneReadingBoard, { kind: "sycophancyResponse", image: React.createElement("img", {
-      src: "course-assets/flattery-trap/flattery-trap-sycophancy.jpg?v=20261027short",
-      alt: "Sycophancy. ChatGPT enthusiastically calls the gag-product idea brilliant, genius, and performance art.",
+      src: "course-assets/flattery-trap/flattery-trap-sycophancy.jpg?v=20261113response",
+      alt: "ChatGPT’s Response. ChatGPT enthusiastically calls the gag-product idea brilliant, genius, and performance art.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Sycophancy: ChatGPT’s Response"),
+      /*#__PURE__*/React.createElement("h3", null, "ChatGPT’s Response"),
       /*#__PURE__*/React.createElement("p", null, "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode.")),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "OpenAI released the update on April 25 and began rolling it back on April 28. Researchers have also found sycophancy across multiple AI assistants."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 28 },
-      "OpenAI added checks for sycophancy. You can still run into it. How you ask still matters."),
+      "OpenAI now tests ChatGPT for sycophancy. But you’ll still see it."),
     /*#__PURE__*/React.createElement(ThirdPhoneReadingBoard, { kind: "fightFlattery", image: React.createElement("img", {
-      src: "course-assets/flattery-trap/flattery-trap-three-moves.jpg?v=20261023three",
-      alt: "Three ways to fight the Flattery Trap shown as weak-prompt and better-prompt rewrites: ask rather than tell, ask for gaps including opposing viewpoints, and use a rubric. A brief tip suggests saving a standing instruction.",
+      src: "course-assets/flattery-trap/flattery-trap-three-moves.jpg?v=20261113opinion",
+      alt: "How to Get Better Feedback. Three weak prompts and their rewrites show how to share your opinion last, ask for gaps including opposing viewpoints, and use a rubric. A brief tip suggests saving a standing instruction.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Three ways to fight the Flattery Trap"),
+      /*#__PURE__*/React.createElement("h3", null, "How to Get Better Feedback"),
       /*#__PURE__*/React.createElement("ol", null,
         FIGHT_STRATEGIES.map(function(s, i) {
           return /*#__PURE__*/React.createElement("li", { key: i },
@@ -12312,7 +12310,6 @@ function FlatteryTrapSection(props) {
             /*#__PURE__*/React.createElement("p", null, "Better: ", s.good));
         })),
       /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Tip: Save a standing instruction. "), "If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”")),
-    React.createElement(BodyP, null, "Treat the suggested grade as practice feedback. Check each rating against your writing and your teacher’s rubric."),
     closeBoard("flattery")),
     /*#__PURE__*/React.createElement(InteractiveBox, {
       variant: "lab",

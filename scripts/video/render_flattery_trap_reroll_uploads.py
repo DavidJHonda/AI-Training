@@ -3,7 +3,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from PIL import Image
-from render_avoid_traps_editorial import (ROOT,CompareSide,render_comparison,AMBER,BLUE,PURPLE,TEAL)
+from render_avoid_traps_editorial import (ROOT,CompareSide,render_comparison,render_sycophancy_example,render_three_moves,AMBER,BLUE,PURPLE,TEAL)
 from render_editorial_full_bleed_batch import Board, render
 from course_credit import save_course_image
 OUT=ROOT/'gemini-notebook/flattery-trap/assets'
@@ -43,7 +43,7 @@ def save_comparison_boards(blank_art):
 
 def render_praise_cards(*, illustrated):
     board = Board(
-        key='praise-training', title='How the Praise Got Baked In',
+        key='praise-training', title='How AI Learns to Praise',
         cards=(
             ('People Rank', 'Reviewers compare answers and choose the ones they prefer.'),
             ('Praise Can Win', 'Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful.'),
@@ -69,6 +69,18 @@ def save_praise_boards():
                           quality=95, subsampling=0, optimize=True)
 
 
+def save_response_board():
+    image = render_sycophancy_example(title='ChatGPT’s Response', label='')
+    save_course_image(image, ROOT / 'course-assets/flattery-trap/flattery-trap-sycophancy.jpg',
+                      quality=95, subsampling=0, optimize=True)
+
+
+def save_feedback_board():
+    image = render_three_moves(board_title='How to Get Better Feedback', first_move='Share Your Opinion Last')
+    save_course_image(image, ROOT / 'course-assets/flattery-trap/flattery-trap-three-moves.jpg',
+                      quality=95, subsampling=0, optimize=True)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     with TemporaryDirectory(prefix='flattery-text-boards-') as tmp:
@@ -76,6 +88,8 @@ def main():
         Image.new('RGB', (1800, 600), 'white').save(art)
         save_comparison_boards(art)
         save_praise_boards()
+        save_response_board()
+        save_feedback_board()
 
 
 if __name__ == '__main__':

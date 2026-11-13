@@ -32,17 +32,17 @@ You’ve named your topic, but your reader still needs to know what you think. Y
 
 Good feedback improves the work. Empty praise only improves the feeling.
 
-## Why AI Sometimes Praises Weak Work
+## Why This Happens
 
-When you’ve worked hard on an essay, “Great start!” can feel better to hear than a question about what your thesis will say. If people rating AI answers also favor the more encouraging reply, that preference can shape how the AI responds.
+After you’ve worked hard on an essay, “Great start!” usually feels better to hear than “What are you trying to say about the American Dream?” That’s human nature. Remember, people rate AI answers during training. Sometimes they give the more encouraging reply a higher rating, even when the criticism would help more. Those ratings influence how AI responds.
 
-One training method that uses those ratings is called reinforcement learning from human feedback, or RLHF.
+One way AI learns from this feedback is called reinforcement learning from human feedback, or RLHF.
 
-### Board 2: How the Praise Got Baked In
+### Board 2: How AI Learns to Praise
 
 **Image file:** `flattery-trap-cycle-of-praise-faceless.jpg`
 
-![How the Praise Got Baked In](flattery-trap-cycle-of-praise-faceless.jpg)
+![How AI Learns to Praise](flattery-trap-cycle-of-praise-faceless.jpg)
 
 **Teaching content:**
 
@@ -58,43 +58,39 @@ The praise literally gets baked into the system.
 
 ## Sycophancy
 
-The technical name for this behavior is sycophancy. In April 2025, OpenAI shipped a ChatGPT update that made the problem much worse.
+Sycophancy is excessive flattery or agreement. In April 2025, OpenAI released a ChatGPT update that took sycophancy to a new level.
 
-One user shared an exchange in which they pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
+One user pitched ChatGPT a gag product called “poop-on-a-stick.” And yes, we changed the name to make it okay for the under-18 crowd. Here was ChatGPT’s response:
 
-### Board 3: Sycophancy
+### Board 3: ChatGPT’s Response
 
 **Image file:** `flattery-trap-sycophancy.jpg`
 
-![Sycophancy](flattery-trap-sycophancy.jpg)
+![ChatGPT’s Response](flattery-trap-sycophancy.jpg)
 
 **Teaching content:**
 
-ChatGPT’s response: “Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode.”
+“Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode.”
 
 ## What Changed
 
-OpenAI released the update on April 25 and began rolling it back on April 28. Researchers have also found sycophancy across multiple AI assistants.
+OpenAI now tests ChatGPT for sycophancy. But you’ll still see it.
 
-OpenAI added checks for sycophancy. You can still run into it.
-
-How you ask still matters.
-
-### Board 4: Three Ways to Fight the Flattery Trap
+### Board 4: How to Get Better Feedback
 
 **Image file:** `flattery-trap-three-moves.jpg`
 
-![Three Ways to Fight the Flattery Trap](flattery-trap-three-moves.jpg)
+![How to Get Better Feedback](flattery-trap-three-moves.jpg)
 
 **Teaching content:**
 
-Here are three ways to fight the Flattery Trap.
+Here’s how to get better feedback.
 
 The aim is not to make AI negative. Give it a clearer job and a standard beyond agreeing with you.
 
-#### 1. Ask, Don’t Tell
+#### 1. Share Your Opinion Last
 
-First, ask, don’t tell.
+First, share your opinion last.
 
 Weak prompt: “I think this plan is good. Thoughts?”
 
@@ -128,14 +124,12 @@ Better prompt: “Grade it against this rubric, quote the evidence, and show how
 
 Provide your essay and the rubric. The rubric gives AI the criteria. Asking it to quote evidence ties the feedback to something in your actual writing. Asking how to move up one level turns a grade into a next step.
 
-The response is still something to check against your work and rubric, not an official grade or a guarantee of accuracy.
-
 You can also save a standing instruction. If your app supports saved instructions, try: “Be direct with me. Lead with what needs work, point to specific evidence, and tell me when I’m wrong.”
 
 Ask AI to improve the work, not approve of you.
 
 ## Closing Message
 
-Useful feedback points to the work.
+AI can learn to tell you what you want to hear.
 
-Look for specifics, not approval.
+Steer it toward feedback you can use.

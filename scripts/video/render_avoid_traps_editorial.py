@@ -405,7 +405,7 @@ def render_text_shell(title: str, rows: tuple[tuple[str, str], ...], takeaway: s
     return image
 
 
-def render_sycophancy_example() -> Image.Image:
+def render_sycophancy_example(title="Sycophancy", label="ChatGPT’s Response") -> Image.Image:
     """Match the simple A Jailbreak evidence shell without its internal rule."""
     body_font = face("medium", 29)
     quote_one = (
@@ -418,7 +418,7 @@ def render_sycophancy_example() -> Image.Image:
     quote_one_lines = wrap(measure, quote_one, body_font, 1400)
     shell_top = 127
     shell_bottom = (
-        shell_top + 40 + 48 + 18
+        shell_top + 40 + (66 if label else 0)
         + len(quote_one_lines) * 41 + 42
     )
     height = shell_bottom + 40
@@ -426,7 +426,7 @@ def render_sycophancy_example() -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Sycophancy")
+    draw_board_title(draw, title)
     draw_shadow(image, (40, shell_top, 1560, shell_bottom), 18)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle(
@@ -437,16 +437,17 @@ def render_sycophancy_example() -> Image.Image:
         width=1,
     )
     x, y = 80, shell_top + 40
-    draw_inner_title(draw, (x, y), "ChatGPT’s Response", fill=PURPLE)
-    y += 66
+    if label:
+        draw_inner_title(draw, (x, y), label, fill=PURPLE)
+        y += 66
     multiline(draw, (x, y), quote_one_lines, body_font, BODY, 41)
     return image
 
 
-def render_three_moves() -> Image.Image:
+def render_three_moves(board_title="Three Ways to Fight the Flattery Trap", first_move="Ask, Don’t Tell") -> Image.Image:
     """Render a prompt-rewrite teaching table inside the Editorial Shell."""
     rows = (
-        ("01", "Ask, Don’t Tell", "“I think this plan is good. Thoughts?”",
+        ("01", first_move, "“I think this plan is good. Thoughts?”",
          "“Evaluate this plan before I tell you what I think.”"),
         ("02", "Ask for the Gaps", "“Is my essay good?”",
          "“What’s weak, what’s missing, and what would someone who disagrees say?”"),
@@ -495,7 +496,7 @@ def render_three_moves() -> Image.Image:
     image = Image.new("RGB", (WIDTH, height), WHITE)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
-    draw_board_title(draw, "Three Ways to Fight the Flattery Trap")
+    draw_board_title(draw, board_title)
     draw.rounded_rectangle((40, content_top, 1560, content_bottom), radius=18, fill=WHITE)
 
     weak_color = BODY

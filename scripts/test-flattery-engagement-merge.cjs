@@ -43,18 +43,16 @@ const server = http.createServer((req,res) => {
     },saved);
     const url=`http://127.0.0.1:${server.address().port}/index.html`;
     await page.goto(url,{waitUntil:'domcontentloaded'});
-    await page.getByRole('heading',{name:'Flattery Trap',exact:true}).waitFor();
+    await page.getByRole('heading',{name:'Flattery Trap',level:1,exact:true}).waitFor();
     await page.waitForFunction(()=>JSON.parse(localStorage.getItem('llm-explorer-progress')).activeSection==='flattery');
     assert.deepEqual(await page.evaluate(()=>window.validate()),{errors:[],warnings:[],sectionCount:57});
-    assert.equal(await page.getByRole('button',{name:'Play the video overview for this lesson'}).count(),1);
-    await page.getByRole('button',{name:'Play the video overview for this lesson',exact:true}).click();
-    assert.equal(await page.locator('video source').getAttribute('src'),'course-assets/flattery-trap/flattery-trap.mp4?v=20261102ship17');
-    await page.getByRole('button',{name:'Hide the video overview for this lesson',exact:true}).click();
+    assert.equal(await page.locator('video source').getAttribute('src'),'course-assets/flattery-trap/flattery-trap.mp4?v=20261113ship21');
+    await page.getByRole('button',{name:'Read the lesson',exact:true}).click();
     assert.equal(await page.getByRole('button',{name:/^Mark step \d complete$/}).count(),5);
     const lessonImages = page.locator('img[src*="course-assets/flattery-trap/"]');
     assert.equal(await lessonImages.count(),5);
     await page.waitForFunction(() => [...document.querySelectorAll('img[src*="course-assets/flattery-trap/"]')].every(img => img.complete && img.naturalWidth > 0));
-    for (const text of ['The Flattery Trap is treating AI’s approval as honest evaluation.','Know what you came for. When you have it, choose what happens next.']) {
+    for (const text of ['The Flattery Trap is treating AI’s approval as honest evaluation.','OpenAI now tests ChatGPT for sycophancy. But you’ll still see it.']) {
       assert.ok(await page.getByText(text,{exact:true}).isVisible());
     }
     assert.equal(await page.getByText('Where Does Your Time Go?',{exact:true}).count(),0);
@@ -64,7 +62,7 @@ const server = http.createServer((req,res) => {
     assert.equal(await page.getByText('When Useful Help Keeps Going',{exact:true}).count(),0);
     if(process.env.MERGE_QA_DIR){
       fs.mkdirSync(process.env.MERGE_QA_DIR,{recursive:true});
-      await page.getByRole('heading',{name:'Flattery Trap',exact:true}).scrollIntoViewIfNeeded();
+      await page.getByRole('heading',{name:'Flattery Trap',level:1,exact:true}).scrollIntoViewIfNeeded();
       await page.screenshot({path:path.join(process.env.MERGE_QA_DIR,'desktop.png')});
       await page.getByText('Make Feedback Useful',{exact:true}).scrollIntoViewIfNeeded();
       await page.screenshot({path:path.join(process.env.MERGE_QA_DIR,'desktop-seam.png')});
@@ -73,17 +71,17 @@ const server = http.createServer((req,res) => {
     await page.evaluate(()=>document.fonts.ready);
     await page.waitForFunction(()=>document.documentElement.scrollWidth<=window.innerWidth,{},{timeout:3000}).catch(async error=>{console.log(await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(-20).map(e=>({tag:e.tagName,cls:e.className,text:e.textContent.slice(0,80),right:e.getBoundingClientRect().right}))})));throw error;});
     if(process.env.MERGE_QA_DIR) {
-      await page.getByRole('heading',{name:'Flattery Trap',exact:true}).scrollIntoViewIfNeeded();
+      await page.getByRole('heading',{name:'Flattery Trap',level:1,exact:true}).scrollIntoViewIfNeeded();
       await page.screenshot({path:path.join(process.env.MERGE_QA_DIR,'mobile.png')});
-      await page.getByText('Know what you came for. When you have it, choose what happens next.',{exact:true}).scrollIntoViewIfNeeded();
+      await page.getByText('OpenAI now tests ChatGPT for sycophancy. But you’ll still see it.',{exact:true}).scrollIntoViewIfNeeded();
       await page.screenshot({path:path.join(process.env.MERGE_QA_DIR,'mobile-question.png')});
     }
     await page.getByRole('button',{name:/Next up: Support Trap/}).click();
     await page.getByRole('heading',{name:'Support Trap',exact:true}).waitFor();
     await page.goto(url+'?print=lesson:engagementtrap',{waitUntil:'domcontentloaded'});
-    await page.getByRole('heading',{name:'Flattery Trap',exact:true}).waitFor();
+    await page.getByRole('heading',{name:'Flattery Trap',level:1,exact:true}).waitFor();
     await page.goto(url+'?print=avoid-traps',{waitUntil:'domcontentloaded'});
-    await page.getByRole('heading',{name:'Flattery Trap',exact:true}).waitFor();
+    await page.getByRole('heading',{name:'Flattery Trap',level:1,exact:true}).waitFor();
     assert.equal(await page.getByRole('heading',{name:'Engagement Trap',exact:true}).count(),0);
     assert.deepEqual(errors,[]);
     console.log('PASS: progress migration, structure, five lab steps, Engagement removal, mobile layout, next navigation, and legacy/group print routes.');

@@ -20,7 +20,7 @@ The source lists and reserved-narration directions below document previous produ
 
 ## Current Flattery lesson
 
-Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flattery-trap.md`; active uploads and instructions: `gemini-notebook/flattery-trap/`. Four teaching boards plus the restored two-part Flattery close and narration Markdown make six uploads. Engagement, slope, infinite scroll, and company incentives are removed. Preserve the agreeable/RLHF signpost, rubric qualification, and all Flattery wording. The page retains all five feedback lab steps and ends the lab with a decision grounded in the student’s work. Historical merged videos remain source material; the new Flattery-only candidate awaits review and installation. The registry and lesson-owned PREP-NOTES.md supersede historical production notes below.
+Flattery Trap is standalone again (2026-11-02). Current source: `lessons/flattery-trap.md`; active uploads and instructions: `gemini-notebook/flattery-trap/`. Four teaching boards plus the restored two-part Flattery close and narration Markdown make six uploads. Engagement, slope, infinite scroll, and company incentives are removed. Preserve the reviewer ratings and RLHF explanation and the three feedback examples. The page retains all five feedback lab steps and ends the lab with a decision grounded in the student’s work. Historical merged videos remain source material; v21 shipped locally on November 13, 2026 (4:16.60, cache key `20261113ship21`). The registry and lesson-owned PREP-NOTES.md supersede historical production notes below.
 
 ## Scene plan for review
 

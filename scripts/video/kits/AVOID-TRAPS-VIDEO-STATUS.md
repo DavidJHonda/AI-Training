@@ -34,7 +34,7 @@ running speech punches a hole (a 30 dB one, in that build).
 | Training Bias | v6 shipped 2026-09-21 (`20260921ship3`, 4 min) | 2026-09-18 | Done |
 | Document Trap | v1 shipped 2026-09-21 (`20260921ship7`, 4 min) — stitched from rolls 7, 8 and 3, not won by a single roll | 2026-09-18 | Done |
 | Mind Trap | v3 shipped 2026-09-21 (`20260921ship4`, 4 min) | 2026-09-18 | Done |
-| Flattery Trap | v6 shipped 2026-09-21 (`20260921ship5`, 5 min) | 2026-09-18 | Done |
+| Flattery Trap | v21 shipped locally 2026-11-13 (`20261113ship21`, 4:16.60) | 2026-11-13 | Queued for batch deployment |
 | Engagement Trap | v10 shipped 2026-09-21 (`20260921ship22`, 4 min) — roll 4 spine, five grafts from the live video, roll 2 and roll 1 | 2026-09-18 | Done |
 | Support Trap | v4 shipped 2026-09-21 (`20260921ship28`, 4 min) — roll 1 spine, three grafts and an added pause | **Rebuilt 2026-09-29** | **Full-video reroll kit ready; review new narration before selecting it for the edit** |
 | Fake Trap | v5 shipped 2026-09-20 (`20260920ship2`, 5 min) | **2026-09-20 (template)** | Done |

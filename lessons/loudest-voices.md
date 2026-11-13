@@ -52,7 +52,7 @@ A technology becomes the future only when people change their habits around it. 
 
 ## IN YOUR HANDS
 
-So here’s the question worth asking: what’s in your hands, and what isn’t?
+Even the experts disagree about where AI is going. So what’s a person to do? We think it helps to ask one more question. What’s actually in your hands? That’s where to put your energy.
 
 ### Board 3: What’s in Your Hands?
 

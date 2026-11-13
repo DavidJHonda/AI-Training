@@ -36,10 +36,10 @@ running speech punches a hole (a 30 dB one, in that build).
 | Mind Trap | v3 shipped 2026-09-21 (`20260921ship4`, 4 min) | 2026-09-18 | Done |
 | Flattery Trap | v21 shipped locally 2026-11-13 (`20261113ship21`, 4:16.60) | 2026-11-13 | Queued for batch deployment |
 | Engagement Trap | v10 shipped 2026-09-21 (`20260921ship22`, 4 min) — roll 4 spine, five grafts from the live video, roll 2 and roll 1 | 2026-09-18 | Done |
-| Support Trap | v4 shipped 2026-09-21 (`20260921ship28`, 4 min) — roll 1 spine, three grafts and an added pause | **Rebuilt 2026-09-29** | **Full-video reroll kit ready; review new narration before selecting it for the edit** |
+| Support Trap | v18 installed locally November 13 (`20261113ship18`, 3:56) | November 13 full-video kit | Queued for batch deployment. |
 | Fake Trap | v5 shipped 2026-09-20 (`20260920ship2`, 5 min) | **2026-09-20 (template)** | Done |
 
-**Support Trap update, 2026-09-29:** the full-video reroll kit is rebuilt and registered. David prefers a complete new generation as the narration source rather than an isolated passage. The missing thought-organization benefit is protected verbatim, all four limitations are kept together, and the misleading three-jobs labels are explicitly prohibited. The current video teaches “show up” elsewhere; that is not a globally missing point. See `gemini-notebook/support-trap/PREP-NOTES.md` and the verified live evaluation. New generation and audio selection remain pending; the live release is unchanged.
+**Support Trap, November 13.** The [current prep notes](../../../gemini-notebook/support-trap/PREP-NOTES.md) identify the updated boards, exact story wording, and the v16 reference.
 
 Kit availability comes from `gemini-notebook/upload-sets.json`; generated READMEs reflect that registry. Historical dates in this table do not establish current prep availability. No external tracker update is implied.
 

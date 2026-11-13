@@ -131,22 +131,11 @@ Revised on 2026-09-19 to add the verified Meta teen-safety settlement and the na
 
 ## Support Trap
 
-Approved cuts, 2026-10-27: omit the last sentence of the opening paragraph, the two repeated lunch-outcome sentences after the comparison, and the Know When to Leave the Chat heading and its two paragraphs. Preserve all remaining wording, all three boards, the full attributed story and content note, and all five exercises. The installed video still needs revision to match these cuts.
+The November 13 full-video kit uses the approved lunch comparison, “What Can AI Help With?”, the revised Sophie account, “When Someone May Be in Danger,” and the closing board. Version 18 was installed locally November 13.
 
-**Full-video reroll prep rebuilt 2026-09-29.** David requested a complete new generation, then selection of its narration for the edit. The current v4 remains live (`20260921ship28`, 4:23.667). This is a current-method kit, not the retired 2026-09-18 setup. See `gemini-notebook/support-trap/PREP-NOTES.md` for the lesson arc, protected lines, source provenance, and editing handoff.
-
-Both role-board sentences are now required verbatim: all three benefits including organizing thoughts, and all four limitations. The three jobs are Ordinary Venting, Preparation, Danger; the prompt explicitly rejects the live graphic’s Task Execution / System Collaboration / Multi-Agent Workflow labels. The warning, attributed story, distinct safety-number instructions, and closing lines remain protected. The full source includes the page activity’s plan-then-start example as teaching, without quiz instructions.
-
-- Prompt: `gemini-notebook/support-trap/PROMPT.txt`
-- Markdown: `lessons/support-trap.md`
-- Generated upload checklist: `gemini-notebook/support-trap/README.txt`
-- Upload the Markdown plus four boards in order:
-  1. `gemini-notebook/support-trap/assets/support-trap-comparison-faceless.jpg`
-  2. `course-assets/support-trap/support-trap-role.jpg`
-  3. `gemini-notebook/support-trap/assets/support-trap-danger-faceless.jpg`
-  4. `course-assets/support-trap/support-trap-close.jpg`
-- Post-only: canonical `support-trap-comparison.jpg` and `support-trap-danger.jpg` replace their text-only upload variants in the edit. No canonical assets were changed.
-- Save the complete roll as the next unused `Prompts/support-trap-reroll.mp4` / `support-trap-reroll-N.mp4` name. Compare the complete narration against v4 before selecting passages; a full reroll is not automatic approval to replace the finished video.
+- [Upload list and save instructions](../../../gemini-notebook/support-trap/README.txt)
+- [Customization prompt](../../../gemini-notebook/support-trap/PROMPT.txt)
+- [Source mapping, narration review, and editing handoff](../../../gemini-notebook/support-trap/PREP-NOTES.md)
 
 ## Fake Trap
 

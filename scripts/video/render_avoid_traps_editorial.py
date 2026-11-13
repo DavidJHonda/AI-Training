@@ -785,9 +785,9 @@ def support_trap_card_specs(art: dict[str, str]) -> tuple[tuple[CardBoard, Pair]
             Card("What Is Missing", "AI cannot notice what changed, show up, take responsibility, or check on you tomorrow."),
         ), art["support"], "", "", "Use AI to prepare for people, not replace them.", (TEAL, RED)),
          Pair("course-assets/support-trap/support-trap-role.jpg", "course-assets/support-trap/avoid-traps-20-support-role.jpg")),
-        (CardBoard("support-danger", "If Someone May Be in Immediate Danger", (
+        (CardBoard("support-danger", "When Someone May Be in Danger", (
             Card("Leave the Chat", "Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger."),
-            Card("Do It Now", "Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility."),
+            Card("Do It Now", "Tell a trusted adult now. If you’re worried about a friend, you can start with “I’m worried about my friend. Can you help?”"),
             Card("Tell Anyway", "Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy."),
         ), art["danger"], "", "", "In danger, the next move must reach a person who can act.", (RED, RED, RED)),
          Pair("course-assets/support-trap/support-trap-danger.jpg", "course-assets/support-trap/avoid-traps-21-danger.jpg")),

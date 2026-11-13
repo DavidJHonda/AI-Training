@@ -4,43 +4,49 @@
 
 AI can sound patient, caring, and understanding. Sometimes its words can even help. But what happens when kind words are not enough?
 
-### Board 1: Supportive Words versus Support
+### Board 1: Same Problem. Different Answers.
 
 **Image file:** `support-trap-comparison-faceless.jpg`
 
-![Supportive Words versus Support](support-trap-comparison-faceless.jpg)
+![Same Problem. Different Answers.](support-trap-comparison-faceless.jpg)
 
 **Teaching content:**
 
-Here is the difference between supportive words and support. The scenario: “I’ve been eating lunch alone for like two weeks.”
+You tell your older sister and a chatbot the same thing: “At school, I’ve been eating lunch alone for like two weeks. I don’t like it, and I’m not sure what to do.”
 
-Your older sister, a person, replies: “Come sit with me and Jess tomorrow. We’re at the table by the windows.” She heard you and did something. Tomorrow, she will look for you. What changed? Tomorrow’s lunch.
+**Your Older Sister:** “Come sit with me and Jess tomorrow. We’re at the table by the windows.”
 
-The chatbot, AI, replies: “I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?” It found caring words. Tomorrow, it cannot show up. What changed? Nothing outside the chat.
+**The Truth**
+
+Your sister loves you, even if she never says it. She’s made room for you at her table. Tomorrow you won’t be eating lunch alone.
+
+**The Chatbot:** “I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?”
+
+**The Truth**
+
+The chatbot offers caring words and ideas. But it won’t be in the cafeteria with you tomorrow.
 
 Supportive language is not the same as support.
 
 ## What Happened Next
 
-Notice: the AI’s words might even be the kinder ones. The difference is what happened next.
-
-Support Trap is mistaking supportive words for support.
-
+**The Support Trap is mistaking AI's supportive words for support.**
 AI can help you understand feelings, organize your thoughts, and get ready for hard conversations.
+But it can’t take the place of someone who cares about you.
 
-But, it cannot take the place of someone who cares.
+Imagine you’d only told the chatbot. You might feel better that night. Your sister still wouldn’t know you wanted someone to sit with.
 
-### Board 2: Where AI Fits in Emotional Support
+### Board 2: What Can AI Help With?
 
 **Image file:** `support-trap-jobs.jpg`
 
-![Where AI Fits in Emotional Support](support-trap-jobs.jpg)
+![What Can AI Help With?](support-trap-jobs.jpg)
 
 **Teaching content:**
 
-There are three different jobs: ordinary venting, preparation, and danger.
+There are three different jobs: venting, preparation, and danger.
 
-Ordinary venting: put an everyday frustration into words to cool down before you share. The job may end in the chat.
+Venting: put an everyday frustration into words to cool down before you share. The job may end in the chat.
 
 Preparation: draft an email, rehearse a hard conversation, or make a study plan. Then act outside the chat.
 
@@ -50,29 +56,27 @@ Use AI to prepare for people, not replace them.
 
 ## Where the Chat Leads
 
-The difference is what needs to happen next.
+Putting your frustration into words can help you cool down before you post something you regret.
 
-Sometimes the job can end in the chat: putting an ordinary frustration into words may help you cool down before you post something you regret. Not every emotional conversation needs another step.
+Say you’re dreading telling your mom about your grades. AI can help you practice the first sentence. Your mom still needs to hear it.
 
-Sometimes AI helps you get ready for an action. It can help draft a message asking your teacher for an extension, but you still need to send it. It can help you practice telling your mom about your grades, but she still needs to hear from you. Preparing is useful when it leads to the action you needed.
-
-If you’re so behind for finals that you don’t know where to start, have it build the plan, then start the first block tonight. The chat becomes useful when it leads to action.
-
-If someone may be unsafe, leave the chat and bring in a person who can act. Do not spend more time polishing a message when someone needs help now.
+If someone may be unsafe, leave the chat and bring in a person who can act.
 
 ## The Danger Line
 
 The next story discusses suicide.
 
-In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie Rottenberg, who had spent months sharing thoughts she hid from the people around her with a ChatGPT persona she called Harry. The chatbot responded with warmth and sometimes encouraged Sophie to seek help. But it could not contact her family, alert her therapist, or bring anyone into the room.
+In 2025, Laura Reiley wrote about her 29-year-old daughter, Sophie. Her family knew she was struggling. Her mom said they didn’t know how much she was hurting. But Sophie had been telling ChatGPT about it for months.
 
-After Sophie died by suicide, her mother described the chats as a “black box.” The chats held details that made it harder for the people around her to understand the severity of her distress.
+The chatbot answered kindly. Sometimes it encouraged Sophie to get help. But it couldn’t call her family or tell her therapist what Sophie had shared.
 
-### Board 3: If Someone May Be in Immediate Danger
+After Sophie died by suicide, her family found the chats. Her mom described them as a “black box.” The people trying to help Sophie never saw what she was telling ChatGPT.
+
+### Board 3: When Someone May Be in Danger
 
 **Image file:** `support-trap-danger-faceless.jpg`
 
-![If Someone May Be in Immediate Danger](support-trap-danger-faceless.jpg)
+![When Someone May Be in Danger](support-trap-danger-faceless.jpg)
 
 **Teaching content:**
 
@@ -84,7 +88,7 @@ In the U.S., call or text 988 for crisis support.
 
 Call 911 if someone is in immediate danger.
 
-Do it now. Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility.
+Do it now. Tell a trusted adult now. If you’re worried about a friend, you can start with “I’m worried about my friend. Can you help?”
 
 Tell anyway. Tell a trusted adult even if someone told you not to or made you promise.
 

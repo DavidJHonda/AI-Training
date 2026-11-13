@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Render text-only Notebook sources from layout primitives, without artwork.
-
-These upload stand-ins keep the canonical dimensions and printed teaching.
-They never replace the illustrated lesson boards or become video visuals.
-"""
+"""Render the illustrated Support Trap comparison and the text-only Notebook boards."""
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from PIL import Image, ImageDraw
+from course_credit import save_course_image
+from render_avoid_traps_editorial import AMBER, BLUE, CompareSide, render_comparison
 from editorial_typography import draw_board_title, face
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -45,35 +44,38 @@ def save(image, name):
     print(f'{name}: {image.width}x{image.height}')
 
 
-def main():
-    image, draw = canvas('support-trap-comparison.jpg', 'Supportive Words versus Support')
-    draw.rounded_rectangle((40, 114, 1560, 241), 18, fill='white')
-    paragraph(draw, 'THE SCENARIO', 72, 128, 1450, 24, '#4f2fc4', 'bold')
-    paragraph(draw, '“I’ve been eating lunch alone for like two weeks.”', 72, 173, 1450)
-    cards = [
-        (40, '#1652f0', 'PERSON', 'Your Older Sister',
-         '“Come sit with me and Jess tomorrow. We’re at the table by the windows.”',
-         [('HEARD YOU', 'And did something.'), ('TOMORROW', 'She will look for you.'), ('CHANGED', 'Tomorrow’s lunch.')]),
-        (816, '#a9760c', 'AI', 'The Chatbot',
-         '“I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?”',
-         [('FOUND', 'Caring words.'), ('TOMORROW', 'It cannot show up.'), ('CHANGED', 'Nothing outside the chat.')]),
-    ]
-    for x, accent, label, title, quote, rows in cards:
-        draw.rounded_rectangle((x, 272, x + 744, 1340), 18, fill='white')
-        paragraph(draw, label, x + 32, 308, 680, 24, accent, 'bold')
-        paragraph(draw, title, x + 32, 362, 680, 40, accent, 'bold')
-        paragraph(draw, quote, x + 32, 442, 676, 32)
-        for y, (label, body) in zip((720, 920, 1120), rows):
-            paragraph(draw, label, x + 32, y, 680, 24, accent, 'bold')
-            paragraph(draw, body, x + 32, y + 54, 680, 32)
-    draw.rounded_rectangle((40, 1380, 1560, 1470), 16, fill='#ffe4a2')
-    paragraph(draw, 'Supportive language is not the same as support.', 250, 1400, 1250, 34)
-    save(image, 'support-trap-comparison-faceless.jpg')
+def render_lunch_comparison(source, *, illustrated):
+    return render_comparison(
+        'Same Problem. Different Answers.',
+        'You tell your older sister and a chatbot the same thing:\n“At school, I’ve been eating lunch alone for like two weeks. I don’t like it, and I’m not sure what to do.”',
+        (
+            CompareSide('', 'Your Older Sister', '“Come sit with me and Jess tomorrow. We’re at the table by the windows.”',
+                        (('THE TRUTH', 'Your sister loves you, even if she never says it. She’s made room for you at her table. Tomorrow you won’t be eating lunch alone.'),), BLUE),
+            CompareSide('', 'The Chatbot', '“I’m sorry. Eating alone can feel isolating. Would you like strategies for connecting with classmates?”',
+                        (('THE TRUTH', 'The chatbot offers caring words and ideas. But it won’t be in the cafeteria with you tomorrow.'),), AMBER),
+        ),
+        str(source), 'Supportive language is not the same as support.', scenario_label='',
+        reuse_board_photos=illustrated, source_photo_top=271,
+    )
 
-    image, draw = canvas('support-trap-danger.jpg', 'If Someone May Be in Immediate Danger')
+
+def save_lunch_boards():
+    source = ROOT / 'previews/illustration-cast-refresh-batch-8/support-trap-comparison-preview.jpg'
+    board = render_lunch_comparison(source, illustrated=True)
+    save_course_image(board, ROOT / 'course-assets/support-trap/support-trap-comparison.jpg',
+                      quality=95, subsampling=0, optimize=True)
+    with TemporaryDirectory() as folder:
+        blank = Path(folder) / 'blank.png'
+        Image.new('RGB', (1488, 419), 'white').save(blank)
+        save(render_lunch_comparison(blank, illustrated=False), 'support-trap-comparison-faceless.jpg')
+
+
+def main():
+    save_lunch_boards()
+    image, draw = canvas('support-trap-danger.jpg', 'When Someone May Be in Danger')
     cards = [
         ('Leave the Chat', 'Tell a trusted adult or school counselor. In the U.S., call or text 988 for crisis support. Call 911 if someone is in immediate danger.'),
-        ('Do It Now', 'Not after one more message. A chatbot cannot call, show up, protect someone, or carry responsibility.'),
+        ('Do It Now', 'Tell a trusted adult now. If you’re worried about a friend, you can start with “I’m worried about my friend. Can you help?”'),
         ('Tell Anyway', 'Tell a trusted adult even if someone told you not to or made you promise. Safety outranks secrecy.'),
     ]
     for x, (title, body) in zip((40, 558, 1076), cards):

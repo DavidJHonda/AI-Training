@@ -1,53 +1,30 @@
-# Support Trap full-video reroll — September 29, 2026
+# Support Trap video prep
 
-Approved cuts, 2026-10-27: omit the last sentence of the opening paragraph, the two repeated lunch-outcome sentences after the comparison, and the Know When to Leave the Chat heading and its two paragraphs. Preserve all remaining wording, all three boards, the full attributed story and content note, and all five exercises. The installed video still needs revision to match these cuts.
+Updated November 13, 2026. The next full lesson uses the approved November 13 reading and all three revised teaching boards. The pre-edit reference was v16, 3:36.933, cache key `20261102ship16`. Its file hash matches the [November 2 release record](../../video-audit/support-trap-trim-v16-2026-11-02/local-release.json).
 
-David requested a **full-video generation**, then selection of its narration for the edit. This replaces the earlier suggestion to generate an isolated role passage. Generate the entire lesson, not a patch or summary. The current published v4 remains the baseline and possible donor; neither its audio nor its useful visuals should be discarded automatically.
+The November 13 local release is v18 (3:56, cache key `20261113ship18`). It uses version 5 with version 4’s Sophie section, the current course artwork, and timed highlights.
 
-## Teaching progression
+## Generation
 
-Caring language raises the question of what actually changes → the same lunch disclosure gets an actionable invitation from a sister and words from a chatbot → separate real benefits from missing human presence and responsibility → distinguish venting, preparation followed by action, and danger requiring a person → give the content warning before the attributed Sophie story → explain what the black box concealed from people → teach urgent human-help actions → close on knowing when to leave the chat.
+Upload the five files in `upload/` together. Paste [PROMPT.txt](PROMPT.txt) in the video customization field. Save the raw generation as `Prompts/support-trap-reroll.mp4`, or the next unused numbered reroll filename.
 
-The Markdown carries the full current page/board teaching, with production-only Scene/Takeaway labels removed. Prose between boards has its own headings so it does not all become one board hold. The three roles retain the established prep's application of the page activity. The finals example now also uses the current activity's plan-then-start teaching; it is a concrete application of organizing thoughts, not a new lesson claim or a spoken quiz.
+| Source in the upload folder | Use |
+| --- | --- |
+| `support-trap.md` | Narration in lesson order, including Sophie’s story and both closing lines. |
+| `support-trap-comparison-faceless.jpg` | Lunch dialogue and outcomes. Insert the illustrated comparison board in the edit. |
+| `support-trap-jobs.jpg` | Use the course board “What Can AI Help With?” with Venting, Preparation, and Danger. |
+| `support-trap-danger-faceless.jpg` | Three safety actions. Insert the illustrated danger board in the edit. |
+| `support-trap-close.jpg` | End with the course closing board. |
 
-## What must land this time
+## Teaching and narration review
 
-- Require the updated introduction verbatim: “AI can help you understand feelings, organize your thoughts, and get ready for hard conversations.” and “But, it cannot take the place of someone who cares.” Then develop the practical examples.
-- Preserve the board banner verbatim: “Use AI to prepare for people, not replace them.”
-- The three jobs are **Ordinary Venting, Preparation, Danger**. The published graphic's Task Execution / System Collaboration / Multi-Agent Workflow labels are wrong. Both narration and visuals must keep the actual distinction. Orientation names the three once; examples develop them afterward.
-- Preserve both lunch replies and the outcome comparison, including the possibility that the chatbot's words sound kinder.
-- Keep the exact content note before the story, visible warning, 2025 attribution to Laura Reiley, Sophie Rottenberg's age of 29, Harry, “sometimes” encouraging help, “died by suicide,” and the mother's black-box account. Never invent a causal explanation, diagnosis, motive, or details of the death.
-- Keep the two distinct 988 and 911 sentences, telling despite a promise, and both closing lines. Required sentences stand alone in the Markdown.
-- Keep drafting versus doing without adding the previous roll's blanket claim that an AI bot cannot send email. Preserve the lesson's concrete requirement that the message reach the teacher and the real conversation happen.
+The lunch invitation shows what a person can do tomorrow. Imagining that only the chatbot heard the problem leads into the choice about when to involve someone else.
 
-## Uploads and generation
+1. **Lunch.** Listen for the student’s whole disclosure, the sister’s invitation to sit with her and Jess, and the chatbot’s offer of ideas. After the definition and benefits, the student imagines telling only the chatbot. The sister would still have no idea they wanted company.
+2. **AI’s role.** Venting can be enough to cool down. For preparation, develop the grades example once. AI can help a student practice the opening, and their mom still needs to hear it. In danger, involve someone who can act. Keep the interactive exercises for the course page.
+3. **Sophie.** Read the warning first. Compare the narration word for word with “The Danger Line” in the uploaded Markdown. Preserve “But Sophie had been telling ChatGPT about it for months” and “Sometimes it encouraged Sophie to get help.” Her family knew she was struggling. Her mother said they didn’t know how much she was hurting. Preserve the order of the disclosure of her death, the family finding the chats, “black box,” and the plain-language explanation. Keep the pauses calm and the account attributed.
+4. **Getting help.** Preserve the distinct U.S. crisis and emergency instructions. Listen for the student’s exact request, “I’m worried about my friend. Can you help?” Keep telling a trusted adult despite a promise. Go straight from the danger board to the two approved closing lines.
 
-Upload every file in `upload/`: **one Markdown and four JPGs, five files total**. Paste `PROMPT.txt` into video customization; do not upload it or these notes. Save the full generation to the next unused `Prompts/support-trap-reroll.mp4` / `support-trap-reroll-N.mp4` name.
+## Editing handoff
 
-- Comparison: render a text-only source at the canonical 1600×1511 dimensions, keeping the scenario, both replies, all six comparison sections, and takeaway. Remove all photo panels from this upload variant.
-- Where AI Fits in Emotional Support: upload the canonical 1600×1020 board; its generated object illustrations have no people or faces. Added to the visible lesson on September 30 to match the video’s ordinary-venting, preparation, and danger teaching.
-- Danger: render a text-only source at the canonical 1600×901 dimensions, preserving all three actions and the complete safety text. Conservatively omit all photos, including the small person in the first panel.
-- Close: upload the canonical 1590×600 image.
-
-The deterministic text-only renderer is `scripts/video/render_support_trap_uploads.py`. It uses text/layout primitives and canonical image dimensions; it does not alter or redraw canonical artwork. The illustrated comparison and danger boards remain post-only and replace their upload stand-ins during editing. The registry records both `covers` mappings.
-
-## Review and editing handoff
-
-Reference evaluation: `video-audit/support-trap-live-review-2026-09-29/REVIEW.md`. Baseline public cache key: `20260921ship28`; SHA-256: `3bf1658e980395f5d688b1c58cd39550c92378e2421644740611c7aaec3c23ab`; duration: 4:23.667. Earlier review used the exact-file transcript and sampled frames, not an audio audition.
-
-Review the new full transcript against the current lesson, listen to the complete roll, and compare teaching beats with v4. Select narration only after that comparison; no donor word timings or joins are pre-approved. Protect the attributed story from the earlier generation's invented “because she relied on the bot” explanation. If using passages from different rolls, audition each join in context.
-
-Preserve useful new or existing drawings and animations; correct faulty labels rather than replacing useful motion automatically. Keep boards in the upload set. The old 60.1-second comparison, 81.5-second board-to-board chain, and 52.47-second danger board call for relevant breaks during editing, not omission of teaching during generation. Use current canonical boards, spoken-onset highlighting, complete-card framing, and fixed four-pixel outlines at 720p in the next build. Retain a clear warning card and review its breathing room; choose any new pauses after listening, not from a fixed minimum. Final timings and board/camera plan depend on the selected narration.
-
-This update prepares sources only. It does not generate a video, approve a production build or splice plan, replace the published lesson/video, or update the external tracker. Bundle checks establish consistency, not a teaching verdict.
-
-## Preparation checks completed September 29 (historical)
-
-- Prompt: 468 words, four required blocks in order; all ten verbatim sentences appear as standalone Markdown lines.
-- Upload bundle: five files, all Markdown image references resolve, and lesson-specific sync `--check` reports OK.
-- Both rendered upload variants visually inspected: full teaching text readable, no clipped text or photo panels, canonical dimensions retained.
-- `index.html` and the canonical finished MP4 hashes remain unchanged from the start of this prep update.
-
-## September 30 board update
-
-The visible lesson now uses Where AI Fits in Emotional Support in place of the older Use AI to Get Ready for People board. The introduction explains AI’s uses and the need for someone who cares; the new board retains the banner “Use AI to prepare for people, not replace them.” The canonical JPG, printed teaching in Markdown, prompt board numbering, and five-file upload bundle are synchronized. The danger board is now Board 3. The older role asset remains available for existing video recipes but is no longer displayed or uploaded. Preserve the detailed examples under Where the Chat Leads as supporting narration after the overview board. The v9 review candidate and installed video were not rebuilt by this board update.
+Review the new narration against the uploaded Markdown before choosing takes. The [v16 transcript](../../video-audit/support-trap-trim-v16-2026-11-02/qa/transcript.txt) identifies older wording, including the “kinder” recap, “Ordinary Venting,” and the named persona. Use the current comparison and danger artwork from `course-assets/support-trap/`. Their text and card positions supersede v16’s highlights. Time highlights to the chosen narration, frame the complete cards, and leave room for the content note before the story.

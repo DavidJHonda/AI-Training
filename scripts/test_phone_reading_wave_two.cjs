@@ -52,7 +52,7 @@ const lessons = {
       await page.setViewportSize({ width: 390, height: 850 });
       if (id === 'supporttrap') {
         const comparison = page.locator('[data-phone-reading-board="supportComparison"] .phone-reading-mobile');
-        assert.deepEqual(await comparison.locator('.phone-reading-fact strong').allTextContents(), ['Heard You','Tomorrow','Changed','Found','Tomorrow','Changed']);
+        assert.deepEqual(await comparison.locator('.phone-reading-fact strong').allTextContents(), ['The Truth','The Truth']);
         const danger = await page.locator('[data-phone-reading-board="supportDanger"] .phone-reading-mobile').innerText();
         for (const text of ['Leave the Chat','Do It Now','Tell Anyway','988','911','Safety outranks secrecy.']) assert.ok(danger.includes(text));
         await page.getByRole('button', { name: 'This can stay in the chat.', exact: true }).first().click();

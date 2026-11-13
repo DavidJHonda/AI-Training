@@ -192,7 +192,6 @@ def build_art_sheets() -> dict[str, str]:
         "praise_flow": "praise-flow",
         "support": "support",
         "danger": "support-danger",
-        "fake_reasons": "fake-reasons",
         "fake_checks": "fake-checks",
     }
     sheets = {}
@@ -801,6 +800,58 @@ def render_support_trap_boards(art: dict[str, str] | None = None) -> None:
         save_pair(render_card_board(board), pair)
 
 
+def render_fake_motives() -> Image.Image:
+    board = CardBoard(
+        "fake-reasons", "Why People Make Harmful Fakes.",
+        (Card("Money", "Outrage gets clicks, and clicks pay."),
+         Card("Power", "Change what people believe and you change how they vote, protest, and spend."),
+         Card("Fame", "A viral clip means followers. It does not have to be true to travel."),
+         Card("Cruelty", "Some fakes exist to humiliate one person, especially at school.")),
+        "scripts/video/assets/fake-trap-motives/art-strip.png",
+        "course-assets/fake-trap/fake-trap-reasons.jpg", "",
+        accents=(PURPLE, BLUE, AMBER, RED), four_across=True,
+    )
+    with Image.open(ROOT / board.art_sheet) as strip:
+        width = strip.width // len(board.cards)
+        panels = [strip.crop((i * width, 0, (i + 1) * width, strip.height)) for i in range(len(board.cards))]
+    return render_card_board(board, preserved_panels=panels)
+
+
+def save_fake_motives_board() -> None:
+    save_course_image(render_fake_motives(), ROOT / "course-assets/fake-trap/fake-trap-reasons.jpg",
+                      quality=95, subsampling=0, optimize=True)
+
+
+def render_fake_comparison(source: Path, *, illustrated: bool) -> Image.Image:
+    return render_comparison(
+        "Same Clip. Two Eras.",
+        "A friend sends a video of your principal announcing that school is closed next week.",
+        (
+            CompareSide("", "Before AI",
+                        "Does it look real? You study the face, voice, and hallway. Everything looks right.",
+                        (("YOUR CALL", "I’d believe it."),), AMBER),
+            CompareSide("", "The AI Era",
+                        "Where is it from? You ignore the pixels and check the trail. You find no current closure notice on the school website.",
+                        (("YOUR CALL", "I’d wait for the school to confirm it."),), BLUE),
+        ),
+        str(source), "Appearance can mislead. The source trail can be checked.", scenario_label="",
+        reuse_board_photos=illustrated, source_photo_top=271,
+    )
+
+
+def render_fake_trap_comparison_boards() -> None:
+    source = ROOT / "previews/illustration-cast-refresh-batch-8/fake-trap-comparison-preview.jpg"
+    board = render_fake_comparison(source, illustrated=True)
+    save_course_image(board, ROOT / "course-assets/fake-trap/fake-trap-comparison.jpg",
+                      quality=95, subsampling=0, optimize=True)
+    with TemporaryDirectory() as folder:
+        blank = Path(folder) / "blank.png"
+        Image.new("RGB", (1488, 419), WHITE).save(blank)
+        upload = render_fake_comparison(blank, illustrated=False)
+        upload.save(ROOT / "gemini-notebook/fake-trap/assets/fake-trap-comparison-faceless.jpg",
+                    quality=95, subsampling=0)
+
+
 def main() -> None:
     art = build_art_sheets()
 
@@ -875,16 +926,9 @@ def main() -> None:
         ), art["document_moves"], "", "", "Make the right passages easier to find.", (PURPLE, BLUE, TEAL, AMBER)),
          Pair("course-assets/document-trap/document-trap-moves-v2.jpg", "course-assets/document-trap/avoid-traps-11-document-moves.jpg")),
         *support_trap_card_specs(art),
-        (CardBoard("fake-reasons", "Why Some Fakes Aren’t Friendly", (
-            Card("Money", "Outrage gets clicks, and clicks pay."),
-            Card("Power", "Change what people believe and you change how they vote, protest, and spend."),
-            Card("Fame", "A viral clip means followers. It does not have to be true to travel."),
-            Card("Cruelty", "Some fakes exist to humiliate one person, especially at school."),
-        ), art["fake_reasons"], "", "", "A fake is built to get something back.", (PURPLE, BLUE, AMBER, RED)),
-         Pair("course-assets/fake-trap/fake-trap-four-reasons-v2.jpg", "course-assets/fake-trap/avoid-traps-24-fake-reasons.jpg")),
-        (CardBoard("fake-checks", "Move the Test Off the Image", (
+        (CardBoard("fake-checks", "Three Ways to Check a Clip.", (
             Card("Source", "Who posted it? Do they have a reason and a way to know?"),
-            Card("Context", "What happened before and after? What important details are missing?"),
+            Card("Context", "When was this recorded? What did the speaker say before and after this part?"),
             Card("Corroboration", "Can an independent source confirm the same event or claim?"),
         ), art["fake_checks"], "", "", "Verify somewhere the sender does not control.", (PURPLE, BLUE, TEAL)),
          Pair("course-assets/fake-trap/fake-trap-checks.jpg", "course-assets/fake-trap/avoid-traps-25-fake-checks.jpg")),
@@ -924,19 +968,18 @@ def main() -> None:
                         (("FOUND", "Caring words."), ("TOMORROW", "It cannot show up."), ("CHANGED", "Nothing outside the chat.")), AMBER),
         ), "scripts/video/assets/editorial-avoid-traps/comparisons/support-words-vs-action.png", "Supportive language is not the same as support.",
          Pair("course-assets/support-trap/support-trap-comparison-v2.jpg", "course-assets/support-trap/avoid-traps-19-support-comparison.jpg")),
-        ("The Same Clip. Two Eras.", "A friend sends a video of your principal announcing that school is closed next week.", (
-            CompareSide("BEFORE AI", "Does It Look Real?", "You study the face, voice, and hallway. Everything looks right.",
-                        (("CHECKED", "Face and voice."), ("MATCHED", "How the principal talks."), ("VERDICT", "Real.")), AMBER),
-            CompareSide("THE AI ERA", "Where Is It From?", "You ignore the pixels and check the trail. Nothing appears on the school website.",
-                        (("SKIPPED", "Face and voice."), ("CHECKED", "The source that would know."), ("VERDICT", "Unverified.")), BLUE),
-        ), "scripts/video/assets/editorial-avoid-traps/comparisons/fake-two-tests.png", "Appearance can mislead. The source trail can be checked.",
-         Pair("course-assets/fake-trap/fake-trap-comparison-v2.jpg", "course-assets/fake-trap/avoid-traps-22-fake-comparison.jpg")),
     )
+    render_fake_trap_comparison_boards()
+    save_fake_motives_board()
     for title, scenario, sides, source, takeaway, pair in comparisons:
         save_pair(render_comparison(title, scenario, sides, source, takeaway), pair)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "support-trap":
         render_support_trap_boards()
+    elif sys.argv[1:] == ["fake-comparison"]:
+        render_fake_trap_comparison_boards()
+    elif sys.argv[1:] == ["fake-motives"]:
+        save_fake_motives_board()
     else:
         main()

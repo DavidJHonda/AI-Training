@@ -37,7 +37,7 @@ running speech punches a hole (a 30 dB one, in that build).
 | Flattery Trap | v21 shipped locally 2026-11-13 (`20261113ship21`, 4:16.60) | 2026-11-13 | Queued for batch deployment |
 | Engagement Trap | v10 shipped 2026-09-21 (`20260921ship22`, 4 min) — roll 4 spine, five grafts from the live video, roll 2 and roll 1 | 2026-09-18 | Done |
 | Support Trap | v18 installed locally November 13 (`20261113ship18`, 3:56) | November 13 full-video kit | Queued for batch deployment. |
-| Fake Trap | v5 shipped 2026-09-20 (`20260920ship2`, 5 min) | **2026-09-20 (template)** | Done |
+| Fake Trap | Local course references v12 (`20261027ship12`, 4 min) | November 13 full-video kit ready | Generate from the five-file upload folder and review the new narration. |
 
 **Support Trap, November 13.** The [current prep notes](../../../gemini-notebook/support-trap/PREP-NOTES.md) identify the updated boards, exact story wording, and the v16 reference.
 

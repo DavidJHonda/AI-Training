@@ -1545,7 +1545,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
 <script defer src="start-course.js?v=20261111phoneentry1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
-<script src="group-activities-data.js?v=20261112trainingbias"></script>
+<script src="group-activities-data.js?v=20261113faketrap"></script>
 <script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
@@ -5165,7 +5165,7 @@ function PhoneReadingCards(props) {
         board.equation && i > 0 ? E("div", { className: "phone-reading-operator", role: "img", "aria-label": "plus" }, "+") : null,
         E(board.ordered ? "li" : "section", { className: "phone-reading-card", style: { "--phone-reading-accent": card.accent } },
           board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null,
-          card.art ? E("svg", { className: "phone-reading-art", viewBox: card.art.join(" "), width: card.art[2], height: card.art[3], "aria-hidden": "true", focusable: "false" },
+          card.art && !props.textOnly ? E("svg", { className: "phone-reading-art", viewBox: card.art.join(" "), width: card.art[2], height: card.art[3], "aria-hidden": "true", focusable: "false" },
             E("image", { href: props.src, width: board.width, height: board.height })) : null,
           E("div", { className: "phone-reading-copy" },
             card.label && !board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
@@ -5828,19 +5828,26 @@ function SeventhPhoneReadingBoard(props) {
 
 // Eighth phone-readability batch. Original desktop and print boards remain intact.
 Object.assign(PHONE_READING_BOARDS, {
-  fakeComparison:{title:'The Same Clip. Two Eras.',width:1600,height:1470,noteFirst:true,noteTitle:'THE SCENARIO',note:'A friend sends a video of your principal announcing that school is closed next week.',cards:[
-    {title:'Does It Look Real?',label:'BEFORE AI',accent:'#a9760c',art:[40,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'You study the face, voice, and hallway. Everything looks right.',rows:[['CHECKED','Face and voice.'],['MATCHED','How the principal talks.'],['VERDICT','Real.']]})},
-    {title:'Where Is It From?',label:'THE AI ERA',accent:'#1652f0',art:[817,270,744,419],body:React.createElement(PhoneReadingFacts,{intro:'You ignore the pixels and check the trail. Nothing appears on the school website.',rows:[['SKIPPED','Face and voice.'],['CHECKED','The source that would know.'],['VERDICT','Unverified.']]})}
-  ],takeaway:'Appearance can mislead. The source trail can be checked.'},
-  fakeMotives:{title:'Why Some Fakes Aren’t Friendly',width:1329,height:1190,cards:[
-    {title:'Money',accent:'#4f2fc4',art:[35,107,616,283],body:'Outrage gets clicks, and clicks pay.'},
-    {title:'Power',accent:'#1652f0',art:[679,107,615,283],body:'Change what people believe and you change how they vote, protest, and spend.'},
-    {title:'Fame',accent:'#a9760c',art:[35,592,616,283],body:'A viral clip means followers. It does not have to be true to travel.'},
-    {title:'Cruelty',accent:'#b51f2c',art:[679,592,615,283],body:'Some fakes exist to humiliate one person, especially at school.'}
-  ],takeaway:'Harmful fakes are made to get something back.'},
-  fakeChecks:{title:'Move the Test Off the Image',width:1600,height:819,cards:[
+  fakeComparison: {
+    desktopText: true, title: "Same Clip. Two Eras.", width: 1600, height: 1203,
+    noteFirst: true, note: "A friend sends a video of your principal announcing that school is closed next week.",
+    cards: [
+      { title: "Before AI", accent: "#a9760c", art: [41,242,742,416],
+        body: React.createElement(PhoneReadingFacts, { intro: "Does it look real? You study the face, voice, and hallway. Everything looks right.", rows: [["Your call", "I’d believe it."]] }) },
+      { title: "The AI Era", accent: "#1652f0", art: [817,242,742,416],
+        body: React.createElement(PhoneReadingFacts, { intro: "Where is it from? You ignore the pixels and check the trail. You find no current closure notice on the school website.", rows: [["Your call", "I’d wait for the school to confirm it."]] }) }
+    ],
+    takeaway: "Appearance can mislead. The source trail can be checked."
+  },
+  fakeMotives:{desktopText:true,title:'Why People Make Harmful Fakes.',width:1600,height:662,cards:[
+    {title:'Money',accent:'#4f2fc4',art:[41,128,354,160],body:'Outrage gets clicks, and clicks pay.'},
+    {title:'Power',accent:'#1652f0',art:[429,128,354,160],body:'Change what people believe and you change how they vote, protest, and spend.'},
+    {title:'Fame',accent:'#a9760c',art:[817,128,354,160],body:'A viral clip means followers. It does not have to be true to travel.'},
+    {title:'Cruelty',accent:'#c41f28',art:[1205,128,354,160],body:'Some fakes exist to humiliate one person, especially at school.'}
+  ]},
+  fakeChecks:{title:'Three Ways to Check a Clip.',width:1600,height:819,cards:[
     {title:'Source',accent:'#4f2fc4',art:[40,128,485,273],body:'Who posted it? Do they have a reason and a way to know?'},
-    {title:'Context',accent:'#1652f0',art:[557,128,485,273],body:'What happened before and after? What important details are missing?'},
+    {title:'Context',accent:'#1652f0',art:[557,128,485,273],body:'When was this recorded? What did the speaker say before and after this part?'},
     {title:'Corroboration',accent:'#0e8f86',art:[1075,128,485,273],body:'Can an independent source confirm the same event or claim?'}
   ],takeaway:'Verify somewhere the sender does not control.'},
   agentsDriving:{title:'A Chatbot Answers. An Agent Acts.',width:1408,height:1117,hero:[34,109,1339,748],cards:[
@@ -5901,7 +5908,8 @@ function EighthPhoneReadingBoard(props) {
       E('ol',{className:'phone-eight-photo-key',role:'list'},board.labels.map(function(label,i){return E('li',{key:label.title},E('span',{className:'phone-eight-key-number'},i+1),label.title);})));
   } else content=E(React.Fragment,null,board.hero?E(PhoneFourArt,{src:src,crop:board.hero,width:board.width,height:board.height}):null,E(PhoneReadingCards,{board:board,src:src}));
   // Mount phone artwork only when needed, keeping desktop image resources independent.
-  return E(PhoneReadingBoard,props,phone?content:E(React.Fragment,null));
+  if (!phone) content = board.desktopText ? E(PhoneReadingCards, { board: board, textOnly: true }) : E(React.Fragment, null);
+  return E(PhoneReadingBoard, props, content);
 }
 
 // Ninth phone-readability batch. Canonical image copy, original artwork, phone only.
@@ -12940,7 +12948,7 @@ function FakeTrapPhotoTryIt() {
   var complete = pairs.every(function(pair) { return picks[pair.id] !== undefined; });
   return E(InteractiveBox, {
     variant: "try", surface: "mint", title: "Which Photo Is Real?",
-    lead: "Can you tell a real photograph from an AI-generated image?",
+    lead: "Try three photo pairs, then decide what to tell your group chat.",
     instructions: ["In each pair, click the image you think was captured by a camera. Both labels will appear after you choose."]
   }, E("div", { className: "fake-photo-activity" },
     pairs.map(function(pair, index) {
@@ -12973,7 +12981,21 @@ function FakeTrapPhotoTryIt() {
             pair.source, E("br", null), "AI-generated image: created for this exercise.") : null));
     }),
     E("div", { role: "status", "aria-live": "polite" }, complete ? E("p", { className: "fake-photo-takeaway" },
-      "Whether you guessed correctly or not, appearance alone isn’t proof. Check where an image came from.") : null)));
+      "Whether you guessed correctly or not, appearance alone isn’t proof. Check where an image came from.") : null),
+    E("section", { className: "fake-photo-pair", "aria-labelledby": "fake-closure-title" },
+      E("h3", { id: "fake-closure-title" }, "4. Is School Closed Next Week?"),
+      E(QuizBlock, {
+        surface: "mint", optionsIndent: 0,
+        statement: "Two more friends repost the principal’s clip. You find the full announcement on the school website. It’s dated last January. Your group chat wants to know if school is closed next week. What do you tell them?",
+        options: [
+          { label: "The school posted it and everyone’s sharing it. We’re off next week.",
+            headline: "Look at the date.", feedback: "All three posts lead back to the same announcement. The school confirmed a closure last January." },
+          { label: "That clip was about last January. We still need a current announcement before we tell anyone school is closed.",
+            correct: true, headline: "You checked which week.", feedback: "The principal really said it. The date tells you when it applied. Next week’s closure is still unverified." },
+          { label: "Someone used an old date, so the principal’s video must be fake.",
+            headline: "An old clip can be genuine.", feedback: "You found the principal’s original announcement. Someone can share those real words again with a misleading caption." }
+        ]
+      }))));
 }
 
 function SyntheticMediaSection(props) {
@@ -12985,67 +13007,57 @@ function SyntheticMediaSection(props) {
     /*#__PURE__*/React.createElement(BodyP, null,
       "Because knowing fakes exist isn’t a skill. It doesn’t tell you what to do in the ten seconds after a clip hits your feed."),
     /*#__PURE__*/React.createElement(EighthPhoneReadingBoard, {kind:"fakeComparison",image:React.createElement("img", {
-      src: "course-assets/fake-trap/fake-trap-comparison.jpg?v=20260921batch8",
-      alt: "The same school-closure clip is tested in two eras. Before AI, appearance suggests real; in the AI era, checking the school source leaves it unverified.",
+      src: "course-assets/fake-trap/fake-trap-comparison.jpg?v=20261113yourcall",
+      alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "The same clip. Two eras."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The scenario:"), " A friend sends a video of your principal announcing that school is closed next week."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Before AI: does it look real?"), " You study the face, voice, and hallway. Everything looks right. Verdict: real."),
-      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The AI era: where is it from?"), " You ignore the pixels and check the trail. Nothing appears on the school website. Verdict: unverified."),
+      /*#__PURE__*/React.createElement("h3", null, "Same Clip. Two Eras."),
+      /*#__PURE__*/React.createElement("p", null, "A friend sends a video of your principal announcing that school is closed next week."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "Before AI"), " Does it look real? You study the face, voice, and hallway. Everything looks right. Your call: I’d believe it."),
+      /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("strong", null, "The AI Era"), " Where is it from? You ignore the pixels and check the trail. You find no current closure notice on the school website. Your call: I’d wait for the school to confirm it."),
       /*#__PURE__*/React.createElement("p", null, "Appearance can mislead. The source trail can be checked.")),
     /*#__PURE__*/React.createElement(BodyP, null,
       /*#__PURE__*/React.createElement("strong", null, "The Fake Trap is believing it because it looks real."),
-      " And it has a second jaw: dismissing the truth because it could be a fake."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "Sometimes it’s just fun"),
+      " And there’s the other side: dismissing the truth because it could be a fake."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Friendly or Harmful"),
     /*#__PURE__*/React.createElement(BodyP, null,
-      "A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyone knows it is fake, and everyone is in on the joke. No harm. The trap begins when someone is meant to believe it."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "But some fakes aren’t friendly"),
-    /*#__PURE__*/React.createElement(BodyP, null,
-      "Harmful fakes are usually made to get something back. The goal often comes down to four things:"),
+      "A friend fakes a picture of your hockey buddies hoisting the Stanley Cup. Everyone knows it is fake, and everyone is in on the joke. No harm."),
     /*#__PURE__*/React.createElement(EighthPhoneReadingBoard, {kind:"fakeMotives",image:React.createElement("img", {
-      src: "course-assets/fake-trap/fake-trap-reasons.jpg?v=20261003band",
-      alt: "Four common goals behind harmful fakes: money, power, fame, and cruelty.",
+      src: "course-assets/fake-trap/fake-trap-reasons.jpg?v=20261113fouracross",
+      alt: "",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 32px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Why some fakes aren’t friendly"),
+      /*#__PURE__*/React.createElement("h3", null, "Why People Make Harmful Fakes."),
       /*#__PURE__*/React.createElement("p", null, "Money: outrage gets clicks, and clicks pay."),
       /*#__PURE__*/React.createElement("p", null, "Power: change what people believe and you change how they vote, protest, and spend."),
-      /*#__PURE__*/React.createElement("p", null, "Fame: a viral clip means followers, and it does not have to be true to travel."),
-      /*#__PURE__*/React.createElement("p", null, "Cruelty: some fakes exist to humiliate one person."),
-      /*#__PURE__*/React.createElement("p", null, "Harmful fakes are made to get something back.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "The detector dead end"),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "If you suspect a fake, the next move many people reach for is a detector: a site where you upload the clip or photo and it claims to tell you whether AI made it."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Don’t let a detector make the decision for you. It looks for patterns that may suggest AI was involved, but different tools can produce different answers. Treat its verdict as a clue, never a ruling."),
+      /*#__PURE__*/React.createElement("p", null, "Fame: a viral clip means followers. It does not have to be true to travel."),
+      /*#__PURE__*/React.createElement("p", null, "Cruelty: some fakes exist to humiliate one person, especially at school.")),
     /*#__PURE__*/React.createElement(SectionKicker, null, "So what do you do?"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
       "Fakes can travel quickly when they spike your emotions: outrage, fear, excitement, or hope. A strong feeling is your cue to stop and run three checks before you react, share, or believe."),
+    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
+      "If you try an AI detector, treat its verdict as a clue, never a ruling. Those tools make mistakes."),
     /*#__PURE__*/React.createElement(EighthPhoneReadingBoard, {kind:"fakeChecks",image:React.createElement("img", {
-      src: "course-assets/fake-trap/fake-trap-checks.jpg?v=20260914attribution1",
-      alt: "Three checks for suspicious media: identify the source, examine the context, and look for corroboration somewhere the sender does not control.",
+      src: "course-assets/fake-trap/fake-trap-checks.jpg?v=20261113context",
+      alt: "Three Ways to Check a Clip. Identify the source, examine the context, and look for independent confirmation.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 28px", borderRadius: 12 }
     })}),
     /*#__PURE__*/React.createElement("div", { className: "md-source", style: { display: "none" } },
-      /*#__PURE__*/React.createElement("h3", null, "Move the test off the image"),
+      /*#__PURE__*/React.createElement("h3", null, "Three Ways to Check a Clip."),
       /*#__PURE__*/React.createElement("ol", null,
         /*#__PURE__*/React.createElement("li", null, "Source: where did this come from?"),
-        /*#__PURE__*/React.createElement("li", null, "Context: does the surrounding information hold up?"),
+        /*#__PURE__*/React.createElement("li", null, "Context: When was this recorded? What did the speaker say before and after this part?"),
         /*#__PURE__*/React.createElement("li", null, "Corroboration: does anywhere else show the same thing?")),
       /*#__PURE__*/React.createElement("p", null, "Verify somewhere the sender does not control.")),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "One rule under all three checks"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Verify somewhere the sender doesn’t control. A voicemail asks for something urgent: call back on the number you already have. A clip is blowing up: look for the original source or a source that would know. For something important, look for independent confirmation too. Until the trail checks out, ‘unverified’ is your answer."),
+      "Go back to the principal’s clip. Look for the full announcement on the school website and check which dates it covers. If the dates are unclear, ask the school office using the contact information you already have. Until the school confirms next week’s closure, the claim is unverified."),
+    /*#__PURE__*/React.createElement(SectionKicker, null, "Fakes about you"),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "Your eyes still work fine for reading, judging, and enjoying what you know is made up. They just stopped working as a lie detector."),
-    /*#__PURE__*/React.createElement(SectionKicker, null, "If the fake is about you"),
+      "If someone posts a fake about you or makes an account pretending to be you, tell an adult you trust. If it’s safe, write down the username, link, and date so you can report it together."),
     /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "If a photo, clip, or account uses your name, don’t handle it alone. Save the username, link, date, and messages when it is safe to do so. Then bring in an adult that day: a parent, a counselor, or someone at school."),
-    /*#__PURE__*/React.createElement(BodyP, { marginBottom: 24 },
-      "If someone makes or shares a fake private image of a person under 18, do not screenshot, download, or pass it around. Tell a trusted adult and report it through the platform. ",
+      "If someone makes or shares a fake nude or sexually explicit image of anyone under 18, don’t screenshot, download, or forward it, even to make a report. Ask a trusted adult to help you report it through the platform. ",
       /*#__PURE__*/React.createElement("a", { href: "https://takeitdown.ncmec.org/", target: "_blank", rel: "noopener noreferrer" }, "NCMEC’s Take It Down"),
       " and ",
       /*#__PURE__*/React.createElement("a", { href: "https://report.cybertip.org/", target: "_blank", rel: "noopener noreferrer" }, "CyberTipline"),

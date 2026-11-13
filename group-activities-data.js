@@ -846,6 +846,11 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=faketrap-discussion",
     "questions": [
       {
+        "context": "Someone sends a screenshot that appears to show a classmate saying something cruel. You’re unsure whether it’s real and consider forwarding it with, “Does anyone know if this actually happened?”",
+        "title": "Does asking whether it’s real change the possible harm of sharing it?",
+        "followUp": "How could you check the claim without spreading it to more people?"
+      },
+      {
         "context": "A clip appears to show your favorite musician insulting fans. Friends are already reposting it, and you’re angry, but nobody has found the original source.",
         "title": "What makes it hard to wait for more information before reacting or sharing?",
         "followUp": "Would you be equally cautious about a clip that made you happy or confirmed something you already believed?"
@@ -859,11 +864,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "context": "A video appears to show someone damaging school property. Another student dismisses it immediately: “You can fake anything with AI now.”",
         "title": "How could you take the video seriously without assuming it proves what happened?",
         "followUp": "What could help you avoid both believing too quickly and dismissing real evidence too easily?"
-      },
-      {
-        "context": "Someone sends a screenshot that appears to show a classmate saying something cruel. You’re unsure whether it’s real and consider forwarding it with, “Does anyone know if this actually happened?”",
-        "title": "Does asking whether it’s real change the possible harm of sharing it?",
-        "followUp": "How could you check the claim without spreading it to more people?"
       },
       {
         "context": "Two AI detectors disagree about a photo. One labels it real, the other fake. Your friends want you to pick a side.",

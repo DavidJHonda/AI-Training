@@ -55,15 +55,31 @@ const lessons = {
       await page.waitForTimeout(250);
       if(id==='faketrap') {
         const comparison=page.locator('[data-phone-reading-board="fakeComparison"] .phone-reading-mobile');
-        assert.deepEqual(await comparison.locator('h4').allTextContents(),['THE SCENARIO','Does It Look Real?','Where Is It From?']);
-        const text=await comparison.innerText();for(const phrase of ['school is closed next week','BEFORE AI','THE AI ERA','CHECKED','MATCHED','SKIPPED','VERDICT','Real.','Unverified.','The source that would know.','Appearance can mislead. The source trail can be checked.'])assert.ok(text.includes(phrase));
-        assert.equal(text.split('VERDICT').length-1,2);
-        assert.deepEqual(await page.locator('[data-phone-reading-board="fakeMotives"] h4').allTextContents(),['Money','Power','Fame','Cruelty']);
+        assert.equal(await comparison.locator('h3').innerText(), 'Same Clip. Two Eras.');
+        assert.deepEqual(await comparison.locator('h4').allTextContents(), ['Before AI', 'The AI Era']);
+        assert.deepEqual(await comparison.locator('.phone-reading-fact').allTextContents(), ['Your callI’d believe it.', 'Your callI’d wait for the school to confirm it.']);
+        const text = await comparison.innerText();
+        for (const phrase of ['school is closed next week', 'Does it look real?', 'Where is it from?', 'Appearance can mislead. The source trail can be checked.']) assert.ok(text.includes(phrase));
+        const motives = page.locator('[data-phone-reading-board="fakeMotives"] .phone-reading-mobile');
+        assert.equal(await motives.locator('h3').innerText(), 'Why People Make Harmful Fakes.');
+        assert.deepEqual(await motives.locator('h4').allTextContents(), ['Money', 'Power', 'Fame', 'Cruelty']);
+        assert.equal(await motives.locator('.phone-reading-takeaway').count(), 0);
         assert.ok((await page.locator('[data-phone-reading-board="fakeMotives"] .phone-reading-mobile').innerText()).includes('especially at school.'));
         const checks=page.locator('[data-phone-reading-board="fakeChecks"] .phone-reading-mobile');assert.deepEqual(await checks.locator('h4').allTextContents(),['Source','Context','Corroboration']);
-        for(const phrase of ['a reason and a way to know?','What important details are missing?','Can an independent source confirm the same event or claim?','Verify somewhere the sender does not control.'])assert.ok((await checks.innerText()).includes(phrase));
+        for(const phrase of ['a reason and a way to know?','When was this recorded? What did the speaker say before and after this part?','Can an independent source confirm the same event or claim?','Verify somewhere the sender does not control.'])assert.ok((await checks.innerText()).includes(phrase));
         for(const [pair,letter] of [['The Cat','B'],['The Sculpture','A'],['Venice at Night','B']])await page.getByRole('button',{name:pair+', image '+letter+': choose this photograph',exact:true}).click();
         assert.equal(await page.locator('.fake-photo-choice[aria-disabled="true"]').count(),6);assert.equal(await page.locator('.fake-photo-source').count(),3);assert.ok((await page.locator('.fake-photo-takeaway').innerText()).includes('appearance alone isn’t proof'));
+        const closure = page.locator('section[aria-labelledby="fake-closure-title"]');
+        for (const [answer, feedback] of [
+          ['The school posted it', 'All three posts lead back to the same announcement.'],
+          ['Someone used an old date', 'Someone can share those real words again with a misleading caption.'],
+          ['That clip was about last January', 'Next week’s closure is still unverified.']
+        ]) {
+          await closure.getByRole('button', { name: new RegExp('^' + answer) }).click();
+          assert.ok((await closure.locator('.choicequiz-feedback').innerText()).includes(feedback));
+        }
+        assert.ok(await page.getByText(/Go back to the principal’s clip/).isVisible());
+        assert.deepEqual((await page.evaluate(() => window.validate())).errors, []);
       } else if(id==='agents') {
         const driving=await page.locator('[data-phone-reading-board="agentsDriving"] .phone-reading-mobile').innerText();for(const phrase of ['Waze or Google Maps','you still steer, brake, and catch mistakes','You may not catch a mistake until later.'])assert.ok(driving.includes(phrase));
         const comparison=await page.locator('[data-phone-reading-board="agentsComparison"] .phone-reading-mobile').innerText();for(const phrase of ['30 points','Friday’s basketball game','Review all 50 clips','YOU DO','AI DOES','THE AGENT DOES','YOU STILL OWN','final review, and everything posted under your name.'])assert.ok(comparison.includes(phrase));assert.equal(comparison.split('WHAT CHANGES').length-1,2);

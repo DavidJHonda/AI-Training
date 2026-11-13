@@ -97,6 +97,7 @@ class CardBoard:
     art_files: tuple[str, ...] = ()
     art_insets: tuple[tuple[int, int, int, int], ...] = ()
     card_title_size: int = CARD_TITLE_SIZE
+    four_across: bool = False
 
 
 @dataclass(frozen=True)
@@ -435,6 +436,12 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
         card_xs = [40, 557, 1075]
         art_height = EE3_ART_HEIGHT
         rows = 1
+    elif board.four_across:
+        width = (WIDTH - 2 * PADDING - 3 * GUTTER) // 4
+        card_widths = [width] * 4
+        card_xs = [PADDING + i * (width + GUTTER) for i in range(4)]
+        art_height = round(width * EE4_ART_HEIGHT / 744)
+        rows = 1
     else:
         card_widths = [744] * 4
         card_xs = [40, 816, 40, 816]
@@ -496,14 +503,14 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
         with Image.open(ROOT / board.page_output) as current:
             panels = []
             for index, (x, width) in enumerate(zip(card_xs, card_widths)):
-                row = 0 if count < 4 else index // 2
+                row = 0 if rows == 1 else index // 2
                 y = cards_top + row * (card_height + GUTTER)
                 panels.append(current.crop((x, y, x + width, y + art_height)).convert("RGB"))
     else:
         panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     preserved_art = preserved_panels is not None or (not board.art_files and not (ROOT / board.art_sheet).exists())
     for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
-        row = 0 if count < 4 else index // 2
+        row = 0 if rows == 1 else index // 2
         x = card_xs[index]
         y = cards_top + row * (card_height + GUTTER)
         card_width = card_widths[index]

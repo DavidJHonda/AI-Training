@@ -139,20 +139,11 @@ The November 13 full-video kit uses the approved lunch comparison, “What Can A
 
 ## Fake Trap
 
-Approved cuts, 2026-10-27: remove the final two sentences of the second opening paragraph, the final sentence of the detector explanation, and the extra Check the Source, Not the Pixels illustration with its introductory sentence and takeaway. Keep the So what do you do? heading and emotions paragraph leading directly to the three-check board. Preserve all remaining wording and all three photo exercises. The installed video still needs revision to match these cuts.
+The November 13 kit follows the revised school-closure example from the student’s two “Your call” responses through the check for a current announcement. Keep the four motives together, read the new Context questions, and give the reporting instructions from “Fakes about you.” The group-chat decision follows the photo rounds on the course page.
 
-Materials test, 2026-09-20 (owner request after the narration-source review): the kit is rebuilt on the 2026-09-11 Build Your Skills recipe that produced the shipped run. The Markdown is a clean lesson (Board / Image file / Teaching content only; no Scene, Takeaway, or post-production labels; banner lines carried as plain sentences). The prompt carries the VOICE block, a required-verbatim list, and a beat spine. Both face boards are uploaded as text-only variants (photo panels removed) so their teaching sits on a picture instead of an invented scene; the canonical boards replace them in post. Baseline for the comparison: `Prompts/fake-trap-v3.mp4`, reviewed in `video-audit/fake-trap-materials-test-2026-09-20/REVIEW.md`. RESULT: the recipe won (roll 2 base, one roll-1 graft); **v5 SHIPPED 2026-09-20** (cache key 20260920ship2, pill 5 min). Use this kit as the template for the remaining Avoid Traps lessons.
-
-- Prompt: `gemini-notebook/fake-trap/PROMPT.txt`
-- Markdown: `lessons/fake-trap.md`
-- Upload checklist: `gemini-notebook/fake-trap/README.txt`
-- Notebook sources:
-  1. `gemini-notebook/fake-trap/assets/fake-trap-comparison-faceless.jpg` (upload variant of the Board 1 comparison board, photos removed)
-  2. `course-assets/fake-trap/fake-trap-reasons.jpg`
-  3. `course-assets/fake-trap/fake-trap-checks.jpg`
-  4. `course-assets/fake-trap/fake-trap-close.jpg`
-- Post-production boards — **do not upload to Gemini Notebook:**
-  - `course-assets/fake-trap/fake-trap-comparison.jpg` (faces; replaces the faceless variant in the edit)
+- [Five-file upload list and save instructions](../../../gemini-notebook/fake-trap/README.txt)
+- [NotebookLM customization prompt](../../../gemini-notebook/fake-trap/PROMPT.txt)
+- [Illustrated opening board for the edit](../../../course-assets/fake-trap/fake-trap-comparison.jpg) replaces the text-only upload. Use the current card positions when adding highlights.
 
 ## Provenance, cleanup, and post-production
 

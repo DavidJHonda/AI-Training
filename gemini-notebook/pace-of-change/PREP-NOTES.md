@@ -1,5 +1,7 @@
 # Pace of Change: reroll preparation
 
+The November 16 local course video (v14, 3:42.233) includes the dog image comparison at 0:27.700–0:40.467, the high school reader at 0:54.200–1:03.067, and a date-free model release animation at 1:28.567–1:33.133. The audio matches v12 byte for byte. Cache key `20261116ship14`.
+
 Prepared November 3, 2026. The current lesson combines the future concepts into one Three Future Ideas board. Three uploaded rolls were evaluated and assembled into v12 (3:42.233), approved for local shipping on November 3. The installed cut uses roll 1 narration with two roll 2 passages and the current boards. Cache key: `20261103ship12`. Queued for batch deployment. Review: `video-audit/pace-of-change-build-2026-11-03-v12/REVIEW.md`. Listening and continuous playback were disclosed as unperformed before the owner approved shipping.
 
 ## Generate

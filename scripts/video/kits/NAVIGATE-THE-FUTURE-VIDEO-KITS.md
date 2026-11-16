@@ -136,6 +136,8 @@ the Right or Wrong? activity is not narrated.
 
 **2026-11-03 lesson revision:** The current page and upload kit replace the two future-ideas boards with `pace-of-change-three-future-ideas.jpg`, a canonical EE-3FB board for RSI, AGI, and ASI. Rebuild with `.video-venv/bin/python scripts/video/render_pace_future_ideas.py`. No status or takeaway banners. The older boards remain source artwork and historical video dependencies. The revised lesson is now installed locally as v12; the build history below describes earlier versions.
 
+The November 16 local course video (v14, 3:42.233) includes the dog image comparison at 0:27.700–0:40.467, the high school reader at 0:54.200–1:03.067, and a date-free model release animation at 1:28.567–1:33.133. The audio matches v12 byte for byte. Cache key `20261116ship14`.
+
 **Local release 2026-11-03:** v12 (3:42.233), cache key `20261103ship12`, pill 4 min. Roll 1 base, two roll 2 narration passages, current canonical boards, and supporting drawings. Approved by the owner after technical verification and disclosure that direct listening/continuous playback remain unperformed. Shipped locally; queued for batch deployment. Review: `video-audit/pace-of-change-build-2026-11-03-v12/REVIEW.md`.
 
 **Local release 2026-09-30:** v10 (4:22.40), cache key `20260930ship10`, pill 4 min.

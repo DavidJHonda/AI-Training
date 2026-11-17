@@ -1,6 +1,6 @@
 # Big Upside: reroll preparation
 
-Prepared November 3, 2026 for the finalized four-example lesson. V12 is now installed locally at `course-assets/big-upside/big-upside.mp4?v=20261103ship12` (3:32.500), committed as `50784bfb`, and awaiting the authorized batch push. It combines roll 1 narration with the complete roll 3 testing caveat, roll 2 supporting scenes, current boards, and the approved menu donor. See `video-audit/big-upside-build-2026-11-03-v12/REVIEW.md` for checks and listening limitations. The generation instructions below remain available for future rerolls.
+Updated November 17, 2026: the approved closing recap was cut from V12 (source 3:11.800–3:23.867). The installed local video is `course-assets/big-upside/big-upside.mp4?v=20261117recapcut` (3:20.433). “In each case, computational power supports human effort” now leads directly to “The big upside is happening today.” The original V12 remains in `Prompts/big-upside-v12.mp4`. See `video-audit/big-upside-recap-cut-2026-11-17/edit-manifest.json` for edit and verification details. The generation instructions below remain available for future rerolls.
 
 ## Generate
 

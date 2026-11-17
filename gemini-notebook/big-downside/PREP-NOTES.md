@@ -1,42 +1,40 @@
-# Big Downside: reroll preparation
+# Big Downside: revised video preparation
 
-Prepared 2026-10-09 from the finalized lesson in `index.html`. This package is ready for a fresh generation. The existing course video teaches the earlier six-idea version; it has not been replaced. No new video has been generated or reviewed.
+Prepared 2026-11-17 from the approved current lesson in `index.html`, its canonical boards and `lessons/big-downside.md`. The installed v11 video is still the older narration. This package is ready for fresh generation; no new MP4 has been generated or installed.
 
 ## Generate
 
-Upload all six files in `upload/`: the lesson Markdown and five JPGs. Paste `PROMPT.txt` into video customization; do not upload the prompt, these notes, the README, or a lesson PDF. Save the raw result as `Prompts/big-downside-reroll.mp4`, which was unused at preparation time. If it now exists, use the next unused `-reroll-N.mp4` name. Preserve every existing roll and finished video.
+Upload the five files in `upload/`: the Markdown and four JPGs. Paste `PROMPT.txt` into video customization, not into sources. Save the raw result as `Prompts/big-downside-reroll.mp4`, or the next unused reroll suffix. Preserve all raw rolls and existing candidates. The prompt is 486 words.
 
 ## Lesson progression
 
-The lesson moves from excitement about greater capability to three ways it can create risk, then explains why protections must keep up.
+Greater capability creates greater risk through difficult control, harmful human use, and goals pursued outside intended limits; safety work must keep up.
 
-1. **Opening:** the iPhone question; greater capability can create greater risk; introduce three ideas without explaining them twice.
-2. **Hard to understand and control:** learned patterns and the Spot example establish the difficulty. Layers of Protection explains safety training, screening requests and answers, and restricting tools and permissions with approval for important tasks. Keep the future-protections question uncertain.
-3. **People can misuse AI:** explain jailbreaking and why defending many paths differs from finding one opening. Then make the bridge that misuse can combine ordinary capabilities without a jailbreak. Walk through the voice clip, cloned voice, fake call, and calling the known number back. End with the bad-actor capability line.
-4. **AI can take the wrong route:** the person assigning the task may mean no harm. Goals can produce unintended behavior, especially when AI takes actions. Keep the reduced-safeguards context of the July 2026 test and “They didn’t.” Teach the assignment, unauthorized communication and access, Hugging Face intrusion, private information, and cheating banner. Follow with the attempted record concealment.
-5. **Safety Runs Behind:** protections and laws take time; capabilities may reach people before safeguards are ready. Explain red teams and why safety remains ongoing.
-6. **Close:** “More capability. More at stake.” followed by “Safeguards have to keep up.” Nothing afterward.
+1. Open with the iPhone question and explain greater capability can create greater risk.
+2. **Hard to Control:** black boxes and inconsistent refusal of differently worded requests. Teach training, screening during use and tool/permission limits. Ask whether safeguards will keep up.
+3. **Bad Actors Cause Harm:** explain jailbreaking and the many-paths/one-opening problem. Misuse also combines ordinary abilities. Teach the three scam steps, then the callback advice as protection. Explain how growing abilities expand harmful use.
+4. **AI Can Miss the Intent:** explain misunderstandings and pursuit outside intended limits. Introduce the July 2026 cybersecurity test, reduced safeguards and agents using tools. Teach assignment, crossed boundary and harm. Continue with collaboration, cheating, altered records aimed at the scoring system, and the absence of instructions to access the internet or attack Hugging Face.
+5. **Red Teams:** deliberate testing for dangerous behavior and weaknesses, repeated as abilities grow.
+6. **Close:** “More powerful AI. Higher stakes.” / “Safety has to keep up.” Nothing afterward.
 
-The essential bridges are already in the approved prose: imperfect protection leads to misuse; misuse can happen without jailbreaking; harm can also happen when the assigner means no harm; growing capabilities require ongoing safety work. The voice-clone arrows express a sequence, with the callback interrupting the scam. The cyberattack board connects the assigned task to the crossed boundary and resulting harm. The source remains understandable without its images.
+The scam arrows show the sequence leading to the fake call; the yellow banner interrupts the scam rather than adding a fourth step. The incident cards connect assignment, unauthorized access and harm. The expanded incident aftermath is under its own source heading so it can use supporting scenes instead of extending the board hold.
 
-## Boards in order
+## Visual plan
 
-| Board | Upload | Treatment during editing |
+All four uploads are current canonical assets, inspected for text and visible faces. No faceless substitutes are needed. The jailbreak illustration is retired from this package; the old source asset is preserved.
+
+| Board | Highlight sequence and camera | Estimated teaching time / breaks |
 |---|---|---|
-| Layers of Protection | `big-downside-safety-guardrails.jpg` | Current canonical board; realistic equipment and hands, no visible faces. Preserve the supplied board; the ban on new photorealistic scenes does not replace it. |
-| Why Jailbreaks Keep Appearing | `big-downside-jailbreak-faceless.jpg` | Text-only variant, same dimensions as the original. Restore `course-assets/big-downside/big-downside-jailbreak.jpg`, which contains visible faces. |
-| The Voice-Clone Scam | `big-downside-voice-cloning.jpg` | Current canonical four-step sequence. |
-| A Test Became a Real Cyberattack | `big-downside-goal-test.jpg` | Current canonical three-card board and cheating takeaway. |
-| Closing Message | `big-downside-close.jpg` | Current canonical two-line close; the stray yellow bottom edge has been fixed. |
+| AI Safety Layers | Open full and unmarked; Train for Safety → Screen for Harm → Limit What AI Can Do. Use complete-card focus only if the 720p legibility check requires it. No banner. | About 30–38 seconds; insert a supporting scene after screening if needed to avoid an uninterrupted hold over 20 seconds. |
+| The Voice-Clone Scam | Full unmarked overview, then Voice Clip → Voice Cloned → Fake Call; finally ring the entire yellow callback banner. The callback is advice, not step four. | About 25–32 seconds; allow a supporting phone scene between the fake call and callback if the generated pacing requires it. |
+| A Test Became a Real Cyberattack | Full unmarked overview; Assignment → Boundary Crossed → Harm. No banner. Complete cards remain visible during any focus move. | About 20–25 seconds; leave the board for the expanded cheating/records paragraph. |
+| Closing Message | Canonical close, standard settled opening hold and slow push; no highlight. | Standard 48-frame hold, 150-frame push to 1.2x, settled ending at 30 fps, extended if narration requires it. |
 
-The text-only jailbreak upload was rebuilt because the older upload omitted the two statements inside the illustration. Its renderer is `scripts/video/render_big_downside_upload.py`. The page illustration is unchanged.
+These are planning estimates, not edit timestamps. After narration review, map actual phrase onsets and source transitions into the edit plan. Use one active 4 px ring at 720p, applied after the camera transform. Do not add pauses merely to accommodate ring/camera changes. Preserve useful generated scenes; no obsolete section labels, removed banners, Spot example, Safety Runs Behind section or four-step scam board.
 
-## Narration source and review
+## Verification and remaining work
 
-`lessons/big-downside.md` preserves the approved page wording and board teaching. Required lines stand alone in this video source so they are spoken reliably; this formatting does not undo paragraph merges on the page. The source excludes the TRY IT and source links. It includes “Guardrails,” the label printed on the jailbreak illustration.
+The source uses the approved lesson text; board-title connective sentences are adjusted only to read naturally aloud. Required prompt lines stand alone in the source. The narration excludes activities, assessment, links and credits. Do not add claims about malice, precise counts, lawsuits or compensation.
 
-The 470-word prompt has the four required blocks and twelve verbatim entries. It explicitly prevents the retired six-idea structure, agent definition, Policy Puppetry example, historical timeline, open letter, and agent counts from returning. Do not infer that reduced safeguards represent ordinary deployment, or convert the future-protections question into a prediction.
-
-After generation, review all narration against the current source and required lines before planning the edit. Check especially the distinction between training and guardrails, checks on both requests and answers, the callback advice, reduced safeguards, attempted alteration of records, and both closing lines. Use fresh board timing and camera paths; earlier paths were built for different wording and geometry. Preserve useful generated drawings and repair visuals in editing rather than judging narration by their polish.
-
-Preparation verification: all board text inspected; visible-face handling checked; required lines verified as standalone source entries; prompt below 500 words; upload files and hashes checked with `sync_gemini_notebook.py --lesson big-downside --check`. The live page and video are unchanged by this prep pass.
+Before generation: run `sync_gemini_notebook.py --lesson big-downside` and `--check`.
+After generation: review complete narration against the current source, then finalize the timed edit plan and board previews. Build the next unused candidate, currently `Prompts/big-downside-v12.mp4`, from the fresh raw roll. Review narration, board text, highlights, transitions, audio seams and final closing frame before installing any finished video. Do not report preparation as a completed video.

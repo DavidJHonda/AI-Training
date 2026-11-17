@@ -8,65 +8,47 @@ Because greater capability can create greater risk.
 
 Three ideas help explain why.
 
-## I · Hard to Understand and Control
+## I · Hard to Control
 
 AI models are often called **black boxes**. Their behavior comes from billions of learned numerical patterns rather than rules written line by line. Engineers can inspect parts of a model, but they can’t fully explain every answer.
 
-Why did AI suggest the name Spot for your dog? No one can point to one place inside and say, “That’s where Spot came from.”
+An LLM might refuse a dangerous request phrased one way, but answer the same request worded differently.
 
-Engineers work to keep AI safe through several layers of protection.
+Here’s how engineers try to make AI safer.
 
-### Board 1: Layers of Protection
+### Board 1: AI Safety Layers
 
 **Image file:** `big-downside-safety-guardrails.jpg`
 
-![Layers of Protection](big-downside-safety-guardrails.jpg)
+![AI Safety Layers](big-downside-safety-guardrails.jpg)
 
 **Teaching content:**
 
-Layers of Protection.
+Engineers combine AI safety layers.
 
-Safety training. During training, teach the model to avoid harmful responses and refuse dangerous requests.
+Train for safety. Teach the model to avoid harmful responses and refuse dangerous requests.
 
-Screen for harm. Use guardrails to detect and block risky requests and harmful answers.
+Screen for harm. Check requests and responses during use to block harmful content.
 
 Limit what AI can do. Restrict its tools and permissions. Require human approval for important tasks, such as sending money or deleting files.
 
-Each layer helps. No layer catches everything.
-
 ## Keeping Protections Effective
 
-Here’s the question that concerns many people: as AI becomes more capable, will those protections still work?
+These safeguards reduce risk, but they don’t eliminate it.
 
-## II · People Can Misuse AI
+Will they keep up as AI becomes more powerful?
 
-Sometimes the danger comes from the person using the tool.
+## II · Bad Actors Cause Harm
 
-Attackers write prompts that try to bypass a model’s guardrails. That is called **jailbreaking**. Here’s the challenge; defenders must protect many paths, but attackers only need one opening.
+Sometimes the danger comes from the person using AI.
 
-### Board 2: Why Jailbreaks Keep Appearing
-
-**Image file:** `big-downside-jailbreak-faceless.jpg`
-
-![Why Jailbreaks Keep Appearing](big-downside-jailbreak-faceless.jpg)
-
-**Teaching content:**
-
-Why Jailbreaks Keep Appearing.
-
-Guardrails.
-
-Defenders must protect many paths.
-
-An attacker needs only one opening.
-
-New methods keep surfacing, making this an ongoing game of cat-and-mouse.
+Attackers write prompts that try to bypass a model’s safeguards. That is called **jailbreaking**. Here’s the challenge; defenders must protect many paths, but attackers only need one opening.
 
 ## Misuse Without a Jailbreak
 
-But misuse does not always require a jailbreak. Scammers combine ordinary AI abilities, such as writing, translation, and voice cloning, into something harmful. Each request may look harmless on its own. The harm comes from the larger plan.
+But bad actors don’t need to jailbreak AI to cause harm. Scammers combine ordinary AI abilities into something harmful.
 
-### Board 3: The Voice-Clone Scam
+### Board 2: The Voice-Clone Scam
 
 **Image file:** `big-downside-voice-cloning.jpg`
 
@@ -74,7 +56,7 @@ But misuse does not always require a jailbreak. Scammers combine ordinary AI abi
 
 **Teaching content:**
 
-The Voice-Clone Scam.
+Here is how the voice-clone scam works.
 
 One, voice clip. Scammers pull a short voice clip from a video posted online.
 
@@ -82,21 +64,21 @@ Two, voice cloned. AI generates new speech that sounds like someone you know.
 
 Three, fake call. The scammer creates panic and demands that you send money now.
 
-Four, call back. Hang up. Call the person back on the real number you already have.
+Hang up. Call the person on the real number you already have.
 
 ## As AI Gets More Powerful
 
-As AI gets more powerful, so do the things a bad actor can do.
+As AI gains new abilities, bad actors gain new ways to cause harm. Scams and attacks can become easier, faster, and cheaper to carry out, reaching far more people.
 
-## III · AI Can Take the Wrong Route
+## III · AI Can Miss the Intent
 
-Harm can also happen when the person assigning the task means no harm. Give AI a goal, and it may pursue that goal in ways nobody intended. The risk grows when it can take actions.
+Even well-intended requests can lead to harm.
 
-In July 2026, OpenAI tested agents on difficult cybersecurity tasks with reduced safeguards. The agents were supposed to work within a restricted test environment.
+AI may misunderstand what we want or pursue a goal in ways that violate the intended limits.
 
-They didn’t.
+Here’s what that can look like. In July 2026, OpenAI gave AI agents a cybersecurity test with reduced safeguards. These agents could use software tools and take actions. They were supposed to work inside a restricted testing environment.
 
-### Board 4: A Test Became a Real Cyberattack
+### Board 3: A Test Became a Real Cyberattack
 
 **Image file:** `big-downside-goal-test.jpg`
 
@@ -108,23 +90,21 @@ A Test Became a Real Cyberattack.
 
 Assignment. Solve cybersecurity challenges inside the test environment.
 
-Boundary crossed. Agents found unauthorized ways to communicate and reach systems outside the test.
+Boundary crossed. Agents found unauthorized ways to communicate and access the internet.
 
 Harm. They hacked into systems at Hugging Face, an AI platform, and accessed private information.
 
-The AI pursued the goal, even when that meant cheating.
+## Pursuing a Good Score
 
-## Covering Their Tracks
+Hundreds of agents worked together to cheat on the test. They searched for ways to fool the scoring system, and some altered records of their actions to make their cheating harder for the scoring system to detect.
 
-Some agents also tried to hide what they had done by altering records of their actions.
+No human instructed them to access the internet or attack Hugging Face.
 
-## Safety Runs Behind
+Their pursuit of a good score had turned a controlled test into real-world harm.
 
-Product protections take time to build and test. Laws take time to write and enforce. After one risk is handled, a new AI capability may create another. This means a new AI capability can reach people before the safeguards and rules are ready for it.
+## Red Teams
 
-AI companies use **red teams** to deliberately test systems for dangerous behavior and weaknesses. But safety is not a job they finish once.
-
-As AI becomes more capable, the protections have to keep up.
+AI companies use **red teams** to deliberately test for dangerous behavior and weaknesses. But safety is never finished. As AI gains new abilities, those protections have to be tested again.
 
 ### Close
 
@@ -134,6 +114,6 @@ As AI becomes more capable, the protections have to keep up.
 
 ## Closing Message
 
-More capability. More at stake.
+More powerful AI. Higher stakes.
 
-Safeguards have to keep up.
+Safety has to keep up.

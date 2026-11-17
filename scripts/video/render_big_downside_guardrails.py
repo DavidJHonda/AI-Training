@@ -9,16 +9,15 @@ from course_credit import save_course_image
 
 OUTPUT = ROOT / 'course-assets/big-downside/big-downside-safety-guardrails.jpg'
 BOARD = Board(
-    key='big-downside-guardrails', title='Layers of Protection',
+    key='big-downside-guardrails', title='AI Safety Layers',
     cards=(
-        ('Safety Training', 'During training, teach the model to avoid harmful responses and refuse dangerous requests.'),
-        ('Screen for Harm', 'Use guardrails to detect and block risky requests and harmful answers.'),
+        ('Train for Safety', 'Teach the model to avoid harmful responses and refuse dangerous requests.'),
+        ('Screen for Harm', 'Check requests and responses during use to block harmful content.'),
         ('Limit What AI Can Do', 'Restrict its tools and permissions. Require human approval for important tasks, such as sending money or deleting files.'),
     ),
     art_sheet='scripts/video/assets/editorial-full-bleed/big-downside-guardrails/art-sheet.png',
     page_output=str(OUTPUT.relative_to(ROOT)), prep_output=str(OUTPUT.relative_to(ROOT)),
     accents=('#4f2fc4', '#1652f0', '#0e8f86'),
-    takeaway='Each layer helps. No layer catches everything.',
 )
 
 

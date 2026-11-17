@@ -111,6 +111,7 @@ class FlowBoard:
     prep_output: str
     accents: tuple[str, ...] = ()
     takeaway: str | None = None
+    art_files: tuple[str, ...] = ()
 
 
 CARD_BOARDS = (
@@ -281,12 +282,14 @@ FLOW_BOARDS = (
             Card("Voice Clip", "Scammers pull a short voice clip from a video posted online."),
             Card("Voice Cloned", "AI generates new speech that sounds like someone you know."),
             Card("Fake Call", "The scammer creates panic and demands that you send money now."),
-            Card("Call Back", "Hang up. Call the person back on the real number you already have."),
         ),
         art_sheet="scripts/video/assets/editorial-navigate/big-downside-voice-clone/art-sheet.png",
         page_output="course-assets/big-downside/big-downside-voice-cloning.jpg",
         prep_output="course-assets/big-downside/big-downside-3-voice-clone.jpg",
-        accents=(PURPLE, BLUE, RED, TEAL),
+        accents=(PURPLE, BLUE, RED),
+        takeaway="Hang up. Call the person on the real number you already have.",
+        art_files=tuple(f"scripts/video/assets/voice-clone-three-step/{name}.png"
+                        for name in ("voice-clip", "voice-cloned", "fake-call")),
     ),
 )
 
@@ -633,7 +636,10 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     draw.rounded_rectangle((40, stage_top, 1560, stage_bottom), radius=14, fill=WHITE)
 
     source_art = ROOT / board.art_sheet
-    if source_art.exists():
+    if board.art_files:
+        assert len(board.art_files) == count
+        panels = [Image.open(ROOT / path).convert("RGB") for path in board.art_files]
+    elif source_art.exists():
         panels = split_art_sheet(Image.open(source_art).convert("RGB"), count)
     else:
         # Retired source sheets can be recovered from the finished native board.
@@ -644,7 +650,7 @@ def render_flow_board(board: FlowBoard) -> Image.Image:
     mask = rounded_mask((art_width, art_height), 14)
     for left, panel, accent in zip(art_lefts, panels, accents):
         art = cover(panel, (art_width, art_height))
-        if source_art.exists():
+        if source_art.exists() and not board.art_files:
             art = accent_wash(art, accent)
         image.paste(art, (left, art_top), mask)
         ImageDraw.Draw(image).rounded_rectangle(

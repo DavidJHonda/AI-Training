@@ -942,13 +942,13 @@ window.COURSE_GROUP_ACTIVITIES = [
     "section": "Navigate the Future",
     "title": "Big Downside",
     "type": "Discussion",
-    "note": "Discuss explanations, misuse, release decisions, uneven risks, and independent testing.",
+    "note": "Discuss human approval, misuse, release decisions, and independent testing.",
     "href": "group-exercises/group-session.html?id=bigdownside-discussion",
     "questions": [
       {
-        "context": "A school uses AI to recommend which students should receive a limited number of program places. Its recommendations usually seem reasonable, but it cannot give a clear explanation for one surprising rejection.",
-        "title": "How much explanation should people deserve when AI influences a decision about them?",
-        "followUp": "Would your expectations change for a movie recommendation?"
+        "context": "A school’s AI assistant can draft messages, send them to families, and change student schedules.",
+        "title": "Which actions should require a person’s approval?",
+        "followUp": "Would your answer change if every action could be undone?"
       },
       {
         "context": "A voice-generation tool could help someone communicate in a voice they choose. The same capability could be used to impersonate someone.",

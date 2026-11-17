@@ -6,15 +6,13 @@ We’ve said it many times: AI is a giant calculator running math at a scale nob
 
 But that calculator can do some amazing things.
 
-It can help scientists investigate disease, help doctors find cancer, and help someone read a label they couldn’t read before. The big upside isn’t only about what AI might do someday. It’s already happening.
+It can help scientists investigate disease, help doctors find cancer, and help someone read a label they couldn’t read before. The big upside isn’t only about what AI might do someday. It's happening today.
 
 ## 1 · Giving Scientists a Head Start
 
-Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs. A protein’s shape helps determine what it does.
+Proteins are tiny machines inside your body. They carry oxygen, fight infections, and do countless other jobs.
 
-Knowing a protein’s shape can help scientists understand how a disease works and look for new medicines to treat it.
-
-Figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold changed the scale.
+Knowing a protein’s shape can help scientists understand how a disease works and look for new medicines to treat it. But figuring out their shapes was a slow, difficult job for scientists. Then an AI system called AlphaFold changed the scale.
 
 ### Board 1: A New Scale for Science
 
@@ -38,9 +36,9 @@ A prediction isn’t a finished medicine. Scientists still have to test ideas an
 
 ## 2 · Helping Doctors Find Cancer
 
-When doctors examine breast scans, they’re looking for signs that can be difficult to spot.
+When doctors examine scans, they’re looking for signs that can be difficult to spot.
 
-In a Swedish trial involving over 100,000 women, doctors using AI found more cancers than those working without it.
+In a Swedish trial involving over 100,000 people, doctors using AI found more cancers than those working without it.
 
 ### Board 2: Helping Doctors Find Cancer
 
@@ -58,9 +56,7 @@ Doctors Review. Doctors examine the scan and decide what care is needed.
 
 ## 3 · Making Everyday Tasks Easier
 
-Think about how often you read something without giving it a second thought: a menu, a food label, a sign.
-
-For someone who is blind, that information can be difficult to access.
+Think about how often you read something without giving it a second thought: a menu, a food label, a sign. But it's not the same for blind persons.
 
 ### Board 3: Reading Everyday Information
 
@@ -75,10 +71,6 @@ Reading Everyday Information.
 Point the Camera. A phone camera brings a menu or food label into view.
 
 Hear the Words. AI reads the text aloud, making the information easier to access.
-
-## An Everyday Benefit
-
-These tools can also describe photos. Making an everyday task easier is a meaningful benefit.
 
 ## 4 · Giving People Time to Prepare
 

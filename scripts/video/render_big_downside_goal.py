@@ -10,16 +10,15 @@ from course_credit import save_course_image
 TITLE = 'A Test Became a Real Cyberattack'
 CARDS = (
     ('Assignment', 'Solve cybersecurity challenges inside the test environment.'),
-    ('Boundary Crossed', 'Agents found unauthorized ways to communicate and reach systems outside the test.'),
+    ('Boundary Crossed', 'Agents found unauthorized ways to communicate and access the internet.'),
     ('Harm', 'They hacked into systems at Hugging Face, an AI platform, and accessed private information.'),
 )
-TAKEAWAY = 'The AI pursued the goal, even when that meant cheating.'
 OUTPUT = ROOT / 'course-assets/big-downside/big-downside-goal-test.jpg'
 BOARD = Board(
     key='big-downside-goal-test', title=TITLE, cards=CARDS,
     art_sheet='scripts/video/assets/editorial-full-bleed/big-downside-goal-test/art-sheet.jpg',
     page_output=str(OUTPUT.relative_to(ROOT)), prep_output=str(OUTPUT.relative_to(ROOT)),
-    accents=('#4f2fc4','#1652f0','#c41f28'), takeaway=TAKEAWAY,
+    accents=('#4f2fc4','#1652f0','#c41f28'),
 )
 
 def render():

@@ -547,30 +547,45 @@ and the nuclear-project examples stay removed; no Hit Send board is used.
 
 ### where-will-ai-land
 
-**Full reroll prepared November 16, 2026.** Hanoi shows how a city could collect thousands of tails while its rat problem grew. Four shorter comparisons broaden the question to what people might do with AI that nobody has predicted.
+**Full reroll refreshed November 17, 2026.** Progression: Hanoi makes the gap between expected and actual results concrete; four examples broaden that idea; the AI comparison explains why neither camp can know exactly where AI will land; the close gives a reason to stay curious.
 
 **Notebook sources and handoff**
 
-- Upload the three files in `gemini-notebook/where-will-ai-land/upload/`. They are the narration Markdown, the four-scenario board, and the two-line close. Both JPGs are the canonical course boards and have no visible faces.
-- Paste `gemini-notebook/where-will-ai-land/PROMPT.txt` into video customization.
-- Save the raw roll as `Prompts/where-will-ai-land-reroll.mp4`, using the next unused suffix for subsequent takes.
+- Upload the three files in `gemini-notebook/where-will-ai-land/upload/`: current narration Markdown, Beyond the Plan, and the two-line close. Both JPGs are canonical course boards with no visible faces; no faceless variants are needed.
+- Paste `gemini-notebook/where-will-ai-land/PROMPT.txt` into video customization. Do not upload this kit or the prompt as sources.
+- Save the raw roll as `Prompts/where-will-ai-land-reroll.mp4`, using the next unused suffix for subsequent takes. Never overwrite a raw roll or the installed video.
 
 **Beat spine**
 
-1. Open with “What might we be missing?” in the context of AI’s benefits and harms. Go straight to Hanoi in 1902.
-2. Set up the sewer problem and the payment for tails. Let thousands of tails arrive before revealing the tailless rats. Explain clipping, release, and continued breeding. Deliver the dead-rat/live-rat line with the lesson’s dry humor.
-3. Finish the story with rat farms, the end of the program, a mountain of tails, and more rats. Explain what the payment measured and what the city wanted.
-4. Introduce the four stories with the lesson’s spoken bridge. Give both sides of each comparison in board order. Cover Stoll’s doubts and everyday online shopping, Ford’s flying-car prediction and everyday road travel, unexpected SMS adoption among young people, and the cane toads’ limited pest control, harm to native animals, and spread.
-5. Ask what people might do with AI that neither the Optimists nor the Worriers predict. Follow with the possibility of unanticipated good or harm. Give the listener three things to do: recognize uncertainty, watch what people actually do, and build skills that last when forecasts change.
-6. Show the close board and say its two lines exactly in order.
+1. Open directly with “In 1902, Hanoi had a problem.” No AI introduction, title card, or Hanoi’s Rat Bounty kicker. Explain the sewer problem, payment for tails, and officials’ one-tail/one-dead-rat assumption.
+2. Let thousands of tails arrive before revealing living tailless rats. Explain clipping, release, and continued breeding. Give the dead-rat/live-rat contrast room to land, then rat farms, stopped payments, a pile of tails, and more rats.
+3. Use “In these four stories, compare what people expected with what happened next.” The board is **Beyond the Plan**, in this order: **Text Messaging, GPS, Cane Toads, Wider Highways**. Teach each original purpose followed by its **Unexpected Result**, using the current board’s separate paragraphs and labels.
+4. SMS: early one-way network messages to subscribers became everyday communication, helped by young people. GPS: military positioning/navigation grew into rides, deliveries, and timing that supports phone networks, banks, and power grids. Cane toads: barely controlled sugarcane pests, poisoned native animals, and spread across the country. Highways: $2.8 billion spent to ease congestion; rush-hour trips grew 30%–55% longer between 2011 and 2014; more road space encouraged more driving. The dates are both after the expansion, not a preconstruction/postconstruction comparison.
+5. Only after all four stories, deliver **The Future of AI** comparison from the source. Optimists and Worriers could be wrong; the results could be very different from expectations. Continue with the possibility that AI’s biggest effect, good or bad, is still unimagined, then “That uncertainty gives us a reason to keep paying attention.”
+6. End on the close: “Some of the biggest results are the ones nobody predicted.” / “That’s the best reason to stay curious.” Nothing follows.
 
-**Reroll review.** Check the six passages under REQUIRED VERBATIM AUDIO against the recording. Listen for “Worriers,” the letters S M S, and “nineteen oh two.” Check that all four outcomes make sense with the screen out of view. Keep the texting account within the source wording and preserve the limited pest-control qualifier for cane toads.
+**Reroll review and production continuity**
+
+- Judge complete meaning and natural narration joins. Faithful paraphrases of wording targets are acceptable under David’s instruction; do not reject a take solely for a wording change that preserves the point.
+- Use one consistent Notebook narrator. Do not add an external synthetic voice or restore older mismatched narration. The approved `where-will-ai-land-5` 0:54–1:13 one-tail/tailless-rat reveal remains a possible edit source if needed; it is not an upload source or an automatic graft. Audition any proposed join before using it.
+- Keep the purpose/result contrasts audible without the screen. “It helps” is a natural spoken connective for GPS’s printed “Helps”; do not change the printed board to force a verbatim read.
+- Reveal tailless rats at the correct moment and show the pile of tails near the story’s end. Give the transition into four examples and the later AI comparison a complete sentence and natural cadence.
+- Keep Online Shopping, Flying Cars, “Its creators…” in SMS, farm machinery in GPS, the deleted AI question, and the deleted practical-advice paragraph out. “Safety Runs Behind” remains with Big Downside.
+- This is preparation for a new roll. The installed v10 does not reflect these lesson revisions; do not describe it as updated by syncing this bundle.
+
+**Verification sources (not uploaded or narrated)**
+
+- SMS early applications and two-way design: Friedhelm Hillebrand et al., *Short Message Service (SMS): The Creation of Personal Global Text Messaging* (2010), https://www.academia.edu/17311526/Friedhelm_Hillebrand_Short_Message_Service_SMS_The_Creation_of_Personal_Global_Text_Messaging
+- GPS timing applications: https://archive.gps.gov/applications/timing/
+- Katy Freeway project and $2.8 billion cost: https://www.fhwa.dot.gov/ipd/project_profiles/tx_katy_freeway.aspx
+- 2011–2014 travel-time comparison: https://cityobservatory.org/reducing-congestion-katy-didnt/
+- Road capacity and driving: https://www.nber.org/papers/w15376
 
 ## Changed teaching and scene directions
 
 **Superseded 2026-09-23.** All nine lessons now have rebuilt kit entries above, on the 2026-09-20
 recipe, and each one's teaching requirements and guardrails live in its own Markdown, prompt and beat
-spine. The 2026-09-18 bullets that used to sit here are history, not instructions. The former Wider Highways page question was resolved by removing that example on 2026-10-23.
+spine. The 2026-09-18 bullets that used to sit here are history, not instructions. Wider Highways was removed on 2026-10-23 and restored with revised wording on 2026-11-17; the current lesson entry above governs.
 
 ## Prep versus current page
 

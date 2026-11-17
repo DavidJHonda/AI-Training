@@ -82,6 +82,7 @@ class Card:
     body: str
     eyebrow: str | None = None
     quote: str | None = None
+    result: str | None = None
 
 
 @dataclass(frozen=True)
@@ -452,6 +453,7 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
     title_rows = []
     max_body_lines = 0
     max_quote_lines = 0
+    max_result_lines = 0
     has_eyebrow = any(card.eyebrow for card in board.cards)
     has_quote = any(card.quote for card in board.cards)
     for index, card in enumerate(board.cards):
@@ -461,17 +463,21 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
         title_rows.append(heading_lines)
         body_lines = wrap(measure, card.body, body_font, text_width)
         quote_lines = wrap(measure, card.quote or "", quote_font, text_width)
-        wrapped.append((body_lines, quote_lines))
+        result_lines = wrap(measure, card.result or "", body_font, text_width)
+        wrapped.append((body_lines, quote_lines, result_lines))
         max_body_lines = max(max_body_lines, len(body_lines))
         max_quote_lines = max(max_quote_lines, len(quote_lines))
+        max_result_lines = max(max_result_lines, len(result_lines))
 
     title_height = max(map(len, title_rows)) * title_line
     eyebrow_height = 32 if has_eyebrow else 0
     eyebrow_gap = 10 if has_eyebrow else 0
     quote_gap = 20 if has_quote else 0
+    result_gap = 20 + round(BODY_LINE / 2)
+    result_height = result_gap + 40 + max_result_lines * BODY_LINE if max_result_lines else 0
     text_height = (
         TEXT_TOP + eyebrow_height + eyebrow_gap + title_height + TITLE_BODY_GAP
-        + max_body_lines * BODY_LINE + quote_gap + max_quote_lines * QUOTE_LINE + TEXT_BOTTOM
+        + max_body_lines * BODY_LINE + result_height + quote_gap + max_quote_lines * QUOTE_LINE + TEXT_BOTTOM
     )
     card_height = art_height + text_height
     cards_top = CARDS_TOP if board.title else PADDING
@@ -509,7 +515,7 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
     else:
         panels = split_art_sheet(Image.open(ROOT / board.art_sheet).convert("RGB"), count)
     preserved_art = preserved_panels is not None or (not board.art_files and not (ROOT / board.art_sheet).exists())
-    for index, (card, accent, panel, (body_lines, quote_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
+    for index, (card, accent, panel, (body_lines, quote_lines, result_lines)) in enumerate(zip(board.cards, accents, panels, wrapped)):
         row = 0 if rows == 1 else index // 2
         x = card_xs[index]
         y = cards_top + row * (card_height + GUTTER)
@@ -559,8 +565,12 @@ def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] |
             draw_inner_title(draw, (text_x, text_y + line_index * title_line), line, fill=accent, size=board.card_title_size)
         body_y = text_y + title_height + TITLE_BODY_GAP
         multiline(draw, (text_x, body_y), body_lines, body_font, BODY, BODY_LINE)
+        if result_lines:
+            result_y = body_y + max_body_lines * BODY_LINE + result_gap
+            draw.text((text_x, result_y), "Unexpected Result", font=face("bold", 25), fill=accent)
+            multiline(draw, (text_x, result_y + 40), result_lines, body_font, BODY, BODY_LINE)
         if has_quote and quote_lines:
-            quote_y = body_y + max_body_lines * BODY_LINE + quote_gap
+            quote_y = body_y + max_body_lines * BODY_LINE + result_height + quote_gap
             multiline(draw, (text_x, quote_y), quote_lines, quote_font, INK, QUOTE_LINE)
 
     if footer_top is not None and board.takeaway:

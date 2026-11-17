@@ -82,10 +82,11 @@ const lessons = {
         assert.ok((await page.locator('#main-content').innerText()).includes('Know what to ask.'));
         await page.getByRole('button',{name:/^40 quintillion/}).click();assert.ok((await page.locator('#main-content').innerText()).includes('Click the button again to see a different celebration!'));
       } else {
-        const plans=page.locator('[data-phone-reading-board="unexpectedPlans"] .phone-reading-mobile');assert.deepEqual(await plans.locator('h4').allTextContents(),['Online Shopping','Flying Cars','Text Messaging','Cane Toads']);
-        for(const phrase of ['SMS was built to send short messages over mobile networks.','Its creators did not expect it to take off the way it did.','Young people helped turn texting into an everyday way to stay in touch.','Australia imported cane toads to eat beetles destroying sugarcane.','They barely controlled the pests, poisoned native animals, and spread across the country.'])assert.ok((await plans.innerText()).includes(phrase),phrase);
-        for(const answer of ['About 20,000','They smuggled rats in from outside the city','Temperature regulation','Get lots of cats','About 15,000'])await page.getByRole('button',{name:answer,exact:true}).click();
-        for(const phrase of ['20,114 tails in a single day.','rat import business.','about 17% of its heat loss','incentives point the right way.','about 15,000 in a single year under ideal conditions.'])assert.ok((await page.locator('#main-content').innerText()).includes(phrase),phrase);
+        const plans=page.locator('[data-phone-reading-board="unexpectedPlans"] .phone-reading-mobile');assert.deepEqual(await plans.locator('h4').allTextContents(),['Text Messaging','GPS','Cane Toads','Wider Highways']);
+        for(const phrase of ['Early SMS services sent short, one-way messages from mobile networks to subscribers.','Young people helped turn texting into an everyday way to stay in touch.','Australia imported cane toads to eat beetles destroying sugarcane.','They barely controlled the pests, poisoned native animals, and spread across the country.'])assert.ok((await plans.innerText()).includes(phrase),phrase);
+        assert.equal(await plans.getByText('Unexpected Result',{exact:true}).count(),4);
+        for(const answer of ['A rat had been killed','They smuggled rats in from outside the city','Temperature regulation','Fewer rats living in the city','Students can explain and solve problems on their own'])await page.getByRole('button',{name:answer,exact:true}).click();
+        for(const phrase of ['Officials treated each tail as evidence of a dead rat.','rat import business.','about 17% of its heat loss','The goal was fewer rats.','The goal is learning.'])assert.ok((await page.locator('#main-content').innerText()).includes(phrase),phrase);
         assert.equal(await page.getByRole('button',{name:'Play The Hanoi Rat Story (optional video, 4 minutes 28 seconds)',exact:true}).count(),1);
         assert.equal(await page.locator('a[href="group-exercises/where-will-ai-land/what-happened-next.html"]').count(),1);
       }

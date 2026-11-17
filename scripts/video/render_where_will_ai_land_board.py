@@ -10,19 +10,21 @@ OUTPUT = ROOT / 'course-assets/where-will-ai-land/where-will-ai-land-plans.jpg'
 
 
 def main():
-    lesson = (ROOT / 'lessons/where-will-ai-land.md').read_text().splitlines()
-    title = next(line.split(': ', 1)[1] for line in lesson if line.startswith('### Board 1:'))
+    lesson = (ROOT / 'lessons/where-will-ai-land.md').read_text()
+    title = next(line.split(': ', 1)[1] for line in lesson.splitlines() if line.startswith('### Board 1:'))
+    paragraphs = lesson.split('\n\n')
     cards = []
-    for name in ('Online Shopping', 'Flying Cars', 'Text Messaging', 'Cane Toads'):
+    for name in ('Text Messaging', 'GPS', 'Cane Toads', 'Wider Highways'):
         prefix = name + '. '
-        body = next(line[len(prefix):] for line in lesson if line.startswith(prefix))
-        cards.append(Card(name, body))
+        position = next(i for i, paragraph in enumerate(paragraphs) if paragraph.startswith(prefix))
+        body = paragraphs[position][len(prefix):]
+        assert paragraphs[position + 1] == '**Unexpected Result**'
+        cards.append(Card(name, body, result=paragraphs[position + 2]))
     board = CardBoard(key='where-will-ai-land-plans', title=title, cards=tuple(cards),
                       art_sheet='', page_output=str(OUTPUT.relative_to(ROOT)), prep_output='',
-                      accents=(PURPLE, AMBER, BLUE, TEAL))
-    with Image.open(ROOT / 'course-assets/loudest-voices/loudest-voices-missed-predictions.jpg') as original:
-        panels = [original.crop((x, 128, x + 741, 467)).convert('RGB') for x in (42, 817)]
-    for filename in ('text-messaging.png', 'cane-toads.png'):
+                      accents=(PURPLE, BLUE, TEAL, AMBER))
+    panels = []
+    for filename in ('text-messaging.png', 'gps.png', 'cane-toads.png', 'wider-highways.png'):
         with Image.open(ASSETS / filename) as source:
             panels.append(source.convert('RGB'))
     image = render_card_board(board, preserved_panels=panels)

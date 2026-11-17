@@ -221,6 +221,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     .phone-reading-number { display: inline-grid; place-items: center; flex: 0 0 30px; height: 30px; border-radius: 50%; background: var(--phone-reading-accent); color: white; font-size: 16px; }
     .phone-reading-card > .phone-reading-number { display: grid; width: 30px; margin: 10px auto; }
     .phone-reading-example { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule); }
+    .phone-reading-result { margin-top: calc(18px + 0.5lh); }
     .phone-reading-example ul { margin: 0; padding-left: 22px; }
     .phone-reading-example li + li { margin-top: 8px; }
     .phone-reading-note { margin-top: 16px; padding: 16px; border-radius: 12px; background: var(--card); }
@@ -1828,7 +1829,7 @@ const LESSON_VIDEOS = {
   agents: { src: "course-assets/rise-of-agents/rise-of-agents.mp4?v=20261008ship1", duration: "3 min", title: "A chatbot answers. An agent acts. Your name rides along." },
   workchanges: { src: "course-assets/work-changes/work-changes.mp4?v=20261026ship1", duration: "3 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
   computecost: { src: "course-assets/data-centers/data-centers.mp4?v=20261009ship8", duration: "4 min", title: "The real machines behind every instant answer.", cta: "Be sure to answer the special bonus question!" },
-  unexpected: { src: "course-assets/where-will-ai-land/where-will-ai-land.mp4?v=20261116ship10", duration: "4 min", title: "Plans can work perfectly and still surprise everyone." }
+  unexpected: { src: "course-assets/where-will-ai-land/where-will-ai-land.mp4?v=20261116ship10", duration: "4 min", title: "What happens can be very different from what anyone expected." }
 };
 // Third line of the WatchOverview card: nudges the watcher toward the hands-on activity.
 // Per-video override via a `cta` field on the LESSON_VIDEOS entry (e.g. opener lessons
@@ -3907,7 +3908,7 @@ const SECTION_META = {
   bigupside: { kicker: "THE UPSIDE IS REAL", label: "Big Upside", title: "Big Upside", icon: "\uD83D\uDD2C" },
   workchanges: { kicker: "SAME TITLE, DIFFERENT WORK", label: "Work Changes", icon: "\uD83D\uDCCA" },
   computecost: { kicker: "WHAT AN ANSWER COSTS", label: "Data Centers", title: "Data Centers", icon: "\uD83D\uDD0C" },
-  unexpected: { kicker: "THE ONE SURE THING", label: "Where Will AI Land?", title: "Where Will AI Land?", icon: "\uD83C\uDFB2" },
+  unexpected: { kicker: "UNEXPECTED RESULTS", label: "Where Will AI Land?", title: "Where Will AI Land?", icon: "\uD83C\uDFB2" },
   whatpeoplesay: { kicker: "WHERE DOES IT LAND?", label: "Loudest Voices", title: "Loudest Voices", icon: "\uD83D\uDDE3\uFE0F" },
   paceofchange: { kicker: "FASTER EVERY YEAR", label: "Pace of Change", title: "Pace of Change", icon: "\uD83D\uDCC8" },
   bigdownside: { kicker: "THE CASE FOR WORRY", label: "Big Downside", title: "Big Downside", icon: "\u26A0\uFE0F" },
@@ -5172,6 +5173,7 @@ function PhoneReadingCards(props) {
             card.title ? E("h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title) : null,
             card.label && board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
             E("p", null, card.body),
+            card.result ? E("div", { className: "phone-reading-example phone-reading-result" }, E("p", { className: "phone-reading-label" }, "Unexpected Result"), E("p", null, card.result)) : null,
             card.studyExample ? E("div", { className: "phone-reading-example" }, E("p", null, card.studyExample)) : null,
             card.include ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Include"), E("ul", null, card.include.map(function(item) { return E("li", { key: item }, item); }))) : null,
             card.weak ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Weak"), E("p", null, card.weak)) : null,
@@ -6008,11 +6010,11 @@ Object.assign(PHONE_READING_BOARDS, {
     {title:'Better Cooling',accent:'#1652f0',art:[557,128,485,273],body:'Some cooling designs reuse water, reducing how much new water they need.'},
     {title:'More Efficient Chips',accent:'#0e8f86',art:[1075,128,485,273],body:'Better chips can do more work with each unit of electricity.'}
   ],takeaway:'More power meets demand. Better efficiency reduces the resources needed per task.'},
-  unexpectedPlans:{title:'What People Expected. What Actually Happened.',width:1600,height:1461,cards:[
-    {title:'Online Shopping',accent:'#4f2fc4',art:[40,127,744,339],body:'In 1995, Clifford Stoll doubted online shopping could compete with malls. Buying online became an everyday habit.'},
-    {title:'Flying Cars',accent:'#a9760c',art:[816,127,744,339],body:'In 1940, Henry Ford predicted a flying car was coming. People still make everyday trips by road.'},
-    {title:'Text Messaging',accent:'#1652f0',art:[40,790,744,339],body:'SMS was built to send short messages over mobile networks. Its creators did not expect it to take off the way it did. Young people helped turn texting into an everyday way to stay in touch.'},
-    {title:'Cane Toads',accent:'#0e8f86',art:[816,790,744,339],body:'Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.'}
+  unexpectedPlans:{title:'Beyond the Plan',width:1600,height:1703,cards:[
+    {"title": "Text Messaging", "body": "Early SMS services sent short, one-way messages from mobile networks to subscribers.", "result": "Young people helped turn texting into an everyday way to stay in touch.", "accent": "#4f2fc4", "art": [40, 127, 744, 339]},
+    {"title": "GPS", "body": "GPS was built to help the military pinpoint locations and navigate around the world.", "result": "Helps people find rides and get deliveries. Its precise timing also helps keep phone networks, banks, and power grids running.", "accent": "#1652f0", "art": [816, 127, 744, 339]},
+    {"title": "Cane Toads", "body": "Australia imported cane toads to eat beetles destroying sugarcane.", "result": "They barely controlled the pests, poisoned native animals, and spread across the country.", "accent": "#0e8f86", "art": [40, 911, 744, 339]},
+    {"title": "Wider Highways", "body": "Houston spent $2.8 billion widening the Katy Freeway to ease congestion.", "result": "Rush-hour trips grew 30% to 55% longer between 2011 and 2014. More road space encouraged more driving.", "accent": "#a9760c", "art": [816, 911, 744, 339]}
   ]}
 });
 function TenthPhoneReadingBoard(props) {
@@ -15826,37 +15828,38 @@ function UnexpectedResultsSection(props) {
     E(LessonHeader, { sectionId: "unexpected" }),
     React.createElement(LessonReading, { sectionId: "unexpected" },
     E(BodyP, null,
-      "You’ve seen how AI can help and how it can hurt. What might we be missing? To see why that’s a hard question, start with a city that paid people to catch rats."),
-    E(SectionKicker, null, "Hanoi, 1902"),
+      "In 1902, Hanoi had a problem. There were too many rats in the city’s new sewers. No worries. They devised a perfect plan. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. The brilliance of the plan!"),
     E(BodyP, null,
-      "The city had a big problem. There were too many rats in the new sewers. No worries. They devised a perfect plan. Turn in a rat’s tail, collect a payment. Tails poured in by the thousands. The brilliance of the plan!"),
+      "Then people saw something very strange: rats running around the city with no tails. What do you think happened?"),
     E(BodyP, null,
-      "Then people saw something very strange: rats running around the city with no tails. What do you think happened? Time to practice those advanced critical thinking skills!"),
-    E(BodyP, null,
-      "It was another math thing. Rats can live a relatively full “rat life” even without their tails, and keep having more rat babies. The rat hunters, even without AI, came up with a clever plan to keep the rat-tail supply strong. They clipped the tails, but let the rats live. A dead rat pays once. A live rat pays forever."),
+      "Rats can live a relatively full “rat life” even without their tails, and keep having more rat babies. The rat hunters, even without AI, came up with a clever plan to keep the rat-tail supply strong. They clipped the tails, but let the rats live. A dead rat pays once. A live rat pays forever."),
     E(BodyP, null,
       "Some rat entrepreneurs went even further. They started ", E("strong", null, "rat farms"), ". You probably know where this is going. When Hanoi stopped the program, they had a mountain of rat tails, but more rats than when it started."),
-    E(BodyP, null,
-      "What’s the moral of this story? The payment system worked exactly as designed. People delivered tails, and the government paid them. But the real goal was fewer rats, and the program encouraged people to keep rats alive."),
+    E(SectionKicker, null, "Unexpected Results"),
     E(BodyP, null, "In these four stories, compare what people expected with what happened next."),
     React.createElement(TenthPhoneReadingBoard, {kind:"unexpectedPlans",image:E("img", {
-      src: "course-assets/where-will-ai-land/where-will-ai-land-plans.jpg?v=20261116fourscenarios",
-      alt: "What People Expected. What Actually Happened. Online Shopping. In 1995, Clifford Stoll doubted online shopping could compete with malls. Buying online became an everyday habit. Flying Cars. In 1940, Henry Ford predicted a flying car was coming. People still make everyday trips by road. Text Messaging. SMS was built to send short messages over mobile networks. Its creators did not expect it to take off the way it did. Young people helped turn texting into an everyday way to stay in touch. Cane Toads. Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.",
+      src: "course-assets/where-will-ai-land/where-will-ai-land-plans.jpg?v=20261117highwaycost",
+      alt: "Beyond the Plan. Text Messaging. Early SMS services sent short, one-way messages from mobile networks to subscribers. Unexpected Result. Young people helped turn texting into an everyday way to stay in touch. GPS. GPS was built to help the military pinpoint locations and navigate around the world. Unexpected Result. Helps people find rides and get deliveries. Its precise timing also helps keep phone networks, banks, and power grids running. Cane Toads. Australia imported cane toads to eat beetles destroying sugarcane. Unexpected Result. They barely controlled the pests, poisoned native animals, and spread across the country. Wider Highways. Houston spent $2.8 billion widening the Katy Freeway to ease congestion. Unexpected Result. Rush-hour trips grew 30% to 55% longer between 2011 and 2014. More road space encouraged more driving.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     E("div", { className: "md-source", style: { display: "none" } },
-      E("h3", null, "What People Expected. What Actually Happened."),
-      E("p", null, E("strong", null, "Online Shopping. "), "In 1995, Clifford Stoll doubted online shopping could compete with malls. Buying online became an everyday habit."),
-      E("p", null, E("strong", null, "Flying Cars. "), "In 1940, Henry Ford predicted a flying car was coming. People still make everyday trips by road."),
-      E("p", null, E("strong", null, "Text Messaging. "), "SMS was built to send short messages over mobile networks. Its creators did not expect it to take off the way it did. Young people helped turn texting into an everyday way to stay in touch."),
-      E("p", null, E("strong", null, "Cane Toads. "), "Australia imported cane toads to eat beetles destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.")),
-    E(SectionKicker, null, "The one sure thing"),
+      E("h3", null, "Beyond the Plan"),
+      E("p", null, E("strong", null, "Text Messaging. "), "Early SMS services sent short, one-way messages from mobile networks to subscribers."),
+      E("p", null, E("strong", null, "Unexpected Result. "), "Young people helped turn texting into an everyday way to stay in touch."),
+      E("p", null, E("strong", null, "GPS. "), "GPS was built to help the military pinpoint locations and navigate around the world."),
+      E("p", null, E("strong", null, "Unexpected Result. "), "Helps people find rides and get deliveries. Its precise timing also helps keep phone networks, banks, and power grids running."),
+      E("p", null, E("strong", null, "Cane Toads. "), "Australia imported cane toads to eat beetles destroying sugarcane."),
+      E("p", null, E("strong", null, "Unexpected Result. "), "They barely controlled the pests, poisoned native animals, and spread across the country."),
+      E("p", null, E("strong", null, "Wider Highways. "), "Houston spent $2.8 billion widening the Katy Freeway to ease congestion."),
+      E("p", null, E("strong", null, "Unexpected Result. "), "Rush-hour trips grew 30% to 55% longer between 2011 and 2014. More road space encouraged more driving.")),
+
+    E(SectionKicker, null, "The Future of AI"),
     E(BodyP, null,
-      "What might people do with AI that neither the Optimists nor the Worriers are predicting? The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet."),
+      "These stories show how different the results can be from what people expected. The predictions we hear from AI Optimists and AI Worriers could be wrong, too. Nobody knows exactly where AI will land. The results could be very different from what people expect."),
     E(BodyP, null,
-      "That’s not a reason to fear the future. It’s the reason to walk into it curious, with your eyes open."),
+      "The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet."),
     E(BodyP, null,
-      "You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes."),
+      "That uncertainty gives us a reason to keep paying attention."),
     closeBoard("unexpected")),
     E(RatQuizTryIt, null),
     E(UnexpectedResultsGroupExercise, null),
@@ -15867,18 +15870,13 @@ function UnexpectedResultsSection(props) {
 }
 
 function RatQuizTryIt(props) {
-  // All facts verified 2026-08-14: 20,114 tails on 1902-06-12 and countryside
-  // smuggling are from Vann's archival research; tail thermoregulation (5% of
-  // surface area, ~17% of heat loss) and ~15,000 descendants/year (pest-control
-  // standard estimate) are documented. The very large alternatives are
-  // deliberately implausible scale-gag distractors.
   var QUESTIONS = [
     {
-      q: "On the single biggest day of the hunt, how many rat tails were turned in?",
+      q: "What did Hanoi’s officials assume each tail proved?",
       options: [
-        { label: "100 septillion", feedback: "That is far above the reported count. The real record: 20,114 tails in one day." },
-        { label: "2 quadrillion", feedback: "That is far above the reported count. The real record was 20,114 tails in one day, which is still an absurd number of rats." },
-        { label: "About 20,000", correct: true, feedback: "Right. June 12, 1902: 20,114 tails in a single day. That number is real, straight from the colonial archives." }
+        { label: "A rat had been killed", correct: true, feedback: "Officials treated each tail as evidence of a dead rat. The hunters found a way to deliver tails while keeping rats alive." },
+        { label: "A rat had been caught inside the city", feedback: "A tail did not show where a rat came from. Officials used tails as evidence that rats had been killed." },
+        { label: "A rat had stopped reproducing", feedback: "Officials assumed the rat had been killed. But rats could survive without their tails and keep reproducing." }
       ]
     },
     {
@@ -15898,19 +15896,19 @@ function RatQuizTryIt(props) {
       ]
     },
     {
-      q: "Which strategy might have worked better?",
+      q: "What would best show whether the bounty was solving Hanoi’s problem?",
       options: [
-        { label: "Get lots of cats", correct: true, feedback: "Maybe! Cats are nature\u2019s rat patrol, and nobody can trick a cat with a clipped tail. City rats often outnumber the cats, but at least the incentives point the right way." },
-        { label: "Destroy the sewers", feedback: "The French had just built those sewers. Blowing up your own plumbing to fix a plumbing problem would be its own unexpected result." },
-        { label: "Adopt the rats as pets", feedback: "Bold. Fifty thousand new pets by summer. Hanoi was not ready for that timeline." }
+        { label: "More tails being turned in", feedback: "More tails could come from rats that were kept alive or bred for the bounty. The goal was fewer rats living in the city." },
+        { label: "More people collecting payments", feedback: "More payments showed that people were participating. They did not show whether the rat population was falling." },
+        { label: "Fewer rats living in the city", correct: true, feedback: "The goal was fewer rats. Counting tails and payments made the program look successful while missing what was actually happening." }
       ]
     },
     {
-      q: "After a year, how many descendants might one pair of rats have?",
+      q: "A school introduces AI tutoring to help students learn. Which result would show the plan is working?",
       options: [
-        { label: "100 septillion", feedback: "That number is far too high. The standard estimate: about 15,000 descendants in one year." },
-        { label: "2 quadrillion", feedback: "That number is far too high for this rat family tree. The standard estimate: about 15,000 in one year, which is horrifying enough." },
-        { label: "About 15,000", correct: true, feedback: "Right, about 15,000 in a single year under ideal conditions. Now you see why clipped-but-alive rats defeated the entire program." }
+        { label: "Students spend more time chatting with the tutor", feedback: "More time chatting shows activity. To see whether students are learning, check what they can explain and solve on their own." },
+        { label: "Students can explain and solve problems on their own", correct: true, feedback: "The goal is learning. More activity and more answers can look like progress, but what matters is what students understand and can do." },
+        { label: "The tutor gives students more answers", feedback: "More answers show what the tutor produces. The goal is for students to understand and solve problems themselves." }
       ]
     }
   ];
@@ -15919,9 +15917,9 @@ function RatQuizTryIt(props) {
   useEffect(function() { if (answeredCount >= QUESTIONS.length && props.onComplete) props.onComplete(); }, [answeredCount]);
   return /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try", surface: "mint", title: "The Great Hanoi Rat Quiz",
-    lead: "Every bit of the rat story is true, and the details get even better.",
+    lead: "Explore the rat story, then apply what you learned to AI.",
     instructions: [
-      "Read the question about the rat story.",
+      "Read each question.",
       "Choose your best answer."
     ]
   },

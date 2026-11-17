@@ -564,7 +564,7 @@ def render_unexpected():
         draw.text((x + 160, y + 98), plan, font=font("demi", 28), fill=BODY)
         draw.text((x + 42, y + 161), "RESULT", font=font("heavy", 24), fill=MUTED)
         draw.text((x + 160, y + 156), outcome, font=font("demi", 28), fill=BODY)
-    save(image, "navigate-the-future", "unexpected-results-plan-outcome-alternative.jpg")
+    save(image, "navigate-the-future", "where-will-ai-land-plan-outcome-alternative.jpg")
 
 
 def make_contact_sheet(section, filenames, output_name):
@@ -630,7 +630,7 @@ def main():
         "rise-of-agents-loop-alternative.jpg",
         "work-changes-automate-augment-alternative.jpg",
         "hidden-cost-calculations-alternative.jpg",
-        "unexpected-results-plan-outcome-alternative.jpg",
+        "where-will-ai-land-plan-outcome-alternative.jpg",
     ], "remaining-alternatives-contact-sheet.jpg")
 
 

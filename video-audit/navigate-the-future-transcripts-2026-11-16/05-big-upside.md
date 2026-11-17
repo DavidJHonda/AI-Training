@@ -1,0 +1,17 @@
+# 5. Big Upside
+
+`course-assets/big-upside/big-upside.mp4` · 3:32 · 531 words
+
+**[0:00]** We hear a lot about artificial intelligence, but at its core, AI is essentially a giant calculator. It is a system running math at a scale that nobody can easily picture. But that calculator can do some amazing things right now. It can help scientists investigate diseases, assist doctors in finding cancer, and help someone read a food label they couldn't read before. The big upside of this technology isn't a distant promise. It is already happening. Inside your body, proteins act as tiny machines. They do countless jobs, from carrying oxygen through your bloodstream to fighting off infections. The specific shape of a protein helps determine exactly what it does. Knowing a protein's shape can help scientists understand how a disease works and look for new medicines to treat it.
+
+**[0:50]** But figuring out those complex shapes manually was a notoriously slow and difficult job for researchers. AlphaFold AI changed the scale. Before, we had about 200 ,000 protein structures determined through decades of experiments. Now, there are over 200 million protein structures predicted and shared free. But remember, a prediction isn't a finished medicine. Scientists still have to test ideas and do the research. We see similar acceleration in medicine. When doctors examine breast scans, they are looking for tiny visual signs that can be incredibly difficult to spot. In a Swedish trial involving over 100 ,000 women, doctors using AI found more cancers than those working without it.
+
+**[1:38]** This graphic illustrates how that workflow functions. The AI highlights patterns in a scan that deserve a closer look. This system does not replace human judgment. Doctors examine the highlighted scan, apply their medical expertise, and decide what care is needed.
+
+**[1:54]** Now think about how often you read something without giving it a second thought. A menu at a restaurant, a food label at the store, or a street sign. For someone who is blind or has low vision, accessing that everyday information can be a difficult barrier. This diagram shows a practical solution. A person points their phone camera to bring a menu or a food label into view. The AI recognizes the text on the object and reads it aloud. It can also describe the contents of photos. Making an everyday, ordinary task easier to navigate provides a profoundly meaningful benefit. AI is also providing crucial time. For any community sitting in a flood's path, time is the most valuable resource. AI helps provide free early warnings, and it is especially useful in regions that lack physical equipment to measure river levels.
+
+**[2:44]** As shown here, predictive modeling allows the AI to provide accurate flood warnings days ahead of time. People get the time they need to prepare and move out of harm's way before the water arrives.
+
+**[2:58]** What do these four distinct examples—investigating disease, finding cancer, reading a label, and preparing for a flood—have in common? In each case, computational power supports human effort. Scientists get a starting point. Doctors get help finding something important. People get access to information. Communities get time to prepare. These are making a difference in people's lives.
+
+**[3:23]** The big upside is happening today. AI is already accelerating work that protects and improves lives.

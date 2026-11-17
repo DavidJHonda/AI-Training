@@ -1,0 +1,17 @@
+# 6. Where Will AI Land? (was Unexpected Results)
+
+`course-assets/where-will-ai-land/where-will-ai-land.mp4` · 3:24 · 524 words
+
+**[0:00]** Right now, you can find thousands of tech experts making incredibly confident, hyper-specific predictions about exactly where artificial intelligence is heading. The best way to see it is a true story about rats.
+
+**[0:13]** In 1902, the city of Hanoi was rapidly modernizing. The colonial government laid down miles of new, state-of-the-art sewer pipes. Unfortunately, those dark, protected tunnels provided the perfect breeding ground for a massive rat infestation. City officials devised what looked like a mathematically flawless solution. They created a bounty system, offering citizens a small cash payment for every severed rat tail handed in. Initially, the metrics looked phenomenal. Tails poured into government offices by the thousands on a daily basis. But shortly after the program launched, citizens started noticing healthy, completely tailless rats scurrying around the city streets. The math had a biological loophole.
+
+**[0:59]** A rat can survive perfectly fine without its tail. And more importantly, it can keep making more rat babies. The rat hunters figured out that killing the animal destroyed their own supply chain. So they caught the rats, clipped the tails to collect the cash, and released them back into the sewers to breed. A dead rat pays once. A live rat pays forever. Some local entrepreneurs realized hunting wild rats was too much work, so they bypassed the sewers entirely and set up dedicated rat breeding farms.
+
+**[1:32]** The government eventually caught onto the scam and completely scrapped the bounty program. They were left with a literal mountain of severed tails in their offices, but the actual living rat population in Hanoi was significantly higher than before the bounty started. But the real goal was fewer rats, and the program encouraged people to keep rats alive. Hanoi's plan was fewer rats. The unexpected result was more rats. Here are two more unexpected results, one welcome surprise and one costly mistake. First, look at SMS text messaging. It was originally built strictly to send short, utilitarian messages over early mobile networks. Its creators did not expect it to be a primary feature. Instead, young users got hold of the technology and repurposed it, turning texting into a daily, constant way to stay in touch with each other.
+
+**[2:23]** Australia imported cane toads to eat beetles, destroying sugarcane. They barely controlled the pests, poisoned native animals, and spread across the country.
+
+**[2:32]** Now, point that historical track record directly at the AI experts making today's headlines. Every AI expert working today is making a firm prediction about our future. These are smart, well-researched forecasts built on solid data from all camps. The most important thing AI does in your lifetime, good or bad, may be something nobody in any camp, any lab, or any course has thought of yet. That's not a reason to fear the future. It's the reason to walk into it curious, with your eyes open. You do not need to predict the future perfectly. You need to recognize uncertainty, watch what people actually do, and build skills that still matter when the forecast changes. As this final text banner highlights, some of the biggest results are the ones nobody predicted.
+
+**[3:20]** That's the best reason to stay curious.

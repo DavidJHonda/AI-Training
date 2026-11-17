@@ -1,5 +1,7 @@
 # Navigate the Future Video Kits
 
+> November 16 lesson revision. Loudest Voices goes from the experts to What’s in Your Hands? Where Will AI Land? follows Big Upside, opens with Hanoi, and teaches the four scenarios on one board. Use the current Markdown, prompts, and upload sets for these two lessons.
+
 > Further shortening approved 2026-10-27: Remove the Magellan detour and repeated commentary about filling blank spaces with hopes/fears and preparing for uncertain trajectories. Retain what sailors unexpectedly found, both views, the permanence qualification, section map, and close. Current lesson and prompt supersede historical instructions below.
 
 > Current opener revision (2026-10-27): the opening blue declaration board is retired. Start directly with the revised lesson narration; retain the analogy, section map, and close. Essential points are folded into prose. This supersedes opening-board, creed, and opening-quote requirements below. Consult `gemini-notebook/upload-sets.json` for current preparation status and uploads. The existing MP4 still awaits revision.
@@ -81,6 +83,16 @@ what the map says.
 
 ### loudest-voices
 
+**Current full-lesson reroll.** The added voice at 1:41–1:54 in the v16 review cut interrupted the transition. Generate the entire lesson with the same two hosts throughout. When reviewing a roll, listen from the final expert admission into the first hands example. One familiar host should carry the thought from “None of them has a simple, one-sided view” through “That’s where to put your energy.” Use the continuous passage from the roll for the edit.
+
+Upload the lesson Markdown and the three boards in `gemini-notebook/loudest-voices/upload/`. Paste the adjacent `PROMPT.txt` into the video customization box.
+
+1. Open with the competing opinions about AI. Introduce Dario Amodei and Geoffrey Hinton and quote what each predicts and what each admits.
+2. Hold the experts board as the host explains where the two views overlap and why a ten-year forecast is a bet.
+3. Reveal the hands board on “What’s actually in your hands?” Teach the five pairs, then the two-line close. The historical examples belong in *Where Will AI Land?*
+
+**Historical releases**
+
 **v12 shipped locally 2026-10-22 on David’s approval; queued for batch deployment.**
 Runtime 4:36.733, cache key `20261022v12`, pill 5 min. Two-expert board; Doubter removed;
 earlier board entrance; redundant highest-levels sentence cut; Hinton flash repaired;
@@ -93,44 +105,6 @@ rebuilt kit, re-edited to apply David's three notes on v6 (built by
 `video-audit/loudest-voices-rolls-2026-09-23/REVIEW.md`, build record in its `build-v7/`).
 The earlier v5 (shipped 2026-09-18, a best-of of the old-method rolls) was graded **REROLL** on
 2026-09-23: `video-audit/loudest-voices-evaluation-2026-09-23/REVIEW.md`.
-
-- Markdown: `lessons/loudest-voices.md` (rewritten 2026-09-23: board titles carried as spoken
-  sentences; the page prose after Board 1 moved under `## THE TELL`; the required lines split onto
-  their own lines; the verification-only sources line removed from the narration base, its guardrail
-  now in the prompt)
-- Prompt: `gemini-notebook/loudest-voices/PROMPT.txt` (492 words, four blocks)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/loudest-voices/` (synced 2026-09-24)
-- Canonical folder: `course-assets/loudest-voices/`
-- Boards in lesson order (no faces; all upload):
-  - `loudest-voices-experts.jpg` — upload
-  - `loudest-voices-missed-predictions.jpg` — upload
-  - `course-assets/in-your-hands/in-your-hands-in-or-out.jpg` — upload
-  - `loudest-voices-close.jpg` — upload
-
-**Beat spine**
-
-1. Hook over a drawn scene: opinions everywhere; who do you believe? Answer: the people who make AI
-   for a living. "Same field. Same evidence. Very different bets."
-2. Even the Experts Don't Know: Amodei the Optimist and Hinton the Worrier, in board
-   order; each with his background, then his SAYS and BUT ADMITS quotations read word for word.
-3. The tell (over a drawn scene, board gone): "None of them has a simple, one-sided view." Optimist
-   sees danger / Worrier sees benefits; the people who know AI best still
-   don't know where it's going. "Where AI will be in ten years is a bet."
-4. This Has Happened Before: Stoll 1995, Ballmer 2007, Metcalfe 1996, Ford 1940, each with person,
-   year, prediction, outcome; banner "The future is hard to predict because people change the result."
-5. Why were they wrong: "A technology becomes the future only when people change their habits around
-   it. Machines improve fast. Habits change at human speed."
-6. In Your Hands: ask what is in your hands and what is not; teach the five paired items,
-   the board takeaway, and where to put your energy.
-7. Close on the two current lines with nothing after.
-
-**Required verbatim lines:** the six in the prompt (the three-beat bets line, the one-sided line, the
-banner, the three habits sentences as one line, and the two closing lines). The four expert quotations
-are demanded word for word in the beat spine rather than the verbatim list, to keep the list short.
-
-**Banned words:** exponential, neural network, stakeholders, leverage, framework, utilize, narrative,
-paradigm; no screen/panel/board-position references; no invented numbers or charts; no source citations;
-the Right or Wrong? activity is not narrated.
 
 ### pace-of-change
 
@@ -571,59 +545,26 @@ whole-card highlights on the neighbours and demand boards, none on the warehouse
 close. The retired fixed training total, the 2,000-word chat claim, the separate electricity qualifier
 and the nuclear-project examples stay removed; no Hit Send board is used.
 
-### unexpected-results
+### where-will-ai-land
 
-**Reroll preparation revised 2026-10-23.** David likes the opening rat section but requested a
-fresh roll because narration mis-speaks weaken the video. Prepare a complete fresh narration,
-retaining the rat story's sequence, detail and dry humor. The main teaching is unexpected results:
-Hanoi's plan produced more rats; texting and cane toads are two further unexpected results.
-The new bridge makes that connection explicit. Do not turn the lesson into a general discussion
-of rewards or imply every example works through the rat story's mechanism.
+**Full reroll prepared November 16, 2026.** Hanoi shows how a city could collect thousands of tails while its rat problem grew. Four shorter comparisons broaden the question to what people might do with AI that nobody has predicted.
 
-**Progression:** confident predictions can miss outcomes → Hanoi's vivid example → two further
-unexpected outcomes, one beneficial and one harmful → AI uncertainty and curiosity.
+**Notebook sources and handoff**
 
-- Markdown: `lessons/unexpected-results.md`; the explicit bridge restates the current page's
-  teaching for narration. The live page and finished video are unchanged by this preparation pass.
-- Prompt: `gemini-notebook/unexpected-results/PROMPT.txt`, four blocks, under 500 words.
-- Registry: `gemini-notebook/upload-sets.json`.
-- Uploads: the Markdown, `unexpected-results-plans.jpg`, and `unexpected-results-close.jpg`.
-  Both boards are canonical files under `course-assets/unexpected-results/`. Neither needs a
-  face-free variant. Do not upload an old video, review notes, or this kit.
-- Save the fresh raw roll as `Prompts/unexpected-results-reroll.mp4`, or the next unused suffix.
-- Texting fact check: `docs/unexpected-results-sms-sources-2026-10-23.md`.
+- Upload the three files in `gemini-notebook/where-will-ai-land/upload/`. They are the narration Markdown, the four-scenario board, and the two-line close. Both JPGs are the canonical course boards and have no visible faces.
+- Paste `gemini-notebook/where-will-ai-land/PROMPT.txt` into video customization.
+- Save the raw roll as `Prompts/where-will-ai-land-reroll.mp4`, using the next unused suffix for subsequent takes.
 
 **Beat spine**
 
-1. Brief AI opinions hook, then the true story about rats.
-2. Hanoi, 1902: sewers, tail payments, thousands of tails, then tailless rats.
-3. Explain survival and breeding, clipping and release, the pays-once joke, rat farms, and more rats.
-4. The system paid for tails but the goal was fewer rats. State the unexpected result explicitly.
-5. Introduce two MORE unexpected results. Texting became more popular than its creators expected,
-   with young people helping make it an everyday habit. Cane toads failed to solve the pest problem,
-   harmed native animals and spread. Speak these explanations; the board cannot substitute for them.
-6. Apply the pattern to AI: its most important effects may be unanticipated, good or bad.
-7. Stay curious, recognize uncertainty, watch what people actually do, build durable skills.
-8. End on the exact two closing lines, with nothing afterward.
+1. Open with “What might we be missing?” in the context of AI’s benefits and harms. Go straight to Hanoi in 1902.
+2. Set up the sewer problem and the payment for tails. Let thousands of tails arrive before revealing the tailless rats. Explain clipping, release, and continued breeding. Deliver the dead-rat/live-rat line with the lesson’s dry humor.
+3. Finish the story with rat farms, the end of the program, a mountain of tails, and more rats. Explain what the payment measured and what the city wanted.
+4. Introduce the four stories with the lesson’s spoken bridge. Give both sides of each comparison in board order. Cover Stoll’s doubts and everyday online shopping, Ford’s flying-car prediction and everyday road travel, unexpected SMS adoption among young people, and the cane toads’ limited pest control, harm to native animals, and spread.
+5. Ask what people might do with AI that neither the Optimists nor the Worriers predict. Follow with the possibility of unanticipated good or harm. Give the listener three things to do: recognize uncertainty, watch what people actually do, and build skills that last when forecasts change.
+6. Show the close board and say its two lines exactly in order.
 
-**Narration checks:** all seven required lines must be standalone in the Markdown and spoken at
-their teaching beats. In particular, keep the rat outcome and the bridge to two more examples.
-Pronounce Worriers as people who worry, not warriors; SMS as letters; 1902 as nineteen oh two.
-These are generation guardrails, not a claim that the owner's unspecified mis-speaks have all been
-identified. Review the fresh audio for complete words, sentence endings, pronunciation and cadence.
-Preserve the pays-once line as dry humor, not a literal biological claim of endless life.
-
-**Visual plan for generation:** preserve the narrative job of the rat scenes (sewer problem,
-payments, tailless rats, breeding, rat farms, failed outcome). Show the current two-example board
-with its teaching, unmarked and uncropped; drawn scenes elsewhere. Both closing lines remain.
-No GPS, highways, traffic explanation, or additional case studies. Exact camera/highlight timing
-will follow the fresh roll; do not bind it to the old edit's timestamps.
-
-**Previous files retained:** installed v3 is still the four-example video. The 2:48
-`Prompts/unexpected-results-v4.mp4` remains an unshipped review candidate, superseded as the next
-production path by this reroll request. Its technical/visual review remains in
-`video-audit/unexpected-results-two-examples-v4-2026-10-23/REVIEW.md`; it is not evidence of a fresh
-roll's narration quality. No new generation, local shipping, commit or publication is claimed.
+**Reroll review.** Check the six passages under REQUIRED VERBATIM AUDIO against the recording. Listen for “Worriers,” the letters S M S, and “nineteen oh two.” Check that all four outcomes make sense with the screen out of view. Keep the texting account within the source wording and preserve the limited pest-control qualifier for cane toads.
 
 ## Changed teaching and scene directions
 

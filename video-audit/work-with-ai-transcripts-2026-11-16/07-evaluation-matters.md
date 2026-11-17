@@ -1,0 +1,19 @@
+# 7. Evaluation Matters
+
+`course-assets/evaluation-matters/evaluation-matters.mp4` · 3:51 · 648 words
+
+**[0:00]** AI makes mistakes, but it doesn't hesitate. It uses the exact same confident, authoritative voice whether the facts are perfectly accurate or completely wrong. But factual accuracy is only the starting point. Even a response with no factual mistakes can fail to meet your needs. A joke might not be funny. An explanation might leave you confused. A multi-step plan might simply be unworkable. But pretending this technology doesn't exist isn't a realistic option. The tool is entirely too powerful to leave sitting on the shelf. To safely harness that power, you need to develop a specific set of skills. You have to learn how to actively evaluate the results you get, so you can remain smarter than the tool you are using. To evaluate an AI response effectively, you must ask two questions every time.
+
+**[0:49]** Is it right? And is it good enough for what I need? This graphic lays out a straightforward three-step process to answer those questions every time you prompt. Step one is doing a quick review. This is your initial validation to see if the AI actually understood your request. Step two is taking a closer look. If the task is important, this is where you dig deeper to verify the facts and the logic. And step three is making your move, where you decide exactly how to handle the generated material. Let's focus on the quick review process shown here. Step 1 is to read. Read the complete answer before you use it. If you pass it along, you take responsibility for what it says. Step 2 is to understand. You cannot judge an answer that you do not comprehend.
+
+**[1:34]** If a section is dense, ask the AI directly. Explain the second paragraph in simpler terms. Step 3 is to validate. Compare the generated answer against what you already know and what you originally asked for. Look closely for anything wrong, missing, or not useful. Read, understand, validate.
+
+**[1:54]** For straightforward tasks with minimal consequences, a pass through these three basic checks is often all you need to safely move forward. But if you're unsure an answer is correct, or if the consequences of being wrong are high, you have to dig deeper. Different tasks require different checks. A factual answer needs accuracy. A draft needs clear writing. A plan must be workable. Picking a movie is low stakes. A scholarship application or medical advice about an injury deserves far more care. Ask yourself, how much is writing on it? Match your verification effort to the level of risk. Give the answer the attention it deserves.
+
+**[2:33]** When an answer needs a closer look, you choose the specific checks that fit your task. You can check the sources, ask for sources, then open them. Does each source actually support the claim? Is it reliable?
+
+**[2:46]** Ask AI to find current information, then manually open the sources to check what they say. Challenge the answer. Ask the tool, what's the strongest argument against this? Look for weaknesses you hadn't considered. Ask AI, what important information did you leave out? And decide if those omissions change your view of the answer. Or check it yourself. Find another way to verify the data. recalculate the numbers, test the code directly, or ask a human expert who knows the subject.
+
+**[3:17]** After your evaluation, you must decide exactly what to do with the generated answer. You can use it. If the answer is right and good enough for what you need, put it to work. You can fix it. Tell the AI what needs to change, or change it yourself. Then check the revised answer before you use it. Or walk away. If the AI isn't helping you reach the goal, try another approach, or consult someone who knows the subject.
+
+**[3:42]** The tool answers, you evaluate. Review the answer. Take a closer look when needed. Decide what to do next.

@@ -1,0 +1,11 @@
+# 1. Opener
+
+`course-assets/navigate-the-future-opener/navigate-the-future-opener.mp4` · 2:19 · 382 words
+
+**[0:00]** You've put in the time to learn the mechanics. You now know how to use AI and you understand the engine underneath, which means it's strange behavior finally makes sense. You've achieved the core goal of this course. You are now smarter than the tool.
+
+**[0:16]** So that brings us to the question almost everyone is arguing about right now. Where does all this actually land? You've definitely heard the voices already. You probably know an AI optimist who thinks this technology is amazing, fantastic, and worthy of every other superlative they can string together. And you know an AI warrior who is absolutely certain it's going to hurt society. Here's the honest part. Nobody knows. Not them, not us, not the people building AI. Think back to history class. Centuries ago, map makers had to figure out what to do with vast stretches of ocean they simply did not understand. Their solution was to fill those uncharted waters with imagined sea monsters and strange serpents. The future of AI is exactly like the unknown parts of the ocean on those old maps.
+
+**[1:05]** The AI warriors look out at that blank space and draw modern monsters. They picture a technology that destroys jobs, hacks systems, and takes over the world. Meanwhile, AI optimists stare at the exact same unknown waters and see only easy, clear sailing through open channels. But look at what those early sailors actually found when they pushed past the edge. They didn't run into sea monsters. And they very rarely got easy, clear sailing. What they usually encountered was something completely unexpected.
+
+**[1:36]** Throughout this section, we are going to take both views of our map seriously. The very real risks of the monsters and the genuine benefits of the open water. As we do, only one thing is certain. AI is here to stay. That doesn't mean it keeps getting better forever, just that the technology isn't going away. This section will help you answer three specific questions. One, why do people disagree so much about AI's future? Two, what could AI do to make society better, and where could it go wrong? And three, how could AI change my future life and work? Nobody has a map of what's coming. You're ready to sail into the blank space.

@@ -1,0 +1,15 @@
+# 5. Embeddings: Meaning as Numbers
+
+`course-assets/embeddings/embeddings.mp4` · 3:10 · 502 words
+
+**[0:00]** By now, you likely know that AI converts text into tokens, and assigns each one a unique numerical identifier called a token ID. But there is a catch. That number tells us absolutely nothing about what the word actually means.
+
+**[0:16]** Think of a high school cafeteria. An ID identifies you. It doesn't describe you. If four students are wearing badges, those numbers tell us who is who. But they tell us nothing about who is funny, who plays hockey, or who just stole french fries off their friend's tray. So how can numbers actually represent meaning? Let's use a taste test analogy.
+
+**[0:37]** Imagine rating drinks on a scale from zero to 10, where a higher number means a drink has more of a certain trait. This table shows how we will structure the test. We have rows for the drinks, and we will judge them across six distinct characteristics, sweet, bitter, fizz, heat, caffeine, and dark. You and your friends tasted coffee and rated it on six characteristics. Let's put those ratings in the table. Next, you taste Coke and rate it on the same six characteristics. Which drink scores nine for sweet, one for bitter and 10 for fizz? That is Coke. A row of numbers like this is called a vector. Each position is a dimension and the number there is its value. Now let's add a third drink, Pepsi. Look closely at the resulting data.
+
+**[1:24]** Pepsi's six values match Coke's exactly. If we hid the drink names, these numbers alone could not tell the two colas apart. To solve this problem, let us introduce a new column. Citrus gives us a seventh dimension. When we rate the drinks for citrus flavor, coffee gets a 0, Coke gets a 1, and Pepsi gets a 10. The first six values still match, but their new seven-number profiles are distinctly different. Another dimension can capture a difference the earlier numbers missed. AI uses this exact same numerical approach to represent the meaning of words. That row is called an embedding. This comparison table maps our taste test directly to an AI model. In your test, every drink gets a row. In AI, every single token in the model's vocabulary gets its own row.
+
+**[2:14]** For dimensions, your test used six, then seven. AI typically uses thousands of dimensions. While you chose values on a 0-10 scale, AI learns its values during training, utilizing positive numbers, negative numbers, and decimals. Your taste test captured named traits, like sweet and fizz. AI captures complex, abstract patterns in how a token is actually used. And while you provided human labels for the columns, an AI model has none. The values simply work together to represent meaning. Both use a row of numbers to describe something. Even word fragments get their own embeddings. A long word, like unbelievable, splits into three separate token rows, each containing its own sequence of learned numbers.
+
+**[3:00]** AI uses numbers to work with meaning. Those numbers help AI recognize similarities and differences.

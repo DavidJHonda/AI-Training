@@ -30,31 +30,11 @@ The Optimist sees danger. The Worrier sees benefits. That’s the tell: the peop
 
 Where AI will be in ten years is a bet.
 
-## THIS HAS HAPPENED BEFORE
-
-Every big technology arrives with confident predictions from the smartest people around, and those predictions miss in both directions.
-
-### Board 2: This Has Happened Before
-
-**Image file:** `loudest-voices-missed-predictions.jpg`
-
-![This Has Happened Before](loudest-voices-missed-predictions.jpg)
-
-**Teaching content:**
-
-This has happened before.
-
-Online shopping. In 1995, astronomer Clifford Stoll said online shopping could not compete with malls. It became part of everyday life.
-
-Flying cars are coming. In 1940, Ford Motor Company founder Henry Ford predicted a flying car was coming. It still has not become ordinary transportation.
-
-A technology becomes the future only when people change their habits around it. Machines improve fast. Habits change at human speed.
-
 ## IN YOUR HANDS
 
 Even the experts disagree about where AI is going. So what’s a person to do? We think it helps to ask one more question. What’s actually in your hands? That’s where to put your energy.
 
-### Board 3: What’s in Your Hands?
+### Board 2: What’s in Your Hands?
 
 **Image file:** `in-your-hands-in-or-out.jpg`
 

@@ -1000,6 +1000,48 @@ window.COURSE_GROUP_ACTIVITIES = [
     ]
   },
   {
+    "id": "unexpected-discussion",
+    "lesson": "unexpected",
+    "lessonTitle": "Where Will AI Land?",
+    "section": "Navigate the Future",
+    "title": "Where Will AI Land?",
+    "type": "Discussion",
+    "note": "Discuss incentives, collective effects, surprising benefits, experiments, and learning from actual use.",
+    "href": "group-exercises/group-session.html?id=unexpected-discussion",
+    "questions": [
+      {
+        "context": "A school rewards students for completing the most practice questions. Some students start rushing through easy questions instead of working on what they find difficult.",
+        "title": "How did a plan meant to encourage learning end up encouraging something else?",
+        "followUp": "What would you change about how progress is recognized?"
+      },
+      {
+        "context": "Every club uses an AI assistant to choose the best evening for an event. Each assistant recommends the same night, and attendance drops because the events compete.",
+        "title": "How could individually sensible decisions create a bad result when everyone makes them?",
+        "followUp": "Where else might people need to coordinate rather than optimize only for themselves?"
+      },
+      {
+        "context": "A school introduces AI translation to help families read announcements. Students begin using it to exchange stories with relatives who speak another language. Families ask the school to support this use, but staff are still working to make announcements available in every family’s language.",
+        "title": "Should the school expand the tool for sharing family stories, or focus on translating announcements first?",
+        "followUp": "Have you found a valuable use for a tool that wasn’t what you first got it for?"
+      },
+      {
+        "context": "Your club wants to try an AI system for assigning volunteer roles. You see possible benefits but aren’t sure how members will react.",
+        "title": "How could you try it in a way that lets you learn and change direction?",
+        "followUp": "What would make you pause or stop the experiment?"
+      }
+    ]
+  },
+  {
+    "id": "unexpected",
+    "lesson": "unexpected",
+    "lessonTitle": "Where Will AI Land?",
+    "section": "Navigate the Future",
+    "title": "What Happened Next?",
+    "type": "Activity",
+    "note": "Guess together, then reveal eight unexpected outcomes in a leader-led group discussion.",
+    "href": "group-exercises/where-will-ai-land/what-happened-next.html"
+  },
+  {
     "id": "agents-discussion",
     "lesson": "agents",
     "lessonTitle": "Rise of Agents",
@@ -1099,48 +1141,6 @@ window.COURSE_GROUP_ACTIVITIES = [
         "followUp": "Who should decide which uses are more important?"
       }
     ]
-  },
-  {
-    "id": "unexpected-discussion",
-    "lesson": "unexpected",
-    "lessonTitle": "Unexpected Results",
-    "section": "Navigate the Future",
-    "title": "Unexpected Results",
-    "type": "Discussion",
-    "note": "Discuss incentives, collective effects, surprising benefits, experiments, and learning from actual use.",
-    "href": "group-exercises/group-session.html?id=unexpected-discussion",
-    "questions": [
-      {
-        "context": "A school rewards students for completing the most practice questions. Some students start rushing through easy questions instead of working on what they find difficult.",
-        "title": "How did a plan meant to encourage learning end up encouraging something else?",
-        "followUp": "What would you change about how progress is recognized?"
-      },
-      {
-        "context": "Every club uses an AI assistant to choose the best evening for an event. Each assistant recommends the same night, and attendance drops because the events compete.",
-        "title": "How could individually sensible decisions create a bad result when everyone makes them?",
-        "followUp": "Where else might people need to coordinate rather than optimize only for themselves?"
-      },
-      {
-        "context": "A school introduces AI translation to help families read announcements. Students begin using it to exchange stories with relatives who speak another language. Families ask the school to support this use, but staff are still working to make announcements available in every family’s language.",
-        "title": "Should the school expand the tool for sharing family stories, or focus on translating announcements first?",
-        "followUp": "Have you found a valuable use for a tool that wasn’t what you first got it for?"
-      },
-      {
-        "context": "Your club wants to try an AI system for assigning volunteer roles. You see possible benefits but aren’t sure how members will react.",
-        "title": "How could you try it in a way that lets you learn and change direction?",
-        "followUp": "What would make you pause or stop the experiment?"
-      }
-    ]
-  },
-  {
-    "id": "unexpected",
-    "lesson": "unexpected",
-    "lessonTitle": "Unexpected Results",
-    "section": "Navigate the Future",
-    "title": "What Happened Next?",
-    "type": "Activity",
-    "note": "Guess together, then reveal eight unexpected outcomes in a leader-led group discussion.",
-    "href": "group-exercises/unexpected-results/what-happened-next.html"
   },
   {
     "id": "critical-discussion",

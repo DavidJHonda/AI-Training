@@ -13,7 +13,7 @@ import shutil
 from pathlib import Path
 
 from render_navigate_editorial_batch import render_card_board
-from render_unexpected_results_board import main as render_unexpected_results
+from render_where_will_ai_land_board import main as render_where_will_ai_land
 from render_navigate_editorial_review import (
     CARD_BOARDS,
     render_chatbot_agent_long,
@@ -45,7 +45,7 @@ def main() -> None:
         "course-assets/loudest-voices/loudest-voices-2-missed-calls.jpg",
     )
     # The two-example board has its own current renderer (2026-10-23).
-    render_unexpected_results()
+    render_where_will_ai_land()
     save_pair(
         render_jailbreak_feature(),
         "course-assets/big-downside/big-downside-jailbreak.jpg",

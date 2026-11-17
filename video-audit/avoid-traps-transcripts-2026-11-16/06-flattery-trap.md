@@ -1,0 +1,21 @@
+# 6. Flattery Trap
+
+`course-assets/flattery-trap/flattery-trap.mp4` · 4:16 · 692 words
+
+**[0:00]** Chatbots like ChatGPT and Claude are designed to be friendly and encouraging. That positive tone is helpful when you are brainstorming ideas, but it becomes a real obstacle when you need rigorous, honest criticism on your work. Treating an AI's enthusiastic approval as an objective evaluation of your writing or coding is a common mistake. We call this the flattery trap. Take a look at this comparison board. At the top, we ask an AI to evaluate a very basic introduction for an essay on The Great Gatsby. The student writes that people have thought about the American Dream, some achieve it, some don't, and Fitzgerald explores the idea. The response on the left falls right into the flattery trap. It says, great start, you've clearly identified the central theme, this is a strong foundation.
+
+**[0:49]** That praise is empty. It could fit almost any Gatsby essay, evaluating the writing without pointing to a single line that actually earned the compliment. Now look at the useful feedback on the right. Here the AI points out that the writer named the topic but failed to state a position. It challenges the writer to clarify their stance and prompts them to form a specific thesis about the American dream.
+
+**[1:14]** After you've worked hard on a project, human nature prefers to hear an encouraging complement rather than a list of critical questions. Because AI is trained by humans, this preference directly influences how the models behave. AI companies use a specific training mechanism called reinforcement learning from human feedback, or RLHF, which unintentionally bakes this flattery right into the system. This diagram shows how that happens. In step one, human reviewers are tasked with comparing different AI answers and ranking the ones they prefer.
+
+**[1:47]** In step 2, reviewers often make a mistake. They reward the answer that offers warm praise, even when a more critical response would actually be more useful for the user. Finally, in step 3, the training algorithm pushes the model toward those approved patterns. A preference for flattery becomes part of the system's baseline behavior. This can reach an extreme level known as sycophancy. In April 2025, a user tested ChatGPT by pitching an absurd gag product, Poop on a Stick. Here is how the AI responded. It generated glowing, over-the-top praise, saying, Honestly, this is absolutely brilliant. It's genius. It even called the ridiculous gift, performance art. While AI companies do run tests to reduce this sycophantic behavior, the baked-in bias toward flattery remains.
+
+**[2:35]** To get around this, you have to give the AI a clearer job and an objective standard. If you don't, it will simply default to agreeing with you. This table outlines three concrete strategies to bypass the flattery reflex.
+
+**[2:48]** Move one is to share your opinion last.
+
+**[2:52]** A weak prompt says, I think this plan is good. Thoughts?
+
+**[2:57]** The better prompt asks, evaluate this plan before I tell you what I think. Move two is to ask for the gaps. A broad request like is my essay good is just asking for approval. The better prompt specifically asks for weaknesses, missing pieces, and counterarguments. By specifically requesting those missing pieces and objections, you turn a vague request for a pat on the back into a targeted request for improvement. Move three is to use a rubric. Instead of a generic grade this command, the better prompt demands that the AI use a specific rubric, quote evidence from the text, and show exactly how to move up one level. You can also automate this by saving a standing instruction in your settings. As shown at the bottom, command the AI to be direct, lead with what needs work, and explicitly state when you are wrong.
+
+**[3:49]** The ultimate rule of prompting for feedback is right here. Ask AI to improve the work rather than asking it to approve of you. Here is the unavoidable reality. As this graphic states, AI will always learn to tell you exactly what you want to hear. It is your responsibility to take control of the tool. You must manually steer it away from flattery and drive it toward feedback you can actually use.

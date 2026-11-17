@@ -138,7 +138,7 @@ BOARDS = {
     "work-changes-3-automate-augment": (1600, 885),
     "work-changes-4-what-changes": (1600, 732),
     "data-centers-2-footprint": (1600, 1461),
-    "unexpected-results-1-plans": (1600, 1461),
+    "where-will-ai-land-1-plans": (1600, 1461),
     "when-you-need-more-1-choose-tool": (1600, 837),
     "when-you-need-more-2-choose-how": (1600, 880),
     "beyond-the-first-answer-1-summer-business": (1600, 1223),

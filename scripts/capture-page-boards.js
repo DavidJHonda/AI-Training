@@ -167,8 +167,8 @@ const BOARDS = [
     find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },
   { section: "workchanges", out: "work-changes-assignment.jpg", width: 902, vw: 960,
     find: ["Read the last 500 reviews", "Before AI", "With AI", "The boss loved it"] },
-  { section: "unexpected", out: "unexpected-results-plans.jpg", width: 902, vw: 960, wrapUp: 1,
-    find: ["Text messaging", "Cane toads", "Wider highways", "Worse than the prediction"] },
+  { section: "unexpected", out: "where-will-ai-land-plans.jpg", width: 902, vw: 960, wrapUp: 1,
+    find: ["Online Shopping", "Flying Cars", "Text Messaging", "Cane Toads"] },
 ];
 
 const compose = (preds, width, vw, keep, card, wrapUp) => `(function(){

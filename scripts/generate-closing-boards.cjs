@@ -63,7 +63,7 @@ const ASSETS = {
   agents: "course-assets/rise-of-agents/rise-of-agents-close.jpg",
   workchanges: "course-assets/work-changes/work-changes-close.jpg",
   computecost: "course-assets/data-centers/data-centers-close.jpg",
-  unexpected: "course-assets/unexpected-results/unexpected-results-close.jpg",
+  unexpected: "course-assets/where-will-ai-land/where-will-ai-land-close.jpg",
   choosemodel: "course-assets/when-you-need-more/when-you-need-more-close.jpg",
   aitips: "course-assets/beyond-the-first-answer/beyond-the-first-answer-close.jpg",
   creativethinking: "course-assets/creative-thinking/creative-thinking-close.jpg",

@@ -6,7 +6,7 @@ const path = require('node:path');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
   flattery: ['flatteryFeedback', 'praiseTraining', 'sycophancyResponse', 'fightFlattery'],
-  whatpeoplesay: ['expertBets', 'missedPredictions', 'yourHands'],
+  whatpeoplesay: ['expertBets', 'yourHands'],
   layers: ['horseReads', 'layersNumbers', 'itToCat']
 };
 (async () => {
@@ -70,7 +70,7 @@ const lessons = {
         assert.ok((await pairs.first().innerText()).includes('Build real depth in something you care about.'));
         assert.ok((await pairs.last().innerText()).includes('What the next headline predicts'));
         const experts=await page.locator('[data-phone-reading-board="expertBets"] .phone-reading-mobile').innerText();for(const copy of ['Dario Amodei','Geoffrey Hinton','50-100 years into 5-10 years','But Admits','fewer people will die from it.'])assert.ok(experts.includes(copy));
-        await page.getByRole('button',{name:'Wrong',exact:true}).first().click();assert.ok(await page.getByText('Wrong, and way undersold.',{exact:false}).first().isVisible());
+        await page.getByRole('button',{name:'Which skill I practice',exact:true}).first().click();assert.ok(await page.getByText('You can choose a skill you care about',{exact:false}).first().isVisible());
       } else {
         assert.deepEqual(await page.locator('[data-phone-reading-board="itToCat"] .phone-reading-mobile h4').allTextContents(),['The Sentence','Start','Layer 1','Layer 2','Repeat','Result']);
         assert.deepEqual(await page.locator('[data-phone-reading-board="layersNumbers"] .phone-three-vector').allTextContents(),['[.42, −1.15, …]','[.51, −.87, …]','[.27, −1.21, …]','[.19, −1.12, …]']);

@@ -1,0 +1,15 @@
+# 8. What’s Next?
+
+`course-assets/whats-next/whats-next.mp4` · 3:01 · 490 words
+
+**[0:00]** Imagine you started a basketball team with friends. You spent months learning the fundamentals, running drills and practicing until everyone got better. But eventually someone stops and asks, what's next? Are we joining a league or just practicing forever? That is exactly where you are right now with AI. You have learned the fundamentals. You know how these models work and you have built important skills. Now you have to decide what you are actually going to do with them. When thinking about how AI will change careers, it is easy to worry that entire professions will disappear. But we have to look closer. A job is not a single action. It is a collection of distinct tasks, and AI will not affect every task in the same way.
+
+**[0:45]** The same logic applies to a teacher. AI excels at drafting lesson plans or creating practice activities. But humans still own the core responsibilities, knowing the individual student, building motivation, adapting a lesson in the moment, and cultivating a classroom community. If you are an electrician, AI can read complex manuals and suggest possible causes for a failure. But you still have to work safely with live wires in the real world, diagnose the actual physical environment, and adapt your tools on site. For a graphic designer, AI generates quick drafts, color variations, and possible visual directions in seconds. But a human designer must still determine the project's purpose, understand the target audience, apply artistic taste, and direct the final result.
+
+**[1:32]** Because humans will remain responsible for the most important work, you need to build capabilities that you can carry into almost any career path.
+
+**[1:41]** Here is a breakdown showing four practical moves you can make starting right now. You do not need to choose your entire future today. These steps work whether you have a specific career in mind or are still exploring your options. First, learn from people in the field. Talk to someone doing a job you're interested in. Ask them what a normal week actually looks like, how their industry is changing, and what students usually misunderstand about their work. Second, build real depth. Choose a subject worth learning seriously. Take the class, put in the reps, seek out feedback, and push yourself to learn enough about the topic that you can spot the errors and nuances that an AI might miss. Third, make something real. Use AI to build a project, organize a local event, start a small business, or solve a specific problem.
+
+**[2:29]** Keep the finished work as tangible proof of your abilities. Fourth, step into responsibility. Join a club, volunteer in your community, or help lead a team. Put yourself in a position where you are responsible for delivering a result that matters to other people.
+
+**[2:45]** By understanding how these models work and where human judgment remains critical, you know how to be smarter than the tool. Keep learning. Keep building. Make your move.

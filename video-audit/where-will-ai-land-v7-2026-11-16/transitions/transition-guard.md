@@ -1,0 +1,56 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `Prompts/where-will-ai-land-v7.mp4`
+- Decoded frames: 5989
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f281 `hanoi-story-281` — [`boundary-000281-hanoi-story-281.jpg`](boundary-000281-hanoi-story-281.jpg)
+- PASS — f286 `sewer-illustration` — [`boundary-000286-sewer-illustration.jpg`](boundary-000286-sewer-illustration.jpg)
+- PASS — f3261 `full-3261` — [`boundary-003261-full-3261.jpg`](boundary-003261-full-3261.jpg)
+- FAIL — f3395 `shopping-3395` — [`boundary-003395-shopping-3395.jpg`](boundary-003395-shopping-3395.jpg)
+  - Possible stale visual: f3383 to f3384 (1 frames)
+  - Possible stale visual: f3384 to f3385 (1 frames)
+  - Possible stale visual: f3385 to f3386 (1 frames)
+  - Possible stale visual: f3386 to f3387 (1 frames)
+  - Possible stale visual: f3387 to f3388 (1 frames)
+  - Possible stale visual: f3388 to f3389 (1 frames)
+  - Possible stale visual: f3389 to f3390 (1 frames)
+  - Possible stale visual: f3390 to f3391 (1 frames)
+  - Possible stale visual: f3391 to f3392 (1 frames)
+- FAIL — f3673 `cars-3673` — [`boundary-003673-cars-3673.jpg`](boundary-003673-cars-3673.jpg)
+  - Possible stale visual: f3661 to f3662 (1 frames)
+  - Possible stale visual: f3662 to f3663 (1 frames)
+  - Possible stale visual: f3663 to f3664 (1 frames)
+  - Possible stale visual: f3664 to f3665 (1 frames)
+  - Possible stale visual: f3665 to f3666 (1 frames)
+  - Possible stale visual: f3666 to f3667 (1 frames)
+  - Possible stale visual: f3667 to f3668 (1 frames)
+- FAIL — f3964 `texting-3964` — [`boundary-003964-texting-3964.jpg`](boundary-003964-texting-3964.jpg)
+  - Possible stale visual: f3952 to f3953 (1 frames)
+  - Possible stale visual: f3953 to f3954 (1 frames)
+  - Possible stale visual: f3954 to f3955 (1 frames)
+  - Possible stale visual: f3955 to f3956 (1 frames)
+  - Possible stale visual: f3956 to f3957 (1 frames)
+  - Possible stale visual: f3957 to f3958 (1 frames)
+  - Possible stale visual: f3958 to f3959 (1 frames)
+  - Possible stale visual: f3959 to f3960 (1 frames)
+  - Possible stale visual: f3960 to f3961 (1 frames)
+  - Possible stale visual: f3961 to f3962 (1 frames)
+- PASS — f4177 `phone-illustration-3941` — [`boundary-004177-phone-illustration-3941.jpg`](boundary-004177-phone-illustration-3941.jpg)
+- PASS — f4387 `phone-illustration-4151` — [`boundary-004387-phone-illustration-4151.jpg`](boundary-004387-phone-illustration-4151.jpg)
+- FAIL — f4543 `toads-4543` — [`boundary-004543-toads-4543.jpg`](boundary-004543-toads-4543.jpg)
+  - Possible stale visual: f4531 to f4532 (1 frames)
+  - Possible stale visual: f4532 to f4533 (1 frames)
+  - Possible stale visual: f4533 to f4534 (1 frames)
+  - Possible stale visual: f4534 to f4535 (1 frames)
+  - Possible stale visual: f4535 to f4536 (1 frames)
+  - Possible stale visual: f4536 to f4537 (1 frames)
+  - Possible stale visual: f4537 to f4538 (1 frames)
+  - Possible stale visual: f4538 to f4539 (1 frames)
+- PASS — f4797 `forecasts-4797` — [`boundary-004797-forecasts-4797.jpg`](boundary-004797-forecasts-4797.jpg)
+- PASS — f4946 `source-4946` — [`boundary-004946-source-4946.jpg`](boundary-004946-source-4946.jpg)
+- PASS — f5742 `close-5742` — [`boundary-005742-close-5742.jpg`](boundary-005742-close-5742.jpg)

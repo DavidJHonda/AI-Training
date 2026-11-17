@@ -45,10 +45,10 @@ course order can change.
 | Pace of Change | `paceofchange` | Four discussion questions | [Discussion](group-session.html?id=paceofchange-discussion); shared questions in `../group-activities-data.js` |
 | Big Downside | `bigdownside` | Four discussion questions | [Discussion](group-session.html?id=bigdownside-discussion); shared questions in `../group-activities-data.js` |
 | Big Upside | `bigupside` | Four discussion questions | [Discussion](group-session.html?id=bigupside-discussion); shared questions in `../group-activities-data.js` |
+| Where Will AI Land? | `unexpected` | Four discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
 | Rise of Agents | `agents` | Five discussion questions | [Discussion](group-session.html?id=agents-discussion); shared questions in `../group-activities-data.js` |
 | Work Changes | `workchanges` | Four discussion questions | [Discussion](group-session.html?id=workchanges-discussion); shared questions in `../group-activities-data.js` |
 | Data Centers | `computecost` | Four discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
-| Unexpected Results | `unexpected` | Four discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
 | Critical Thinking | `critical` | Four discussion questions | [Discussion](group-session.html?id=critical-discussion); shared questions in `../group-activities-data.js` |
 | Honesty & Privacy | `integrity` | Four discussion questions | [Discussion](group-session.html?id=integrity-discussion); shared questions in `../group-activities-data.js` |
 | Where’s the Line? | `wherestheline` | Four discussion questions | [Discussion](group-session.html?id=wherestheline-discussion); shared questions in `../group-activities-data.js` |
@@ -73,7 +73,7 @@ Why Learn AI?, AI Is Different, Does AI Think?, Does School Matter?,
 Where AI Works Best, Context Matters, Beyond the First Answer,
 Probability & Prediction, Training Bias, Trust Trap, Flattery Trap, Loudest
 Voices, Pace of Change, Big Downside, Big Upside, Work Changes, Data Centers,
-Unexpected Results, Critical Thinking, Honesty & Privacy, Where’s the Line?,
+Where Will AI Land?, Critical Thinking, Honesty & Privacy, Where’s the Line?,
 and People Skills have four questions. What’s an LLM?, Your Home Base,
 How AI Learns, and Document Trap have three. Embeddings, Transformer, and
 How AI Answers have two by David's explicit choice. Do not expand those sets
@@ -138,7 +138,7 @@ David reviewed and approved all eight Navigate the Future discussion sets
 together. After the approved removals, 33 questions remain across Loudest Voices, Pace of Change, Big
 Downside, Big Upside, Rise of Agents, Work Changes, Data Centers, and Unexpected
 Results. The Opener remains excluded. Each set follows the individual TRY IT
-or LAB; Unexpected Results also places discussion before its Group Exercise.
+or LAB; Where Will AI Land? also places discussion before its Group Exercise.
 Evaluation Matters is approved and added with two discussion questions after its TRY IT, bringing Work With AI to 27 questions.
 All seven Build Your Skills discussion sets are approved and added, with 31
 questions after the approved removals across Critical Thinking, Honesty & Privacy, Where’s the Line?, People
@@ -159,7 +159,7 @@ approved removing Transformer #3, leaving two questions in that lesson and
 Trust Trap #1, and Flattery Trap #3, leaving 30 questions in Avoid Traps.
 David also approved seven removals from Navigate the Future: Loudest Voices
 #3; Pace of Change #5; Big Downside #4; Big Upside #4; Work Changes #5; Data
-Centers #4; Unexpected Results #5. Those removals are applied, leaving 33
+Centers #4; Where Will AI Land? #5. Those removals are applied, leaving 33
 questions in Navigate the Future. David also approved removing Critical
 Thinking #3, Honesty & Privacy #5, Where’s the Line? #3, and People Skills #5,
 leaving 31 questions in Build Your Skills. All 26 proposed removals are now
@@ -196,7 +196,7 @@ a small benefit for many with a major benefit for a few, and current #4
 scenario. Their approved question wording is applied. Data Centers current #4
 (original #5) now uses the approved power-shortage scenario comparing tutoring
 and customer-order services, with its revised main question and unchanged
-follow-up. Unexpected Results #3 now uses the approved family-story translation
+follow-up. Where Will AI Land? #3 now uses the approved family-story translation
 scenario and main question about expanding the tool or prioritizing announcements;
 its follow-up is unchanged. Where’s the Line? current #3 (original #4) now
 has the approved main question about explaining different AI assistance while

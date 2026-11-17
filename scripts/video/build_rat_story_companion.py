@@ -13,7 +13,7 @@ import imageio_ffmpeg
 
 ROOT=Path(__file__).resolve().parents[2]
 SRC=ROOT/'Prompts/rat story.mp4'
-ASSETS=ROOT/'course-assets/unexpected-results/rat-story'
+ASSETS=ROOT/'course-assets/where-will-ai-land/rat-story'
 AUDIT=ROOT/'video-audit/rat-story-2026-10-07'
 OUT=ASSETS/'rat-story.mp4'
 FPS=30

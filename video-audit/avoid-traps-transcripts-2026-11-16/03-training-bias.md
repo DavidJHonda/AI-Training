@@ -1,0 +1,13 @@
+# 3. Training Bias
+
+`course-assets/training-bias/training-bias.mp4` · 2:35 · 443 words
+
+**[0:00]** Let's say you ask three people a simple question. How much should I study for my exam?
+
+**[0:06]** Your science teacher says three hours. Your mom says 30 minutes because you have to work tonight. And your best friend says studying is overrated.
+
+**[0:14]** Three people you trust give you three completely different answers. That happens because each person brings their own specific life experience to the question. And that background naturally shapes the advice they offer. You heard three perspectives. Imagine an AI learned from only one. If a model scraped all of its study advice exclusively from websites written by science teachers, it would internalize that three-hours rule. When you ask it how much to study, it spits out three hours, as if it is the absolute standard. That is training bias. The model learned from sources that gave it only a narrow slice of reality. Let's look at this board detailing the types of training bias. It shows us two distinct ways this problem creeps into AI outputs. The first mechanism is when a specific answer shows up too often in the data.
+
+**[1:03]** Because our AI saw three hours repeated constantly across those teacher websites during its training phase, it learned to treat that as its go-to default response for everyone. The second mechanism is about what gets left out. Students who have to work evening shifts usually aren't the focus of those teacher websites. Because they are missing from the training data, the AI has almost no examples of their specific study habits. You can spot this happening in everyday interactions. Say you ask an AI to generate a list of successful entrepreneurs. It prints out 10 names. But as you read through them, you notice they are all tech founders. You look at that list and think, wait, why are all 10 in tech? So you type a follow-up, asking who else would make the list if we looked outside the technology sector.
+
+**[1:51]** The list tells you which industry showed up. You'd need more evidence to know why. This graphic provides a three-step toolkit for those moments when you suspect an answer is shaped by training bias. First, try asking, what's missing from this answer? Second, instruct the model, show me examples that don't fit the pattern you just gave. And third, tell it, answer again, leaving out the most famous examples. These prompts are highly effective for interrogating the model, but they aren't magic. If the missing perspective simply wasn't included in the underlying training data, the AI cannot pull it out of thin air. AI learns from its training data. Bias in the data can shape the answer.

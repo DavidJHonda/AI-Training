@@ -138,21 +138,23 @@ def movies(key, start, end, count, mask):
         cap.release()
 
 
-def main():
-    if DEST.exists():
-        raise FileExistsError(DEST)
-    AUDIT.mkdir(exist_ok=True)
+def render(dest=DEST, audit=AUDIT, picture=PICTURE, mix=audio_track, board_type=LessonBoard,
+           inserts=None, pauses=(), pan_motives=False):
+    if dest.exists():
+        raise FileExistsError(dest)
+    audit.mkdir(exist_ok=True)
+    inserts = inserts or {}
     cv2.setNumThreads(2)
     with tempfile.TemporaryDirectory(dir=ROOT/'tmp') as scratch:
         work = Path(scratch)
-        build = Build(ROOT,SOURCES['3'],work,DEST)
-        audio,gains = audio_track(work,SOUND,SOURCES)
-        starts = {r['name']:r['start']-r['source_frames'][0] for r in audio}
-        shots = [(starts[beat]+fr(at),kind,params) for beat,at,kind,*params in PICTURE]
+        build = Build(ROOT,SOURCES['3'],work,dest)
+        audio,gains = mix(work,SOUND,SOURCES)
+        starts = {r['name']:r['start']-r['source_frames'][0] for r in audio if r.get('source_frames')}
+        shots = [(starts[beat]+fr(at),kind,params) for beat,at,kind,*params in picture]
         count = audio[-1]['end']
         bounds = [s[0] for s in shots] + [count]
         assert bounds[0]==0 and all(a<b for a,b in zip(bounds,bounds[1:]))
-        boards = {k:LessonBoard(build,k) for k in REGIONS}
+        boards = {k:board_type(build,k) for k in REGIONS}
         compose_canonical_for_video(ASSETS/'fake-trap-close.jpg',work/'close.png','#ffffff')
         close = cv2.imread(str(work/'close.png'))
         mask = glyph_mask()
@@ -168,6 +170,9 @@ def main():
                 if kind=='movie':
                     for frame in movies(*params,n,mask):
                         process.stdin.write(frame.tobytes())
+                elif kind in inserts:
+                    for frame in inserts[kind](n):
+                        process.stdin.write(frame.tobytes())
                 elif kind=='closing':
                     for k in range(n):
                         zoom = 1+.2*ease((k-CLOSE_PREHOLD)/(CLOSE_PUSH-1))
@@ -179,14 +184,15 @@ def main():
                     following = board.view(shots[i+1][2][0]) if i+1<len(shots) and shots[i+1][1]==kind else current
                     # Lead the next card when possible. Keep the current ring inside the frame
                     # during travel by using the wide view for a cross-column change.
+                    travel = min(36 if pan_motives and kind=='reasons' else 24, n)
                     moving = not np.array_equal(current,following)
                     hold = board.frame(state,current).tobytes()
                     for k in range(n):
                         encoded = hold
-                        if moving and k>=n-24:
-                            v = current+(following-current)*ease((k-n+24)/24)
+                        if moving and k>=n-travel:
+                            v = current+(following-current)*ease((k-n+travel)/travel)
                             encoded = board.frame('full',v).tobytes()
-                        elif kind=='reasons' and state!='full':
+                        elif kind=='reasons' and state!='full' and not pan_motives:
                             elapsed = start+k-starts['motives']-fr(85.93)
                             view = current.copy()
                             view[2] *= 1-min(.014, .014*elapsed/(22*FPS))
@@ -203,11 +209,11 @@ def main():
         cap.release()
         assets=[ASSETS/f'fake-trap-{key}.jpg' for key in (*REGIONS,'close')]
         record=dict(frames=count, fps=FPS, duration=count/FPS, sound=audio,mix_gain_db=gains,shots=shots,
-                    regions=REGIONS, added_pauses=[], sources={str(p.relative_to(ROOT)):sha(p) for p in [*SOURCES.values(),*assets]},
+                    regions=REGIONS, added_pauses=list(pauses), sources={str(p.relative_to(ROOT)):sha(p) for p in [*SOURCES.values(),*assets]},
                     sha256=sha(candidate))
-        (AUDIT/'edit-manifest.json').write_text(json.dumps(record,indent=2)+'\n')
-        os.link(candidate,DEST)
+        (audit/'edit-manifest.json').write_text(json.dumps(record,indent=2)+'\n')
+        os.link(candidate,dest)
 
 
 if __name__=='__main__':
-    main()
+    render()

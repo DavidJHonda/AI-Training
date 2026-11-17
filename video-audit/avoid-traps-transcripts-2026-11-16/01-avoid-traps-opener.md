@@ -1,0 +1,9 @@
+# 1. Opener
+
+`course-assets/avoid-traps-opener/avoid-traps-opener.mp4` · 1:50 · 279 words
+
+**[0:00]** The underlying architecture that makes artificial intelligence so capable at generating language and images is the exact same machinery that causes it to fail. These failures are highly predictable. They happen in specific, repeating patterns. The real danger for the user is the complete lack of friction. When a language model hallucinates, you don't get a flashing red light or an error code. A completely fabricated statistic arrives with absolute certainty and a highly authoritative tone. Think about a coastal rip current. To the untrained eye, this doesn't look like a hazard. A calm, flat channel situated right between breaking waves looks like the most inviting place to swim. But that smooth surface is actually masking a powerful, concentrated column of water moving in the exact opposite direction.
+
+**[0:51]** If you step into that calm water, the current will quickly and quietly pull you far away from the shore. The actual survival skill is identifying the specific shape of the hazard before your feet leave the sand.
+
+**[1:05]** Professional lifeguards spot these traps constantly because they are trained to recognize the visual signature of that suspiciously calm water. Interacting with artificial intelligence requires this exact same preventative mindset. The technology has its own digital rip currents, and safely utilizing these tools means recognizing their specific shapes before you get pulled into the deception. This section will help you answer three specific questions. Why can AI sound so sure and still be wrong? When might I be trusting AI too much? If AI can create convincing fakes, what should I check before trusting what I see or hear? When AI fails, nothing looks broken. This section teaches you to read the water.

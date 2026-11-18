@@ -6,7 +6,7 @@ const path = require('node:path');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
   faketrap: ['fakeComparison','fakeMotives','fakeChecks'],
-  agents: ['agentsDriving','agentsComparison','agentsLoop','agentsRogue'],
+  agents: ['agentsUses','agentsLoop'],
   integrity: ['integritySchool','integrityAllowed','integritySharing','integrityPhoto']
 };
 (async () => {
@@ -81,14 +81,26 @@ const lessons = {
         assert.ok(await page.getByText(/Go back to the principal’s clip/).isVisible());
         assert.deepEqual((await page.evaluate(() => window.validate())).errors, []);
       } else if(id==='agents') {
-        const driving=await page.locator('[data-phone-reading-board="agentsDriving"] .phone-reading-mobile').innerText();for(const phrase of ['Waze or Google Maps','you still steer, brake, and catch mistakes','You may not catch a mistake until later.'])assert.ok(driving.includes(phrase));
-        const comparison=await page.locator('[data-phone-reading-board="agentsComparison"] .phone-reading-mobile').innerText();for(const phrase of ['30 points','Friday’s basketball game','Review all 50 clips','YOU DO','AI DOES','THE AGENT DOES','YOU STILL OWN','final review, and everything posted under your name.'])assert.ok(comparison.includes(phrase));assert.equal(comparison.split('WHAT CHANGES').length-1,2);
+        const uses=page.locator('[data-phone-reading-board="agentsUses"] .phone-reading-mobile');
+        assert.deepEqual(await uses.locator('h4').allTextContents(),['Coding','Research','Customer Service','Office Work']);
+        for(const phrase of ['People used to write code line by line, test it, and fix what broke. Now a coding agent can do all three.','People used to visit competitors’ websites one by one to compare prices. Now an agent checks the same products across sites and builds a price comparison for the sales team.','People used to answer the phone and respond to customers in online chats. Now an agent can do both. When someone asks, “Where’s my package?” the agent can look up the order, check the tracking, and give them an update.','People used to copy sales figures into a spreadsheet and make slides for the weekly meeting. Now an agent updates the numbers and prepares the slides for the team.'])assert.ok((await uses.innerText()).includes(phrase));
+        const lessonText=await page.locator('#main-content').innerText();
+        assert.ok(lessonText.includes('You set the goal and judge the result.'));
+        assert.ok(!lessonText.includes('Ask a Chatbot versus Hire an Agent'));
         const loop=page.locator('[data-phone-reading-board="agentsLoop"] .phone-reading-mobile');assert.deepEqual(await loop.locator('h4').allTextContents(),['1Goal','2Plan','3Act','4Check']);
         assert.equal(await loop.locator('.phone-eight-flow-arrow').count(),3);assert.equal(await loop.locator('.phone-eight-loop-stage').count(),3);
         const spine=await loop.locator('.phone-eight-loop-stage, .phone-eight-return').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return {left:r.left,top:r.top,bottom:r.bottom}}));for(let i=1;i<spine.length;i++){assert.ok(Math.abs(spine[i].left-spine[0].left)<1,'Return spine stays aligned');assert.ok(Math.abs(spine[i].top-spine[i-1].bottom)<1,'Return spine stays connected');}
         const back=loop.getByRole('link',{name:'Not done? Go again. Return from Check to step 2, Plan.',exact:true});assert.equal(await back.getAttribute('href'),'#phone-eight-agent-plan');await back.click();assert.equal(await page.evaluate(()=>document.activeElement.textContent),'2Plan');assert.ok(await page.locator('#phone-eight-agent-plan').evaluate(n=>n.getBoundingClientRect().top>=0&&n.getBoundingClientRect().top<200));
-        const rogue=await page.locator('[data-phone-reading-board="agentsRogue"] .phone-reading-mobile').innerText();for(const phrase of ['APRIL 2026 · POCKETOS','master key in another file','live database and its backups in nine seconds.','“I violated every principle I was given.”'])assert.ok(rogue.includes(phrase));
-        for(const answer of ['Break the goal into steps','Go through all 50','Fix it, then check again','Stop and tell your human','Show your human first'])await page.getByRole('button',{name:answer,exact:true}).click();assert.ok((await page.locator('#main-content').innerText()).includes('Agents do the work; people own the result.'));
+        assert.ok(!lessonText.includes('When Would You Use an Agent?'));
+        for (const answer of ['Break the goal into steps', 'Go through all 50', 'Fix it, then check again']) {
+          await page.getByRole('button', { name: answer, exact: true }).click();
+        }
+        const reportLimit = page.getByRole('button', { name: 'Stop and tell your human', exact: true });
+        assert.equal(await reportLimit.count(), 0);
+        await page.getByRole('button', { name: 'Show your human first', exact: true }).click();
+        assert.ok(await page.getByText(/They approved the reel/).isVisible());
+        await reportLimit.click();
+        assert.ok(await page.getByText(/Tell your human what happened so they can decide when to try again/).isVisible());
       } else {
         assert.deepEqual(await page.locator('[data-phone-reading-board="integritySchool"] h4').allTextContents(),['Acceptable','Follow the Rules','Unacceptable']);
         const school=await page.locator('[data-phone-reading-board="integritySchool"] .phone-reading-mobile').innerText();for(const phrase of ['work you understand and created.','Check the policy and disclose your use.','when the assignment prohibits it.'])assert.ok(school.includes(phrase));
@@ -106,6 +118,6 @@ const lessons = {
       await context.close();
     }
     if (process.env.PHONE_WAVE_OUTPUT) { fs.mkdirSync(process.env.PHONE_WAVE_OUTPUT, { recursive: true }); fs.writeFileSync(path.join(process.env.PHONE_WAVE_OUTPUT, 'phone-checks.json'), JSON.stringify(records, null, 2)); }
-    console.log('PASS: eleven boards; phone, landscape, breakpoints, readable HTML, complete comparisons, exact qualifications, agent return to Plan and focus, six photo-marker relationships, accessible representations, all lesson activities, print and no runtime errors');
+    console.log('PASS: nine boards; phone, landscape, breakpoints, readable HTML, complete comparisons, exact qualifications, agent return to Plan and focus, six photo-marker relationships, accessible representations, all lesson activities, print and no runtime errors');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

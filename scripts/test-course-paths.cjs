@@ -23,7 +23,7 @@ assert.deepEqual(Array.from(paths.essentials.sections, section => section.label)
   'Where AI Works Best', 'Questions Matter', 'Prompting Matters', 'Context Matters', 'Evaluation Matters', 'Beyond the First Answer',
   'How AI Learns',
   'Hallucination', 'Document Trap', 'Flattery Trap', 'Support Trap', 'Fake Trap',
-  'Big Downside', 'Big Upside', 'Rise of Agents', 'Work Changes',
+  'Big Downside', 'Big Upside', 'AI Agents', 'Work Changes',
   'Critical Thinking', 'Honesty & Privacy',
   'Five Big Ideas'
 ]);

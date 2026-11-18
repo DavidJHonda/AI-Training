@@ -1048,7 +1048,7 @@ def render_voice_clone():
 
 def render_agent_loop():
     image = open_columns(
-        "What an agent does",
+        "How an agent works",
         [
             ("GOAL", "You say what you want."),
             ("PLAN", "Break the goal into steps."),

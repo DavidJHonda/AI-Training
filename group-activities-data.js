@@ -1044,9 +1044,9 @@ window.COURSE_GROUP_ACTIVITIES = [
   {
     "id": "agents-discussion",
     "lesson": "agents",
-    "lessonTitle": "Rise of Agents",
+    "lessonTitle": "AI Agents",
     "section": "Navigate the Future",
-    "title": "Rise of Agents",
+    "title": "AI Agents",
     "type": "Discussion",
     "note": "Discuss delegating actions, setting goals, reviewing results, and responsibility for an agent’s work.",
     "href": "group-exercises/group-session.html?id=agents-discussion",

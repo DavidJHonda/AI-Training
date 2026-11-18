@@ -606,7 +606,7 @@ conversation.
 - Pace of Change: Could AI Improve Itself?
 - Pace of Change: How Far Can AI Go?
 - Loudest Voices: Even the Experts Don’t Know (`EE-LONG` reference)
-- Rise of Agents: What an Agent Does (`EE-FLOW` reference)
+- Rise of Agents: How an Agent Works (`EE-FLOW` reference)
 - Next Level Moves: Starting a Summer Business (`EE-CHAT` reference)
 - Work Changes: Automate versus Augment and What Changes for You
 - Data Centers: the four-part footprint

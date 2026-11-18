@@ -200,7 +200,7 @@ def render() -> Image.Image:
     draw.rounded_rectangle((0, 0, WIDTH - 1, height - 1), radius=22, fill=FRAME)
 
     # Align the board title with the first step—not merely with the outer frame.
-    draw_board_title(draw, "What an Agent Does")
+    draw_board_title(draw, "How an Agent Works")
 
     stage = (40, 127, 1560, stage_bottom)
     draw.rounded_rectangle(stage, radius=14, fill=WHITE)
@@ -262,7 +262,7 @@ def render() -> Image.Image:
         top=footer_top,
         left=40,
         right=1560,
-        text="An agent loops until the goal is met. You set the goal and judge the result.",
+        text="The agent can finish, retry, or ask for help. You set the goal and judge the result.",
         font=takeaway_font,
     )
 

@@ -326,6 +326,18 @@ automatic medical decisions, approved antibiotic treatment, or guaranteed warnin
 
 ### rise-of-agents
 
+**Current reroll.** Use the four files in `gemini-notebook/rise-of-agents/upload/` and paste `gemini-notebook/rise-of-agents/PROMPT.txt` into the customization box. The source is the saved opening in `lessons/rise-of-agents.md`.
+
+1. Open with the definition and how the authors used coding agents to build the course. Show the agents editing and testing, then the authors reviewing the lesson.
+2. Show **Agents Today** with Coding, Research, Customer Service, and Office Work in card order. For Customer Service, include phone calls, online chat, and the package-tracking example.
+3. Move to a drawn scene for the busywork paragraph. Leave the question about workers open.
+4. Show **How an Agent Works** with Goal, Plan, Act, Check and the return to Plan. Speak the footer exactly, including the options to finish, retry, or ask for help.
+5. Cut directly to the closing board for the two closing lines. The basketball exercise and discussion are on-page activities.
+
+All three JPGs are the current course images. Save the raw roll as `Prompts/rise-of-agents-reroll.mp4`, using the next unused numbered name if needed.
+
+**Earlier production history**
+
 **Correction approved 2026-09-30:** remove the withdrawn Gemini file-deletion case from lesson, board,
 and narration. PocketOS remains the single real case. The original reporter found the Gemini files:
 https://github.com/google-gemini/gemini-cli/issues/4586#issuecomment-3125818690.
@@ -368,47 +380,6 @@ record `video-audit/rise-of-agents-v3-2026-09-24/REVIEW.md`. 7/8 verbatim lines 
 over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example."):
 `Prompts/rise-of-agents-v4.mp4` (3:07.8), build `scripts/video/build_rise_of_agents_v4.py`, record
 `video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`. Transition guard 19/19. **Shipped 2026-09-24.**
-
-- Markdown: `lessons/rise-of-agents.md` (rewritten 2026-09-23: the comparison board's six labelled
-  rows are written out as sentences; review and approval are narrated before publishing; "An agent is
-  not a new kind of AI." split onto its own line so the prompt can demand it verbatim; PocketOS is
-  the sole rogue-agent case after the 2026-09-30 source correction)
-- Prompt: `gemini-notebook/rise-of-agents/PROMPT.txt` (494 words, four blocks)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/rise-of-agents/` (synced 2026-09-24)
-- Canonical folder: `course-assets/rise-of-agents/`
-- Boards in lesson order:
-  - `rise-of-agents-gps.jpg` — **post-only (faces)**; uploads as
-    `gemini-notebook/rise-of-agents/assets/rise-of-agents-gps-faceless.jpg`, the same 1408x1117 board with the two car photos filled
-    in the board's lavender. Both card texts stay on the variant. The canonical board replaces it in
-    the edit.
-  - `rise-of-agents-chatbot-vs-agent.jpg` — upload
-  - `rise-of-agents-agent-loop.jpg` — upload
-  - `rise-of-agents-rogue.jpg` — upload
-  - `rise-of-agents-close.jpg` — upload
-
-**Beat spine**
-
-1. "What's an agent?" then the analogy board: GPS is like ChatGPT, self-driving is like an agent, each
-   with its full explanation including "You may not catch a mistake until later."
-2. Agents are everywhere because they do the work.
-3. Comparison board: the scenario (30 points, Friday's game, a friend's phone, 50 clips); everything
-   you do with a chatbot and the one thing AI does; everything the agent does and what you still own.
-4. Board gone: an agent runs on the same kind of LLM; what changes is what happens after you type.
-5. The loop board: Goal, Plan, Act, Check with their descriptions, "Not done? Go again.", and "An
-   agent loops until the goal is met. You set the goal and judge the result."
-6. Your name on the finished product: the review responsibility in full, "Agents are good. But not
-   perfect."
-7. Rogue agents: April 2026 PocketOS (permissions error, master key, live database and backups in nine
-   seconds, its quotation). Do not include the withdrawn Gemini deletion claim.
-8. The rule of thumb: agents are advanced tools, including starting with ChatGPT.
-9. Close on the two lines with nothing after.
-
-**Required verbatim lines:** the seven in the prompt (the chatbot/agent line, the not-a-new-kind line,
-the loop banner, the review-responsibility line, the good-but-not-perfect line, and the two closing lines).
-
-**Banned words:** leverage, framework, utilize, autonomous, orchestrate, workflow, seamless, deploy; no
-screen/board-position references; never promise an agent always finishes; never suggest working around
-a block, a limit or a permission; the Be the Agent activity is not narrated.
 
 ### work-changes
 

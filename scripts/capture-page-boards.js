@@ -161,8 +161,6 @@ const BOARDS = [
     find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
   { section: "agents", out: "rise-of-agents-2-highlights.jpg", width: 902, vw: 960,
     find: ["You scored 30 points in Friday’s basketball game", "Ask ChatGPT/Claude/Gemini", "Hire an Agent", "Did it all while you were at practice"] },
-  { section: "agents", out: "rise-of-agents-rogue.jpg", width: 902, vw: 960,
-    find: ["APRIL 2026 · POCKETOS", "Database and backups deleted", "2025 · GEMINI", "Project files wiped"] },
   { section: "workchanges", out: "work-changes-four-shapes-of-ai-work.jpg", width: 902, vw: 960,
     find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },
   { section: "workchanges", out: "work-changes-assignment.jpg", width: 902, vw: 960,

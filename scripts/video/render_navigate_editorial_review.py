@@ -63,8 +63,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REVIEW = ROOT / "board-review-navigate-editorial"
 JAILBREAK_PAGE_OUTPUT = "course-assets/big-downside/big-downside-jailbreak.jpg"
 JAILBREAK_PREP_OUTPUT = "course-assets/big-downside/big-downside-jailbreak.jpg"
-GPS_AGENT_PAGE_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-gps.jpg"
-GPS_AGENT_PREP_OUTPUT = "course-assets/rise-of-agents/rise-of-agents-gps.jpg"
+GPS_AGENT_PAGE_OUTPUT = "course-assets/ai-agents/ai-agents-gps.jpg"
+GPS_AGENT_PREP_OUTPUT = "course-assets/ai-agents/ai-agents-gps.jpg"
 
 
 @dataclass(frozen=True)
@@ -338,7 +338,7 @@ def render_gps_agent_feature() -> Image.Image:
         outline="#d7d2e8",
         width=1,
     )
-    source = Image.open(ROOT / "course-assets/rise-of-agents/rise-of-agents.jpg").convert("RGB")
+    source = Image.open(ROOT / "course-assets/ai-agents/ai-agents.jpg").convert("RGB")
     art = cover(source, (stage_width, art_height))
     image.paste(art, (stage_left, stage_top), top_round_mask((stage_width, art_height), CARD_RADIUS))
     draw = ImageDraw.Draw(image)

@@ -79,9 +79,9 @@ a decision map, not an instruction to rebuild every asset.
 | Pace of Change | Editorial Explainer: Three-Card Full-Bleed (`EE-3FB`) | Simplified | Retain the three-years comparison and Why So Fast? board. Three Future Ideas combines RSI, AGI, and ASI in the canonical three-card format, with no status or takeaway banners. Full titles end with parenthesized initials and fit on two lines at 35 px per the requested title treatment. Renderer: `scripts/video/render_pace_future_ideas.py`. |
 | Big Downside | Editorial Explainer | Adopted | Three-idea revision: three-card full-bleed guardrail layers, retained jailbreak and voice-clone illustrations, simplified cyberattack case, and standard two-line close. Renderers: `render_big_downside_guardrails.py`, `render_big_downside_goal.py`, and `generate-closing-boards.cjs --lesson bigdownside`. Historical timeline and Policy Puppetry removed from the page and upload set. |
 | Big Upside | Four matching single-scene editorial boards | Revised | Four benefits: protein research, cancer detection, reading aloud, and flood warnings. Illustration left, two teaching points right; shared lavender shell and 56/40/29 px course typography. Protein board has no separate panel or gold band; cancer uses an abstract scan without recognizable anatomy. Demis acknowledgment and timeline removed from page/prep. Renderer: `scripts/video/render_big_upside_benefits.py`. |
-| Rise of Agents | Editorial Explainer: Flow | Keep | Preserve Goal, Plan, Act, Check and the return loop. This is the `EE-FLOW` reference. |
+| AI Agents | Editorial Explainer: Flow | Keep | Preserve Goal, Plan, Act, Check and the return loop. This is the `EE-FLOW` reference. |
 | Work Changes | Editorial comparison | Keep | Preserve Automate versus Augment and the outcomes board. |
-| Data Centers | Editorial Explainer | Keep | Preserve the four-part footprint board and its qualification in lesson prose. |
+| Where AI Lives | Editorial Explainer | Keep | Preserve the four-part footprint board and its qualification in lesson prose. |
 | Unexpected Results | Story and evidence frame | Redesign | Keep page-only story art if useful; use a no-person board if the concept returns to prep materials. |
 
 ## Build Your Skills

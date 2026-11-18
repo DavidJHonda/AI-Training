@@ -53,9 +53,9 @@ STEPS = (
 ART_WASH_OPACITY = 0.10
 ART_BORDER_OPACITY = 0.22
 
-ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/rise-of-agents/art-sheet.png"
-PAGE_OUTPUT = ROOT / "course-assets/rise-of-agents/rise-of-agents-agent-loop.jpg"
-PREP_OUTPUT = ROOT / "course-assets/rise-of-agents/rise-of-agents-agent-loop.jpg"
+ART_SHEET = ROOT / "scripts/video/assets/editorial-flow/ai-agents/art-sheet.png"
+PAGE_OUTPUT = ROOT / "course-assets/ai-agents/ai-agents-agent-loop.jpg"
+PREP_OUTPUT = ROOT / "course-assets/ai-agents/ai-agents-agent-loop.jpg"
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, font, width: int) -> list[str]:

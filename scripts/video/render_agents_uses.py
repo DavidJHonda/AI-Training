@@ -9,7 +9,7 @@ from editorial_typography import face
 from render_navigate_editorial_batch import Card, CardBoard, render_card_board
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = "course-assets/rise-of-agents/rise-of-agents-uses.jpg"
+DEST = "course-assets/ai-agents/ai-agents-uses.jpg"
 BOARD = CardBoard(
     key="agents-uses",
     title="Agents Today",

@@ -26,11 +26,11 @@ Installed lesson asset: illustrations/big-upside.jpg
 
 Prompt: Use case: identity-preserve. Edit ONLY the LAST image, the dense protein-folding illustration titled POSSIBLE SHAPES. Previous image of this same illustration is duplicate target. Hallucination image is identity/style reference ONLY: its LEFT boy is Nate, dark brown loose wavy fringe, jersey96. Replace only the curly-haired old-model boy in protein illustration with that approved Nate facial appearance and natural dark fringe. His green actual Dallas Stars jersey must have number96 on visible sleeve, not4. Preserve exactly his existing bead-necklace hand poses and gaze toward protein maze, perspective, realistic anatomy and matching light. No pasted-on head, no cartoon. Preserve ALL non-character pixels/content as closely as possible: every existing word, label, number, diagram, chemical bead necklace, maze, folds, receptor, Function card, notebook, facts panel, universe comparison, same composition and image ratio. Do not simplify/rewrite text or add a border, title, banner, second boy, or new objects. Return one complete updated protein illustration, not a portrait.
 
-## rise-of-agents
+## ai-agents
 
-![Preview](/Users/davidobrien/Developer/AI-Training/output/imagegen/navigate-future-character-review-2026-09-08/rise-of-agents-preview.png)
+![Preview](/Users/davidobrien/Developer/AI-Training/output/imagegen/navigate-future-character-review-2026-09-08/ai-agents-preview.png)
 
-Installed lesson asset: illustrations/rise-of-agents-gps-agent-v2.jpg
+Installed lesson asset: illustrations/ai-agents-gps-agent-v2.jpg
 
 Prompt: Use case: identity-preserve. Edit target LAST image: entire editorial comparison 'A Chatbot Answers. An Agent Acts.' Reference1 approved Hallucination shows Nate LEFT dark loose fringe jersey96, Luke RIGHT light-brown waves jersey4. Reference2 is real Luke hair/face, softer waves not tight curls. In driving board, LEFT human driver is LUKE: replace his extreme curls/profile with real Luke face/hair, actual Dallas Stars green jersey4 wherever number visible. RIGHT reclining passenger is NATE: approved Hallucination-left face, darker natural loose fringe, actual Dallas Stars jersey96 wherever number visible. Keep each scene's existing pose, gaze, hands, lighting, camera placement; right is passenger so preserve empty driver seat. Keep EXACT complete title, lavender border, two panels, car interiors, GPS purple turn arrow, road detour, arena, highway, route line, and ALL bottom caption text word for word. No new text, objects, labels or unrelated reference details. Don't change teaching meaning. Cinematic photorealism matching existing. Head anatomy and perspective natural, no pasted heads. Return one complete board.
 

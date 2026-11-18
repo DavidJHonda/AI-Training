@@ -96,7 +96,7 @@ These are the proposed general-teaching scenes to update after the pilots establ
 
 - [The Chinese Room](../course-assets/does-ai-think/does-ai-think-chinese-room.jpg) — student shown from behind; the teaching action is the focus.
 - [Edge of the Map](../course-assets/navigate-the-future-opener/navigate-the-future-opener-edge-of-the-map.jpg) — back-facing figures; replacing faces would add little.
-- [A Chatbot Answers. An Agent Acts.](../course-assets/rise-of-agents/rise-of-agents-gps.jpg) — rear/side views with limited facial prominence; lower value than the clear portraits.
+- [A Chatbot Answers. An Agent Acts.](../course-assets/ai-agents/ai-agents-gps.jpg) — rear/side views with limited facial prominence; lower value than the clear portraits.
 - [Certificate wall](../course-assets/the-final/the-final-certificate-wall.jpg) — tiny background photographs do not dominate the illustration.
 - Text-only boards, abstract illustrations, diagrams, navy boards, and closing messages need no changes for this project.
 

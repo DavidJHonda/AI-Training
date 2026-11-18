@@ -1113,9 +1113,9 @@ window.COURSE_GROUP_ACTIVITIES = [
   {
     "id": "computecost-discussion",
     "lesson": "computecost",
-    "lessonTitle": "Data Centers",
+    "lessonTitle": "Where AI Lives",
     "section": "Navigate the Future",
-    "title": "Data Centers",
+    "title": "Where AI Lives",
     "type": "Discussion",
     "note": "Discuss community effects, resource use, efficiency, jobs, and who benefits from AI infrastructure.",
     "href": "group-exercises/group-session.html?id=computecost-discussion",

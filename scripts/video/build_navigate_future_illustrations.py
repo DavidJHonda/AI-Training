@@ -11,8 +11,8 @@ OUT=ROOT/'video-audit/navigate-the-future-illustration-updates-2026-10-08'
 ASSETS=OUT/'assets';PREVIEW=OUT/'previews';FF=imageio_ffmpeg.get_ffmpeg_exe()
 FONT=ROOT/'scripts/video/assets/fonts/PlusJakartaSans-wght.ttf'
 SOURCES={
-'rise-of-agents':dict(id='P1',source_version=7,version=8,sha='c7377765375cf8092f1ef45a4c76b6db8513d287edd556835f9a2a2f95eb03b4',frames=5112,start=3369,end=3633,encode_start=3369,encode_end=3869,changes=[3487,3512],crf=16),
-'data-centers':dict(id='P2',source_version=5,version=6,sha='ce5dc2cf8d75bf50740dcf79476d4c5db022ab3bb7060f3e209187fd325dd284',frames=6694,start=2122,end=2244,encode_start=2122,encode_end=2244,changes=[],crf=18),
+'ai-agents':dict(id='P1',source_version=7,version=8,sha='c7377765375cf8092f1ef45a4c76b6db8513d287edd556835f9a2a2f95eb03b4',frames=5112,start=3369,end=3633,encode_start=3369,encode_end=3869,changes=[3487,3512],crf=16),
+'where-ai-lives':dict(id='P2',source_version=5,version=6,sha='ce5dc2cf8d75bf50740dcf79476d4c5db022ab3bb7060f3e209187fd325dd284',frames=6694,start=2122,end=2244,encode_start=2122,encode_end=2244,changes=[],crf=18),
 'work-changes':dict(id='P3',source_version=5,version=6,sha='e6794cd9de7a220298ed996d143aad45eef721b63468309492e73096fbbf085f',frames=9848,start=9316,end=9611,encode_start=9316,encode_end=9611,changes=[9416,9480],crf=16)}
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def font(n):return ImageFont.truetype(str(FONT),n)

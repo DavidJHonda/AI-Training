@@ -1072,8 +1072,8 @@ def render_agent_loop():
     rounded(draw, (790, 712, 1162, 758), 23, WHITE)
     draw.text((976, 735), "NOT DONE? GO AGAIN.", font=font("bold", 24), fill=PURPLE, anchor="mm")
     save_all(image, [
-        "board-review-first-four/alternatives/navigate-the-future/rise-of-agents-loop-alternative.jpg",
-        "board-review-first-four/current-selected/navigate-the-future/rise-of-agents-4-loop.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/ai-agents-loop-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/ai-agents-4-loop.jpg",
     ])
 
 
@@ -1128,9 +1128,9 @@ def render_data_center_footprint():
         accents=[PURPLE, BLUE, TEAL, ORANGE],
     )
     save_all(image, [
-        "board-review-first-four/alternatives/navigate-the-future/data-centers-footprint-alternative.jpg",
-        "board-review-first-four/current-selected/navigate-the-future/data-centers-physical-footprint.jpg",
-        "course-assets/data-centers/data-centers-footprint.jpg",
+        "board-review-first-four/alternatives/navigate-the-future/where-ai-lives-footprint-alternative.jpg",
+        "board-review-first-four/current-selected/navigate-the-future/where-ai-lives-physical-footprint.jpg",
+        "course-assets/where-ai-lives/where-ai-lives-footprint.jpg",
     ])
 
 

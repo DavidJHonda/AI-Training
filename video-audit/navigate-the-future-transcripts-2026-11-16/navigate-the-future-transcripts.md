@@ -114,7 +114,7 @@ Machine transcripts of the nine live section videos, made 2026-11-16 with faster
 
 ## 7. Rise of Agents
 
-`course-assets/rise-of-agents/rise-of-agents.mp4` · 2:50 · 471 words
+`course-assets/ai-agents/ai-agents.mp4` · 2:50 · 471 words
 
 **[0:00]** Imagine you have tickets to Game 7 of the Stanley Cup Finals. You punch the arena's address into the standard navigation on your phone. In this scenario, the GPS does the calculating. It calls out the turns and alerts you to traffic, but your hands stay on the wheel. If the app suggests a path into a lake, you hit the brakes. You are the executor. Compare that to sitting in an autonomous vehicle heading to that same arena. The machine dynamically handles steering, braking, and rerouting to reach the destination. A chatbot answers, but an agent acts. Your role shifts from being the driver to being the supervisor. This distinction is exactly why AI agents are suddenly everywhere—they actually do the work. Let's look at a concrete example.
 
@@ -140,7 +140,7 @@ Machine transcripts of the nine live section videos, made 2026-11-16 with faster
 
 ## 9. Data Centers
 
-`course-assets/data-centers/data-centers.mp4` · 4:07 · 662 words
+`course-assets/where-ai-lives/where-ai-lives.mp4` · 4:07 · 662 words
 
 **[0:00]** You type a question, hit send, and an answer starts appearing.
 

@@ -627,7 +627,7 @@ def main():
         "pace-of-change-accelerants-alternative.jpg",
         "big-downside-safeguard-gap-alternative.jpg",
         "big-upside-protein-folding-alternative.jpg",
-        "rise-of-agents-loop-alternative.jpg",
+        "ai-agents-loop-alternative.jpg",
         "work-changes-automate-augment-alternative.jpg",
         "hidden-cost-calculations-alternative.jpg",
         "where-will-ai-land-plan-outcome-alternative.jpg",

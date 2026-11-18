@@ -202,8 +202,8 @@ CARD_BOARDS = (
             Card("", "Blocked by a permissions error, an AI coding agent found a master key in another file and deleted the company’s live database and its backups in nine seconds.", "APRIL 2026 · POCKETOS"),
         ),
         art_sheet="scripts/video/assets/editorial-navigate/rise-agents-rogue/art-sheet.png",
-        page_output="course-assets/rise-of-agents/rise-of-agents-rogue.jpg",
-        prep_output="course-assets/rise-of-agents/rise-of-agents-rogue.jpg",
+        page_output="course-assets/ai-agents/ai-agents-rogue.jpg",
+        prep_output="course-assets/ai-agents/ai-agents-rogue.jpg",
         takeaway="The agent wrote “I violated every principle I was given.”",
         accents=(PURPLE,),
     ),
@@ -263,8 +263,8 @@ CARD_BOARDS = (
             Card("Permanent Jobs", "Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket."),
         ),
         art_sheet="scripts/video/assets/editorial-navigate/data-footprint/art-sheet.png",
-        page_output="course-assets/data-centers/data-centers-physical-footprint.jpg",
-        prep_output="course-assets/data-centers/data-centers-physical-footprint.jpg",
+        page_output="course-assets/where-ai-lives/where-ai-lives-physical-footprint.jpg",
+        prep_output="course-assets/where-ai-lives/where-ai-lives-physical-footprint.jpg",
         accents=(PURPLE, BLUE, TEAL, AMBER),
         # The 2x2 source sheet has a seven-pixel light seam on both sides of
         # its center split. Remove that seam before fitting each illustration
@@ -413,7 +413,7 @@ def draw_takeaway(image: Image.Image, top: int, text: str) -> int:
 
 def render_card_board(board: CardBoard, *, preserved_panels: list[Image.Image] | None = None) -> Image.Image:
     if board.key == "rise-agents-rogue":
-        from render_rise_of_agents_rogue import render
+        from render_ai_agents_rogue import render
         return render()
     count = len(board.cards)
     if count not in (2, 3, 4):

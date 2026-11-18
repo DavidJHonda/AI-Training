@@ -157,9 +157,9 @@ const BOARDS = [
   // Big Downside boards 2, 4, and 5 are approved static boards. Their page and
   // video-source copies are generated together; recapturing would reintroduce
   // the legacy live-box typography and overwrite the approved assets.
-  { section: "agents", out: "rise-of-agents-gps.jpg", width: 902, vw: 960,
+  { section: "agents", out: "ai-agents-gps.jpg", width: 902, vw: 960,
     find: ["You’re driving to game 7 of the Stanley Cup finals", "Drive with GPS", "Self-Driving Car", "You catch its mistakes at the end"] },
-  { section: "agents", out: "rise-of-agents-2-highlights.jpg", width: 902, vw: 960,
+  { section: "agents", out: "ai-agents-2-highlights.jpg", width: 902, vw: 960,
     find: ["You scored 30 points in Friday’s basketball game", "Ask ChatGPT/Claude/Gemini", "Hire an Agent", "Did it all while you were at practice"] },
   { section: "workchanges", out: "work-changes-four-shapes-of-ai-work.jpg", width: 902, vw: 960,
     find: ["AI is strongest when the job has one of four shapes.", "Strength 1", "Strength 4", "Reasons through your input"] },

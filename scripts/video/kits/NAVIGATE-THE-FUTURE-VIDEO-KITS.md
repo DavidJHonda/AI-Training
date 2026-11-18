@@ -324,9 +324,9 @@ Hassabis quotation and the exact experiment/prediction distinction. Read the quo
 in full, word for word; do not paraphrase or omit it. Do not imply laboratory confirmation of all AlphaFold outputs,
 automatic medical decisions, approved antibiotic treatment, or guaranteed warnings.
 
-### rise-of-agents
+### ai-agents
 
-**Current reroll.** Use the four files in `gemini-notebook/rise-of-agents/upload/` and paste `gemini-notebook/rise-of-agents/PROMPT.txt` into the customization box. The source is the saved opening in `lessons/rise-of-agents.md`.
+**Current reroll.** Use the four files in `gemini-notebook/ai-agents/upload/` and paste `gemini-notebook/ai-agents/PROMPT.txt` into the customization box. The source is the saved opening in `lessons/ai-agents.md`.
 
 1. Open with the definition and how the authors used coding agents to build the course. Show the agents editing and testing, then the authors reviewing the lesson.
 2. Show **Agents Today** with Coding, Research, Customer Service, and Office Work in card order. For Customer Service, include phone calls, online chat, and the package-tracking example.
@@ -334,7 +334,7 @@ automatic medical decisions, approved antibiotic treatment, or guaranteed warnin
 4. Show **How an Agent Works** with Goal, Plan, Act, Check and the return to Plan. Speak the footer exactly, including the options to finish, retry, or ask for help.
 5. Cut directly to the closing board for the two closing lines. The basketball exercise and discussion are on-page activities.
 
-All three JPGs are the current course images. Save the raw roll as `Prompts/rise-of-agents-reroll.mp4`, using the next unused numbered name if needed.
+All three JPGs are the current course images. Save the raw roll as `Prompts/ai-agents-reroll.mp4`, using the next unused numbered name if needed.
 
 **Earlier production history**
 
@@ -342,7 +342,7 @@ All three JPGs are the current course images. Save the raw roll as `Prompts/rise
 and narration. PocketOS remains the single real case. The original reporter found the Gemini files:
 https://github.com/google-gemini/gemini-cli/issues/4586#issuecomment-3125818690.
 The v6 review build also corrects the PocketOS animation labels while preserving its drawings.
-`scripts/video/build_rise_of_agents_v6.py`; review in `video-audit/rise-of-agents-repair-2026-09-30-v6/`.
+`scripts/video/build_ai_agents_v6.py`; review in `video-audit/ai-agents-repair-2026-09-30-v6/`.
 The raw rolls and pre-v4 donor named in the historical records below no longer exist locally;
 v6 uses the hash-verified finished v4. The former v4 source is retained in Git history; v7 supersedes it locally after owner approval.
 
@@ -350,36 +350,36 @@ v6 uses the hash-verified finished v4. The former v4 source is retained in Git h
 moves the April 2026 · PocketOS pill above the right-hand paragraph, and puts the agent's quote
 in the standard gold takeaway banner. The canonical board and upload kit include this layout;
 v7 incorporates it and also removes the universal review-first sentence and its imagery.
-Build: `scripts/video/build_rise_of_agents_v7.py`; review: `video-audit/rise-of-agents-repair-2026-09-30-v7/`.
+Build: `scripts/video/build_ai_agents_v7.py`; review: `video-audit/ai-agents-repair-2026-09-30-v7/`.
 The sentence is also removed from the current lesson and generation prompt. v7 is shipped locally on owner approval (20260930ship1, 2:50.40, pill 3 min), queued for batch deployment.
 
-**Historical v4 production record (superseded locally by v7):** `rise-of-agents.mp4` was **v4, shipped
+**Historical v4 production record (superseded locally by v7):** `ai-agents.mp4` was **v4, shipped
 2026-09-24** on David's approval (cache key 20260924ship1, pill 3 min, 3:07.8): roll 2 base with the old
 live video's intro and loop narration, roll 2's everywhere line and roll 1's example line and loop banner, section-level
-rings. Build: `scripts/video/build_rise_of_agents_v4.py`. Record: `video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`.
-The replaced live video (commit 6cccc758) is kept as `Prompts/rise-of-agents-live-pre-v4.mp4`, the donor
+rings. Build: `scripts/video/build_ai_agents_v4.py`. Record: `video-audit/ai-agents-v4-2026-09-24/REVIEW.md`.
+The replaced live video (commit 6cccc758) is kept as `Prompts/ai-agents-live-pre-v4.mp4`, the donor
 the v3/v4 builds read.
 
 **Rolls 1-2 and the live video evaluated 2026-09-24** in
-`video-audit/rise-of-agents-evaluation-2026-09-24/REVIEW.md`: roll 1 REPAIR (8/8 verbatim, but drops
+`video-audit/ai-agents-evaluation-2026-09-24/REVIEW.md`: roll 1 REPAIR (8/8 verbatim, but drops
 the analogy's mistake clause; donor only), roll 2 REPAIR and proposed base (7/8; the loop banner comes
 from roll 1 @118.78-130.98 under the loop board), live REROLL (3/8, superseded). Edit plan was awaiting
 David's approval (since given, below).
 **v2 review candidate built 2026-09-24** on David's approval (both grafts + cut 1; optional "it's
-autonomous" cut not taken): `Prompts/rise-of-agents-v2.mp4` (2:58.4), build
-`scripts/video/build_rise_of_agents_v2.py`, record `video-audit/rise-of-agents-v2-2026-09-24/REVIEW.md`.
+autonomous" cut not taken): `Prompts/ai-agents-v2.mp4` (2:58.4), build
+`scripts/video/build_ai_agents_v2.py`, record `video-audit/ai-agents-v2-2026-09-24/REVIEW.md`.
 8/8 verbatim lines on the output transcript; transition guard 17/17. Not shipped; joins await David's ear.
 **v3 review candidate built 2026-09-24** from David's notes on v2: the live video's intro (0:00-0:38)
 replaces v2's opening, section-level rings wherever a card section is spoken (after the live video),
 and the live video's loop narration under What an Agent Does (two live sentences omitted, roll 1's banner
-line kept): `Prompts/rise-of-agents-v3.mp4` (3:00.0), build `scripts/video/build_rise_of_agents_v3.py`,
-record `video-audit/rise-of-agents-v3-2026-09-24/REVIEW.md`. 7/8 verbatim lines (the live intro says
+line kept): `Prompts/ai-agents-v3.mp4` (3:00.0), build `scripts/video/build_ai_agents_v3.py`,
+record `video-audit/ai-agents-v3-2026-09-24/REVIEW.md`. 7/8 verbatim lines (the live intro says
 "A chatbot answers, but an agent acts."); transition guard 17/17. Not shipped.
 **v4 review candidate built 2026-09-24**: v3 plus the analogy-to-example transition David flagged
 (roll 2 "This distinction is exactly why AI agents are suddenly everywhere. They actually do the work."
 over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example."):
-`Prompts/rise-of-agents-v4.mp4` (3:07.8), build `scripts/video/build_rise_of_agents_v4.py`, record
-`video-audit/rise-of-agents-v4-2026-09-24/REVIEW.md`. Transition guard 19/19. **Shipped 2026-09-24.**
+`Prompts/ai-agents-v4.mp4` (3:07.8), build `scripts/video/build_ai_agents_v4.py`, record
+`video-audit/ai-agents-v4-2026-09-24/REVIEW.md`. Transition guard 19/19. **Shipped 2026-09-24.**
 
 ### work-changes
 
@@ -441,13 +441,13 @@ no "hits hardest"; no
 screen/board-position references; no statistic beyond the Markdown; no predicting job losses; the LAB is
 not narrated.
 
-### data-centers
+### where-ai-lives
 
 **Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 for a reroll.** Live
-`data-centers.mp4` shipped under the old method; no evaluation of it against the current system has
+`where-ai-lives.mp4` shipped under the old method; no evaluation of it against the current system has
 been run.
 
-**Rolls 1 and 2 evaluated 2026-09-24** in `video-audit/data-centers-comparison-2026-09-24/REVIEW.md`:
+**Rolls 1 and 2 evaluated 2026-09-24** in `video-audit/where-ai-lives-comparison-2026-09-24/REVIEW.md`:
 both REROLL. Each squashed the neighbors board into one line per effect and broke the numbers
 ("12% by 2028" alone, "a million gallons daily", "around 100 jobs"; lawsuits, lost sleep and the
 supermarket dropped). Roll 1 also spoke the lesson twice (Responses → close repeated from 3:17).
@@ -461,30 +461,30 @@ Roll 2 reworded six of seven required lines and drew faces. Revisions for the re
 - **Rolls 3 and 4 (revised kit) evaluated 2026-09-24**, same REVIEW.md: roll 3 REPAIR (first roll
   to teach Board 2 fully; cut two bridges, graft roll 1's exact close at 4:32.08–4:36.84), awaiting
   David's approval; roll 4 REROLL (Board 2 compressed again).
-- **v3 candidate built 2026-09-24** on David's approval: `Prompts/data-centers-v3.mp4` (3:43.1), from roll 3 with the
-  two cuts and roll 1's close. Build `scripts/video/build_data_centers_v3.py`; record
-  `video-audit/data-centers-v3-2026-09-24/REVIEW.md`. Awaiting David's listening (close seam 3:33.8) and review; not shipped.
-- **v4 candidate built 2026-09-24**: `Prompts/data-centers-v4.mp4`, v3 with David's updated neighbors-board illustrations
-  (asset replaced in place; upload folder re-synced). Record `video-audit/data-centers-v4-2026-09-24/REVIEW.md`. **Shipped 2026-09-24 on David's approval**
-  as live `course-assets/data-centers/data-centers.mp4` (cache key 20260924ship1, pill 4 min, 3:43.1, sha256 239d5a26ee58…).
+- **v3 candidate built 2026-09-24** on David's approval: `Prompts/where-ai-lives-v3.mp4` (3:43.1), from roll 3 with the
+  two cuts and roll 1's close. Build `scripts/video/build_where_ai_lives_v3.py`; record
+  `video-audit/where-ai-lives-v3-2026-09-24/REVIEW.md`. Awaiting David's listening (close seam 3:33.8) and review; not shipped.
+- **v4 candidate built 2026-09-24**: `Prompts/where-ai-lives-v4.mp4`, v3 with David's updated neighbors-board illustrations
+  (asset replaced in place; upload folder re-synced). Record `video-audit/where-ai-lives-v4-2026-09-24/REVIEW.md`. **Shipped 2026-09-24 on David's approval**
+  as live `course-assets/where-ai-lives/where-ai-lives.mp4` (cache key 20260924ship1, pill 4 min, 3:43.1, sha256 239d5a26ee58…).
 - Fallback if the reroll also fails Board 2: roll 1 with the duplicate cut (2:18.92 → 3:17.40) plus
   live-video grafts for electricity, water and jobs (timestamps in the review).
 
-- Markdown: `lessons/data-centers.md` (rewritten 2026-09-23: the approved 2026-09-18 opening is kept
+- Markdown: `lessons/where-ai-lives.md` (rewritten 2026-09-23: the approved 2026-09-18 opening is kept
   word for word as an assumption inside the explanation — one trillion weights per generated token,
   roughly two calculations per weight, 1,000 tokens or around 750 words, about two quadrillion
   calculations — with no separate caveat paragraph; the Scene labels are gone; each board carries only
   its printed text, with the page prose moved out under `##` headings; "U.S. data centers" stays
   attached to the electricity figures, and additional supply stays distinct from efficiency)
-- Prompt: `gemini-notebook/data-centers/PROMPT.txt` (497 words, four blocks; revised 2026-09-24)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/data-centers/` (synced 2026-09-24)
-- Canonical folder: `course-assets/data-centers/`
+- Prompt: `gemini-notebook/where-ai-lives/PROMPT.txt` (497 words, four blocks; revised 2026-09-24)
+- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/where-ai-lives/` (synced 2026-09-24)
+- Canonical folder: `course-assets/where-ai-lives/`
 - Boards in lesson order (no faces; all upload):
-  - `data-centers-data-center.jpg` — upload (photograph of a server hall; the one distant figure walks
+  - `where-ai-lives-data-center.jpg` — upload (photograph of a server hall; the one distant figure walks
     away from the camera, so no face is visible)
-  - `data-centers-physical-footprint.jpg` — upload
-  - `data-centers-meeting-demand.jpg` — upload
-  - `data-centers-close.jpg` — upload
+  - `where-ai-lives-physical-footprint.jpg` — upload
+  - `where-ai-lives-meeting-demand.jpg` — upload
+  - `where-ai-lives-close.jpg` — upload
 
 **Beat spine**
 

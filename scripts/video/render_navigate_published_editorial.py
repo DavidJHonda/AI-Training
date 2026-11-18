@@ -53,13 +53,13 @@ def main() -> None:
     )
     save_pair(
         render_gps_agent_feature(),
-        "course-assets/rise-of-agents/rise-of-agents-gps.jpg",
-        "course-assets/rise-of-agents/rise-of-agents-gps.jpg",
+        "course-assets/ai-agents/ai-agents-gps.jpg",
+        "course-assets/ai-agents/ai-agents-gps.jpg",
     )
     save_pair(
         render_chatbot_agent_long(),
-        "course-assets/rise-of-agents/rise-of-agents-chatbot-vs-agent.jpg",
-        "course-assets/rise-of-agents/rise-of-agents-2-highlights.jpg",
+        "course-assets/ai-agents/ai-agents-chatbot-vs-agent.jpg",
+        "course-assets/ai-agents/ai-agents-2-highlights.jpg",
     )
     save_pair(
         render_first_assignment_long(),

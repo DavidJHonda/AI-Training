@@ -394,7 +394,7 @@ Use the existing screen-only 760px / coarse-pointer max-height 500px convention,
 
 ### Eighth phone-readability batch
 
-Fake Trap, Rise of Agents and Honesty & Privacy opt in eleven teaching boards through
+Fake Trap, AI Agents and Honesty & Privacy opt in eleven teaching boards through
 `EighthPhoneReadingBoard`. Existing shared phone helpers and CSS selectors are unchanged.
 Original desktop image props, hidden historical summaries, closing boards, activities,
 and print presentation stay intact. Only the visible representation is exposed. The
@@ -403,7 +403,7 @@ keeping its SVG resources independent of desktop image rendering.
 
 Fake Trap retains the shared school-closure scenario, both complete comparison panels,
 all checking/verdict labels, the four motives and all three verification questions.
-Rise of Agents keeps the continuous driving scene above its two full explanations,
+AI Agents keeps the continuous driving scene above its two full explanations,
 the complete basketball scenario and responsibility comparison, and the full dated
 PocketOS case and quotation. The connected Goal / Plan / Act / Check flow has a return
 spine and an explicit Check-to-Plan link. Activating it scrolls and focuses Plan.
@@ -450,7 +450,7 @@ rendered desktop pixel comparisons at 1024/1280/1440px, protected-file hashes an
 
 ### Tenth phone-readability batch
 
-Work Changes, Data Centers and Unexpected Results opt in six teaching boards through
+Work Changes, Where AI Lives and Unexpected Results opt in six teaching boards through
 `TenthPhoneReadingBoard`. Original image props, hidden historical summaries, closing
 boards, activities, supporting media and print presentation remain intact. Existing
 shared helpers and CSS are unchanged. The existing `useIllustrationZoom` hook mounts
@@ -462,7 +462,7 @@ Automate / Augment retains both full examples and the outcome-ownership takeaway
 The separate LAB still uses its original 100-review course file; that teaching transition
 is preserved rather than silently changing either example.
 
-Data Centers reuses all three visual arrays with readable Spot / ONE PASS, ABOUT 100
+Where AI Lives reuses all three visual arrays with readable Spot / ONE PASS, ABOUT 100
 TOKENS and ABOUT 1,000 TOKENS labels. All approximate calculation totals, the example
 model qualification and takeaway remain. Electricity, Water, Noise and Permanent Jobs
 stack in original row-major order with every number, date and caveat. The demand cards
@@ -546,7 +546,7 @@ The exercise does not gate lesson completion and is excluded from content-only p
 Run `node scripts/preview_concept_matching.cjs` to regenerate
 `previews/concept-matching.html`, and `node scripts/test_concept_matching.cjs`
 to verify interaction, focus, both rounds, retry, mobile layout, and print behavior.
-The former giant-number quiz is preserved in `docs/parking-lot.html` for Data Centers.
+The former giant-number quiz is preserved in `docs/parking-lot.html` for Where AI Lives.
 
 ### Build an AI Response
 

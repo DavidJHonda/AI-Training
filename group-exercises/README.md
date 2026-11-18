@@ -46,9 +46,9 @@ course order can change.
 | Big Downside | `bigdownside` | Four discussion questions | [Discussion](group-session.html?id=bigdownside-discussion); shared questions in `../group-activities-data.js` |
 | Big Upside | `bigupside` | Four discussion questions | [Discussion](group-session.html?id=bigupside-discussion); shared questions in `../group-activities-data.js` |
 | Where Will AI Land? | `unexpected` | Four discussion questions | [Discussion](group-session.html?id=unexpected-discussion); shared questions in `../group-activities-data.js` |
-| Rise of Agents | `agents` | Five discussion questions | [Discussion](group-session.html?id=agents-discussion); shared questions in `../group-activities-data.js` |
+| AI Agents | `agents` | Five discussion questions | [Discussion](group-session.html?id=agents-discussion); shared questions in `../group-activities-data.js` |
 | Work Changes | `workchanges` | Four discussion questions | [Discussion](group-session.html?id=workchanges-discussion); shared questions in `../group-activities-data.js` |
-| Data Centers | `computecost` | Four discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
+| Where AI Lives | `computecost` | Four discussion questions | [Discussion](group-session.html?id=computecost-discussion); shared questions in `../group-activities-data.js` |
 | Critical Thinking | `critical` | Four discussion questions | [Discussion](group-session.html?id=critical-discussion); shared questions in `../group-activities-data.js` |
 | Honesty & Privacy | `integrity` | Four discussion questions | [Discussion](group-session.html?id=integrity-discussion); shared questions in `../group-activities-data.js` |
 | Where’s the Line? | `wherestheline` | Four discussion questions | [Discussion](group-session.html?id=wherestheline-discussion); shared questions in `../group-activities-data.js` |
@@ -72,7 +72,7 @@ restore the count. Render approved sets inside `GroupExercise`, labeled
 Why Learn AI?, AI Is Different, Does AI Think?, Does School Matter?,
 Where AI Works Best, Context Matters, Beyond the First Answer,
 Probability & Prediction, Training Bias, Trust Trap, Flattery Trap, Loudest
-Voices, Pace of Change, Big Downside, Big Upside, Work Changes, Data Centers,
+Voices, Pace of Change, Big Downside, Big Upside, Work Changes, Where AI Lives,
 Where Will AI Land?, Critical Thinking, Honesty & Privacy, Where’s the Line?,
 and People Skills have four questions. What’s an LLM?, Your Home Base,
 How AI Learns, and Document Trap have three. Embeddings, Transformer, and
@@ -136,7 +136,7 @@ first scenario about a missing source-list requirement. Trust Trap is approved
 and added. Flattery Trap, Support Trap, and Fake Trap are approved and added.
 David reviewed and approved all eight Navigate the Future discussion sets
 together. After the approved removals, 33 questions remain across Loudest Voices, Pace of Change, Big
-Downside, Big Upside, Rise of Agents, Work Changes, Data Centers, and Unexpected
+Downside, Big Upside, AI Agents, Work Changes, Where AI Lives, and Unexpected
 Results. The Opener remains excluded. Each set follows the individual TRY IT
 or LAB; Where Will AI Land? also places discussion before its Group Exercise.
 Evaluation Matters is approved and added with two discussion questions after its TRY IT, bringing Work With AI to 27 questions.
@@ -193,7 +193,7 @@ use the approved file-organizing tool and conflicting safety-test scenarios,
 with their revised main questions and follow-ups. Big Upside #1 now compares
 a small benefit for many with a major benefit for a few, and current #4
 (original #5) uses the approved translation-versus-voice-project funding
-scenario. Their approved question wording is applied. Data Centers current #4
+scenario. Their approved question wording is applied. Where AI Lives current #4
 (original #5) now uses the approved power-shortage scenario comparing tutoring
 and customer-order services, with its revised main question and unchanged
 follow-up. Where Will AI Land? #3 now uses the approved family-story translation

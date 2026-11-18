@@ -11,7 +11,7 @@ def state(frame,label,rect=None,color='#6e51ff',camera=None,move=0):
     d=base.state(frame,label,rect,color,None,move);d['camera']=camera;return d
 def groups():
     result=[]
-    for slug in ['opener-navigate','big-downside','rise-of-agents','work-changes']:
+    for slug in ['opener-navigate','big-downside','ai-agents','work-changes']:
         m=json.loads((A/slug/'scan.json').read_text());g=dict(slug=slug,baseline=m['video'],baseline_sha=m['live_sha256'],frames=m['frames'],legs=[])
         if slug=='opener-navigate':
             start,end=1575,2262
@@ -19,7 +19,7 @@ def groups():
         elif slug=='big-downside':
             start,end=2981,3463
             states=[state(start,'full-illustration'),state(3075,'title',(31,19,1356,95)),state(3180,'defenders',(469,674,688,907),camera=(670,798,1320),move=24),state(3362,'attacker',(688,683,864,890),camera=(670,798,1320))]
-        elif slug=='rise-of-agents':
+        elif slug=='ai-agents':
             # Four inherited blank transition frames directly precede the old board.
             # Cover them with the new board, preserving all original audio/timing.
             start,end=950,1152;states=[state(start,'full-comparison')]

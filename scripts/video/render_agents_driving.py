@@ -10,8 +10,8 @@ from render_navigate_editorial_batch import Card, CardBoard, render_card_board
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "scripts/video/assets/agents-driving/art-sheet.png"
-DEST = "course-assets/rise-of-agents/rise-of-agents-driving.jpg"
-PREP = "gemini-notebook/rise-of-agents/assets/rise-of-agents-driving-faceless.jpg"
+DEST = "course-assets/ai-agents/ai-agents-driving.jpg"
+PREP = "gemini-notebook/ai-agents/assets/ai-agents-driving-faceless.jpg"
 BOARD = CardBoard(
     key="agents-driving",
     title="A Chatbot Answers. An Agent Acts.",

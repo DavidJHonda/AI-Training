@@ -7,7 +7,7 @@ from editorial_typography import face, draw_board_title
 from render_navigate_editorial_batch import Card, CardBoard, render_card_board, FRAME
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = "course-assets/rise-of-agents/rise-of-agents-coding.jpg"
+DEST = "course-assets/ai-agents/ai-agents-coding.jpg"
 SCENARIO = "Make the lesson cards stack on a phone."
 BOARD = CardBoard(
     key="agents-coding", title="",

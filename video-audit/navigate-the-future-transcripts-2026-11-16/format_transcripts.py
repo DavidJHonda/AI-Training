@@ -11,9 +11,9 @@ LESSONS = [
     ("big-downside", "Big Downside"),
     ("big-upside", "Big Upside"),
     ("where-will-ai-land", "Where Will AI Land? (was Unexpected Results)"),
-    ("rise-of-agents", "Rise of Agents"),
+    ("ai-agents", "Rise of Agents"),
     ("work-changes", "Work Changes"),
-    ("data-centers", "Data Centers"),
+    ("where-ai-lives", "Data Centers"),
 ]
 PAUSE = 0.9      # seconds of silence that starts a new paragraph
 MAX_PARA = 45.0  # seconds; split long paragraphs at the next sentence end

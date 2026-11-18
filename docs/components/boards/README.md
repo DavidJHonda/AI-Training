@@ -464,9 +464,9 @@ not a board-specific footer.
 Use for an ordered process in which the direction, handoff, or return path is part
 of the lesson. The approved reference board is:
 
-- `course-assets/rise-of-agents/rise-of-agents-agent-loop.jpg`
+- `course-assets/ai-agents/ai-agents-agent-loop.jpg`
 
-The Rise of Agents reference uses four steps, but the format may use three to five
+The AI Agents reference uses four steps, but the format may use three to five
 steps when the renderer recalculates the column centers and 16:9 illustration width
 for that step count and the copy remains readable at lesson width. Canvas height is derived from
 the deepest step copy, loop, optional takeaway, and required outer padding. Never
@@ -606,10 +606,10 @@ conversation.
 - Pace of Change: Could AI Improve Itself?
 - Pace of Change: How Far Can AI Go?
 - Loudest Voices: Even the Experts Don’t Know (`EE-LONG` reference)
-- Rise of Agents: How an Agent Works (`EE-FLOW` reference)
+- AI Agents: How an Agent Works (`EE-FLOW` reference)
 - Next Level Moves: Starting a Summer Business (`EE-CHAT` reference)
 - Work Changes: Automate versus Augment and What Changes for You
-- Data Centers: the four-part footprint
+- Where AI Lives: the four-part footprint
 - People Skills: Four Ways to Practice (`EE-4FB` reference)
 - Hallucination and Document Trap mechanism boards
 

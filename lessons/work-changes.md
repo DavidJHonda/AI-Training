@@ -6,11 +6,7 @@ Before you know it, you’ll be finished with school and starting your career. H
 
 Familiar job titles will still be around, like entrepreneur, teacher, and lawyer. But what those jobs look like is already changing, including what people do each day.
 
-You already know AI is best at specific things, and that’s where you’ll use it in your job. What sets you apart? It’s what you already know. Now put those ideas together on your first assignment at work.
-
-## Your First Assignment
-
-Here are the steps in your first assignment. AI can give you more time for the interesting stuff.
+Keep two ideas in mind. First, you already know AI is best at specific things, and that’s where you’ll likely use it most in your career. Second, what will set you apart is what you already know. Now put those ideas together on your first assignment at work.
 
 ### Board 1: Your First Assignment
 
@@ -24,15 +20,23 @@ Your first assignment.
 
 Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”
 
-**Before AI, you did all of this yourself.**
+**Stage 1: Detail Work.**
 
-**Stage 1: Detail Work.** AI organizes and summarizes the information. Read and organize 500 reviews, find the recurring themes, build the spreadsheet, and draft an initial summary.
+**Without AI:** You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary.
 
-**Stage 2: Analysis & Recommendation.** You check the work and decide what to do. Check and improve AI’s work, investigate why the problems are happening, compare possible fixes, recommend the fix and present the findings.
+**With AI:** AI produces a first pass. You check it against the reviews and correct mistakes.
+
+**Stage 2: Analysis & Recommendation.**
+
+**Without AI:** You investigate the causes, compare fixes, and present your recommendation.
+
+**With AI:** AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation.
+
+**Same assignment. Same responsibility. A different way to do the work.**
 
 ## Do You See the Point?
 
-With AI’s help, your week begins with the analysis and recommendation. That means less time in spreadsheets and more time thinking. Checking and improving AI’s work takes what you already know.
+With AI’s help, you can spend less time organizing information and more time investigating what it means and deciding what to do. Checking and improving AI’s work takes what you already know.
 
 ## The Concepts
 

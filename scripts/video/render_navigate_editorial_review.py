@@ -495,14 +495,13 @@ def render_first_assignment_long() -> Image.Image:
     card_gap = 32
     card_lefts = (40, 40 + card_width + card_gap)
     scenario_top = 112
-    scenario_height = 270
+    scenario_height = 190
     cards_top = scenario_top + scenario_height + 32
     art_height = round(card_width * 9 / 16)
     scenario_label_font = face("heavy", 20)
     scenario_font = face("medium", 32)
     pill_font = face("heavy", 20)
     card_title_font = face("bold", 40)
-    intro_font = face("medium", 29)
     section_font = face("heavy", 20)
     body_font = face("medium", 29)
     text_width = card_width - 68
@@ -515,56 +514,47 @@ def render_first_assignment_long() -> Image.Image:
     scenario_lines = wrap(measure, scenario, scenario_font, 1456)
     assert len(scenario_lines) <= 2
 
-    first_pass = (
-        "Read and organize 500 reviews",
-        "Find the recurring themes",
-        "Build the spreadsheet",
-        "Draft an initial summary",
-    )
     cards = (
         {
             "accent": PURPLE,
             "pill": "STAGE 1",
             "title": "Detail Work",
-            "intro": "AI organizes and summarizes the information.",
             "sections": (
-                ("", first_pass),
+                ("WITHOUT AI", "You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary."),
+                ("WITH AI", "AI produces a first pass. You check it against the reviews and correct mistakes."),
             ),
         },
         {
             "accent": AMBER,
             "pill": "STAGE 2",
             "title": "Analysis & Recommendation",
-            "intro": "You check the work and decide what to do.",
             "sections": (
-                ("", ("Check and improve AI’s work", "Investigate why the problems are happening", "Compare possible fixes", "Recommend the fix and present the findings")),
+                ("WITHOUT AI", "You investigate the causes, compare fixes, and present your recommendation."),
+                ("WITH AI", "AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation."),
             ),
         },
     )
 
-    wrapped_intros = [wrap(measure, card["intro"], intro_font, text_width) for card in cards]
     wrapped_sections = []
     peer_lines = [0] * max(len(card["sections"]) for card in cards)
     for card in cards:
         assert tracked_width(measure, card["title"], card_title_font, INNER_TITLE_TRACKING) <= text_width
         card_sections = []
-        for section_index, (label, items) in enumerate(card["sections"]):
+        for section_index, (label, body) in enumerate(card["sections"]):
             assert measure.textlength(label, font=section_font) <= text_width
-            item_blocks = [wrap(measure, item, body_font, text_width - 30) for item in items]
-            lines = sum(len(block) for block in item_blocks)
-            peer_lines[section_index] = max(peer_lines[section_index], lines)
-            card_sections.append(item_blocks)
+            lines = wrap(measure, body, body_font, text_width)
+            peer_lines[section_index] = max(peer_lines[section_index], len(lines))
+            card_sections.append(lines)
         wrapped_sections.append(card_sections)
 
-    intro_lines = max(len(lines) for lines in wrapped_intros)
-    text_height = 32 + 30 + 10 + 48 + 18 + intro_lines * 41 + 42
+    text_height = 32 + 30 + 10 + 48 + 18
     for index, line_count in enumerate(peer_lines):
-        text_height += line_count * 41
+        text_height += 36 + line_count * 41
         if index < len(peer_lines) - 1:
-            text_height += 42
+            text_height += 28
     text_height += 34
     card_height = art_height + text_height
-    height = cards_top + card_height + 40
+    height = cards_top + card_height + 40 + 88 + 40
 
     image = Image.new("RGB", (width, height), WHITE)
     draw = ImageDraw.Draw(image)
@@ -583,10 +573,6 @@ def render_first_assignment_long() -> Image.Image:
     )
     draw.text((72, scenario_top + 22), "THE ASSIGNMENT", font=scenario_label_font, fill=PURPLE)
     multiline(draw, (72, scenario_top + 58), scenario_lines, scenario_font, BODY, 45)
-    draw.text(
-        (72, scenario_top + 58 + (len(scenario_lines) + 1) * 45),
-        "Before AI, you did all of this yourself.", font=face("bold", 32), fill=INK,
-    )
 
     source = Image.open(ROOT / "scripts/video/assets/work-changes-assignment/source-board.jpg").convert("RGB")
     panels = (
@@ -594,8 +580,8 @@ def render_first_assignment_long() -> Image.Image:
         source.crop((614, 246, 1170, 562)),
     )
 
-    for card, panel, intro_lines_block, section_blocks, left in zip(
-        cards, panels, wrapped_intros, wrapped_sections, card_lefts
+    for card, panel, section_blocks, left in zip(
+        cards, panels, wrapped_sections, card_lefts
     ):
         accent = card["accent"]
         draw_shadow(image, (left, cards_top, left + card_width, cards_top + card_height), CARD_RADIUS)
@@ -631,25 +617,21 @@ def render_first_assignment_long() -> Image.Image:
         text_y += 40
         draw_inner_title(draw, (text_x, text_y), card["title"], fill=accent)
         text_y += 48 + 18
-        multiline(draw, (text_x, text_y), intro_lines_block, intro_font, BODY, 41)
-        text_y += intro_lines * 41 + 42
-
-        for section_index, ((label, _), item_blocks) in enumerate(zip(card["sections"], section_blocks)):
-            item_y = text_y
-            for block in item_blocks:
-                dot_y = item_y + 15
-                draw.ellipse((text_x, dot_y - 4, text_x + 8, dot_y + 4), fill=accent)
-                multiline(draw, (text_x + 30, item_y), block, body_font, BODY, 41)
-                item_y += len(block) * 41
+        for section_index, ((label, _), lines) in enumerate(zip(card["sections"], section_blocks)):
+            draw.text((text_x, text_y), label, font=section_font, fill=accent)
+            text_y += 36
+            multiline(draw, (text_x, text_y), lines, body_font, BODY, 41)
             text_y += peer_lines[section_index] * 41
             if section_index < len(peer_lines) - 1:
-                text_y += 42
+                text_y += 28
 
     # A connector makes the panels read as stages in one project.
     arrow_y = cards_top + art_height + 92
     draw = ImageDraw.Draw(image)
     draw.line((788, arrow_y, 810, arrow_y), fill=INK, width=4)
     draw.line((802, arrow_y - 8, 810, arrow_y, 802, arrow_y + 8), fill=INK, width=4)
+    draw_takeaway(image, cards_top + card_height + 40,
+                  "Same assignment. Same responsibility. A different way to do the work.")
     ImageDraw.Draw(image).text(
         (width - 40, height - 10), "besmarterthanthetool.com",
         font=face("medium", 20), fill="#625c7a", anchor="rd",

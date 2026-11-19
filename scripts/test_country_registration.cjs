@@ -142,3 +142,12 @@ profileContext.saveStudentProfile({studentId: 'id', firstName: 'Nick', city: 'Da
 profileContext.saveStudentProfile({studentId: 'id', firstName: 'Full', lastName: 'Name'});
 assert.deepEqual(JSON.parse(storage.get('profile')), {studentId:'id',firstName:'Full',lastName:'Name',city:'Dallas',state:'Texas',country:'United States'});
 console.log('PASS: country list, validation, column migration, historical rows, legacy enrollment and profile preservation');
+
+// User-controlled strings must be written as literal spreadsheet text.
+for (const value of ['=1+1', '+SUM(1,1)', '-1+1', '@SUM(1,1)']) {
+  const safe = fixture([]);
+  assert.equal(safe.post({...base, firstName:value, studentId:value}), 'ok');
+  assert.equal(safe.sheet.rows[1][1], "'" + value);
+  assert.equal(safe.sheet.rows[1][2], "'" + value);
+}
+console.log('PASS: enrollment names and IDs cannot become spreadsheet formulas');

@@ -24,7 +24,7 @@ class Sheet {
       createTextFinder: value => ({
         matchEntireCell() { return this; },
         findNext: () => {
-          const offset = this.rows.slice(row - 1, row - 1 + height).findIndex(r => r[col - 1] === value);
+          const offset = this.rows.slice(row - 1, row - 1 + height).findIndex(r => String(r[col - 1]).replace(/^'(?=[=+\-@])/, '') === value);
           return offset < 0 ? null : {getRow: () => row + offset};
         }
       })
@@ -467,5 +467,11 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   click(ui, 'Post my review');
   assert.equal(ui.requests.length, 0);
   await testPublicUI();
+  const rowsBeforeFormula = reviews.rows.length;
+  const formulaPayload = {...base, reviewId:'=1+1', studentId:'=2+2', courseVersion:'=3+3'};
+  assert.equal(post(formulaPayload), 'review-ok');
+  assert.deepEqual(reviews.rows.at(-1).slice(2,5), ["'=1+1", "'=2+2", "'=3+3"]);
+  assert.equal(post(formulaPayload), 'review-ok');
+  assert.equal(reviews.rows.length, rowsBeforeFormula + 1, 'Escaped review IDs still deduplicate');
   console.log('PASS: public field allowlist, all-rating consent filtering, ordering, pagination, edits/withdrawals, feed refresh/retry/scroll, form, drafts, compact/legacy layouts, enrollment, and certificates.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

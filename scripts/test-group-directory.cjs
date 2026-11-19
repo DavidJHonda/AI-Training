@@ -17,7 +17,7 @@ for (const a of activities) {
   const approvedCounts = {'evaluating-discussion': 2, 'whydeeper': 4, 'aivscode': 4, 'aihistory-discussion': 3, 'doesaithink-discussion': 4, 'whybother': 4, 'whatitdoesbest': 4, 'modelselection-discussion': 3, 'prompt-discussion': 4, 'aitips-discussion': 4, 'aiismath-discussion': 4, 'training-discussion': 3, 'embeddings-discussion': 2, 'attention-discussion': 2, 'prediction-discussion': 2, 'documenttrap-discussion': 3, 'trainingbias-discussion': 4, 'mindtrap-discussion': 4, 'flattery-discussion': 4, 'whatpeoplesay-discussion': 4, 'paceofchange-discussion': 4, 'bigdownside-discussion': 4, 'bigupside-discussion': 4, 'workchanges-discussion': 4, 'computecost-discussion': 4, 'unexpected-discussion': 4, 'critical-discussion': 4, 'integrity-discussion': 4, 'wherestheline-discussion': 4, 'peopleskills-discussion': 4};
   assert.equal(a.questions.length,approvedCounts[a.id] ?? 5);
   assert(a.questions.every(q=>q.title));
-  assert(html.includes('return a.id === "'+a.id+'"; }).questions'));
+  assert(html.includes('activityId: "'+a.id+'"'));
  }
 }
 const evaluationLesson = html.slice(html.indexOf('function EvaluatingSection('), html.indexOf('function CreativeThinkingCareerLab('));
@@ -27,7 +27,7 @@ const inlineLessons = [...html.matchAll(/id: "([a-z]+)-group-exercise"/g)].map(m
 for(const lesson of inlineLessons) assert(activities.some(a=>a.lesson===lesson),'Missing lesson '+lesson);
 const standaloneFiles = [...html.matchAll(/href: "(group-exercises\/[^"?]+\.html)"/g)].map(m=>m[1]);
 for(const href of standaloneFiles) assert(activities.some(a=>a.href===href),'Missing activity '+href);
-assert(html.includes('var activities = window.COURSE_GROUP_ACTIVITIES;'));
+assert(html.includes('var activities = catalog[0] || [];'));
 console.log('PASS: shared directory covers '+activities.length+' activities/discussions; destinations exist and lesson questions share the same source.');
 
 const navigation = html.slice(html.indexOf('const SECTION_GROUPS ='), html.indexOf('// Opener sections all share'));

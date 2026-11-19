@@ -83,6 +83,8 @@ for (const sample of [true, false]) {
   const context = {
     URLSearchParams, LessonContext: {},
     useContext: () => ({ sample }),
+    useRef: value => ({current: value}),
+    useEffect() {},
     useState(initial) {
       if (!initialized) { state = typeof initial === 'function' ? initial() : initial; initialized = true; }
       return [state, next => { state = next; }];

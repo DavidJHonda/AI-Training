@@ -499,8 +499,8 @@ function recordEnrollment_(data) {
     var enrollment = getEnrollmentSheet_();
     var values = new Array(enrollment.width).fill("");
     values[0] = new Date();
-    values[1] = firstName;
-    values[enrollment.studentIdColumn - 1] = studentId;
+    values[1] = sheetText_(firstName);
+    values[enrollment.studentIdColumn - 1] = sheetText_(studentId);
     values[enrollment.countryColumn - 1] = country;
     enrollment.sheet.appendRow(values);
     SpreadsheetApp.flush();
@@ -618,7 +618,7 @@ function recordCompletion_(data) {
       var nameChanged = clean_(existingName[0]) !== firstName || clean_(existingName[1]) !== lastName;
       var countryChanged = !!country && existingCountry !== country;
       if (!nameChanged && !countryChanged) return;
-      if (nameChanged) sheet.getRange(existingRow, 3, 1, 2).setValues([[firstName, lastName]]);
+      if (nameChanged) sheet.getRange(existingRow, 3, 1, 2).setValues([[sheetText_(firstName), sheetText_(lastName)]]);
       // A blank legacy payload must never erase an existing country.
       if (countryChanged) sheet.getRange(existingRow, layout.countryColumn).setValues([[country]]);
       SpreadsheetApp.flush();
@@ -636,13 +636,13 @@ function recordCompletion_(data) {
 
     var values = new Array(layout.width).fill("");
     values[0] = completedAt;
-    values[1] = studentId;
-    values[2] = firstName;
-    values[3] = lastName;
+    values[1] = sheetText_(studentId);
+    values[2] = sheetText_(firstName);
+    values[3] = sheetText_(lastName);
     values[layout.countryColumn - 1] = country;
     values[layout.scoreColumn - 1] = score;
-    values[layout.completionIdColumn - 1] = completionId;
-    values[layout.courseVersionColumn - 1] = clean_(data.courseVersion);
+    values[layout.completionIdColumn - 1] = sheetText_(completionId);
+    values[layout.courseVersionColumn - 1] = sheetText_(data.courseVersion);
     sheet.appendRow(values);
     SpreadsheetApp.flush();
 
@@ -794,9 +794,9 @@ function recordReview_(data) {
     var existingRow = findReviewRow_(sheet, reviewId);
     var reviewValues = [
       now,
-      reviewId,
-      studentId,
-      clean_(data.courseVersion),
+      sheetText_(reviewId),
+      sheetText_(studentId),
+      sheetText_(data.courseVersion),
       usefulness
     ];
     var feedbackValues = [
@@ -873,9 +873,12 @@ function normalizeRating_(value) {
   return rating;
 }
 
-function sheetSafe_(value, maxLength) {
-  var text = clean_(value).slice(0, maxLength || 2500);
+function sheetText_(value) {
+  var text = clean_(value);
   return /^[=+\-@]/.test(text) ? "'" + text : text;
+}
+function sheetSafe_(value, maxLength) {
+  return sheetText_(clean_(value).slice(0, maxLength || 2500));
 }
 
 function normalizeScore_(value) {

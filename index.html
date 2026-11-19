@@ -1545,13 +1545,13 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
 <script defer src="start-course.js?v=20261111phoneentry1"></script>
 <link rel="stylesheet" href="contact.css?v=20261008contact1">
 <link rel="stylesheet" href="group-activities.css?v=20261008groups4">
-<script src="group-activities-data.js?v=20261118whereailives"></script>
+<script id="course-activity-catalog" src="group-activities-data.js?v=20261118whereailives"></script>
 <script defer src="contact.js?v=20261008contact2"></script>
 </head>
 <body>
 <div id="root"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="country-select.js"></script>
 <script>
 const {
@@ -1734,18 +1734,48 @@ function getSampleSection(location) {
   if (slug === "for-groups") return "forgroups";
   return null;
 }
+function normalizeStoredValue(key, value, fallback) {
+  if (key === "llm-explorer-progress") return normalizeCourseProgress(value);
+  if (value == null || Array.isArray(value) !== Array.isArray(fallback) || typeof value !== typeof fallback) return fallback;
+  return value;
+}
 function useLocalStorage(key, defaultVal, persist = true) {
-  const [val, setVal] = useState(() => {
-    if (!persist) return defaultVal;
+  const writeFailed = useRef(false);
+  const read = (fallback) => {
+    if (!persist || writeFailed.current) return fallback;
     try {
       const stored = localStorage.getItem(key);
-      return stored ? JSON.parse(stored) : defaultVal;
-    } catch (e) { return defaultVal; }
-  });
+      return stored === null ? defaultVal : normalizeStoredValue(key, JSON.parse(stored), defaultVal);
+    } catch (e) { return fallback; }
+  };
+  const [val, setVal] = useState(() => read(defaultVal));
+  const current = useRef(val);
+  useEffect(() => {
+    if (!persist) return;
+    const sync = (event) => {
+      if (event.key !== key && event.key !== null) return;
+      // Read current storage, since a queued event can already be out of date.
+      writeFailed.current = false;
+      const saved = read(defaultVal);
+      // Another tab can update credit without moving this tab to another lesson.
+      const next = key === "llm-explorer-progress" ? Object.assign({}, saved, { activeSection: current.current.activeSection }) : saved;
+      current.current = next;
+      setVal(next);
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, [key, persist]);
   const set = (v) => {
-    const next = typeof v === 'function' ? v(val) : v;
+    // Re-read before an update even if this tab has not received its storage event.
+    const saved = read(current.current);
+    const previous = key === "llm-explorer-progress" ? Object.assign({}, saved, { activeSection: current.current.activeSection }) : saved;
+    const next = typeof v === 'function' ? v(previous) : v;
+    current.current = next;
     setVal(next);
-    if (persist) { try { localStorage.setItem(key, JSON.stringify(next)); } catch (e) {} }
+    if (persist) {
+      try { localStorage.setItem(key, JSON.stringify(next)); writeFailed.current = false; }
+      catch (e) { writeFailed.current = true; }
+    }
   };
   return [val, set];
 }
@@ -2711,10 +2741,54 @@ function GroupActivityCard(props) {
 function StandaloneGroupExercise(props) {
   return React.createElement(GroupExercise, props);
 }
+var courseActivitiesRequest = null;
+function useCourseActivities() {
+  var state = useState(function() { return Array.isArray(window.COURSE_GROUP_ACTIVITIES) ? window.COURSE_GROUP_ACTIVITIES : null; });
+  var loading = useState(false);
+  useEffect(function() {
+    var update = function() { state[1](Array.isArray(window.COURSE_GROUP_ACTIVITIES) ? window.COURSE_GROUP_ACTIVITIES : null); };
+    window.addEventListener("course-activities-loaded", update);
+    return function() { window.removeEventListener("course-activities-loaded", update); };
+  }, []);
+  var retry = function() {
+    loading[1](true);
+    if (!courseActivitiesRequest) {
+      courseActivitiesRequest = new Promise(function(resolve) {
+        var source = document.getElementById("course-activity-catalog");
+        var script = document.createElement("script");
+        var finished = false;
+        var finish = function() {
+          if (finished) return;
+          finished = true;
+          clearTimeout(timer);
+          script.remove();
+          window.dispatchEvent(new Event("course-activities-loaded"));
+          resolve();
+        };
+        var timer = setTimeout(finish, 15000);
+        script.onload = finish;
+        script.onerror = finish;
+        script.src = source.src + "&retry=" + Date.now();
+        document.head.appendChild(script);
+      }).finally(function() { courseActivitiesRequest = null; });
+    }
+    courseActivitiesRequest.finally(function() { loading[1](false); });
+  };
+  return [state[0], retry, loading[0]];
+}
+function ActivitiesUnavailable(props) {
+  return React.createElement("div", { role: "status", className: "activities-unavailable" },
+    React.createElement("p", null, "These group activities couldn’t load. You can continue the lesson or try again."),
+    React.createElement(ActivityButton, { size: "large", onClick: props.retry, disabled: props.loading, style: { minHeight: 44, fontSize: 16 } }, props.loading ? "Loading activities…" : "Try loading activities again"));
+}
 function DiscussionQuestions(props) {
   var E = React.createElement;
+  var catalog = useCourseActivities();
+  var activity = catalog[0] && catalog[0].find(function(item) { return item && item.id === props.activityId; });
+  var questions = props.questions || (activity && activity.questions);
+  if (!Array.isArray(questions)) return E(ActivitiesUnavailable, { retry: catalog[1], loading: catalog[2] });
   return E("ol", { className: "discussion-questions", role: "list" },
-    props.questions.map(function(question, i) {
+    questions.map(function(question, i) {
       return E("li", { key: i, className: "discussion-question" },
         E("span", { className: "discussion-question-number", "aria-hidden": true }, String(i + 1)),
         E("div", { className: "discussion-question-copy" },
@@ -4504,7 +4578,7 @@ function AIHistorySection(props) {
       href: "group-exercises/whats-an-llm/one-word-at-a-time.html"
     }),
     E(GroupExercise, { id: "aihistory-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aihistory-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "aihistory-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("doesaithink"); }, label: "Next: Does AI Think?" })
   );
@@ -4699,7 +4773,7 @@ function LLMsSection(props) {
     /*#__PURE__*/React.createElement(SetUpChatGPTLab, null),
     React.createElement(LastPersonStandingGroupExercise, { disclosure: true }),
     React.createElement(GroupExercise, { id: "llms-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "llms-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "llms-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whydeeper"); }, label: "Next: Why Learn AI?" })
   );
@@ -5019,7 +5093,7 @@ function AIIsMathSection(props) {
     closeBoard("aiismath")),
     /*#__PURE__*/React.createElement(BayesianMindReaderTryIt, null),
     React.createElement(GroupExercise, { id: "aiismath-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aiismath-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "aiismath-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("training"); }, label: "Next: How AI Learns" })
   );
@@ -6581,7 +6655,7 @@ function WhyDeeperSection(props) {
     closeBoard("whydeeper")),
     /*#__PURE__*/E(AIMultiplierTryIt, null),
     E(GroupExercise, { id: "whydeeper-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whydeeper"; }).questions })),
+      E(DiscussionQuestions, { activityId: "whydeeper" })),
     /*#__PURE__*/E(LessonRule, null),
     /*#__PURE__*/E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aivscode"); }, label: "Next: AI is Different" }));
 }
@@ -6681,7 +6755,7 @@ function DoesAIThinkSection(props) {
       ]
     }),
     E(GroupExercise, { id: "doesaithink-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "doesaithink-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "doesaithink-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("whybother"); },
@@ -6820,7 +6894,7 @@ function WhyBotherSection(props) {
           }, CATCH_CHOICES.map(function(label, optIdx) { return PillButton(label, optIdx); }));
         }))),
     E(GroupExercise, { id: "whybother-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whybother"; }).questions })),
+      E(DiscussionQuestions, { activityId: "whybother" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("studying"); },
@@ -6971,7 +7045,7 @@ function AIvsCodeSection(props) {
     closeBoard("aivscode")),
     E(MessyNotesLab, null),
     E(GroupExercise, { id: "aivscode-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aivscode"; }).questions })),
+      E(DiscussionQuestions, { activityId: "aivscode" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("aihistory"); }, label: "Next: What’s an LLM?" })
   );
@@ -7369,7 +7443,7 @@ function HowAIReadsSection(props) {
     closeBoard("attention")),
     E(BeTheAttentionTryIt, null),
     E(GroupExercise, { id: "attention-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "attention-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "attention-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("layers"); },
@@ -7482,7 +7556,7 @@ function TrainingBiasSection(props) {
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     React.createElement(GroupExercise, { id: "trainingbias-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "trainingbias-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "trainingbias-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("documenttrap"); }, label: "Next: Document Trap" })
   );
@@ -7742,7 +7816,7 @@ function TrainingSection(props) {
     React.createElement(TrainingKitchenHelper, null),
     React.createElement(BodyP, null, "Your choices shaped the helper’s answers to new questions. That’s the idea behind preference tuning: feedback guides future responses."),
     React.createElement(GroupExercise, { id: "training-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "training-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "training-discussion" })),
     React.createElement(LessonRule, null),
     React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("tokens"), label: "Next: Tokens" }));
 }
@@ -8169,7 +8243,7 @@ function EmbeddingsSection(props) {
   closeBoard("embeddings")),
   clubTryIt,
   E(GroupExercise, { id: "embeddings-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "embeddings-discussion"; }).questions })),
+    E(DiscussionQuestions, { activityId: "embeddings-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("attention"), label: "Next: Transformer" }));
 }
@@ -9305,7 +9379,7 @@ function PromptSection(props) {
     closeBoard("prompt")),
     React.createElement(CodingProjectGameLab, null),
     React.createElement(GroupExercise, { id: "prompt-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prompt-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "prompt-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("evaluating"); }, label: "Next: Evaluation Matters" }));
 }
@@ -9437,7 +9511,7 @@ function DocumentChatSection(props) {
           }));
         }))),
     E(GroupExercise, { id: "documenttrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "documenttrap-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "documenttrap-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("mindtrap"); },
@@ -9536,7 +9610,7 @@ function ModelSelectionSection(props) {
       }))),
   React.createElement(HomeBaseGroupExercise, null),
   React.createElement(GroupExercise, { id: "modelselection-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "modelselection-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "modelselection-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("questionsvaluable"), label: "Next: Questions Matter" }));
 }
@@ -9846,7 +9920,7 @@ function AITipsSection(props) {
     closeBoard("aitips")),
     E(ThoughtPartnerLab, null),
     E(GroupExercise, { id: "aitips-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "aitips-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "aitips-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("choosemodel"); }, label: "Next: When You Need More" }));
 }
@@ -10046,7 +10120,7 @@ function PredictionSection(props) {
   closeBoard("prediction")),
   /*#__PURE__*/React.createElement(MatchTermsTryIt, null),
   React.createElement(GroupExercise, { id: "prediction-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prediction-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "prediction-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("inference"), label: "Next: Why Answers Vary" }));
 }
@@ -10293,7 +10367,7 @@ function HallucinationSection(props) {
     closeBoard("hallucination")),
     React.createElement(HallucinationQuiz, null),
   React.createElement(GroupExercise, { id: "hallucination-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "hallucination-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "hallucination-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("trainingbias"), label: "Next: Training Bias" }));
 }
@@ -10456,7 +10530,7 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
   React.createElement(WhatsMissingGroupExercise, null),
   React.createElement(GroupExercise, { id: "critical-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "critical-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "critical-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("integrity"), label: "Next: Honesty & Privacy" }));
 }
@@ -10686,7 +10760,7 @@ function WhatItDoesBestSection(props) {
           }));
         }))),
     E(GroupExercise, { id: "whatitdoesbest-group-exercise", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whatitdoesbest"; }).questions })),
+      E(DiscussionQuestions, { activityId: "whatitdoesbest" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("modelselection"); },
@@ -10840,7 +10914,7 @@ function PromptingSection(props) {
       onToggle: function(i) { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }
     })),
   React.createElement(GroupExercise, { id: "prompting-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "prompting-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "prompting-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("prompt"), label: "Next: Context Matters" }));
 }
@@ -11032,7 +11106,7 @@ function StudyingWithAISection(props) {
     E(FocusedGuidedLearningLab, null),
     E(RidiculousStudyGroupExercise, null),
     E(GroupExercise, { id: "studying-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "studying-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "studying-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerworkwith"); }, label: "Next: Work With AI" })
   );
@@ -11190,7 +11264,7 @@ function EvaluatingSection(props) {
     closeBoard("evaluating")),
     E(DigDeeperTryIt, null),
     E(GroupExercise, { id: "evaluating-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "evaluating-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "evaluating-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("aitips"), label: "Next: Beyond the First Answer" }));
 }
@@ -11289,7 +11363,7 @@ function CreativeThinkingSection(props) {
     closeBoard("creativethinking")),
     /*#__PURE__*/React.createElement(CreativeThinkingCareerLab, null),
     React.createElement(GroupExercise, { id: "creativethinking-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "creativethinking-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "creativethinking-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("becurious"); }, label: "Next: Curiosity" }));
 }
@@ -11445,7 +11519,7 @@ function PeopleSkillsSection(props) {
     closeBoard("peopleskills")),
     E(PeopleSkillsCareerLab, null),
     E(GroupExercise, { id: "peopleskills-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "peopleskills-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "peopleskills-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("creativethinking"); }, label: "Next: Creative Thinking" }));
 }
@@ -11532,7 +11606,7 @@ function BeCuriousSection(props) {
     closeBoard("becurious")),
     E(BeCuriousCareerLab, null),
     E(GroupExercise, { id: "becurious-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "becurious-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "becurious-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("makeyourmove"); }, label: "Next: What’s Next?" }));
 }
@@ -11938,7 +12012,7 @@ function MakeYourMoveSection(props) {
     closeBoard("makeyourmove")),
     E(MakeYourMoveCareerLab, null),
     E(GroupExercise, { id: "makeyourmove-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "makeyourmove-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "makeyourmove-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerfinish"); }, label: "Next: Finish Smarter" })
   );
@@ -12065,7 +12139,7 @@ function WhenAIActsSection(props) {
               item.options.map(function(opt) { return PillButton(opt); })));
         }))),
     React.createElement(GroupExercise, { id: "agents-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "agents-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "agents-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("workchanges"), label: "Next: Work Changes" }));
 }
@@ -12156,7 +12230,7 @@ function MindTrapSection(props) {
             /*#__PURE__*/React.createElement(QuizBlock, { key: si, surface: "mint", statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }));
         }))),
     React.createElement(GroupExercise, { id: "mindtrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "mindtrap-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "mindtrap-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("flattery"); }, label: "Next: Flattery Trap" }));
 }
@@ -12299,7 +12373,7 @@ function FlatteryTrapSection(props) {
               st.prompt ? /*#__PURE__*/React.createElement(CopyableLabPrompt, { text: st.prompt }) : null));
         }))),
     React.createElement(GroupExercise, { id: "flattery-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "flattery-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "flattery-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("supporttrap"); }, label: "Next: Support Trap" }));
 }
@@ -12411,7 +12485,7 @@ function SupportTrapSection(props) {
                 E(QuizBlock, { surface: "mint", optionsIndent: 0, statement: sc.question, totalQuestions: SPOT_EXERCISES.length, options: sc.options, picked: picked != null ? picked : undefined, onAnswer: function(idx) { setSpotAnswers(function(prev) { return Object.assign({}, prev, Object.fromEntries([[si, idx]])); }); } }))));
         }))),
     E(GroupExercise, { id: "supporttrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "supporttrap-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "supporttrap-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("faketrap"); }, label: "Next: Fake Trap" }));
 }
@@ -12823,7 +12897,7 @@ function PrivacySection(props) {
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, color: "var(--ink)", fontWeight: 700, marginBottom: 6 } }, "Privacy becomes a habit."),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.6 } }, "Before you share anything, ask what AI actually needs.")) : null,
   React.createElement(GroupExercise, { id: "integrity-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "integrity-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "integrity-discussion" })),
   /*#__PURE__*/React.createElement(LessonRule, null),
   /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("wherestheline"); }, label: "Next: Where’s the Line?" }));
 }
@@ -12887,7 +12961,7 @@ function WheresTheLineSection(props) {
       }))),
   React.createElement(WhereDoYouStandGroupExercise, null),
   React.createElement(GroupExercise, { id: "wherestheline-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-    React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "wherestheline-discussion"; }).questions })),
+    React.createElement(DiscussionQuestions, { activityId: "wherestheline-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("peopleskills"); }, label: "Next: People Skills" }));
 }
@@ -13021,7 +13095,7 @@ function SyntheticMediaSection(props) {
     closeBoard("faketrap")),
     React.createElement(FakeTrapPhotoTryIt, null),
     React.createElement(GroupExercise, { id: "faketrap-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "faketrap-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "faketrap-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: () => props.completeAndNavigate && props.completeAndNavigate("openerrealworld"), label: "Next: Navigate the Future" }));
 }
@@ -13040,7 +13114,23 @@ function loadFinalPassed() {
     return !!(record && typeof record.bestScore === "number" && record.bestScore >= FINAL_PASS_PCT);
   } catch (e) { return false; }
 }
+function normalizeCourseProgress(progress) {
+  var source = progress && typeof progress === "object" && !Array.isArray(progress) ? progress : {};
+  var known = function(id) { return SECTIONS.some(function(section) { return section.id === id; }); };
+  var migrate = function(id) {
+    return id === "engagementtrap" ? "flattery" : id === "groupexercises" ? "forgroups" : id === "control" ? "whybother" : id;
+  };
+  var ids = function(value) { return Array.isArray(value) ? Array.from(new Set(value.map(migrate).filter(known))) : []; };
+  var active = migrate(source.activeSection);
+  if (!known(active)) active = "welcome";
+  var completed = ids(source.completed), visited = ids(source.visited);
+  if (!visited.includes(active)) visited.push(active);
+  var same = function(a, b) { return Array.isArray(a) && a.length === b.length && a.every(function(id, i) { return id === b[i]; }); };
+  if (source === progress && active === source.activeSection && same(source.completed, completed) && same(source.visited, visited)) return progress;
+  return Object.assign({}, source, { activeSection: active, completed: completed, visited: visited });
+}
 function reconcileCourseProgress(progress, finalPassed) {
+  progress = normalizeCourseProgress(progress);
   // Keep saved navigation and earned credit when the two trap lessons merge.
   function mergedId(id) { return id === "engagementtrap" ? "flattery" : id; }
   function migrate(ids) { return Array.from(new Set(ids.map(mergedId))); }
@@ -14107,11 +14197,13 @@ function WhatsMissingGroupExercise() {
 }
 function GroupActivityDirectory(props) {
   var E = React.createElement;
-  var activities = window.COURSE_GROUP_ACTIVITIES;
+  var catalog = useCourseActivities();
+  var activities = catalog[0] || [];
   var sections = Array.from(new Set(activities.map(function(activity) { return activity.section; })));
   var typeState = React.useState("All"), selectedType = typeState[0], setType = typeState[1];
   var sectionState = React.useState(""), selectedSection = sectionState[0], setSection = sectionState[1];
   var searchState = React.useState(""), search = searchState[0], setSearch = searchState[1];
+  if (!catalog[0]) return E(ActivitiesUnavailable, { retry: catalog[1], loading: catalog[2] });
   var query = search.trim().toLocaleLowerCase();
   var matches = activities.filter(function(activity) {
     return (selectedType === "All" || activity.type === selectedType) &&
@@ -14593,7 +14685,7 @@ function QuestionsValuableSection(props) {
         "Pick something you want to understand. Write your question, improve it using the four qualities, and ask ChatGPT.")),
     React.createElement(QuestionsMatterGroupExercise, null),
     React.createElement(GroupExercise, { id: "questionsvaluable-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      React.createElement(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "questionsvaluable-discussion"; }).questions })),
+      React.createElement(DiscussionQuestions, { activityId: "questionsvaluable-discussion" })),
     /*#__PURE__*/React.createElement(LessonRule, null),
     /*#__PURE__*/React.createElement(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("prompting"); }, label: "Next: Prompting Matters" })
   );
@@ -14721,7 +14813,7 @@ function BigUpsideSection(props) {
     closeBoard("bigupside")),
     E(BigUpsideBenefitsLab, null),
     E(GroupExercise, { id: "bigupside-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "bigupside-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "bigupside-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("unexpected"); }, label: "Next: Where Will AI Land?" }));
 }
@@ -14813,7 +14905,7 @@ function WhatPeopleSaySection(props) {
         })
       )),
     E(GroupExercise, { id: "whatpeoplesay-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "whatpeoplesay-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "whatpeoplesay-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("paceofchange"); }, label: "Next: Pace of Change" }));
 }
@@ -15037,7 +15129,7 @@ function PaceOfChangeSection(props) {
     closeBoard("paceofchange")),
     E(DoublingGameTryIt),
     E(GroupExercise, { id: "paceofchange-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "paceofchange-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "paceofchange-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigdownside"); }, label: "Next: Big Downside" }));
 }
@@ -15235,7 +15327,7 @@ function BigDownsideSection(props) {
         })
       )),
     E(GroupExercise, { id: "bigdownside-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "bigdownside-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "bigdownside-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("bigupside"); }, label: "Next: Big Upside" }));
 }
@@ -15350,7 +15442,7 @@ function WorkChangesSection(props) {
         }))),
 
     E(GroupExercise, { id: "workchanges-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "workchanges-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "workchanges-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, {
       onClick: function() { props.completeAndNavigate && props.completeAndNavigate("computecost"); },
@@ -15747,7 +15839,7 @@ function TheHiddenCostSection(props) {
     closeBoard("computecost")),
     E(DataCenterTownTryIt, null),
     E(GroupExercise, { id: "computecost-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "computecost-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "computecost-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("openerskills"); }, label: "Next: Build Your Skills" }));
 }
@@ -15808,7 +15900,7 @@ function UnexpectedResultsSection(props) {
     E(RatQuizTryIt, null),
     E(UnexpectedResultsGroupExercise, null),
     E(GroupExercise, { id: "unexpected-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
-      E(DiscussionQuestions, { questions: window.COURSE_GROUP_ACTIVITIES.find(function(a) { return a.id === "unexpected-discussion"; }).questions })),
+      E(DiscussionQuestions, { activityId: "unexpected-discussion" })),
     E(LessonRule, null),
     E(NextLessonGate, { onClick: function() { props.completeAndNavigate && props.completeAndNavigate("agents"); }, label: "Next: AI Agents" }));
 }
@@ -16234,10 +16326,15 @@ function LLMExplorer() {
     testYourselfQuiz: null
   });
   const [finalPassed, setFinalPassed] = useState(loadFinalPassed);
+  useEffect(function() {
+    var sync = function(event) { if (event.key === "final-exam" || event.key === null) setFinalPassed(loadFinalPassed()); };
+    window.addEventListener("storage", sync);
+    return function() { window.removeEventListener("storage", sync); };
+  }, []);
   // Repair older navigation-only Final completions and credit existing passes.
   const reconciledProgress = reconcileCourseProgress(storedProgress, finalPassed);
   useEffect(function() {
-    if (!sampleMode && reconciledProgress !== storedProgress) setProgress(reconciledProgress);
+    if (!sampleMode && reconciledProgress !== storedProgress) setProgress(function(latest) { return reconcileCourseProgress(latest, loadFinalPassed()); });
   }, [storedProgress, finalPassed, sampleMode]);
   // Preview the real course shell without displaying or changing saved progress.
   const progress = sampleMode ? { activeSection: sampleSection, visited: [], completed: [], testYourselfQuiz: null } : reconciledProgress;
@@ -16886,7 +16983,47 @@ function validate() {
 window.validate = validate;
 setTimeout(validate, 0);
 
-window.onerror = function(msg, src, line, col, err) { document.body.innerHTML = '<pre style="color:red;padding:20px;white-space:pre-wrap">ERROR: ' + msg + '\nLine: ' + line + '\n' + (err && err.stack || '') + '</pre>'; };
+// Keep the course mounted after an event-handler or asynchronous failure.
+function showCourseError(error, message, source, line) {
+  console.error("Course error:", error || message, source || "", line || "");
+  var banner = document.getElementById("course-runtime-error");
+  if (!banner) {
+    banner = document.createElement("aside");
+    banner.id = "course-runtime-error";
+    banner.setAttribute("role", "alert");
+    banner.style.cssText = "padding:16px;margin:12px;border:1px solid #d4334a;border-radius:12px;background:#fff;font:16px/1.5 system-ui;color:#0e0a1f";
+    var explanation = document.createElement("p");
+    explanation.textContent = "Something went wrong. Try the action again, or reload this page.";
+    banner.appendChild(explanation);
+    var reload = document.createElement("button");
+    reload.type = "button";
+    reload.textContent = "Reload course";
+    reload.style.cssText = "min-height:44px;padding:10px 16px;font:inherit;border:1px solid #6e51ff;border-radius:8px;background:#fff;cursor:pointer";
+    reload.onclick = function() { window.location.reload(); };
+    banner.appendChild(reload);
+    var dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.textContent = "Dismiss error";
+    dismiss.style.cssText = reload.style.cssText + ";margin-left:12px";
+    dismiss.onclick = function() { banner.remove(); };
+    banner.appendChild(dismiss);
+    var details = document.createElement("details");
+    var summary = document.createElement("summary");
+    summary.textContent = "Error details";
+    details.appendChild(summary);
+    var diagnostic = document.createElement("pre");
+    diagnostic.style.cssText = "white-space:pre-wrap;overflow-wrap:anywhere";
+    details.appendChild(diagnostic);
+    banner.appendChild(details);
+    document.body.insertBefore(banner, document.body.firstChild);
+  }
+  var reason = error && error.message ? error.message : (error != null ? String(error) : "");
+  banner.querySelector("pre").textContent = (message || reason) + (reason && reason !== message ? "\n" + reason : "") + (source ? "\n" + source + ":" + line : "") + (error && error.stack ? "\n" + error.stack : "");
+}
+window.addEventListener("error", function(event) {
+  if (event.message) showCourseError(event.error, event.message, event.filename, event.lineno);
+});
+window.addEventListener("unhandledrejection", function(event) { showCourseError(event.reason, "An asynchronous action failed."); });
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(LLMExplorer));
 </script>
 </body>

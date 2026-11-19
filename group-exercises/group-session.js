@@ -2,7 +2,6 @@
   const root = document.getElementById('group-session');
   const activities = window.COURSE_GROUP_ACTIVITIES;
   const id = new URLSearchParams(location.search).get('id');
-  const activity = activities.find(a => a.id === id);
   const node = (tag, text, className) => {
     const el = document.createElement(tag);
     if (text) el.textContent = text;
@@ -12,6 +11,14 @@
   root.replaceChildren();
   const back = node('a', 'All group activities', 'back-link');
   back.href = location.protocol === 'file:' ? '../index.html?sample=for-groups' : '/course/for-groups';
+  if (!Array.isArray(activities)) {
+    const retry = node('button', 'Reload activities');
+    retry.type = 'button';
+    retry.addEventListener('click', () => location.reload());
+    root.append(back, node('h1', 'Group Activities'), node('p', 'These activities couldn’t load. Please try again.'), retry);
+    return;
+  }
+  const activity = activities.find(a => a.id === id);
   if (!activity) {
     root.append(node('h1', 'Group Activities'), node('p', 'Activities and discussions to try with your club, class, or friends. No course registration needed.'));
     const guidance = node('section', '', 'group-getting-started');

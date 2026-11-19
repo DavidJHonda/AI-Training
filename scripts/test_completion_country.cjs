@@ -6,6 +6,8 @@ const root = path.join(__dirname, '..');
 const backend = fs.readFileSync(path.join(root, 'google-apps-script.gs'), 'utf8');
 const frontend = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
+// Sheets stores the apostrophe escape but returns the literal text to readers.
+function sheetLiteral(value) { return typeof value === 'string' ? value.replace(/^'(?=[=+\-@])/, '') : value; }
 class Sheet {
   constructor(name, rows = []) { this.name = name; this.rows = rows.map(row => row.slice()); this.columns = Math.max(8, ...this.rows.map(row => row.length)); }
   appendRow(row) { this.rows.push(Array.from(row)); this.columns = Math.max(this.columns, row.length); }
@@ -19,7 +21,7 @@ class Sheet {
   copyTo(spreadsheet) { const copy = new Sheet(this.name + ' copy', this.rows); spreadsheet.sheets.push(copy); return copy; }
   getRange(row, column, height = 1, width = 1) {
     return {
-      getValues: () => Array.from({length: height}, (_, i) => Array.from({length: width}, (_, j) => this.rows[row - 1 + i]?.[column - 1 + j] ?? '')),
+      getValues: () => Array.from({length: height}, (_, i) => Array.from({length: width}, (_, j) => sheetLiteral(this.rows[row - 1 + i]?.[column - 1 + j] ?? ''))),
       setValues: values => values.forEach((valuesRow, i) => valuesRow.forEach((value, j) => {
         this.rows[row - 1 + i] ||= [];
         this.rows[row - 1 + i][column - 1 + j] = value;
@@ -27,7 +29,7 @@ class Sheet {
       createTextFinder: value => ({
         matchEntireCell() { return this; },
         findNext: () => {
-          const offset = this.rows.slice(row - 1, row - 1 + height).findIndex(r => r[column - 1] === value);
+          const offset = this.rows.slice(row - 1, row - 1 + height).findIndex(r => sheetLiteral(r[column - 1]) === value);
           return offset < 0 ? null : {getRow: () => row + offset};
         }
       })
@@ -206,3 +208,16 @@ assert.deepEqual(f.sheet().rows[1], [historicalDate,'old-student','Old','','Dall
   console.error(error);
   process.exitCode = 1;
 });
+
+for (const value of ['=1+1', '+SUM(1,1)', '-1+1', '@SUM(1,1)']) {
+  const safe = fixture(null);
+  const payload = {...base, firstName:value, lastName:value, studentId:value, completionId:value, courseVersion:value};
+  assert.equal(safe.post(payload), 'completion-ok');
+  for (const column of [1,2,3,6,7]) assert.equal(safe.sheet().rows[1][column], "'" + value);
+  assert.equal(safe.post(payload), 'completion-ok');
+  assert.equal(safe.sheet().rows.length, 2, 'Escaped IDs still deduplicate');
+  assert.equal(safe.emails.length, 1, 'Identical literal names do not trigger update emails');
+  assert.equal(safe.post({...payload,firstName:'=2+2'}), 'completion-ok');
+  assert.equal(safe.sheet().rows[1][2], "'=2+2", 'Updates escape names too');
+}
+console.log('PASS: completion text is formula-safe on insert and update, with retry deduplication');

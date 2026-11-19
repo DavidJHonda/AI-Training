@@ -443,15 +443,10 @@ not narrated.
 
 ### where-ai-lives
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 for a reroll.** Live
-`where-ai-lives.mp4` shipped under the old method; no evaluation of it against the current system has
-been run.
+**Full reroll prepared November 19, 2026.** Use the five files in `gemini-notebook/where-ai-lives/upload/` and paste its sibling `PROMPT.txt` into video customization. Save the raw roll as `Prompts/where-ai-lives-reroll.mp4` (use the next unused suffix for another take).
 
-**Rolls 1 and 2 evaluated 2026-09-24** in `video-audit/where-ai-lives-comparison-2026-09-24/REVIEW.md`:
-both REROLL. Each squashed the neighbors board into one line per effect and broke the numbers
-("12% by 2028" alone, "a million gallons daily", "around 100 jobs"; lawsuits, lost sleep and the
-supermarket dropped). Roll 1 also spoke the lesson twice (Responses → close repeated from 3:17).
-Roll 2 reworded six of seven required lines and drew faces. Revisions for the reroll:
+The opening follows a spreadsheet from the learner’s laptop to the cloud. The calculations behind an AI reply lead to the server hall and then to the people who live nearby. The previous video uses a different math example and closing. Its production record is in `video-audit/where-ai-lives-lesson-update-2026-10-09/`.
+
 - Markdown: Board 2's sentences, "The scale varies by facility." and the who-pays sentence now each
   stand alone on their own line (wording unchanged).
 - Prompt: six Board 2 sentences and the scale line join the verbatim list (fourteen lines); the
@@ -470,49 +465,34 @@ Roll 2 reworded six of seven required lines and drew faces. Revisions for the re
 - Fallback if the reroll also fails Board 2: roll 1 with the duplicate cut (2:18.92 → 3:17.40) plus
   live-video grafts for electricity, water and jobs (timestamps in the review).
 
-- Markdown: `lessons/where-ai-lives.md` (rewritten 2026-09-23: the approved 2026-09-18 opening is kept
-  word for word as an assumption inside the explanation — one trillion weights per generated token,
-  roughly two calculations per weight, 1,000 tokens or around 750 words, about two quadrillion
-  calculations — with no separate caveat paragraph; the Scene labels are gone; each board carries only
-  its printed text, with the page prose moved out under `##` headings; "U.S. data centers" stays
-  attached to the electricity figures, and additional supply stays distinct from efficiency)
-- Prompt: `gemini-notebook/where-ai-lives/PROMPT.txt` (497 words, four blocks; revised 2026-09-24)
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/where-ai-lives/` (synced 2026-09-24)
+- Markdown: `lessons/where-ai-lives.md`
+- Prompt: `gemini-notebook/where-ai-lives/PROMPT.txt`
+- Upload registry: `gemini-notebook/upload-sets.json`
 - Canonical folder: `course-assets/where-ai-lives/`
 - Boards in lesson order (no faces; all upload):
+  - `where-ai-lives-math.jpg` — upload
   - `where-ai-lives-data-center.jpg` — upload (photograph of a server hall; the one distant figure walks
     away from the camera, so no face is visible)
   - `where-ai-lives-physical-footprint.jpg` — upload
-  - `where-ai-lives-meeting-demand.jpg` — upload
   - `where-ai-lives-close.jpg` — upload
 
 **Beat spine**
 
-1. Hook: type a question, hit send, and an enormous amount of math runs behind the chat.
-2. The assumed calculation in order, then "The ability to run that math is called compute."; serving
-   millions of people; why companies build more data centers.
-3. A warehouse of thousands of GPUs running around the clock; the hall itself on the photograph.
-4. Board gone: several football fields, as much electricity as a small city, scale varies by facility,
-   "When you hit send in ChatGPT, a data center answers.", "Somebody pays for all that arithmetic.",
-   and who else it affects.
-5. What a Data Center Means for Its Neighbors: all four effects with their numbers (4.4% in 2023, the
-   Berkeley Lab projection of 6.7–12% by 2028, household bills; about a million gallons on a hot day
-   with recycling and reuse; fans 24 hours a day and lawsuits over lost sleep; 100 to 200 permanent
-   workers, about a big supermarket's staff).
-6. Meeting the Demand: all three responses by name, then the banner; then "More efficient tasks do not
-   automatically mean a smaller total footprint." with its condition.
-7. The footprint, honestly: one request is a small part, every technology has a footprint, who pays it
-   in dollars, watts, water and quiet, and the no-guilt line with its reason.
-8. Close on the two lines with nothing after.
+1. Follow a spreadsheet from Excel on a hard drive to Google Sheets on a phone. Define the cloud, then ask why March expenses jumped to introduce the math behind a reply.
+2. Teach all three panels as estimates for the same example model. One output token takes about 100 billion calculations. At 100 output tokens (roughly 75 English words), the estimate reaches 10 trillion. At 1,000 output tokens across the conversation (roughly 750 words), it reaches 100 trillion.
+3. Define compute, scale from one question to millions of people, and ask “Where does all that math happen?”
+4. Define a data center and its servers, explain what GPUs do, and mention Nvidia. Introduce the scale of large facilities. Show the server hall and use the person in the aisle to explain what the racks hold. Go directly to the question about neighbors.
+5. Living Near a Data Center: the projection of about 12% of U.S. electricity by 2030 and the effect on bills,
+   fresh water to replace evaporation even with reuse, fans running around the clock, and fewer jobs after construction.
+6. Follow the neighbors board with the short paragraph on additional electricity, water reuse and chip efficiency.
+7. Go straight to the closing board and speak its two lines.
 
-**Required verbatim lines:** the fourteen in the prompt (the compute definition, the scale line, the
-hit-send line, the somebody-pays line, six Board 2 sentences, the demand banner, the no-guilt line,
-and the two closing lines).
+**Required verbatim lines:** the ten in the prompt (the per-token estimate, the compute definition, six neighbors-board sentences, and the two closing lines).
 
 **Banned words:** leverage, framework, utilize, sustainability, carbon, emissions, environmental,
-staggering; no screen/board-position references; no predicted future totals; no town or company beyond
+staggering; no screen/board-position references; no forecasts beyond the lesson; no town or company beyond
 the Markdown; never tell anyone to use AI less. Highlighting call for the edit stands from 2026-09-18:
-whole-card highlights on the neighbours and demand boards, none on the warehouse photograph or the
+whole-card highlights on the neighbors board, none on the warehouse photograph or the
 close. The retired fixed training total, the 2,000-word chat claim, the separate electricity qualifier
 and the nuclear-project examples stay removed; no Hit Send board is used.
 

@@ -6,7 +6,7 @@ const path = require('node:path');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
   workchanges: ['workAssignment','workWays'],
-  computecost: ['computeMath','computeNeighbors','computeDemand'],
+  computecost: ['computeMath','computeNeighbors'],
   unexpected: ['unexpectedPlans']
 };
 (async () => {
@@ -73,12 +73,12 @@ const lessons = {
       } else if(id==='computecost') {
         const math=page.locator('[data-phone-reading-board="computeMath"] .phone-reading-mobile');
         assert.deepEqual(await math.locator('h4').allTextContents(),['One Token','A Short Answer','A Longer Conversation']);
-        assert.deepEqual(await math.locator('.phone-ten-total').allTextContents(),['≈ 2 trillion calculations','≈ 200 trillion calculations','≈ 2 quadrillion calculations']);
-        for(const phrase of ['Spot','ONE PASS','ABOUT 100 TOKENS','ABOUT 1,000 TOKENS','our example model’s trillion weights','AI across the conversation','In this example, even a short answer takes trillions of calculations.'])assert.ok((await math.innerText()).includes(phrase),phrase);
-        const neighbors=await page.locator('[data-phone-reading-board="computeNeighbors"] .phone-reading-mobile').innerText();for(const phrase of ['4.4%','in 2023','Berkeley Lab projected 6.7–12% by 2028.','In some places','about a million gallons on a hot day.','Others recycle or reuse it.','24 hours a day.','In some towns','Construction employs many people','only 100 to 200 permanent workers.','about the staff of a big supermarket.'])assert.ok(neighbors.includes(phrase),phrase);
-        const demand=await page.locator('[data-phone-reading-board="computeDemand"] .phone-reading-mobile').innerText();for(const phrase of ['More Power','Better Cooling','More Efficient Chips','Some cooling designs reuse water','More power meets demand. Better efficiency reduces the resources needed per task.'])assert.ok(demand.includes(phrase),phrase);
+        assert.deepEqual(await math.locator('.phone-ten-total').allTextContents(),['≈ 10 trillion calculations','≈ 100 trillion calculations']);
+        for(const phrase of ['ONE TOKEN','ABOUT 100 TOKENS','ABOUT 1,000 TOKENS','About 100 billion calculations per token','75 English words','750 English words across the conversation','In this example, even a short answer takes trillions of calculations.'])assert.ok((await math.innerText()).includes(phrase),phrase);
+        const neighbors=await page.locator('[data-phone-reading-board="computeNeighbors"] .phone-reading-mobile').innerText();for(const phrase of ['Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity.','In some places','about a million gallons on a hot day.','Even a cooling system that reuses water may need fresh water to replace what evaporates.','24 hours a day.','In some towns','Many people help build a data center. Far fewer work there once it opens.'])assert.ok(neighbors.includes(phrase),phrase);
+        assert.ok(await page.getByText("AI companies are securing more electricity to run their data centers. Some facilities reuse water for cooling, and newer chips can do the same work with less electricity.", {exact:true}).isVisible());
         assert.equal(await page.locator('img[src*="where-ai-lives-data-center.jpg"]:visible').count(),1);
-        for(const answer of ['How many are construction jobs, and how many stay after it opens?','How much electricity will the whole facility need?','Who pays for any new power lines or other grid upgrades?'])await page.getByRole('button',{name:answer,exact:true}).click();
+        for(const answer of ['How many are construction jobs, and how many stay after it opens?','On a hot day, how much fresh water will you still need, and where will it come from?','Who pays for any new power lines or other grid upgrades?'])await page.getByRole('button',{name:answer,exact:true}).click();
         assert.ok((await page.locator('#main-content').innerText()).includes('Know what to ask.'));
         await page.getByRole('button',{name:/^40 quintillion/}).click();assert.ok((await page.locator('#main-content').innerText()).includes('Click the button again to see a different celebration!'));
       } else {
@@ -97,6 +97,6 @@ const lessons = {
       await context.close();
     }
     if (process.env.PHONE_WAVE_OUTPUT) { fs.mkdirSync(process.env.PHONE_WAVE_OUTPUT, { recursive: true }); fs.writeFileSync(path.join(process.env.PHONE_WAVE_OUTPUT, 'phone-checks.json'), JSON.stringify(records, null, 2)); }
-    console.log('PASS: six boards; phone, landscape, breakpoints, readable HTML, complete assignment and task lists, exact calculation totals and resource qualifications, historical outcomes, accessible representations, persistent lab notes/checklist, town and rat quizzes, print and no runtime errors');
+    console.log('PASS: five boards; phone, landscape, breakpoints, readable HTML, complete assignment and task lists, exact calculation totals and resource qualifications, historical outcomes, accessible representations, persistent lab notes/checklist, town and rat quizzes, print and no runtime errors');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

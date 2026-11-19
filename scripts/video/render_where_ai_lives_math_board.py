@@ -104,29 +104,12 @@ def paste_top_rounded(base: Image.Image, art: Image.Image, xy, radius=14):
     base.paste(art, xy, mask)
 
 
-def arrow(draw: ImageDraw.ImageDraw, start, end, fill):
-    x0, y0 = start
-    x1, y1 = end
-    draw.line((x0, y0, x1 - 14, y1), fill=fill, width=5)
-    draw.polygon([(x1 - 16, y1 - 11), (x1, y1), (x1 - 16, y1 + 11)], fill=fill)
-
-
 def one_token_art(width: int) -> Image.Image:
     art = Image.new("RGB", (width, 273), BLUE_ART)
     draw = ImageDraw.Draw(art)
-    draw.rounded_rectangle((42, 93, 156, 151), radius=12, fill=WHITE, outline=BLUE, width=2)
-    draw.text((99, 122), "Spot", font=font(29, "Bold"), fill=BLUE, anchor="mm")
-    arrow(draw, (178, 122), (218, 122), "#928ca3")
-
-    # A dense field stands in for the model's fixed weights.
-    dot_x0, dot_y0 = 254, 43
-    for row in range(8):
-        for col in range(8):
-            cx = dot_x0 + col * 21
-            cy = dot_y0 + row * 21
-            fill = BLUE if row == col else "#b8cff5"
-            draw.ellipse((cx - 4, cy - 4, cx + 4, cy + 4), fill=fill)
-    art_label(draw, width, "ONE PASS", BLUE)
+    center = width // 2
+    draw.rounded_rectangle((center - 12, 105, center + 12, 129), radius=3, fill=BLUE)
+    art_label(draw, width, "ONE TOKEN", BLUE)
     return art
 
 
@@ -170,9 +153,9 @@ def render() -> None:
     draw_board_title(draw, "The Math Adds Up Fast")
 
     card_specs = [
-        ((40, 118, 525, 722), BLUE, BLUE_ART, "One Token", "One trip through our example model’s trillion weights", "≈ 2 trillion calculations", one_token_art(485)),
-        ((557, 118, 1043, 722), PURPLE_DARK, PURPLE_ART, "A Short Answer", "About 100 tokens written by AI", "≈ 200 trillion calculations", short_answer_art(486)),
-        ((1075, 118, 1560, 722), TEAL, TEAL_ART, "A Longer Conversation", "About 1,000 tokens written by AI across the conversation", "≈ 2 quadrillion calculations", dog_chat_art(485)),
+        ((40, 118, 525, 722), BLUE, BLUE_ART, "One Token", "About 100 billion calculations per token", "", one_token_art(485)),
+        ((557, 118, 1043, 722), PURPLE_DARK, PURPLE_ART, "A Short Answer", "AI writes roughly 75 English words", "≈ 10 trillion calculations", short_answer_art(486)),
+        ((1075, 118, 1560, 722), TEAL, TEAL_ART, "A Longer Conversation", "AI writes roughly 750 English words across the conversation", "≈ 100 trillion calculations", dog_chat_art(485)),
     ]
 
     for box, accent, _art_bg, title, body, number, art in card_specs:

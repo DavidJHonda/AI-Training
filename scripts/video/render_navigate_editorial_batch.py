@@ -255,12 +255,12 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="data-footprint",
-        title="What a Data Center Means for Its Neighbors",
+        title="Living Near a Data Center",
         cards=(
-            Card("Electricity", "U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7–12% by 2028. In some places, added demand is already raising household bills."),
-            Card("Water", "Chips run hot. Some facilities evaporate water to cool them; a large data center can use about a million gallons on a hot day. Others recycle or reuse it."),
+            Card("Electricity", "Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity. In some places, added demand is already raising household bills."),
+            Card("Water", "Chips run hot. Cooling a large data center can take about a million gallons on a hot day. Even a cooling system that reuses water may need fresh water to replace what evaporates."),
             Card("Noise", "Cooling fans run 24 hours a day. In some towns, neighbors have sued over the hum and lost sleep."),
-            Card("Permanent Jobs", "Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket."),
+            Card("Permanent Jobs", "Many people help build a data center. Far fewer work there once it opens."),
         ),
         art_sheet="scripts/video/assets/editorial-navigate/data-footprint/art-sheet.png",
         page_output="course-assets/where-ai-lives/where-ai-lives-physical-footprint.jpg",

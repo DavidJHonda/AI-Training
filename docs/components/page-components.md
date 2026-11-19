@@ -450,7 +450,7 @@ rendered desktop pixel comparisons at 1024/1280/1440px, protected-file hashes an
 
 ### Tenth phone-readability batch
 
-Work Changes, Where AI Lives and Unexpected Results opt in six teaching boards through
+Work Changes, Where AI Lives and Unexpected Results opt in five teaching boards through
 `TenthPhoneReadingBoard`. Original image props, hidden historical summaries, closing
 boards, activities, supporting media and print presentation remain intact. Existing
 shared helpers and CSS are unchanged. The existing `useIllustrationZoom` hook mounts
@@ -462,11 +462,11 @@ Automate / Augment retains both full examples and the outcome-ownership takeaway
 The separate LAB still uses its original 100-review course file; that teaching transition
 is preserved rather than silently changing either example.
 
-Where AI Lives reuses all three visual arrays with readable Spot / ONE PASS, ABOUT 100
+Where AI Lives reuses the token illustrations with readable ONE TOKEN, ABOUT 100
 TOKENS and ABOUT 1,000 TOKENS labels. All approximate calculation totals, the example
 model qualification and takeaway remain. Electricity, Water, Noise and Permanent Jobs
-stack in original row-major order with every number, date and caveat. The demand cards
-retain the distinction between more supply and efficiency per task. The data-center
+stack in original row-major order with every number, date and caveat. A short paragraph
+after the neighbors board covers electricity supply, water reuse and chip efficiency. The data-center
 interior illustration needs no adaptation and remains untouched.
 
 Unexpected Results retains both complete Text Messaging / Cane Toads explanations and

@@ -1915,7 +1915,7 @@ const CLOSE_BOARDS = {
   bigupside: { pill: "The big upside is happening today.", sticky: "AI is already accelerating work that protects and improves lives." },
   agents: { pill: "Agents do the work. The name on it is yours.", sticky: "You ask, it acts. You make it better." },
   workchanges: { pill: "AI is changing the work you’ll do.", sticky: "Now it’s on you to LEARN." },
-  computecost: { pill: "Every AI chat costs something real.", sticky: "Now you know what’s behind the magic." },
+  computecost: { pill: "Behind the answer on your screen is a data center.", sticky: "For someone else, that’s part of their neighborhood." },
   unexpected: { pill: "Some of the biggest results are the ones nobody predicted.", sticky: "That’s the best reason to stay curious." },
   // Finish Smarter
   choosemodel: { pill: "Model. Thinking. Research.", sticky: "Use them when the work demands more." },
@@ -1972,7 +1972,7 @@ const CLOSE_BOARD_ASSETS = {
   bigupside: { src: "course-assets/big-upside/big-upside-close.jpg", cssWidth: 561, width: 1686, height: 597 },
   agents: { src: "course-assets/ai-agents/ai-agents-close.jpg", cssWidth: 579, width: 1740, height: 600 },
   workchanges: { src: "course-assets/work-changes/work-changes-close.jpg", cssWidth: 462, width: 1386, height: 600 },
-  computecost: { src: "course-assets/where-ai-lives/where-ai-lives-close.jpg", cssWidth: 485, width: 1458, height: 597 },
+  computecost: { src: "course-assets/where-ai-lives/where-ai-lives-close.jpg", cssWidth: 644, width: 1932, height: 597 },
   unexpected: { src: "course-assets/where-will-ai-land/where-will-ai-land-close.jpg", cssWidth: 748, width: 2244, height: 597 },
   choosemodel: { src: "course-assets/when-you-need-more/when-you-need-more-close.jpg?v=20261001close1", cssWidth: 707, width: 2124, height: 708 },
   aitips: { src: "course-assets/beyond-the-first-answer/beyond-the-first-answer-close.jpg?v=20261107takeaway", cssWidth: 557, width: 1674, height: 597 },
@@ -2153,6 +2153,7 @@ function closeBoard(sectionId) {
   var asset = CLOSE_BOARD_ASSETS[sectionId];
   if (!asset) return /*#__PURE__*/React.createElement(CloseBoard, copy);
   var src = reviewMode ? "tmp/closing-board-preview/" + asset.src : asset.src;
+  if (!reviewMode && sectionId === "computecost") src += "?v=20261119neighbors";
   if (!reviewMode && sectionId === "studying") src += "?v=20261106learning3";
   return /*#__PURE__*/React.createElement(ClosingBoardImage, { asset: asset, copy: copy, src: src });
 }
@@ -6061,21 +6062,16 @@ Object.assign(PHONE_READING_BOARDS, {
     {title:'Augment',accent:'#0e8f86',art:[817,128,744,339],body:'AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation.'}
   ],takeaway:'The work still has your name on it. You own the outcome.'},
   computeMath:{title:'The Math Adds Up Fast',width:1600,height:890,math:true,cards:[
-    {title:'One Token',label:'ONE PASS',example:'Spot',accent:'#1652f0',art:[40,119,485,220],body:'One trip through our example model’s trillion weights',total:'≈ 2 trillion calculations'},
-    {title:'A Short Answer',label:'ABOUT 100 TOKENS',accent:'#4f2fc4',art:[557,119,485,220],body:'About 100 tokens written by AI',total:'≈ 200 trillion calculations'},
-    {title:'A Longer Conversation',label:'ABOUT 1,000 TOKENS',accent:'#0e8f86',art:[1075,119,485,220],body:'About 1,000 tokens written by AI across the conversation',total:'≈ 2 quadrillion calculations'}
+    {title:'One Token',label:'ONE TOKEN',accent:'#1652f0',art:[40,119,485,220],body:'About 100 billion calculations per token'},
+    {title:'A Short Answer',label:'ABOUT 100 TOKENS',accent:'#4f2fc4',art:[557,119,485,220],body:'AI writes roughly 75 English words',total:'≈ 10 trillion calculations'},
+    {title:'A Longer Conversation',label:'ABOUT 1,000 TOKENS',accent:'#0e8f86',art:[1075,119,485,220],body:'AI writes roughly 750 English words across the conversation',total:'≈ 100 trillion calculations'}
   ],takeaway:'In this example, even a short answer takes trillions of calculations.'},
-  computeNeighbors:{title:'What a Data Center Means for Its Neighbors',width:1600,height:1461,cards:[
-    {title:'Electricity',accent:'#4f2fc4',art:[40,128,744,339],body:'U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7–12% by 2028. In some places, added demand is already raising household bills.'},
-    {title:'Water',accent:'#1652f0',art:[817,128,744,339],body:'Chips run hot. Some facilities evaporate water to cool them; a large data center can use about a million gallons on a hot day. Others recycle or reuse it.'},
+  computeNeighbors:{title:'Living Near a Data Center',width:1600,height:1461,cards:[
+    {title:'Electricity',accent:'#4f2fc4',art:[40,128,744,339],body:'Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity. In some places, added demand is already raising household bills.'},
+    {title:'Water',accent:'#1652f0',art:[817,128,744,339],body:'Chips run hot. Cooling a large data center can take about a million gallons on a hot day. Even a cooling system that reuses water may need fresh water to replace what evaporates.'},
     {title:'Noise',accent:'#0e8f86',art:[40,791,744,339],body:'Cooling fans run 24 hours a day. In some towns, neighbors have sued over the hum and lost sleep.'},
-    {title:'Permanent Jobs',accent:'#a9760c',art:[817,791,744,339],body:'Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket.'}
+    {title:'Permanent Jobs',accent:'#a9760c',art:[817,791,744,339],body:'Many people help build a data center. Far fewer work there once it opens.'}
   ]},
-  computeDemand:{title:'Meeting the Demand',width:1600,height:819,cards:[
-    {title:'More Power',accent:'#4f2fc4',art:[40,128,485,273],body:'Companies are arranging additional electricity supplies for their data centers.'},
-    {title:'Better Cooling',accent:'#1652f0',art:[557,128,485,273],body:'Some cooling designs reuse water, reducing how much new water they need.'},
-    {title:'More Efficient Chips',accent:'#0e8f86',art:[1075,128,485,273],body:'Better chips can do more work with each unit of electricity.'}
-  ],takeaway:'More power meets demand. Better efficiency reduces the resources needed per task.'},
   unexpectedPlans:{title:'Beyond the Plan',width:1600,height:1703,cards:[
     {"title": "Text Messaging", "body": "Early SMS services sent short, one-way messages from mobile networks to subscribers.", "result": "Young people helped turn texting into an everyday way to stay in touch.", "accent": "#4f2fc4", "art": [40, 127, 744, 339]},
     {"title": "GPS", "body": "GPS was built to help the military pinpoint locations and navigate around the world.", "result": "Helps people find rides and get deliveries. Its precise timing also helps keep phone networks, banks, and power grids running.", "accent": "#1652f0", "art": [816, 127, 744, 339]},
@@ -15748,25 +15744,25 @@ function DataCenterTownTryIt(props) {
       { label: "How many are construction jobs, and how many stay after it opens?", correct: true,
         headline: "Separate temporary and lasting benefits.",
         feedback: "Construction jobs and permanent jobs both matter, but they represent different benefits for the town." },
-      { label: "How many people use the company’s AI?", correct: false,
-        feedback: "Customer numbers do not tell you how many local jobs will remain. Ask how many jobs are for construction and how many stay after the facility opens." },
-      { label: "How big will the building be?", correct: false,
-        feedback: "A large building does not necessarily need a large permanent staff. Ask which jobs last beyond construction." }
+      { label: "When will the company start hiring people from town?", correct: false,
+        feedback: "The hiring date helps people plan when to apply. Ask for a breakdown of the 1,000 jobs to learn how many people will still work there after construction." },
+      { label: "What training will applicants need to qualify for these jobs?", correct: false,
+        feedback: "Training requirements tell residents which jobs they could apply for. To judge the promise of 1,000 jobs, ask how many will last." }
     ] },
-    { claim: "“Our new chips use half as much electricity per AI task as our previous chips doing the same task.”", options: [
-      { label: "Does that mean my electricity bill will fall?", correct: false,
-        feedback: "Better chip efficiency alone cannot tell you what happens to household bills. First ask how much electricity the whole facility will need." },
-      { label: "How much electricity will the whole facility need?", correct: true,
-        headline: "Per task is only part of the picture.",
-        feedback: "The comparison is with the company’s previous chips doing the same task. That efficiency improvement helps. But if the facility does more than twice as many tasks, even the chips can use more electricity overall. Cooling and other equipment also use power." },
-      { label: "Does that mean the facility needs no cooling?", correct: false,
-        feedback: "Using less electricity per task does not eliminate heat. Ask about the whole facility’s electricity demand, including cooling." }
+    { claim: "“Our cooling system reuses water.”", options: [
+      { label: "How many times can the system reuse the same water?", correct: false,
+        feedback: "That tells you how the cooling system works. The town still needs to know how much fresh water the facility will draw on a hot day." },
+      { label: "On a hot day, how much fresh water will you still need, and where will it come from?", correct: true,
+        headline: "Ask about the local water supply.",
+        feedback: "A cooling system can reuse water and still need more to replace what evaporates. The amount and the source tell residents whether the facility will draw on the same supply they use." },
+      { label: "Do your other data centers use this cooling system?", correct: false,
+        feedback: "Experience elsewhere can tell you how well the system works. Water supplies and summer temperatures vary, so ask what this site will need." }
     ] },
     { claim: "“We’ll pay for the electricity we use.”", options: [
-      { label: "Will local residents get free AI?", correct: false,
-        feedback: "Free AI would not answer who pays for the electrical infrastructure. Ask who covers any new power lines or grid upgrades." },
-      { label: "How quickly can you start construction?", correct: false,
-        feedback: "The construction schedule does not explain who pays for grid upgrades. That is a separate cost from the electricity the company uses." },
+      { label: "How much will the company pay for electricity each year?", correct: false,
+        feedback: "The annual bill tells you what the company expects to spend on electricity. Ask who will cover the cost of getting that power to the site if the grid needs upgrades." },
+      { label: "Which utility will supply power to the facility?", correct: false,
+        feedback: "Knowing the utility gives residents someone to ask. The next question is how the company and the utility’s other customers would share any upgrade costs." },
       { label: "Who pays for any new power lines or other grid upgrades?", correct: true,
         headline: "Ask who pays for the infrastructure.",
         feedback: "Paying for electricity and paying for the infrastructure needed to deliver it are separate questions. Find out how those costs would be divided between the company and other customers." }
@@ -15807,35 +15803,27 @@ function TheHiddenCostSection(props) {
   return E("div", null,
     E(LessonHeader, { sectionId: "computecost" }),
     React.createElement(LessonReading, { sectionId: "computecost" },
-    E(BodyP, null, "You type a question, hit send, and an answer starts appearing. Behind that chat, computers in a data center do an enormous amount of math."),
-    E(BodyP, null, "Let’s imagine an LLM that uses one trillion weights to generate each new token. At roughly two calculations per weight, the math adds up fast."),
-    React.createElement(TenthPhoneReadingBoard, {kind:"computeMath",image:E("img", { src: "course-assets/where-ai-lives/where-ai-lives-math.jpg", alt: "The Math Adds Up Fast. One token: one trip through our example model’s trillion weights, about 2 trillion calculations. A short answer: about 100 tokens written by AI, about 200 trillion calculations. A longer conversation: about 1,000 tokens written by AI across the conversation, about 2 quadrillion calculations. In this example, even a short answer takes trillions of calculations.", style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 } })}),
+    E(BodyP, null, "Twenty-five years ago, if you made a spreadsheet in Excel, you probably saved it on your computer’s hard drive. If that drive failed and you hadn’t made a backup, your spreadsheet could be gone."),
+    E(BodyP, null, "Now think about Google Sheets. You can close your laptop, open the same spreadsheet on your phone, and pick up where you left off. Where was the spreadsheet while your laptop was closed? Google kept a copy on its servers. When you hear “the cloud,” think of computers you use over the internet. They can store files, like your spreadsheet, and they can run programs, too."),
+    E(BodyP, null, "Now you share the spreadsheet with ChatGPT and ask, “Why did my expenses jump in March?” Storing your spreadsheet is one job. Remember, AI uses math to write its answer. Doing that math takes much more computing power than saving the spreadsheet."),
+    E(SectionKicker, null, "WHY SO MUCH MATH?"),
+    E(BodyP, null, "Remember how AI represents each token as a vector, a row of numbers that captures its starting meaning? That row can hold thousands of numbers. As it passes through each layer, attention and transformation update those numbers to account for the words around it. That takes math at every layer, for every token the model writes. Here’s how fast it adds up for an LLM."),
+    React.createElement(TenthPhoneReadingBoard, {kind:"computeMath",image:E("img", { src: "course-assets/where-ai-lives/where-ai-lives-math.jpg?v=20261119onetoken", alt: "The Math Adds Up Fast. About 100 billion calculations per token. A short answer: about 100 tokens written by AI (roughly 75 English words), about 10 trillion calculations. A longer conversation: about 1,000 tokens written by AI across the conversation (roughly 750 English words), about 100 trillion calculations. In this example, even a short answer takes trillions of calculations.", style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 } })}),
     E(BodyP, null, E("strong", null, "The ability to run that math is called compute.")),
-    E(BodyP, null, "Now imagine serving millions of people. That’s why AI companies need data centers, and why they are building more of them."),
-    E(SectionKicker, null, "WHAT IS A DATA CENTER"),
-    E(BodyP, null, "Think of a big warehouse packed with thousands of specialized chips, called ", E("strong", null, "GPUs"), ", running around the clock."),
+    E(BodyP, null, "That’s one question from one person. Now imagine millions of people asking questions of their own. Where does all that math happen? In a Data Center."),
+    E(SectionKicker, null, "WHAT IS A DATA CENTER?"),
+    E(BodyP, null, "A data center is a building full of computers called servers. In an AI data center, those servers use chips called GPUs to do many calculations at once. Nvidia makes these chips."),
+    E(BodyP, null, "Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city."),
+    E(BodyP, null, "In the following illustration, look for the person walking down the aisle on the left. The tall cabinets to their right are called server racks. Each rack holds servers stacked one above another. Now follow that aisle toward the far wall and notice how many rows of racks it passes."),
     E("img", { src: "course-assets/where-ai-lives/where-ai-lives-data-center.jpg", alt: "Inside a vast AI data center: rows of server racks stretching to the far wall of a warehouse-sized hall, glowing with blue status lights under ceiling floodlights. A single person walking the main aisle, dwarfed by the racks, is the only human in sight.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 16 } }),
-    E(BodyP, null, "Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city. The scale varies by facility. When you hit send in ChatGPT, a data center answers."),
-    E(BodyP, null,
-      E("strong", null, "Somebody pays for all that arithmetic."), " Running those computers affects more than the company using them. It also affects the communities around them."),
+    E(SectionKicker, null, "DATA CENTER IMPACT"),
+    E(BodyP, null, "What does a facility this size mean for the people who live nearby?"),
     React.createElement(TenthPhoneReadingBoard, {kind:"computeNeighbors",image:E("img", {
-      src: "course-assets/where-ai-lives/where-ai-lives-physical-footprint.jpg?v=20260924alignment",
-      alt: "What a Data Center Means for Its Neighbors: electricity, water, noise, and permanent jobs. U.S. data centers used about 4.4% of electricity in 2023, with Berkeley Lab projecting 6.7% to 12% by 2028; added demand is raising some household bills. A large facility can use about a million gallons of water on a hot day, though some systems recycle or reuse it. Cooling fans run around the clock, and neighbors in some towns have sued over lost sleep. A finished facility may need only 100 to 200 permanent workers, about the staff of a big supermarket.",
+      src: "course-assets/where-ai-lives/where-ai-lives-physical-footprint.jpg?v=20261119impact",
+      alt: "Living Near a Data Center: electricity, water, noise, and permanent jobs. Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity. In some places, added demand is already raising household bills. A large facility can use about a million gallons of water on a hot day. Even a cooling system that reuses water may need fresh water to replace what evaporates. Cooling fans run around the clock, and neighbors in some towns have sued over lost sleep. Many people help build a data center. Far fewer work there once it opens.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 16px", borderRadius: 12 }
     })}),
-    E(BodyP, null, "Companies are responding in three ways: arranging more power, improving cooling, and building more efficient chips."),
-    React.createElement(TenthPhoneReadingBoard, {kind:"computeDemand",image:E("img", { src: "course-assets/where-ai-lives/where-ai-lives-meeting-demand.jpg?v=20260918lesson1", alt: "Meeting the Demand. More Power: additional electricity supplies. Better Cooling: some designs reuse water. More Efficient Chips: more work per unit of electricity. More supply and better efficiency address different parts of the problem.", style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto", borderRadius: 12 } })}),
-    E("div", { className: "md-source", style: { display: "none" } }, E("h3", null, "Meeting the Demand"),
-      E("p", null, E("strong", null, "More Power: "), "Companies are arranging additional electricity supplies for their data centers."),
-      E("p", null, E("strong", null, "Better Cooling: "), "Some cooling designs reuse water, reducing how much new water they need."),
-      E("p", null, E("strong", null, "More Efficient Chips: "), "Better chips can do more work with each unit of electricity."),
-      E("p", null, "More power meets demand. Better efficiency reduces the resources needed per task.")),
-    E(BodyP, null, "More efficient tasks do not automatically mean a smaller total footprint. If use grows fast enough, total demand can still rise."),
-    E(SectionKicker, null, "THE FOOTPRINT, HONESTLY"),
-    E(BodyP, null, "One request is a small part of the picture. Running these services for millions of people is what makes the infrastructure so large."),
-    E(BodyP, null, "Every big technology has a footprint, from streaming video to the cars outside. AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet."),
-    E(BodyP, null,
-      "None of this is a reason to feel guilty hitting send. It’s a reason to be one of the few people who actually understands the machine you’re using."),
+    E(BodyP, null, "AI companies are securing more electricity to run their data centers. Some facilities reuse water for cooling, and newer chips can do the same work with less electricity."),
     closeBoard("computecost")),
     E(DataCenterTownTryIt, null),
     E(GroupExercise, { id: "computecost-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },

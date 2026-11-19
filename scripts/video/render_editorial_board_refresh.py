@@ -1119,10 +1119,10 @@ def render_data_center_footprint():
     image = open_dense_two_by_two(
         "The footprint has four parts",
         [
-            ("ELECTRICITY", "U.S. data centers used about 4.4% of electricity in 2023. Berkeley Lab projected 6.7–12% by 2028. In some places, added demand is already raising household bills."),
-            ("WATER", "Chips run hot. Some facilities evaporate water to cool them; a large data center can use about a million gallons on a hot day. Others recycle or reuse it."),
+            ("ELECTRICITY", "Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity. In some places, added demand is already raising household bills."),
+            ("WATER", "Chips run hot. Cooling a large data center can take about a million gallons on a hot day. Even a cooling system that reuses water may need fresh water to replace what evaporates."),
             ("NOISE", "Cooling fans run 24 hours a day. In some towns, neighbors have sued over the hum and lost sleep."),
-            ("PERMANENT JOBS", "Construction employs many people, but a finished facility may need only 100 to 200 permanent workers. That is about the staff of a big supermarket."),
+            ("PERMANENT JOBS", "Many people help build a data center. Far fewer work there once it opens."),
         ],
         [art_dc_electricity, art_dc_water, art_dc_noise, art_dc_jobs],
         accents=[PURPLE, BLUE, TEAL, ORANGE],

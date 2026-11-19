@@ -2,9 +2,15 @@
 
 # Where AI Lives
 
-You type a question, hit send, and an answer starts appearing. Behind that chat, computers in a data center do an enormous amount of math.
+Twenty-five years ago, if you made a spreadsheet in Excel, you probably saved it on your computer’s hard drive. If that drive failed and you hadn’t made a backup, your spreadsheet could be gone.
 
-Let’s imagine an LLM that uses one trillion weights to generate each new token. At roughly two calculations per weight, the math adds up fast.
+Now think about Google Sheets. You can close your laptop, open the same spreadsheet on your phone, and pick up where you left off. Where was the spreadsheet while your laptop was closed? Google kept a copy on its servers. When you hear “the cloud,” think of computers you use over the internet. They can store files, like your spreadsheet, and they can run programs, too.
+
+Now you share the spreadsheet with ChatGPT and ask, “Why did my expenses jump in March?” Storing your spreadsheet is one job. Remember, AI uses math to write its answer. Doing that math takes much more computing power than saving the spreadsheet.
+
+## Why So Much Math?
+
+Remember how AI represents each token as a vector, a row of numbers that captures its starting meaning? That row can hold thousands of numbers. As it passes through each layer, attention and transformation update those numbers to account for the words around it. That takes math at every layer, for every token the model writes. Here’s how fast it adds up for an LLM.
 
 ### Board 1: The Math Adds Up Fast
 
@@ -16,11 +22,11 @@ Let’s imagine an LLM that uses one trillion weights to generate each new token
 
 The math adds up fast.
 
-One token takes one pass through our example model’s trillion weights: about 2 trillion calculations.
+About 100 billion calculations per token.
 
-A short answer of about 100 tokens written by AI takes about 200 trillion calculations.
+A short answer of about 100 tokens written by AI (roughly 75 English words) takes about 10 trillion calculations.
 
-A longer conversation, with about 1,000 tokens written by AI across the conversation, takes about 2 quadrillion calculations.
+A longer conversation, with about 1,000 tokens written by AI across the conversation (roughly 750 English words), takes about 100 trillion calculations.
 
 In this example, even a short answer takes trillions of calculations.
 
@@ -28,11 +34,13 @@ In this example, even a short answer takes trillions of calculations.
 
 The ability to run that math is called compute.
 
-Now imagine serving millions of people. That’s why AI companies need data centers, and why they are building more of them.
+That’s one question from one person. Now imagine millions of people asking questions of their own. Where does all that math happen? In a Data Center.
 
-## What Is a Data Center
+## What Is a Data Center?
 
-Think of a big warehouse packed with thousands of specialized chips, called GPUs, running around the clock.
+A data center is a building full of computers called servers. In an AI data center, those servers use chips called GPUs to do many calculations at once. Nvidia makes these chips.
+
+Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city.
 
 ### Board 2: Inside a Data Center
 
@@ -42,39 +50,25 @@ Think of a big warehouse packed with thousands of specialized chips, called GPUs
 
 **Teaching content:**
 
-Here is the inside of an AI data center.
+In the following illustration, look for the person walking down the aisle on the left. The tall cabinets to their right are called server racks. Each rack holds servers stacked one above another. Now follow that aisle toward the far wall and notice how many rows of racks it passes.
 
-Rows of server racks stretch to the far wall of a warehouse-sized hall, glowing with blue status lights.
+## Data Center Impact
 
-One person walks the main aisle, dwarfed by the racks. They are the only human in sight.
+What does a facility this size mean for the people who live nearby?
 
-## The Scale
-
-Some large AI data centers cover the ground of several football fields and can use as much electricity as a small city.
-
-The scale varies by facility.
-
-When you hit send in ChatGPT, a data center answers.
-
-Somebody pays for all that arithmetic.
-
-Running those computers affects more than the company using them. It also affects the communities around them.
-
-### Board 3: What a Data Center Means for Its Neighbors
+### Board 3: Living Near a Data Center
 
 **Image file:** `where-ai-lives-physical-footprint.jpg`
 
-![What a Data Center Means for Its Neighbors](where-ai-lives-physical-footprint.jpg)
+![Living Near a Data Center](where-ai-lives-physical-footprint.jpg)
 
 **Teaching content:**
 
-What a data center means for its neighbors, in four effects.
+Living near a data center can affect neighbors in four ways.
 
 Electricity.
 
-U.S. data centers used about 4.4% of electricity in 2023.
-
-Berkeley Lab projected 6.7 to 12% by 2028.
+Berkeley Lab estimates that by 2030, data centers could use about 12% of all U.S. electricity.
 
 In some places, added demand is already raising household bills.
 
@@ -82,9 +76,9 @@ Water.
 
 Chips run hot.
 
-Some facilities evaporate water to cool them, and a large data center can use about a million gallons on a hot day.
+Cooling a large data center can take about a million gallons on a hot day.
 
-Others recycle or reuse it.
+Even a cooling system that reuses water may need fresh water to replace what evaporates.
 
 Noise.
 
@@ -94,50 +88,16 @@ In some towns, neighbors have sued over the hum and lost sleep.
 
 Permanent jobs.
 
-Construction employs many people, but a finished facility may need only 100 to 200 permanent workers.
+Many people help build a data center.
 
-That is about the staff of a big supermarket.
+Far fewer work there once it opens.
 
 ## Three Responses
 
-Companies are responding in three ways: arranging more power, improving cooling, and building more efficient chips.
-
-### Board 4: Meeting the Demand
-
-**Image file:** `where-ai-lives-meeting-demand.jpg`
-
-![Meeting the Demand](where-ai-lives-meeting-demand.jpg)
-
-**Teaching content:**
-
-Meeting the demand, in three responses.
-
-More power. Companies are arranging additional electricity supplies for their data centers.
-
-Better cooling. Some cooling designs reuse water, reducing how much new water they need.
-
-More efficient chips. Better chips can do more work with each unit of electricity.
-
-More power meets demand. Better efficiency reduces the resources needed per task.
-
-## Efficiency Is Not the Whole Story
-
-More efficient tasks do not automatically mean a smaller total footprint. If use grows fast enough, total demand can still rise.
-
-## The Footprint, Honestly
-
-One request is a small part of the picture. Running these services for millions of people is what makes the infrastructure so large.
-
-Every big technology has a footprint, from streaming video to the cars outside.
-
-AI’s footprint is real, it’s growing, and somebody pays it: the company in dollars, the grid in watts, the neighborhood in water and quiet.
-
-None of this is a reason to feel guilty hitting send.
-
-It’s a reason to be one of the few people who actually understands the machine you’re using.
+AI companies are securing more electricity to run their data centers. Some facilities reuse water for cooling, and newer chips can do the same work with less electricity.
 
 ## Closing Message
 
-Every AI chat costs something real.
+Behind the answer on your screen is a data center.
 
-Now you know what’s behind the magic.
+For someone else, that’s part of their neighborhood.

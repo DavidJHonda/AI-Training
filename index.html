@@ -444,6 +444,8 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   @media screen and (max-width: 760px), screen and (pointer: coarse) and (max-height: 500px) {
     .phone-reading-mobile .phone-ten-before { margin: 0 0 16px; padding: 16px; border-radius: 12px; background: white; font-weight: 800; }
     .phone-ten-flow { margin: 0; padding: 0; list-style: none; }
+    [data-phone-reading-board="workAssignment"] .phone-reading-example { margin-top: calc(18px + .75em); }
+    [data-phone-reading-board="workAssignment"] .phone-ten-flow > li + li { margin-top: 20px; }
     .phone-ten-arrow { display: block; margin: 10px 0; color: var(--primaryDeep); text-align: center; font-size: 28px; line-height: 1.2; }
     .phone-reading-mobile .phone-ten-tasks { margin: 16px 0 0; padding-left: 22px; }
     .phone-reading-mobile .phone-ten-tasks li + li { margin-top: 8px; }
@@ -1856,7 +1858,7 @@ const LESSON_VIDEOS = {
   bigdownside: { src: "course-assets/big-downside/big-downside.mp4?v=20261118ship15", duration: "5 min", title: "Three ideas behind AI’s biggest risks." },
   bigupside: { src: "course-assets/big-upside/big-upside.mp4?v=20261117recapcut", duration: "4 min", title: "The big upside is happening today." },
   agents: { src: "course-assets/ai-agents/ai-agents.mp4?v=20261118ship9", duration: "3 min", title: "A chatbot answers. An agent acts. Your name rides along." },
-  workchanges: { src: "course-assets/work-changes/work-changes.mp4?v=20261026ship1", duration: "3 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
+  workchanges: { src: "course-assets/work-changes/work-changes.mp4?v=20261120ship1", duration: "4 min", title: "Same job title, different Tuesday. The first pass is the starting line." },
   computecost: { src: "course-assets/where-ai-lives/where-ai-lives.mp4?v=20261119ship11", duration: "4 min", title: "The real machines behind every instant answer.", cta: "Be sure to answer the special bonus question!" },
   unexpected: { src: "course-assets/where-will-ai-land/where-will-ai-land.mp4?v=20261117ship13", duration: "4 min", title: "What happens can be very different from what anyone expected." }
 };
@@ -6057,11 +6059,11 @@ function NinthPhoneReadingBoard(props) {
 
 // Tenth phone-readability batch. Preserve canonical copy and original artwork.
 Object.assign(PHONE_READING_BOARDS, {
-  workAssignment:{title:'Your First Assignment',width:1600,height:1397,noteFirst:true,noteTitle:'THE ASSIGNMENT',note:'Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”',flow:true,cards:[
-    {title:'Detail Work',label:'STAGE 1',accent:'#4f2fc4',art:[40,334,744,419],comparison:[['Without AI','You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary.'],['With AI','AI produces a first pass. You check it against the reviews and correct mistakes.']]},
-    {title:'Analysis & Recommendation',label:'STAGE 2',accent:'#a9760c',art:[816,334,744,419],comparison:[['Without AI','You investigate the causes, compare fixes, and present your recommendation.'],['With AI','AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation.']]}
+  workAssignment:{title:'Your First Assignment',width:1600,height:1506,noteFirst:true,noteTitle:'THE ASSIGNMENT',note:'Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”',flow:true,hideArrows:true,cards:[
+    {title:'Routine Work',body:'Learn what customers are saying.',label:'STAGE 1',accent:'#4f2fc4',art:[40,334,744,419],comparison:[['Before AI','You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary.'],['With AI','AI organizes the reviews and drafts a summary. You spot-check the results and investigate anything that looks wrong.']]},
+    {title:'Judgment & Decisions',body:'Decide what to do about it.',label:'STAGE 2',accent:'#a9760c',art:[816,334,744,419],comparison:[['Before AI','You investigate the causes, compare fixes, and present your recommendation.'],['With AI','AI helps you explore causes and compare fixes. You evaluate its suggestions and present your recommendation.']]}
   ],takeaway:'Same assignment. Same responsibility. A different way to do the work.'},
-  workWays:{title:'Two Ways AI Changes the Work',width:1600,height:885,cards:[
+  workWays:{title:'Two Ways AI Changes Work',width:1600,height:885,cards:[
     {title:'Automate',accent:'#4f2fc4',art:[40,128,744,339],body:'AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary.'},
     {title:'Augment',accent:'#0e8f86',art:[817,128,744,339],body:'AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation.'}
   ],takeaway:'The work still has your name on it. You own the outcome.'},
@@ -6098,7 +6100,7 @@ function TenthPhoneReadingBoard(props) {
               card.comparison?card.comparison.map(function(row){return E('div',{key:row[0],className:'phone-reading-example'},E('p',{className:'phone-reading-label'},row[0]),E('p',null,row[1]));}):null,
               card.items?E('ul',{className:'phone-ten-tasks'},card.items.map(function(item){return E('li',{key:item},item);})):null,
               card.total?E('p',{className:'phone-ten-total'},card.total):null)),
-          board.flow && i<board.cards.length-1?E('span',{className:'phone-ten-arrow','aria-hidden':'true'},'↓'):null);})));
+          board.flow && !board.hideArrows && i<board.cards.length-1?E('span',{className:'phone-ten-arrow','aria-hidden':'true'},'↓'):null);})));
     } else content=E(PhoneReadingCards,{board:board,src:src});
   }
   return E(PhoneReadingBoard,props,phone?content:E(React.Fragment,null));
@@ -10418,17 +10420,6 @@ function CriticalThinkingSection(props) {
     ],
     reality: "The study shows a connection between phone use in bed and sleep problems, but it doesn\u2019t establish what causes what. Phone use could affect sleep, sleepless teens could reach for their phones, both could happen, or something else could affect both.",
     lesson: "When two things happen together, don\u2019t assume one caused the other. Consider other explanations and look for evidence that can distinguish among them."
-  }, {
-    label: "Lucky socks",
-    icon: "\uD83E\uDDE6",
-    claim: "A basketball player wears neon socks for one game and scores a career-high 30 points. He decides: \"These socks are magic.\"",
-    options: [
-      { label: "The socks boosted his confidence, and that caused his career high.", correct: false, headline: "That explanation still needs evidence.", hint: "Confidence could affect performance. Does one game establish that it caused this result?", feedback: "The socks might have boosted his confidence, and confidence might affect performance. But one game doesn\u2019t establish that this chain caused his career high. Other explanations could fit the same result." },
-      { label: "One game isn\u2019t enough to tell whether the socks made a difference.", correct: true, headline: "One game doesn\u2019t establish the cause.", feedback: "Maybe the socks boosted his confidence. Maybe he slept well or faced a weaker defender. One great game doesn\u2019t tell you which explanation holds up." },
-      { label: "Socks are just clothing, so they couldn\u2019t have affected his performance.", correct: false, headline: "Don\u2019t rule it out without evidence.", hint: "Clothing doesn\u2019t need magic powers to affect comfort or confidence. What does this one game establish?", feedback: "Clothing can affect comfort or confidence, which could affect performance. This game doesn\u2019t establish that the socks helped, but it also doesn\u2019t establish that clothing could never matter." }
-    ],
-    reality: "The socks may have affected his confidence, or his career night may have had other causes. With only one game, there isn\u2019t enough evidence to tell which explanation holds up.",
-    lesson: "One event usually isn\u2019t enough to establish a cause. Ask what else could explain the result and what additional evidence would help you decide."
   }];
   var criticalBoard = function(src, accessibleContent) {
     var kind = src.includes("equation") ? "equation" : src.includes("two-reactions") ? "reactions" : "habits";
@@ -15342,19 +15333,20 @@ function WorkChangesSection(props) {
   const [decisionRecord, setDecisionRecord] = useLocalStorage("llm-lab-workchanges-decision-v1", {});
   var decisionFields = [
     { key: "checked", label: "What I checked", placeholder: "I checked ___ against review(s) ___." },
-    { key: "changed", label: "What I changed or rejected", placeholder: "I changed or rejected ___ because ___." },
+    { key: "changed", label: "What I kept, changed, or rejected", placeholder: "I kept, changed, or rejected ___ because ___." },
     { key: "chose", label: "Why I chose this recommendation", placeholder: "I chose ___ because ___." }
   ];
   const REVIEW_LAB_STEPS = [
-    { title: "Open the reviews", body: "Select Open Reviews. Read the first 5 reviews. Now imagine reading and organizing the other 95 before you’re ready to make a recommendation.", open: { href: "packets/course-reviews.txt", label: "Open Reviews" } },
+    { title: "Open the reviews", body: "Select Open Reviews. Read the first five reviews and write down what you notice. Keep that note so you can compare your observations with AI’s summary later. Now imagine reading and organizing the other 95 before you’re ready to make a recommendation.", open: { href: "packets/course-reviews.txt", label: "Open Reviews" } },
     { title: "Copy all 100 reviews", body: "In the reviews tab, select everything (Ctrl+A, or Cmd+A on a Mac) and copy it (Ctrl+C or Cmd+C). All 100 reviews, one copy." },
     { title: "Create a separate project", body: "Select Open ChatGPT and start a new project. Before you name or create it, choose Project-only memory. Then name it Course Review Project and click Create project. This assignment has its own source and goal, so it deserves its own context.", open: { href: "https://chatgpt.com", label: "Open ChatGPT" } },
     { title: "Hand AI the grind", body: "Start a new chat inside Course Review Project and paste the reviews in (Ctrl+V, or Cmd+V on a Mac). Don’t send yet." },
     { title: "Send the boss’s ask", body: "Add the assignment, exactly as the boss would say it, and hit send:", prompt: "We’re getting mixed feedback on our course, Be Smarter Than the Tool. Read the last 100 reviews and tell us what’s happening and how we should fix it." },
-    { title: "Investigate why", body: "The biggest problems usually share a root cause, and the fix almost writes itself once you see it. Then check the claim against the file yourself: scan the 2-star reviews and see whether they share the same complaint.", prompt: "What do all the lowest-rated reviews have in common?" },
-    { title: "Catch what the summary missed", body: "A first pass averages away the rare stuff. Go digging. Enjoy what you find.", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
-    { title: "Prep the presentation", body: "Time to make the call. Have ChatGPT pitch the options, pick the winner, and let it prep the deck, exactly like the lesson said. The deck is AI’s work. The decision inside it is yours. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." },
-    { title: "Record your decision", body: E("span", { style: { display: "block" } },
+    { checkKey: "compare-notes", title: "Compare with your notes", body: "Compare AI’s summary with what you noticed in the first five reviews. What matches? What’s different? Remember, AI saw all 100 reviews. Check the original reviews to see whether a difference reflects a broader pattern or something AI missed." },
+    { checkKey: 5, title: "Investigate why", body: "Look for patterns in the lowest-rated reviews. Ask AI what they have in common, then read the 2-star reviews yourself. Does the evidence support AI’s explanation? What else would you need to know before recommending a fix?", prompt: "What patterns do you see in the lowest-rated reviews? Give review IDs that support each pattern, and point out any exceptions." },
+    { checkKey: 6, title: "Catch what the summary missed", body: "Summaries can leave out less common complaints. Ask AI to find them, then locate those complaints in the original reviews. Which deserve attention, even if only a few customers mention them?", prompt: "What are the strangest or rarest complaints in here, the ones a summary would miss?" },
+    { checkKey: 7, title: "Prep the presentation", body: "Ask ChatGPT for two or three possible recommendations. Choose one yourself and explain why the reviews support it. Then have ChatGPT prepare the presentation around your choice. The deck is AI’s work. The decision inside it is yours. Review the slides before presenting them. Check that the evidence matches the reviews and the recommendation matches your decision. If a free-plan tool limit interrupts the file, keep the slide-by-slide outline and return after the reset time.", prompt: "Put together a short slide deck for the boss covering what’s happening, why, and what we should do. Before you build it, give me two or three options for the top recommendation and let me choose." },
+    { checkKey: 8, title: "Record your decision", body: E("span", { style: { display: "block" } },
       "Write these yourself, in your own words. One sentence each is enough. Point to the reviews you checked and explain your choice.",
       decisionFields.map(function(field) {
         var id = "workchanges-decision-" + field.key;
@@ -15379,42 +15371,48 @@ function WorkChangesSection(props) {
     E(LessonHeader, { sectionId: "workchanges" }),
     React.createElement(LessonReading, { sectionId: "workchanges" },
     E(BodyP, null,
-      "Before you know it, you’ll be finished with school and starting your career. How is AI changing work? Glad you asked."),
+      "Before you know it, you’ll be finished with school and starting your career. There’s lots of talk these days about how AI is changing jobs. What might that mean for you?"),
     E(BodyP, null,
-      "Familiar job titles will still be around, like entrepreneur, teacher, and lawyer. But what those jobs look like is already changing, including what people do each day."),
+      "AI can change a job by changing the tasks within it. An entrepreneur, teacher, or lawyer might keep the same job title while doing very different work each day."),
 
     E(BodyP, null,
-      "Keep two ideas in mind. First, you already know AI is best at specific things, and that’s where you’ll likely use it most in your career. Second, what will set you apart is ", E("strong", null, "what you already know"), ". Now put those ideas together on your first assignment at work."),
+      "Keep two ideas in mind. First, you already know AI is especially useful for certain kinds of tasks. Those are good places to start using it at work. Second, what will set you apart is ", E("strong", null, "what you already know"), "."),
+    E(BodyP, null,
+      "Now put those ideas together on your first assignment at work, and see how the work changes with AI."),
 
     React.createElement(TenthPhoneReadingBoard, {kind:"workAssignment",image:E("img", {
-      src: "course-assets/work-changes/work-changes-assignment-short.jpg?v=20261119comparison1",
-      alt: "Your First Assignment. Your manager asks you to analyze 500 customer reviews and recommend a fix. Stage 1: Detail Work. Without AI: You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary. With AI: AI produces a first pass. You check it against the reviews and correct mistakes. Stage 2: Analysis & Recommendation. Without AI: You investigate the causes, compare fixes, and present your recommendation. With AI: AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation. Same assignment. Same responsibility. A different way to do the work.",
+      src: "course-assets/work-changes/work-changes-assignment-short.jpg?v=20261120comparison5",
+      alt: "Your First Assignment. Your manager asks you to analyze 500 customer reviews and recommend a fix. Stage 1: Routine Work. Learn what customers are saying. Before AI: You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary. With AI: AI organizes the reviews and drafts a summary. You spot-check the results and investigate anything that looks wrong. Stage 2: Judgment & Decisions. Decide what to do about it. Before AI: You investigate the causes, compare fixes, and present your recommendation. With AI: AI helps you explore causes and compare fixes. You evaluate its suggestions and present your recommendation. Same assignment. Same responsibility. A different way to do the work.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
     E("div", { className: "md-source", style: { display: "none" } },
       E("h3", null, "Your First Assignment"),
       E("p", null, E("strong", null, "The assignment: "), "Your manager tells you, “We’re getting bad customer feedback on our new product. Read the last 500 reviews and tell us what’s happening and how we should fix it.”"),
-      E("p", null, E("strong", null, "Stage 1: Detail Work. "), "Without AI: You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary. With AI: AI produces a first pass. You check it against the reviews and correct mistakes."),
-      E("p", null, E("strong", null, "Stage 2: Analysis & Recommendation. "), "Without AI: You investigate the causes, compare fixes, and present your recommendation. With AI: AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation."),
+      E("p", null, E("strong", null, "Stage 1: Routine Work. "), "Learn what customers are saying. Before AI: You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary. With AI: AI organizes the reviews and drafts a summary. You spot-check the results and investigate anything that looks wrong."),
+      E("p", null, E("strong", null, "Stage 2: Judgment & Decisions. "), "Decide what to do about it. Before AI: You investigate the causes, compare fixes, and present your recommendation. With AI: AI helps you explore causes and compare fixes. You evaluate its suggestions and present your recommendation."),
       E("p", null, "Same assignment. Same responsibility. A different way to do the work.")),
     E(BodyP, null,
-      "Do you see the point? With AI’s help, you can spend less time organizing information and more time investigating what it means and deciding what to do. Checking and improving AI’s work takes what you already know."),
+      "Before AI, you did all of the work yourself. With AI’s help, the grunt work gets done faster, giving you more time for higher-value work: understanding what the feedback means and deciding what to do. The more you know, the better you’ll be at that work."),
     E(SectionKicker, null, "THE CONCEPTS"),
     E(BodyP, null,
-      "You just saw two ways to use AI at work: automate and augment."),
+      "When people talk about how AI is changing jobs, you’ll hear two terms: automate and augment."),
     React.createElement(TenthPhoneReadingBoard, {kind:"workWays",image:E("img", {
-      src: "course-assets/work-changes/work-changes-automation-and-augmentation.jpg?v=20261026augment1",
-      alt: "Two Ways AI Changes the Work. Automate. AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary. Augment. AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation. The work still has your name on it. You own the outcome.",
+      src: "course-assets/work-changes/work-changes-automation-and-augmentation.jpg?v=20261120title2",
+      alt: "Two Ways AI Changes Work. Automate. AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary. Augment. AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation. The work still has your name on it. You own the outcome.",
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     })}),
-    E(SectionKicker, null, "THE PART THAT MATTERS"),
+    E(SectionKicker, null, "A NEW PROBLEM"),
     E(BodyP, null,
-      "AI is already changing some entry-level work. Basic research, starter code, and simple analysis often helped new graduates learn a profession. AI can now handle or assist with some of that work."),
+      "AI also creates a new challenge for people starting their careers. In many professions, the grunt work has been a valuable training ground."),
     E(BodyP, null,
-      E("strong", null, "AI can make you productive before it makes you knowledgeable."),
-      " That creates a strange problem. You might be asked to check sophisticated work before you’ve had the chance to learn it."),
+      "In our example, reading the reviews helps you learn how customers think, what they care about, and how they describe their experiences with the product. If AI does most of that reading for you, how will you build that understanding?"),
     E(BodyP, null,
-      "You already know what you must do. Learn. And learn more. And you’re in the best place in the world to do it: school."),
+      "Here’s the risk: ", E("strong", null, "AI can make you productive before it makes you knowledgeable."),
+      " You might be asked to investigate a problem and recommend what to do before you understand the field well enough to judge AI’s suggestions."),
+    E(BodyP, null,
+      "What can you do? Use some of the time AI saves to build your own understanding. In our example, read a sample of the reviews and write down what you notice before looking at AI’s summary. Then compare: what did you miss, and what did AI miss?"),
+    E(BodyP, null,
+      "What can you do today? Learn. And learn more. And you’re in the best place in the world to do it: school."),
     closeBoard("workchanges")),
 
     E(InteractiveBox, {
@@ -15422,16 +15420,18 @@ function WorkChangesSection(props) {
       surface: "teal",
       title: "Turn Reviews into Recommendations",
       hint: "Click the box after you finish each step.",
-      lead: "You just read about this exact assignment. Now live it: real file, real AI, ten minutes. The product with the bad reviews? This course.",
+      lead: "Now try the assignment yourself using 100 fictional reviews of this course. Use AI to find patterns, investigate the complaints, and recommend what to improve.",
       action: E(ActivityCounter, { count: labCheckedCount, total: REVIEW_LAB_STEPS.length })},
       E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
         REVIEW_LAB_STEPS.map(function(st, i) {
-          var done = !!labChecked[i];
+          // Preserve saved checkmarks when inserting the comparison step.
+          var checkKey = st.checkKey !== undefined ? st.checkKey : i;
+          var done = !!labChecked[checkKey];
           return E("div", { className: "lab-step-row",
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
-            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[checkKey] = !prev[checkKey]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             E("div", { style: { flex: 1, minWidth: 0 } },
               E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),

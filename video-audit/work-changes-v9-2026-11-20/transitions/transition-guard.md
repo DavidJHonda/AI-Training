@@ -1,0 +1,53 @@
+# Transition guard
+
+- Result: FAIL
+- Video: `Prompts/work-changes-v9.mp4`
+- Decoded frames: 8051
+- Short visual-island limit: 6 frames
+- Manual every-frame strip review: REQUIRED
+
+## Boundaries
+
+- PASS — f136 `retained-source-cut` — [`boundary-000136-retained-source-cut.jpg`](boundary-000136-retained-source-cut.jpg)
+- PASS — f386 `retained-source-cut` — [`boundary-000386-retained-source-cut.jpg`](boundary-000386-retained-source-cut.jpg)
+- PASS — f825 `retained-source-cut` — [`boundary-000825-retained-source-cut.jpg`](boundary-000825-retained-source-cut.jpg)
+- PASS — f1221 `retained-source-cut` — [`boundary-001221-retained-source-cut.jpg`](boundary-001221-retained-source-cut.jpg)
+- PASS — f1504 `assignment-full` — [`boundary-001504-assignment-full.jpg`](boundary-001504-assignment-full.jpg)
+- FAIL — f1624 `assignment-scenario` — [`boundary-001624-assignment-scenario.jpg`](boundary-001624-assignment-scenario.jpg)
+  - Possible stale visual: f1634 to f1635 (1 frames)
+  - Possible stale visual: f1635 to f1636 (1 frames)
+- FAIL — f1898 `assignment-two-stages` — [`boundary-001898-assignment-two-stages.jpg`](boundary-001898-assignment-two-stages.jpg)
+  - Possible stale visual: f1902 to f1903 (1 frames)
+  - Possible stale visual: f1903 to f1904 (1 frames)
+  - Possible stale visual: f1904 to f1905 (1 frames)
+  - Possible stale visual: f1905 to f1906 (1 frames)
+  - Possible stale visual: f1906 to f1907 (1 frames)
+  - Possible stale visual: f1907 to f1908 (1 frames)
+  - Possible stale visual: f1908 to f1909 (1 frames)
+  - Possible stale visual: f1909 to f1910 (1 frames)
+- PASS — f1991 `routine-purpose` — [`boundary-001991-routine-purpose.jpg`](boundary-001991-routine-purpose.jpg)
+- PASS — f2116 `routine-before-ai` — [`boundary-002116-routine-before-ai.jpg`](boundary-002116-routine-before-ai.jpg)
+- PASS — f2378 `routine-with-ai` — [`boundary-002378-routine-with-ai.jpg`](boundary-002378-routine-with-ai.jpg)
+- PASS — f2750 `checking-reviews-cutaway` — [`boundary-002750-checking-reviews-cutaway.jpg`](boundary-002750-checking-reviews-cutaway.jpg)
+- PASS — f3058 `judgment-purpose` — [`boundary-003058-judgment-purpose.jpg`](boundary-003058-judgment-purpose.jpg)
+- PASS — f3283 `judgment-before-ai` — [`boundary-003283-judgment-before-ai.jpg`](boundary-003283-judgment-before-ai.jpg)
+- PASS — f3535 `judgment-with-ai` — [`boundary-003535-judgment-with-ai.jpg`](boundary-003535-judgment-with-ai.jpg)
+- FAIL — f3893 `assignment-responsibility` — [`boundary-003893-assignment-responsibility.jpg`](boundary-003893-assignment-responsibility.jpg)
+  - Possible stale visual: f3902 to f3903 (1 frames)
+  - Possible stale visual: f3903 to f3904 (1 frames)
+  - Possible stale visual: f3904 to f3905 (1 frames)
+- PASS — f4156 `retained-roll-3` — [`boundary-004156-retained-roll-3.jpg`](boundary-004156-retained-roll-3.jpg)
+- PASS — f4365 `concepts-full` — [`boundary-004365-concepts-full.jpg`](boundary-004365-concepts-full.jpg)
+- PASS — f4495 `concepts-automate` — [`boundary-004495-concepts-automate.jpg`](boundary-004495-concepts-automate.jpg)
+- PASS — f4874 `concepts-augment` — [`boundary-004874-concepts-augment.jpg`](boundary-004874-concepts-augment.jpg)
+- PASS — f5340 `concepts-ownership` — [`boundary-005340-concepts-ownership.jpg`](boundary-005340-concepts-ownership.jpg)
+- PASS — f5676 `retained-roll-3` — [`boundary-005676-retained-roll-3.jpg`](boundary-005676-retained-roll-3.jpg)
+- PASS — f5957 `retained-source-cut` — [`boundary-005957-retained-source-cut.jpg`](boundary-005957-retained-source-cut.jpg)
+- PASS — f6111 `retained-source-cut` — [`boundary-006111-retained-source-cut.jpg`](boundary-006111-retained-source-cut.jpg)
+- PASS — f6269 `retained-source-cut` — [`boundary-006269-retained-source-cut.jpg`](boundary-006269-retained-source-cut.jpg)
+- PASS — f6435 `knowledge-gap-label-repair` — [`boundary-006435-knowledge-gap-label-repair.jpg`](boundary-006435-knowledge-gap-label-repair.jpg)
+- PASS — f6726 `saved-time-learn-label` — [`boundary-006726-saved-time-learn-label.jpg`](boundary-006726-saved-time-learn-label.jpg)
+- PASS — f6966 `retained-roll-3` — [`boundary-006966-retained-roll-3.jpg`](boundary-006966-retained-roll-3.jpg)
+- PASS — f7093 `retained-source-cut` — [`boundary-007093-retained-source-cut.jpg`](boundary-007093-retained-source-cut.jpg)
+- PASS — f7451 `school-donor-roll-2` — [`boundary-007451-school-donor-roll-2.jpg`](boundary-007451-school-donor-roll-2.jpg)
+- PASS — f7788 `canonical-close` — [`boundary-007788-canonical-close.jpg`](boundary-007788-canonical-close.jpg)

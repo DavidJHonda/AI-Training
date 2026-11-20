@@ -383,63 +383,104 @@ over its Completed Tasks drawing, then roll 1 "Let's look at a concrete example.
 
 ### work-changes
 
-**SHIPPED 2026-09-25 (David's approval): v3** = roll 4 base with roll 2 job titles and productive line, roll 5's
-How Work Is Changing explanation under the new Board 4, section-by-section highlights on Your First Assignment;
-cache key 20260925ship1 (`video-audit/work-changes-v3-2026-09-25/REVIEW.md`, build `scripts/video/build_work_changes_v3.py`).
+**Full reroll prepared November 20, 2026.** The current lesson and boards supersede
+all earlier Work Changes generation directions. The resulting version-3-based
+v10 is now installed; see the release record below.
 
-**Kit rebuilt 2026-09-23 on the 2026-09-20 recipe; revised 2026-09-24 after two rolls.** Rolls
-`Prompts/work-changes-1.mp4` and `-2.mp4` and the live video were all judged REROLL
-(`video-audit/work-changes-review-2026-09-24/REVIEW.md`). Roll 1 expanded the closing contractions and
-paraphrased most required lines; roll 2 dropped "in one study" from the statistic and the learn/school
-answer. Neither roll spoke "It's what you already know.", the manager's exact words, or the focus line.
-Roll 2 is the best-of base if the next roll lands the missing lines.
+**Three uploads reviewed November 20:** `Prompts/work-changes-1.mp4`, `-2.mp4`,
+and `-3.mp4`. Content and sampled-frame evaluation recommends version 3, retaining
+its narration and repairing the visuals. Full comparison and proposed board plan:
+`video-audit/work-changes-three-rolls-2026-11-20/REVIEW.md`. Listening and continuous
+motion were not verified in that evaluation. The approved build is recorded below.
 
-- Markdown: `lessons/work-changes.md` (2026-09-25: Board 4 is now **How Work Is Changing**.
-  Concise explanations cover tasks outside your specialty, accomplishing more in the same time,
-  and time for problems, ideas, and decisions. The consultant study statistic has been removed;
-  these instructions supersede the study requirements used for the earlier rolls above.)
-- Prompt: `gemini-notebook/work-changes/PROMPT.txt` (498 words; eight required verbatim lines;
-  teach all three concise explanations, preserving the Markdown's order and voice).
-- Registry: `gemini-notebook/upload-sets.json` → `gemini-notebook/work-changes/` (synced 2026-09-25)
-- Canonical folder: `course-assets/work-changes/`
-- Boards in lesson order:
-  - `work-changes-four-shapes-of-ai-work.jpg` — upload
-  - `work-changes-assignment.jpg` — **post-only (faces)**; uploads as
-    `gemini-notebook/work-changes/assets/work-changes-assignment-faceless.jpg`, the same 1203x1308 board with both photo panels
-    filled white. Every list item and both results stay on the variant. The canonical board replaces it
-    in the edit.
-  - `work-changes-automation-and-augmentation.jpg` — upload
-  - `work-changes-productivity-and-possibilities.jpg` — upload
-  - `work-changes-close.jpg` — upload
+**Approved visual edit built:** `Prompts/work-changes-v9.mp4` (4:28.37), using
+version 3's unchanged audio. Canonical boards restored, review-checking cutaway
+and version-2 school scene inserted, diagram labels simplified, timer removed,
+and closing delayed to its narration. Review/build record:
+`video-audit/work-changes-v9-2026-11-20/REVIEW.md`. Frame/audio identity checks and
+19 scene-splice checks pass. Full playback review remains; not installed or shipped.
 
-**Beat spine**
+**Latest owner-directed revision:** `Prompts/work-changes-v10.mp4` (4:12.90).
+Removes the repeated career-preparation sentence and the repeated immediate-learning
+sentence, zooms to the assignment banner, and replaces the training-ground and
+school shots with purpose-generated photographic scenes. Build and QA record:
+`video-audit/work-changes-v10-2026-11-20/REVIEW.md`. All 18 scene-splice checks pass;
+the two audio joins still need perceptual listening. David authorized shipping
+and pushing after that limitation was disclosed. Installed November 20 at
+`course-assets/work-changes/work-changes.mp4`, cache key `20261120ship1`, pill 4 min.
+Full continuous playback is not claimed. Public verification is recorded after
+the authorized push.
 
-1. Hook: finishing school, starting a career; all four job titles; what those jobs look like is already
-   changing.
-2. Four AI Strengths at Work: all four by name with their descriptions.
-3. What sets you apart, asked and answered immediately: "It's what you already know."
-4. The assignment board: the manager's words verbatim; the old job with its five first-pass steps,
-   three follow-on steps and its result; the new job with the same five done by AI in minutes, the four
-   steps you start with, and its result.
-5. Board gone: the busy work was AI's strengths in action; improving AI's work took what you already
-   know. "AI doesn't just help you work faster. It can help you focus on what's really important."
-6. Automate and augment, each with its example from the reviews job, then "The work still has your name
-   on it. You own the outcome."
-7. How Work Is Changing: explain More Kinds of Work, More Productive, and More Meaningful
-   using their complete teaching text. Do not add the retired consultant study statistic.
-8. The part that matters: entry-level work, "AI can make you productive before it makes you
-   knowledgeable.", being asked to check work you haven't learned yet, and the answer — learn, learn
-   more, school.
-9. Close on the two lines with nothing after.
+- Page teaching and lab: `lessons/work-changes.md`, matching `index.html`.
+- Narration source: `lessons/work-changes-video.md`, derived by
+  `scripts/video/prepare_work_changes.py`. It ends at the closing lines, excludes
+  the lab, and uses David’s approved spoken time-savings passage.
+- Prompt: `gemini-notebook/work-changes/PROMPT.txt`, eight meaning requirements; natural paraphrases are accepted.
+- Registry: `gemini-notebook/upload-sets.json`; upload only the four files in
+  `gemini-notebook/work-changes/upload/`.
+- Save the raw roll as `Prompts/work-changes-reroll.mp4`, or the next unused suffix.
+- Refresh/check commands and review criteria: `gemini-notebook/work-changes/PREP.md`.
 
-**Required verbatim lines:** the eight in the prompt (the what-you-already-know line, the manager's
-assignment, the focus line, the name-on-it banner, the productive-before-knowledgeable
-line, the learn/school line, and the two closing lines).
+**Current visual sequence**
 
-**Banned words:** leverage, framework, utilize, disrupt, workforce, paradox, transformation; no expanded contractions;
-no "hits hardest"; no
-screen/board-position references; no statistic beyond the Markdown; no predicting job losses; the LAB is
-not narrated.
+1. Your First Assignment: upload the 1600x1506
+   `gemini-notebook/work-changes/assets/work-changes-assignment-faceless.jpg`.
+   Both photo panels are omitted, while the scenario, titles, purpose lines,
+   Before AI / With AI comparisons, spacing, and banner remain intact.
+   In the edit, replace it with the exact canonical
+   `course-assets/work-changes/work-changes-assignment-short.jpg`.
+2. Two Ways AI Changes Work: upload the current
+   `course-assets/work-changes/work-changes-automation-and-augmentation.jpg`.
+3. Closing: upload `course-assets/work-changes/work-changes-close.jpg`.
+
+The retired Four AI Strengths at Work and How Work Is Changing boards are not
+sources for this reroll. The old `work-changes-assignment.jpg` is not the current
+assignment board.
+
+**Lesson progression and beat spine**
+
+The lesson moves from changing tasks, through one concrete assignment and the
+concepts automate/augment, to the learning opportunities that automation can remove
+and what students can do about that now.
+
+1. Finishing school, starting a career, and what changing jobs might mean for you.
+   Familiar titles can contain different daily tasks. Recall AI’s useful tasks and
+   the value of what you know.
+2. Manager’s complete 500-review assignment. Walk Routine Work, then Judgment &
+   Decisions. For each, speak the purpose and both Before AI / With AI descriptions.
+   Include spot-checking, evaluating suggestions, and presenting your recommendation.
+3. Same assignment, same responsibility, different way of working. Leave the board
+   for the approved time-savings explanation: no invented hours, weeks, or minutes.
+   Preserve the point that more knowledge improves your work.
+4. Introduce automate and augment. Explain both with the review-project examples.
+   Finish with the name-on-it / own-the-outcome line.
+5. A New Problem: routine work has been a training ground. Reading reviews helps
+   you learn how customers think, what they care about, and how they describe the
+   product. AI can make you productive before it makes you knowledgeable.
+6. You might be asked to investigate and recommend before understanding the field
+   well enough to judge AI’s suggestions.
+7. What can you do? Spend some saved time learning. Read a sample and note your
+   observations before AI’s summary, then compare. What can you do today? Learn,
+   learn more, and use school.
+8. Close with these ideas: “AI is changing the work you’ll do.” Then “Now it’s on you to LEARN.”
+
+**Review priorities**
+
+David’s November 20 clarification: the marked lines need to make the point, not
+match verbatim. Judge all eight by meaning, including the closing.
+
+Teach every current board sentence. Keep human judgment in both stages. No
+week-to-minutes promise, guaranteed job survival, retired statistics, extra boards,
+or lab narration. The comparison and learning response are required teaching,
+not optional closing commentary. Exact wording and contractions are not pass/fail requirements. Production labels and
+filenames are not spoken. The generated photo-panel-free board is a reference;
+use the current page board during editing. Follow the shared Edit Spec for camera
+and highlights after the new narration has been reviewed.
+
+**Historical record:** the September 25 v3 build and earlier reroll findings are
+recorded in `video-audit/work-changes-v3-2026-09-25/REVIEW.md` and
+`video-audit/work-changes-review-2026-09-24/REVIEW.md`. Those timing and teaching
+plans are historical, not instructions for the November 20 reroll.
 
 ### where-ai-lives
 

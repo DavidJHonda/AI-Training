@@ -57,13 +57,13 @@ const lessons = {
       await page.waitForTimeout(250);
       if(id==='workchanges') {
         const assignment=page.locator('[data-phone-reading-board="workAssignment"] .phone-reading-mobile');
-        assert.deepEqual(await assignment.locator('h4').allTextContents(),['THE ASSIGNMENT','Detail Work','Analysis & Recommendation']);
-        assert.deepEqual(await assignment.locator('.phone-reading-label').allTextContents(),['STAGE 1','Without AI','With AI','STAGE 2','Without AI','With AI']);
-        assert.equal(await assignment.locator('.phone-ten-arrow').count(),1);
+        assert.deepEqual(await assignment.locator('h4').allTextContents(),['THE ASSIGNMENT','Routine Work','Judgment & Decisions']);
+        assert.deepEqual(await assignment.locator('.phone-reading-label').allTextContents(),['STAGE 1','Before AI','With AI','STAGE 2','Before AI','With AI']);
+        assert.equal(await assignment.locator('.phone-ten-arrow').count(),0);
         assert.equal(await assignment.locator('.phone-reading-example').count(),4);
-        const text=await assignment.innerText();for(const phrase of ['We’re getting bad customer feedback on our new product. Read the last 500 reviews','You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary.','AI produces a first pass. You check it against the reviews and correct mistakes.','You investigate the causes, compare fixes, and present your recommendation.','AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation.','Same assignment. Same responsibility. A different way to do the work.'])assert.ok(text.includes(phrase),phrase);
+        const text=await assignment.innerText();for(const phrase of ['Learn what customers are saying.','Decide what to do about it.','We’re getting bad customer feedback on our new product. Read the last 500 reviews','You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary.','AI organizes the reviews and drafts a summary. You spot-check the results and investigate anything that looks wrong.','You investigate the causes, compare fixes, and present your recommendation.','AI helps you explore causes and compare fixes. You evaluate its suggestions and present your recommendation.','Same assignment. Same responsibility. A different way to do the work.'])assert.ok(text.includes(phrase),phrase);
         const ways=await page.locator('[data-phone-reading-board="workWays"] .phone-reading-mobile').innerText();for(const phrase of ['Automate','Augment','It sorted the reviews, grouped the ideas, and created the first summary.','AI helped you explore more explanations, compare more options, and improve your recommendation.','The work still has your name on it. You own the outcome.'])assert.ok(ways.includes(phrase),phrase);
-        for(const [label,value] of [['What I checked','I checked the two-star reviews.'],['What I changed or rejected','I rejected the surface explanation.'],['Why I chose this recommendation','I chose the fix supported by the reviews.']])await page.getByLabel(label,{exact:true}).fill(value);
+        for(const [label,value] of [['What I checked','I checked the two-star reviews.'],['What I kept, changed, or rejected','I rejected the surface explanation.'],['Why I chose this recommendation','I chose the fix supported by the reviews.']])await page.getByLabel(label,{exact:true}).fill(value);
         await page.getByRole('button',{name:'Mark step 1 complete',exact:true}).click();
         await page.reload({waitUntil:'networkidle'});
         assert.equal(await page.getByLabel('What I checked',{exact:true}).inputValue(),'I checked the two-star reviews.');

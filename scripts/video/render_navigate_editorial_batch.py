@@ -229,7 +229,7 @@ CARD_BOARDS = (
     ),
     CardBoard(
         key="work-automate-augment",
-        title="Two Ways AI Changes the Work",
+        title="Two Ways AI Changes Work",
         cards=(
             Card("Automate", "AI takes over a step. It sorted the reviews, grouped the ideas, and created the first summary."),
             Card("Augment", "AI helps a person do more. AI helped you explore more explanations, compare more options, and improve your recommendation."),

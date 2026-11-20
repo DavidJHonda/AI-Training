@@ -487,8 +487,8 @@ def render_chatbot_agent_long() -> Image.Image:
     return image
 
 
-def render_first_assignment_long() -> Image.Image:
-    """Render the two project stages, preserving the published photo panels."""
+def render_first_assignment_long(*, faceless: bool = False) -> Image.Image:
+    """Render the project stages; optionally omit photo panels for video prep."""
 
     width = 1600
     card_width = 744
@@ -504,6 +504,7 @@ def render_first_assignment_long() -> Image.Image:
     card_title_font = face("bold", 40)
     section_font = face("heavy", 20)
     body_font = face("medium", 29)
+    section_gap = 28 + round(41 / 2)  # Add half a body line between comparisons.
     text_width = card_width - 68
     measure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
 
@@ -518,23 +519,27 @@ def render_first_assignment_long() -> Image.Image:
         {
             "accent": PURPLE,
             "pill": "STAGE 1",
-            "title": "Detail Work",
+            "title": "Routine Work",
+            "purpose": "Learn what customers are saying.",
             "sections": (
-                ("WITHOUT AI", "You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary."),
-                ("WITH AI", "AI produces a first pass. You check it against the reviews and correct mistakes."),
+                ("BEFORE AI", "You read all 500 reviews, group the complaints, build the spreadsheet, and write a summary."),
+                ("WITH AI", "AI organizes the reviews and drafts a summary. You spot-check the results and investigate anything that looks wrong."),
             ),
         },
         {
             "accent": AMBER,
             "pill": "STAGE 2",
-            "title": "Analysis & Recommendation",
+            "title": "Judgment & Decisions",
+            "purpose": "Decide what to do about it.",
             "sections": (
-                ("WITHOUT AI", "You investigate the causes, compare fixes, and present your recommendation."),
-                ("WITH AI", "AI helps you explore causes and compare fixes. You evaluate its suggestions and make the recommendation."),
+                ("BEFORE AI", "You investigate the causes, compare fixes, and present your recommendation."),
+                ("WITH AI", "AI helps you explore causes and compare fixes. You evaluate its suggestions and present your recommendation."),
             ),
         },
     )
 
+    wrapped_purposes = [wrap(measure, card["purpose"], body_font, text_width) for card in cards]
+    purpose_lines = max(len(lines) for lines in wrapped_purposes)
     wrapped_sections = []
     peer_lines = [0] * max(len(card["sections"]) for card in cards)
     for card in cards:
@@ -547,11 +552,11 @@ def render_first_assignment_long() -> Image.Image:
             card_sections.append(lines)
         wrapped_sections.append(card_sections)
 
-    text_height = 32 + 30 + 10 + 48 + 18
+    text_height = 32 + 30 + 10 + 48 + 18 + purpose_lines * 41 + section_gap
     for index, line_count in enumerate(peer_lines):
         text_height += 36 + line_count * 41
         if index < len(peer_lines) - 1:
-            text_height += 28
+            text_height += section_gap
     text_height += 34
     card_height = art_height + text_height
     height = cards_top + card_height + 40 + 88 + 40
@@ -580,8 +585,8 @@ def render_first_assignment_long() -> Image.Image:
         source.crop((614, 246, 1170, 562)),
     )
 
-    for card, panel, section_blocks, left in zip(
-        cards, panels, wrapped_sections, card_lefts
+    for card, panel, purpose, section_blocks, left in zip(
+        cards, panels, wrapped_purposes, wrapped_sections, card_lefts
     ):
         accent = card["accent"]
         draw_shadow(image, (left, cards_top, left + card_width, cards_top + card_height), CARD_RADIUS)
@@ -594,7 +599,8 @@ def render_first_assignment_long() -> Image.Image:
             width=1,
         )
         art = panel.resize((card_width, art_height), Image.Resampling.LANCZOS)
-        image.paste(art, (left, cards_top), top_round_mask((card_width, art_height), CARD_RADIUS))
+        if not faceless:
+            image.paste(art, (left, cards_top), top_round_mask((card_width, art_height), CARD_RADIUS))
         draw = ImageDraw.Draw(image)
         draw.rounded_rectangle(
             (left, cards_top, left + card_width, cards_top + card_height),
@@ -617,19 +623,16 @@ def render_first_assignment_long() -> Image.Image:
         text_y += 40
         draw_inner_title(draw, (text_x, text_y), card["title"], fill=accent)
         text_y += 48 + 18
+        multiline(draw, (text_x, text_y), purpose, body_font, BODY, 41)
+        text_y += purpose_lines * 41 + section_gap
         for section_index, ((label, _), lines) in enumerate(zip(card["sections"], section_blocks)):
             draw.text((text_x, text_y), label, font=section_font, fill=accent)
             text_y += 36
             multiline(draw, (text_x, text_y), lines, body_font, BODY, 41)
             text_y += peer_lines[section_index] * 41
             if section_index < len(peer_lines) - 1:
-                text_y += 28
+                text_y += section_gap
 
-    # A connector makes the panels read as stages in one project.
-    arrow_y = cards_top + art_height + 92
-    draw = ImageDraw.Draw(image)
-    draw.line((788, arrow_y, 810, arrow_y), fill=INK, width=4)
-    draw.line((802, arrow_y - 8, 810, arrow_y, 802, arrow_y + 8), fill=INK, width=4)
     draw_takeaway(image, cards_top + card_height + 40,
                   "Same assignment. Same responsibility. A different way to do the work.")
     ImageDraw.Draw(image).text(

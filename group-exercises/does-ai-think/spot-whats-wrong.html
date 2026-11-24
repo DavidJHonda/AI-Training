@@ -43,9 +43,9 @@ dialog img { display:block; max-width:90vw; max-height:78vh; object-fit:contain;
 <p class="intro">These AI-generated pictures were deliberately made with something odd. Find the detail and explain why it does not make sense. The leader reveals each clue when the group is ready.</p>
 <section class="band" id="round" aria-labelledby="picture-title">
  <div class="round-heading"><span class="round-label" id="progress"></span><h2 id="picture-title" tabindex="-1"></h2></div>
- <button type="button" class="picture-button" id="enlarge" aria-label="Enlarge puzzle image"><img id="picture" alt=""></button>
+ <button type="button" class="picture-button" id="enlarge" aria-label="Enlarge puzzle image" aria-describedby="picture"><img id="picture" alt=""></button>
  <p class="caption">Select the picture to enlarge it. Look closely, then explain why the detail does not make sense.</p>
- <section class="answer card" id="answer" hidden aria-labelledby="answer-title"><h3 id="answer-title">What to Notice</h3><p id="clue"></p><p>What do you know about the world that helped you spot it?</p></section>
+ <section class="answer card" id="answer" hidden aria-labelledby="answer-title"><h3 id="answer-title" tabindex="-1">What to Notice</h3><p id="clue"></p><p>What do you know about the world that helped you spot it?</p></section>
  <div class="actions"><button type="button" class="secondary" id="previous">Previous</button><div class="action-group"><button type="button" id="reveal" aria-controls="answer" aria-expanded="false">Reveal Detail</button><button type="button" class="secondary" id="next">Next Picture</button></div></div>
 </section>
 <section class="band finish" id="finish" hidden aria-labelledby="finish-title"><h2 id="finish-title" tabindex="-1">You brought the understanding.</h2><p>Which detail was hardest to spot? What did you have to know to recognize the problem?</p><p>These pictures were deliberately made with oddities. Finding them is practice in observation and judgment, not a test that settles whether AI thinks.</p><p>Close this tab to return to the course.</p>
@@ -67,7 +67,20 @@ var zoom = document.getElementById('zoom');
 var zoomImage = document.getElementById('zoom-image');
 function enlarge(image) { if(!image.complete || !image.naturalWidth) return; zoomImage.src=image.src; zoomImage.alt=image.alt; zoom.showModal(); }
 document.getElementById('close-zoom').addEventListener('click',function(){zoom.close();});
-var pictures = [{"file": "01-porch-dog.jpg", "title": "Porch Dog", "answer": "The dog has six legs. Count the six separate paws attached to one body."}, {"file": "05-cat-mirror.jpg", "title": "Cat Mirror", "answer": "The cat’s mouth is closed, but its reflection is yawning."}, {"file": "06-cafe-lemonade.jpg?v=20261006finalclue", "title": "Cafe Lemonade", "answer": "The café window reflects a snowy day, but the patio is sunny and the trees outside are green."}, {"file": "07-backpack.jpg?v=20261006finalclue", "title": "Backpack", "answer": "The tree on the far right casts no shadow, while the other trees do."}, {"file": "08-birthday-cake.jpg", "title": "Birthday Cake", "answer": "The front-right candle has a flame pointing downward."}, {"file": "09-skateboard.jpg?v=20261006finalclue", "title": "Skateboard", "answer": "An elderly woman is skating down the ramp in the background among the teenagers."}, {"file": "10-front-porch.jpg", "title": "Front Porch", "answer": "The porch railing blocks the top of the stairs, with no opening."}, {"file": "11-guitar.jpg?v=20261006finalclue", "title": "Guitar", "answer": "The guitar is branded “Google.” Google doesn’t make guitars."}, {"file": "12-library.jpg", "title": "The Library", "answer": "One book is titled VELNAR TOSKIB, which is gibberish. The other 24 books have English titles."}, {"file": "13-picnic-basket.jpg?v=20261006finalclue", "title": "Picnic Basket", "answer": "A tiny man is peeking from behind the flowers, much smaller than the cup and vase."}, {"file": "14-shop-window.jpg", "title": "Shop Window", "answer": "The reflection holds a yellow shopping bag, but the person’s hands are empty."}, {"file": "15-parked-bicycles.jpg?v=20261006finalclue", "title": "Parked Bicycles", "answer": "The bikes are branded ChatGPT and Claude. Those are AI tools, not bicycle brands."}];
+var pictures = [
+ {"file": "01-porch-dog.jpg", "title": "Porch Dog", "answer": "The dog has six legs. Count the six separate paws attached to one body.", "description": "A dog stands on a porch. Three paws touch the boards on the near side of its body and three on the far side."},
+ {"file": "05-cat-mirror.jpg", "title": "Cat Mirror", "answer": "The cat’s mouth is closed, but its reflection is yawning.", "description": "A cat sits facing a mirror with its mouth closed. Across the glass a cat opens its mouth wide."},
+ {"file": "06-cafe-lemonade.jpg?v=20261006finalclue", "title": "Cafe Lemonade", "answer": "The café window reflects a snowy day, but the patio is sunny and the trees outside are green.", "description": "Sun lights the café patio and green trees. In the café window, snow covers the ground."},
+ {"file": "07-backpack.jpg?v=20261006finalclue", "title": "Backpack", "answer": "The tree on the far right casts no shadow, while the other trees do.", "description": "A backpack lies outdoors. Dark shadows extend from the trees on the left and middle. The ground beneath the rightmost tree is bright."},
+ {"file": "08-birthday-cake.jpg", "title": "Birthday Cake", "answer": "The front-right candle has a flame pointing downward.", "description": "Flames rise from the candles around a cake. On the front right, one flame hangs below its wick."},
+ {"file": "09-skateboard.jpg?v=20261006finalclue", "title": "Skateboard", "answer": "An elderly woman is skating down the ramp in the background among the teenagers.", "description": "Teenagers skate at a ramp. A gray-haired older woman rides down the slope behind them."},
+ {"file": "10-front-porch.jpg", "title": "Front Porch", "answer": "The porch railing blocks the top of the stairs, with no opening.", "description": "Steps climb to a front porch. A continuous rail runs across the porch, including the top of the steps."},
+ {"file": "11-guitar.jpg?v=20261006finalclue", "title": "Guitar", "answer": "The guitar is branded “Google.” Google doesn’t make guitars.", "description": "A guitar carries the word Google where a maker’s name would go."},
+ {"file": "12-library.jpg", "title": "The Library", "answer": "One book is titled VELNAR TOSKIB, which is gibberish. The other 24 books have English titles.", "description": "Most of the books have English titles. One spine reads VELNAR TOSKIB."},
+ {"file": "13-picnic-basket.jpg?v=20261006finalclue", "title": "Picnic Basket", "answer": "A tiny man is peeking from behind the flowers, much smaller than the cup and vase.", "description": "A cup and vase sit beside a picnic basket. Behind the flowers stands a man shorter than the cup."},
+ {"file": "14-shop-window.jpg", "title": "Shop Window", "answer": "The reflection holds a yellow shopping bag, but the person’s hands are empty.", "description": "A shopper stands empty-handed at a window. In the reflection, a yellow bag hangs from one hand."},
+ {"file": "15-parked-bicycles.jpg?v=20261006finalclue", "title": "Parked Bicycles", "answer": "The bikes are branded ChatGPT and Claude. Those are AI tools, not bicycle brands.", "description": "Bicycles are parked together. The frames carry the names ChatGPT and Claude."}
+];
 var index=0, revealed=pictures.map(function(){return false;});
 var picture=document.getElementById('picture');
 var status=document.getElementById('status');
@@ -77,7 +90,7 @@ function render(){
  document.getElementById('round').hidden=false;document.getElementById('finish').hidden=true;
  document.getElementById('progress').textContent='Picture '+(index+1)+' of '+pictures.length;
  document.getElementById('picture-title').textContent=current.title;
- picture.alt='Observation puzzle: '+current.title;
+ picture.alt=current.description;
  picture.src=current.file;
  document.getElementById('answer').hidden=!revealed[index];
  document.getElementById('clue').textContent=current.answer;
@@ -89,7 +102,7 @@ function render(){
 }
 picture.addEventListener('error',function(){status.textContent='This picture could not load. Try reloading the page or continue to the next picture.';});
 document.getElementById('enlarge').addEventListener('click',function(){enlarge(picture);});
-reveal.addEventListener('click',function(){revealed[index]=!revealed[index];render();});
+reveal.addEventListener('click',function(){revealed[index]=!revealed[index];render();if(revealed[index])document.getElementById("answer-title").focus();});
 document.getElementById('previous').addEventListener('click',function(){if(index>0)index--;render();document.getElementById('picture-title').focus();});
 document.getElementById('next').addEventListener('click',function(){
  if(index<pictures.length-1){index++;render();document.getElementById('picture-title').focus();}

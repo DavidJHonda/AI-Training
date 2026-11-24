@@ -4,7 +4,7 @@
 
 The [prep notes](../../../gemini-notebook/critical-thinking/PREP-NOTES.md) and [generation prompt](../../../gemini-notebook/critical-thinking/PROMPT.txt) accompany the five-file upload bundle. Use the text-only reaction board for generation and restore the Dallas Stars board during editing.
 
-Open with the favorite-food hook. Read the three headlines with Shape magazine last, then attribute the faster-weight-loss claim to the study. Ask “What’s your first reaction?” and hold that question alone for five quiet seconds. Show the Stars board and read each label with its student’s full reaction.
+Open with the favorite-food hook. Read the three headlines with Shape magazine last, then attribute the faster-weight-loss claim to the study. Trace the three illustrated headlines to the one study. Show the Stars board as the narrator asks “What’s your first reaction?” Hold for two quiet seconds, then read each label with its student’s reaction.
 
 Reveal Bohannon’s purpose, the invented institute, and the 18 measurements in 15 people. Follow Critical Thinking Defined and Knowledge Matters through the equation board. Use the habit-over-time transition into What Critical Thinkers Ask. Read The Question, The Evidence, and The Alternatives with their prompts in order.
 

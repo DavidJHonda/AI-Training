@@ -366,11 +366,11 @@
       </div>
 
       <div class="pair-grid is-loading" id="pair-grid" aria-busy="true">
-        <button class="image-choice" id="choice-a" type="button" disabled>
+        <button class="image-choice" id="choice-a" aria-describedby="image-a" type="button" disabled>
           <span class="image-stage"><img id="image-a" alt="Picture A in the current pair"></span>
           <span class="image-label"><span class="letter">Side A</span><span class="label-text" id="label-a">I think this is real</span></span>
         </button>
-        <button class="image-choice" id="choice-b" type="button" disabled>
+        <button class="image-choice" id="choice-b" aria-describedby="image-b" type="button" disabled>
           <span class="image-stage"><img id="image-b" alt="Picture B in the current pair"></span>
           <span class="image-label"><span class="letter">Side B</span><span class="label-text" id="label-b">I think this is real</span></span>
         </button>
@@ -380,7 +380,7 @@
         </div>
       </div>
 
-      <div class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true">
+      <div class="feedback" id="feedback">
         <div class="feedback-copy">
           <p class="feedback-title" id="feedback-title"></p>
           <p class="feedback-source" id="feedback-source"></p>
@@ -403,6 +403,7 @@
     </section>
   </main>
 
+  <script src="photo-descriptions.js"></script>
   <script>
     (function() {
       "use strict";
@@ -529,7 +530,7 @@
             else resolve(picture);
           }
           picture.id = "image-" + letter;
-          picture.alt = pair.title + ", picture " + letter.toUpperCase();
+          picture.alt = window.COURSE_PHOTO_DESCRIPTIONS[pair.id][sourceLetter(pair, letter) === "a" ? 0 : 1];
           picture.onload = function() {
             if (!picture.naturalWidth) {
               finish(new Error("Picture is empty"));

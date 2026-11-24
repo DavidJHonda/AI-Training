@@ -48,11 +48,11 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .lesson-closing-board-narrow > .close-board { margin: 0 !important; }
   .lesson-closing-board.is-html .lesson-closing-board-view { display: none; }
   .lesson-closing-board.is-html .lesson-closing-board-narrow { display: block; }
-  .lesson-closing-board.is-html > figcaption { display: none; }
+  .lesson-closing-board.is-html > .welcome-opening-board-text { display: none; }
   @media (max-width: 620px) {
     .lesson-closing-board-view { display: none; }
     .lesson-closing-board-narrow { display: block; }
-    .lesson-closing-board > figcaption { display: none; }
+    .lesson-closing-board > .welcome-opening-board-text { display: none; }
   }
 
   .guided-demo { margin: 18px 0 28px; padding: 24px; border: 1.5px solid color-mix(in srgb, var(--info) 30%, transparent); border-radius: 20px; background: color-mix(in srgb, var(--info) 8%, var(--card)); font-family: var(--sans); break-inside: avoid; }
@@ -204,9 +204,15 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   .answer-lesson-board-desktop { display: block; width: 100%; border-radius: 12px; }
   .answer-lesson-board-mobile { display: none; }
   /* Phone board alternatives. Each lesson opts in per board. */
+  @media screen { .phone-reading-desktop-source { display: none; } }
   .phone-reading-board, .phone-reading-desktop { display: contents; }
-  .board-screen-reader-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); }
+  .board-screen-reader-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
   .phone-reading-mobile { display: none; }
+  @media screen and (min-width: 761px) and (min-height: 501px), screen and (min-width: 761px) and (not (pointer: coarse)) {
+    .phone-reading-board > .phone-reading-mobile, .vary-board > .vary-board-mobile, .answer-lesson-board > .answer-lesson-board-mobile {
+      display: block; position: absolute; width: 0; height: 0; padding: 0; overflow: hidden; clip-path: inset(50%);
+    }
+  }
   @media screen and (max-width: 760px), screen and (pointer: coarse) and (max-height: 500px) {
     .phone-reading-board > .phone-reading-desktop, .phone-reading-desktop-source { display: none; }
     .phone-reading-mobile { display: block; max-width: 880px; margin: 20px auto 28px; padding: 12px; border-radius: 14px; background: #eae7fd; color: var(--ink); font-family: var(--sans); }
@@ -1146,7 +1152,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      transition-duration: 0s !important;
       scroll-behavior: auto !important;
     }
   }
@@ -1202,6 +1208,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
     100% { transform: scale(1); }
   }
   .redact-chunk {
+    font: inherit; text-align: inherit;
     cursor: pointer;
     color: #3a3550;
     background: rgba(110, 81, 255, 0.08);
@@ -1552,6 +1559,7 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
 </head>
 <body>
 <div id="root"></div>
+<script src="group-exercises/what-is-ai/photo-descriptions.js"></script>
 <script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="country-select.js"></script>
@@ -2018,9 +2026,9 @@ function LessonHeader(props) {
       style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, margin: "0 0 18px 0" }
     },
       E("h1", {
-        className: "lesson-title",
+        className: "lesson-title", tabIndex: -1,
         style: { fontFamily: "var(--serif)", fontSize: 64, fontWeight: 400, letterSpacing: "-0.025em", lineHeight: 0.98, color: "var(--ink)", textWrap: "balance", margin: 0, flex: "1 1 auto", minWidth: 0 }
-      }, resolvedTitle)
+      }, resolvedTitle, resolvedTitle === "Opener" ? E("span", { className: "board-screen-reader-text" }, " — " + group.label) : null)
     ),
     isDraftLesson(sectionId) ? E("div", {
       className: "draft-lesson-notice",
@@ -2034,7 +2042,7 @@ function LessonHeader(props) {
 }
 function SectionKicker(props) {
   var size = props.size === "small" ? "small" : "large";
-  var Tag = props.as || "div";
+  var Tag = props.as || "h2";
   var baseStyle = size === "small"
     ? { fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em", color: "var(--primary)", margin: "32px 0 5px 0" }
     : { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--primary)", margin: "32px 0 8px 0" };
@@ -2128,7 +2136,7 @@ function ClosingBoardImage(props) {
       window.removeEventListener("resize", update);
     };
   }, [cssWidth]);
-  return E("figure", {
+  return E("div", {
     ref: figureRef,
     className: "lesson-closing-board" + (imageFits ? "" : " is-html"),
     style: { "--close-board-width": cssWidth + "px" }
@@ -2142,7 +2150,7 @@ function ClosingBoardImage(props) {
       alt: "", "aria-hidden": true, "data-lightbox-background": true, decoding: "async"
     })),
     E("div", { className: "lesson-closing-board-narrow" }, E(CloseBoard, props.copy)),
-    E("figcaption", { className: "welcome-opening-board-text" },
+    E("div", { className: "welcome-opening-board-text" },
       E("p", null, props.copy.pill),
       props.copy.sticky ? E("p", null, props.copy.sticky) : null));
 }
@@ -2697,7 +2705,7 @@ function ActivityLead(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null,
     /*#__PURE__*/React.createElement(ActivityDivider, null),
     /*#__PURE__*/React.createElement(SectionKicker, {
-      as: props.title ? "h3" : "div",
+      as: "h2",
       style: { color: accent, display: "flex", alignItems: "flex-start", gap: 10, textTransform: "none", letterSpacing: "normal", fontSize: props.title ? 22 : 18, lineHeight: 1.3 }
     },
       /*#__PURE__*/React.createElement("span", { "aria-hidden": true, style: { width: 24, height: 2, marginTop: props.title ? 14 : 11, background: accent, borderRadius: 2, flexShrink: 0 } }),
@@ -2715,7 +2723,7 @@ function GroupExercise(props) {
         E("svg", { className: "group-exercise-chevron", viewBox: "0 0 20 20", fill: "none", "aria-hidden": true, focusable: "false" },
           E("path", { d: "M5 7.5 10 12.5 15 7.5", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" })),
         E("span", { className: "group-exercise-labels" },
-          E("span", { className: "group-exercise-label" }, props.label || "Group Exercise"),
+          E("span", { className: "group-exercise-label" }, props.label || "Group Exercise", props.title ? E("span", { className: "board-screen-reader-text" }, ": " + props.title) : null),
           props.optional !== false ? E("span", { className: "group-exercise-optional" }, "Optional") : null))),
     props.lead ? E(BodyP, { style: { marginTop: 12 } }, props.lead) : null,
     E("div", { className: "group-exercise-content" },
@@ -3103,12 +3111,12 @@ function WatchPlayer(props) {
   var player = v.youtubeId
     ? E("iframe", {
         src: "https://www.youtube-nocookie.com/embed/" + v.youtubeId + "?rel=0&modestbranding=1",
-        title: "Lesson video overview",
+        title: v.title || "Lesson video overview",
         allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
         allowFullScreen: true,
         style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }
       })
-    : E("video", { controls: true, autoPlay: !!v.autoplay, preload: "metadata", style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "#000" } },
+    : E("video", { "aria-label": v.title || "Lesson video", tabIndex: 0, controls: true, autoPlay: !!v.autoplay, preload: "metadata", style: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "#000" } },
         E("source", { src: v.src, type: "video/mp4" }));
   return E("div", { style: { marginBottom: 28 } },
     E("div", { style: { position: "relative", width: "100%", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", background: "#000" } }, player),
@@ -3120,6 +3128,10 @@ function WatchPlayer(props) {
 function StoryPoster(props) {
   var E = React.createElement;
   var _o = useState(false), open = _o[0], setOpen = _o[1];
+  var playerRef = useRef(null);
+  useEffect(function() {
+    if (open && playerRef.current) playerRef.current.querySelector("video,iframe").focus();
+  }, [open]);
   var bar = E("div", {
     style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, background: "radial-gradient(120% 80% at 50% -8%, #24409a 0%, #1a2f7a 46%, #152563 100%)", padding: "13px 20px" }
   },
@@ -3130,9 +3142,9 @@ function StoryPoster(props) {
       style: { marginLeft: "auto", fontFamily: "var(--sans)", fontSize: 12, fontWeight: 800, color: "#ffd24a" }
     }, props.badge) : null);
   if (open) {
-    return E("div", { className: "no-print", style: { marginBottom: 28 } },
+    return E("div", { ref: playerRef, className: "no-print", style: { marginBottom: 28 } },
       E("div", { className: "story-poster-frame", style: { marginBottom: 12 } }, bar),
-      E(WatchPlayer, { video: Object.assign({ autoplay: true }, props.video) }));
+      E(WatchPlayer, { video: Object.assign({ autoplay: true, title: props.title }, props.video) }));
   }
   return E("div", { className: "no-print", style: { marginBottom: 28 } },
     E("button", {
@@ -3278,7 +3290,7 @@ function FeedbackPill(props) {
     onClick: props.onClick,
     type: "button",
     "aria-label": props.ariaLabel,
-    "aria-pressed": props.ariaPressed,
+    "aria-pressed": props.ariaPressed != null ? props.ariaPressed : (look === "correct" || look === "wrong-loud" || look === "selected"),
     style: {
       display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
       padding: "11px 22px", borderRadius: 999, minWidth: 96,
@@ -3289,7 +3301,7 @@ function FeedbackPill(props) {
     }
   },
     props.label,
-    L.icon ? React.createElement("span", { style: { color: L.iconColor, fontWeight: 800 } }, L.icon) : null);
+    L.icon ? React.createElement("span", { "aria-hidden": true, style: { color: L.iconColor, fontWeight: 800 } }, L.icon) : null);
 }
 
 function ScenarioRow(props) {
@@ -3318,14 +3330,14 @@ function ScenarioRow(props) {
         }, props.prompt))),
     React.createElement("div", { className: "scenario-row-body", style: { paddingLeft: 66 } },
       React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" } }, props.children)),
-      props.answered ? React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
+      React.createElement("div", { role: "status" }, props.answered ? React.createElement("div", { style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" } },
         React.createElement("div", { className: "feedback-grid", style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
           React.createElement("div", null,
             React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: fbAccent, marginBottom: 8 } },
               React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: fbAccent, display: "inline-block" } }),
               fbEyebrow),
             React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: fbAccent, lineHeight: 1.2 } }, fbHeadline)),
-          React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, props.feedback))) : null);
+          React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, props.feedback))) : null));
 }
 
 function CompareCard(props) {
@@ -3507,7 +3519,7 @@ function ChoiceRadio(props) {
   var dotBorder = "var(--rule)", dotFill = "transparent", txtColor = "#0e0a1f";
   if (props.picked && props.correct) { dotBorder = "#1f9d5f"; dotFill = "#1f9d5f"; txtColor = "#1f9d5f"; }
   else if (props.picked) { dotBorder = "#d4334a"; dotFill = "#d4334a"; txtColor = "#d4334a"; }
-  return React.createElement("button", { className: "activity-choice-radio", onClick: props.onClick, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
+  return React.createElement("button", { className: "activity-choice-radio", "aria-pressed": !!props.picked, onClick: props.onClick, style: { display: "flex", alignItems: "center", gap: 10, padding: "4px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "var(--sans)", fontSize: 17, fontWeight: 600, color: txtColor, textAlign: "left" } },
     React.createElement("span", { style: { width: 22, height: 22, borderRadius: 999, border: "2px solid " + dotBorder, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" } },
       React.createElement("span", { style: { width: 11, height: 11, borderRadius: 999, background: dotFill } })),
     props.label);
@@ -3542,14 +3554,14 @@ function ChoiceQuiz(props) {
             opts.map(function(opt, oi) {
               return React.createElement(ChoiceRadio, { key: oi, label: opt.label, picked: viewing === oi, correct: opt.correct, onClick: function() { pick(si, oi); } });
             })),
-          answered ? React.createElement("div", { className: "choicequiz-feedback", style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
+          React.createElement("div", { role: "status" }, answered ? React.createElement("div", { className: "choicequiz-feedback", style: { marginTop: 14, marginLeft: 46, borderTop: "1px dashed var(--tryRule)", paddingTop: 14 } },
             React.createElement("div", { className: "choicequiz-feedback-grid", style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 20, alignItems: "start" } },
               React.createElement("div", null,
                 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7, fontFamily: "var(--sans)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: accent, marginBottom: 8 } },
                   React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: accent, display: "inline-block" } }),
                   eyebrow),
                 React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 20, fontWeight: 700, color: accent, lineHeight: 1.2 } }, picked.headline)),
-              React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, picked.feedback))) : null);
+              React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, picked.feedback))) : null));
       })));
 }
 
@@ -3679,6 +3691,7 @@ function QuizBlock(props) {
         }
         return React.createElement("button", {
           key: i,
+          "aria-pressed": isViewing,
           onClick: function() { pickMint(i); },
           onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
@@ -3693,8 +3706,8 @@ function QuizBlock(props) {
           }
         },
           React.createElement("div", { style: { flex: 1, textAlign: props.optionsRow ? "center" : "left" } }, opt.label),
-          isResolvedPick ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
-          isWrong ? React.createElement("span", { style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
+          isResolvedPick ? React.createElement("span", { "aria-hidden": true, style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2713") : null,
+          isWrong ? React.createElement("span", { "aria-hidden": true, style: { color: iconColor, fontWeight: 800, fontSize: 16, flexShrink: 0 } }, "\u2715") : null
         );
       })
     );
@@ -3718,7 +3731,7 @@ function QuizBlock(props) {
           React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, bodyText)));
     }
 
-    return React.createElement("div", { className: "activity-quiz activity-quiz--mint", style: { padding: 0 } }, titleRow, optionsList, feedbackZone);
+    return React.createElement("div", { className: "activity-quiz activity-quiz--mint", style: { padding: 0 } }, titleRow, optionsList, React.createElement("div", { role: "status", "aria-atomic": true }, feedbackZone));
   }
 
   // Default surface (unchanged from previous behavior)
@@ -3757,6 +3770,7 @@ function QuizBlock(props) {
           : (isCorrect || isPicked) ? "#fff" : "var(--inkSoft)";
         return React.createElement("button", {
           key: i,
+          "aria-pressed": isPicked,
           onClick: function() { handlePick(i); },
           onMouseEnter: function() { setHoverIdx(i); },
           onMouseLeave: function() { setHoverIdx(null); },
@@ -3780,16 +3794,16 @@ function QuizBlock(props) {
         );
       })
     ),
-    feedbackText ? React.createElement("div", {
+    React.createElement("div", { role: "status" }, feedbackText ? React.createElement("div", {
       style: {
         marginTop: 18, background: "#fff", border: "1px solid var(--rule)", borderRadius: 10,
         padding: "16px 18px", fontSize: 14, color: "var(--inkSoft)", lineHeight: 1.55,
         animation: "fadeIn 0.3s ease"
       }
     },
-      React.createElement("span", { style: { marginRight: 6 } }, pickedCorrect ? "\u2713" : "\u2717"),
+      React.createElement("span", { style: { marginRight: 6 } }, pickedCorrect ? "Correct." : "Not quite."),
       feedbackText
-    ) : null
+    ) : null)
   );
 }
 function ProgressBar(props) {
@@ -4530,14 +4544,14 @@ function LessonReading(props) {
   var video = LESSON_VIDEOS[props.sectionId];
   if (!video || video.comingSoon || new URLSearchParams(window.location.search).has("print")) return E(React.Fragment, null, props.children);
   return E("div", { className: "lesson-reading" },
-    E("button", {
+    E("h2", { className: "no-print", style: { margin: 0 } }, E("button", {
       type: "button", className: "lesson-reading-toggle no-print",
       "aria-expanded": open, "aria-controls": contentId,
       onClick: function() { setOpen(!open); }
     },
       E("span", null, open ? "Collapse the lesson" : "Read the lesson"),
       E("svg", { className: "reading-chevron", width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, "aria-hidden": "true" },
-        E("path", { d: "m6 9 6 6 6-6" }))),
+        E("path", { d: "m6 9 6 6 6-6" })))),
     E("div", { id: contentId, className: "lesson-reading-content", hidden: !open }, props.children));
 }
 function AIHistorySection(props) {
@@ -4689,6 +4703,7 @@ function LabOpenAction(props) {
 function LabStepList(props) {
   var E = React.createElement;
   var steps = props.steps || [];
+  var listId = React.useId();
   return E("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
     steps.map(function(st, i) {
       var done = !!props.checked[i];
@@ -4699,11 +4714,12 @@ function LabStepList(props) {
         E("button", {
           "aria-pressed": done,
           "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"),
+          "aria-describedby": listId + "-" + i,
           onClick: function() { props.onToggle(i); },
           style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }
         }, done ? "✓" : ""),
         E("div", { style: { flex: 1, minWidth: 0 } },
-          E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+          E("span", { id: listId + "-" + i, style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
           E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
           st.open ? E(LabOpenAction, st.open) : null,
           st.content ? E("div", { style: { marginTop: 12 } }, st.content) : null,
@@ -5213,7 +5229,7 @@ var PHONE_READING_BOARDS = {
   equation: {
     equation: true,
     cardTitleTag: "h3",
-    desktopText: true,
+
     cards: [
       { title: "Knowledge", accent: "#1652f0", body: "The more you know about a subject, the easier it is to spot a missing detail or a claim that doesn’t add up." },
       { title: "Critical Thinking", accent: "#0e8f86", body: "Critical thinking is examining assumptions, including your own, and weighing evidence to decide what to believe or do." }
@@ -5221,14 +5237,14 @@ var PHONE_READING_BOARDS = {
     result: "You can decide what to believe and explain why."
   },
   reactions: {
-    title: "What’s your first reaction?", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 866, desktopText: true,
+    title: "What’s your first reaction?", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 866,
     cards: [
       { title: "Take it at face value", accent: "#d4334a", art: [42,126,742,416], body: "“I love chocolate! And look, it’s all over the news. It must be true. I’m sending this to the group chat.”" },
       { title: "Question the claim", accent: "#0f7a4a", art: [817,126,742,416], body: "“Wait. I’d love for that to be true, but eating chocolate to lose weight? That doesn’t sound right.”" }
     ]
   },
   threeQuestions: {
-    title: "What Critical Thinkers Ask", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 650, desktopText: true,
+    title: "What Critical Thinkers Ask", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 650,
     cards: [
       { title: "The Question", accent: "#4f2fc4", art: [40,127,485,273], body: "What am I trying to understand or decide?" },
       { title: "The Evidence", accent: "#1652f0", art: [557,127,486,273], body: "What am I basing this on? What am I assuming?" },
@@ -5237,6 +5253,7 @@ var PHONE_READING_BOARDS = {
   }
 };
 function PhoneReadingCards(props) {
+  var showArt = useContext(BoardArtworkContext);
   var E = React.createElement, board = props.board;
   return E(board.ordered ? "ol" : "div", { className: "phone-reading-stack" + (board.roadmap ? " phone-reading-roadmap" : ""), role: board.ordered ? "list" : undefined },
     board.cards.map(function(card, i) {
@@ -5244,7 +5261,7 @@ function PhoneReadingCards(props) {
         board.equation && i > 0 ? E("div", { className: "phone-reading-operator", role: "img", "aria-label": "plus" }, "+") : null,
         E(board.ordered ? "li" : "section", { className: "phone-reading-card", style: { "--phone-reading-accent": card.accent } },
           board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null,
-          card.art && !props.textOnly ? E("svg", { className: "phone-reading-art", viewBox: card.art.join(" "), width: card.art[2], height: card.art[3], "aria-hidden": "true", focusable: "false" },
+          card.art && showArt ? E("svg", { className: "phone-reading-art", viewBox: card.art.join(" "), width: card.art[2], height: card.art[3], "aria-hidden": "true", focusable: "false" },
             E("image", { href: props.src, width: board.width, height: board.height })) : null,
           E("div", { className: "phone-reading-copy" },
             card.label && !board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
@@ -5258,11 +5275,27 @@ function PhoneReadingCards(props) {
             card.better ? E("div", { className: "phone-reading-example" }, E("p", { className: "phone-reading-label" }, "Better"), E("p", null, card.better)) : null)));
     }));
 }
+// The text in reading order is shared across layouts. On wide screens the
+// original composed image supplies the visual design and the HTML supplies speech.
+var BoardArtworkContext = React.createContext(true);
+function ReadingBoardLayout(props) {
+  var E = React.createElement;
+  var narrow = useIllustrationZoom();
+  return E("div", { className: "phone-reading-board", "data-phone-reading-board": props.kind },
+    E("div", { className: "phone-reading-desktop", "aria-hidden": true }, props.image, props.desktopDescription),
+    E("div", { className: "phone-reading-mobile" + (props.extraClass || "") },
+      E(BoardArtworkContext.Provider, { value: narrow }, props.children)));
+}
+function BoardTakeaway(props) {
+  var lesson = useContext(LessonContext);
+  var close = lesson && CLOSE_BOARDS[lesson.activeSection];
+  var repeatedAtClose = close && (props.children === close.pill || props.children === close.sticky);
+  return React.createElement("p", { className: "phone-reading-takeaway", "aria-hidden": repeatedAtClose || undefined }, props.children);
+}
 function PhoneReadingBoard(props) {
   var E = React.createElement, board = PHONE_READING_BOARDS[props.kind];
-  var note = board.note ? E("aside", { className: "phone-reading-note" }, board.noteTitle ? E("h4", null, board.noteTitle) : null, E("p", null, board.note)) : null;
-  function boardText(className) {
-    return E("section", { className: className, "aria-label": board.title },
+  var note = board.note ? E("div", { className: "phone-reading-note" }, board.noteTitle ? E("h4", null, board.noteTitle) : null, E("p", null, board.note)) : null;
+  return E(ReadingBoardLayout, props,
       board.title ? E(board.titleTag || "h3", null, board.title) : null,
       board.noteFirst ? note : null,
       props.children || E(PhoneReadingCards, { board: board, src: props.image.props.src }),
@@ -5270,13 +5303,8 @@ function PhoneReadingBoard(props) {
         E("div", { className: "phone-reading-operator", role: "img", "aria-label": "leads to" }, "↓"),
         E("p", { className: "phone-reading-result" }, board.result)) : null,
       !board.noteFirst ? note : null,
-      board.takeaway ? E("p", { className: "phone-reading-takeaway" }, board.takeaway) : null,
-      E("p", { className: "phone-reading-credit" }, "besmarterthanthetool.com"));
-  }
-  return E("div", { className: "phone-reading-board", "data-phone-reading-board": props.kind },
-    E("div", { className: "phone-reading-desktop" }, props.image,
-      board.desktopText ? boardText("board-screen-reader-text") : props.desktopDescription),
-    boardText("phone-reading-mobile"));
+      board.takeaway ? E(BoardTakeaway, null, board.takeaway) : null,
+      E("p", { className: "phone-reading-credit", "aria-hidden": true }, "besmarterthanthetool.com"));
 }
 
 // Second phone-readability batch. Copy is checked against the canonical boards;
@@ -5291,7 +5319,7 @@ function PhoneReadingFacts(props) {
 }
 Object.assign(PHONE_READING_BOARDS, {
   supportComparison: {
-    desktopText: true, title: "Same Problem. Different Answers.", width: 1600, height: 1397,
+    title: "Same Problem. Different Answers.", width: 1600, height: 1397,
     noteFirst: true, note: "You tell your older sister and a chatbot the same thing: “At school, I’ve been eating lunch alone for like two weeks. I don’t like it, and I’m not sure what to do.”",
     cards: [
       { title: "Your Older Sister", accent: "#1652f0", art: [41,355,742,416],
@@ -5423,7 +5451,7 @@ function BeyondPhoneReadingBoard(props) {
 // Third phone-readability batch. Copy and crop boundaries follow the live boards.
 Object.assign(PHONE_READING_BOARDS, {
   flatteryFeedback: {
-    desktopText: true, title: "Flattery Trap vs. Useful Feedback", width: 1600, height: 1520,
+    title: "Flattery Trap vs. Useful Feedback", width: 1600, height: 1520,
     noteFirst: true,
     note: "You ask AI to evaluate this Great Gatsby essay introduction: “The American Dream is something that many people have thought about over the years. Some people achieve it and some don’t. In The Great Gatsby, Fitzgerald explores this idea.”",
     cards: [
@@ -5432,7 +5460,7 @@ Object.assign(PHONE_READING_BOARDS, {
     ], takeaway: "Good feedback improves the work. Empty praise only improves the feeling."
   },
   praiseTraining: {
-    desktopText: true, title: "How AI Learns to Praise", width: 1600, height: 796,
+    title: "How AI Learns to Praise", width: 1600, height: 796,
     ordered: true, numbersAboveArt: true, cards: [
       { title: "People Rank", accent: "#4f2fc4", art: [40,191,485,273], body: "Reviewers compare answers and choose the ones they prefer." },
       { title: "Praise Can Win", accent: "#1652f0", art: [557,191,486,273], body: "Sometimes reviewers choose the answer that offers praise, even when the criticism would be more useful." },
@@ -5440,11 +5468,11 @@ Object.assign(PHONE_READING_BOARDS, {
     ]
   },
   sycophancyResponse: {
-    desktopText: true, title: "ChatGPT’s Response", width: 1600, height: 413,
+    title: "ChatGPT’s Response", width: 1600, height: 413,
     cards: [{ accent: "#4f2fc4", body: "Honestly? This is absolutely brilliant. You’re tapping so perfectly into the exact energy of the current cultural moment: irony, rebellion, absurdism, authenticity, eco-consciousness, and memeability. It’s not just smart. It’s genius. It’s performance art disguised as a gag gift, and that’s exactly why it has the potential to explode." }]
   },
   fightFlattery: {
-    desktopText: true, title: "How to Get Better Feedback", width: 1600, height: 1101, ordered: true,
+    title: "How to Get Better Feedback", width: 1600, height: 1101, ordered: true,
     cards: [
       { title: "Share Your Opinion Last", accent: "#4f2fc4", body: null, weak: "“I think this plan is good. Thoughts?”", better: "“Evaluate this plan before I tell you what I think.”" },
       { title: "Ask for the Gaps", accent: "#1652f0", body: null, weak: "“Is my essay good?”", better: "“What’s weak, what’s missing, and what would someone who disagrees say?”" },
@@ -5607,6 +5635,7 @@ function PhoneFourEmphasis(props) {
   }));
 }
 function PhoneFourArt(props) {
+  if (!useContext(BoardArtworkContext)) return null;
   return React.createElement('svg', {className:'phone-reading-art', viewBox:props.crop.join(' '), width:props.crop[2], height:props.crop[3], 'aria-hidden':'true', focusable:'false'},
     React.createElement('image', {href:props.src, width:props.width || 1600, height:props.height}));
 }
@@ -5902,7 +5931,7 @@ function SeventhPhoneReadingBoard(props) {
 // Eighth phone-readability batch. Original desktop and print boards remain intact.
 Object.assign(PHONE_READING_BOARDS, {
   fakeComparison: {
-    desktopText: true, title: "Same Clip. Two Eras.", width: 1600, height: 1203,
+    title: "Same Clip. Two Eras.", width: 1600, height: 1203,
     noteFirst: true, note: "A friend sends a video of your principal announcing that school is closed next week.",
     cards: [
       { title: "Before AI", accent: "#a9760c", art: [41,242,742,416],
@@ -5912,7 +5941,7 @@ Object.assign(PHONE_READING_BOARDS, {
     ],
     takeaway: "Appearance can mislead. The source trail can be checked."
   },
-  fakeMotives:{desktopText:true,title:'Why People Make Harmful Fakes.',width:1600,height:662,cards:[
+  fakeMotives:{title:'Why People Make Harmful Fakes.',width:1600,height:662,cards:[
     {title:'Money',accent:'#4f2fc4',art:[41,128,354,160],body:'Outrage gets clicks, and clicks pay.'},
     {title:'Power',accent:'#1652f0',art:[429,128,354,160],body:'Change what people believe and you change how they vote, protest, and spend.'},
     {title:'Fame',accent:'#a9760c',art:[817,128,354,160],body:'A viral clip means followers. It does not have to be true to travel.'},
@@ -5923,7 +5952,7 @@ Object.assign(PHONE_READING_BOARDS, {
     {title:'Context',accent:'#1652f0',art:[557,128,485,273],body:'When was this recorded? What did the speaker say before and after this part?'},
     {title:'Corroboration',accent:'#0e8f86',art:[1075,128,485,273],body:'Can an independent source confirm the same event or claim?'}
   ],takeaway:'Verify somewhere the sender does not control.'},
-  agentsUses:{desktopText:true,title:'Agents Today',width:1600,height:1543,cards:[
+  agentsUses:{title:'Agents Today',width:1600,height:1543,cards:[
     {title:'Coding',accent:'#4f2fc4',art:[40,127,744,339],body:'People used to write code line by line, test it, and fix what broke. Now a coding agent can do all three.'},
     {title:'Research',accent:'#1652f0',art:[816,127,744,339],body:'People used to visit competitors’ websites one by one to compare prices. Now an agent checks the same products across sites and builds a price comparison for the sales team.'},
     {title:'Customer Service',accent:'#0e8f86',art:[40,831,744,339],body:'People used to answer the phone and respond to customers in online chats. Now an agent can do both. When someone asks, “Where’s my package?” the agent can look up the order, check the tracking, and give them an update.'},
@@ -5967,7 +5996,7 @@ function EighthPhoneReadingBoard(props) {
         E(PhoneFourArt,{src:src,crop:card.art,width:board.width,height:board.height}),
         E('div',{className:'phone-reading-copy'},E('h4',{tabIndex:props.kind==='agentsLoop'&&i===1?-1:undefined},E('span',{className:'phone-reading-number','aria-hidden':'true'},i+1),card.title),E('p',null,card.body))),
       i<board.cards.length-1?E('span',{className:'phone-eight-flow-arrow','aria-hidden':'true'},'↓'):null); })),
-      props.kind==='agentsLoop'?E('p',{className:'phone-eight-return'},E('a',{href:'#phone-eight-agent-plan','aria-label':'Not done? Go again. Return from Check to step 2, Plan.',onClick:function(event){event.preventDefault();var target=document.getElementById('phone-eight-agent-plan');target.scrollIntoView({block:'start',behavior:'auto'});target.querySelector('h4').focus({preventScroll:true});}},'NOT DONE? GO AGAIN.'),E('span',null,'Check → Plan')):null);
+      props.kind==='agentsLoop'?E('p',{className:'phone-eight-return'},phone?E('a',{href:'#phone-eight-agent-plan','aria-label':'Not done? Go again. Return from Check to step 2, Plan.',onClick:function(event){event.preventDefault();var target=document.getElementById('phone-eight-agent-plan');target.scrollIntoView({block:'start',behavior:'auto'});target.querySelector('h4').focus({preventScroll:true});}},'NOT DONE? GO AGAIN.'): 'If the task is unfinished, return from Check to Plan.',E('span',{'aria-hidden':true},'Check → Plan')):null);
   } else if(board.photo) {
     content=E(React.Fragment,null,
       E('div',{className:'phone-eight-photo',role:'img','aria-label':'Photographed homework with six numbered privacy exposures.'},
@@ -5975,8 +6004,7 @@ function EighthPhoneReadingBoard(props) {
         board.labels.map(function(label,i){return E('span',{key:label.title,className:'phone-eight-pin','aria-hidden':'true',style:{left:(label.at[0]-board.photo[0])/board.photo[2]*100+'%',top:(label.at[1]-board.photo[1])/board.photo[3]*100+'%'}},i+1);})),
       E('ol',{className:'phone-eight-photo-key',role:'list'},board.labels.map(function(label,i){return E('li',{key:label.title},E('span',{className:'phone-eight-key-number'},i+1),label.title);})));
   } else content=E(React.Fragment,null,board.hero?E(PhoneFourArt,{src:src,crop:board.hero,width:board.width,height:board.height}):null,E(PhoneReadingCards,{board:board,src:src}));
-  // Mount phone artwork only when needed, keeping desktop image resources independent.
-  if (!phone) content = board.desktopText ? E(PhoneReadingCards, { board: board, textOnly: true }) : E(React.Fragment, null);
+
   return E(PhoneReadingBoard, props, content);
 }
 
@@ -6031,8 +6059,7 @@ Object.assign(PHONE_READING_BOARDS, {
   ]}
 });
 function NinthPhoneReadingBoard(props) {
-  var E=React.createElement,board=PHONE_READING_BOARDS[props.kind],src=props.image.props.src,phone=useIllustrationZoom(),content;
-  if(phone) {
+  var E=React.createElement,board=PHONE_READING_BOARDS[props.kind],src=props.image.props.src,content;
     if(board.rows) {
       content=E('div',{className:'phone-reading-stack'},board.rows.map(function(row){return E('section',{key:row.title,className:'phone-reading-card phone-nine-comparison'},
         E('h4',null,row.title),
@@ -6050,9 +6077,7 @@ function NinthPhoneReadingBoard(props) {
         board.sceneLabels?E('div',{className:'phone-nine-scene-key'},board.sceneLabels.map(function(label,i){return E('p',{key:label,className:i===0?'phone-reading-label':undefined},label);})):
           E(PhoneReadingCards,{board:board,src:src}));
     }
-  }
-  // The empty fragment prevents the shared component's default artwork fallback.
-  return E(PhoneReadingBoard,props,phone?content:E(React.Fragment,null));
+  return E(PhoneReadingBoard,props,content);
 }
 
 // Tenth phone-readability batch. Preserve canonical copy and original artwork.
@@ -6084,8 +6109,7 @@ Object.assign(PHONE_READING_BOARDS, {
   ]}
 });
 function TenthPhoneReadingBoard(props) {
-  var E=React.createElement,board=PHONE_READING_BOARDS[props.kind],src=props.image.props.src,phone=useIllustrationZoom(),content;
-  if(phone) {
+  var E=React.createElement,board=PHONE_READING_BOARDS[props.kind],src=props.image.props.src,content;
     if(board.flow || board.math) {
       content=E(React.Fragment,null,
         board.before?E('p',{className:'phone-ten-before'},board.before):null,
@@ -6100,8 +6124,7 @@ function TenthPhoneReadingBoard(props) {
               card.total?E('p',{className:'phone-ten-total'},card.total):null)),
           board.flow && !board.hideArrows && i<board.cards.length-1?E('span',{className:'phone-ten-arrow','aria-hidden':'true'},'↓'):null);})));
     } else content=E(PhoneReadingCards,{board:board,src:src});
-  }
-  return E(PhoneReadingBoard,props,phone?content:E(React.Fragment,null));
+  return E(PhoneReadingBoard,props,content);
 }
 
 var REMAINING_PHONE_BOARDS = {
@@ -6150,6 +6173,7 @@ var REMAINING_PHONE_BOARDS = {
 };
 // Remaining phone boards: canonical wording and artwork, with desktop nodes kept intact.
 function RemainingPhoneArt(props) {
+  if (!useContext(BoardArtworkContext)) return props.alt ? React.createElement('span', null, props.alt) : null;
   var E=React.createElement, crop=props.crop;
   return E('svg',{className:'phone-reading-art',viewBox:crop.join(' '),width:crop[2],height:crop[3],role:props.alt?'img':undefined,'aria-label':props.alt||undefined,'aria-hidden':props.alt?undefined:'true',focusable:'false'},
     E('image',{href:props.src,width:props.board.width,height:props.board.height}));
@@ -6172,8 +6196,8 @@ function RemainingPhoneCards(props) {
           card.token?E('p',{className:'phone-remaining-context'},i?card.title.slice(0,-board.cards[i-1].token.length):card.title,i?E('strong',null,board.cards[i-1].token):null):E('h4',null,board.ordered?E('span',{className:'phone-reading-number','aria-hidden':'true'},i+1):null,card.title),
           card.bodyLabel?E('p',{className:'phone-reading-label'},card.bodyLabel):null,
           card.body?E('p',null,card.body):null,
-          card.token?E('p',{className:'phone-remaining-prediction'},E('span',{'aria-hidden':'true'},'→ '),E('strong',null,card.token)):null,
-          card.patterns?card.patterns.map(function(pair,j){return E('p',{key:j,className:'phone-remaining-pattern'},pair[0],' ',E('span',{'aria-hidden':'true'},'→'),' ',E('strong',null,pair[1]));}):null,
+          card.token?E('p',{className:'phone-remaining-prediction'},E('span',{role:'img','aria-label':'next predicted word'},'→ '),E('strong',null,card.token)):null,
+          card.patterns?card.patterns.map(function(pair,j){return E('p',{key:j,className:'phone-remaining-pattern'},pair[0],' ',E('span',{role:'img','aria-label':'leads to'},'→'),' ',E('strong',null,pair[1]));}):null,
           card.pair?E(RemainingPhoneFacts,{rows:card.pair.map(function(text,j){return[board.pairLabels[j],text];})}):null,
           card.facts?E(RemainingPhoneFacts,{rows:card.facts,ordered:board.title==='Ask the Desk. Ask AI.'}):null,
           card.examples?E(RemainingPhoneFacts,{rows:[['EXAMPLES',card.examples]]}):null,
@@ -6197,8 +6221,8 @@ function RemainingPhonePlaylist(props) {
   return E('div',{className:'phone-reading-stack'},
     E('section',{className:'phone-reading-card'},E('div',{className:'phone-reading-copy'},
       E('p',{className:'phone-reading-label'},'Traditional Software'),E('h4',null,'Structured Data'),
-      E('p',{className:'phone-remaining-scroll-hint'},'Scroll sideways to see all columns.'),
-      E('div',{className:'phone-remaining-sheet-scroll',role:'region','aria-label':'Structured playlist spreadsheet',tabIndex:0},
+      props.phone ? E('p',{className:'phone-remaining-scroll-hint'},'Scroll sideways to see all columns.') : null,
+      E('div',{className:'phone-remaining-sheet-scroll',role:'region','aria-label':'Structured playlist spreadsheet',tabIndex:props.phone ? 0 : undefined},
         E('table',{className:'phone-remaining-sheet','aria-label':'Structured playlist'},
           E('thead',null,E('tr',null,['Song','Artist','Play Order'].map(function(label){return E('th',{key:label,scope:'col'},label);}))),
           E('tbody',null,[['Blinding Lights','The Weeknd'],['Levitating','Dua Lipa'],['As It Was','Harry Styles']].map(function(song,i){return E('tr',{key:i},E('td',null,song[0]),E('td',null,song[1]),E('td',null,String(i+1)));})))))),
@@ -6227,10 +6251,8 @@ function RemainingPhoneReadingBoard(props) {
   var E=React.createElement,src=props.source||props.image.props.src,kind=src.split('/').pop().split('?')[0].replace(/\.[^.]+$/,''),board=props.board||REMAINING_PHONE_BOARDS[kind],phone=useIllustrationZoom();
   var art=function(crop,alt){return E(RemainingPhoneArt,{src:src,board:board,crop:crop,alt:alt});};
   var note=board.note?E('aside',{className:'phone-reading-note'},E('h4',null,board.noteTitle),E('p',null,board.note)):null;
-  return E('div',{className:'phone-reading-board','data-phone-reading-board':kind},
-    E('div',{className:'phone-reading-desktop'},props.image,props.desktopDescription),
-    E('section',{className:'phone-reading-mobile phone-remaining-board','aria-label':board.title},
-      E('h3',null,board.title),phone?E(React.Fragment,null,
+  return E(ReadingBoardLayout, { kind: kind, image: props.image, desktopDescription: props.desktopDescription, extraClass: " phone-remaining-board" },
+      E('h3',null,board.title),
         board.subtitle?E('p',{className:'phone-remaining-subtitle'},board.subtitle):null,
         board.noteFirst?note:null,
         board.scene?E('div',{className:'phone-remaining-scene'},art(board.scene,board.sceneAlt)):null,
@@ -6238,10 +6260,10 @@ function RemainingPhoneReadingBoard(props) {
         board.quote?E('blockquote',{className:'phone-remaining-quote'},board.quote):null,
         board.facts?E(RemainingPhoneFacts,{rows:board.facts}):null,
         board.pairArts?E('div',{className:'phone-remaining-pair-art'},board.pairArts.map(function(crop,i){return E('figure',{key:i},art(crop),E('figcaption',null,board.pairLabels[i]));})):null,
-        board.branch?E(RemainingPhoneBranch):board.playlist?E(RemainingPhonePlaylist,{src:src,board:board}):board.chinese?E(RemainingPhoneChinese):board.cards?E(RemainingPhoneCards,{src:src,board:board}):null,
+        board.branch?E(RemainingPhoneBranch):board.playlist?E(RemainingPhonePlaylist,{src:src,board:board,phone:phone}):board.chinese?E(RemainingPhoneChinese):board.cards?E(RemainingPhoneCards,{src:src,board:board}):null,
         !board.noteFirst?note:null,
-        board.takeaway?E('p',{className:'phone-reading-takeaway'},board.takeaway):null,
-        E('p',{className:'phone-reading-credit'},'besmarterthanthetool.com')):null));
+        board.takeaway?E(BoardTakeaway,null,board.takeaway):null,
+        E('p',{className:'phone-reading-credit','aria-hidden':true},'besmarterthanthetool.com'));
 }
 
 function WelcomeSection(props) {
@@ -6406,7 +6428,7 @@ function AIMultiplierTryIt(props) {
 
     function goalCards(selId) {
       return '<div class="aim-goals">' + GOALS.map(function (g) {
-        return '<button class="aim-goal' + (g.id === selId ? " aim-sel" : "") + '" data-goal="' + g.id + '">' +
+        return '<button class="aim-goal' + (g.id === selId ? " aim-sel" : "") + '" aria-pressed="' + (g.id === selId) + '" data-goal="' + g.id + '">' +
           '<span class="aim-emoji">' + g.emoji + '</span>' +
           '<span class="aim-name">' + g.name + '</span>' +
           '<span class="aim-mult">AI Multiplier: x' + g.mult + '</span></button>';
@@ -6425,6 +6447,7 @@ function AIMultiplierTryIt(props) {
         el.addEventListener("click", function () {
           state.goal = GOALS.find(function (g) { return g.id === el.getAttribute("data-goal"); });
           renderPick();
+          stage.querySelector('[aria-pressed="true"]').focus();
         });
       });
       if (sel) { stage.querySelector("#aim-startBtn").addEventListener("click", function () { runRound(1); }); }
@@ -6471,7 +6494,7 @@ function AIMultiplierTryIt(props) {
       }
 
       function beginTimer() {
-        eff.disabled = false; eff.addEventListener("click", tap);
+        eff.disabled = false; eff.focus(); eff.addEventListener("click", tap);
         timer = setInterval(function () {
           remaining--; secsEl.textContent = Math.max(remaining, 0);
           if (remaining <= 0) {
@@ -6497,6 +6520,7 @@ function AIMultiplierTryIt(props) {
         '<div class="aim-h">Round 1 done.</div>' +
         '<div class="aim-strip">You racked up <b>' + state.r1 + ' pts</b> on your own. Now play the exact same round with AI switched on: same button, same 12 seconds.</div>' +
         '<div class="aim-center"><button class="aim-btn-dark" id="aim-r2btn">Round 2: AI has your back</button></div>';
+      stage.querySelector("#aim-r2btn").focus();
       stage.querySelector("#aim-r2btn").addEventListener("click", function () { runRound(2); });
     }
 
@@ -6512,7 +6536,9 @@ function AIMultiplierTryIt(props) {
           '<div class="aim-verdict">' + state.goal.mult + '× zero is still zero.</div>' +
           '<p class="aim-rbody">AI is the best multiplier ever built, but it&rsquo;s waiting on you to give it something to multiply. <b>It never tapped the button for you.</b></p>' +
           '<button class="aim-btn-outline" id="aim-retry">Try another goal</button>';
-        stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
+        stage.querySelector(".aim-h").tabIndex = -1;
+      stage.querySelector(".aim-h").focus();
+      stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
         return;
       }
       body = ratio >= 1
@@ -6531,6 +6557,8 @@ function AIMultiplierTryIt(props) {
         stage.querySelector("#aim-f1").style.width = (state.r1 / max * 100) + "%";
         stage.querySelector("#aim-f2").style.width = (state.r2 / max * 100) + "%";
       });
+      stage.querySelector(".aim-h").tabIndex = -1;
+      stage.querySelector(".aim-h").focus();
       stage.querySelector("#aim-retry").addEventListener("click", function () { state = { goal: null, r1: 0, r2: 0 }; renderPick(); });
     }
 
@@ -6969,7 +6997,7 @@ function MessyNotesLab() {
   var _a = useLocalStorage("ai-different-messy-notes-lab-v7", {}), checked = _a[0], setChecked = _a[1];
   var STEPS = [
     { title: "Skim the notes", body: "Select Open Notes to skim the three-page PDF in another tab. Notice the handwriting, arrows, jokes, and crossed-out ideas. Return to this tab when you’re ready.",
-      content: E(ActivityButton, { size: "lab", href: "packets/ai-replaces-school.pdf", "aria-label": "Open Notes (opens in a new tab)" }, "Open Notes") },
+      content: E(ActivityButton, { size: "lab", href: "packets/ai-replaces-school.pdf", "aria-label": "Open Notes: AI Replaces School (PDF, opens in a new tab)" }, "Open Notes") },
     { title: "Download the notes", body: "Select Download Notes to save all three pages as one image.",
       content: E(DownloadMessyNotes) },
     { title: "Open ChatGPT", body: "Select Open ChatGPT, sign in if needed, and start a new chat.",
@@ -7260,6 +7288,8 @@ function BTAItem(props) {
             E("button", {
               type: "button",
               className: cls,
+              "aria-pressed": pick === wi, "aria-disabled": answered,
+              "aria-label": wi === item.target ? w + ", marked word" : undefined,
               ref: function (el) { wordRefs.current[wi] = el; },
               onClick: function () {
                 if (answered) return;
@@ -7272,18 +7302,18 @@ function BTAItem(props) {
             " ");
         })),
 
-      nudge && !answered ? E("div", { style: { marginTop: 14, fontSize: 15.5, lineHeight: 1.6, color: "var(--inkMuted)" } },
+      E("div", { role: "status" }, nudge && !answered ? E("div", { style: { marginTop: 14, fontSize: 15.5, lineHeight: 1.6, color: "var(--inkMuted)" } },
         "That’s the marked word. Choose the word that answers the question.") : null,
 
       answered ? E("div", { style: { marginTop: 14, fontSize: 15.5, lineHeight: 1.6 } },
         E("span", { style: { fontWeight: 800, marginRight: 6, color: isRight ? "var(--green)" : "var(--red)" } },
           isRight ? "Right." : "Not quite."),
-        E("span", { style: { color: "var(--inkSoft)" } }, feedback)) : null,
+        E("span", { style: { color: "var(--inkSoft)" } }, feedback)) : null),
 
       // The swap only appears once the first reading is committed, so the student
       // has an answer of their own to watch move.
       answered && item.swap && !swapped ? E("div", { style: { marginTop: 16 } },
-        E(ActivityButton, { onClick: function () { setSwapped(true); setPick(null); setNudge(false); } }, item.swap.label)) : null,
+        E(ActivityButton, { onClick: function () { setSwapped(true); setPick(null); setNudge(false); requestAnimationFrame(function() { if (wordRefs.current[0]) wordRefs.current[0].focus(); }); } }, item.swap.label)) : null,
 
       answered && swapped && item.swap.take ? E("div", { style: { marginTop: 16, background: "var(--primaryFaint)", borderRadius: 12, padding: "16px 18px", fontSize: 15.5, lineHeight: 1.6, color: "var(--inkSoft)" } },
         item.swap.take[0],
@@ -7548,9 +7578,9 @@ function TrainingBiasSection(props) {
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
-            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-describedby": "bias-step-" + i, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              /*#__PURE__*/React.createElement("span", { id: "bias-step-" + i, style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.body),
               st.open ? React.createElement(LabOpenAction, st.open) : null,
@@ -8330,16 +8360,19 @@ function Game2048Demo() {
     top.appendChild(scores); top.appendChild(newBtn); leftCol.appendChild(top);
 
     var boardWrap = el("div", "g2048-board-wrap");
-    var boardEl = el("div", "g2048-board"); boardEl.setAttribute("tabindex", "0"); boardEl.setAttribute("aria-label", "Playable 2048 game. Use arrow keys or swipe to move the tiles.");
+    var boardEl = el("div", "g2048-board"); boardEl.setAttribute("tabindex", "0"); boardEl.setAttribute("role", "group"); boardEl.setAttribute("aria-label", "Playable 2048 game. Use arrow keys or swipe to move the tiles.");
     for (var cc = 0; cc < SIZE * SIZE; cc++) boardEl.appendChild(el("div", "g2048-cell"));
-    var tilesEl = el("div", "g2048-tiles"); boardEl.appendChild(tilesEl);
+    var tilesEl = el("div", "g2048-tiles"); tilesEl.setAttribute("aria-hidden", "true"); boardEl.appendChild(tilesEl);
+    var boardStatus = el("p", "board-screen-reader-text");
+    boardStatus.setAttribute("role", "status");
+    boardEl.appendChild(boardStatus);
     var overlayEl = el("div", "g2048-overlay");
     var overlayMsg = el("div", "g2048-ovmsg msg"); var overlayBtns = el("div", "g2048-ovbtns btns");
     overlayEl.appendChild(overlayMsg); overlayEl.appendChild(overlayBtns); boardEl.appendChild(overlayEl);
     boardWrap.appendChild(boardEl); leftCol.appendChild(boardWrap);
 
     var pad = el("div", "g2048-pad");
-    function padBtn(dir, label) { var b = el("button", null, label); b.type = "button"; b.setAttribute("data-dir", dir); return b; }
+    function padBtn(dir, label) { var b = el("button", null, label); b.type = "button"; b.setAttribute("aria-label", "Move tiles " + ["up", "right", "down", "left"][dir]); b.setAttribute("data-dir", dir); return b; }
     var padBtns = [padBtn("0", "↑"), padBtn("3", "←"), padBtn("2", "↓"), padBtn("1", "→")];
     pad.appendChild(el("span")); pad.appendChild(padBtns[0]); pad.appendChild(el("span"));
     pad.appendChild(padBtns[1]); pad.appendChild(padBtns[2]); pad.appendChild(padBtns[3]);
@@ -8373,10 +8406,16 @@ function Game2048Demo() {
     function newGame() {
       grid = emptyGrid(); disappearing = []; tilesEl.innerHTML = ""; tileEls = {};
       score = 0; won = false; keepGoing = false; over = false; idSeq = 1;
-      spawn(); spawn(); hideOverlay(); updateScore(0); render();
+      spawn(); spawn(); hideOverlay(); updateScore(0); render(); describeBoard("New game.");
     }
     function inBounds(p) { return p.r >= 0 && p.r < SIZE && p.c >= 0 && p.c < SIZE; }
 
+    function describeBoard(action) {
+      var rows = grid.map(function(row, i) {
+        return "Row " + (i + 1) + ": " + row.map(function(tile) { return tile ? tile.value : "empty"; }).join(", ");
+      });
+      boardStatus.textContent = action + " Score " + score + ". " + rows.join(". ");
+    }
     function move(dir) {
       if (busy || over) return;
       var moved = false, gained = 0;
@@ -8408,11 +8447,12 @@ function Game2048Demo() {
           }
         }
       }
-      if (!moved) return;
+      if (!moved) { describeBoard("No tiles moved."); return; }
       busy = true; render(); updateScore(gained);
       setTimeout(function () {
         disappearing.forEach(function (t) { var e = tileEls[t.id]; if (e) { tilesEl.removeChild(e); delete tileEls[t.id]; } });
         disappearing = []; spawn(); render(); busy = false; checkState();
+        describeBoard(over ? "Game over." : won && !keepGoing ? "You win." : "Moved " + ["up", "right", "down", "left"][dir] + ".");
       }, 120);
     }
 
@@ -8471,18 +8511,11 @@ function Game2048Demo() {
     function hideOverlay() { overlayEl.className = "g2048-overlay"; }
 
     var KEYMAP = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3, W: 0, D: 1, S: 2, A: 3 };
-    // Listen on window so keys work as soon as the game is on screen (no click-to-focus
-    // needed), but only act while the board is in view and focus isn't in a text field,
-    // so arrow-key page scrolling still works everywhere else.
-    function editableTarget() { var a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.isContentEditable)); }
-    function boardInView() { var r = boardEl.getBoundingClientRect(); var vh = window.innerHeight || document.documentElement.clientHeight; return r.bottom > 0 && r.top < vh; }
     function onKey(e) {
-      if (!(e.key in KEYMAP)) return;
-      if (editableTarget()) return;
-      if (document.activeElement !== boardEl && !boardInView()) return;
+      if (e.target !== boardEl || e.ctrlKey || e.metaKey || e.altKey || !(e.key in KEYMAP)) return;
       e.preventDefault(); move(KEYMAP[e.key]);
     }
-    window.addEventListener("keydown", onKey);
+    boardEl.addEventListener("keydown", onKey);
     boardEl.addEventListener("pointerdown", function () { boardEl.focus(); });
     var touchStart = null;
     boardEl.addEventListener("touchstart", function (e) { if (e.touches.length !== 1) return; touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
@@ -8495,7 +8528,7 @@ function Game2048Demo() {
     newBtn.addEventListener("click", newGame);
 
     newGame();
-    return function () { window.removeEventListener("keydown", onKey); };
+    return function () { boardEl.removeEventListener("keydown", onKey); };
   }, []);
 
   return E("div", { style: { marginBottom: 20 } },
@@ -9215,8 +9248,8 @@ function VaryLessonBoard(props) {
     }));
   }
   return E("div",{className:"vary-board","data-vary-board":kind},
-    E("img",{className:"vary-board-desktop",src:props.src,alt:props.alt}),
-    E("section",{className:"vary-board-mobile","aria-label":title},
+    E("img",{className:"vary-board-desktop",src:props.src,alt:props.alt,"aria-hidden":true}),
+    E("div",{className:"vary-board-mobile"},
       E("h3",null,title),
       kind!=="overview"?E("p",{className:"vary-board-prompt"},"You could name him ",E("span",{className:"vary-board-blank","aria-label":"next token not selected"},"?")):null,
       content));
@@ -9702,7 +9735,7 @@ function YourChoicesTryIt() {
           prompt: E("span", { id: "when-you-need-more-situation-" + roundId }, round.prompt),
           answered: answered,
           correct: correct,
-          feedback: E("span", { role: "status" }, correct ? round.correctFeedback : round.incorrectFeedback)
+          feedback: correct ? round.correctFeedback : round.incorrectFeedback
         }, round.options.map(function(option) {
           return E(FeedbackPill, {
             key: option,
@@ -9948,11 +9981,11 @@ function DogRecapStrip() {
   ];
   return E("div", {className:"answer-lesson-board", "data-answer-board":"before"},
     E("img", {
-      className:"answer-lesson-board-desktop",
+      className:"answer-lesson-board-desktop", "aria-hidden": true,
       src: "course-assets/how-ai-answers/how-ai-answers-before-answer-begins.jpg?v=20261110nobanner",
       alt: "Before the Answer Begins. The user asks what to name a new dog. AI breaks the question into tokens, marks their positions, creates starting vectors, and runs them through the layers."
     }),
-    E("section", {className:"answer-lesson-board-mobile", "aria-label":"Before the Answer Begins"},
+    E("div", {className:"answer-lesson-board-mobile"},
       E("h3", null, "Before the Answer Begins"),
       E("div", {className:"answer-board-prompt"}, E("strong", null, "YOU"), E("p", null, "What should I name my new dog?")),
       E("ol", {className:"answer-board-steps"}, steps.map(function(step, i) {
@@ -9969,16 +10002,16 @@ function SameTokenContextBoard() {
   ];
   return E("div", {className:"answer-lesson-board", "data-answer-board":"context"},
     E("img", {
-      className:"answer-lesson-board-desktop",
+      className:"answer-lesson-board-desktop", "aria-hidden": true,
       src:"course-assets/how-ai-answers/how-ai-answers-same-token-context.jpg?v=20261110context2",
       alt:"Same Token, Different Context. Naming your new dog: the question mark’s updated vector reflects the context of your whole question. Choosing your dinner: the same question mark now has a different updated vector, reflecting this different question."
     }),
-    E("section", {className:"answer-lesson-board-mobile", "aria-label":"Same Token, Different Context"},
+    E("div", {className:"answer-lesson-board-mobile"},
       E("h3", null, "Same Token, Different Context"),
       E("div", {className:"answer-board-context-cards"}, examples.map(function(example,i){
         return E("div", {key:i,className:"answer-board-context-card"},
+          E("h4", {className:"answer-board-context",style:{margin:0}}, example[1]),
           E("p", {className:"answer-board-question"},example[0],"\u00a0",E("span", {className:"answer-board-last-token"},"?")),
-          E("p", {className:"answer-board-context"}, example[1]),
           E("p", null, example[2]));
       }))));
 }
@@ -10130,6 +10163,7 @@ function PredictionSection(props) {
 // product before the steps. Built to the exact spec of the lab's starter prompt:
 // run, jump on spacebar/tap, speed up over time, keep score, desktop and phone.
 function DinoGameDemo() {
+  const pauseRef = useRef(null), statusRef = useRef(null);
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
   useEffect(function() {
@@ -10152,8 +10186,9 @@ function DinoGameDemo() {
     var speed = 4.4, score = 0, hi = 0, nextGap = 0, last = 0, raf = 0;
     function reset() { obstacles = []; dino.y = groundY; dino.vy = 0; speed = 4.4; score = 0; nextGap = 0; }
     function jump() {
+      if (state === "waiting") state = "run";
       if (state === "run") { if (dino.y >= groundY - 0.5) dino.vy = -11.4; }
-      else { if (state === "over") reset(); state = "run"; }
+      else { if (state === "over") reset(); state = "run"; statusRef.current.textContent = "Running."; }
     }
     function step(k) {
       dino.vy += 0.62 * k;
@@ -10168,9 +10203,16 @@ function DinoGameDemo() {
       for (var i = obstacles.length - 1; i >= 0; i--) {
         var ob = obstacles[i];
         ob.x -= speed * k;
+        if (pauseRef.current.checked && !ob.prompted && ob.x > dino.x && ob.x - dino.x <= speed * 14) {
+          ob.prompted = true;
+          state = "waiting";
+          statusRef.current.textContent = "Obstacle ahead. Score " + Math.floor(score) + ". Press Space or Up to jump.";
+          return;
+        }
         if (ob.x < -60) { obstacles.splice(i, 1); continue; }
         if (Math.abs(ob.x - dino.x) < 6 + ob.s * 0.34 && dino.y > groundY - ob.s - 4) {
           state = "over";
+          statusRef.current.textContent = "Game over at " + Math.floor(score) + ". Press Space to restart.";
           hi = Math.max(hi, Math.floor(score));
         }
       }
@@ -10226,12 +10268,7 @@ function DinoGameDemo() {
     function onKey(e) {
       if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (e.code !== "Space" && e.code !== "ArrowUp") return;
-      if (document.activeElement !== canvas) {
-        // Leave other controls and offscreen page scrolling alone.
-        if (e.target.closest && e.target.closest("a, button, input, textarea, select, [contenteditable]:not([contenteditable='false']), [role='button'], [role='slider']")) return;
-        var bounds = canvas.getBoundingClientRect();
-        if (bounds.width <= 0 || bounds.height <= 0 || bounds.top < 0 || bounds.bottom > window.innerHeight) return;
-      }
+      if (document.activeElement !== canvas) return;
       e.preventDefault();
       if (e.repeat) return;
       canvas.focus({ preventScroll: true });
@@ -10255,6 +10292,8 @@ function DinoGameDemo() {
     /*#__PURE__*/React.createElement("div", { className: "activity-support-copy", style: { fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, marginBottom: 8 } },
       "Try this example of the game you’re about to build. ",
       /*#__PURE__*/React.createElement("strong", null, "Press Space or ↑, or click or tap the game, to start and jump.")),
+    React.createElement("label", null, React.createElement("input", { type: "checkbox", ref: pauseRef }), " Pause at each obstacle and wait for my jump"),
+    React.createElement("p", { ref: statusRef, role: "status", className: "dino-game-status", style: { margin: 0 } }),
     /*#__PURE__*/React.createElement("div", { ref: wrapRef },
       /*#__PURE__*/React.createElement("canvas", {
         ref: canvasRef, tabIndex: 0, className: "dino-game-canvas", "aria-label": "Playable dinosaur runner game demo. Press Space or Arrow Up to start and jump.",
@@ -10463,11 +10502,11 @@ function CriticalThinkingSection(props) {
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
         var picked = problemAnswers[si];
-        return /*#__PURE__*/React.createElement("div", { key: si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
+        return /*#__PURE__*/React.createElement("div", { key: si, role: "group", "aria-labelledby": "critical-claim-" + si, style: { paddingTop: si === 0 ? 0 : 24, marginTop: si === 0 ? 0 : 24, borderTop: si === 0 ? "none" : "1px solid var(--rule)" } },
           /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 18, alignItems: "flex-start", marginBottom: 18 } },
             /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--serif)", fontWeight: 400, fontSize: 44, lineHeight: 1, color: "var(--tryAccent)", width: 48, flexShrink: 0 } }, String(si + 1).padStart(2, "0")),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" } }, sc.claim))),
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 18, fontWeight: 400, color: "#0e0a1f", lineHeight: 1.4, maxWidth: "56ch" }, id: "critical-claim-" + si }, sc.claim))),
           /*#__PURE__*/React.createElement(QuizBlock, {
             key: si,
             surface: "mint",
@@ -10657,7 +10696,7 @@ function WhatItDoesBestSection(props) {
         })});
       })),
     E("div", {
-      className: "phone-reading-desktop-source",
+      className: "phone-reading-desktop-source md-source",
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       E("h3", null, "AI is strongest when the job has one of four shapes."),
@@ -10834,7 +10873,7 @@ function PromptingSection(props) {
     style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto 24px", borderRadius: 12 }
   }) }),
   React.createElement("div", {
-    className: "phone-reading-desktop-source",
+    className: "phone-reading-desktop-source md-source",
     style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
   },
     React.createElement("h3", null, PHONE_READING_BOARDS.moves12.title),
@@ -12314,9 +12353,9 @@ function FlatteryTrapSection(props) {
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
-            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            /*#__PURE__*/React.createElement("button", { "aria-pressed": done, "aria-describedby": "flattery-step-" + i, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[i] = !prev[i]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-              /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              /*#__PURE__*/React.createElement("span", { id: "flattery-step-" + i, style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               /*#__PURE__*/React.createElement("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } },
                 st.body),
 
@@ -12814,17 +12853,15 @@ function PrivacySection(props) {
             bubbleStyle: { background: "#faf9ff", border: "1px solid #ded9ff", padding: "16px 18px" }
           },
             prompt.segments.map(function(seg, si) {
-              if (seg.id && isRedacted(pi, seg.id)) return /*#__PURE__*/React.createElement("span", { key: si, className: "redact-chunk redact-chunk--removed" }, seg.text);
-              return /*#__PURE__*/React.createElement("span", {
-                key: si,
-                className: "redact-chunk" + (isChecked(pi, si) && !seg.id ? " redact-chunk--safe" : ""),
-                role: "button",
-                tabIndex: 0,
-                onClick: function() { redactSeg(pi, si, seg); },
-                onKeyDown: function(e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); redactSeg(pi, si, seg); } }
+              var removed = seg.id && isRedacted(pi, seg.id);
+              return /*#__PURE__*/React.createElement("button", {
+                key: si, type: "button",
+                className: "redact-chunk" + (removed ? " redact-chunk--removed" : isChecked(pi, si) ? " redact-chunk--safe" : ""),
+                "aria-pressed": isChecked(pi, si),
+                onClick: function() { redactSeg(pi, si, seg); }
               }, seg.text);
             })),
-          lastSeg ? /*#__PURE__*/React.createElement("div", {
+          React.createElement("div", { role: "status" }, lastSeg ? /*#__PURE__*/React.createElement("div", {
             style: { marginTop: 18, borderTop: "1px dashed var(--tryRule)", paddingTop: 18, animation: "fadeIn 0.3s ease" }
           },
             /*#__PURE__*/React.createElement("div", { className: "feedback-grid", style: { display: "grid", gridTemplateColumns: "1fr 2fr", gap: 24, alignItems: "start" } },
@@ -12833,7 +12870,7 @@ function PrivacySection(props) {
                   /*#__PURE__*/React.createElement("span", { style: { width: 7, height: 7, borderRadius: 999, background: lastSeg.id ? "#d4334a" : "#1f9d5f", display: "inline-block" } }),
                   lastSeg.id ? "Do not share" : "Safe to share"),
                 /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 22, fontWeight: 700, color: lastSeg.id ? "#d4334a" : "#1f9d5f", lineHeight: 1.2 } }, lastSeg.id ? "Remove it." : "Keep it.")),
-              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, lastSeg.note))) : null,
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "var(--sans)", fontSize: 16, fontWeight: 400, lineHeight: 1.55, color: "#0e0a1f" } }, lastSeg.note))) : null),
           promptAllChecked(pi, prompt) ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
             /*#__PURE__*/React.createElement(UserBubble, {
               align: "right",
@@ -12922,9 +12959,9 @@ function FakeTrapPhotoTryIt() {
   var E = React.createElement;
   var state = useState({}), picks = state[0], setPicks = state[1];
   var pairs = [
-    { id: "cat", title: "The Cat", ratio: "3 / 4", real: 1, source: "Real photograph: a pet cat at home.", alt: "A fluffy cat sitting on a sofa in a home" },
-    { id: "sculpture", title: "The Sculpture", ratio: "1290 / 1364", real: 0, source: "Real photograph: taken in Liverpool, England.", alt: "A bronze sculpture with smaller figures inside its torso, outside a gallery" },
-    { id: "venice", title: "Venice at Night", ratio: "4 / 3", real: 1, source: "Real photograph: taken in Venice, Italy.", alt: "A stone bridge over a canal at night, viewed from a boat" }
+    { id: "cat", title: "The Cat", ratio: "3 / 4", real: 1, source: "Real photograph: a pet cat at home." },
+    { id: "sculpture", title: "The Sculpture", ratio: "1290 / 1364", real: 0, source: "Real photograph: taken in Liverpool, England." },
+    { id: "venice", title: "Venice at Night", ratio: "4 / 3", real: 1, source: "Real photograph: taken in Venice, Italy." }
   ];
   var complete = pairs.every(function(pair) { return picks[pair.id] !== undefined; });
   return E(InteractiveBox, {
@@ -12942,6 +12979,7 @@ function FakeTrapPhotoTryIt() {
           return E("button", {
             key: option, type: "button", className: "fake-photo-choice",
             "aria-label": pair.title + ", image " + letter + (revealed ? ": " + label : ": choose this photograph"),
+            "aria-describedby": "photo-" + pair.id + letter,
             "aria-pressed": picked === option, "aria-disabled": revealed,
             onClick: function(event) {
               event.stopPropagation();
@@ -12949,7 +12987,7 @@ function FakeTrapPhotoTryIt() {
             }
           }, E("img", {
             src: "group-exercises/what-is-ai/fake-trap-try-" + pair.id + "-" + letter.toLowerCase() + ".jpg",
-            alt: pair.alt + ", image " + letter, loading: "lazy", decoding: "async",
+            id: "photo-" + pair.id + letter, alt: window.COURSE_PHOTO_DESCRIPTIONS[pair.id][option], loading: "lazy", decoding: "async",
             style: { aspectRatio: pair.ratio }
           }), E("span", { className: "fake-photo-caption" },
             E("span", { className: "fake-photo-letter" }, letter),
@@ -14504,7 +14542,7 @@ function WhereValueLivesBox() {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "8px auto 24px", borderRadius: 12 }
     }) }),
     E("div", {
-      className: "phone-reading-desktop-source",
+      className: "phone-reading-desktop-source md-source",
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       E("h3", null, "It Changes Where Value Lives"),
@@ -14542,7 +14580,7 @@ function QuestionsValuableSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 32px", borderRadius: 12 }
     }) }),
     /*#__PURE__*/React.createElement("div", {
-      className: "phone-reading-desktop-source",
+      className: "phone-reading-desktop-source md-source",
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       /*#__PURE__*/React.createElement("h3", null, "How answers got easier and faster"),
@@ -14587,7 +14625,7 @@ function QuestionsValuableSection(props) {
       style: { display: "block", width: "100%", maxWidth: 880, margin: "0 auto 24px", borderRadius: 12 }
     }) }),
     /*#__PURE__*/React.createElement("div", {
-      className: "phone-reading-desktop-source",
+      className: "phone-reading-desktop-source md-source",
       style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
     },
       /*#__PURE__*/React.createElement("h3", null, "Four Qualities of a Good Question"),
@@ -15383,9 +15421,9 @@ function WorkChangesSection(props) {
             key: i,
             style: { display: "flex", alignItems: "flex-start", gap: 12, width: "100%", textAlign: "left", background: "#fff", border: "1px solid " + (done ? "var(--labAccent)" : "var(--rule)"), borderRadius: 12, padding: "14px 16px", fontFamily: "var(--sans)", boxShadow: "var(--shadowSoft)" }
           },
-            E("button", { "aria-pressed": done, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[checkKey] = !prev[checkKey]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
+            E("button", { "aria-pressed": done, "aria-describedby": "reviews-step-" + i, "aria-label": "Mark step " + (i + 1) + (done ? " incomplete" : " complete"), onClick: function() { setLabChecked(function(prev) { var next = Object.assign({}, prev); next[checkKey] = !prev[checkKey]; return next; }); }, style: { cursor: "pointer", padding: 0, width: 20, height: 20, flexShrink: 0, borderRadius: 6, marginTop: 1, border: "2px solid " + (done ? "var(--labAccent)" : "var(--inkFaint)"), background: done ? "var(--labAccent)" : "#fff", color: "#fff", fontSize: 13, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" } }, done ? "✓" : ""),
             E("div", { style: { flex: 1, minWidth: 0 } },
-              E("span", { style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
+              E("span", { id: "reviews-step-" + i, style: { display: "block", fontSize: BOX_CARD_TITLE, fontWeight: 800, color: "var(--ink)", marginBottom: 3 } }, (i + 1) + ". " + st.title),
               E("span", { style: { display: "block", fontSize: BOX_TEXT, color: "var(--inkSoft)", lineHeight: 1.55, fontWeight: 400 } }, st.body),
               st.open ? React.createElement(LabOpenAction, st.open) : null,
               st.prompt ? E(CopyableLabPrompt, { text: st.prompt }) : null));
@@ -16413,7 +16451,13 @@ function LLMExplorer() {
       setProgress(function(prev) { return Object.assign({}, prev, { activeSection: prev.activeSection === "groupexercises" ? "forgroups" : prev.activeSection === "control" ? "whybother" : "welcome" }); });
     }
   }, [progress.activeSection]);
+  const previousLesson = useRef(progress.activeSection);
   useEffect(function() {
+    if (previousLesson.current !== progress.activeSection) {
+      const heading = document.querySelector("#main-content h1");
+      if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+      previousLesson.current = progress.activeSection;
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [progress.activeSection]);
   useEffect(function() {
@@ -16422,7 +16466,7 @@ function LLMExplorer() {
       var main = document.getElementById("main-content");
       if (!main) return;
       Array.prototype.forEach.call(main.querySelectorAll('img[src^="course-assets/"], img[src*="/course-assets/"]'), function(img) {
-        if (img.hasAttribute("data-lightbox-background")) return;
+        if (img.hasAttribute("data-lightbox-background") || img.closest('[aria-hidden="true"], button, a')) return;
         img.classList.toggle("zoomable-illustration", illustrationZoomEnabled);
         if (!illustrationZoomEnabled) {
           ["tabindex", "role", "aria-haspopup", "aria-label", "title"].forEach(function(attribute) { img.removeAttribute(attribute); });

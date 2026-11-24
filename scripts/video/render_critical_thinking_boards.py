@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the two current text-based Critical Thinking boards. The finished reaction illustration and closing board are maintained separately."""
+"""Render the three Critical Thinking teaching boards. The closing board is maintained separately."""
 
 try:
     from .course_credit import save_course_image
@@ -12,23 +12,11 @@ except ImportError:
 from pathlib import Path
 import argparse
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 
 try:
-    from .editorial_takeaway import (
-        TAKEAWAY_BOTTOM_PADDING,
-        TAKEAWAY_HEIGHT,
-        TAKEAWAY_TEXT_SIZE,
-        draw_takeaway_band,
-    )
     from .editorial_typography import draw_board_title, draw_inner_title, face as editorial_face
 except ImportError:
-    from editorial_takeaway import (
-        TAKEAWAY_BOTTOM_PADDING,
-        TAKEAWAY_HEIGHT,
-        TAKEAWAY_TEXT_SIZE,
-        draw_takeaway_band,
-    )
     from editorial_typography import draw_board_title, draw_inner_title, face as editorial_face
 
 
@@ -129,47 +117,35 @@ def save(image, stem):
 
 
 def render_course_equation():
-    footer_top = 756
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
-    image = Image.new("RGB", (W, height), LAVENDER)
+    image = Image.new("RGB", (W, 680), LAVENDER)
     draw = ImageDraw.Draw(image)
-    draw_board_title(draw, "What You Know. How You Think.")
-    rounded(draw, (40, 126, 1560, 716), 16, WHITE)
+    rounded(draw, (40, 40, 1560, 630), 16, WHITE)
 
     definition_card(
         draw,
-        (90, 166, 750, 462),
+        (90, 80, 750, 376),
         "Knowledge",
-        "What you know helps you understand the subject and recognize when something doesn’t add up.",
+        "The more you know about a subject, the easier it is to spot a missing detail or a claim that doesn’t add up.",
         fill="#eef3ff",
         outline="#aec5ef",
         title_fill="#1652f0",
     )
-    centered(draw, (800, 314), "+", font("heavy", 40), NAVY)
+    centered(draw, (800, 228), "+", font("heavy", 40), NAVY)
     definition_card(
         draw,
-        (850, 166, 1510, 462),
+        (850, 80, 1510, 376),
         "Critical Thinking",
-        "You question the claim, examine the evidence, and consider other explanations before deciding what to believe or do.",
+        "Critical thinking is examining assumptions, including your own, and weighing evidence to decide what to believe or do.",
         fill="#edf8f5",
         outline="#aed8d0",
         title_fill="#0e8f86",
     )
 
-    draw.line((800, 482, 800, 534), fill=NAVY, width=5)
-    draw.line((800, 534, 785, 518), fill=NAVY, width=5)
-    draw.line((800, 534, 815, 518), fill=NAVY, width=5)
-    rounded(draw, (90, 562, 1510, 674), 16, NAVY)
-    centered_inner_title(draw, (800, 618), "Better Questions + Better Decisions", WHITE)
-
-    draw_takeaway_band(
-        image,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="Be Smarter Than the Tool.",
-        font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
-    )
+    draw.line((800, 396, 800, 448), fill=NAVY, width=5)
+    draw.line((800, 448, 785, 432), fill=NAVY, width=5)
+    draw.line((800, 448, 815, 432), fill=NAVY, width=5)
+    rounded(draw, (90, 476, 1510, 588), 16, NAVY)
+    centered_inner_title(draw, (800, 532), "You can decide what to believe and explain why.", WHITE)
 
     save(image, "critical-thinking-1-equation")
 
@@ -191,19 +167,45 @@ def definition_card(draw, box, title, text, fill=PALE, outline=RULE, title_fill=
 
 
 
+def render_reactions():
+    source = ROOT / "scripts/video/assets/critical-thinking-response-photos.jpg"
+    card_bottom = 818
+    image = Image.new("RGB", (W, card_bottom + 48), LAVENDER)
+    draw = ImageDraw.Draw(image)
+    draw_board_title(draw, "What’s your first reaction?")
+    cards = (
+        (42, "Take it at face value", "“I love chocolate! And look, it’s all over the news. It must be true. I’m sending this to the group chat.”", "#d4334a"),
+        (817, "Question the claim", "“Wait. I’d love for that to be true, but eating chocolate to lose weight? That doesn’t sound right.”", "#0f7a4a"),
+    )
+    photo_size = (742, 416)
+    photo_mask = Image.new("L", photo_size)
+    ImageDraw.Draw(photo_mask).rounded_rectangle((0, 0, 741, 415), radius=16, fill=255)
+    quote_font = font("medium", 32)
+    with Image.open(source) as photos:
+        for index, (x, title, quote, accent) in enumerate(cards):
+            rounded(draw, (x, 126, x + 741, card_bottom), 16, WHITE)
+            top = index * photos.height // 2
+            bottom = (index + 1) * photos.height // 2
+            photo = ImageOps.fit(photos.crop((0, top, photos.width, bottom)), photo_size)
+            image.paste(photo, (x, 126), photo_mask)
+            draw_inner_title(draw, (x + 32, 558), title, fill=accent)
+            for line_index, line in enumerate(wrapped_lines(draw, quote, quote_font, 678)):
+                draw.text((x + 32, 623 + 42 * line_index), line, font=quote_font, fill=BODY)
+
+    save(image, "critical-thinking-two-reactions")
+
+
 def render_five_habits():
     items = (
-        ("Is it actually right?", "What evidence supports the claim? Does it support the conclusion?"),
-        ("Do I know enough to judge?", "Recognize where your knowledge ends. Find out what you need to understand."),
-        ("What’s missing?", "Look for missing information and other explanations."),
-        ("Why am I convinced?", "Is it the evidence, the confident wording, or what you want to believe?"),
-        ("What’s my call?", "Decide what to believe or do. You can change your mind when you learn more."),
+        ("Is it actually right?", "What exactly is the claim? How much of it does the evidence support?"),
+        ("Do I know enough to judge?", "Which part can I check myself, and who could help me check the rest?"),
+        ("What’s missing?", "What else could explain this? What would help me tell?"),
+        ("Why am I convinced?", "Would I ask for the same evidence if this answer challenged something I believe?"),
+        ("What’s my call?", "Given what I know, what can I decide now? What’s still uncertain? What would change my mind?"),
     )
     accents = ("#6540ec", "#1652f0", "#0e8f86", "#0f7a4a", "#b86200")
     centers = (184, 492, 800, 1108, 1416)
-    footer_top = 660
-    height = footer_top + TAKEAWAY_HEIGHT + TAKEAWAY_BOTTOM_PADDING
-    image = Image.new("RGB", (W, height), LAVENDER)
+    image = Image.new("RGB", (W, 670), LAVENDER)
     draw = ImageDraw.Draw(image)
     draw_board_title(draw, "Five Habits of Critical Thinking")
     title_face = editorial_face("bold", 30)
@@ -220,30 +222,54 @@ def render_five_habits():
             draw.text((center_x, title_y), line, font=title_face, fill=accent, anchor="mm")
             title_y += 38
 
-        body_lines = wrapped_lines(draw, body, body_face, 244)
-        body_y = 374
+        body_lines = wrapped_lines(draw, body, body_face, 258)
+        body_y = 366
         for line in body_lines:
             draw.text((center_x, body_y), line, font=body_face, fill=BODY, anchor="ma")
             body_y += 41
 
-    draw_takeaway_band(
-        image,
-        top=footer_top,
-        left=40,
-        right=1560,
-        text="Each habit is a question you ask.",
-        font=editorial_face("medium", TAKEAWAY_TEXT_SIZE),
-    )
     save(image, "critical-thinking-3-five-habits")
+
+
+def render_three_questions():
+    from render_editorial_full_bleed_batch import BLUE, PURPLE, TEAL, Board, render
+
+    output = "course-assets/critical-thinking/critical-thinking-three-questions.jpg"
+    board = Board(
+        key="critical-thinking-three-questions", title="What Critical Thinkers Ask",
+        cards=(
+            ("The Question", "What am I trying to understand or decide?"),
+            ("The Evidence", "What am I basing this on? What am I assuming?"),
+            ("The Alternatives", "What else could explain this? What else could I try?"),
+        ),
+        art_sheet="", page_output=output, prep_output=output,
+        accents=(PURPLE, BLUE, TEAL),
+    )
+    assets = ROOT / "scripts/video/assets"
+    with Image.open(assets / "evaluation-quick-review/read.png") as claim, \
+         Image.open(assets / "evaluation-blue-cards/sources.png") as evidence, \
+         Image.open(assets / "evaluation-blue-cards/challenge.png") as explanations:
+        # Give the alternate-perspectives artwork its own course accent.
+        teal_panel = ImageOps.colorize(explanations.convert("L"), "#003632", "#ffffff", mid=TEAL)
+        panels = [claim.convert("RGB"), evidence.convert("RGB"), teal_panel]
+        image = render(board, art_panels=panels, wrap_titles=True)
+    draw = ImageDraw.Draw(image)
+    draw.text((W - 40, image.height - 10), "besmarterthanthetool.com",
+              font=font("medium", 20), fill=MUTED, anchor="rd")
+    save(image, "critical-thinking-three-questions")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--board", choices=("equation", "habits", "all"), default="all")
+    parser.add_argument("--board", choices=("equation", "reactions", "questions", "habits", "all"), default="all")
     args = parser.parse_args()
     if args.board in ("equation", "all"):
         render_course_equation()
-    if args.board in ("habits", "all"):
+    if args.board in ("reactions", "all"):
+        render_reactions()
+    if args.board in ("questions", "all"):
+        render_three_questions()
+    if args.board == "habits":
         render_five_habits()
 
 

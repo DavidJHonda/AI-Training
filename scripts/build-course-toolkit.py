@@ -36,12 +36,12 @@ GUIDES=[
  ('04  One job at a time','Break big work into steps. Ask for the next step and say where AI should stop. Review each part before moving on.'),
  ('A reusable outline','I am working on <b>[task]</b> for <b>[audience or purpose]</b>.<br/>Use <b>[material]</b>. Help me <b>[specific next step]</b>.<br/>Give me <b>[format]</b>, with <b>[limits]</b>.<br/>Stop after <b>[step]</b> so I can review.'),
  ('Put it together','“I’m preparing a history presentation for my class. Here are my notes and the rubric. Suggest three possible main arguments in a short list. Use only these notes. Wait for me to choose before making an outline.”<br/><br/>A quick factual question: just ask. Real work: share your situation, material, and desired answer. A big project: work one job at a time.')]),
- dict(slug='critical-thinking',file='critical-thinking-five-habits-guide',body_size=12,body_leading=18.5,id='critical',standalone_sections=['Use these beyond AI'],title='Five Habits of Critical Thinking',desc='Five questions to use with AI, news, schoolwork, and everyday claims.',subtitle='Pause, examine the claim, and make your own decision.',takeaway='Good thinking in, sharper output.',sections=[
- ('01  Is it actually right?','What evidence supports the claim? Does that evidence support the conclusion?'),
- ('02  Do I know enough to judge?','Recognize where your knowledge ends. Find out what you need to understand before deciding.'),
- ('03  What’s missing?','Look for missing information and other explanations. Would a different fact change the conclusion?'),
- ('04  Why am I convinced?','Is it the evidence, the confident wording, or what you want to believe?'),
- ('05  What’s my call?','Decide what to believe or do. You can change your mind when you learn more.'),
+ dict(slug='critical-thinking',file='critical-thinking-five-habits-guide',body_size=12,body_leading=18.5,id='critical',standalone_sections=['Use these beyond AI'],title='Five Habits of Critical Thinking',desc='Five questions to use with AI, news, schoolwork, and everyday claims.',subtitle='Pause, examine the claim, and make your own decision.',takeaway='Before you share, ask ‘What backs this up?’',sections=[
+ ('01  Is it actually right?','What exactly is the claim? How much of it does the evidence support?'),
+ ('02  Do I know enough to judge?','Which part can I check myself, and who could help me check the rest?'),
+ ('03  What’s missing?','What else could explain this? What would help me tell?'),
+ ('04  Why am I convinced?','Would I ask for the same evidence if this answer challenged something I believe?'),
+ ('05  What’s my call?','Given what I know, what can I decide now? What’s still uncertain? What would change my mind?'),
  ('Use these beyond AI','These questions work on anything you read or hear. AI can help you look for weaknesses in an argument, but you still judge whether its answer holds up.')]),
  dict(slug='honesty-and-privacy',file='honesty-and-privacy-sharing-guide',body_size=11.5,body_leading=16.5,vertical_expansion=20,step_gap=19,id='integrity',title='Share Only What AI Needs',desc='What to share, what to keep out, and what to do if you already shared it.',subtitle='Give useful context without sharing unnecessary personal details.',takeaway='You meant to share the task. Check everything you send.',sections=[
  ('Usually fine','Interests, goals, preferences, and broad details about the situation. Include what helps AI understand the job.'),

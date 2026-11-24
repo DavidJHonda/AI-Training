@@ -1153,24 +1153,24 @@ window.COURSE_GROUP_ACTIVITIES = [
     "href": "group-exercises/group-session.html?id=critical-discussion",
     "questions": [
       {
-        "context": "A school reports that students who attend its optional study sessions earn higher grades. Someone concludes that attending the sessions causes the improvement.",
-        "title": "What else might explain the difference in grades?",
+        "context": "Students who attend optional study sessions have a higher average grade than classmates who skip them. A student says, “Students who go to the study sessions get higher grades. That proves the sessions work.”",
+        "title": "What would you want to know about the students’ grades before the sessions began?",
         "followUp": "What would you want to know before recommending that every student attend?"
       },
       {
         "context": "AI helps your friend build a website that collects club registrations. It looks polished, and your friend asks whether it’s ready to use. You know little about building websites.",
         "title": "How would you decide what you can judge yourself and where you need help?",
-        "followUp": "What might a successful demonstration leave you unable to evaluate?"
+        "followUp": "Your friend submits a test registration and gets a confirmation email. “It works,” they say. What would you ask the club organizer to check before inviting classmates to sign up?"
       },
       {
         "context": "You argue strongly for an idea in a group meeting. Later, someone brings evidence that weakens your case.",
         "title": "What would make it easier or harder to change your position in front of the group?",
-        "followUp": "How could a group make changing your mind feel like good judgment rather than losing?"
+        "followUp": "You told the group that Friday was the best night because more people could come. A teammate shows you the sign-up sheet. Saturday has twice as many names. What would you want to check about the sign-up sheet? Would you check the same thing if Friday were ahead? What would you say to the group now, in your own words?"
       },
       {
-        "context": "Your club needs to choose an event location. You have useful information, but there are still unanswered questions and the reservation deadline is approaching.",
-        "title": "How would you decide when you know enough to make the call?",
-        "followUp": "Which uncertainties would you be willing to accept, and which would you need to resolve?"
+        "context": "Your club has 24 sign-ups so far. The free library room holds 30, and you have to claim it by noon. The cafeteria holds 60, but booking it would use half your event budget. Sign-ups close tomorrow.",
+        "title": "A teammate says, “We have 24 sign-ups and 30 seats. The library is big enough.” What is your teammate assuming about tomorrow’s turnout? Which room would you book?",
+        "followUp": "What’s one thing you’d try to find out before noon that could change your call?"
       }
     ]
   },

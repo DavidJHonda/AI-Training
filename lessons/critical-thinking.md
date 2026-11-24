@@ -2,75 +2,81 @@
 
 # Critical Thinking
 
-What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up.
+Imagine seeing a headline that says you should eat your favorite food every day. You might already be rooting for it to be true.
 
-### Board 1: What You Know. How You Think.
+In 2015, news outlets around the world ran headlines like *Slim by Chocolate* and *Has the world gone coco?* Shape magazine went a step further with *Why You Must Eat Chocolate Daily*.
+
+The headlines all pointed to a study from the Institute of Diet and Health. The study claimed that eating dark chocolate could help people lose weight faster.
+
+### Board 1: What’s your first reaction?
+
+**Image file:** `critical-thinking-two-reactions-faceless.jpg`
+
+![What’s your first reaction?](critical-thinking-two-reactions-faceless.jpg)
+
+**Teaching content:**
+
+What’s your first reaction?
+
+Take it at face value: “I love chocolate! And look, it’s all over the news. It must be true. I’m sending this to the group chat.”
+
+Question the claim: “Wait. I’d love for that to be true, but eating chocolate to lose weight? That doesn’t sound right.”
+
+## Behind the Headlines
+
+Journalist John Bohannon was behind the chocolate study. He wanted to show how easily flawed research could make the news. To make the study look more credible, Bohannon invented the Institute of Diet and Health and built a website for it.
+
+Bohannon’s team tracked 18 things, including weight, cholesterol, and sleep, in just 15 people. He designed the study that way on purpose so he could turn a result into a misleading headline, even if it showed up by chance.
+
+## Critical Thinking Defined
+
+Critical thinking means looking deeper for the truth.
+
+On TikTok and YouTube, you’ll hear similar claims that sound convincing. Some of them are false. It’s easy to take a claim at face value, especially when you already want to believe it.
+
+Who’s making this claim, and how do they know? Is that enough to convince you? Sometimes the most thoughtful answer is “I don’t know yet.”
+
+## Knowledge Matters
+
+What you know shapes your first reaction. So does what you want to believe. Critical thinking helps you decide when to trust your first impression and when to change your mind.
+
+### Board 2: Knowledge + Critical Thinking
 
 **Image file:** `critical-thinking-equation.jpg`
 
-![What You Know. How You Think.](critical-thinking-equation.jpg)
+![Knowledge + Critical Thinking. You can decide what to believe and explain why.](critical-thinking-equation.jpg)
 
 **Teaching content:**
 
-Knowledge: what you know helps you understand the subject and recognize when something doesn’t add up.
+The more you know about a subject, the easier it is to spot a missing detail or a claim that doesn’t add up.
 
-Plus critical thinking: you question the claim, examine the evidence, and consider other explanations before deciding what to believe or do.
+Critical thinking is examining assumptions, including your own, and weighing evidence to decide what to believe or do.
 
-Together they lead to better questions and better decisions. Be Smarter Than the Tool.
+You can decide what to believe and explain why.
 
-It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up.
+## Thinking critically
 
-## Critical Thinking in Action
+Critical thinking is a habit you develop over time. These questions are worth asking even when you think you already know the answer.
 
-In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. **Slim by Chocolate!** ran one front page.
+### Board 3: What Critical Thinkers Ask
 
-Did that headline make you pause? That’s critical thinking getting started. The next step is asking whether the evidence supports it. Picture everyone who read it that morning: the reactions went two directions.
+**Image file:** `critical-thinking-three-questions.jpg`
 
-### Board 2: Same Claim. Different Thinking.
-
-**Image file:** `critical-thinking-two-reactions.jpg`
-
-![Same Claim. Different Thinking.](critical-thinking-two-reactions.jpg)
+![What Critical Thinkers Ask](critical-thinking-three-questions.jpg)
 
 **Teaching content:**
 
-The claim: “Chocolate helps you lose weight.”
+**The Question**
 
-Face value, first reaction: “Sounds great. I believe it.”
+What am I trying to understand or decide?
 
-Critical thinking, second reaction: “Wait. What’s behind the claim?”
+**The Evidence**
 
-Pause when a claim sounds exactly like what you want to believe.
+What am I basing this on? What am I assuming?
 
-## The True Story
+**The Alternatives**
 
-The study was real, but it was flimsy on purpose. There were only 15 participants, and the study measured 18 different things about them. With that many measurements in such a small group, a chance result could look like an important discovery. The “research institute” behind it was just a website. And the author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did.
-
-That’s a big part of critical thinking: the ability to read between the lines, especially when the claim is something you’d love to believe.
-
-There are five habits you can build to sharpen your critical thinking. Each one is a question you ask.
-
-### Board 3: Five Habits of Critical Thinking
-
-**Image file:** `critical-thinking-five-habits.jpg`
-
-![Five Habits of Critical Thinking](critical-thinking-five-habits.jpg)
-
-**Teaching content:**
-
-One. Is it actually right? What evidence supports the claim? Does it support the conclusion?
-
-Two. Do I know enough to judge? Recognize where your knowledge ends. Find out what you need to understand.
-
-Three. What’s missing? Look for missing information and other explanations.
-
-Four. Why am I convinced? Is it the evidence, the confident wording, or what you want to believe?
-
-Five. What’s my call? Decide what to believe or do. You can change your mind when you learn more.
-
-Each habit is a question you ask.
-
-The five questions work on anything you read or hear. Use them with AI, too. AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening.
+What else could explain this? What else could I try?
 
 ### Close
 
@@ -80,6 +86,6 @@ The five questions work on anything you read or hear. Use them with AI, too. AI 
 
 ## Closing Message
 
-AI amplifies whatever you bring to it.
+Knowledge + Critical Thinking
 
-Good thinking in, sharper output.
+AI answers. You decide what to trust.

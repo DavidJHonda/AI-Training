@@ -1,5 +1,15 @@
 # Build Your Skills Video Kits
 
+## Critical Thinking — video kit prepared November 24, 2026
+
+The [prep notes](../../../gemini-notebook/critical-thinking/PREP-NOTES.md) and [generation prompt](../../../gemini-notebook/critical-thinking/PROMPT.txt) accompany the five-file upload bundle. Use the text-only reaction board for generation and restore the Dallas Stars board during editing.
+
+Open with the favorite-food hook. Read the three headlines with Shape magazine last, then attribute the faster-weight-loss claim to the study. Ask “What’s your first reaction?” and hold that question alone for five quiet seconds. Show the Stars board and read each label with its student’s full reaction.
+
+Reveal Bohannon’s purpose, the invented institute, and the 18 measurements in 15 people. Follow Critical Thinking Defined and Knowledge Matters through the equation board. Use the habit-over-time transition into What Critical Thinkers Ask. Read The Question, The Evidence, and The Alternatives with their prompts in order.
+
+End on “Knowledge + Critical Thinking” and “AI answers. You decide what to trust.”
+
 **Stricter opener reroll prepared (2026-11-04):** After reviewing rolls 5–7, David agreed to a prompt containing the complete approved script verbatim. Use the current `gemini-notebook/build-your-skills-opener/PROMPT.txt`, the same three files in `upload/`, and `PREP-NOTES.md`. One narrator; no paraphrasing or added ending. Roll 8 generation and review are pending; roll 6 is the fallback. Older pickup and donor instructions below are historical.
 
 

@@ -210,8 +210,8 @@ if (location.protocol !== 'file:' && location.pathname === '/') {
   @media screen and (max-width: 760px), screen and (pointer: coarse) and (max-height: 500px) {
     .phone-reading-board > .phone-reading-desktop, .phone-reading-desktop-source { display: none; }
     .phone-reading-mobile { display: block; max-width: 880px; margin: 20px auto 28px; padding: 12px; border-radius: 14px; background: #eae7fd; color: var(--ink); font-family: var(--sans); }
-    .phone-reading-mobile h3 { margin: 0 0 18px; font-size: 24px; line-height: 1.25; font-weight: 800; letter-spacing: -0.025em; }
-    .phone-reading-mobile h4 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; font-size: 20px; line-height: 1.35; color: var(--phone-reading-accent, var(--primaryDeep)); }
+    .phone-reading-mobile > :is(h2, h3) { margin: 0 0 18px; font-size: 24px; line-height: 1.25; font-weight: 800; letter-spacing: -0.025em; }
+    .phone-reading-mobile h4, .phone-reading-copy > h3 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; font-size: 20px; line-height: 1.35; color: var(--phone-reading-accent, var(--primaryDeep)); }
     .phone-reading-mobile p, .phone-reading-mobile li { margin: 0; font-size: 16px; line-height: 1.6; overflow-wrap: anywhere; }
     .phone-reading-stack { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
     .phone-reading-card { min-width: 0; border-radius: 12px; background: var(--card); overflow: hidden; }
@@ -1889,7 +1889,7 @@ const CLOSE_BOARDS = {
   prompting: { pill: "A prompt is a briefing, not magic words.", sticky: "The more the result matters, the more you bring." },
   prompt: { pill: "With the right context, AI gives better answers.", sticky: "Control the context, control the quality." },
   evaluating: { pill: "The tool answers. You evaluate.", sticky: "Review the answer. Take a closer look when needed. Decide what to do next." },
-  critical: { pill: "AI amplifies whatever you bring to it.", sticky: "Good thinking in, sharper output." },
+  critical: { pill: "Knowledge + Critical Thinking", sticky: "AI answers. You decide what to trust." },
   openerfoundations: { pill: "The machine won’t feel like magic anymore.", sticky: "Take it a piece at a time." },
   training: { pill: "AI learns from examples and feedback.", sticky: "Guess. Check. Adjust. Repeat." },
   aiismath: { pill: "AI builds answers with probabilities.", sticky: "One prediction at a time." },
@@ -2156,6 +2156,7 @@ function closeBoard(sectionId) {
   if (!asset) return /*#__PURE__*/React.createElement(CloseBoard, copy);
   var src = reviewMode ? "tmp/closing-board-preview/" + asset.src : asset.src;
   if (!reviewMode && sectionId === "computecost") src += "?v=20261119neighbors";
+  if (!reviewMode && sectionId === "critical") src += "?v=20261123trust";
   if (!reviewMode && sectionId === "studying") src += "?v=20261106learning3";
   return /*#__PURE__*/React.createElement(ClosingBoardImage, { asset: asset, copy: copy, src: src });
 }
@@ -5210,32 +5211,29 @@ var PHONE_READING_BOARDS = {
     ]
   },
   equation: {
-    title: "What You Know. How You Think.", equation: true,
+    equation: true,
+    cardTitleTag: "h3",
+    desktopText: true,
     cards: [
-      { title: "Knowledge", accent: "#1652f0", body: "What you know helps you understand the subject and recognize when something doesn’t add up." },
-      { title: "Critical Thinking", accent: "#0e8f86", body: "You question the claim, examine the evidence, and consider other explanations before deciding what to believe or do." }
+      { title: "Knowledge", accent: "#1652f0", body: "The more you know about a subject, the easier it is to spot a missing detail or a claim that doesn’t add up." },
+      { title: "Critical Thinking", accent: "#0e8f86", body: "Critical thinking is examining assumptions, including your own, and weighing evidence to decide what to believe or do." }
     ],
-    result: "Better Questions + Better Decisions", takeaway: "Be Smarter Than the Tool."
+    result: "You can decide what to believe and explain why."
   },
   reactions: {
-    title: "Same Claim. Different Thinking.", width: 1600, height: 1077, labelAfterTitle: true,
-    noteTitle: "The Claim", note: "“Chocolate helps you lose weight.”", noteFirst: true,
+    title: "What’s your first reaction?", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 866, desktopText: true,
     cards: [
-      { title: "Face Value", label: "First Reaction", accent: "#d4334a", art: [42,280,742,416], body: "“Sounds great. I believe it.”" },
-      { title: "Critical Thinking", label: "Second Reaction", accent: "#0f7a4a", art: [817,280,742,416], body: "“Wait. What’s behind the claim?”" }
-    ],
-    takeaway: "Pause when a claim sounds exactly like what you want to believe."
+      { title: "Take it at face value", accent: "#d4334a", art: [42,126,742,416], body: "“I love chocolate! And look, it’s all over the news. It must be true. I’m sending this to the group chat.”" },
+      { title: "Question the claim", accent: "#0f7a4a", art: [817,126,742,416], body: "“Wait. I’d love for that to be true, but eating chocolate to lose weight? That doesn’t sound right.”" }
+    ]
   },
-  habits: {
-    title: "Five Habits of Critical Thinking", ordered: true,
+  threeQuestions: {
+    title: "What Critical Thinkers Ask", titleTag: "h2", cardTitleTag: "h3", width: 1600, height: 650, desktopText: true,
     cards: [
-      { title: "Is it actually right?", accent: "#6540ec", body: "What evidence supports the claim? Does it support the conclusion?" },
-      { title: "Do I know enough to judge?", accent: "#1652f0", body: "Recognize where your knowledge ends. Find out what you need to understand." },
-      { title: "What’s missing?", accent: "#0e8f86", body: "Look for missing information and other explanations." },
-      { title: "Why am I convinced?", accent: "#0f7a4a", body: "Is it the evidence, the confident wording, or what you want to believe?" },
-      { title: "What’s my call?", accent: "#b86200", body: "Decide what to believe or do. You can change your mind when you learn more." }
-    ],
-    takeaway: "Each habit is a question you ask."
+      { title: "The Question", accent: "#4f2fc4", art: [40,127,485,273], body: "What am I trying to understand or decide?" },
+      { title: "The Evidence", accent: "#1652f0", art: [557,127,486,273], body: "What am I basing this on? What am I assuming?" },
+      { title: "The Alternatives", accent: "#0e8f86", art: [1075,127,485,273], body: "What else could explain this? What else could I try?" }
+    ]
   }
 };
 function PhoneReadingCards(props) {
@@ -5250,7 +5248,7 @@ function PhoneReadingCards(props) {
             E("image", { href: props.src, width: board.width, height: board.height })) : null,
           E("div", { className: "phone-reading-copy" },
             card.label && !board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
-            card.title ? E("h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title) : null,
+            card.title ? E(board.cardTitleTag || "h4", null, board.ordered && !board.numbersAboveArt ? E("span", { className: "phone-reading-number", "aria-hidden": "true" }, i + 1) : null, card.title) : null,
             card.label && board.labelAfterTitle ? E("p", { className: "phone-reading-label" }, card.label) : null,
             E("p", null, card.body),
             card.result ? E("div", { className: "phone-reading-example phone-reading-result" }, E("p", { className: "phone-reading-label" }, "Unexpected Result"), E("p", null, card.result)) : null,
@@ -5265,7 +5263,7 @@ function PhoneReadingBoard(props) {
   var note = board.note ? E("aside", { className: "phone-reading-note" }, board.noteTitle ? E("h4", null, board.noteTitle) : null, E("p", null, board.note)) : null;
   function boardText(className) {
     return E("section", { className: className, "aria-label": board.title },
-      E("h3", null, board.title),
+      board.title ? E(board.titleTag || "h3", null, board.title) : null,
       board.noteFirst ? note : null,
       props.children || E(PhoneReadingCards, { board: board, src: props.image.props.src }),
       board.equation ? E(React.Fragment, null,
@@ -10381,20 +10379,20 @@ function CriticalThinkingSection(props) {
     icon: "\uD83C\uDF66",
     claim: "Ice cream sales and drowning deaths both spike in summer, so ice cream must cause drowning.",
     options: [
-      { label: "There\u2019s a hidden factor causing both", correct: true, headline: "It's a hidden third factor.", feedback: "Hot weather drives both: more people buy ice cream AND more people go swimming. Just because two things happen together doesn\u2019t mean one causes the other. Always ask: is there a third factor driving both?" },
-      { label: "The sample size is too small to draw conclusions", correct: false, headline: "Sample size isn't the issue.", hint: "The data here is real and the spike is real, so the amount of data isn't the weak point. The real question is what actually connects these two numbers. Look again at that link.", feedback: "Sample size isn\u2019t the issue here. The data is real and the correlation is real. The issue is what\u2019s causing the correlation. Hot weather is the hidden third factor driving both numbers up." },
-      { label: "The data was probably fabricated", correct: false, headline: "The numbers are real.", hint: "Both numbers really do climb in summer, so fake data isn't it. The trap is going straight from 'these rise together' to 'one causes the other.' Look again at what really ties them together.", feedback: "The numbers themselves are real. Both ice cream sales and drowning deaths actually do spike in summer. The trap isn\u2019t fake data, it\u2019s assuming the connection between two real numbers means one causes the other." }
+      { label: "There could be a hidden factor causing both", correct: true, headline: "Hot weather is one possible explanation.", feedback: "On hot days, more people may buy ice cream and go swimming. That could explain why both numbers rise. The seasonal pattern alone can’t tell us whether buying ice cream affects anyone’s risk." },
+      { label: "The sample size is too small to draw conclusions", correct: false, headline: "Would a larger sample settle it?", hint: "Imagine you had sales and drowning records for every summer day over ten years. What would you still need to know?", feedback: "Even if the same pattern appeared across many summers, you’d still need to explain why the numbers rise together. For example, hot weather could lead more people to buy ice cream and go swimming." },
+      { label: "The data was probably fabricated", correct: false, headline: "What makes you suspect that?", hint: "If the records confirmed both increases, what would you still need to know?", feedback: "Suppose both numbers are accurate. Do the summer totals tell you whether the people who drowned had eaten ice cream?" }
     ],
-    reality: "Of course not. Hot weather drives both: more people buy ice cream AND more people go swimming. This is the classic correlation vs. causation trap.",
+    reality: "Hot weather could lead more people to buy ice cream and go swimming. The seasonal pattern is consistent with that explanation, but it doesn’t establish the cause.",
     lesson: "Just because two things happen together doesn't mean one causes the other. Always ask: is there a hidden factor driving both?"
   }, {
     label: "\"9 out of 10 dentists\"",
     icon: "\uD83E\uDDB7",
     claim: "A commercial on television claims: \"9 out of 10 dentists recommend this toothpaste.\"",
     options: [
-      { label: "9 out of 10 sounds high but it\u2019s actually a small majority", correct: false, headline: "Nine out of ten is a strong majority.", hint: "The percentage is high. What information is missing about how they got it?", feedback: "The issue isn\u2019t the arithmetic. It\u2019s what the dentists were asked and how the survey was conducted. A high percentage doesn\u2019t answer those questions." },
+      { label: "They only asked ten dentists, so the survey is too small.", correct: false, headline: "How many dentists actually answered?", hint: "Could a survey of 100 dentists produce the same headline?", feedback: "“9 out of 10” tells you the proportion. It could mean 9 of 10 dentists or 90 of 100. What would you need to know about who was asked and what “recommend” meant?" },
       { label: "We don\u2019t know how the survey was done or what \u2018recommend\u2019 means.", correct: true, headline: "What does \u2018recommend\u2019 mean?", feedback: "Did the dentists choose this toothpaste over other brands, or could they recommend several? How many dentists were asked, and how were they chosen? Those details help you judge what the number actually tells you." },
-      { label: "Dentists aren\u2019t qualified to recommend toothpaste", correct: false, headline: "Dentists are reasonable people to ask.", hint: "Does knowing who answered tell you what they were asked?", feedback: "Their expertise matters. You still need to know what they were recommending and how the survey was conducted before deciding how much weight to give the claim." }
+      { label: "Most dentists prefer this toothpaste over other brands.", correct: false, headline: "Did the dentists pick a favorite?", hint: "Could a dentist recommend more than one brand?", feedback: "A dentist might recommend several toothpastes. To know which brand dentists prefer, you’d need to know whether the survey asked them to choose a favorite." }
     ],
     reality: "The number tells you that many surveyed dentists selected the toothpaste, but it doesn\u2019t tell you how the survey was done or what \u2018recommend\u2019 meant. Those details determine how much weight the claim deserves.",
     lesson: "A statistic can tell you something without telling you enough. Ask what was measured, how it was measured, and who was included before deciding what the number means."
@@ -10403,8 +10401,8 @@ function CriticalThinkingSection(props) {
     icon: "\uD83D\uDCF1",
     claim: "Your friend is doing poorly in math. He texts you: \"Einstein failed math as a kid, too. I saw it on TikTok.\"",
     options: [
-      { label: "A famous story like this is widely known, so it\u2019s probably true.", correct: false, headline: "Famous isn't the same as true.", hint: "Plenty of repeated 'facts' get repeated because they sound good, not because they're true. How often you've heard something isn't evidence. What would actually tell you whether it holds up?", feedback: "A story can spread because it\u2019s memorable or reassuring. Repetition doesn\u2019t establish that it happened. Look for evidence you can trace and check." },
-      { label: "Check the evidence behind the claim, not just where you saw it.", correct: true, headline: "Follow the evidence.", feedback: "\u2018I saw it on TikTok\u2019 tells you where you heard the story. It doesn\u2019t establish that it\u2019s true. Look for the evidence the creator provides and check whether it supports the claim." },
+      { label: "I’ve heard that from my teacher, my brother, and now this video. That’s three sources, so it’s probably true.", correct: false, headline: "Where did each of them hear it?", hint: "Could all three accounts trace back to the same story?", feedback: "Three people can repeat a story they all heard in the same place. What could you check to find out whether any of them has independent evidence?" },
+      { label: "Did the video say where it got that story? I’d want to see what the source actually says about his math grades.", correct: true, headline: "Follow the evidence.", feedback: "It’s a reassuring story. That’s a good reason to pause before passing it on. If the video cites a biography, check the passage it points to. Does it say Einstein failed math, or only that he struggled with some part of school? Those are different claims." },
       { label: "TikTok is unreliable, so the claim is probably wrong.", correct: false, headline: "Don't just dismiss the platform.", hint: "Writing off everything from TikTok isn't critical thinking either, since plenty of true things show up there. The platform isn't the question. What's the real question to ask about the claim itself?", feedback: "True and false claims appear on the same platform. Judge the evidence behind this claim rather than accepting or rejecting it because it appeared on TikTok." }
     ],
     reality: "Einstein didn\u2019t fail math. He was actually strong at it from a young age. The myth probably started when people misread his Swiss school grades (where 6 was the top score, not the bottom). It spread because it sounds like a great inspirational story.",
@@ -10412,94 +10410,55 @@ function CriticalThinkingSection(props) {
   }, {
     label: "Phones in bed",
     icon: "\uD83D\uDCF1",
-    claim: "Headline: \"Smartphones are destroying teen sleep!\" The study found that teens who use phones in bed report higher rates of insomnia and anxiety.",
+    claim: "Imagine a headline that reads, “Smartphones are destroying teen sleep!” In a survey, teens who said they used their phones in bed were more likely to report trouble sleeping than teens who said they didn’t use their phones in bed.",
     options: [
       { label: "The study shows a connection, but doesn\u2019t establish what causes what.", correct: true, headline: "A connection isn\u2019t the whole explanation.", feedback: "Phone use could affect sleep. Teens who can\u2019t sleep could also reach for their phones. Both could happen, or something else could affect both. The finding described here doesn\u2019t settle which explanation is right." },
-      { label: "The headline is right. Screen time keeps you awake, that\u2019s just biology.", correct: false, headline: "Does this study show that?", hint: "The study found two things happening together. Does that establish that one caused the other?", feedback: "A believable explanation still needs evidence. This finding shows a connection between phone use and sleep problems. It doesn\u2019t establish that phones caused those problems." },
-      { label: "Phones probably don\u2019t really affect sleep, so the study is wrong.", correct: false, headline: "Don\u2019t dismiss the finding.", hint: "Can the connection be real even if the headline goes too far?", feedback: "Yes. Questioning the headline doesn\u2019t mean the study is wrong. The connection is worth investigating. You need more evidence before deciding what causes what." }
+      { label: "The survey compared teens who used phones in bed with teens who didn’t. That makes it a fair test of whether phones disrupt sleep.", correct: false, headline: "Does this study show that?", feedback: "What if the teens who used phones in bed also tended to drink more caffeine? Could the survey tell which one affected their sleep?" },
+      { label: "The survey shows it goes the other way. Teens reach for their phones because they can’t sleep.", correct: false, headline: "What does the survey tell you about timing?", hint: "Which detail would help you tell whether the teens were already having trouble sleeping?", feedback: "That could happen. Did the survey ask which came first on a given night? Without that detail, what can you conclude?" }
     ],
     reality: "The study shows a connection between phone use in bed and sleep problems, but it doesn\u2019t establish what causes what. Phone use could affect sleep, sleepless teens could reach for their phones, both could happen, or something else could affect both.",
     lesson: "When two things happen together, don\u2019t assume one caused the other. Consider other explanations and look for evidence that can distinguish among them."
   }];
-  var criticalBoard = function(src, accessibleContent) {
-    var kind = src.includes("equation") ? "equation" : src.includes("two-reactions") ? "reactions" : "habits";
+  var criticalBoard = function(src) {
+    var kind = src.includes("equation") ? "equation" : src.includes("two-reactions") ? "reactions" : "threeQuestions";
     return React.createElement(PhoneReadingBoard, {
       kind: kind,
       image: React.createElement("img", {
         src: src,
         alt: "",
         style: { display: "block", width: "100%", maxWidth: 880, margin: "20px auto 28px", borderRadius: 12 }
-      }),
-      desktopDescription: React.createElement("div", {
-        style: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }
-      }, accessibleContent)
+      })
     });
   };
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(LessonHeader, { sectionId: "critical" }),
-    React.createElement(LessonReading, { sectionId: "critical" }, /*#__PURE__*/React.createElement(BodyP, null, "What you know matters. So does what you do with it. Critical thinking helps you question what you hear, examine the evidence, and decide whether it holds up."),
-  criticalBoard("course-assets/critical-thinking/critical-thinking-equation.jpg?v=20261023jakarta",
-    /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "What You Know. How You Think."),
-      /*#__PURE__*/React.createElement("p", null, "Knowledge plus critical thinking leads to better questions and better decisions."),
-      /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.equation.cards[0].title),
-      /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.equation.cards[0].body),
-      /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.equation.cards[1].title),
-      /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.equation.cards[1].body),
-      /*#__PURE__*/React.createElement("p", null, "Be Smarter Than the Tool."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "It isn’t “don’t trust anything,” either. It’s the habit of asking what would have to be true for a claim to hold up."),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "Critical Thinking in Action"),
-  /*#__PURE__*/React.createElement(BodyP, null, "In 2015, headlines around the world announced a delicious discovery: a new study showed that eating chocolate helps you lose weight. ", /*#__PURE__*/React.createElement("strong", null, "Slim by Chocolate!"), " ran one front page."),
-  /*#__PURE__*/React.createElement(BodyP, null, "Did that headline make you pause? That’s critical thinking getting started. The next step is asking whether the evidence supports it. Picture everyone who read it that morning: the reactions went two directions."),
-  criticalBoard("course-assets/critical-thinking/critical-thinking-two-reactions.jpg?v=20260921batch6",
-    /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "Same Claim. Different Thinking."),
-      /*#__PURE__*/React.createElement("h4", null, "The claim"),
-      /*#__PURE__*/React.createElement("p", null, "Chocolate helps you lose weight."),
-      /*#__PURE__*/React.createElement("h4", null, "Face value"),
-      /*#__PURE__*/React.createElement("p", null, "First reaction: Sounds great. I believe it."),
-      /*#__PURE__*/React.createElement("h4", null, "Critical thinking"),
-      /*#__PURE__*/React.createElement("p", null, "Second reaction: Wait. What’s behind the claim?"),
-      /*#__PURE__*/React.createElement("p", null, "Pause when a claim sounds exactly like what you want to believe."))),
-  /*#__PURE__*/React.createElement(SectionKicker, null, "The True Story"),
-  /*#__PURE__*/React.createElement(BodyP, null, "The study was real, but it was flimsy on purpose:"),
-  /*#__PURE__*/React.createElement("ul", { style: { fontSize: 17, color: "var(--inkSoft)", lineHeight: 1.65, margin: "0 0 24px 0", paddingLeft: 22 } },
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "There were only 15 participants, and the study measured 18 different things about them. With that many measurements in such a small group, a chance result could look like an important discovery."),
-    /*#__PURE__*/React.createElement("li", { style: { marginBottom: 6 } }, "The “research institute” behind it was just a website."),
-    /*#__PURE__*/React.createElement("li", null, "The author was a journalist who designed the whole thing to prove a point: that a bad study with a great headline would fly around the world before anyone checked. It did.")),
-  /*#__PURE__*/React.createElement(BodyP, null, "That’s a big part of critical thinking: the ability to read between the lines, especially when the claim is something you’d love to believe."),
+    React.createElement(LessonReading, { sectionId: "critical" },
+  /*#__PURE__*/React.createElement(BodyP, null, "Imagine seeing a headline that says you should eat your favorite food every day. You might already be rooting for it to be true."),
   /*#__PURE__*/React.createElement(BodyP, null,
-    "There are five habits you can build to sharpen your critical thinking. Each one is a question you ask."),
-  criticalBoard("course-assets/critical-thinking/critical-thinking-five-habits.jpg?v=20261023body29",
-    /*#__PURE__*/React.createElement("section", null,
-      /*#__PURE__*/React.createElement("h3", null, "Five Habits of Critical Thinking"),
-      /*#__PURE__*/React.createElement("ol", null,
-        /*#__PURE__*/React.createElement("li", null,
-          /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.habits.cards[0].title),
-          /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.habits.cards[0].body)),
-        /*#__PURE__*/React.createElement("li", null,
-          /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.habits.cards[1].title),
-          /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.habits.cards[1].body)),
-        /*#__PURE__*/React.createElement("li", null,
-          /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.habits.cards[2].title),
-          /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.habits.cards[2].body)),
-        /*#__PURE__*/React.createElement("li", null,
-          /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.habits.cards[3].title),
-          /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.habits.cards[3].body)),
-        /*#__PURE__*/React.createElement("li", null,
-          /*#__PURE__*/React.createElement("h4", null, PHONE_READING_BOARDS.habits.cards[4].title),
-          /*#__PURE__*/React.createElement("p", null, PHONE_READING_BOARDS.habits.cards[4].body))),
-      /*#__PURE__*/React.createElement("p", null, "Each habit is a question you ask."))),
-  /*#__PURE__*/React.createElement(BodyP, null, "The five questions work on anything you read or hear. Use them with AI, too. AI can help you find a flaw in your thinking, or confidently repeat it. You need to judge which is happening."),
+    "In 2015, news outlets around the world ran headlines like ",
+    React.createElement("em", null, "Slim by Chocolate"), " and ",
+    React.createElement("em", null, "Has the world gone coco?"), " Shape magazine went a step further with ",
+    React.createElement("em", null, "Why You Must Eat Chocolate Daily"), "."),
+  /*#__PURE__*/React.createElement(BodyP, null, "The headlines all pointed to a study from the Institute of Diet and Health. The study claimed that eating dark chocolate could help people lose weight faster."),
+  criticalBoard("course-assets/critical-thinking/critical-thinking-two-reactions.jpg?v=20261124firstreaction"),
+  /*#__PURE__*/React.createElement(SectionKicker, { as: "h2" }, "Behind the Headlines"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Journalist John Bohannon was behind the chocolate study. He wanted to show how easily flawed research could make the news. To make the study look more credible, Bohannon invented the Institute of Diet and Health and built a website for it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Bohannon’s team tracked 18 things, including weight, cholesterol, and sleep, in just 15 people. He designed the study that way on purpose so he could turn a result into a misleading headline, even if it showed up by chance."),
+  /*#__PURE__*/React.createElement(SectionKicker, { as: "h2" }, "Critical Thinking Defined"),
+  /*#__PURE__*/React.createElement(BodyP, null, "Critical thinking means looking deeper for the truth."),
+  /*#__PURE__*/React.createElement(BodyP, null, "On TikTok and YouTube, you’ll hear similar claims that sound convincing. Some of them are false. It’s easy to take a claim at face value, especially when you already want to believe it."),
+  /*#__PURE__*/React.createElement(BodyP, null, "Who’s making this claim, and how do they know? Is that enough to convince you? Sometimes the most thoughtful answer is “I don’t know yet.”"),
+  /*#__PURE__*/React.createElement(SectionKicker, { as: "h2" }, "Knowledge Matters"),
+  /*#__PURE__*/React.createElement(BodyP, null, "What you know shapes your first reaction. So does what you want to believe. Critical thinking helps you decide when to trust your first impression and when to change your mind."),
+  criticalBoard("course-assets/critical-thinking/critical-thinking-equation.jpg?v=20261124assumptions"),
+  /*#__PURE__*/React.createElement(BodyP, null,
+    "Critical thinking is a habit you develop over time. These questions are worth asking even when you think you already know the answer."),
+  criticalBoard("course-assets/critical-thinking/critical-thinking-three-questions.jpg?v=20261124try"),
   closeBoard("critical")),
   /*#__PURE__*/React.createElement(InteractiveBox, {
     variant: "try",
     surface: "mint",
     title: "Challenge the Claim",
-    lead: "This isn’t new. You already use critical thinking every day. Use it to spot the problem in each scenario.",
-    instructions: [
-      "Read the claim and its evidence.",
-      "Choose the problem that weakens the claim."
-    ]
+    instructions: ["Read the claim. Before you look at the choices, finish this thought in your own words: “What I’d question is ___.” Then choose the response that makes the best use of the evidence."]
   },
     /*#__PURE__*/React.createElement(InnerCard, { style: { display: "flex", flexDirection: "column" } },
       CT_101.map(function(sc, si) {
@@ -10519,7 +10478,7 @@ function CriticalThinkingSection(props) {
           }));
       }))),
   Object.keys(problemAnswers).length >= CT_101.length ? /*#__PURE__*/React.createElement("div", { style: { marginTop: 18 } },
-    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "You looked for missing information, weak evidence, and other explanations. Ask the same questions when AI gives you an answer, even when it sounds confident and clear." })) : null,
+    /*#__PURE__*/React.createElement(Takeaway, { accent: "var(--tryAccent)", headline: "Bring these habits to AI.", body: "Suppose AI sums up the study you just saw as “Phones cause insomnia in teens.” You could ask, “The teens said they had trouble sleeping. What evidence would we need to use the word ‘insomnia’ in the headline? Could teens who were already having trouble sleeping have reached for their phones?” How would you rewrite ‘Phones cause insomnia in teens’ as a headline the survey actually supports?" })) : null,
   React.createElement(WhatsMissingGroupExercise, null),
   React.createElement(GroupExercise, { id: "critical-discussion", label: "Discussion Questions", lead: "Choose a question to discuss. Use the follow-ups if they help the conversation." },
     React.createElement(DiscussionQuestions, { activityId: "critical-discussion" })),
@@ -14102,13 +14061,6 @@ function CourseToolkit(props) {
     "lesson": "prompting",
     "base": "packets/prompting-matters-guide",
     "version": "20261027guides",
-    "format": "One-page guide"
-  },
-  {
-    "title": "Five Habits of Critical Thinking",
-    "description": "Five questions to use with AI, news, schoolwork, and everyday claims.",
-    "lesson": "critical",
-    "base": "packets/critical-thinking-five-habits-guide",
     "format": "One-page guide"
   },
   {

@@ -39,7 +39,7 @@ a decision map, not an instruction to rebuild every asset.
 | Prompting Matters | Worked-example utility | Normalize | Keep the text-rich bad/better examples; normalize shell only when revised. |
 | Context Matters | Friendly Schematic plus comparison | Keep | Preserve the visual boundary idea and the source-availability board. |
 | Evaluation Matters | Editorial Explainer: Flow (`EE-FLOW`), Two-Card Full-Bleed (`EE-2FB`), Three-Card Full-Bleed (`EE-3FB`) | Simplified | Illustrated overview; purple quick-review flow with step-1 title marker; Take a Closer Look EE-3FB with step-2 circle and separate white task-and-stakes cards plus connecting sentence, headings matching the cards; separate closer-look board retired from page. Exact checking copy, no banner or corner maps. Make Your Move is teal EE-3FB with illustrations and a step-3 marker, without a banner. Renderers: `scripts/video/render_evaluation_flow.py`, `scripts/video/render_evaluation_quick_review_flow.py`, `scripts/video/render_evaluation_cards.cjs`. |
-| Critical Thinking | Friendly Schematic plus worked example | Normalize | Preserve the equation and reaction sequence; align only shared shell details. |
+| Critical Thinking | Friendly Schematic, reaction board, and Three-Card Full-Bleed Editorial Explainer (`EE-3FB`) | Adopted | Think Through an AI Answer uses illustrated claim, evidence, and explanation cards. Rebuild with `scripts/video/render_critical_thinking_boards.py --board questions`. |
 
 ## Understand AI
 

@@ -147,6 +147,7 @@
         <h3 class="reveal-title" id="reveal-title" tabindex="-1">A Few Things We Still Need to Know</h3>
         <ul class="check-grid" id="check-grid"></ul>
         <p class="reveal-note">Your group may have found other useful questions. What matters is explaining how the missing information could change the answer.</p>
+        <p class="reveal-note" id="reveal-follow-up" hidden></p>
       </section>
       <p class="sr-only" id="round-announcement" aria-live="polite" aria-atomic="true"></p>
 
@@ -161,7 +162,7 @@
         <p class="eyebrow" style="justify-content:center">Exercise Complete</p>
         <h2 id="finish-title" tabindex="-1">One last thing</h2>
         <p>AI gave us an answer before it had enough information.</p>
-        <p>Before you use an answer, ask what is missing. Add the details you know, and check the assumptions AI made.</p>
+        <p>Pick one of the three scenarios. If you were the AI, what’s the first question you’d ask before giving advice? How would the answer change your plan?</p>
         <p>Close this tab to return to the course.</p>
         <div class="finish-actions">
           <button class="primary-button" id="play-again" type="button">Play Again</button>
@@ -177,8 +178,8 @@
       var rounds = [
         {
           title: "The AI Club Announcement",
-          question: "What did AI leave out that students need in order to attend?",
-          instruction: "With a neighbor, identify the missing details and explain why they matter. You have about 45 seconds.",
+          question: "Before you post this announcement, what would you ask the club organizer to confirm?",
+          instruction: "With a partner, find one detail the announcement leaves out and one promise you’d want the organizer to confirm. Why would each matter to someone planning to attend? You have about 45 seconds.",
           request: "Write an announcement inviting students to our new AI club’s first meeting.",
           answerIntro: "Curious about AI? Join our new AI club!",
           answerMiddle: "At our first meeting, you’ll meet other students, try a fun AI challenge, and help choose activities for the year. Beginners are welcome. No experience needed.",
@@ -186,13 +187,14 @@
           answerOutro: "Bring a friend and come ready to explore. We can’t wait to see you there!",
           checks: [
             { title: "When is the meeting?", detail: "The announcement needs a date and time. Students can’t plan to attend without them." },
-            { title: "Where is the meeting?", detail: "It needs a room or meeting location. Interested students need to know where to go." }
+            { title: "Where is the meeting?", detail: "It needs a room or meeting location. Interested students need to know where to go." },
+            { title: "Is an AI challenge actually planned?", detail: "Students may show up expecting one." }
           ]
         },
         {
           title: "Pizza for Everyone",
-          question: "What did AI need to know before deciding what to order?",
-          instruction: "With a neighbor, identify two or three missing details. Explain how each one could change the order. You have about 45 seconds.",
+          question: "Which part of AI’s plan would you keep, and what would you need to know before ordering six pepperoni pizzas?",
+          instruction: "With a neighbor, choose one suggestion to keep and explain why. Name one missing detail and explain how it could change the order. You have about 45 seconds.",
           request: "Plan a simple pizza celebration for our group.",
           answerIntro: "Keep it simple with six large pepperoni pizzas and three two-liter bottles of soda.",
           answerPoints: [
@@ -210,7 +212,8 @@
         },
         {
           title: "The Study Plan",
-          question: "What is missing that could make this study plan less useful?",
+          followUp: "You learn that the student can follow every worked example in the textbook but gets stuck starting a problem alone. What would you change about the first night of AI’s plan, and why?",
+          question: "Suppose you followed this plan for six nights and felt ready. How would you know whether you could solve a problem on your own?",
           instruction: "With a neighbor, identify two or three things the plan should account for. Explain how they could help the student prepare. You have about 45 seconds.",
           request: "Help me prepare for my math exam next week.",
           answerIntro: "Study from 7 to 9 p.m. every evening for the next six days.",
@@ -277,6 +280,9 @@
           return item;
         });
         document.getElementById("check-grid").classList.toggle("is-two", round.checks.length === 2);
+        var followUp = document.getElementById("reveal-follow-up");
+        followUp.textContent = round.followUp || "";
+        followUp.hidden = !round.followUp;
         revealPanel.hidden = true;
         showChecksButton.hidden = false;
         nextButton.hidden = true;

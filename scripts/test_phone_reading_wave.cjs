@@ -8,8 +8,46 @@ const base = process.env.BASE_URL || 'http://127.0.0.1:8796';
 const lessons = {
   welcome: ['toolkit', 'courseWorks', 'coursePath'],
   prompting: ['moves12', 'moves34'],
-  critical: ['equation', 'reactions', 'habits']
+  critical: ['reactions', 'equation', 'threeQuestions']
 };
+const criticalHeadings = [
+  'heading "What’s your first reaction?" [level=2]',
+  'heading "Take it at face value" [level=3]',
+  'heading "Question the claim" [level=3]',
+  'heading "Behind the Headlines" [level=2]',
+  'heading "Critical Thinking Defined" [level=2]',
+  'heading "Knowledge Matters" [level=2]',
+  'heading "Knowledge" [level=3]',
+  'heading "Critical Thinking" [level=3]',
+  'heading "What Critical Thinkers Ask" [level=2]',
+  'heading "The Question" [level=3]',
+  'heading "The Evidence" [level=3]',
+  'heading "The Alternatives" [level=3]'
+];
+const criticalCardQuestions = [
+  ['The Question', 'What am I trying to understand or decide?'],
+  ['The Evidence', 'What am I basing this on? What am I assuming?'],
+  ['The Alternatives', 'What else could explain this? What else could I try?']
+];
+
+async function checkCriticalReadingOrder(page, cdp) {
+  const snapshot = await page.locator('#critical-reading').ariaSnapshot();
+  const lines = snapshot.split('\n').map(line => line.trim().replace(/^- /, ''));
+  assert.deepEqual(lines.filter(line => line.startsWith('heading ')), criticalHeadings);
+  for (const [card, question] of criticalCardQuestions) {
+    const heading = lines.indexOf('heading "' + card + '" [level=3]');
+    assert.equal(lines[heading + 1], 'paragraph: ' + question, card + ' must lead into its own question');
+  }
+  // Chrome exposes the narrow HTML close and wide image caption as static text.
+  const { root } = await cdp.send('DOM.getDocument');
+  const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: '#critical-reading' });
+  const close = 'AI answers. You decide what to trust.';
+  const { nodes } = await cdp.send('Accessibility.queryAXTree', { nodeId, accessibleName: close, role: 'StaticText' });
+  assert.equal(nodes.length, 1, 'Closing text must appear once in the expanded lesson');
+  assert.ok(lines.findIndex(line => line.includes(close)) > lines.indexOf('paragraph: ' + criticalCardQuestions[2][1]),
+    'Closing message must follow the final card');
+}
+
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const records = [];
@@ -23,6 +61,7 @@ const lessons = {
         localStorage.setItem('llm-explorer-progress', JSON.stringify({ activeSection: id, visited: [id], completed: [] }));
       }, id);
       const page = await context.newPage(), errors = [];
+      const criticalSession = id === 'critical' ? await context.newCDPSession(page) : null;
       page.on('pageerror', e => errors.push(e.message));
       await page.goto(base + '/index.html', { waitUntil: 'networkidle' });
       const toggle = page.locator('.lesson-reading-toggle');
@@ -37,7 +76,7 @@ const lessons = {
         if (mobile) {
           const boards = await page.locator('.phone-reading-mobile').evaluateAll(nodes => nodes.map(n => {
             const r = n.getBoundingClientRect();
-            return { title: n.querySelector('h3').textContent, kind: n.parentElement.dataset.phoneReadingBoard, x: r.x, y: r.y + scrollY, width: r.width, height: r.height, text: n.innerText,
+            return { title: n.querySelector('h3')?.textContent, kind: n.parentElement.dataset.phoneReadingBoard, x: r.x, y: r.y + scrollY, width: r.width, height: r.height, text: n.innerText,
               tiny: [...n.querySelectorAll('p,li,h4')].filter(e => parseFloat(getComputedStyle(e).fontSize) < (e.tagName === 'H4' ? 20 : 16)).map(e => e.textContent),
               overflow: [...n.querySelectorAll('*')].filter(e => !(e instanceof SVGElement) && e.clientWidth && e.scrollWidth > e.clientWidth + 1).map(e => e.textContent) };
           }));
@@ -52,7 +91,11 @@ const lessons = {
         if (mobile) {
           assert.ok(!accessibility.includes('img "What You’ll Need.'), 'Hidden desktop board is absent from the accessibility tree');
           assert.equal(await page.locator('.phone-reading-desktop-source:visible').count(), 0);
-          for (const title of kinds.map(k => ({ toolkit: 'What You’ll Need', courseWorks: 'How the Course Works', coursePath: 'Where This Course Takes You', moves12: 'Four Moves for Better Prompts', moves34: 'Four Moves for Better Prompts, Continued', equation: 'What You Know. How You Think.', reactions: 'Same Claim. Different Thinking.', habits: 'Five Habits of Critical Thinking' })[k])) {
+        }
+        if (criticalSession) {
+          await checkCriticalReadingOrder(page, criticalSession);
+        } else if (mobile) {
+          for (const title of kinds.map(k => ({ toolkit: 'What You’ll Need', courseWorks: 'How the Course Works', coursePath: 'Where This Course Takes You', moves12: 'Four Moves for Better Prompts', moves34: 'Four Moves for Better Prompts, Continued' })[k])) {
             assert.equal(accessibility.split('\n').filter(line => line.includes('heading "' + title + '" [level=3]')).length, 1, title + ' announced once');
           }
         }
@@ -69,10 +112,9 @@ const lessons = {
         const step = page.getByRole('button', { name: 'Mark step 1 complete', exact: true });
         await step.click(); assert.equal(await page.getByRole('button', { name: 'Mark step 1 incomplete', exact: true }).getAttribute('aria-pressed'), 'true');
       } else {
-        assert.equal(await page.locator('[data-phone-reading-board="habits"] .phone-reading-mobile li').count(), 5);
-        assert.deepEqual(await page.locator('[data-phone-reading-board="equation"] [role="img"]').allTextContents(), ['+', '↓']);
-        await page.getByRole('button', { name: 'There’s a hidden factor causing both', exact: true }).click();
-        assert.ok(await page.getByText("It's a hidden third factor.", { exact: true }).isVisible());
+        assert.deepEqual(await page.locator('[data-phone-reading-board="equation"] .phone-reading-mobile [role="img"]').allTextContents(), ['+', '↓']);
+        await page.getByRole('button', { name: 'There could be a hidden factor causing both', exact: true }).click();
+        assert.ok(await page.getByText('Hot weather is one possible explanation.', { exact: true }).isVisible());
       }
       await page.emulateMedia({ media: 'print' });
       assert.equal(await page.locator('.phone-reading-mobile:visible').count(), 0, 'Phone alternatives never enter print');
